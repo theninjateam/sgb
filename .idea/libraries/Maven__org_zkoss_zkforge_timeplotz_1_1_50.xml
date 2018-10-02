@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.zkoss.zkforge:timeplotz:1.1_50">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/zkoss/zkforge/timeplotz/1.1_50/timeplotz-1.1_50.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/zkoss/zkforge/timeplotz/1.1_50/timeplotz-1.1_50-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/zkoss/zkforge/timeplotz/1.1_50/timeplotz-1.1_50-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
