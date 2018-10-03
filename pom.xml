@@ -283,20 +283,26 @@
 	<build>
 		<finalName>${project.artifactId}</finalName>
 		<plugins>
+
+			<!-- Compile java -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.2</version>
 				<configuration>
-					<source>1.4</source>
-					<target>1.4</target>
+					<source>1.8</source>
+					<target>1.8</target>
 				</configuration>
 			</plugin>
+
+			<!-- Build war -->
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
 				<groupId>org.apache.maven.plugins</groupId>
 				<version>2.1.1</version>
 			</plugin>
+
+			<!-- Pack zips -->
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>2.2</version>
@@ -308,7 +314,7 @@
 							<goal>single</goal>
 						</goals>
 						<configuration>
-							<finalName>zksandbox${packname}</finalName>
+							<finalName>${project.artifactId}</finalName>
 							<appendAssemblyId>false</appendAssemblyId>
 							<descriptors>
 								<descriptor>assembly/demo.xml</descriptor>
@@ -317,10 +323,12 @@
 					</execution>
 				</executions>
 			</plugin>
+
+			<!--run on heroku -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
-				<version>2.3</version>
+				<version>3.1.1</version>
 				<executions>
 					<execution>
 						<phase>package</phase>
@@ -340,6 +348,27 @@
 					</execution>
 				</executions>
 			</plugin>
+
+			<!--Run with Jetty-->
+			<!--<plugin>-->
+			<!--<groupId>org.mortbay.jetty</groupId>-->
+			<!--<artifactId>jetty-maven-plugin</artifactId>-->
+			<!--<version>7.6.8.v20121106</version>-->
+
+			<!--<executions>-->
+			<!--<execution>-->
+			<!--<configuration>-->
+			<!--<webAppConfig>-->
+			<!--<contextPath>/${project.artifactId}</contextPath>-->
+			<!--<allowDuplicateFragmentNames>true</allowDuplicateFragmentNames>-->
+			<!--</webAppConfig>-->
+			<!--<scanIntervalSeconds>5</scanIntervalSeconds>-->
+			<!--</configuration>-->
+			<!--</execution>-->
+			<!--</executions>-->
+			<!--</plugin>-->
+
+
 		</plugins>
 	</build>
 </project>
