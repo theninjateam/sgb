@@ -1,18 +1,18 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : Emerson
+ Source Server         : Herokudatabase
  Source Server Type    : PostgreSQL
  Source Server Version : 100005
- Source Host           : localhost:5432
- Source Catalog        : bhnew
+ Source Host           : ec2-23-23-80-20.compute-1.amazonaws.com:5432
+ Source Catalog        : d5b0hk16j5hm0n
  Source Schema         : public
 
  Target Server Type    : PostgreSQL
  Target Server Version : 100005
  File Encoding         : 65001
 
- Date: 03/10/2018 17:34:58
+ Date: 04/10/2018 16:52:26
 */
 
 
@@ -26,6 +26,16 @@ MINVALUE  1
 MAXVALUE 32767
 START 1
 CACHE 1;
+
+-- ----------------------------
+-- Table structure for AreaCientifca
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."AreaCientifca";
+CREATE TABLE "public"."AreaCientifca" (
+  "idAreaCientifica" int2 NOT NULL,
+  "Titulo" varchar(255) COLLATE "pg_catalog"."default"
+)
+;
 
 -- ----------------------------
 -- Table structure for Livro
@@ -49,7 +59,7 @@ CREATE TABLE "public"."Obra" (
   "Registro" int4,
   "NomeAutor" varchar(255) COLLATE "pg_catalog"."default",
   "TituloObra" varchar(255) COLLATE "pg_catalog"."default",
-  "AreaCientifica" varchar(255) COLLATE "pg_catalog"."default",
+  "AreaCientifica" int2,
   "LocalPublicacao" varchar(255) COLLATE "pg_catalog"."default",
   "DataPublicacao" date,
   "Idioma" varchar(255) COLLATE "pg_catalog"."default",
@@ -84,7 +94,12 @@ CREATE TABLE "public"."Tipo_de_Obra" (
 -- ----------------------------
 ALTER SEQUENCE "public"."Tipo_de_Obra_IdTipoddd_seq"
 OWNED BY "public"."Tipo_de_Obra"."IdTipo";
-SELECT setval('"public"."Tipo_de_Obra_IdTipoddd_seq"', 2, false);
+SELECT setval('"public"."Tipo_de_Obra_IdTipoddd_seq"', 3, false);
+
+-- ----------------------------
+-- Primary Key structure for table AreaCientifca
+-- ----------------------------
+ALTER TABLE "public"."AreaCientifca" ADD CONSTRAINT "AreaCientifca_pkey" PRIMARY KEY ("idAreaCientifica");
 
 -- ----------------------------
 -- Primary Key structure for table Livro
@@ -114,6 +129,7 @@ ALTER TABLE "public"."Livro" ADD CONSTRAINT "Cota" FOREIGN KEY ("Cota") REFERENC
 -- ----------------------------
 -- Foreign Keys structure for table Obra
 -- ----------------------------
+ALTER TABLE "public"."Obra" ADD CONSTRAINT "IdAreaCientifca" FOREIGN KEY ("AreaCientifica") REFERENCES "public"."AreaCientifca" ("idAreaCientifica") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "public"."Obra" ADD CONSTRAINT "IdTipo" FOREIGN KEY ("Tipo_Obra") REFERENCES "public"."Tipo_de_Obra" ("IdTipo") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- ----------------------------
