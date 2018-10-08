@@ -110,7 +110,7 @@
         <counts>
           <entry key="java" value="38" />
           <entry key="properties" value="1" />
-          <entry key="xml" value="6" />
+          <entry key="xml" value="7" />
           <entry key="zul" value="2" />
         </counts>
       </usages-collector>
@@ -118,7 +118,7 @@
         <counts>
           <entry key="JAVA" value="38" />
           <entry key="Properties" value="1" />
-          <entry key="XML" value="8" />
+          <entry key="XML" value="9" />
         </counts>
       </usages-collector>
     </session>
@@ -137,14 +137,23 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/test/sgb/service/CustomUserDetailsServiceTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="71">
+            <state relative-caret-position="124">
               <caret line="14" column="1" lean-forward="true" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/applicationContext.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-290">
+              <caret line="26" lean-forward="true" selection-start-line="18" selection-end-line="26" />
             </state>
           </provider>
         </entry>
@@ -180,8 +189,8 @@
         <option value="$PROJECT_DIR$/src/main/webapp/conta/addclient.zul" />
         <option value="$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/DemoWebAppInit.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/applicationContext.xml" />
         <option value="$PROJECT_DIR$/src/main/test/sgb/service/CustomUserDetailsServiceTest.java" />
+        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/applicationContext.xml" />
       </list>
     </option>
   </component>
@@ -323,7 +332,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1539010113277" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1539010651426" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit4" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4" value="" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -423,7 +432,7 @@
       <workItem from="1538471976853" duration="2390000" />
       <workItem from="1538560202713" duration="1204000" />
       <workItem from="1539004173532" duration="7000" />
-      <workItem from="1539004312505" duration="4817000" />
+      <workItem from="1539004312505" duration="5073000" />
     </task>
     <servers />
   </component>
@@ -431,15 +440,18 @@
     <history-entry file="CustomUserDetailsServiceTest - 2018.10.08 at 16h 46m 18s.xml">
       <configuration name="CustomUserDetailsServiceTest" configurationId="JUnit" />
     </history-entry>
+    <history-entry file="CustomUserDetailsServiceTest - 2018.10.08 at 16h 51m 38s.xml">
+      <configuration name="CustomUserDetailsServiceTest" configurationId="JUnit" />
+    </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="8541000" />
+    <option name="totallyTimeSpent" value="8797000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23373677" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24962178" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -458,7 +470,7 @@
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.56792146" />
+      <window_info anchor="bottom" id="Terminal" order="9" weight="0.56792146" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Spring" order="11" />
       <window_info anchor="bottom" id="Java Enterprise" order="12" />
@@ -638,13 +650,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/applicationContext.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-68">
-          <caret line="14" column="73" selection-start-line="14" selection-start-column="73" selection-end-line="14" selection-end-column="73" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/sgb/domain/Users.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="94">
@@ -674,11 +679,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/test/sgb/service/CustomUserDetailsServiceTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="71">
+        <state relative-caret-position="124">
           <caret line="14" column="1" lean-forward="true" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/applicationContext.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-290">
+          <caret line="26" lean-forward="true" selection-start-line="18" selection-end-line="26" />
         </state>
       </provider>
     </entry>
