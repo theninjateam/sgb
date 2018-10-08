@@ -10,20 +10,20 @@
            http://www.springframework.org/schema/tx
                    http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 
-    <!--<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
-        <!--<property name="driverClassName" value="org.postgresql.Driver" />-->
-        <!--<property name="url" value="jdbc:postgresql://ec2-23-23-80-20.compute-1.amazonaws.com:5432/d5b0hk16j5hm0n?ssl=true&amp;sslfactory=org.postgresql.ssl.NonValidatingFactory"/>-->
-        <!--<property name="username" value="faowvudjaqofvd" />-->
-        <!--<property name="password" value="56679e6c26926f3c2424e5f2347bdd5a2a544b4cf9c0c86e66eed380196e0185" />-->
-    <!--</bean>-->
-
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.postgresql.Driver" />
-        <property name="url" value="jdbc:postgresql://localhost:5432/sgb"/>
-        <!--<property name="url" value="jdbc:postgresql://localhost:5432/municipio"/>-->
-        <property name="username" value="postgres" />
-        <property name="password" value="root" />
+        <property name="url" value="jdbc:postgresql://ec2-23-23-80-20.compute-1.amazonaws.com:5432/d5b0hk16j5hm0n?ssl=true&amp;sslfactory=org.postgresql.ssl.NonValidatingFactory"/>
+        <property name="username" value="faowvudjaqofvd" />
+        <property name="password" value="56679e6c26926f3c2424e5f2347bdd5a2a544b4cf9c0c86e66eed380196e0185" />
     </bean>
+
+    <!--<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
+        <!--<property name="driverClassName" value="org.postgresql.Driver" />-->
+        <!--<property name="url" value="jdbc:postgresql://localhost:5432/sgb"/>-->
+        <!--&lt;!&ndash;<property name="url" value="jdbc:postgresql://localhost:5432/municipio"/>&ndash;&gt;-->
+        <!--<property name="username" value="postgres" />-->
+        <!--<property name="password" value="root" />-->
+    <!--</bean>-->
 
     <bean id="sessionFactory"
           class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
