@@ -18,17 +18,18 @@ Copyright (C) 2007 Potix Corporation. All Rights Reserved.
 */
 package org.zkoss.zksandbox.grid;
 
+import org.zkoss.zul.AbstractListModel;
+import org.zkoss.zul.event.ListDataEvent;
+import org.zkoss.zul.ext.Sortable;
+
 import java.util.Comparator;
 
-import org.zkoss.zul.AbstractListModel;
-import org.zkoss.zul.ListModelExt;
-import org.zkoss.zul.event.ListDataEvent;
 /**
  * 
  * @author Jeff
  *
  */
-public class FakeListModel extends AbstractListModel implements ListModelExt {
+public class FakeListModel extends AbstractListModel implements Sortable {
 	
 	private int _size;
 	private boolean _asc = true;
@@ -40,7 +41,7 @@ public class FakeListModel extends AbstractListModel implements ListModelExt {
 		_size = size;
 	}
 
-	// ListModelExt
+	// Sortable
 	public void sort(Comparator cmpr, boolean asc) {
 		_asc = asc;
 		invalidate();
@@ -64,5 +65,18 @@ public class FakeListModel extends AbstractListModel implements ListModelExt {
 	public void setSize(int size){
 		_size = size;
 	}
+	public String getSortDirection(Comparator cmpr) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
+	@SuppressWarnings("unchecked")
+	
+	protected void fireSelectionEvent(Object e) {
+		if (e instanceof String) {
+			String s = ((String) e).replace( "Option ", "");
+			fireEvent(ListDataEvent.SELECTION_CHANGED, Integer.parseInt(s), -1);
+		} else
+			super.fireSelectionEvent(e);
+	}
 }

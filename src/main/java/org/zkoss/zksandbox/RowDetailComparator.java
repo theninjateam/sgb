@@ -16,10 +16,10 @@ Copyright (C) 2006 Potix Corporation. All Rights Reserved.
 */
 package org.zkoss.zksandbox;
 
-import java.util.Comparator;
-
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zul.Label;
+
+import java.util.Comparator;
 
 /**
  * It assumes the first child is a label.

@@ -18,10 +18,10 @@ Copyright (C) 2007 Potix Corporation. All Rights Reserved.
 */
 package org.zkoss.zksandbox;
 
-import java.util.Arrays;
-
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.SimpleListModel;
+
+import java.util.Arrays;
 
 /**
  * This class is an example of auto-complete with combobox via SimpleListModel to achieve.
@@ -60,6 +60,6 @@ public class SimpleAutoComplete extends Combobox {
 		Arrays.sort(_dict);
 	}
 	public SimpleAutoComplete() {
-		setModel(new SimpleListModel(_dict));
+		setModel(new SimpleListModel(_dict, true));
 	}
 }

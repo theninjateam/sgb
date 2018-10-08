@@ -1,4 +1,4 @@
-/* ZkdemoWebAppInit.java
+/* DemoWebAppInit.java
 
 {{IS_NOTE
 	Purpose:
@@ -18,21 +18,18 @@ Copyright (C) 2008 Potix Corporation. All Rights Reserved.
 */
 package org.zkoss.zksandbox;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.zkoss.zk.ui.WebApp;
+import org.zkoss.zk.ui.util.WebAppInit;
+
+import javax.servlet.ServletContext;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.URL;
-import java.util.Enumeration;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Map;
-
-import javax.servlet.ServletContext;
-
-import org.zkoss.lang.Library;
-import org.zkoss.util.logging.Log;
-import org.zkoss.util.resource.ClassLocator;
-import org.zkoss.zk.ui.WebApp;
-import org.zkoss.zk.ui.util.WebAppInit;
 
 /**
  * @author jumperchen
@@ -40,75 +37,68 @@ import org.zkoss.zk.ui.util.WebAppInit;
  */
 public class DemoWebAppInit implements WebAppInit {
 
-	private static final Log log = Log.lookup(DemoWebAppInit.class);
+	private static final Logger log = LoggerFactory.getLogger(DemoWebAppInit.class);
 	
 	final static String PATH = "/";
-
-	final static String CONFIG = "zksandbox.properties";
-
+	static String CONFIG = "zksandbox_pt.properties";
 	final static String CATEGORY_TYPE = "CATEGORY";
-	
 	final static String LINK_TYPE = "LINK";
 
-	private final static String THEME_CLASSICBLUE_NAME = Themes.CLASSICBLUE_THEME;
-	private final static String THEME_CLASSICBLUE_DISPLAY = "Classic blue";
-	private final static int THEME_CLASSICBLUE_PRIORITY = 1000;
-	
-	private final static String THEME_SILVERGREY_NAME = "silvergray";
-	private final static String SILVERGREY_DISPLAY = "Silver Gray";
-	private final static int SILVERGREY_PRIORITY = 9000;
 	/*package*/ final static String KEY_SILVERGREY_PROPERTY = "org.zkoss.zul.themejar.silvergray";
-
 	/*package*/ final static String THEME_DEFAULT = "org.zkoss.theme.default";
-	private final static String PREFIX_KEY_PRIORITY = "org.zkoss.theme.priority.";
-	private final static String PREFIX_KEY_THEME_DISPLAYS = "org.zkoss.theme.display.";
-	
-	private static Map _cateMap = new LinkedHashMap () {
-		 public Object remove(Object key) {
-			 throw new UnsupportedOperationException();
-		 }
-		 public void clear() {
-			 throw new UnsupportedOperationException();			 
-		 }
+	@SuppressWarnings("serial")
+	private static Map<String, Category> _cateMap = new LinkedHashMap<String, Category> () {
+		
+		public Category remove(Object key) {
+			throw new UnsupportedOperationException();
+		}
+		
+		public void clear() {
+			throw new UnsupportedOperationException();
+		}
+	};
+
+	@SuppressWarnings("serial")
+	private static Map<String, Category> _mobileCateMap = new LinkedHashMap<String, Category> () {
+		
+		public Category remove(Object key) {
+			throw new UnsupportedOperationException();
+		}
+		
+		public void clear() {
+			throw new UnsupportedOperationException();
+		}
 	};
 	
+	
 	public void init(WebApp wapp) throws Exception {
-		loadProperites((ServletContext)wapp.getNativeContext());
-		setThemeProperites();
-		initThemes();
+		setLanguagesProperties(wapp);
+		loadProperites(wapp.getServletContext());
 	}
 
-	private static void initThemes() {
-		addTheme(THEME_CLASSICBLUE_NAME, THEME_CLASSICBLUE_DISPLAY, THEME_CLASSICBLUE_PRIORITY);
-		if(Themes.hasSilvergrayLib())
-			addTheme(THEME_SILVERGREY_NAME, SILVERGREY_DISPLAY, SILVERGREY_PRIORITY);
-	}
-	
-	/**
-	 * Sets silvergray library property if there is silvergray.jar 
-	 */
-	private void setThemeProperites () {
-		String prop = Library.getProperty(KEY_SILVERGREY_PROPERTY);
-		if (prop == null) {
-			final ClassLocator loc = new ClassLocator();
-			try {
-				for (Enumeration en = loc.getResources("metainfo/zk/lang-addon.xml");
-				en.hasMoreElements();) {
-					final URL url = (URL)en.nextElement();
-					if (url.toString().lastIndexOf("silvergray-tod.jar") >= 0) {
-						Library.setProperty(KEY_SILVERGREY_PROPERTY, "true");
-						return;
-					}
-				}
-			} catch (Exception ex) {
-				log.error(ex); //keep running
-			}
-			Library.setProperty(KEY_SILVERGREY_PROPERTY, "false");
+	private void setLanguagesProperties(WebApp wapp) {
+		// ========================================
+		String localeValue = "pt"; // Need to remove this line
+		Locale prefer_locale = new Locale(localeValue);
+
+		wapp.setAttribute(org.zkoss.web.Attributes.PREFERRED_LOCALE, prefer_locale);
+
+		if(wapp.getAttribute(org.zkoss.web.Attributes.PREFERRED_LOCALE) == null){
+			CONFIG = "zksandbox_pt.properties";
+		}else {
+			String lang =  wapp.getAttribute(org.zkoss.web.Attributes.PREFERRED_LOCALE).toString();
+			CONFIG = "zksandbox_"+lang+".properties";
 		}
+		// =============================================================
 	}
-	static Map getCateMap() {
+	static Map<String, Category> getCateMap() {
 		return _cateMap;
 	}
+	
+	static Map<String, Category> getMobilCateMap() {
+		return _mobileCateMap;
+	}
+	
 	private void loadProperites(ServletContext context) {
 		try {
 			BufferedReader bufReader = new BufferedReader(
@@ -130,17 +120,17 @@ public class DemoWebAppInit implements WebAppInit {
 						log.error("This category has no enough argument: size less than 3, for example, CATEGORY,IconURL,Label");
 						continue;
 					}
-					Category cate = new Category(key, vals[1].trim(), vals[2].trim(), null);
-					_cateMap.put(key, cate);
+					_cateMap.put(key, new Category(key, vals[1].trim(), vals[2].trim(), null));
+					_mobileCateMap.put(key, new Category(key, vals[1].trim(), vals[2].trim(), null));
 				} else if (LINK_TYPE.equals(arg0) ) {
 					if (vals.length < 4) {
 						log.error("This category has no enough argument: size less than 4, for example, LINK,IconURL,Label,Href");
 						continue;
 					}
-					Category cate = new Category(key, vals[1].trim(), vals[2].trim(), vals[3].trim());
-					_cateMap.put(key, cate);
+					_cateMap.put(key, new Category(key, vals[1].trim(), vals[2].trim(), vals[3].trim()));
+					_mobileCateMap.put(key, new Category(key, vals[1].trim(), vals[2].trim(), vals[3].trim()));
 				} else {
-					Category cate = (Category) _cateMap.get(arg0);
+					Category cate = _cateMap.get(arg0);
 					if (cate == null) {
 						log.error("This category is undefined: " + arg0);
 						continue;
@@ -152,39 +142,18 @@ public class DemoWebAppInit implements WebAppInit {
 					// [ItemId=CategoryId, Demo File URL, Icon URL, Label]
 					DemoItem item = new DemoItem(key, arg0, vals[1].trim(), vals[2].trim(), vals[3].trim());
 					cate.addItem(item);
+					
+					//since ZK 6.5
+					//if item has the fifth val, ignore it on tablet
+					if (vals.length == 4 || !"ignoreMobile".equals(vals[4].trim())) {
+						_mobileCateMap.get(arg0).addItem(item);
+					}
 				}
-			}
+			}			
 			bufReader.close();
 		} catch (IOException e) {
 			log.error("Ingored: failed to load a properties file, \nCause: "
 					+ e.getMessage());
 		}
-	}
-
-	private static void appendThemeName(String theme) {
-		String themes = Library.getProperty(Themes.THEME_NAMES);
-		if (themes == null)
-			Library.setProperty(Themes.THEME_NAMES, theme + ";");
-		else if (!Themes.containTheme(themes, theme))
-			Library.setProperty(Themes.THEME_NAMES, themes + ";" + theme);
-	}
-	
-	private static void setThemeDisplay(String name, String display) {
-		Library.setProperty(PREFIX_KEY_THEME_DISPLAYS + name, display);
-	}
-
-	private static void updateFirstPriority(String name, int priority) {
-		Library.setProperty(PREFIX_KEY_PRIORITY + name, "" + priority);
-		
-		String defaultTheme = Library.getProperty(THEME_DEFAULT);
-		if (Library.getIntProperty(PREFIX_KEY_PRIORITY + defaultTheme, Integer.MAX_VALUE) < priority)
-			return;
-		Library.setProperty(THEME_DEFAULT, name);
-	}
-
-	private static void addTheme(String themeName, String themeDisplay, int themePriority){
-		appendThemeName(themeName);
-		setThemeDisplay(themeName, themeDisplay);
-		updateFirstPriority(themeName, themePriority);
-	}
+	}	
 }

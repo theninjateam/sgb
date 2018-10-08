@@ -2,10 +2,343 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a2dfe1c0-9a8c-4fcc-8a46-a6c96d3d3f67" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__aopalliance_aopalliance_1_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__c3p0_c3p0_0_9_1_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_mchange_c3p0_0_9_5_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_mchange_mchange_commons_java_0_2_11.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_dbcp_commons_dbcp_1_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_pool_commons_pool_1_5_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__junit_junit_3_8_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_extras_beanshell_bsh_2_0b6.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_geronimo_specs_geronimo_stax_api_1_0_spec_1_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_poi_poi_ooxml_3_7.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_poi_poi_ooxml_schemas_3_7.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_xmlbeans_xmlbeans_2_3_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_aspectj_aspectjrt_1_9_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_castor_castor_1_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_jackson_jackson_core_lgpl_1_7_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_jackson_jackson_mapper_lgpl_1_7_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_hibernate_hibernate_entitymanager_4_1_10_Final.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_jboss_spec_javax_transaction_jboss_transaction_api_1_1_spec_1_0_0_Final.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_jfree_jcommon_1_0_17.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_jfree_jfreechart_1_0_14.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_zkoss_addon_flashchart_1_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_zkoss_common_zel_6_5_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_zkoss_zk_zhtml_6_5_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_zkoss_zk_zk_6_5_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_zkoss_zk_zkbind_6_5_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_zkoss_zk_zkplus_6_5_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_zkoss_zk_zul_6_5_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__stax_stax_api_1_0_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__xml_apis_xml_apis_1_3_04.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/sgb/controller/AddClientController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/sgb/controller/LoginController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/sgb/dao/CRUDDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/sgb/dao/CRUDDaoImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/sgb/domain/CustomUserDetails.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/sgb/domain/Role.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/sgb/domain/Users.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/sgb/error/AjaxAccessDeniedHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/sgb/service/CRUDService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/sgb/service/CRUDServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/sgb/service/CustomUserDetailsService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/applicationContext.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/errors/displayAccessDeniedException.zul" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/errors/handleAccessDenied.zul" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/i3-label_pt.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring-security.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/conta/addclient.zul" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/conta/clientdata.zul" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/conta/orgdata.zul" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/conta/otherdata.zul" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/css/style.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/img/icons/45.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/img/icons/46.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/less/window.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/login.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/login.zul" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/zksandbox_pt.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/heroku_zksandbox_war_exploded.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/heroku_zksandbox_war_exploded.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/heroku_zksandbox.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/heroku_zksandbox.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__ch_qos_logback_logback_classic_1_2_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__ch_qos_logback_logback_core_1_2_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_classmate_1_3_4.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_annotations_2_9_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_core_2_9_6.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_databind_2_9_6.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_datatype_jackson_datatype_jdk8_2_9_6.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_datatype_jackson_datatype_jsr310_2_9_6.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_module_jackson_module_parameter_names_2_9_6.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_jayway_jsonpath_json_path_2_4_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_vaadin_external_google_android_json_0_0_20131108_vaadin1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_zaxxer_HikariCP_2_7_9.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__commons_digester_commons_digester_1_7.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_digester_commons_digester_2_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__commons_fileupload_commons_fileupload_1_2_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_fileupload_commons_fileupload_1_3_3.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__commons_io_commons_io_1_3_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_io_commons_io_2_4.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__javax_annotation_javax_annotation_api_1_3_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__javax_transaction_javax_transaction_api_1_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__javax_validation_validation_api_2_0_1_Final.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__jfree_jfreechart_1_0_13.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__jfree_jfreechart_1_0_12.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__junit_junit_4_12.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__net_bytebuddy_byte_buddy_1_7_11.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__net_bytebuddy_byte_buddy_agent_1_7_11.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__net_minidev_accessors_smart_1_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__net_minidev_json_smart_2_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__net_sf_jasperreports_jasperreports_4_0_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_sf_jasperreports_jasperreports_4_5_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_logging_log4j_log4j_api_2_10_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_logging_log4j_log4j_to_slf4j_2_10_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_tomcat_embed_tomcat_embed_core_8_5_34.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_tomcat_embed_tomcat_embed_el_8_5_34.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_tomcat_embed_tomcat_embed_websocket_8_5_34.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_aspectj_aspectjweaver_1_8_13.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_assertj_assertj_core_3_9_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_hamcrest_hamcrest_core_1_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_hamcrest_hamcrest_library_1_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_hibernate_common_hibernate_commons_annotations_5_0_1_Final.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_hibernate_common_hibernate_commons_annotations_4_0_1_Final.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_hibernate_hibernate_core_5_2_17_Final.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_hibernate_hibernate_core_4_1_10_Final.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_hibernate_javax_persistence_hibernate_jpa_2_1_api_1_0_2_Final.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_hibernate_javax_persistence_hibernate_jpa_2_0_api_1_0_1_Final.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_hibernate_validator_hibernate_validator_6_0_12_Final.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_javassist_javassist_3_22_0_GA.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_javassist_javassist_3_15_0_GA.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_jboss_jandex_2_0_3_Final.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_jboss_logging_jboss_logging_3_3_2_Final.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_jboss_logging_jboss_logging_3_1_0_GA.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_mockito_mockito_core_2_15_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_objenesis_objenesis_2_6.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_ow2_asm_asm_5_0_4.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_postgresql_postgresql_42_2_5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_postgresql_postgresql_42_2_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_skyscreamer_jsonassert_1_5_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_jul_to_slf4j_1_7_25.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_api_1_7_25.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_api_1_8_0_beta2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_2_0_5_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_autoconfigure_2_0_5_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_2_0_5_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_aop_2_0_5_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_data_jpa_2_0_5_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_jdbc_2_0_5_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_json_2_0_5_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_logging_2_0_5_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_security_2_0_5_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_test_2_0_5_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_tomcat_2_0_5_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_web_2_0_5_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_test_2_0_5_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_test_autoconfigure_2_0_5_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_data_spring_data_commons_2_0_10_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_data_spring_data_commons_2_1_0_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_data_spring_data_jpa_2_0_10_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_data_spring_data_jpa_2_1_0_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_config_5_0_8_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_core_5_0_8_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_core_3_2_0_M1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_test_5_0_8_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_web_3_2_0_M1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_web_5_0_8_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_config_3_2_0_M1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_aop_5_0_9_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_orm_4_1_6_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_aspects_5_0_9_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_context_4_1_6_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_beans_5_0_9_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_beans_4_1_6_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_context_5_0_9_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_core_5_0_9_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_jdbc_4_1_6_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_expression_5_0_9_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_expression_4_1_6_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_jcl_5_0_9_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_jdbc_5_0_9_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_orm_5_0_9_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_aop_4_1_6_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_test_5_0_9_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_core_4_1_6_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_tx_5_0_9_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_tx_4_1_6_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_web_5_0_9_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_web_4_1_6_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_webmvc_5_0_9_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_xmlunit_xmlunit_core_2_5_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_yaml_snakeyaml_1_19.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_zkoss_common_zcommon_5_0_9.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_zkoss_common_zcommon_6_5_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_zkoss_common_zweb_5_0_9.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_zkoss_common_zweb_6_5_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_zkoss_theme_breeze_5_0_9.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_zkoss_theme_sapphire_5_0_9.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_zkoss_theme_sapphire_6_5_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_zkoss_theme_silvertail_5_0_9.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_zkoss_theme_silvertail_6_5_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_zkoss_zk_zhtml_5_0_9.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_zkoss_zk_zk_5_0_9.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_zkoss_zk_zkex_5_0_9.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_zkoss_zk_zkmax_5_0_9.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_zkoss_zk_zkplus_5_0_9.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_zkoss_zk_zul_5_0_9.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_zkoss_zk_zuljsp_1_5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_zkoss_zk_zuljsp_1_4_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_zkoss_zkforge_ckez_3_6_0_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_zkoss_zkforge_ckez_4_4_6_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_zkoss_zkforge_gmapsz_2_0_51.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_zkoss_zkforge_gmapsz_3_0_1.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/CacheableThemeProvider.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/Category.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/Category.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/CometServerPush.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/CometServerPush.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/CustomDataSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/CustomDataSource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/DemoItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/DemoItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/DemoWebAppInit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/DemoWebAppInit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/DemoWindowComposer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/DemoWindowComposer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/LiveGroupRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/LiveGroupRenderer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/MainLayoutAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/MainLayoutAPI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/MainLayoutComposer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/MainLayoutComposer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/ModelProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/ModelProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/Person.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/Person.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/RowDetailComparator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/RowDetailComparator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/RowLabelComparator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/RowLabelComparator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/SimpleAutoComplete.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/SimpleAutoComplete.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/SimpleThemeProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/SimpleThemeProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/ThemeImage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/ThemeImage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/ThemeSelectionCtrl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/Themes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/Themes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/grid/FakeListModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/grid/FakeListModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/tree/BinaryTreeModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/tree/BinaryTreeModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/i3-label.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/i3-label.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/i3-label_ja.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/i3-label_zh_CN.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/i3-label_zh_TW.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.servlet-2.3.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.servlet-2.3.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/zk.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/zk.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/anima/anima.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/anima/comet.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/anima/dd.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/anima/js.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/bar.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/fontlg.css.dsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/fontlg.css.dsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/fontsm.css.dsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/fontsm.css.dsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/silvergraylg.css.dsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/silvergraylg.css.dsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/silvergraysm.css.dsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/silvergraysm.css.dsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/data/chart.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/data/databinding.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/data/flashchart.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/data/hibernate.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/data/jasperreport.jasper" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/data/jdbc.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/data/jpa.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/data/jreport.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/data/morechart.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/data/moreflashchart.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/event/event.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/event/groovy.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/event/java.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/event/javascript.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/event/keystroke.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/event/onChanging.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/event/onOpen.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/event/python.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/event/ruby.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/form/bandbox.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/form/button.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/form/combobox.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/form/datebox.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/form/fckeditor.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/form/form.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/form/hello.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/form/popup.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/form/radio.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/form/test.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/grid/advGrouping.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/grid/auxheader.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/grid/ckListbox.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/grid/ckTree.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/grid/complexTree.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/grid/detail.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/grid/grid.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/grid/grouping.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/grid/listbox.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/grid/liveData.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/grid/liveTree.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/grid/month.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/grid/pagingGrid.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/grid/pagingListbox.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/grid/pagingTree.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/grid/season.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/grid/sorting.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/grid/tree.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/hello.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/Centigrade-Widget-Icons/readme.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/Centigrade-Widget-Icons/readme.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/battery.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/breeze-arrow-left.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/breeze-arrow-right.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/castle.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/component/bandbox-rounded-l.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/component/bandbox-rounded-s.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/component/bandbox-rounded.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/component/combobox-rounded-l.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/component/combobox-rounded-s.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/component/combobox-rounded.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/component/datebox-rounded-l.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/component/datebox-rounded-s.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/component/datebox-rounded.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/component/g-bandbox-rounded-l.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/component/g-bandbox-rounded-s.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/component/g-combobox-rounded-l.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/component/g-combobox-rounded-s.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/component/g-datebox-rounded-l.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/component/g-datebox-rounded-s.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/component/g-timebox-rounded-l.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/component/g-timebox-rounded-s.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/component/redcombo-rounded-l.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/component/redcombo-rounded-s.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/component/redcombo-rounded.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/component/timebox-rounded-l.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/component/timebox-rounded-s.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/component/timebox-rounded.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/defender.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/earth.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/inet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/item1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/item2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/item3.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/item4.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/live.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/m1.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/m2.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/m3.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/msn1.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/msn2.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/network.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/received.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/sent.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/sun.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/volumn.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/wireless.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/index.zul" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.zul" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/integration/jsf.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/integration/jsp.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/integration/longOperation.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/integration/mvc.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/integration/seam.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/integration/security.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/integration/webflow.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/layout/box.zul" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/layout/box.zul" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/layout/columnlayout.zul" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/layout/columnlayout.zul" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/layout/groupbox.zul" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/layout/groupbox.zul" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/layout/messagebox.zul" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/layout/messagebox.zul" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/layout/portallayout.zul" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/layout/portallayout.zul" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/layout/tabbox.zul" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/layout/tabbox.zul" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/layout/tablelayout.zul" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/layout/tablelayout.zul" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/layout/window.zul" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/layout/window.zul" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/macros/fckconfig.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/macros/fckconfig.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/macros/warning.zul" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/macros/warning.zul" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/macros/zksandbox.css.dsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/macros/zksandbox.css.dsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/macros/zksandbox.js.dsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/macros/zksandbox.js.dsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/media/audio.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/media/filedownload.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/media/fileupload.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/media/flash.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/media/image.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/media/timer.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/misc/gmap.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/misc/gmap3.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/misc/gmaps-ifr.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/misc/html.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/misc/iframe.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/misc/immigration.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/misc/include.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/misc/includedHello.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/misc/includedMacro.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/misc/localization.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/misc/macro.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/misc/slider.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/misc/style.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/misc/timeline.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/misc/timeline_ex1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/misc/timeplot.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/misc/us_history.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/service.zul" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/service.zul" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/stats/index.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/test/F50-3291284.zul" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/toolbar/fisheye.zul" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/toolbar/fisheye.zul" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/userguide/index.html" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/zksandbox.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/zksandbox.properties" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
@@ -83,35 +416,144 @@
         </counts>
       </usages-collector>
     </session>
+    <session id="666911953">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="1" />
+          <entry key="project.open.time.3" value="1" />
+          <entry key="project.opened" value="1" />
+        </counts>
+      </usages-collector>
+    </session>
+    <session id="748693003">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.open.time.3" value="1" />
+          <entry key="project.opened" value="1" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="java" value="20" />
+          <entry key="xml" value="26" />
+          <entry key="zul" value="4" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="JAVA" value="20" />
+          <entry key="XML" value="30" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="java" value="33" />
+          <entry key="properties" value="1" />
+          <entry key="xml" value="5" />
+          <entry key="zul" value="2" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="JAVA" value="33" />
+          <entry key="Properties" value="1" />
+          <entry key="XML" value="7" />
+        </counts>
+      </usages-collector>
+    </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pom.xml">
+        <entry file="file://$PROJECT_DIR$/src/main/java/sgb/dao/CRUDDaoImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="461">
-              <caret line="365" column="24" lean-forward="true" selection-start-line="365" selection-start-column="24" selection-end-line="365" selection-end-column="24" />
+            <state relative-caret-position="120">
+              <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/sgb/domain/CustomUserDetails.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="96">
+              <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/sgb/service/CustomUserDetailsService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="186">
+              <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/sgb/controller/AddClientController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="6">
+              <caret line="46" column="15" lean-forward="true" selection-start-line="46" selection-start-column="15" selection-end-line="46" selection-end-column="15" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/conta/addclient.zul">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="6">
+              <caret line="2" column="22" selection-start-line="2" selection-start-column="22" selection-end-line="2" selection-end-column="22" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/DemoWebAppInit.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="6">
+              <caret line="75" column="37" selection-start-line="75" selection-start-column="37" selection-end-line="75" selection-end-column="37" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/zksandbox.properties">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/applicationContext.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2698">
-              <caret line="139" column="37" lean-forward="true" selection-start-line="49" selection-start-column="1" selection-end-line="139" selection-end-column="37" />
+            <state relative-caret-position="197">
+              <caret line="14" column="178" selection-start-line="14" selection-start-column="114" selection-end-line="14" selection-end-column="178" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Procfile">
+        <entry file="file://$PROJECT_DIR$/src/main/java/sgb/domain/Role.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="168">
+              <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/sgb/domain/Users.java">
           <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/hello.zul">
-          <provider selected="true" editor-type-id="text-editor" />
+        <entry file="file://$PROJECT_DIR$/src/main/java/sgb/dao/CRUDDao.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="96">
+              <caret line="9" column="17" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
+            </state>
+          </provider>
         </entry>
       </file>
     </leaf>
@@ -127,8 +569,18 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/webapp/zksandbox.properties" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/main/webapp/zksandbox_pt.properties" />
+        <option value="$PROJECT_DIR$/src/main/java/sgb/dao/CRUDDao.java" />
+        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring-security.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/sgb/service/CRUDServiceImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/java/sgb/service/CustomUserDetailsService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/sgb/controller/LoginController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/sgb/controller/AddClientController.java" />
+        <option value="$PROJECT_DIR$/src/main/webapp/conta/addclient.zul" />
+        <option value="$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/DemoWebAppInit.java" />
+        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/applicationContext.xml" />
       </list>
     </option>
   </component>
@@ -146,43 +598,150 @@
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
-    <navigator currentView="Scope" currentSubView="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope" proportions="" version="1">
+    <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="ProjectPane" />
-      <pane id="AndroidView" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="zksandbox" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sgb" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="zksandbox" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sgb" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="zksandbox" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sgb" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="zksandbox" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sgb" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="zksandbox" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sgb" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="zksandbox" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="zksandbox" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sgb" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="zksandbox" type="462c0819:PsiDirectoryNode" />
+              <item name="grid" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="zksandbox" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sgb" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="zksandbox" type="462c0819:PsiDirectoryNode" />
+              <item name="tree" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="zksandbox" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sgb" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="sgb" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="zksandbox" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sgb" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="sgb" type="462c0819:PsiDirectoryNode" />
+              <item name="controller" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="zksandbox" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sgb" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="sgb" type="462c0819:PsiDirectoryNode" />
+              <item name="dao" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="zksandbox" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sgb" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="sgb" type="462c0819:PsiDirectoryNode" />
+              <item name="domain" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="zksandbox" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sgb" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="sgb" type="462c0819:PsiDirectoryNode" />
+              <item name="error" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="zksandbox" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sgb" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="sgb" type="462c0819:PsiDirectoryNode" />
+              <item name="service" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="zksandbox" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sgb" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="webapp" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="zksandbox" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sgb" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="webapp" type="462c0819:PsiDirectoryNode" />
+              <item name="conta" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="zksandbox" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sgb" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="webapp" type="462c0819:PsiDirectoryNode" />
+              <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="Course" />
       <pane id="PackagesPane" />
+      <pane id="AndroidView" />
       <pane id="Scope">
         <subPane subId="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope">
           <expand>
             <path>
               <item name="zksandbox" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="heroku_zksandbox" type="2674bda8:ScopeViewTreeModel$GroupNode" />
-            </path>
-            <path>
-              <item name="zksandbox" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="heroku_zksandbox" type="2674bda8:ScopeViewTreeModel$GroupNode" />
-              <item name=".idea" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="zksandbox" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="heroku_zksandbox" type="2674bda8:ScopeViewTreeModel$GroupNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="zksandbox" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="heroku_zksandbox" type="2674bda8:ScopeViewTreeModel$GroupNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="zksandbox" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="heroku_zksandbox" type="2674bda8:ScopeViewTreeModel$GroupNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="webapp" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
             </path>
           </expand>
           <select />
@@ -193,11 +752,18 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1538561534735" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1539007906351" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\user\IdeaProjects\sgb_ver_1\sgb\src\main\java\sgb" />
+      <recent name="C:\Users\user\IdeaProjects\sgb_ver_1\sgb\src\main\webapp" />
+      <recent name="C:\Users\user\IdeaProjects\sgb_ver_1\sgb\src\main\java\org\zkoss\zksandbox" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -251,17 +817,19 @@
       <workItem from="1538471688997" duration="123000" />
       <workItem from="1538471976853" duration="2390000" />
       <workItem from="1538560202713" duration="1204000" />
+      <workItem from="1539004173532" duration="7000" />
+      <workItem from="1539004312505" duration="2383000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="3717000" />
+    <option name="totallyTimeSpent" value="6107000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.25718608" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.4183056" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -270,11 +838,9 @@
       <window_info id="Learn" order="6" />
       <window_info id="Favorites" order="7" side_tool="true" />
       <window_info id="Web" order="8" side_tool="true" />
-      <window_info anchor="bottom" id="Spring" />
-      <window_info anchor="bottom" id="Java Enterprise" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.7545008" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3289689" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.88707036" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -283,7 +849,8 @@
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Terminal" order="9" weight="0.56792146" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="right" id="Bean Validation" />
+      <window_info anchor="bottom" id="Spring" order="11" />
+      <window_info anchor="bottom" id="Java Enterprise" order="12" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -293,6 +860,7 @@
       <window_info anchor="right" id="Palette&#9;" order="6" />
       <window_info anchor="right" id="Database" order="7" />
       <window_info anchor="right" id="Maven Projects" order="8" />
+      <window_info anchor="right" id="Bean Validation" order="9" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -302,23 +870,189 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="461">
-          <caret line="365" column="24" lean-forward="true" selection-start-line="365" selection-start-column="24" selection-end-line="365" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Procfile">
       <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/ThemeSelectionCtrl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="194">
+          <caret line="38" column="13" selection-start-line="38" selection-start-column="13" selection-end-line="38" selection-end-column="13" />
+        </state>
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/hello.zul">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/zksandbox.properties">
+    <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2698">
-          <caret line="139" column="37" lean-forward="true" selection-start-line="49" selection-start-column="1" selection-end-line="139" selection-end-column="37" />
+        <state relative-caret-position="272">
+          <caret line="463" column="8" lean-forward="true" selection-start-line="463" selection-start-column="8" selection-end-line="469" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/tree/BinaryTreeModel.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/ThemeImage.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/BigList.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/CustomDataSource.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/Category.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/DemoItem.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/zksandbox_pt.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="175">
+          <caret line="139" column="37" selection-start-line="49" selection-start-column="1" selection-end-line="139" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/ModelProvider.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/grid/FakeListModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="194">
+          <caret line="30" column="3" selection-start-line="30" selection-start-column="3" selection-end-line="30" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/RowLabelComparator.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/MainLayoutAPI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="27" column="17" selection-start-line="27" selection-start-column="17" selection-end-line="27" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/MainLayoutComposer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-5320">
+          <caret line="42" column="13" selection-start-line="42" selection-start-column="13" selection-end-line="42" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/conta/orgdata.zul">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/sgb/error/AjaxAccessDeniedHandler.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/spring-security.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="51" column="52" selection-start-line="51" selection-start-column="52" selection-end-line="51" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/sgb/service/CRUDServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="19" column="19" selection-start-line="19" selection-start-column="19" selection-end-line="19" selection-end-column="19" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/sgb/service/CRUDService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/sgb/controller/LoginController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="312">
+          <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/sgb/dao/CRUDDao.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="96">
+          <caret line="9" column="17" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/sgb/dao/CRUDDaoImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/sgb/domain/CustomUserDetails.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="96">
+          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/sgb/domain/Role.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/sgb/domain/Users.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/sgb/service/CustomUserDetailsService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="186">
+          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/sgb/controller/AddClientController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6">
+          <caret line="46" column="15" lean-forward="true" selection-start-line="46" selection-start-column="15" selection-end-line="46" selection-end-column="15" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/conta/addclient.zul">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6">
+          <caret line="2" column="22" selection-start-line="2" selection-start-column="22" selection-end-line="2" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/zkoss/zksandbox/DemoWebAppInit.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6">
+          <caret line="75" column="37" selection-start-line="75" selection-start-column="37" selection-end-line="75" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/applicationContext.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="197">
+          <caret line="14" column="178" selection-start-line="14" selection-start-column="114" selection-end-line="14" selection-end-column="178" />
         </state>
       </provider>
     </entry>

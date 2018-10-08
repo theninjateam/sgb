@@ -14,36 +14,15 @@ it will be useful, but WITHOUT ANY WARRANTY.
 */
 package org.zkoss.zksandbox;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
-
 import org.zkoss.lang.reflect.Fields;
 import org.zkoss.zk.ui.UiException;
-import org.zkoss.zul.ArrayComparator;
-import org.zkoss.zul.Column;
-import org.zkoss.zul.DefaultTreeModel;
-import org.zkoss.zul.DefaultTreeNode;
-import org.zkoss.zul.FieldComparator;
-import org.zkoss.zul.Group;
-import org.zkoss.zul.GroupsModelArray;
-import org.zkoss.zul.Label;
-import org.zkoss.zul.ListModelList;
-import org.zkoss.zul.Listcell;
-import org.zkoss.zul.Listgroup;
-import org.zkoss.zul.Listheader;
-import org.zkoss.zul.Listitem;
-import org.zkoss.zul.ListitemRenderer;
-import org.zkoss.zul.Row;
-import org.zkoss.zul.RowRenderer;
-import org.zkoss.zul.Treecell;
-import org.zkoss.zul.Treeitem;
-import org.zkoss.zul.TreeitemRenderer;
-import org.zkoss.zul.Treerow;
+import org.zkoss.zul.*;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.Calendar;
+
 /**
  * Used for create test data.
  * @author jimmy
@@ -103,7 +82,7 @@ public class ModelProvider {
 						rand.nextInt(count), cal.getTime()));
 				cal.add(Calendar.DAY_OF_MONTH, 1);
 			}
-			return new ListModelList(list);
+			return new ListModelList(list, true);
 		}
 		public static ListModelList getArrayListModelList(int count) {
 			return getArrayListModelList(count, "item");
@@ -119,7 +98,7 @@ public class ModelProvider {
 						rand.nextInt(count)+"", df.format(cal.getTime())});
 				cal.add(Calendar.DAY_OF_MONTH, 1);
 			}
-			return new ListModelList(list);
+			return new ListModelList(list, true);
 		}
 		public static void addListModelListBean(ListModelList model,String label) {
 			model.add(new SampleBean(label, getRandom().nextInt(10), new Date()));
@@ -152,7 +131,7 @@ public class ModelProvider {
 				cal.add(Calendar.DAY_OF_MONTH, 1);
 			}
 			
-			return new GroupsModelArray(list, new FieldComparator("name", true)) {
+			return new GroupsModelArray(list.toArray(), new FieldComparator("name", true)) {
 				protected Object createGroupHead(
 						Object[] groupdata, int index, int col) {
 					return new Object[] { groupdata[0], new Integer(col) };
@@ -173,7 +152,7 @@ public class ModelProvider {
 						rand.nextInt(count)+"", df.format(cal.getTime())});
 				cal.add(Calendar.DAY_OF_MONTH, 1);
 			}
-			return new GroupsModelArray(list, new ArrayComparator(0, true));
+			return new GroupsModelArray(list.toArray(), new ArrayComparator(0, true));
 		}
 	}
 	
@@ -272,7 +251,7 @@ public class ModelProvider {
 	public static class GridRendererFactory {
 		public static RowRenderer getBeanRowRenderer() {
 			return new RowRenderer() {
-				public void render(Row row, Object data) throws Exception {
+				public void render(Row row, Object data, int index) throws Exception {
 					SampleBean b = (SampleBean) data;
 					row.appendChild(new Label(b.getName()));
 					row.appendChild(new Label(b.getNumber()+""));
@@ -282,7 +261,7 @@ public class ModelProvider {
 		}
 		public static RowRenderer getArrayRowRenderer() {
 			return new RowRenderer() {
-				public void render(Row row, Object data) throws Exception {
+				public void render(Row row, Object data, int index) throws Exception {
 					String[] ary = (String[]) data;
 					row.appendChild(new Label(ary[0]));
 					row.appendChild(new Label(ary[1]));
@@ -292,7 +271,7 @@ public class ModelProvider {
 		}
 		public static RowRenderer getGroupBeanRowRenderer() {
 			return new RowRenderer() {
-				public void render(Row row, Object data) {
+				public void render(Row row, Object data, int index) {
 					if (row instanceof Group) {
 						Object[] obj = (Object[]) data; // prepared by
 						// createGroupHead()
@@ -321,7 +300,7 @@ public class ModelProvider {
 		}
 		public static RowRenderer getGroupArrayRowRenderer() {
 			return new RowRenderer () {
-				public void render(Row row, java.lang.Object obj) {
+				public void render(Row row, Object obj, int index) {
 					if (row instanceof Group) {
 						row.appendChild(new Label(obj.toString()));
 					} else {
@@ -339,7 +318,7 @@ public class ModelProvider {
 	public static class ListboxRendererFactory {
 		public static ListitemRenderer getBeanItemRenderer() {
 			return new ListitemRenderer() {
-				public void render(Listitem item, Object data) throws Exception {
+				public void render(Listitem item, Object data, int index) throws Exception {
 					SampleBean b = (SampleBean) data;
 					item.appendChild(new Listcell(b.getName()));
 					item.appendChild(new Listcell(b.getNumber()+""));
@@ -349,7 +328,7 @@ public class ModelProvider {
 		}
 		public static ListitemRenderer getArrayItemRenderer() {
 			return new ListitemRenderer() {
-				public void render(Listitem item, Object data) throws Exception {
+				public void render(Listitem item, Object data, int index) throws Exception {
 					String[] ary = (String[]) data;
 					item.appendChild(new Listcell(ary[0]));
 					item.appendChild(new Listcell(ary[1]));
@@ -359,7 +338,7 @@ public class ModelProvider {
 		}
 		public static ListitemRenderer getGroupBeanItemRenderer() {
 			return new ListitemRenderer() {
-				public void render(Listitem item, Object data) throws Exception {
+				public void render(Listitem item, Object data, int index) throws Exception {
 					if (item instanceof Listgroup) {
 						Object[] obj = (Object[]) data; // prepared by
 						// createGroupHead()
@@ -387,7 +366,7 @@ public class ModelProvider {
 		}
 		public static ListitemRenderer getGroupArrayItemRenderer() {
 			return new ListitemRenderer() {
-				public void render(Listitem item, Object obj) throws Exception {
+				public void render(Listitem item, Object obj, int index) throws Exception {
 					if (item instanceof Listgroup) {
 						item.appendChild(new Listcell(obj.toString()));
 					} else {
@@ -405,7 +384,7 @@ public class ModelProvider {
 	public static class TreeRendererFactory {
 		public static TreeitemRenderer getBeanTreeitemRenderer() {
 			return new TreeitemRenderer() {
-				public void render(Treeitem item, Object data) throws Exception {
+				public void render(Treeitem item, Object data, int index) throws Exception {
 					SampleBean b = (SampleBean) ((DefaultTreeNode) data).getData();
 					Treerow tr;
 					if (item.getTreerow() == null) {
@@ -425,7 +404,7 @@ public class ModelProvider {
 		}
 		public static TreeitemRenderer getArrayTreeitemRenderer() {
 			return new TreeitemRenderer() {
-				public void render(Treeitem item, Object data) throws Exception {
+				public void render(Treeitem item, Object data, int index) throws Exception {
 					String[] ary = (String[]) ((DefaultTreeNode) data).getData();
 					Treerow tr;
 					if (item.getTreerow() == null) {
@@ -445,7 +424,7 @@ public class ModelProvider {
 		}
 		public static TreeitemRenderer getSingleColTreeitemRenderer() {
 			return new TreeitemRenderer() {
-				public void render(Treeitem item, Object data) throws Exception {
+				public void render(Treeitem item, Object data, int index) throws Exception {
 					Treerow tr;
 					if (item.getTreerow() == null) {
 						tr = new Treerow();

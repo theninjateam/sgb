@@ -260,15 +260,14 @@ Copyright (C) 2006 Potix Corporation. All Rights Reserved.
 
 	<session-config>
 		<!-- Turn on the following if you want a different timeout
-			Note: The unit is seconds (while that of web.xml is minute)
-		<session-timeout>1800</session-timeout>
-		-->
+			Note: The unit is seconds (while that of web.xml is minute)-->
+		<!--<session-timeout>0</session-timeout>-->
+
 		<!-- Turn on the following if you want to reset the session-timeout
 		counter when receiving onTimer, like any other request
 		In other words, the session is never timeoout if the desktop has
-		a timer.
-		<timer-keep-alive>true</timer-keep-alive>
-		-->
+		a timer.-->
+		<!--<timer-keep-alive>true</timer-keep-alive>-->
 	</session-config>
 	<session-config>
 		<!-- 
@@ -380,12 +379,13 @@ Copyright (C) 2006 Potix Corporation. All Rights Reserved.
 		<listener-class>org.zkoss.zk.ui.util.Statistic</listener-class>
 	</listener>
 
-	<!-- Configure the error page
-	<error-page>
-		<exception-type>java.lang.Throwable</exception-type>
-		<location>/WEB-INF/sys/error.zul</location>
-	</error-page>
-	-->
+	<!--Configure the error page-->
+	<!--<error-page>-->
+		<!--<exception-type>org.springframework.security.access.AccessDeniedException</exception-type>-->
+		<!--<location>/WEB-INF/errors/handleAccessDenied.zul</location>-->
+	<!--</error-page>-->
+
+
 
 	<!-- Configure additional theme URIs
 	<desktop-config>

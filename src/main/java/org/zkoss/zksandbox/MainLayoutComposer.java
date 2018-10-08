@@ -18,42 +18,31 @@ Copyright (C) 2008 Potix Corporation. All Rights Reserved.
  */
 package org.zkoss.zksandbox;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
-import org.zkoss.util.logging.Log;
-import org.zkoss.zk.ui.Component;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.zkoss.web.fn.ServletFns;
+import org.zkoss.web.servlet.Servlets;
 import org.zkoss.zk.ui.ComponentNotFoundException;
 import org.zkoss.zk.ui.Execution;
 import org.zkoss.zk.ui.Executions;
-import org.zkoss.zk.ui.event.BookmarkEvent;
-import org.zkoss.zk.ui.event.Event;
-import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zk.ui.event.ForwardEvent;
-import org.zkoss.zk.ui.event.InputEvent;
-import org.zkoss.zk.ui.event.KeyEvent;
-import org.zkoss.zk.ui.event.SelectEvent;
+import org.zkoss.zk.ui.event.*;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zk.ui.util.GenericForwardComposer;
-import org.zkoss.zul.Button;
-import org.zkoss.zul.Div;
-import org.zkoss.zul.Include;
-import org.zkoss.zul.ListModel;
-import org.zkoss.zul.ListModelList;
-import org.zkoss.zul.Listbox;
-import org.zkoss.zul.Listcell;
-import org.zkoss.zul.Listitem;
-import org.zkoss.zul.ListitemRenderer;
-import org.zkoss.zul.Textbox;
+import org.zkoss.zul.*;
+
+import javax.servlet.ServletRequest;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author jumperchen
  * 
  */
-public class MainLayoutComposer extends GenericForwardComposer implements
-	MainLayoutAPI {
-	private static final Log log = Log.lookup(MainLayoutComposer.class);
+@SuppressWarnings("serial")
+public class MainLayoutComposer extends GenericForwardComposer<Borderlayout> implements
+        MainLayoutAPI {
+	private static final Logger log = LoggerFactory.getLogger(MainLayoutComposer.class);
 
 	Textbox searchBox;
 
@@ -69,8 +58,10 @@ public class MainLayoutComposer extends GenericForwardComposer implements
 		initKey();
 	}
 
-	private Map getCategoryMap() {
-		return DemoWebAppInit.getCateMap();
+	private Map<String, Category> getCategoryMap() {
+		ServletRequest request = ServletFns.getCurrentRequest();
+		return Servlets.getBrowser(request, "mobile") == null ?	
+				DemoWebAppInit.getCateMap()	: DemoWebAppInit.getMobilCateMap();
 	}
 
 	private void initKey() {
@@ -168,14 +159,14 @@ public class MainLayoutComposer extends GenericForwardComposer implements
 		Listitem item = null;
 		if (id != null) {
 			try {
-				final LinkedList list = new LinkedList();
+				final LinkedList<DemoItem> list = new LinkedList<DemoItem>();
 				final DemoItem[] items = getItems();
 				for (int i = 0; i < items.length; i++) {
 					if (items[i].getId().equals(id))
 						list.add(items[i]);
 				}
 				if (!list.isEmpty()) {
-					itemList.setModel(new ListModelList(list));
+					itemList.setModel(new ListModelList<DemoItem>(list, true));
 					itemList.renderAll();
 					item = (Listitem) self.getFellow(id);
 					setSelectedCategory(item);
@@ -225,22 +216,23 @@ public class MainLayoutComposer extends GenericForwardComposer implements
 	}
 	public void onChanging$searchBox(InputEvent event) {
 		String key = event.getValue();
-		LinkedList item = new LinkedList();
+		LinkedList<DemoItem> item = new LinkedList<DemoItem>();
 		DemoItem[] items = getItems();
 
 		if (key.trim().length() != 0) {
 			for (int i = 0; i < items.length; i++) {
-				if (items[i].getLabel().toLowerCase()
-						.indexOf(key.toLowerCase()) != -1)
+				if (items[i].getLabel().toLowerCase(java.util.Locale.ENGLISH)
+						.indexOf(key.toLowerCase(java.util.Locale.ENGLISH)) != -1)
 					item.add(items[i]);
 			}
-			itemList.setModel(new ListModelList(item));
-		} else itemList.setModel(new ListModelList(items));
+			itemList.setModel(new ListModelList<DemoItem>(item, true));
+		} else
+			itemList.setModel(new ListModelList<DemoItem>(items));
 		_selected = null;
 	}
 
 	private DemoItem[] getItems() {
-		LinkedList items = new LinkedList();
+		LinkedList<DemoItem> items = new LinkedList<DemoItem>();
 		Category[] categories = getCategories();
 		for (int i = 0; i < categories.length; i++) {
 			items.addAll(categories[i].getItems());
@@ -248,19 +240,22 @@ public class MainLayoutComposer extends GenericForwardComposer implements
 		return (DemoItem[]) items.toArray(new DemoItem[] {});
 	}
 
+	
 	public Category[] getCategories() {
 		return (Category[]) getCategoryMap().values()
 				.toArray(new Category[] {});
 	}
 
-	public ListitemRenderer getItemRenderer() {
+	
+	public ListitemRenderer<DemoItem> getItemRenderer() {
 		return _defRend;
 	}
 
-	private static final ListitemRenderer _defRend = new ItemRender();
+	private static final ListitemRenderer<DemoItem> _defRend = new ItemRender();
 		
-	private static class ItemRender implements ListitemRenderer, java.io.Serializable {
-		public void render(Listitem item, Object data) {
+	private static class ItemRender implements ListitemRenderer<DemoItem>, java.io.Serializable {
+		
+		public void render(Listitem item, DemoItem data, int index) {
 			DemoItem di = (DemoItem) data;
 			Listcell lc = new Listcell();
 			item.setValue(di);
@@ -276,14 +271,16 @@ public class MainLayoutComposer extends GenericForwardComposer implements
 		return (Category) getCategoryMap().get(cateId);
 	}
 
-	public ListModel getSelectedModel() {
+	
+	public ListModel<DemoItem> getSelectedModel() {
 		Category cate = _selected == null ? getCategories()[0] :
 				getCategory(_selected.getId());
-		return new ListModelList(cate.getItems());
+		return new ListModelList<DemoItem>(cate.getItems(), true);
 	}
 
 	// Composer Implementation
-	public void doAfterCompose(Component comp) throws Exception {
+	
+	public void doAfterCompose(Borderlayout comp) throws Exception {
 		super.doAfterCompose(comp);
 		Events.postEvent("onMainCreate", comp, null);
 	}

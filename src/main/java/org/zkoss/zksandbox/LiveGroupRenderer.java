@@ -18,11 +18,7 @@ Copyright (C) 2008 Potix Corporation. All Rights Reserved.
 */
 package org.zkoss.zksandbox;
 
-import org.zkoss.zul.Div;
-import org.zkoss.zul.Image;
-import org.zkoss.zul.Label;
-import org.zkoss.zul.Row;
-import org.zkoss.zul.RowRenderer;
+import org.zkoss.zul.*;
 
 /**
  * @author jumperchen
@@ -30,7 +26,7 @@ import org.zkoss.zul.RowRenderer;
  */
 public class LiveGroupRenderer implements RowRenderer {
 
-	public void render(Row row, java.lang.Object data) {
+	public void render(Row row, Object data, int index) {
 		if(data instanceof String[]) {
 			String[] ary = (String[]) data;
       Div div = new Div();

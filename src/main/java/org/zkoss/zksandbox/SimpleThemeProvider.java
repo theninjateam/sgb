@@ -18,18 +18,18 @@ Copyright (C) 2007 Potix Corporation. All Rights Reserved.
 */
 package org.zkoss.zksandbox;
 
-import java.util.Collection;
-import java.util.List;
-
 import org.zkoss.zk.ui.Execution;
 import org.zkoss.zk.ui.util.ThemeProvider;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * A simple theme provider.
  * It provides the theme for zksandbox. This class demostrates a simple use
  * that manipulates the font size by setting the execution's attribute
  * directly. Thus, it cannot be cached by the client.
- * On the other hand, {@link CacheableThemeProvider} is another example
+ * On the other hand, {@link } is another example
  * that manipulates the URI for different font size such that
  * the client can cache the result.
  * @author Dennis.Chen / Jumper Chen / Tom Yeh

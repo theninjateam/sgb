@@ -15,9 +15,46 @@ Copyright (C) 2004 Potix Corporation. All Rights Reserved.
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"> 
 
-	<description><![CDATA[ZK Sandbox]]></description>
+	<description><![CDATA[zk sandbox]]></description>
 	<display-name>zksandbox</display-name>
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			/WEB-INF/applicationContext.xml
+            /WEB-INF/spring-security.xml
+		</param-value>
+	</context-param>
 
+	 <!--Loads the Spring web application context-->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+
+	<!-- For using web scoped bean -->
+	<listener>
+		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+	</listener>
+
+	<!-- A servlet filter capturing every user requests and sending them to
+		the configured security filters to make sure access is authorized. -->
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!--<filter>-->
+		<!--<filter-name>OpenSessionInViewFilter</filter-name>-->
+		<!--<filter-class>org.springframework.orm.hibernate4.support.OpenSessionInViewFilter</filter-class>-->
+	<!--</filter>-->
+	<!--<filter-mapping>-->
+		<!--<filter-name>OpenSessionInViewFilter</filter-name>-->
+		<!--<url-pattern>/*</url-pattern>-->
+	<!--</filter-mapping>-->
 	<!-- //// -->
 	<!-- ZK -->
 	<listener>

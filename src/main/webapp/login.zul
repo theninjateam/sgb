@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul">
+    <html>
+        <head>
+            <!--META-->
+            <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+            <title>Login Form</title>
+        </head>
+        <body>
+
+            <!--WRAPPER-->
+            <div id="wrapper">
+
+                <!--SLIDE-IN ICONS-->
+                <div class="user-icon"></div>
+                <div class="pass-icon"></div>
+                <!--END SLIDE-IN ICONS-->
+
+                <!--LOGIN FORM-->
+                <form name="login-form" class="login-form" action="j_spring_security_check" method="post">
+
+                    <!--HEADER-->
+                    <div class="header">
+                        <!--TITLE-->
+                        <h1>Autenticação</h1><!--END TITLE-->
+                        <!--DESCRIPTION-->
+                        <span>Preencha os dados do utilizador.</span><!--END DESCRIPTION-->
+                    </div>
+                    <!--END HEADER-->
+
+                    <!--CONTENT-->
+                    <div class="content">
+                        <!--USERNAME-->
+                        <input name="j_username" id="username" type="text" class="input username" value="Username" onfocus="this.value=''" /><!--END USERNAME-->
+                        <!--PASSWORD-->
+                        <input name="j_password" id="password"   type="Password"  class="input password" value="Password" onfocus="this.value=''" /><!--END PASSWORD-->
+                    </div>
+                    <!--END CONTENT-->
+
+                    <!--FOOTER-->
+                    <div class="footer">
+                        <!--LOGIN BUTTON-->
+                        <input type="submit" name="submit" value="Entrar" class="button" /><!--END LOGIN BUTTON-->
+
+                        <input id="message" readonly = "true" type="text" onsize="this.value=erro()" style="overflow:auto;  position:relative;background:transparent;color:red"/>
+                        <!--REGISTER BUTTON--><!--END REGISTER BUTTON-->
+                    </div>
+                    <!--END FOOTER-->
+
+                </form>
+                <!--END LOGIN FORM-->
+
+            </div>
+            <!--END WRAPPER-->
+        </body>
+    </html>
+
+</zk>
