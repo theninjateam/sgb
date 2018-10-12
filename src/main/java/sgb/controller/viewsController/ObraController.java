@@ -18,25 +18,19 @@ import java.util.List;
 
 /**
  *
- * @author Nobrega
+ * @author Fonseca
  */
-
-@org.springframework.stereotype.Component
 
 public class ObraController extends SelectorComposer<Component>
 {
-
-
     private CRUDService crudService;
     private List<TipoObra> tipoObraModel;
-
 
     @Override
     public void doAfterCompose(Component comp) throws Exception
     {
         super.doAfterCompose(comp);
     }
-
 
     public ListModelList<TipoObra> getTipoObraModel()
     {
