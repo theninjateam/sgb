@@ -83,7 +83,7 @@
                                         </listhead>
                                         <template name="model">
                                             <listitem>
-                                                <listcell label="${each.titulo}"></listcell>
+                                                <listcell label="${each.descricao}"></listcell>
                                             </listitem>
                                         </template>
                                     </listbox>
