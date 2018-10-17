@@ -1,21 +1,23 @@
 package sgb.domain;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-public class TipoObra {
-    private int idtipo;
+public class Idioma {
+    private int ididioma;
     private String descricao;
 
     @Id
-    @Column(name = "idtipo")
-    public int getIdtipo() {
-        return idtipo;
+    @Column(name = "ididioma")
+    public int getIdidioma() {
+        return ididioma;
     }
 
-    public void setIdtipo(int idtipo) {
-        this.idtipo = idtipo;
+    public void setIdidioma(int ididioma) {
+        this.ididioma = ididioma;
     }
 
     @Basic
@@ -32,13 +34,16 @@ public class TipoObra {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        TipoObra tipoobra = (TipoObra) o;
-        return idtipo == tipoobra.idtipo &&
-                Objects.equals(descricao, tipoobra.descricao);
+        Idioma idioma = (Idioma) o;
+        return ididioma == idioma.ididioma &&
+                Objects.equals(descricao, idioma.descricao);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idtipo, descricao);
+        return Objects.hash(ididioma, descricao);
     }
+
+
+
 }
