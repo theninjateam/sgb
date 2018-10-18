@@ -23,6 +23,7 @@ public class Obra {
     private TipoObra tipoobra;
     private Set<Autor> autores ;
     private Idioma idioma;
+    private Livro livro;
 
 
 
@@ -143,7 +144,7 @@ public class Obra {
         this.areacientifica = areacientifica;
     }
 
-    @ManyToMany
+    @OneToMany
     @JoinTable(name="obra_autor", joinColumns = @JoinColumn(name ="cota"),
             inverseJoinColumns = @JoinColumn(name="idautor"))
     public Set<Autor> getAutores(){
@@ -152,5 +153,20 @@ public class Obra {
     public void setAutores(Set<Autor> autores) {
         this.autores=autores;
     }
+
+
+
+    @OneToOne(mappedBy = "obra")
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+
+
+    public Livro getLivro() {
+        return livro;
+    }
+
+    public void setLivro(Livro livro) {
+        this.livro = livro;
+    }
+
 
 }

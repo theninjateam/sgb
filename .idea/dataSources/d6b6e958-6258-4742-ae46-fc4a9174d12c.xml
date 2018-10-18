@@ -94,8 +94,8 @@
       <ObjectId>2200</ObjectId>
       <Comment>standard public schema</Comment>
       <Owner>postgres</Owner>
-      <IntrospectionTimestamp>2018-10-17.11:13:54.740</IntrospectionTimestamp>
-      <IntrospectionStateNumber>1125</IntrospectionStateNumber>
+      <IntrospectionTimestamp>2018-10-17.16:26:50.968</IntrospectionTimestamp>
+      <IntrospectionStateNumber>1157</IntrospectionStateNumber>
       <Current>1</Current>
       <Visible>1</Visible>
     </schema>
@@ -232,12 +232,12 @@
     <table id="39" parent="19" name="livro">
       <ObjectId>18544</ObjectId>
       <Owner>postgres</Owner>
-      <StateNumber>1120</StateNumber>
+      <StateNumber>1157</StateNumber>
     </table>
     <table id="40" parent="19" name="obra">
       <ObjectId>18550</ObjectId>
       <Owner>postgres</Owner>
-      <StateNumber>1120</StateNumber>
+      <StateNumber>1157</StateNumber>
     </table>
     <table id="41" parent="19" name="obra_autor">
       <ObjectId>18556</ObjectId>
@@ -252,7 +252,7 @@
     <table id="43" parent="19" name="revista">
       <ObjectId>18565</ObjectId>
       <Owner>postgres</Owner>
-      <StateNumber>1120</StateNumber>
+      <StateNumber>1150</StateNumber>
     </table>
     <table id="44" parent="19" name="role">
       <ObjectId>18571</ObjectId>

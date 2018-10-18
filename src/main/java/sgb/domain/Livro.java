@@ -80,8 +80,8 @@ public class Livro {
     }
 
     @OneToOne
-    @JoinTable(name = "obra",  joinColumns = @JoinColumn(name = "cota"),
-            inverseJoinColumns = @JoinColumn(name = "cota"))
+    @JoinColumn(name = "cota")
+
     public Obra getObra() {
         return obra;
     }
