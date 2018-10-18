@@ -1,5 +1,7 @@
 package sgb.domain;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -7,6 +9,8 @@ import java.util.Objects;
 public class Revista {
     private String cota;
     private String instituicao;
+    private Obra obra;
+
 
     @Id
     @Column(name = "cota")
@@ -41,5 +45,17 @@ public class Revista {
     public int hashCode() {
         return Objects.hash(cota, instituicao);
     }
+
+    @OneToOne
+    @JoinColumn(name = "cota")
+
+    public Obra getObra() {
+        return obra;
+    }
+
+    public void setObra(Obra obra) {
+        this.obra = obra;
+    }
+
 
 }

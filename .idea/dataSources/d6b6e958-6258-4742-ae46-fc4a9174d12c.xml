@@ -94,8 +94,8 @@
       <ObjectId>2200</ObjectId>
       <Comment>standard public schema</Comment>
       <Owner>postgres</Owner>
-      <IntrospectionTimestamp>2018-10-17.16:26:50.968</IntrospectionTimestamp>
-      <IntrospectionStateNumber>1157</IntrospectionStateNumber>
+      <IntrospectionTimestamp>2018-10-18.11:48:07.940</IntrospectionTimestamp>
+      <IntrospectionStateNumber>1170</IntrospectionStateNumber>
       <Current>1</Current>
       <Visible>1</Visible>
     </schema>
@@ -337,11 +337,11 @@
       <UnderlyingIndexName>autor_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <column id="58" parent="34" name="idcd">
+    <column id="58" parent="34" name="cota">
       <Position>1</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>1120</StateNumber>
+      <StateNumber>1170</StateNumber>
       <TypeId>1043</TypeId>
     </column>
     <column id="59" parent="34" name="descricao">
@@ -352,18 +352,18 @@
     </column>
     <index id="60" parent="34" name="cd_key">
       <ObjectId>18594</ObjectId>
-      <ColNames>idcd</ColNames>
+      <ColNames>cota</ColNames>
       <Unique>1</Unique>
     </index>
     <key id="61" parent="34" name="cd_key">
       <ObjectId>18595</ObjectId>
-      <ColNames>idcd</ColNames>
+      <ColNames>cota</ColNames>
       <UnderlyingIndexName>cd_key</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
     <foreign-key id="62" parent="34" name="idcd">
       <ObjectId>18624</ObjectId>
-      <ColNames>idcd</ColNames>
+      <ColNames>cota</ColNames>
       <RefTableId>18550</RefTableId>
       <RefColPositions>1</RefColPositions>
       <RefTableName>obra</RefTableName>

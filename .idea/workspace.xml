@@ -2,14 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a2dfe1c0-9a8c-4fcc-8a46-a6c96d3d3f67" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/sgb_public_role.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sgb_public_user.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sgb_public_user_role.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/sgb/domain/Cd.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/d6b6e958-6258-4742-ae46-fc4a9174d12c.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/d6b6e958-6258-4742-ae46-fc4a9174d12c.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/d6b6e958-6258-4742-ae46-fc4a9174d12c/storage_v2/_src_/database/sgb.jrwBAA/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/d6b6e958-6258-4742-ae46-fc4a9174d12c/storage_v2/_src_/database/sgb.jrwBAA/schema/public.abK9xQ.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bh.sql" beforeDir="false" afterPath="$PROJECT_DIR$/bh.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/sgb/controller/viewsController/ObraController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/sgb/controller/viewsController/ObraController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/sgb/domain/Livro.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/sgb/domain/Livro.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/sgb/domain/Obra.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/sgb/domain/Obra.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/sgb/domain/Autor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/sgb/domain/Autor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/sgb/domain/Revista.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/sgb/domain/Revista.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/views/addObra.zul" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/views/addObra.zul" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -381,35 +385,38 @@
         <counts>
           <entry key="Persistence/JavaeeElement:/6587f454/Entities/heroku_zksandbox/jpa/JPA/PersistenceModel" value="1" />
           <entry key="areacientifica" value="1" />
-          <entry key="autor" value="4" />
+          <entry key="autor" value="5" />
           <entry key="class" value="1" />
-          <entry key="java" value="43" />
-          <entry key="livro" value="1" />
-          <entry key="obra" value="2" />
-          <entry key="obra_autor" value="1" />
+          <entry key="gitignore" value="1" />
+          <entry key="java" value="45" />
+          <entry key="livro" value="3" />
+          <entry key="obra" value="4" />
+          <entry key="obra_autor" value="2" />
           <entry key="role" value="1" />
           <entry key="sql" value="6" />
           <entry key="user" value="1" />
-          <entry key="xml" value="4" />
+          <entry key="xml" value="6" />
           <entry key="zul" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="CLASS" value="1" />
-          <entry key="Database Element" value="11" />
-          <entry key="JAVA" value="43" />
-          <entry key="PLAIN_TEXT" value="1" />
+          <entry key="Database Element" value="17" />
+          <entry key="JAVA" value="45" />
+          <entry key="PLAIN_TEXT" value="2" />
           <entry key="SQL" value="1" />
           <entry key="Scratch" value="5" />
           <entry key="UML" value="1" />
-          <entry key="XML" value="4" />
+          <entry key="XML" value="6" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
+          <entry key="cell" value="1" />
           <entry key="dummy" value="2" />
-          <entry key="java" value="1130" />
+          <entry key="gitignore" value="20" />
+          <entry key="java" value="1211" />
           <entry key="sql" value="5" />
           <entry key="txt" value="13" />
           <entry key="xml" value="5" />
@@ -418,10 +425,10 @@
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="1130" />
-          <entry key="PLAIN_TEXT" value="25" />
+          <entry key="JAVA" value="1211" />
+          <entry key="PLAIN_TEXT" value="45" />
           <entry key="SQL" value="1" />
-          <entry key="Scratch" value="4" />
+          <entry key="Scratch" value="5" />
           <entry key="XML" value="5" />
         </counts>
       </usages-collector>
@@ -432,8 +439,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/sgb/controller/viewsController/ObraController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="20">
-              <caret line="160" column="30" lean-forward="true" selection-start-line="160" selection-start-column="30" selection-end-line="160" selection-end-column="30" />
+            <state relative-caret-position="61">
+              <caret line="213" lean-forward="true" selection-start-line="213" selection-end-line="213" />
               <folding>
                 <element signature="e#4436#4443#0" expanded="true" />
               </folding>
@@ -441,74 +448,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="das://d6b6e958-6258-4742-ae46-fc4a9174d12c/database/sgb/schema/public/table/obra">
-          <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-            <state>
-              <filtering enabled="true" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="das://d6b6e958-6258-4742-ae46-fc4a9174d12c/database/sgb/schema/public/table/obra_autor">
-          <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-            <state>
-              <filtering enabled="true" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="das://d6b6e958-6258-4742-ae46-fc4a9174d12c/database/sgb/schema/public/table/autor">
-          <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-            <state>
-              <filtering enabled="true" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/sgb/controller/entityController/GerirObra.java">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="40">
-              <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+              <caret line="2" column="11" lean-forward="true" selection-start-line="2" selection-start-column="11" selection-end-line="2" selection-end-column="11" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/sgb/domain/Obra.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/sgb/domain/Autor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="156" selection-start-line="156" selection-end-line="156" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#2679#2680#0" expanded="true" />
-                <element signature="e#2784#2785#0" expanded="true" />
-                <element signature="e#4352#4353#0" expanded="true" />
-                <element signature="e#4380#4381#0" expanded="true" />
-                <element signature="e#4421#4422#0" expanded="true" />
-                <element signature="e#4455#4456#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/sgb/domain/Livro.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="63" lean-forward="true" selection-start-line="63" selection-end-line="63" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/sgb/domain/Revista.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="160">
-              <caret line="9" selection-start-line="9" selection-end-line="9" />
+            <state relative-caret-position="240">
+              <caret line="32" lean-forward="true" selection-start-line="32" selection-end-line="32" />
             </state>
           </provider>
         </entry>
@@ -557,7 +510,6 @@
         <option value="$PROJECT_DIR$/src/main/webapp/conta/addclient.zul" />
         <option value="$PROJECT_DIR$/src/main/webapp/views/livro.zul" />
         <option value="$PROJECT_DIR$/src/main/java/sgb/controller/viewsController/ObraController111.java" />
-        <option value="$PROJECT_DIR$/src/main/java/sgb/domain/Cd.java" />
         <option value="$PROJECT_DIR$/src/main/java/sgb/domain/FormatoCd.java" />
         <option value="$PROJECT_DIR$/src/main/java/sgb/domain/ObraAutor.java" />
         <option value="$APPLICATION_CONFIG_DIR$/consoles/db/f3d006bc-0cdc-4c6a-b7fa-3925c398582b/console.sql" />
@@ -565,7 +517,6 @@
         <option value="$APPLICATION_CONFIG_DIR$/consoles/db/4134b327-0b06-4ce2-9cda-92339accfbd1/console_2.sql" />
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/applicationContext.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/sgb/domain/Autor.java" />
         <option value="$PROJECT_DIR$/src/main/java/sgb/domain/Areacientifica.java" />
         <option value="$PROJECT_DIR$/src/main/java/sgb/domain/Tipoobra.java" />
         <option value="$PROJECT_DIR$/src/main/java/sgb/domain/Idioma.java" />
@@ -573,10 +524,13 @@
         <option value="$PROJECT_DIR$/bh.sql" />
         <option value="$PROJECT_DIR$/src/main/java/sgb/domain/AreaCientifica.java" />
         <option value="$PROJECT_DIR$/src/main/webapp/views/addObra.zul" />
-        <option value="$PROJECT_DIR$/src/main/java/sgb/domain/Revista.java" />
         <option value="$PROJECT_DIR$/src/main/java/sgb/domain/Obra.java" />
         <option value="$PROJECT_DIR$/src/main/java/sgb/domain/Livro.java" />
+        <option value="$PROJECT_DIR$/src/main/java/sgb/domain/Revista.java" />
+        <option value="$PROJECT_DIR$/src/main/java/sgb/domain/Cd.java" />
+        <option value="$PROJECT_DIR$/src/main/java/sgb/domain/Autor.java" />
         <option value="$PROJECT_DIR$/src/main/java/sgb/controller/viewsController/ObraController.java" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -622,6 +576,11 @@
             <path>
               <item name="zksandbox" type="b2602c69:ProjectViewProjectNode" />
               <item name="sgb" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="zksandbox" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sgb" type="462c0819:PsiDirectoryNode" />
+              <item name="assembly" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="zksandbox" type="b2602c69:ProjectViewProjectNode" />
@@ -719,7 +678,7 @@
     <property name="JPA.DatabaseSchemaImportDialog" value="d6b6e958-6258-4742-ae46-fc4a9174d12c" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1539786983476" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1539857600617" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit4" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4" value="" />
     <property name="database.console.LAST_STATE" value="false" />
@@ -851,7 +810,7 @@
       <workItem from="1539587056174" duration="19844000" />
       <workItem from="1539612414669" duration="2320000" />
       <workItem from="1539682648796" duration="6132000" />
-      <workItem from="1539764976914" duration="21655000" />
+      <workItem from="1539764976914" duration="27542000" />
     </task>
     <servers />
   </component>
@@ -864,7 +823,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="121790000" />
+    <option name="totallyTimeSpent" value="127677000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -879,7 +838,7 @@
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.47308782" visible="true" weight="0.2536913" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.59477127" visible="true" weight="0.2536913" />
       <window_info id="Structure" order="1" sideWeight="0.5008183" side_tool="true" weight="0.25679758" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -888,17 +847,17 @@
       <window_info id="Learn" order="6" />
       <window_info id="Favorites" order="7" side_tool="true" />
       <window_info id="Web" order="8" side_tool="true" />
-      <window_info id="Persistence" order="9" sideWeight="0.52691215" side_tool="true" weight="0.2536913" />
+      <window_info id="Persistence" order="9" sideWeight="0.40522876" side_tool="true" weight="0.2536913" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32719547" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4986577" visible="true" weight="0.6798867" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4986577" weight="0.66855526" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.398017" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3286119" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.329582" />
       <window_info anchor="bottom" id="Database Changes" order="8" weight="0.3286119" />
-      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49924472" weight="0.56657225" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="9" sideWeight="0.49924472" visible="true" weight="0.56657225" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5013423" side_tool="true" weight="0.6798867" />
       <window_info anchor="bottom" id="Spring" order="11" weight="0.3286119" />
       <window_info anchor="bottom" id="Java Enterprise" order="12" />
@@ -907,15 +866,15 @@
       <window_info anchor="bottom" id="Dependency Viewer" order="15" weight="0.329582" />
       <window_info anchor="bottom" id="Inspection Results" order="16" weight="0.3286119" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.24966443" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="right" id="Capture Analysis" order="4" />
       <window_info anchor="right" id="Theme Preview" order="5" />
       <window_info anchor="right" id="Palette&#9;" order="6" />
-      <window_info anchor="right" id="Database" order="7" visible="true" weight="0.26107383" />
-      <window_info anchor="right" id="Bean Validation" order="8" />
-      <window_info anchor="right" id="Maven Projects" order="9" weight="0.32930514" />
+      <window_info anchor="right" id="Bean Validation" order="7" />
+      <window_info anchor="right" id="Database" order="8" weight="0.26107383" />
+      <window_info anchor="right" id="Maven Projects" order="9" weight="0.32885906" />
     </layout>
     <layout-to-restore>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.47308782" visible="true" weight="0.2536913" />
@@ -963,22 +922,11 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="antWorkspaceConfiguration">
+    <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
+    <option name="FILTER_TARGETS" value="false" />
+  </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/conta/orgdata.zul">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="21" selection-start-line="15" selection-start-column="21" selection-end-line="15" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/sgb/domain/LivroEntity.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/views/cd.zul">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="44" selection-start-line="18" selection-start-column="33" selection-end-line="18" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/views/revista.zul">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
@@ -1041,7 +989,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/sgb/domain/Cd.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/sgb/domain/FormatoCdPK.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/sgb/domain/FormatoCd.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/sgb/domain/ObraAutorPK.java">
@@ -1128,13 +1075,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/sgb/domain/Autor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/sgb/domain/TipoObra.java">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -1192,13 +1132,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="das://d6b6e958-6258-4742-ae46-fc4a9174d12c/database/sgb/schema/public/table/livro">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/sgb/domain/Users.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-311">
@@ -1245,17 +1178,38 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/sgb/controller/entityController/GerirObra.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="40">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/sgb/domain/Cd.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret lean-forward="true" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/sgb/domain/Revista.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="9" selection-start-line="9" selection-end-line="9" />
+        <state relative-caret-position="80">
+          <caret line="11" column="4" lean-forward="true" selection-start-line="11" selection-start-column="4" selection-end-line="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/sgb/domain/Livro.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="395">
+          <caret line="81" column="3" selection-start-line="81" selection-end-line="90" selection-end-column="5" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/sgb/domain/Obra.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
-          <caret line="156" selection-start-line="156" selection-end-line="156" />
+          <caret line="156" lean-forward="true" selection-start-line="156" selection-end-line="156" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#2679#2680#0" expanded="true" />
@@ -1268,13 +1222,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/sgb/domain/Livro.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="63" lean-forward="true" selection-start-line="63" selection-end-line="63" />
-        </state>
-      </provider>
-    </entry>
     <entry file="das://d6b6e958-6258-4742-ae46-fc4a9174d12c/database/sgb/schema/public/table/obra">
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state>
@@ -1282,20 +1229,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/sgb/controller/entityController/GerirObra.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="40">
-          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+    <entry file="das://d6b6e958-6258-4742-ae46-fc4a9174d12c/database/sgb/schema/public/table/livro">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/sgb/controller/viewsController/ObraController.java">
+    <entry file="file://$PROJECT_DIR$/assembly/demo.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="20">
-          <caret line="160" column="30" lean-forward="true" selection-start-line="160" selection-start-column="30" selection-end-line="160" selection-end-column="30" />
-          <folding>
-            <element signature="e#4436#4443#0" expanded="true" />
-          </folding>
+          <caret line="1267" column="11" lean-forward="true" selection-start-line="1267" selection-start-column="11" selection-end-line="1267" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://d6b6e958-6258-4742-ae46-fc4a9174d12c/database/sgb/schema/public/table/autor">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
         </state>
       </provider>
     </entry>
@@ -1306,10 +1260,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="das://d6b6e958-6258-4742-ae46-fc4a9174d12c/database/sgb/schema/public/table/autor">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/sgb/domain/Autor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="32" lean-forward="true" selection-start-line="32" selection-end-line="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/sgb/controller/viewsController/ObraController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="61">
+          <caret line="213" lean-forward="true" selection-start-line="213" selection-end-line="213" />
+          <folding>
+            <element signature="e#4436#4443#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="40">
+          <caret line="2" column="11" lean-forward="true" selection-start-line="2" selection-start-column="11" selection-end-line="2" selection-end-column="11" />
         </state>
       </provider>
     </entry>

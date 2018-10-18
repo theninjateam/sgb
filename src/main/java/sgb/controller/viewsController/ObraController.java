@@ -127,8 +127,13 @@ public class ObraController extends SelectorComposer<Component> {
 
     @Listen("onSelect = #tipoObraListBox")
     public void change() {
+        //CRUDService csimp = (CRUDService) SpringUtil.getBean("CRUDService");
+
+//        Messagebox.show("entrou");
 
         TipoObra tipoObra = tipoObraListBox.getSelectedItem().getValue();
+
+        //Messagebox.show("selected: "+tipoObra.getDescricao().toLowerCase());
 
         if (tipoObra.getDescricao().toLowerCase().equals("livro")) {
             grplivrodata.setVisible(true);
@@ -146,11 +151,15 @@ public class ObraController extends SelectorComposer<Component> {
     public void saveData() {
         CRUDService csimp = (CRUDService) SpringUtil.getBean("CRUDService");
 
+
         TipoObra tipoObra = tipoObraListBox.getSelectedItem().getValue();
+
+//        Messagebox.show("selected: "+tipoObra.getDescricao()+" id" +tipoObra.getIdtipo());
         Obra obra = new Obra();
 
         obra.setCota(cota.getValue());
         obra.setRegistro(Integer.parseInt(registo.getValue()));
+        obra.setTipoobra(tipoObra);
 
        String [] nomeA = autor.getValue().split(" ");
 
@@ -190,12 +199,12 @@ public class ObraController extends SelectorComposer<Component> {
 
         obra.setQuantidade(Integer.parseInt(quatddObra.getValue()));
 
+
         if (tipoObra.getDescricao().toLowerCase().equals("livro")) {
 
 //            Messagebox.show("isbn"+isbn.getValue());
 
             Livro livro = new Livro();
-
             livro.setCota(obra.getCota());
             livro.setIsbn(isbn.getValue());
             livro.setCodigobarra(codigobarra.getValue());
@@ -203,7 +212,7 @@ public class ObraController extends SelectorComposer<Component> {
             livro.setEditora(editora.getValue());
             livro.setObra(obra);
 
-
+            crudService.Save(aut);
             crudService.Save(obra);
             crudService.Save(livro);
 
