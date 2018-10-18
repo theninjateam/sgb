@@ -159,7 +159,6 @@ public class Obra {
     @OneToOne(mappedBy = "obra")
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
 
-
     public Livro getLivro() {
         return livro;
     }
