@@ -1,0 +1,47 @@
+<window apply="sgb.controller.viewsController.ObraController"
+        border="none" hflex="1" vflex="1" contentStyle="overflow:auto">
+
+<groupbox id="grplivrodata" mold="3d">
+    <caption sclass="folder" label="Dados Do Livro"/>
+
+    <grid>
+        <columns sizable="true">
+            <column width="40%"/>
+            <column width="40%"/>
+
+        </columns>
+
+        <rows>
+            <!--quando for livro-->
+
+            <row>
+
+                <vbox>
+                    <span sclass="input-group-addon">ISBN</span>
+                    <textbox sclass="form-control" id="isbn"/>
+                </vbox>
+
+                <vbox>
+                    <span sclass="input-group-addon">Codigo de Barra</span>
+                    <textbox sclass="form-control" id="codigobarra"/>
+                </vbox>
+
+            </row>
+
+            <row>
+                <vbox>
+                    <span sclass="input-group-addon">Editora</span>
+                    <textbox sclass="form-control" id="editora"/>
+                </vbox>
+
+                <vbox>
+                    <span sclass="input-group-addon">Edição</span>
+                    <textbox sclass="form-control" id="edicao"/>
+                </vbox>
+            </row>
+
+        </rows>
+
+    </grid>
+</groupbox>
+</window>

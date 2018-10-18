@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk>
+
+    <div self="@define(conteudo)">
+
+        <window apply="sgb.controller.viewsController.ObraController"
+                border="none" hflex="1" vflex="1" contentStyle="overflow:auto">
+
+            <!--<caption src="/img/obraimg.png" label="Adicionar Obra"/>-->
+
+            <vbox>
+                <groupbox mold="3d">
+                    <caption sclass="folder" label="Dados Gerais da Obra"/>
+
+                    <grid>
+
+                        <columns sizable="true">
+                            <column width="40%"/>
+                        </columns>
+                        <rows>
+                            <row>
+                                <span sclass="input-group-addon">Tipo de Obra</span>
+                            </row>
+
+                            <row>
+                                <listbox width="100%" id="tipoObraListBox" emptyMessage="Nenhum Tipo de Obra Encotrado"
+                                         model="${$composer.tipoObraModel}" mold="select">
+
+                                    <listhead>
+                                        <listheader label="tipo de obra"/>
+                                    </listhead>
+                                    <template name="model">
+                                        <listitem>
+                                            <listcell label="${each.descricao}"></listcell>
+                                        </listitem>
+                                    </template>
+                                </listbox>
+                            </row>
+                        </rows>
+
+                    </grid>
+
+
+                    <grid>
+                        <columns sizable="true">
+                            <column width="40%"/>
+                            <column width="40%"/>
+
+                        </columns>
+                        <rows>
+
+                            <row>
+                                <vbox>
+                                    <span sclass="input-group-addon">Cota</span>
+                                    <textbox sclass="form-control" id="cota"/>
+                                </vbox>
+                                <vbox>
+                                    <span sclass="input-group-addon">Registo</span>
+                                    <textbox sclass="form-control" id="registo"/>
+                                </vbox>
+                            </row>
+
+                            <row>
+                                <vbox>
+                                    <span sclass="input-group-addon">Titulo</span>
+                                    <textbox sclass="form-control" id="titulo"/>
+                                </vbox>
+                                <vbox>
+                                    <span sclass="input-group-addon">Autor</span>
+                                    <textbox sclass="form-control" id="autor"/>
+                                </vbox>
+                            </row>
+
+                            <row>
+                                <vbox>
+                                    <span sclass="input-group-addon">Area Cientifica</span>
+                                    <listbox width="100%" id="areaCientificaListBox"
+                                             emptyMessage="Nenhuma Area Cietifica Encotrada"
+                                             model="${$composer.areaCientificaModel}" mold="select">
+
+                                        <listhead>
+                                            <listheader label="Area Cientifica"/>
+                                        </listhead>
+                                        <template name="model">
+                                            <listitem>
+                                                <listcell label="${each.titulo}"></listcell>
+                                            </listitem>
+                                        </template>
+                                    </listbox>
+                                </vbox>
+                                <vbox>
+                                    <span sclass="input-group-addon">Idioma</span>
+                                    <listbox width="100%" id="idiomaListBox"
+                                             emptyMessage="Nenhum Tipo de idioma Encotrado"
+                                             model="${$composer.idiomaModel}" mold="select">
+
+                                        <listhead>
+                                            <listheader label="Idioma"/>
+                                        </listhead>
+                                        <template name="model">
+                                            <listitem>
+                                                <listcell label="${each.descricao}"></listcell>
+                                            </listitem>
+                                        </template>
+                                    </listbox>
+                                </vbox>
+                            </row>
+
+                            <row>
+                                <vbox>
+                                    <span sclass="input-group-addon">Local de Publicacao</span>
+                                    <textbox sclass="form-control" id="localPublicacao"/>
+                                </vbox>
+                                <vbox>
+                                    <span sclass="input-group-addon">Data de Publicacao</span>
+                                    <datebox sclass="form-control" id="dataPublicacao"/>
+                                </vbox>
+                            </row>
+
+                            <row>
+                                <vbox>
+                                <span sclass="input-group-addon">Quantidade</span>
+                                <textbox sclass="form-control" id="quatddObra"/>
+                                </vbox>
+                            </row>
+
+                        </rows>
+
+                    </grid>
+                </groupbox>
+
+                <groupbox id="grplivrodata" visible="false" mold="3d">
+                    <caption sclass="folder" label="Dados Do Livro"/>
+
+                    <grid>
+                        <columns sizable="true">
+                            <column width="40%"/>
+                            <column width="40%"/>
+
+                        </columns>
+
+                        <rows>
+                            <!--quando for livro-->
+
+                            <row>
+
+                                <vbox>
+                                    <span sclass="input-group-addon">ISBN</span>
+                                    <textbox sclass="form-control" id="isbn"/>
+                                </vbox>
+
+                                <vbox>
+                                    <span sclass="input-group-addon">Codigo de Barra</span>
+                                    <textbox sclass="form-control" id="codigobarra"/>
+                                </vbox>
+
+                            </row>
+
+                            <row>
+                                <vbox>
+                                    <span sclass="input-group-addon">Editora</span>
+                                    <textbox sclass="form-control" id="editora"/>
+                                </vbox>
+
+                                <vbox>
+                                    <span sclass="input-group-addon">Edição</span>
+                                    <textbox sclass="form-control" id="edicao"/>
+                                </vbox>
+                            </row>
+
+                        </rows>
+
+                    </grid>
+                </groupbox>
+
+                <groupbox mold="3d">
+                <caption sclass="folder" label="Comandos"/>
+                <hbox>
+                    <button image="/img/obraimg.png"  label="salvar" id="savebtn"/>
+                    <button label="Editar"/>
+                    <button label="Cancelar"/>
+                </hbox>
+                </groupbox>
+            </vbox>
+        </window>
+    </div>
+</zk>

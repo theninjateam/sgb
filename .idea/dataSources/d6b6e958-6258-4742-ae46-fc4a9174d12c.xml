@@ -1,0 +1,936 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="sgb@localhost">
+  <database-model serializer="dbm" rdbms="POSTGRES" format-version="4.11">
+    <root id="1">
+      <ServerVersion>10.5</ServerVersion>
+    </root>
+    <database id="2" parent="1" name="bh">
+      <ObjectId>16393</ObjectId>
+      <Owner>postgres</Owner>
+    </database>
+    <database id="3" parent="1" name="bh2.0">
+      <ObjectId>17900</ObjectId>
+      <Owner>postgres</Owner>
+    </database>
+    <database id="4" parent="1" name="bhupdate">
+      <ObjectId>18158</ObjectId>
+      <Owner>postgres</Owner>
+    </database>
+    <database id="5" parent="1" name="postgres">
+      <ObjectId>12938</ObjectId>
+      <Comment>default administrative connection database</Comment>
+      <Owner>postgres</Owner>
+    </database>
+    <database id="6" parent="1" name="sgb">
+      <ObjectId>18499</ObjectId>
+      <Owner>postgres</Owner>
+      <IntrospectionStateNumber>116</IntrospectionStateNumber>
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </database>
+    <database id="7" parent="1" name="sgd">
+      <ObjectId>18308</ObjectId>
+      <Owner>postgres</Owner>
+    </database>
+    <role id="8" parent="1" name="pg_monitor">
+      <ObjectId>3373</ObjectId>
+      <Inherit>1</Inherit>
+      <ConnectionLimit>-1</ConnectionLimit>
+    </role>
+    <role id="9" parent="1" name="pg_read_all_settings">
+      <ObjectId>3374</ObjectId>
+      <Inherit>1</Inherit>
+      <ConnectionLimit>-1</ConnectionLimit>
+    </role>
+    <role id="10" parent="1" name="pg_read_all_stats">
+      <ObjectId>3375</ObjectId>
+      <Inherit>1</Inherit>
+      <ConnectionLimit>-1</ConnectionLimit>
+    </role>
+    <role id="11" parent="1" name="pg_signal_backend">
+      <ObjectId>4200</ObjectId>
+      <Inherit>1</Inherit>
+      <ConnectionLimit>-1</ConnectionLimit>
+    </role>
+    <role id="12" parent="1" name="pg_stat_scan_tables">
+      <ObjectId>3377</ObjectId>
+      <Inherit>1</Inherit>
+      <ConnectionLimit>-1</ConnectionLimit>
+    </role>
+    <role id="13" parent="1" name="postgres">
+      <ObjectId>10</ObjectId>
+      <SuperRole>1</SuperRole>
+      <Inherit>1</Inherit>
+      <CreateRole>1</CreateRole>
+      <CreateDb>1</CreateDb>
+      <CanLogin>1</CanLogin>
+      <Replication>1</Replication>
+      <ConnectionLimit>-1</ConnectionLimit>
+      <BypassRls>1</BypassRls>
+    </role>
+    <schema id="14" parent="6" name="information_schema">
+      <ObjectId>12648</ObjectId>
+      <Owner>postgres</Owner>
+    </schema>
+    <schema id="15" parent="6" name="pg_catalog">
+      <ObjectId>11</ObjectId>
+      <Comment>system catalog schema</Comment>
+      <Owner>postgres</Owner>
+    </schema>
+    <schema id="16" parent="6" name="pg_temp_1">
+      <ObjectId>11736</ObjectId>
+      <Owner>postgres</Owner>
+    </schema>
+    <schema id="17" parent="6" name="pg_toast">
+      <ObjectId>99</ObjectId>
+      <Comment>reserved schema for TOAST tables</Comment>
+      <Owner>postgres</Owner>
+    </schema>
+    <schema id="18" parent="6" name="pg_toast_temp_1">
+      <ObjectId>11737</ObjectId>
+      <Owner>postgres</Owner>
+    </schema>
+    <schema id="19" parent="6" name="public">
+      <ObjectId>2200</ObjectId>
+      <Comment>standard public schema</Comment>
+      <Owner>postgres</Owner>
+      <IntrospectionTimestamp>2018-10-17.11:13:54.740</IntrospectionTimestamp>
+      <IntrospectionStateNumber>1125</IntrospectionStateNumber>
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </schema>
+    <access-method id="20" parent="6" name="btree">
+      <ObjectId>403</ObjectId>
+      <Comment>b-tree index access method</Comment>
+      <Handler>pg_catalog.bthandler</Handler>
+      <HandlerId>330</HandlerId>
+      <Type>index</Type>
+    </access-method>
+    <access-method id="21" parent="6" name="hash">
+      <ObjectId>405</ObjectId>
+      <Comment>hash index access method</Comment>
+      <Handler>pg_catalog.hashhandler</Handler>
+      <HandlerId>331</HandlerId>
+      <Type>index</Type>
+    </access-method>
+    <access-method id="22" parent="6" name="gist">
+      <ObjectId>783</ObjectId>
+      <Comment>GiST index access method</Comment>
+      <Handler>pg_catalog.gisthandler</Handler>
+      <HandlerId>332</HandlerId>
+      <Type>index</Type>
+    </access-method>
+    <access-method id="23" parent="6" name="gin">
+      <ObjectId>2742</ObjectId>
+      <Comment>GIN index access method</Comment>
+      <Handler>pg_catalog.ginhandler</Handler>
+      <HandlerId>333</HandlerId>
+      <Type>index</Type>
+    </access-method>
+    <access-method id="24" parent="6" name="spgist">
+      <ObjectId>4000</ObjectId>
+      <Comment>SP-GiST index access method</Comment>
+      <Handler>pg_catalog.spghandler</Handler>
+      <HandlerId>334</HandlerId>
+      <Type>index</Type>
+    </access-method>
+    <access-method id="25" parent="6" name="brin">
+      <ObjectId>3580</ObjectId>
+      <Comment>block range index (BRIN) access method</Comment>
+      <Handler>pg_catalog.brinhandler</Handler>
+      <HandlerId>335</HandlerId>
+      <Type>index</Type>
+    </access-method>
+    <sequence id="26" parent="19" name="areacientifica_idarea_seq">
+      <ObjectId>18500</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>1120</StateNumber>
+      <SequenceIdentity>1..2147483647</SequenceIdentity>
+      <BelongsToColumn>1</BelongsToColumn>
+      <CacheSize>1</CacheSize>
+      <DataType>bigint</DataType>
+    </sequence>
+    <sequence id="27" parent="19" name="autor_idautor_seq">
+      <ObjectId>18502</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>1120</StateNumber>
+      <SequenceIdentity>1..2147483647</SequenceIdentity>
+      <BelongsToColumn>1</BelongsToColumn>
+      <CacheSize>1</CacheSize>
+      <DataType>bigint</DataType>
+    </sequence>
+    <sequence id="28" parent="19" name="formatocd_idformato_seq">
+      <ObjectId>18504</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>1120</StateNumber>
+      <SequenceIdentity>1..2147483647</SequenceIdentity>
+      <BelongsToColumn>1</BelongsToColumn>
+      <CacheSize>1</CacheSize>
+      <DataType>bigint</DataType>
+    </sequence>
+    <sequence id="29" parent="19" name="hibernate_sequence">
+      <ObjectId>18690</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>1125</StateNumber>
+      <SequenceIdentity>1</SequenceIdentity>
+      <CacheSize>1</CacheSize>
+      <DataType>bigint</DataType>
+    </sequence>
+    <sequence id="30" parent="19" name="idioma_ididioma_seq">
+      <ObjectId>18506</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>1120</StateNumber>
+      <SequenceIdentity>1..2147483647</SequenceIdentity>
+      <BelongsToColumn>1</BelongsToColumn>
+      <CacheSize>1</CacheSize>
+      <DataType>bigint</DataType>
+    </sequence>
+    <sequence id="31" parent="19" name="tipoobra_idtipo_seq">
+      <ObjectId>18508</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>1120</StateNumber>
+      <SequenceIdentity>1..2147483647</SequenceIdentity>
+      <BelongsToColumn>1</BelongsToColumn>
+      <CacheSize>1</CacheSize>
+      <DataType>bigint</DataType>
+    </sequence>
+    <table id="32" parent="19" name="areacientifica">
+      <ObjectId>18510</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>1120</StateNumber>
+    </table>
+    <table id="33" parent="19" name="autor">
+      <ObjectId>18514</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>1120</StateNumber>
+    </table>
+    <table id="34" parent="19" name="cd">
+      <ObjectId>18521</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>1120</StateNumber>
+    </table>
+    <table id="35" parent="19" name="formatocd">
+      <ObjectId>18527</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>1120</StateNumber>
+    </table>
+    <table id="36" parent="19" name="idioma">
+      <ObjectId>18531</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>1120</StateNumber>
+    </table>
+    <table id="37" parent="19" name="item">
+      <ObjectId>18535</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>1120</StateNumber>
+    </table>
+    <table id="38" parent="19" name="item_role">
+      <ObjectId>18541</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>1120</StateNumber>
+    </table>
+    <table id="39" parent="19" name="livro">
+      <ObjectId>18544</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>1120</StateNumber>
+    </table>
+    <table id="40" parent="19" name="obra">
+      <ObjectId>18550</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>1120</StateNumber>
+    </table>
+    <table id="41" parent="19" name="obra_autor">
+      <ObjectId>18556</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>1120</StateNumber>
+    </table>
+    <table id="42" parent="19" name="registroobra">
+      <ObjectId>18559</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>1120</StateNumber>
+    </table>
+    <table id="43" parent="19" name="revista">
+      <ObjectId>18565</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>1120</StateNumber>
+    </table>
+    <table id="44" parent="19" name="role">
+      <ObjectId>18571</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>1121</StateNumber>
+    </table>
+    <table id="45" parent="19" name="roleitem">
+      <ObjectId>18574</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>1120</StateNumber>
+    </table>
+    <table id="46" parent="19" name="tipoobra">
+      <ObjectId>18577</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>1120</StateNumber>
+    </table>
+    <table id="47" parent="19" name="user">
+      <ObjectId>18581</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>1120</StateNumber>
+    </table>
+    <table id="48" parent="19" name="user_role">
+      <ObjectId>18587</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>1121</StateNumber>
+    </table>
+    <column id="49" parent="32" name="idarea">
+      <Position>1</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>1120</StateNumber>
+      <DefaultExpression>nextval(&apos;areacientifica_idarea_seq&apos;::regclass)</DefaultExpression>
+      <TypeId>23</TypeId>
+      <SequenceName>areacientifica_idarea_seq</SequenceName>
+    </column>
+    <column id="50" parent="32" name="descricao">
+      <Position>2</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <StateNumber>1120</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <index id="51" parent="32" name="areacientifica_pkey">
+      <ObjectId>18590</ObjectId>
+      <ColNames>idarea</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="52" parent="32" name="areacientifica_pkey">
+      <ObjectId>18591</ObjectId>
+      <ColNames>idarea</ColNames>
+      <UnderlyingIndexName>areacientifica_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <column id="53" parent="33" name="idautor">
+      <Position>1</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>1120</StateNumber>
+      <DefaultExpression>nextval(&apos;autor_idautor_seq&apos;::regclass)</DefaultExpression>
+      <TypeId>23</TypeId>
+      <SequenceName>autor_idautor_seq</SequenceName>
+    </column>
+    <column id="54" parent="33" name="nome">
+      <Position>2</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <StateNumber>1120</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="55" parent="33" name="apelido">
+      <Position>3</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <StateNumber>1120</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <index id="56" parent="33" name="autor_pkey">
+      <ObjectId>18592</ObjectId>
+      <ColNames>idautor</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="57" parent="33" name="autor_pkey">
+      <ObjectId>18593</ObjectId>
+      <ColNames>idautor</ColNames>
+      <UnderlyingIndexName>autor_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <column id="58" parent="34" name="idcd">
+      <Position>1</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>1120</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="59" parent="34" name="descricao">
+      <Position>2</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <StateNumber>1120</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <index id="60" parent="34" name="cd_key">
+      <ObjectId>18594</ObjectId>
+      <ColNames>idcd</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="61" parent="34" name="cd_key">
+      <ObjectId>18595</ObjectId>
+      <ColNames>idcd</ColNames>
+      <UnderlyingIndexName>cd_key</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="62" parent="34" name="idcd">
+      <ObjectId>18624</ObjectId>
+      <ColNames>idcd</ColNames>
+      <RefTableId>18550</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>obra</RefTableName>
+      <RefKeyName>obra_key</RefKeyName>
+      <RefColNames>cota</RefColNames>
+    </foreign-key>
+    <column id="63" parent="35" name="idformato">
+      <Position>1</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>1120</StateNumber>
+      <DefaultExpression>nextval(&apos;formatocd_idformato_seq&apos;::regclass)</DefaultExpression>
+      <TypeId>23</TypeId>
+      <SequenceName>formatocd_idformato_seq</SequenceName>
+    </column>
+    <column id="64" parent="35" name="descricao">
+      <Position>2</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <StateNumber>1120</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <index id="65" parent="35" name="formatocd_pkey">
+      <ObjectId>18596</ObjectId>
+      <ColNames>idformato</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="66" parent="35" name="formatocd_pkey">
+      <ObjectId>18597</ObjectId>
+      <ColNames>idformato</ColNames>
+      <UnderlyingIndexName>formatocd_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <column id="67" parent="36" name="ididioma">
+      <Position>1</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>1120</StateNumber>
+      <DefaultExpression>nextval(&apos;idioma_ididioma_seq&apos;::regclass)</DefaultExpression>
+      <TypeId>23</TypeId>
+      <SequenceName>idioma_ididioma_seq</SequenceName>
+    </column>
+    <column id="68" parent="36" name="descricao">
+      <Position>2</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <StateNumber>1120</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <index id="69" parent="36" name="idioma_pkey">
+      <ObjectId>18598</ObjectId>
+      <ColNames>ididioma</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="70" parent="36" name="idioma_pkey">
+      <ObjectId>18599</ObjectId>
+      <ColNames>ididioma</ColNames>
+      <UnderlyingIndexName>idioma_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <column id="71" parent="37" name="item_id">
+      <Position>1</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>1120</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="72" parent="37" name="descricao">
+      <Position>2</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <StateNumber>1120</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="73" parent="37" name="item">
+      <Position>3</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>1120</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <index id="74" parent="37" name="item_pkey">
+      <ObjectId>18600</ObjectId>
+      <ColNames>item_id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="75" parent="37" name="item_pkey">
+      <ObjectId>18601</ObjectId>
+      <ColNames>item_id</ColNames>
+      <UnderlyingIndexName>item_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <column id="76" parent="38" name="item_id">
+      <Position>1</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>1120</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="77" parent="38" name="role_id">
+      <Position>2</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>1120</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <index id="78" parent="38" name="item_role_pkey">
+      <ObjectId>18602</ObjectId>
+      <ColNames>item_id
+role_id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="79" parent="38" name="item_role_pkey">
+      <ObjectId>18603</ObjectId>
+      <ColNames>item_id
+role_id</ColNames>
+      <UnderlyingIndexName>item_role_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="80" parent="38" name="item_role_item_id_fkey">
+      <ObjectId>18629</ObjectId>
+      <ColNames>item_id</ColNames>
+      <RefTableId>18535</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>item</RefTableName>
+      <RefKeyName>item_pkey</RefKeyName>
+      <RefColNames>item_id</RefColNames>
+    </foreign-key>
+    <foreign-key id="81" parent="38" name="item_role_role_id_fkey">
+      <ObjectId>18634</ObjectId>
+      <ColNames>role_id</ColNames>
+      <RefTableId>18571</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>role</RefTableName>
+      <RefKeyName>role_pkey</RefKeyName>
+      <RefColNames>role_id</RefColNames>
+    </foreign-key>
+    <column id="82" parent="39" name="cota">
+      <Position>1</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>1120</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="83" parent="39" name="isbn">
+      <Position>2</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <StateNumber>1120</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="84" parent="39" name="editora">
+      <Position>3</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <StateNumber>1120</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="85" parent="39" name="edicao">
+      <Position>4</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <StateNumber>1120</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="86" parent="39" name="codigobarra">
+      <Position>5</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <StateNumber>1120</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <index id="87" parent="39" name="livro_key">
+      <ObjectId>18604</ObjectId>
+      <ColNames>cota</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="88" parent="39" name="livro_key">
+      <ObjectId>18605</ObjectId>
+      <ColNames>cota</ColNames>
+      <UnderlyingIndexName>livro_key</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="89" parent="39" name="cota">
+      <ObjectId>18639</ObjectId>
+      <ColNames>cota</ColNames>
+      <RefTableId>18550</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>obra</RefTableName>
+      <RefKeyName>obra_key</RefKeyName>
+      <RefColNames>cota</RefColNames>
+    </foreign-key>
+    <column id="90" parent="40" name="cota">
+      <Position>1</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>1120</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="91" parent="40" name="registro">
+      <Position>2</Position>
+      <DataType>integer|0s</DataType>
+      <StateNumber>1120</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="92" parent="40" name="titulo">
+      <Position>3</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <StateNumber>1120</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="93" parent="40" name="idarea">
+      <Position>4</Position>
+      <DataType>integer|0s</DataType>
+      <StateNumber>1120</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="94" parent="40" name="localpublicacao">
+      <Position>5</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <StateNumber>1120</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="95" parent="40" name="datapublicacao">
+      <Position>6</Position>
+      <DataType>date|0s</DataType>
+      <StateNumber>1120</StateNumber>
+      <TypeId>1082</TypeId>
+    </column>
+    <column id="96" parent="40" name="ididioma">
+      <Position>7</Position>
+      <DataType>integer|0s</DataType>
+      <StateNumber>1120</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="97" parent="40" name="quantidade">
+      <Position>8</Position>
+      <DataType>integer|0s</DataType>
+      <StateNumber>1120</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="98" parent="40" name="idtipo">
+      <Position>9</Position>
+      <DataType>integer|0s</DataType>
+      <StateNumber>1120</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <index id="99" parent="40" name="obra_key">
+      <ObjectId>18606</ObjectId>
+      <ColNames>cota</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="100" parent="40" name="obra_key">
+      <ObjectId>18607</ObjectId>
+      <ColNames>cota</ColNames>
+      <UnderlyingIndexName>obra_key</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="101" parent="40" name="idarea">
+      <ObjectId>18644</ObjectId>
+      <ColNames>idarea</ColNames>
+      <RefTableId>18510</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>areacientifica</RefTableName>
+      <RefKeyName>areacientifica_pkey</RefKeyName>
+      <RefColNames>idarea</RefColNames>
+    </foreign-key>
+    <foreign-key id="102" parent="40" name="ididioma">
+      <ObjectId>18649</ObjectId>
+      <ColNames>ididioma</ColNames>
+      <RefTableId>18531</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>idioma</RefTableName>
+      <RefKeyName>idioma_pkey</RefKeyName>
+      <RefColNames>ididioma</RefColNames>
+    </foreign-key>
+    <foreign-key id="103" parent="40" name="idtipo">
+      <ObjectId>18654</ObjectId>
+      <ColNames>idtipo</ColNames>
+      <RefTableId>18577</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>tipoobra</RefTableName>
+      <RefKeyName>tipoobra_pkey</RefKeyName>
+      <RefColNames>idtipo</RefColNames>
+    </foreign-key>
+    <column id="104" parent="41" name="idautor">
+      <Position>1</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>1120</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="105" parent="41" name="cota">
+      <Position>2</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>1120</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <index id="106" parent="41" name="obra_autor_key">
+      <ObjectId>18608</ObjectId>
+      <ColNames>cota
+idautor</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="107" parent="41" name="obra_autor_key">
+      <ObjectId>18609</ObjectId>
+      <ColNames>cota
+idautor</ColNames>
+      <UnderlyingIndexName>obra_autor_key</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="108" parent="41" name="idautor">
+      <ObjectId>18664</ObjectId>
+      <ColNames>idautor</ColNames>
+      <RefTableId>18514</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>autor</RefTableName>
+      <RefKeyName>autor_pkey</RefKeyName>
+      <RefColNames>idautor</RefColNames>
+    </foreign-key>
+    <foreign-key id="109" parent="41" name="cota">
+      <ObjectId>18659</ObjectId>
+      <ColNames>cota</ColNames>
+      <RefTableId>18550</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>obra</RefTableName>
+      <RefKeyName>obra_key</RefKeyName>
+      <RefColNames>cota</RefColNames>
+    </foreign-key>
+    <column id="110" parent="42" name="cota">
+      <Position>1</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>1120</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="111" parent="42" name="bibliotecario">
+      <Position>2</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>1120</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="112" parent="42" name="registro">
+      <Position>3</Position>
+      <DataType>date|0s</DataType>
+      <StateNumber>1120</StateNumber>
+      <TypeId>1082</TypeId>
+    </column>
+    <index id="113" parent="42" name="Registro_de_Obra_pkey">
+      <ObjectId>18610</ObjectId>
+      <ColNames>cota</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="114" parent="42" name="Registro_de_Obra_pkey">
+      <ObjectId>18611</ObjectId>
+      <ColNames>cota</ColNames>
+      <UnderlyingIndexName>Registro_de_Obra_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="115" parent="42" name="Cota">
+      <ObjectId>18669</ObjectId>
+      <ColNames>cota</ColNames>
+      <RefTableId>18550</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>obra</RefTableName>
+      <RefKeyName>obra_key</RefKeyName>
+      <RefColNames>cota</RefColNames>
+      <OnDelete>cascade</OnDelete>
+      <OnUpdate>cascade</OnUpdate>
+    </foreign-key>
+    <column id="116" parent="43" name="cota">
+      <Position>1</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>1120</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="117" parent="43" name="instituicao">
+      <Position>2</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <StateNumber>1120</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <index id="118" parent="43" name="revista_key">
+      <ObjectId>18612</ObjectId>
+      <ColNames>cota</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="119" parent="43" name="revista_key">
+      <ObjectId>18613</ObjectId>
+      <ColNames>cota</ColNames>
+      <UnderlyingIndexName>revista_key</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="120" parent="43" name="cota">
+      <ObjectId>18674</ObjectId>
+      <ColNames>cota</ColNames>
+      <RefTableId>18550</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>obra</RefTableName>
+      <RefKeyName>obra_key</RefKeyName>
+      <RefColNames>cota</RefColNames>
+    </foreign-key>
+    <column id="121" parent="44" name="role_id">
+      <Position>1</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>1120</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="122" parent="44" name="role">
+      <Position>2</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <StateNumber>1120</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <index id="123" parent="44" name="role_pkey">
+      <ObjectId>18614</ObjectId>
+      <ColNames>role_id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="124" parent="44" name="role_pkey">
+      <ObjectId>18615</ObjectId>
+      <ColNames>role_id</ColNames>
+      <UnderlyingIndexName>role_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <column id="125" parent="45" name="item">
+      <Position>1</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>1120</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="126" parent="45" name="idrole">
+      <Position>2</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>1120</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <index id="127" parent="45" name="roleitem_pkey">
+      <ObjectId>18616</ObjectId>
+      <ColNames>item
+idrole</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="128" parent="45" name="roleitem_pkey">
+      <ObjectId>18617</ObjectId>
+      <ColNames>item
+idrole</ColNames>
+      <UnderlyingIndexName>roleitem_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <column id="129" parent="46" name="idtipo">
+      <Position>1</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>1120</StateNumber>
+      <DefaultExpression>nextval(&apos;tipoobra_idtipo_seq&apos;::regclass)</DefaultExpression>
+      <TypeId>23</TypeId>
+      <SequenceName>tipoobra_idtipo_seq</SequenceName>
+    </column>
+    <column id="130" parent="46" name="descricao">
+      <Position>2</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <StateNumber>1120</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <index id="131" parent="46" name="tipoobra_pkey">
+      <ObjectId>18618</ObjectId>
+      <ColNames>idtipo</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="132" parent="46" name="tipoobra_pkey">
+      <ObjectId>18619</ObjectId>
+      <ColNames>idtipo</ColNames>
+      <UnderlyingIndexName>tipoobra_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <column id="133" parent="47" name="user_id">
+      <Position>1</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>1120</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="134" parent="47" name="active">
+      <Position>2</Position>
+      <DataType>integer|0s</DataType>
+      <StateNumber>1120</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="135" parent="47" name="email">
+      <Position>3</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <StateNumber>1120</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="136" parent="47" name="last_name">
+      <Position>4</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <StateNumber>1120</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="137" parent="47" name="name">
+      <Position>5</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <StateNumber>1120</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="138" parent="47" name="password">
+      <Position>6</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <StateNumber>1120</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <index id="139" parent="47" name="user_pkey">
+      <ObjectId>18620</ObjectId>
+      <ColNames>user_id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="140" parent="47" name="user_pkey">
+      <ObjectId>18621</ObjectId>
+      <ColNames>user_id</ColNames>
+      <UnderlyingIndexName>user_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <column id="141" parent="48" name="user_id">
+      <Position>1</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>1120</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="142" parent="48" name="role_id">
+      <Position>2</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>1120</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <index id="143" parent="48" name="user_role_pkey">
+      <ObjectId>18622</ObjectId>
+      <ColNames>user_id
+role_id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="144" parent="48" name="user_role_pkey">
+      <ObjectId>18623</ObjectId>
+      <ColNames>user_id
+role_id</ColNames>
+      <UnderlyingIndexName>user_role_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="145" parent="48" name="fk859n2jvi8ivhui0rl0esws6o">
+      <ObjectId>18679</ObjectId>
+      <ColNames>user_id</ColNames>
+      <RefTableId>18581</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>user</RefTableName>
+      <RefKeyName>user_pkey</RefKeyName>
+      <RefColNames>user_id</RefColNames>
+    </foreign-key>
+    <foreign-key id="146" parent="48" name="fka68196081fvovjhkek5m97n3y">
+      <ObjectId>18684</ObjectId>
+      <ColNames>role_id</ColNames>
+      <RefTableId>18571</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>role</RefTableName>
+      <RefKeyName>role_pkey</RefKeyName>
+      <RefColNames>role_id</RefColNames>
+    </foreign-key>
+  </database-model>
+</dataSource>

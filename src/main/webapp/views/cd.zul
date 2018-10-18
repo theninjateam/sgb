@@ -1,0 +1,26 @@
+<groupbox id="grpcddata" mold="3d">
+    <caption sclass="folder" label="Dados do CD"/>
+
+    <grid>
+        <columns sizable="true">
+            <column width="40%"/>
+            <column width="40%"/>
+
+        </columns>
+
+        <rows>
+            <row>
+                <vbox>
+                    <span sclass="input-group-addon">Topico</span>
+                    <textbox id="topico"/>
+                </vbox>
+                <vbox>
+                    <span sclass="input-group-addon">Comprimento</span>
+                    <textbox id="comprimento" placeholder="em kb"/>
+                </vbox>
+            </row>
+
+        </rows>
+
+    </grid>
+</groupbox>
