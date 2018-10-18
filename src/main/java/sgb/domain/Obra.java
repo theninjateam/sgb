@@ -155,7 +155,6 @@ public class Obra {
     }
 
 
-
     @OneToOne(mappedBy = "obra")
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
 
@@ -166,6 +165,5 @@ public class Obra {
     public void setLivro(Livro livro) {
         this.livro = livro;
     }
-
 
 }

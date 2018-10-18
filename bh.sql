@@ -350,7 +350,7 @@ ALTER TABLE "public"."autor" ADD CONSTRAINT "autor_pkey" PRIMARY KEY ("idautor")
 -- ----------------------------
 -- Primary Key structure for table cd
 -- ----------------------------
-ALTER TABLE "public"."cd" ADD CONSTRAINT "cd_key" PRIMARY KEY ("idcd");
+ALTER TABLE "public"."cd" ADD CONSTRAINT "cd_key" PRIMARY KEY (cota);
 
 -- ----------------------------
 -- Primary Key structure for table formatocd
@@ -425,7 +425,7 @@ ALTER TABLE "public"."user_role" ADD CONSTRAINT "user_role_pkey" PRIMARY KEY ("u
 -- ----------------------------
 -- Foreign Keys structure for table cd
 -- ----------------------------
-ALTER TABLE "public"."cd" ADD CONSTRAINT "idcd" FOREIGN KEY ("idcd") REFERENCES "public"."obra" ("cota") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "public"."cd" ADD CONSTRAINT "idcd" FOREIGN KEY (cota) REFERENCES "public"."obra" ("cota") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- ----------------------------
 -- Foreign Keys structure for table item_role

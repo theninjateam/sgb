@@ -6,7 +6,7 @@
 package sgb.controller.viewsController;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.*;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
@@ -15,7 +15,6 @@ import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.*;
 import sgb.domain.*;
 import sgb.service.CRUDService;
-import sun.rmi.runtime.NewThreadAction;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -24,7 +23,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * @author Fonseca
+ * @author Fonseca, Emerson, Matimbe
  */
 
 public class ObraController extends SelectorComposer<Component> {
@@ -34,6 +33,8 @@ public class ObraController extends SelectorComposer<Component> {
     private List<Idioma> idiomaModel;
 
 
+    @Wire
+    private Label cota_duplicated_key;
     @Wire
     private Listbox tipoObraListBox;
 
@@ -127,8 +128,13 @@ public class ObraController extends SelectorComposer<Component> {
 
     @Listen("onSelect = #tipoObraListBox")
     public void change() {
+        //CRUDService csimp = (CRUDService) SpringUtil.getBean("CRUDService");
+
+//        Messagebox.show("entrou");
 
         TipoObra tipoObra = tipoObraListBox.getSelectedItem().getValue();
+
+        //Messagebox.show("selected: "+tipoObra.getDescricao().toLowerCase());
 
         if (tipoObra.getDescricao().toLowerCase().equals("livro")) {
             grplivrodata.setVisible(true);
@@ -144,57 +150,36 @@ public class ObraController extends SelectorComposer<Component> {
 
     @Listen("onClick = #savebtn")
     public void saveData() {
-        CRUDService csimp = (CRUDService) SpringUtil.getBean("CRUDService");
 
-        TipoObra tipoObra = tipoObraListBox.getSelectedItem().getValue();
         Obra obra = new Obra();
+        Autor aut = new Autor();
+        Livro livro = new Livro();
+        TipoObra tipoObra = tipoObraListBox.getSelectedItem().getValue();
+        CRUDService csimp = (CRUDService) SpringUtil.getBean("CRUDService");
+        String [] nomeA = autor.getValue().split(" ");
+
+        aut.setNome(nomeA[0]);
+        aut.setApelido(nomeA[1]);
+        Set<Autor> auts = new HashSet<Autor>();
+        auts.add(aut);
 
         obra.setCota(cota.getValue());
         obra.setRegistro(Integer.parseInt(registo.getValue()));
-
-       String [] nomeA = autor.getValue().split(" ");
-
-        Autor aut = new Autor();
-        aut.setNome(nomeA[0]);
-        aut.setApelido(nomeA[1]);
-
-        Set<Autor> auts = new HashSet<Autor>();
-
-        auts.add(aut);
-
+        obra.setTipoobra(tipoObra);
         obra.setAutores(auts);
 
-
         obra.setTitulo(titulo.getValue());
-
-            obra.setAreacientifica(areaCientificaListBox.getSelectedItem().getValue());
-
-//        for (AreaCientifica a : getAreaCientificaModel())
-//            if (a.getDescricao().equals(areaCientificaListBox.getSelectedItem().getValue())) {
-//                obra.setAreacientifica(a);
-//                break;
-//            }
-//
+        obra.setAreacientifica(areaCientificaListBox.getSelectedItem().getValue());
         obra.setDatapublicacao(new Date(dataPublicacao.getValue().getDay(),
                 dataPublicacao.getValue().getMonth(), dataPublicacao.getValue().getYear()));
-
         obra.setIdioma(idiomaListBox.getSelectedItem().getValue());
 
-//        for (Idioma idioma : getIdiomaModel())
-//            if (idioma.getDescricao().equals(idiomaListBox.getSelectedItem().getValue())) {
-//                obra.setIdioma(idioma);
-//                break;
-//            }
-
         obra.setLocalpublicacao(localPublicacao.getValue());
-
         obra.setQuantidade(Integer.parseInt(quatddObra.getValue()));
 
+
+
         if (tipoObra.getDescricao().toLowerCase().equals("livro")) {
-
-//            Messagebox.show("isbn"+isbn.getValue());
-
-            Livro livro = new Livro();
 
             livro.setCota(obra.getCota());
             livro.setIsbn(isbn.getValue());
@@ -202,10 +187,6 @@ public class ObraController extends SelectorComposer<Component> {
             livro.setEdicao(edicao.getValue());
             livro.setEditora(editora.getValue());
             livro.setObra(obra);
-
-
-            crudService.Save(obra);
-            crudService.Save(livro);
 
         } else if (tipoObra.getDescricao().toLowerCase().equals("cd")) {
 
@@ -218,19 +199,39 @@ public class ObraController extends SelectorComposer<Component> {
 
         }
 
-//        TipoObra tipoObra = tipoObraListBox.getSelectedItem().getValue();
-//
-//        //Messagebox.show("selected: "+tipoObra.getDescricao().toLowerCase());
-//
-//        if(tipoObra.getDescricao().toLowerCase().equals("livro")) {
-//            grpData.setVisible(true);
-//            idInclData.setSrc("views/livro.zul");
-//        }else if(tipoObra.getDescricao().toLowerCase().equals("cd")){
-//            grpData.setVisible(true);
-//            idInclData.setSrc("views/cd.zul");
-//        }else if(tipoObra.getDescricao().toLowerCase().equals("revista")) {
-//            grpData.setVisible(true);
-//            idInclData.setSrc("views/revista.zul");
-    }
+        try {
 
+            if (tipoObra.getDescricao().toLowerCase().equals("livro")) {
+
+                crudService.Save(aut);
+                crudService.Save(obra);
+                crudService.Save(livro);
+
+            }else if (tipoObra.getDescricao().toLowerCase().equals("cd")) {
+
+                Messagebox.show("Not implemented yet");
+
+            } else if (tipoObra.getDescricao().toLowerCase().equals("revista")) {
+
+                Messagebox.show("Not implemented yet");
+
+            }
+        }
+        catch (Exception e) {
+
+            if(e instanceof DataIntegrityViolationException){
+
+                DataIntegrityViolationException dive = (DataIntegrityViolationException) e;
+
+                if(dive.getMostSpecificCause().toString().contains("duplicate key value")){
+                    cota.setStyle("color: black; border-color: red;");
+
+                    cota_duplicated_key.setVisible(true);
+                    cota_duplicated_key.setStyle("color: red;");
+                    cota_duplicated_key.setValue("OPS:Ja existe uma obra com este numero de cota");
+                }
+
+            }
+        }
+    }
 }

@@ -11,6 +11,7 @@ public class Autor {
     private String apelido;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "idautor")
     public int getIdautor() {
         return idautor;

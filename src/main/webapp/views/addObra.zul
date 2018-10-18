@@ -53,6 +53,7 @@
                                 <vbox>
                                     <span sclass="input-group-addon">Cota</span>
                                     <textbox sclass="form-control" id="cota"/>
+                                    <label id="cota_duplicated_key" visible="false"></label>
                                 </vbox>
                                 <vbox>
                                     <span sclass="input-group-addon">Registo</span>
