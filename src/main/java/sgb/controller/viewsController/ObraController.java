@@ -7,10 +7,15 @@ package sgb.controller.viewsController;
 
 
 import org.springframework.dao.*;
+import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.lang.Strings;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.event.ForwardEvent;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.*;
 import sgb.domain.*;
@@ -27,11 +32,17 @@ import java.util.Set;
  */
 
 public class ObraController extends SelectorComposer<Component> {
+
     private CRUDService crudService;
     private List<TipoObra> tipoObraModel;
     private List<AreaCientifica> areaCientificaModel;
     private List<Idioma> idiomaModel;
+    private Set<Autor> auts = new HashSet<Autor>();
+    private ListModelList<Autor> authorListModel;
+    Autor oAutor = new Autor();
 
+    @Wire
+    private Listbox authorListBox;
 
     @Wire
     private Label cota_duplicated_key;
@@ -105,6 +116,19 @@ public class ObraController extends SelectorComposer<Component> {
     @Override
     public void doAfterCompose(Component comp) throws Exception {
         super.doAfterCompose(comp);
+//
+//        Autor autor = new Autor();
+//
+//        autor.setNome("Fonseca");
+//        autor.setApelido("Fonseca");
+//
+//        List<Autor> auts = new ArrayList<Autor>();
+//
+//        auts.add(autor);
+        authorListModel = new ListModelList<Autor>();
+
+        authorListBox.setModel(authorListModel);
+
     }
 
     public ListModelList<TipoObra> getTipoObraModel() {
@@ -160,7 +184,6 @@ public class ObraController extends SelectorComposer<Component> {
 
         aut.setNome(nomeA[0]);
         aut.setApelido(nomeA[1]);
-        Set<Autor> auts = new HashSet<Autor>();
         auts.add(aut);
 
         obra.setCota(cota.getValue());
@@ -203,7 +226,9 @@ public class ObraController extends SelectorComposer<Component> {
 
             if (tipoObra.getDescricao().toLowerCase().equals("livro")) {
 
+
                 crudService.Save(aut);
+
                 crudService.Save(obra);
                 crudService.Save(livro);
 
@@ -233,5 +258,59 @@ public class ObraController extends SelectorComposer<Component> {
 
             }
         }
+    }
+
+
+    public void rescueAuthor(){
+
+        Autor aut = new Autor();
+        String [] nomeA = autor.getValue().split(" ");
+
+        aut.setNome(nomeA[0]);
+        aut.setApelido(nomeA[1]);
+        auts.add(aut);
+    }
+
+    @Listen("onClick = #addAuthor")
+    public void addNewAuthor(){
+
+        if (Strings.isBlank(autor.getValue())) {
+            Clients.showNotification("Subject is blank, nothing to do ?");
+        } else {
+            String[] nomeA = autor.getValue().split(" ");
+            //save data
+            oAutor.setNome(nomeA[0]);
+            oAutor.setApelido(nomeA[1]);
+
+            //update the model, by using ListModelList, you don't need to notify todoListModel change
+            //it is efficient that only update one item of the listbox
+            authorListModel.add(oAutor);
+            authorListModel.addToSelection(oAutor);
+
+            //reset value for fast typing.
+            autor.setValue(null);
+        }
+
+    }
+
+
+    @Listen("onAuthorDelete = #authorListBox")
+    public void doAuthorDelete(ForwardEvent evt){
+
+        Button btn = (Button)evt.getOrigin().getTarget();
+        Listitem litem = (Listitem)btn.getParent().getParent();
+        Autor autor = (Autor) litem.getValue();
+        authorListModel.remove(autor);
+    }
+
+
+    @Listen("onAuthorEdite = #authorListBox")
+    public void doAuthorEdit(ForwardEvent evt){
+
+        Button btn = (Button)evt.getOrigin().getTarget();
+        Listitem litem = (Listitem)btn.getParent().getParent();
+        Autor autor = (Autor) litem.getValue();
+        authorListModel.remove(autor);
+        this.autor.setValue(autor.getNome().concat(" "+autor.getApelido()));
     }
 }

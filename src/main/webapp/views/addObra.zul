@@ -72,6 +72,39 @@
                                 </vbox>
                             </row>
 
+                            <!--  lista de autores-->
+
+                            <row>
+
+                                <vbox>
+                                    <listbox width="100%" id="authorListBox">
+                                        <listhead>
+                                            <listheader label="Autores"/>
+                                            <listheader label=""/>
+                                            <listheader label=""/>
+                                        </listhead>
+                                        <template name="model">
+                                            <listitem>
+                                                <listcell>
+                                                    <label value="${each.nome }  ${each.apelido} "/>
+                                                </listcell>
+                                                <listcell>
+                                                    <button  label="eliminar"  forward="onClick=authorListBox.onAuthorDelete" />
+                                                </listcell>
+                                                <listcell>
+                                                    <button  label="editar"  forward="onClick=authorListBox.onAuthorEdite" />
+                                                </listcell>
+                                            </listitem>
+                                        </template>
+                                    </listbox>
+                                </vbox>
+
+                                <vbox>
+                                    <button label="Addicioanr" id="addAuthor" />
+                                </vbox>
+
+                            </row>
+
                             <row>
                                 <vbox>
                                     <span sclass="input-group-addon">Area Cientifica</span>
@@ -173,6 +206,10 @@
 
                     </grid>
                 </groupbox>
+
+
+                <!--quando for revista-->
+
 
                 <groupbox mold="3d">
                 <caption sclass="folder" label="Comandos"/>
