@@ -230,8 +230,8 @@ public class ObraController extends SelectorComposer<Component> {
                 {
                     Clients.showNotification("Ops: Parece que ja existe uma Obra com numero de cota '"+cota.getValue()+"'");
                 }
-             e.printStackTrace();
             }
+            e.printStackTrace();
         }
     }
 
