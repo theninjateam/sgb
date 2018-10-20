@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
+@Table(name = "revista", schema = "public")
 public class Revista {
     private String cota;
     private String instituicao;

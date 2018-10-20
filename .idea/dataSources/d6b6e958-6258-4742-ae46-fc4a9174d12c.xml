@@ -67,8 +67,8 @@
     <schema id="13" parent="5" name="public">
       <ObjectId>43522</ObjectId>
       <Owner>postgres</Owner>
-      <IntrospectionTimestamp>2018-10-18.12:38:09.199</IntrospectionTimestamp>
-      <IntrospectionStateNumber>1471</IntrospectionStateNumber>
+      <IntrospectionTimestamp>2018-10-20.19:09:33.948</IntrospectionTimestamp>
+      <IntrospectionStateNumber>1482</IntrospectionStateNumber>
       <Current>1</Current>
       <Visible>1</Visible>
     </schema>
@@ -199,12 +199,12 @@
     <table id="33" parent="13" name="livro">
       <ObjectId>43569</ObjectId>
       <Owner>postgres</Owner>
-      <StateNumber>1445</StateNumber>
+      <StateNumber>1482</StateNumber>
     </table>
     <table id="34" parent="13" name="obra">
       <ObjectId>43575</ObjectId>
       <Owner>postgres</Owner>
-      <StateNumber>1453</StateNumber>
+      <StateNumber>1482</StateNumber>
     </table>
     <table id="35" parent="13" name="obra_autor">
       <ObjectId>43581</ObjectId>

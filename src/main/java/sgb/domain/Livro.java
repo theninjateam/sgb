@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
+@Table(name = "livro", schema = "public")
 public class Livro {
     private String cota;
     private String isbn;
@@ -79,8 +80,8 @@ public class Livro {
         return Objects.hash(cota, isbn, editora, edicao, codigobarra);
     }
 
-    @OneToOne
-    @JoinColumn(name = "cota")
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "cota", nullable = false)
 
     public Obra getObra() {
         return obra;

@@ -23,8 +23,7 @@
                             </row>
 
                             <row>
-                                <listbox width="100%" id="tipoObraListBox" emptyMessage="Nenhum Tipo de Obra Encotrado"
-                                         model="${$composer.tipoObraModel}" mold="select">
+                                <listbox width="100%" id="tipoObraListBox" emptyMessage="Nenhum Tipo de Obra Encotrado" mold="select">
 
                                     <listhead>
                                         <listheader label="tipo de obra"/>
@@ -109,8 +108,7 @@
                                 <vbox>
                                     <span sclass="input-group-addon">Area Cientifica</span>
                                     <listbox width="100%" id="areaCientificaListBox"
-                                             emptyMessage="Nenhuma Area Cietifica Encotrada"
-                                             model="${$composer.areaCientificaModel}" mold="select">
+                                             emptyMessage="Nenhuma Area Cietifica Encotrada"  mold="select">
 
                                         <listhead>
                                             <listheader label="Area Cientifica"/>
@@ -125,8 +123,7 @@
                                 <vbox>
                                     <span sclass="input-group-addon">Idioma</span>
                                     <listbox width="100%" id="idiomaListBox"
-                                             emptyMessage="Nenhum Tipo de idioma Encotrado"
-                                             model="${$composer.idiomaModel}" mold="select">
+                                             emptyMessage="Nenhum Tipo de idioma Encotrado" mold="select">
 
                                         <listhead>
                                             <listheader label="Idioma"/>

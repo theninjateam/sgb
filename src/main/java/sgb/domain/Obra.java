@@ -11,7 +11,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Table(name = "obra")
+@Table(name = "obra", schema = "public")
 public class Obra {
     private String cota;
     private Integer registro;
@@ -21,12 +21,9 @@ public class Obra {
     private Integer quantidade;
     private AreaCientifica areacientifica;
     private TipoObra tipoobra;
-    private Set<Autor> autores ;
+    private Set<Autor> autores = new HashSet<>();;
     private Idioma idioma;
     private Livro livro;
-
-
-
 
     @Id
     @Column(name = "cota")
@@ -107,35 +104,27 @@ public class Obra {
     }
 
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "ididioma", insertable = true, updatable = true)
-    @Fetch(FetchMode.JOIN)
-    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "ididioma", nullable = false)
     public Idioma getIdioma() {
         return idioma;
     }
-
     public void setIdioma(Idioma idioma) {
         this.idioma = idioma;
     }
 
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "idtipo", insertable = true, updatable = true)
-    @Fetch(FetchMode.JOIN)
-    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "idtipo", nullable = false)
     public TipoObra getTipoobra() {
         return tipoobra;
     }
-
     public void setTipoobra(TipoObra tipoobra) {
         this.tipoobra = tipoobra;
     }
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "idarea", insertable = true, updatable = true)
-    @Fetch(FetchMode.JOIN)
-    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "idarea", nullable = false)
     public AreaCientifica getAreacientifica() {
         return areacientifica;
     }
@@ -144,9 +133,11 @@ public class Obra {
         this.areacientifica = areacientifica;
     }
 
-    @OneToMany
-    @JoinTable(name="obra_autor", joinColumns = @JoinColumn(name ="cota"),
-            inverseJoinColumns = @JoinColumn(name="idautor"))
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL
+            )
+    @JoinTable(name="obra_autor", joinColumns = @JoinColumn(name ="cota", nullable = false),
+            inverseJoinColumns = @JoinColumn(name="idautor", nullable = false))
     public Set<Autor> getAutores(){
         return this.autores;
     }
@@ -155,8 +146,9 @@ public class Obra {
     }
 
 
-    @OneToOne(mappedBy = "obra")
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY,
+            cascade =  CascadeType.ALL,
+            mappedBy = "obra")
 
     public Livro getLivro() {
         return livro;

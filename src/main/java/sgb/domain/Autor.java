@@ -2,13 +2,17 @@ package sgb.domain;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
+@Table(name = "autor", schema = "public")
 public class Autor {
     private int idautor;
     private String nome;
     private String apelido;
+    private Set<Obra> obras = new HashSet<Obra>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -41,6 +45,18 @@ public class Autor {
         this.apelido = apelido;
     }
 
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            mappedBy = "autores")
+
+    public Set<Obra> getObras() {
+        return obras;
+    }
+
+    public void setObras(Set<Obra> obras) {
+        this.obras = obras;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -55,5 +71,4 @@ public class Autor {
     public int hashCode() {
         return Objects.hash(idautor, nome, apelido);
     }
-
 }

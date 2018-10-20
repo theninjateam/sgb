@@ -34,12 +34,11 @@ import java.util.Set;
 public class ObraController extends SelectorComposer<Component> {
 
     private CRUDService crudService;
-    private List<TipoObra> tipoObraModel;
-    private List<AreaCientifica> areaCientificaModel;
-    private List<Idioma> idiomaModel;
-    private Set<Autor> auts = new HashSet<Autor>();
+    private ListModelList<TipoObra> tipoObraModel;
+    private ListModelList<AreaCientifica> areaCientificaModel;
+    private ListModelList<Idioma> idiomaModel;
+    private Set<Autor> autores = new HashSet<Autor>();
     private ListModelList<Autor> authorListModel;
-    Autor oAutor = new Autor();
 
     @Wire
     private Listbox authorListBox;
@@ -116,18 +115,18 @@ public class ObraController extends SelectorComposer<Component> {
     @Override
     public void doAfterCompose(Component comp) throws Exception {
         super.doAfterCompose(comp);
-//
-//        Autor autor = new Autor();
-//
-//        autor.setNome("Fonseca");
-//        autor.setApelido("Fonseca");
-//
-//        List<Autor> auts = new ArrayList<Autor>();
-//
-//        auts.add(autor);
-        authorListModel = new ListModelList<Autor>();
 
+        authorListModel = new ListModelList<Autor>();
         authorListBox.setModel(authorListModel);
+
+        tipoObraModel = new ListModelList<TipoObra>(getTipoObraModel());
+        tipoObraListBox.setModel(tipoObraModel);
+
+        areaCientificaModel = new ListModelList<AreaCientifica>(getAreaCientificaModel());
+        areaCientificaListBox.setModel(areaCientificaModel);
+
+        idiomaModel = new ListModelList<Idioma>(getIdiomaModel());
+        idiomaListBox.setModel(idiomaModel);
 
     }
 
@@ -176,41 +175,32 @@ public class ObraController extends SelectorComposer<Component> {
     public void saveData() {
 
         Obra obra = new Obra();
-        Autor aut = new Autor();
         Livro livro = new Livro();
         TipoObra tipoObra = tipoObraListBox.getSelectedItem().getValue();
         CRUDService csimp = (CRUDService) SpringUtil.getBean("CRUDService");
-        String [] nomeA = autor.getValue().split(" ");
-
-        aut.setNome(nomeA[0]);
-        aut.setApelido(nomeA[1]);
-        auts.add(aut);
 
         obra.setCota(cota.getValue());
         obra.setRegistro(Integer.parseInt(registo.getValue()));
         obra.setTipoobra(tipoObra);
-        obra.setAutores(auts);
 
         obra.setTitulo(titulo.getValue());
         obra.setAreacientifica(areaCientificaListBox.getSelectedItem().getValue());
         obra.setDatapublicacao(new Date(dataPublicacao.getValue().getDay(),
                 dataPublicacao.getValue().getMonth(), dataPublicacao.getValue().getYear()));
         obra.setIdioma(idiomaListBox.getSelectedItem().getValue());
-
         obra.setLocalpublicacao(localPublicacao.getValue());
         obra.setQuantidade(Integer.parseInt(quatddObra.getValue()));
 
 
 
         if (tipoObra.getDescricao().toLowerCase().equals("livro")) {
-
             livro.setCota(obra.getCota());
             livro.setIsbn(isbn.getValue());
             livro.setCodigobarra(codigobarra.getValue());
             livro.setEdicao(edicao.getValue());
             livro.setEditora(editora.getValue());
             livro.setObra(obra);
-
+            obra.setLivro(livro);
         } else if (tipoObra.getDescricao().toLowerCase().equals("cd")) {
 
             Messagebox.show("Not implement yet");
@@ -219,94 +209,69 @@ public class ObraController extends SelectorComposer<Component> {
 
             Messagebox.show("Not implement yet");
 
-
         }
 
-        try {
+        try
+        {
+            for(Autor autor: authorListModel) // esta linha devera sair
+                autores.add(autor);
 
-            if (tipoObra.getDescricao().toLowerCase().equals("livro")) {
-
-
-                crudService.Save(aut);
-
-                crudService.Save(obra);
-                crudService.Save(livro);
-
-            }else if (tipoObra.getDescricao().toLowerCase().equals("cd")) {
-
-                Messagebox.show("Not implemented yet");
-
-            } else if (tipoObra.getDescricao().toLowerCase().equals("revista")) {
-
-                Messagebox.show("Not implemented yet");
-
-            }
+            obra.setAutores(autores);
+            crudService.Save(obra);
+            Clients.showNotification("Os dados foram guadados com sucesso!");
         }
-        catch (Exception e) {
-
-            if(e instanceof DataIntegrityViolationException){
-
+        catch (Exception e)
+        {
+            if(e instanceof DataIntegrityViolationException)
+            {
                 DataIntegrityViolationException dive = (DataIntegrityViolationException) e;
 
-                if(dive.getMostSpecificCause().toString().contains("duplicate key value")){
-                    cota.setStyle("color: black; border-color: red;");
-
-                    cota_duplicated_key.setVisible(true);
-                    cota_duplicated_key.setStyle("color: red;");
-                    cota_duplicated_key.setValue("OPS:Ja existe uma obra com este numero de cota");
+                if(dive.getMostSpecificCause().toString().contains("duplicate key value"))
+                {
+                    Clients.showNotification("Ops: Parece que ja existe uma Obra com numero de cota '"+cota.getValue()+"'");
                 }
-
+             e.printStackTrace();
             }
         }
     }
 
-
-    public void rescueAuthor(){
-
-        Autor aut = new Autor();
-        String [] nomeA = autor.getValue().split(" ");
-
-        aut.setNome(nomeA[0]);
-        aut.setApelido(nomeA[1]);
-        auts.add(aut);
+    public void removerAu()
+    {
     }
 
     @Listen("onClick = #addAuthor")
     public void addNewAuthor(){
 
-        if (Strings.isBlank(autor.getValue())) {
-            Clients.showNotification("Subject is blank, nothing to do ?");
-        } else {
+        if (Strings.isBlank(autor.getValue()))
+        {
+            Clients.showNotification("Informe O Nome e o Apelido do Autor");
+        }
+        else
+        {
+            Autor outroAutor = new Autor();
             String[] nomeA = autor.getValue().split(" ");
-            //save data
-            oAutor.setNome(nomeA[0]);
-            oAutor.setApelido(nomeA[1]);
 
-            //update the model, by using ListModelList, you don't need to notify todoListModel change
-            //it is efficient that only update one item of the listbox
-            authorListModel.add(oAutor);
-            authorListModel.addToSelection(oAutor);
+            outroAutor.setNome(nomeA[0]);
+            outroAutor .setApelido(nomeA[1]);
 
-            //reset value for fast typing.
+            authorListModel.add(outroAutor);
+            authorListModel.addToSelection(outroAutor);
             autor.setValue(null);
         }
-
     }
 
-
     @Listen("onAuthorDelete = #authorListBox")
-    public void doAuthorDelete(ForwardEvent evt){
-
+    public void doAuthorDelete(ForwardEvent evt)
+    {
         Button btn = (Button)evt.getOrigin().getTarget();
         Listitem litem = (Listitem)btn.getParent().getParent();
         Autor autor = (Autor) litem.getValue();
         authorListModel.remove(autor);
     }
 
-
     @Listen("onAuthorEdite = #authorListBox")
-    public void doAuthorEdit(ForwardEvent evt){
-
+    public void doAuthorEdit(ForwardEvent evt)
+    {
         Button btn = (Button)evt.getOrigin().getTarget();
         Listitem litem = (Listitem)btn.getParent().getParent();
         Autor autor = (Autor) litem.getValue();
