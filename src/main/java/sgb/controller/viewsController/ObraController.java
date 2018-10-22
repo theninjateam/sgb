@@ -20,6 +20,7 @@ import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.*;
 import sgb.domain.*;
 import sgb.service.CRUDService;
+import sun.plugin2.message.Message;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -34,11 +35,12 @@ import java.util.Set;
 public class ObraController extends SelectorComposer<Component> {
 
     private CRUDService crudService;
-    private ListModelList<TipoObra> tipoObraModel;
-    private ListModelList<AreaCientifica> areaCientificaModel;
-    private ListModelList<Idioma> idiomaModel;
+    private List<TipoObra> tipoObraModel;
+    private List<AreaCientifica> areaCientificaModel;
+    private List<Idioma> idiomaModel;
     private Set<Autor> autores = new HashSet<Autor>();
     private ListModelList<Autor> authorListModel;
+    Autor oAutor = new Autor();
 
     @Wire
     private Listbox authorListBox;
@@ -56,6 +58,12 @@ public class ObraController extends SelectorComposer<Component> {
 
     @Wire
     private Groupbox grplivrodata;
+
+    @Wire
+    private Groupbox grpcddata;
+
+    @Wire
+    private Groupbox grprevistadata;
 
     @Wire
     private Textbox cota;
@@ -101,10 +109,11 @@ public class ObraController extends SelectorComposer<Component> {
 //cd
 
     @Wire
-    private Textbox topico;
+    private Textbox descricaoCd;
 
+    //revista
     @Wire
-    private Listbox topicoBox;
+    private Textbox instituicaoRevista;
 
     public ObraController() {
     }
@@ -115,18 +124,18 @@ public class ObraController extends SelectorComposer<Component> {
     @Override
     public void doAfterCompose(Component comp) throws Exception {
         super.doAfterCompose(comp);
-
+//
+//        Autor autor = new Autor();
+//
+//        autor.setNome("Fonseca");
+//        autor.setApelido("Fonseca");
+//
+//        List<Autor> auts = new ArrayList<Autor>();
+//
+//        auts.add(autor);
         authorListModel = new ListModelList<Autor>();
+
         authorListBox.setModel(authorListModel);
-
-        tipoObraModel = new ListModelList<TipoObra>(getTipoObraModel());
-        tipoObraListBox.setModel(tipoObraModel);
-
-        areaCientificaModel = new ListModelList<AreaCientifica>(getAreaCientificaModel());
-        areaCientificaListBox.setModel(areaCientificaModel);
-
-        idiomaModel = new ListModelList<Idioma>(getIdiomaModel());
-        idiomaListBox.setModel(idiomaModel);
 
     }
 
@@ -151,23 +160,24 @@ public class ObraController extends SelectorComposer<Component> {
 
     @Listen("onSelect = #tipoObraListBox")
     public void change() {
-        //CRUDService csimp = (CRUDService) SpringUtil.getBean("CRUDService");
-
-//        Messagebox.show("entrou");
 
         TipoObra tipoObra = tipoObraListBox.getSelectedItem().getValue();
 
-        //Messagebox.show("selected: "+tipoObra.getDescricao().toLowerCase());
-
         if (tipoObra.getDescricao().toLowerCase().equals("livro")) {
             grplivrodata.setVisible(true);
+            grprevistadata.setVisible(false);
+            grpcddata.setVisible(false);
             //idInclData.setSrc("views/livro.zul");
         } else if (tipoObra.getDescricao().toLowerCase().equals("cd")) {
-            grpData.setVisible(true);
-            idInclData.setSrc("views/cd.zul");
+            grpcddata.setVisible(true);
+            grplivrodata.setVisible(false);
+            grprevistadata.setVisible(false);
+            //idInclData.setSrc("views/cd.zul");
         } else if (tipoObra.getDescricao().toLowerCase().equals("revista")) {
-            grpData.setVisible(true);
-            idInclData.setSrc("views/revista.zul");
+            grprevistadata.setVisible(true);
+            grplivrodata.setVisible(false);
+            grpcddata.setVisible(false);
+            //idInclData.setSrc("views/revista.zul");
         }
     }
 
@@ -176,6 +186,8 @@ public class ObraController extends SelectorComposer<Component> {
 
         Obra obra = new Obra();
         Livro livro = new Livro();
+        Cd cd = new Cd();
+        Revista revista = new Revista();
         TipoObra tipoObra = tipoObraListBox.getSelectedItem().getValue();
         CRUDService csimp = (CRUDService) SpringUtil.getBean("CRUDService");
 
@@ -202,13 +214,15 @@ public class ObraController extends SelectorComposer<Component> {
             livro.setObra(obra);
             obra.setLivro(livro);
         } else if (tipoObra.getDescricao().toLowerCase().equals("cd")) {
-
-            Messagebox.show("Not implement yet");
-
+            cd.setIdcd(obra.getCota());
+            cd.setDescricao(descricaoCd.getValue());
+            cd.setObra(obra);
+            obra.setCd(cd);
         } else if (tipoObra.getDescricao().toLowerCase().equals("revista")) {
-
-            Messagebox.show("Not implement yet");
-
+            revista.setCota(obra.getCota());
+            revista.setInstituicao(instituicaoRevista.getValue());
+            revista.setObra(obra);
+            obra.setRevista(revista);
         }
 
         try
@@ -249,10 +263,19 @@ public class ObraController extends SelectorComposer<Component> {
         else
         {
             Autor outroAutor = new Autor();
+            String nomeC = "";
             String[] nomeA = autor.getValue().split(" ");
 
-            outroAutor.setNome(nomeA[0]);
-            outroAutor .setApelido(nomeA[1]);
+            for(int i=0; i<nomeA.length-1; i++){
+                nomeC+=nomeA[i]+ " ";
+            }
+            if(nomeA.length<2) {
+                outroAutor.setNome(nomeC);
+                outroAutor .setApelido(null);
+            } else {
+                outroAutor.setNome(nomeC);
+                outroAutor.setApelido(nomeA[nomeA.length - 1]);
+            }
 
             authorListModel.add(outroAutor);
             authorListModel.addToSelection(outroAutor);

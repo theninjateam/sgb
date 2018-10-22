@@ -24,6 +24,8 @@ public class Obra {
     private Set<Autor> autores = new HashSet<>();;
     private Idioma idioma;
     private Livro livro;
+    private Cd cd;
+    private Revista revista;
 
     @Id
     @Column(name = "cota")
@@ -157,5 +159,30 @@ public class Obra {
     public void setLivro(Livro livro) {
         this.livro = livro;
     }
+
+    @OneToOne(fetch = FetchType.LAZY,
+            cascade =  CascadeType.ALL,
+            mappedBy = "obra")
+
+    public Cd getCd() {
+        return cd;
+    }
+
+    public void setCd(Cd cd) {
+        this.cd = cd;
+    }
+
+    @OneToOne(fetch = FetchType.LAZY,
+            cascade =  CascadeType.ALL,
+            mappedBy = "obra")
+
+    public Revista getRevista(){
+        return revista;
+    }
+
+    public void setRevista(Revista revista) {
+        this.revista = revista;
+    }
+
 
 }

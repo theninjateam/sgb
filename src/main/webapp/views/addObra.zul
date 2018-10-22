@@ -23,7 +23,8 @@
                             </row>
 
                             <row>
-                                <listbox width="100%" id="tipoObraListBox" emptyMessage="Nenhum Tipo de Obra Encotrado" mold="select">
+                                <listbox width="100%" id="tipoObraListBox" emptyMessage="Nenhum Tipo de Obra Encotrado"
+                                         model="${$composer.tipoObraModel}" mold="select">
 
                                     <listhead>
                                         <listheader label="tipo de obra"/>
@@ -66,8 +67,28 @@
                                     <textbox sclass="form-control" id="titulo"/>
                                 </vbox>
                                 <vbox>
-                                    <span sclass="input-group-addon">Autor</span>
-                                    <textbox sclass="form-control" id="autor"/>
+
+                                    <grid>
+                                        <columns sizable="true">
+                                            <column width="75%"/>
+                                            <column width="20%"/>
+                                        </columns>
+                                        <rows>
+
+                                            <row>
+                                                <vbox>
+
+                                                    <span sclass="input-group-addon">Autor</span>
+                                                    <textbox sclass="form-control" width="60%" id="autor"/>
+                                                </vbox>
+                                                <vbox>
+                                                    <button label="Addicioanr" id="addAuthor" />
+                                                </vbox>
+                                            </row>
+                                        </rows>
+                                    </grid>
+
+
                                 </vbox>
                             </row>
 
@@ -76,11 +97,13 @@
                             <row>
 
                                 <vbox>
+                                </vbox>
+
+                                <vbox>
                                     <listbox width="100%" id="authorListBox">
                                         <listhead>
                                             <listheader label="Autores"/>
-                                            <listheader label=""/>
-                                            <listheader label=""/>
+                                            <listheader label="Operacoes"/>
                                         </listhead>
                                         <template name="model">
                                             <listitem>
@@ -89,26 +112,20 @@
                                                 </listcell>
                                                 <listcell>
                                                     <button  label="eliminar"  forward="onClick=authorListBox.onAuthorDelete" />
-                                                </listcell>
-                                                <listcell>
                                                     <button  label="editar"  forward="onClick=authorListBox.onAuthorEdite" />
                                                 </listcell>
                                             </listitem>
                                         </template>
                                     </listbox>
                                 </vbox>
-
-                                <vbox>
-                                    <button label="Addicioanr" id="addAuthor" />
-                                </vbox>
-
                             </row>
 
                             <row>
                                 <vbox>
                                     <span sclass="input-group-addon">Area Cientifica</span>
                                     <listbox width="100%" id="areaCientificaListBox"
-                                             emptyMessage="Nenhuma Area Cietifica Encotrada"  mold="select">
+                                             emptyMessage="Nenhuma Area Cietifica Encotrada"
+                                             model="${$composer.areaCientificaModel}" mold="select">
 
                                         <listhead>
                                             <listheader label="Area Cientifica"/>
@@ -123,7 +140,8 @@
                                 <vbox>
                                     <span sclass="input-group-addon">Idioma</span>
                                     <listbox width="100%" id="idiomaListBox"
-                                             emptyMessage="Nenhum Tipo de idioma Encotrado" mold="select">
+                                             emptyMessage="Nenhum Tipo de idioma Encotrado"
+                                             model="${$composer.idiomaModel}" mold="select">
 
                                         <listhead>
                                             <listheader label="Idioma"/>
@@ -140,7 +158,7 @@
                             <row>
                                 <vbox>
                                     <span sclass="input-group-addon">Local de Publicacao</span>
-                                    <textbox sclass="form-control" id="localPublicacao"/>
+                                    <textbox sclass="form-control"  id="localPublicacao"/>
                                 </vbox>
                                 <vbox>
                                     <span sclass="input-group-addon">Data de Publicacao</span>
@@ -208,6 +226,51 @@
                 <!--quando for revista-->
 
 
+                <groupbox id="grprevistadata" visible="false" mold="3d">
+                    <caption sclass="folder" label="Dados da Revista"/>
+
+                    <grid>
+                        <columns sizable="true">
+                            <column width="40%"/>
+                            <column width="40%"/>
+
+                        </columns>
+                        <rows>
+                            <row>
+                                <vbox>
+                                    <span sclass="input-group-addon">Instituicao</span>
+                                    <textbox id="instituicaoRevista"/>
+                                </vbox>
+                            </row>
+                        </rows>
+
+                    </grid>
+                </groupbox>
+
+                <!--quando for cd-->
+
+                <groupbox id="grpcddata" visible="false" mold="3d">
+                    <caption sclass="folder" label="Dados do CD"/>
+
+                    <grid>
+                        <columns sizable="true">
+                            <column width="40%"/>
+                            <column width="40%"/>
+
+                        </columns>
+
+                        <rows>
+                            <row>
+                                <vbox>
+                                    <span sclass="input-group-addon">Descricao do CD</span>
+                                    <textbox id="descricaoCd"/>
+                                </vbox>
+                            </row>
+
+                        </rows>
+
+                    </grid>
+                </groupbox>
                 <groupbox mold="3d">
                 <caption sclass="folder" label="Comandos"/>
                 <hbox>
