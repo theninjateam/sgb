@@ -20,7 +20,6 @@ import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.*;
 import sgb.domain.*;
 import sgb.service.CRUDService;
-import sun.plugin2.message.Message;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -35,9 +34,9 @@ import java.util.Set;
 public class ObraController extends SelectorComposer<Component> {
 
     private CRUDService crudService;
-    private List<TipoObra> tipoObraModel;
-    private List<AreaCientifica> areaCientificaModel;
-    private List<Idioma> idiomaModel;
+    private  ListModelList<TipoObra> tipoObraModel;
+    private  ListModelList<AreaCientifica> areaCientificaModel;
+    private  ListModelList<Idioma> idiomaModel;
     private Set<Autor> autores = new HashSet<Autor>();
     private ListModelList<Autor> authorListModel;
     Autor oAutor = new Autor();
@@ -124,18 +123,21 @@ public class ObraController extends SelectorComposer<Component> {
     @Override
     public void doAfterCompose(Component comp) throws Exception {
         super.doAfterCompose(comp);
-//
-//        Autor autor = new Autor();
-//
-//        autor.setNome("Fonseca");
-//        autor.setApelido("Fonseca");
-//
-//        List<Autor> auts = new ArrayList<Autor>();
-//
-//        auts.add(autor);
-        authorListModel = new ListModelList<Autor>();
 
+        authorListModel = new ListModelList<Autor>();
         authorListBox.setModel(authorListModel);
+
+        authorListModel = new ListModelList<Autor>();
+        authorListBox.setModel(authorListModel);
+
+        tipoObraModel = new ListModelList<TipoObra>(getTipoObraModel());
+        tipoObraListBox.setModel(tipoObraModel);
+
+        areaCientificaModel = new ListModelList<AreaCientifica>(getAreaCientificaModel());
+        areaCientificaListBox.setModel(areaCientificaModel);
+
+        idiomaModel = new ListModelList<Idioma>(getIdiomaModel());
+        idiomaListBox.setModel(idiomaModel);
 
     }
 
