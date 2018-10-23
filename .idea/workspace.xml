@@ -2,14 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a2dfe1c0-9a8c-4fcc-8a46-a6c96d3d3f67" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/d6b6e958-6258-4742-ae46-fc4a9174d12c.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/heroku_zksandbox.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/heroku_zksandbox.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/sgb/controller/viewsController/ObraController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/sgb/controller/viewsController/ObraController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/sgb/domain/Obra.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/sgb/domain/Obra.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/views/addObra.zul" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/views/addObra.zul" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -492,6 +486,7 @@
           <entry key="autor" value="6" />
           <entry key="cd" value="3" />
           <entry key="class" value="1" />
+          <entry key="gitignore" value="1" />
           <entry key="java" value="24" />
           <entry key="livro" value="4" />
           <entry key="obra" value="5" />
@@ -508,22 +503,23 @@
           <entry key="CLASS" value="1" />
           <entry key="Database Element" value="24" />
           <entry key="JAVA" value="24" />
-          <entry key="PLAIN_TEXT" value="1" />
+          <entry key="PLAIN_TEXT" value="2" />
           <entry key="Scratch" value="2" />
           <entry key="XML" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="615" />
+          <entry key="gitignore" value="22" />
+          <entry key="java" value="616" />
           <entry key="txt" value="13" />
           <entry key="zul" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="615" />
-          <entry key="PLAIN_TEXT" value="16" />
+          <entry key="JAVA" value="616" />
+          <entry key="PLAIN_TEXT" value="38" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.lifecycle.project">
@@ -545,6 +541,15 @@
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="20">
+              <caret line="1" column="10" selection-start-line="1" selection-start-column="10" selection-end-line="1" selection-end-column="10" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/sgb/domain/Obra.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -560,11 +565,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/sgb/controller/viewsController/ObraController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="275" column="26" lean-forward="true" selection-start-line="275" selection-start-column="26" selection-end-line="275" selection-end-column="26" />
+            <state relative-caret-position="84">
+              <caret line="271" column="28" selection-start-line="271" selection-start-column="28" selection-end-line="271" selection-end-column="28" />
               <folding>
                 <element signature="e#0#9080#0" expanded="true" />
                 <element signature="e#1262#1269#0" expanded="true" />
@@ -671,6 +676,7 @@
         <option value="$PROJECT_DIR$/src/main/java/sgb/domain/Obra.java" />
         <option value="$PROJECT_DIR$/src/main/webapp/views/addObra.zul" />
         <option value="$PROJECT_DIR$/src/main/java/sgb/controller/viewsController/ObraController.java" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -799,7 +805,7 @@
     <property name="GenerateAntBuildDialog.outputFileNameProperty" value="sgb" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1540202406157" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1540281883524" />
     <property name="database.console.LAST_STATE" value="false" />
     <property name="last_opened_file_path" value="$USER_HOME$/test/sgb_old" />
   </component>
@@ -921,7 +927,7 @@
       <workItem from="1539936791251" duration="537000" />
       <workItem from="1539937407195" duration="12832000" />
       <workItem from="1540038457564" duration="16284000" />
-      <workItem from="1540195872116" duration="6457000" />
+      <workItem from="1540195872116" duration="8389000" />
     </task>
     <servers />
   </component>
@@ -934,7 +940,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="177146000" />
+    <option name="totallyTimeSpent" value="179078000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -949,8 +955,8 @@
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.47875354" visible="true" weight="0.30134228" />
-      <window_info id="Structure" order="1" sideWeight="0.52124643" side_tool="true" visible="true" weight="0.30134228" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.47524753" visible="true" weight="0.30134228" />
+      <window_info id="Structure" order="1" sideWeight="0.5247525" side_tool="true" visible="true" weight="0.30134228" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
       <window_info id="Capture Tool" order="4" />
@@ -968,7 +974,7 @@
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3243626" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.3289689" />
       <window_info anchor="bottom" id="Database Changes" order="8" weight="0.3286119" />
-      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49924472" weight="0.5708215" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="9" sideWeight="0.49924472" visible="true" weight="0.5708215" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5013423" side_tool="true" weight="0.6798867" />
       <window_info anchor="bottom" id="Spring" order="11" weight="0.32733223" />
       <window_info anchor="bottom" id="Java Enterprise" order="12" />
@@ -1179,13 +1185,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="3" selection-start-line="3" selection-end-line="3" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="100">
@@ -1334,12 +1333,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/sgb/controller/viewsController/ObraController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="275" column="26" lean-forward="true" selection-start-line="275" selection-start-column="26" selection-end-line="275" selection-end-column="26" />
+        <state relative-caret-position="84">
+          <caret line="271" column="28" selection-start-line="271" selection-start-column="28" selection-end-line="271" selection-end-column="28" />
           <folding>
             <element signature="e#0#9080#0" expanded="true" />
             <element signature="e#1262#1269#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="20">
+          <caret line="1" column="10" selection-start-line="1" selection-start-column="10" selection-end-line="1" selection-end-column="10" />
         </state>
       </provider>
     </entry>
