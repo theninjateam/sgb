@@ -197,8 +197,9 @@ public class ObraController extends SelectorComposer<Component> {
 
         obra.setTitulo(titulo.getValue());
         obra.setAreacientifica(areaCientificaListBox.getSelectedItem().getValue());
-        obra.setDatapublicacao(new Date(dataPublicacao.getValue().getDay(),
-                dataPublicacao.getValue().getMonth(), dataPublicacao.getValue().getYear()));
+        java.util.Date dt = new java.util.Date();
+
+//        obra.setDatapublicacao(dataPublicacao.getValue());
         obra.setIdioma(idiomaListBox.getSelectedItem().getValue());
         obra.setLocalpublicacao(localPublicacao.getValue());
         obra.setQuantidade(Integer.parseInt(quatddObra.getValue()));
