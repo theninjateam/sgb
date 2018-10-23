@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk>
+    <window apply="sgb.controller.AddClientController"
+            border="none" hflex="1" vflex="1" contentStyle="overflow:auto">
+        <div style="padding:0px">
+            <tabbox>
+                <tabs>
+                    <tab label="${labels.clientinfo}"></tab>
+
+                </tabs>
+                <tabpanels>
+                    <tabpanel>
+                        <grid>
+                            <rows>
+                                <row>
+                                    <toolbar id="tb" height="30px" align="start">
+                                        <toolbarbutton label="${labels.btndraft}"/>
+                                        <toolbarbutton label="${labels.btnsave}"/>
+                                        <toolbarbutton label="${labels.btndelete}"/>
+                                    </toolbar>
+                                </row>
+                                <row>
+                                    <panel style="max-height:425px; overflow-x:hidden;overflow-y:auto" >
+                                        <panelchildren>
+                                            <vlayout>
+                                                <groupbox mold="3d">
+                                                    <caption sclass="folder" label="${labels.clientinfo}"/>
+                                                    <grid>
+                                                        <columns sizable="true">
+                                                            <column hflex="1" vflex="1"/>
+                                                        </columns>
+                                                        <rows>
+                                                            <row>
+                                                                <hlayout vflex="1" hflex="1" sclass="second-layout">
+                                                                    <div sclass="description-area" height="100%">
+                                                                        <label value="${labels.account}"/>
+                                                                    </div>
+                                                                    <div sclass="description-area" height="100%">
+                                                                        <textbox disabled="true" value="" hflex="1"
+                                                                                 id="idnrconta"
+                                                                                 constraint=" no Empty: Preenche o campo!"/>
+                                                                    </div>
+                                                                </hlayout>
+                                                            </row>
+                                                            <row>
+                                                                <hlayout vflex="1" hflex="1" sclass="second-layout">
+                                                                    <div sclass="description-area" height="100%">
+                                                                        <label value="${labels.accountname}"/>
+                                                                    </div>
+                                                                    <div sclass="description-area" height="100%">
+                                                                        <textbox disabled="true" value="" hflex="1"
+                                                                                 id="idnomeconta"
+                                                                                 constraint=" no Empty: Preenche o campo!"/>
+                                                                    </div>
+                                                                </hlayout>
+                                                            </row>
+
+                                                            <row>
+                                                                <hlayout vflex="1" hflex="1" sclass="second-layout">
+                                                                    <div sclass="description-area" height="100%">
+                                                                        <label value="${labels.legalentitytype}"/>
+                                                                    </div>
+                                                                    <div sclass="description-area" height="100%">
+                                                                        <combobox hflex="1" id="cmbLegalentitytype"
+                                                                                  model="${$composer.entidadeLegalModel}"
+                                                                                  constraint=" no Empty: ${labels.selectone}">
+                                                                            <attribute name="onCreate"></attribute>
+                                                                            <comboitem label="${each}"/>
+                                                                        </combobox>
+                                                                    </div>
+                                                                </hlayout>
+                                                            </row>
+                                                            <row>
+                                                                <hlayout vflex="1" hflex="1" sclass="second-layout">
+                                                                    <div sclass="description-area" height="100%">
+                                                                        <label value="${labels.nuit}"/>
+                                                                    </div>
+                                                                    <div sclass="description-area" height="100%">
+                                                                        <textbox value="" hflex="1" id=""
+                                                                                 constraint=" no Empty: Preenche o campo!"/>
+                                                                    </div>
+                                                                </hlayout>
+                                                            </row>
+                                                        </rows>
+                                                    </grid>
+                                                </groupbox>
+
+                                                <div id="grpData" visible="false">
+                                                    <include id="idInclData"/>
+                                                </div>
+
+                                                <div id="grpOtherData" visible="true">
+                                                    <include id="idInclOtherData"/>
+                                                </div>
+
+                                            </vlayout>
+                                        </panelchildren>
+                                    </panel>
+                                </row>
+                            </rows>
+                        </grid>
+                    </tabpanel>
+                </tabpanels>
+            </tabbox>
+        </div>
+
+    </window>
+</zk>
