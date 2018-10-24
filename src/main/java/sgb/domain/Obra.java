@@ -139,7 +139,7 @@ public class Obra {
             cascade = CascadeType.ALL
             )
     @JoinTable(name="obra_autor", joinColumns = @JoinColumn(name ="cota", nullable = false),
-            inverseJoinColumns = @JoinColumn(name="idautor", nullable = false))
+            inverseJoinColumns = @JoinColumn(name="hashcode", nullable = false))
     public Set<Autor> getAutores(){
         return this.autores;
     }

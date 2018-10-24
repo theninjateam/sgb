@@ -108,7 +108,7 @@
                                         <template name="model">
                                             <listitem>
                                                 <listcell>
-                                                    <label value="${each.nome }  ${each.apelido} "/>
+                                                    <label value="${each.nome }"/>
                                                 </listcell>
                                                 <listcell>
                                                     <button  label="eliminar"  forward="onClick=authorListBox.onAuthorDelete" />
@@ -162,7 +162,7 @@
                                 </vbox>
                                 <vbox>
                                     <span sclass="input-group-addon">Data de Publicacao</span>
-                                    <datebox sclass="form-control" id="dataPublicacao"/>
+                                    <datebox  sclass="form-control" id="dataPublicacao" />
                                 </vbox>
                             </row>
 

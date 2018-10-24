@@ -6,9 +6,7 @@
 package sgb.controller.viewsController;
 
 
-import org.springframework.dao.*;
-import org.zkoss.bind.annotation.Command;
-import org.zkoss.bind.annotation.NotifyChange;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.zkoss.lang.Strings;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.ForwardEvent;
@@ -20,9 +18,14 @@ import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.*;
 import sgb.domain.*;
 import sgb.service.CRUDService;
+import org.apache.commons.codec.digest.DigestUtils;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
-import java.util.ArrayList;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -33,7 +36,7 @@ import java.util.Set;
 
 public class ObraController extends SelectorComposer<Component> {
 
-    private CRUDService crudService;
+    private CRUDService crudService = (CRUDService) SpringUtil.getBean("CRUDService");
     private  ListModelList<TipoObra> tipoObraModel;
     private  ListModelList<AreaCientifica> areaCientificaModel;
     private  ListModelList<Idioma> idiomaModel;
@@ -142,20 +145,18 @@ public class ObraController extends SelectorComposer<Component> {
     }
 
     public ListModelList<TipoObra> getTipoObraModel() {
-        this.crudService = (CRUDService) SpringUtil.getBean("CRUDService");
-        List<TipoObra> tipoObras = crudService.getAllQuery("SELECT tipoobra FROM TipoObra tipoobra");
+
+        List<TipoObra> tipoObras = crudService.getAll(TipoObra.class);
         return new ListModelList<TipoObra>(tipoObras);
     }
 
     public ListModelList<Idioma> getIdiomaModel() {
-        this.crudService = (CRUDService) SpringUtil.getBean("CRUDService");
-        List<Idioma> idiomas = crudService.getAllQuery("SELECT idioma FROM Idioma idioma");
+        List<Idioma> idiomas = crudService.getAll(Idioma.class);
         return new ListModelList<Idioma>(idiomas);
     }
 
     public ListModelList<AreaCientifica> getAreaCientificaModel() {
-        this.crudService = (CRUDService) SpringUtil.getBean("CRUDService");
-        List<AreaCientifica> areascientificas = crudService.getAllQuery("SELECT areacientifica FROM AreaCientifica areacientifica");
+        List<AreaCientifica> areascientificas = crudService.getAll(AreaCientifica.class);
         return new ListModelList<AreaCientifica>(areascientificas);
     }
 
@@ -184,14 +185,13 @@ public class ObraController extends SelectorComposer<Component> {
     }
 
     @Listen("onClick = #savebtn")
-    public void saveData() {
+    public void saveData() throws ParseException {
 
         Obra obra = new Obra();
         Livro livro = new Livro();
         Cd cd = new Cd();
         Revista revista = new Revista();
         TipoObra tipoObra = tipoObraListBox.getSelectedItem().getValue();
-        CRUDService csimp = (CRUDService) SpringUtil.getBean("CRUDService");
 
         obra.setCota(cota.getValue());
         obra.setRegistro(Integer.parseInt(registo.getValue()));
@@ -199,9 +199,10 @@ public class ObraController extends SelectorComposer<Component> {
 
         obra.setTitulo(titulo.getValue());
         obra.setAreacientifica(areaCientificaListBox.getSelectedItem().getValue());
-        obra.setDatapublicacao(new Date(dataPublicacao.getValue().getDay(),
-                dataPublicacao.getValue().getMonth(), dataPublicacao.getValue().getYear()));
-        obra.setIdioma(idiomaListBox.getSelectedItem().getValue());
+        DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
+        String data = df.format(dataPublicacao.getValue());
+        java.sql.Date datapu = new Date(df.parse(data).getTime());
+        obra.setDatapublicacao(datapu);
         obra.setLocalpublicacao(localPublicacao.getValue());
         obra.setQuantidade(Integer.parseInt(quatddObra.getValue()));
 
@@ -256,7 +257,7 @@ public class ObraController extends SelectorComposer<Component> {
     }
 
     @Listen("onClick = #addAuthor")
-    public void addNewAuthor(){
+    public void addNewAuthor() throws NoSuchAlgorithmException {
 
         if (Strings.isBlank(autor.getValue()))
         {
@@ -265,19 +266,10 @@ public class ObraController extends SelectorComposer<Component> {
         else
         {
             Autor outroAutor = new Autor();
-            String nomeC = "";
-            String[] nomeA = autor.getValue().split(" ");
+            String nomeC = autor.getValue().trim();
 
-            for(int i=0; i<nomeA.length-1; i++){
-                nomeC+=nomeA[i]+ " ";
-            }
-            if(nomeA.length<2) {
-                outroAutor.setNome(nomeC);
-                outroAutor .setApelido(null);
-            } else {
-                outroAutor.setNome(nomeC);
-                outroAutor.setApelido(nomeA[nomeA.length - 1]);
-            }
+            outroAutor.setHashcode(DigestUtils.md5Hex(nomeC.toLowerCase()));
+            outroAutor.setNome(nomeC);
 
             authorListModel.add(outroAutor);
             authorListModel.addToSelection(outroAutor);
@@ -301,6 +293,6 @@ public class ObraController extends SelectorComposer<Component> {
         Listitem litem = (Listitem)btn.getParent().getParent();
         Autor autor = (Autor) litem.getValue();
         authorListModel.remove(autor);
-        this.autor.setValue(autor.getNome().concat(" "+autor.getApelido()));
+        this.autor.setValue(autor.getNome().concat(" "+autor.getNome()));
     }
 }

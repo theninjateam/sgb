@@ -346,6 +346,13 @@
 			<version>${bsh.version}</version>
 			<scope>runtime</scope>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.4</version>
+		</dependency>
+
 
 		<!--<dependency>-->
 		<!--<groupId>postgresql</groupId>-->
