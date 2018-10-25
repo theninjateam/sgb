@@ -31,7 +31,7 @@ CACHE 1;
 -- Sequence structure for formatocd_idformato_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "public"."formatocd_idformato_seq";
-CREATE SEQUENCE "public"."formatocd_idformato_seq"
+CREATE SEQUENCE "public"."formatocd_idformato_seq" 
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -42,7 +42,7 @@ CACHE 1;
 -- Sequence structure for hibernate_sequence
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "public"."hibernate_sequence";
-CREATE SEQUENCE "public"."hibernate_sequence"
+CREATE SEQUENCE "public"."hibernate_sequence" 
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 9223372036854775807
@@ -53,7 +53,7 @@ CACHE 1;
 -- Sequence structure for idioma_ididioma_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "public"."idioma_ididioma_seq";
-CREATE SEQUENCE "public"."idioma_ididioma_seq"
+CREATE SEQUENCE "public"."idioma_ididioma_seq" 
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -64,7 +64,7 @@ CACHE 1;
 -- Sequence structure for tipoobra_idtipo_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "public"."tipoobra_idtipo_seq";
-CREATE SEQUENCE "public"."tipoobra_idtipo_seq"
+CREATE SEQUENCE "public"."tipoobra_idtipo_seq" 
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
