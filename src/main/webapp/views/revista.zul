@@ -1,33 +1,27 @@
-<groupbox id="grprevistadata" mold="3d">
-    <caption sclass="folder" label="Dados da Revista"/>
+<groupbox mold="3d">
+    <caption sclass="folder" label="${labels.revistainfo}"/>
 
     <grid>
         <columns sizable="true">
-            <column width="40%"/>
-            <column width="40%"/>
-
+            <column hflex="1" vflex="1"/>
         </columns>
         <rows>
             <row>
-                <vbox>
-                    <span sclass="input-group-addon">topico</span>
+                <hlayout vflex="1" hflex="1" sclass="second-layout">
+                    <div sclass="description-area" height="100%">
+                        <span sclass="input-group-addon">Instituicao
+                        </span>
+                    </div>
 
-
-                    <listbox width="100%" id="topicoBox" emptyMessage="Nenhum topico Encotrado"
-                             model="${$composer.areaCientificaModel}" mold="select">
-
-                        <listhead>
-                            <listheader label="Area Cientifica"/>
-                        </listhead>
-                        <template name="model">
-                            <listitem>
-                                <listcell label="${each.titulo}"></listcell>
-                            </listitem>
-                        </template>
-                    </listbox>
-                </vbox>
+                    <div sclass="description-area" height="100%">
+                        <textbox sclass="form-control"
+                                 id="instituicaoRevista" disabled="false"
+                                 value="" hflex="1"
+                                 constraint=" no Empty: Preenche o campo!"/>
+                    </div>
+                </hlayout>
             </row>
-        </rows>
 
+        </rows>
     </grid>
 </groupbox>

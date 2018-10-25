@@ -94,33 +94,10 @@ public class ObraController extends SelectorComposer<Component> {
     @Wire
     private Textbox quatddObra;
 
-//    livro
-
-    @Wire
-    private Textbox isbn;
-
-    @Wire
-    private Textbox codigobarra;
-
-    @Wire
-    private Textbox editora;
-
-    @Wire
-    private Textbox edicao;
-
-//cd
-
-    @Wire
-    private Textbox descricaoCd;
-
-    //revista
-    @Wire
-    private Textbox instituicaoRevista;
 
     public ObraController() {
     }
 
-//    revista
 
 
     @Override
@@ -165,22 +142,23 @@ public class ObraController extends SelectorComposer<Component> {
     public void change() {
 
         TipoObra tipoObra = tipoObraListBox.getSelectedItem().getValue();
-
+        grpData.setVisible(true);
         if (tipoObra.getDescricao().toLowerCase().equals("livro")) {
-            grplivrodata.setVisible(true);
-            grprevistadata.setVisible(false);
-            grpcddata.setVisible(false);
-            //idInclData.setSrc("views/livro.zul");
+
+//            grprevistadata.setVisible(false);
+//            grpcddata.setVisible(false);
+            idInclData.setSrc("views/livro.zul");
         } else if (tipoObra.getDescricao().toLowerCase().equals("cd")) {
-            grpcddata.setVisible(true);
-            grplivrodata.setVisible(false);
-            grprevistadata.setVisible(false);
-            //idInclData.setSrc("views/cd.zul");
+//            grpcddata.setVisible(true);
+//            grplivrodata.setVisible(false);
+//            grprevistadata.setVisible(false);
+            idInclData.setSrc("views/cd.zul");
         } else if (tipoObra.getDescricao().toLowerCase().equals("revista")) {
-            grprevistadata.setVisible(true);
-            grplivrodata.setVisible(false);
-            grpcddata.setVisible(false);
-            //idInclData.setSrc("views/revista.zul");
+//            grprevistadata.setVisible(true);
+//            grplivrodata.setVisible(false);
+//            grpcddata.setVisible(false);
+            idInclData.setSrc("views/revista.zul");
+
         }
     }
 
@@ -210,20 +188,20 @@ public class ObraController extends SelectorComposer<Component> {
 
         if (tipoObra.getDescricao().toLowerCase().equals("livro")) {
             livro.setCota(obra.getCota());
-            livro.setIsbn(isbn.getValue());
-            livro.setCodigobarra(codigobarra.getValue());
-            livro.setEdicao(edicao.getValue());
-            livro.setEditora(editora.getValue());
+            livro.setIsbn(((Textbox)idInclData.getFellow("isbn")).getValue());
+            livro.setCodigobarra(((Textbox)idInclData.getFellow("codigobarra")).getValue());
+            livro.setEdicao(((Textbox)idInclData.getFellow("edicao")).getValue());
+            livro.setEditora(((Textbox)idInclData.getFellow("editora")).getValue());
             livro.setObra(obra);
             obra.setLivro(livro);
         } else if (tipoObra.getDescricao().toLowerCase().equals("cd")) {
             cd.setIdcd(obra.getCota());
-            cd.setDescricao(descricaoCd.getValue());
+            cd.setDescricao(((Textbox)idInclData.getFellow("descricaoCd")).getValue());
             cd.setObra(obra);
             obra.setCd(cd);
         } else if (tipoObra.getDescricao().toLowerCase().equals("revista")) {
             revista.setCota(obra.getCota());
-            revista.setInstituicao(instituicaoRevista.getValue());
+            revista.setInstituicao(((Textbox)idInclData.getFellow("instituicaoRevista")).getValue());
             revista.setObra(obra);
             obra.setRevista(revista);
         }
@@ -250,10 +228,6 @@ public class ObraController extends SelectorComposer<Component> {
             }
             e.printStackTrace();
         }
-    }
-
-    public void removerAu()
-    {
     }
 
     @Listen("onClick = #addAuthor")

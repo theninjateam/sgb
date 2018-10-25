@@ -12,7 +12,7 @@
  Target Server Version : 100005
  File Encoding         : 65001
 
- Date: 17/10/2018 14:26:26
+ Date: 25/10/2018 10:12:56
 */
 
 
@@ -21,17 +21,6 @@
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "public"."areacientifica_idarea_seq";
 CREATE SEQUENCE "public"."areacientifica_idarea_seq"
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 2147483647
-START 1
-CACHE 1;
-
--- ----------------------------
--- Sequence structure for autor_idautor_seq
--- ----------------------------
-DROP SEQUENCE IF EXISTS "public"."autor_idautor_seq";
-CREATE SEQUENCE "public"."autor_idautor_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -106,18 +95,24 @@ INSERT INTO "public"."areacientifica" VALUES (5, 'Biologia');
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."autor";
 CREATE TABLE "public"."autor" (
-  "idautor" int4 NOT NULL DEFAULT nextval('autor_idautor_seq'::regclass),
-  "nome" varchar(255) COLLATE "pg_catalog"."default",
-  "apelido" varchar(255) COLLATE "pg_catalog"."default"
+  "hashcode" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
+  "nomec" varchar(255) COLLATE "pg_catalog"."default"
 )
 ;
+
+-- ----------------------------
+-- Records of autor
+-- ----------------------------
+INSERT INTO "public"."autor" VALUES ('8229a8b31ffcddd530ce6b821313a55a', 'Ricardo Daniel Fedeli');
+INSERT INTO "public"."autor" VALUES ('d1b547dcf8f6d14bbeb12619eff97819', 'Enrico Giulio Franco Polloni');
+INSERT INTO "public"."autor" VALUES ('ed4518f5dd79dfe71c93738816d642d5', 'Fernando Eduardo Peres');
 
 -- ----------------------------
 -- Table structure for cd
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."cd";
 CREATE TABLE "public"."cd" (
-  "idcd" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
+  "cota" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
   "descricao" varchar(255) COLLATE "pg_catalog"."default"
 )
 ;
@@ -153,9 +148,9 @@ CREATE TABLE "public"."idioma" (
 -- ----------------------------
 -- Records of idioma
 -- ----------------------------
-INSERT INTO "public"."idioma" VALUES (2, 'Portugues');
-INSERT INTO "public"."idioma" VALUES (3, 'Ingles');
-INSERT INTO "public"."idioma" VALUES (4, 'Espanhol');
+INSERT INTO "public"."idioma" VALUES (1, 'Portugues');
+INSERT INTO "public"."idioma" VALUES (2, 'Ingles');
+INSERT INTO "public"."idioma" VALUES (3, 'Espanhol');
 
 -- ----------------------------
 -- Table structure for item
@@ -192,6 +187,13 @@ CREATE TABLE "public"."livro" (
 ;
 
 -- ----------------------------
+-- Records of livro
+-- ----------------------------
+INSERT INTO "public"."livro" VALUES ('591.3A', '85-221-0845-5', 'Cengage Learning', '2', '9788822108459');
+INSERT INTO "public"."livro" VALUES ('591.3B', '85-221-0845-5', 'Cengage Learning', '2', '9788822108459');
+INSERT INTO "public"."livro" VALUES ('eee45', 'wqwqqqw', 'aaaa', '2', '123344');
+
+-- ----------------------------
 -- Table structure for obra
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."obra";
@@ -209,14 +211,32 @@ CREATE TABLE "public"."obra" (
 ;
 
 -- ----------------------------
+-- Records of obra
+-- ----------------------------
+INSERT INTO "public"."obra" VALUES ('591.3A', 123, 'Introducao a ciencia de computacao ', 1, 'Brasil', '2013-01-24', 1, 1, 1);
+INSERT INTO "public"."obra" VALUES ('591.3B', 123, 'Introducao a ciencia de computacao ', 1, 'Brasil', '2013-01-24', NULL, 1, 1);
+INSERT INTO "public"."obra" VALUES ('eee45', 111, 'redes ', 1, 'pemba', '2018-10-25', NULL, 12, 1);
+
+-- ----------------------------
 -- Table structure for obra_autor
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."obra_autor";
 CREATE TABLE "public"."obra_autor" (
-  "idautor" int4 NOT NULL,
+  "hashcode" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
   "cota" varchar(255) COLLATE "pg_catalog"."default" NOT NULL
 )
 ;
+
+-- ----------------------------
+-- Records of obra_autor
+-- ----------------------------
+INSERT INTO "public"."obra_autor" VALUES ('8229a8b31ffcddd530ce6b821313a55a', '591.3A');
+INSERT INTO "public"."obra_autor" VALUES ('d1b547dcf8f6d14bbeb12619eff97819', '591.3A');
+INSERT INTO "public"."obra_autor" VALUES ('ed4518f5dd79dfe71c93738816d642d5', '591.3A');
+INSERT INTO "public"."obra_autor" VALUES ('8229a8b31ffcddd530ce6b821313a55a', '591.3B');
+INSERT INTO "public"."obra_autor" VALUES ('d1b547dcf8f6d14bbeb12619eff97819', '591.3B');
+INSERT INTO "public"."obra_autor" VALUES ('ed4518f5dd79dfe71c93738816d642d5', '591.3B');
+INSERT INTO "public"."obra_autor" VALUES ('ed4518f5dd79dfe71c93738816d642d5', 'eee45');
 
 -- ----------------------------
 -- Table structure for registroobra
@@ -225,7 +245,7 @@ DROP TABLE IF EXISTS "public"."registroobra";
 CREATE TABLE "public"."registroobra" (
   "cota" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
   "bibliotecario" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
-  "registro" date
+  "dataregisto" date NOT NULL
 )
 ;
 
@@ -323,13 +343,10 @@ INSERT INTO "public"."user_role" VALUES (2, 1);
 ALTER SEQUENCE "public"."areacientifica_idarea_seq"
 OWNED BY "public"."areacientifica"."idarea";
 SELECT setval('"public"."areacientifica_idarea_seq"', 7, true);
-ALTER SEQUENCE "public"."autor_idautor_seq"
-OWNED BY "public"."autor"."idautor";
-SELECT setval('"public"."autor_idautor_seq"', 3, false);
 ALTER SEQUENCE "public"."formatocd_idformato_seq"
 OWNED BY "public"."formatocd"."idformato";
 SELECT setval('"public"."formatocd_idformato_seq"', 6, true);
-SELECT setval('"public"."hibernate_sequence"', 2, false);
+SELECT setval('"public"."hibernate_sequence"', 19, true);
 ALTER SEQUENCE "public"."idioma_ididioma_seq"
 OWNED BY "public"."idioma"."ididioma";
 SELECT setval('"public"."idioma_ididioma_seq"', 5, true);
@@ -345,12 +362,12 @@ ALTER TABLE "public"."areacientifica" ADD CONSTRAINT "areacientifica_pkey" PRIMA
 -- ----------------------------
 -- Primary Key structure for table autor
 -- ----------------------------
-ALTER TABLE "public"."autor" ADD CONSTRAINT "autor_pkey" PRIMARY KEY ("idautor");
+ALTER TABLE "public"."autor" ADD CONSTRAINT "autor_pk" PRIMARY KEY ("hashcode");
 
 -- ----------------------------
 -- Primary Key structure for table cd
 -- ----------------------------
-ALTER TABLE "public"."cd" ADD CONSTRAINT "cd_key" PRIMARY KEY (cota);
+ALTER TABLE "public"."cd" ADD CONSTRAINT "cd_key" PRIMARY KEY ("cota");
 
 -- ----------------------------
 -- Primary Key structure for table formatocd
@@ -385,7 +402,7 @@ ALTER TABLE "public"."obra" ADD CONSTRAINT "obra_key" PRIMARY KEY ("cota");
 -- ----------------------------
 -- Primary Key structure for table obra_autor
 -- ----------------------------
-ALTER TABLE "public"."obra_autor" ADD CONSTRAINT "obra_autor_key" PRIMARY KEY ("cota", "idautor");
+ALTER TABLE "public"."obra_autor" ADD CONSTRAINT "obra_autor_key" PRIMARY KEY ("cota", "hashcode");
 
 -- ----------------------------
 -- Primary Key structure for table registroobra
@@ -425,7 +442,7 @@ ALTER TABLE "public"."user_role" ADD CONSTRAINT "user_role_pkey" PRIMARY KEY ("u
 -- ----------------------------
 -- Foreign Keys structure for table cd
 -- ----------------------------
-ALTER TABLE "public"."cd" ADD CONSTRAINT "idcd" FOREIGN KEY (cota) REFERENCES "public"."obra" ("cota") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "public"."cd" ADD CONSTRAINT "idcd" FOREIGN KEY ("cota") REFERENCES "public"."obra" ("cota") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- ----------------------------
 -- Foreign Keys structure for table item_role
@@ -441,8 +458,6 @@ ALTER TABLE "public"."livro" ADD CONSTRAINT "cota" FOREIGN KEY ("cota") REFERENC
 -- ----------------------------
 -- Foreign Keys structure for table obra
 -- ----------------------------
-ALTER TABLE "public"."obra" ADD CONSTRAINT "fk33f34239591205" FOREIGN KEY ("cota") REFERENCES "public"."livro" ("cota") ON DELETE NO ACTION ON UPDATE NO ACTION;
-ALTER TABLE "public"."obra" ADD CONSTRAINT "fk33f342ced73e29" FOREIGN KEY ("cota") REFERENCES "public"."revista" ("cota") ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE "public"."obra" ADD CONSTRAINT "idarea" FOREIGN KEY ("idarea") REFERENCES "public"."areacientifica" ("idarea") ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE "public"."obra" ADD CONSTRAINT "ididioma" FOREIGN KEY ("ididioma") REFERENCES "public"."idioma" ("ididioma") ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE "public"."obra" ADD CONSTRAINT "idtipo" FOREIGN KEY ("idtipo") REFERENCES "public"."tipoobra" ("idtipo") ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -451,7 +466,7 @@ ALTER TABLE "public"."obra" ADD CONSTRAINT "idtipo" FOREIGN KEY ("idtipo") REFER
 -- Foreign Keys structure for table obra_autor
 -- ----------------------------
 ALTER TABLE "public"."obra_autor" ADD CONSTRAINT "cota" FOREIGN KEY ("cota") REFERENCES "public"."obra" ("cota") ON DELETE NO ACTION ON UPDATE NO ACTION;
-ALTER TABLE "public"."obra_autor" ADD CONSTRAINT "idautor" FOREIGN KEY ("idautor") REFERENCES "public"."autor" ("idautor") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "public"."obra_autor" ADD CONSTRAINT "hashcode" FOREIGN KEY ("hashcode") REFERENCES "public"."autor" ("hashcode") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- ----------------------------
 -- Foreign Keys structure for table registroobra

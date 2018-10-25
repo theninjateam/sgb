@@ -1,26 +1,27 @@
-<groupbox id="grpcddata" mold="3d">
-    <caption sclass="folder" label="Dados do CD"/>
+<groupbox mold="3d">
+    <caption sclass="folder" label="${labels.cdinfo}"/>
 
     <grid>
         <columns sizable="true">
-            <column width="40%"/>
-            <column width="40%"/>
-
+            <column hflex="1" vflex="1"/>
         </columns>
-
         <rows>
             <row>
-                <vbox>
-                    <span sclass="input-group-addon">Topico</span>
-                    <textbox id="topico"/>
-                </vbox>
-                <vbox>
-                    <span sclass="input-group-addon">Comprimento</span>
-                    <textbox id="comprimento" placeholder="em kb"/>
-                </vbox>
+                <hlayout vflex="1" hflex="1" sclass="second-layout">
+                    <div sclass="description-area" height="100%">
+                        <span sclass="input-group-addon">Descricao
+                            do Cd
+                        </span>
+                    </div>
+
+                    <div sclass="description-area" height="100%">
+                        <textbox sclass="form-control"
+                                 id="descricaoCd" disabled="false"
+                                 value="" hflex="1"
+                                 constraint=" no Empty: Preenche o campo!"/>
+                    </div>
+                </hlayout>
             </row>
-
         </rows>
-
     </grid>
 </groupbox>

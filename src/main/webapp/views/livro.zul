@@ -1,47 +1,70 @@
-<window apply="sgb.controller.viewsController.ObraController"
-        border="none" hflex="1" vflex="1" contentStyle="overflow:auto">
-
-<groupbox id="grplivrodata" mold="3d">
-    <caption sclass="folder" label="Dados Do Livro"/>
+<groupbox mold="3d">
+    <caption sclass="folder" label="${labels.livroinfo}"/>
 
     <grid>
         <columns sizable="true">
-            <column width="40%"/>
-            <column width="40%"/>
-
+            <column hflex="1" vflex="1"/>
         </columns>
-
         <rows>
-            <!--quando for livro-->
 
             <row>
+                <hlayout vflex="1" hflex="1" sclass="second-layout">
+                    <div sclass="description-area" height="100%">
+                        <span sclass="input-group-addon">ISBN</span>
+                    </div>
 
-                <vbox>
-                    <span sclass="input-group-addon">ISBN</span>
-                    <textbox sclass="form-control" id="isbn"/>
-                </vbox>
-
-                <vbox>
-                    <span sclass="input-group-addon">Codigo de Barra</span>
-                    <textbox sclass="form-control" id="codigobarra"/>
-                </vbox>
-
+                    <div sclass="description-area" height="100%">
+                        <textbox sclass="form-control" id="isbn"
+                                 disabled="false" value="" hflex="1"
+                                 constraint=" no Empty: Preenche o campo!"/>
+                    </div>
+                </hlayout>
             </row>
 
             <row>
-                <vbox>
-                    <span sclass="input-group-addon">Editora</span>
-                    <textbox sclass="form-control" id="editora"/>
-                </vbox>
+                <hlayout vflex="1" hflex="1" sclass="second-layout">
+                    <div sclass="description-area" height="100%">
+                        <span sclass="input-group-addon">Codigo de
+                            Barra
+                        </span>
+                    </div>
 
-                <vbox>
-                    <span sclass="input-group-addon">Edição</span>
-                    <textbox sclass="form-control" id="edicao"/>
-                </vbox>
+                    <div sclass="description-area" height="100%">
+                        <textbox sclass="form-control" id="codigobarra"
+                                 disabled="false" value="" hflex="1"
+                                 constraint=" no Empty: Preenche o campo!"/>
+                    </div>
+                </hlayout>
+            </row>
+
+            <row>
+                <hlayout vflex="1" hflex="1" sclass="second-layout">
+                    <div sclass="description-area" height="100%">
+                        <span sclass="input-group-addon">Editora</span>
+                    </div>
+
+                    <div sclass="description-area" height="100%">
+                        <textbox sclass="form-control" id="editora"
+                                 disabled="false" value="" hflex="1"
+                                 constraint=" no Empty: Preenche o campo!"/>
+                    </div>
+                </hlayout>
+            </row>
+
+            <row>
+                <hlayout vflex="1" hflex="1" sclass="second-layout">
+                    <div sclass="description-area" height="100%">
+                        <span sclass="input-group-addon">Edicao</span>
+                    </div>
+
+                    <div sclass="description-area" height="100%">
+                        <textbox sclass="form-control" id="edicao"
+                                 disabled="false" value="" hflex="1"
+                                 constraint=" no Empty: Preenche o campo!"/>
+                    </div>
+                </hlayout>
             </row>
 
         </rows>
-
     </grid>
 </groupbox>
-</window>
