@@ -12,6 +12,7 @@ public class RegistroObra {
     private Calendar dataRegistro;
     private Obra obra;
 
+
     @Id
     @Column(name = "cota")
     public String getCota() {

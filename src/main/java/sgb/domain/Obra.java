@@ -37,6 +37,7 @@ public class Obra {
         this.cota = cota;
     }
 
+
     @Basic
     @Column(name = "registro")
     public Integer getRegistro() {
