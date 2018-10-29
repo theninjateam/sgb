@@ -16,6 +16,7 @@ import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.*;
+import org.zkoss.zul.impl.InputElement;
 import sgb.domain.*;
 import sgb.service.CRUDService;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -44,6 +45,9 @@ public class ObraController extends SelectorComposer<Component> {
     private ListModelList<Autor> authorListModel;
     Autor oAutor = new Autor();
 
+
+    @Wire
+    private Window addObra;
     @Wire
     private Listbox authorListBox;
 
@@ -71,7 +75,7 @@ public class ObraController extends SelectorComposer<Component> {
     private Textbox cota;
 
     @Wire
-    private Textbox registo;
+    private Intbox registo;
 
     @Wire
     private Textbox titulo;
@@ -92,11 +96,7 @@ public class ObraController extends SelectorComposer<Component> {
     private Datebox dataPublicacao;
 
     @Wire
-    private Textbox quatddObra;
-
-
-    public ObraController() {
-    }
+    private Intbox quatddObra;
 
 
 
@@ -165,6 +165,8 @@ public class ObraController extends SelectorComposer<Component> {
     @Listen("onClick = #savebtn")
     public void saveData() throws ParseException {
 
+        check(addObra);
+
         Obra obra = new Obra();
         Livro livro = new Livro();
         Cd cd = new Cd();
@@ -172,7 +174,7 @@ public class ObraController extends SelectorComposer<Component> {
         TipoObra tipoObra = tipoObraListBox.getSelectedItem().getValue();
 
         obra.setCota(cota.getValue());
-        obra.setRegistro(Integer.parseInt(registo.getValue()));
+        obra.setRegistro(registo.getValue());
         obra.setTipoobra(tipoObra);
 
         obra.setTitulo(titulo.getValue());
@@ -182,7 +184,7 @@ public class ObraController extends SelectorComposer<Component> {
         java.sql.Date datapu = new Date(df.parse(data).getTime());
         obra.setDatapublicacao(datapu);
         obra.setLocalpublicacao(localPublicacao.getValue());
-        obra.setQuantidade(Integer.parseInt(quatddObra.getValue()));
+        obra.setQuantidade(quatddObra.getValue());
 
 
 
@@ -268,5 +270,59 @@ public class ObraController extends SelectorComposer<Component> {
         Autor autor = (Autor) litem.getValue();
         authorListModel.remove(autor);
         this.autor.setValue(autor.getNome().concat(" "+autor.getNome()));
+    }
+
+    private void check(Component component) {
+        checkIsValid(component);
+
+        if (component.isVisible() || component instanceof Tabpanel) {
+            List<Component> children = component.getChildren();
+            for (Component each : children) {
+                check(each);
+            }
+        }
+    }
+
+
+    private void limpar(Component component) {
+        limparComp(component);
+
+        //if (component.isVisible()) {
+        List<Component> children = component.getChildren();
+        for (Component each : children) {
+            limpar(each);
+        }
+        // }
+    }
+
+    public void limparComp(Component component) {
+        Constraint co = null;
+        if (component instanceof InputElement) {
+            Constraint c = ((InputElement) component).getConstraint();
+            if (!(component instanceof Combobox)) {
+                if (c != null) {
+                    SimpleConstraint sc = (SimpleConstraint) c;
+                    String s = sc.getClientConstraint();
+                    ((InputElement) component).setConstraint(co);
+                    ((InputElement) component).setText("");
+                    ((InputElement) component).setConstraint(c);
+                } else {
+                    ((InputElement) component).setText("");
+                }
+            }
+        }
+    }
+    private void checkIsValid(Component component) {
+        if (component instanceof InputElement) {
+            if ((!((InputElement) component).isValid())) {
+                Clients.scrollIntoView(component);
+                ((InputElement) component).getText();
+            }
+            if (((component instanceof Combobox) && ((Combobox) component).getSelectedItem() == null)) {
+                Clients.scrollIntoView(component);
+                ((Combobox) component).setText("");
+                ((Combobox) component).getValue();
+            }
+        }
     }
 }

@@ -36,14 +36,18 @@ Copyright (C) 2008 Potix Corporation. All Rights Reserved.
 				<image width="90px" height="80px" src="/img/ZK-Logo.gif"/>
 				</n:a>
 			</div>
+
+			<div  style=" float:right; padding: 50px 50px 0 50px;" >
+				<hbox apply="sgb.controller.LoginController"
+					  hflex="1" vflex="1" pack="end" align="end" >
+					<image src="/img/profile.png" width="20px" height="20px"/>
+					<label value="${sessionScope.userCredential.name}" if="${not sessionScope.userCredential.anonymous}"/>
+					<label id="logout" value="${labels.logout}"  sclass="logout" if="${not sessionScope.userCredential.anonymous}"/>
+				</hbox>
+			</div>
 			<categorybar zclass="demo-categorybar" id="header">
 				<category zclass="demo-category" forEach="${main$MainLayoutComposer.categories}" id="${each.id}" image="${each.icon}" label="${each.label}" 
 				forward="onClick=main.onCategorySelect"/>
-
-				<categorybar zclass="demo-categorybar" style="padding-left:10px; align:right">
-					<category>logout</category>
-				</categorybar>
-
 			</categorybar>
 		</div>
 
