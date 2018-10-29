@@ -215,7 +215,7 @@ public class ObraController extends SelectorComposer<Component> {
 
             obra.setAutores(autores);
             crudService.Save(obra);
-            Clients.showNotification("Os dados foram guadados com sucesso!");
+            Clients.showNotification("Os dados foram guadados com sucesso!",null,null,null,1000);
         }
         catch (Exception e)
         {
