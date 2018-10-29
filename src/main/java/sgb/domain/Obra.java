@@ -26,6 +26,7 @@ public class Obra {
     private Livro livro;
     private Cd cd;
     private Revista revista;
+    private RegistroObra registroObra;
 
     @Id
     @Column(name = "cota")
@@ -184,5 +185,16 @@ public class Obra {
         this.revista = revista;
     }
 
+    @OneToOne(fetch = FetchType.LAZY,
+            cascade =  CascadeType.ALL,
+            mappedBy = "obra")
+
+    public RegistroObra getRegistroObra() {
+        return registroObra;
+    }
+
+    public void setRegistroObra(RegistroObra registroObra) {
+        this.registroObra = registroObra;
+    }
 
 }

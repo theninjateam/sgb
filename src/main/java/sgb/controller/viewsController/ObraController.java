@@ -7,6 +7,8 @@ package sgb.controller.viewsController;
 
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.zkoss.lang.Strings;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.ForwardEvent;
@@ -27,6 +29,7 @@ import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -38,13 +41,14 @@ import java.util.Set;
 public class ObraController extends SelectorComposer<Component> {
 
     private CRUDService crudService = (CRUDService) SpringUtil.getBean("CRUDService");
+    private Users user;
     private  ListModelList<TipoObra> tipoObraModel;
     private  ListModelList<AreaCientifica> areaCientificaModel;
     private  ListModelList<Idioma> idiomaModel;
     private Set<Autor> autores = new HashSet<Autor>();
     private ListModelList<Autor> authorListModel;
     Autor oAutor = new Autor();
-
+    private RegistroObra registroObra = new RegistroObra();
 
     @Wire
     private Window addObra;
@@ -172,6 +176,7 @@ public class ObraController extends SelectorComposer<Component> {
         Cd cd = new Cd();
         Revista revista = new Revista();
         TipoObra tipoObra = tipoObraListBox.getSelectedItem().getValue();
+        user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         obra.setCota(cota.getValue());
         obra.setRegistro(registo.getValue());
@@ -186,6 +191,11 @@ public class ObraController extends SelectorComposer<Component> {
         obra.setLocalpublicacao(localPublicacao.getValue());
         obra.setQuantidade(quatddObra.getValue());
 
+
+        registroObra.setBibliotecario(user.getName().concat(" "+user.getLastName()));
+        registroObra.setCota(obra.getCota());
+        registroObra.setDataRegistro(Calendar.getInstance());
+        registroObra.setObra(obra);
 
 
         if (tipoObra.getDescricao().toLowerCase().equals("livro")) {
@@ -213,6 +223,8 @@ public class ObraController extends SelectorComposer<Component> {
             for(Autor autor: authorListModel) // esta linha devera sair
                 autores.add(autor);
 
+
+            obra.setRegistroObra(registroObra);
             obra.setAutores(autores);
             crudService.Save(obra);
             Clients.showNotification("Os dados foram guadados com sucesso!",null,null,null,1000);
