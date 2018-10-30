@@ -1,17 +1,16 @@
 package sgb.domain;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.util.Calendar;
 import java.util.Objects;
 
 @Entity
-@Table(name = "registroobra", schema = "public")
 public class RegistroObra {
     private String cota;
-    private String bibliotecario;
-    private Calendar dataRegistro;
+    private int iduser;
+    private Calendar dataRegisto;
     private Obra obra;
-
 
     @Id
     @Column(name = "cota")
@@ -23,35 +22,42 @@ public class RegistroObra {
         this.cota = cota;
     }
 
-    @Basic
-    @Column(name = "bibliotecario")
-    public String getBibliotecario() {
-        return bibliotecario;
+    @Column(name = "iduser")
+    public int getIduser() {
+        return iduser;
     }
 
-    public void setBibliotecario(String bibliotecario)
-    {
-        this.bibliotecario = bibliotecario;
+    public void setIduser(int iduser) {
+        this.iduser = iduser;
     }
 
     @Basic
     @Column(name = "dataregisto")
-    public Calendar getDataRegistro() {
-        return dataRegistro;
+    public Calendar getDataRegisto() {
+        return dataRegisto;
     }
 
-    public void setDataRegistro(Calendar dataRegistro)
-    {
-        this.dataRegistro = dataRegistro;
+    public void setDataRegisto(Calendar dataregisto) {
+        this.dataRegisto = dataregisto;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RegistroObra that = (RegistroObra) o;
+        return iduser == that.iduser &&
+                Objects.equals(cota, that.cota) &&
+                Objects.equals(dataRegisto, that.dataRegisto);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(cota, bibliotecario, dataRegistro);
+        return Objects.hash(cota, iduser, dataRegisto);
     }
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "cota", nullable = false)
+    @JoinColumn(name = "cota")
 
     public Obra getObra() {
         return obra;

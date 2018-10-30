@@ -170,7 +170,6 @@ public class ObraController extends SelectorComposer<Component> {
     public void saveData() throws ParseException {
 
 
-
         check(addObra);
 
         Obra obra = new Obra();
@@ -194,9 +193,9 @@ public class ObraController extends SelectorComposer<Component> {
         obra.setQuantidade(quatddObra.getValue());
 
 
-        registroObra.setBibliotecario(user.getName().concat(" "+user.getLastName()));
+        registroObra.setIduser(user.getId());
         registroObra.setCota(obra.getCota());
-        registroObra.setDataRegistro(Calendar.getInstance());
+        registroObra.setDataRegisto(Calendar.getInstance());
         registroObra.setObra(obra);
 
 
