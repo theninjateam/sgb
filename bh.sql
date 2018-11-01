@@ -12,7 +12,7 @@
  Target Server Version : 100005
  File Encoding         : 65001
 
- Date: 25/10/2018 10:12:56
+ Date: 01/11/2018 10:52:59
 */
 
 
@@ -20,7 +20,7 @@
 -- Sequence structure for areacientifica_idarea_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "public"."areacientifica_idarea_seq";
-CREATE SEQUENCE "public"."areacientifica_idarea_seq"
+CREATE SEQUENCE "public"."areacientifica_idarea_seq" 
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -106,6 +106,10 @@ CREATE TABLE "public"."autor" (
 INSERT INTO "public"."autor" VALUES ('8229a8b31ffcddd530ce6b821313a55a', 'Ricardo Daniel Fedeli');
 INSERT INTO "public"."autor" VALUES ('d1b547dcf8f6d14bbeb12619eff97819', 'Enrico Giulio Franco Polloni');
 INSERT INTO "public"."autor" VALUES ('ed4518f5dd79dfe71c93738816d642d5', 'Fernando Eduardo Peres');
+INSERT INTO "public"."autor" VALUES ('90455afe8bf918c581be908c174a0d30', 'Emerson Cardoso');
+INSERT INTO "public"."autor" VALUES ('4bbde07660e5eff90873642cfae9a8dd', 'SSSSSSSS');
+INSERT INTO "public"."autor" VALUES ('0b757be795f46a5c37c52e7932e8effc', 'Americo Jose');
+INSERT INTO "public"."autor" VALUES ('62b9aef3390384c34a495744df95e8dc', 'Joao Antonio');
 
 -- ----------------------------
 -- Table structure for cd
@@ -192,6 +196,7 @@ CREATE TABLE "public"."livro" (
 INSERT INTO "public"."livro" VALUES ('591.3A', '85-221-0845-5', 'Cengage Learning', '2', '9788822108459');
 INSERT INTO "public"."livro" VALUES ('591.3B', '85-221-0845-5', 'Cengage Learning', '2', '9788822108459');
 INSERT INTO "public"."livro" VALUES ('eee45', 'wqwqqqw', 'aaaa', '2', '123344');
+INSERT INTO "public"."livro" VALUES ('531.1A', '55-55-689', 'uniluro', '2', '112315');
 
 -- ----------------------------
 -- Table structure for obra
@@ -214,8 +219,11 @@ CREATE TABLE "public"."obra" (
 -- Records of obra
 -- ----------------------------
 INSERT INTO "public"."obra" VALUES ('591.3A', 123, 'Introducao a ciencia de computacao ', 1, 'Brasil', '2013-01-24', 1, 1, 1);
-INSERT INTO "public"."obra" VALUES ('591.3B', 123, 'Introducao a ciencia de computacao ', 1, 'Brasil', '2013-01-24', NULL, 1, 1);
-INSERT INTO "public"."obra" VALUES ('eee45', 111, 'redes ', 1, 'pemba', '2018-10-25', NULL, 12, 1);
+INSERT INTO "public"."obra" VALUES ('591.3B', 123, 'Introducao a ciencia de computacao ', 1, 'Brasil', '2013-01-24', 1, 1, 1);
+INSERT INTO "public"."obra" VALUES ('eee45', 111, 'redes ', 1, 'pemba', '2018-10-25', 1, 12, 1);
+INSERT INTO "public"."obra" VALUES ('222www', 111, 'wwwwww', 1, 'dddd', '2018-10-25', 1, 12, 2);
+INSERT INTO "public"."obra" VALUES ('112DD', 1111, 'EDDEDE', 2, 'SSSS', '2018-10-25', 1, 12, 2);
+INSERT INTO "public"."obra" VALUES ('531.1A', 1205, 'iIntroducao a Fisica', 1, 'Pemba', '2018-10-10', 1, 5, 1);
 
 -- ----------------------------
 -- Table structure for obra_autor
@@ -237,6 +245,10 @@ INSERT INTO "public"."obra_autor" VALUES ('8229a8b31ffcddd530ce6b821313a55a', '5
 INSERT INTO "public"."obra_autor" VALUES ('d1b547dcf8f6d14bbeb12619eff97819', '591.3B');
 INSERT INTO "public"."obra_autor" VALUES ('ed4518f5dd79dfe71c93738816d642d5', '591.3B');
 INSERT INTO "public"."obra_autor" VALUES ('ed4518f5dd79dfe71c93738816d642d5', 'eee45');
+INSERT INTO "public"."obra_autor" VALUES ('90455afe8bf918c581be908c174a0d30', '222www');
+INSERT INTO "public"."obra_autor" VALUES ('4bbde07660e5eff90873642cfae9a8dd', '112DD');
+INSERT INTO "public"."obra_autor" VALUES ('0b757be795f46a5c37c52e7932e8effc', '531.1A');
+INSERT INTO "public"."obra_autor" VALUES ('62b9aef3390384c34a495744df95e8dc', '531.1A');
 
 -- ----------------------------
 -- Table structure for registroobra
@@ -244,10 +256,16 @@ INSERT INTO "public"."obra_autor" VALUES ('ed4518f5dd79dfe71c93738816d642d5', 'e
 DROP TABLE IF EXISTS "public"."registroobra";
 CREATE TABLE "public"."registroobra" (
   "cota" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
-  "bibliotecario" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
+  "iduser" int4 NOT NULL,
   "dataregisto" date NOT NULL
 )
 ;
+
+-- ----------------------------
+-- Records of registroobra
+-- ----------------------------
+INSERT INTO "public"."registroobra" VALUES ('112DD', 1, '2018-10-29');
+INSERT INTO "public"."registroobra" VALUES ('531.1A', 1, '2018-10-30');
 
 -- ----------------------------
 -- Table structure for revista
@@ -258,6 +276,12 @@ CREATE TABLE "public"."revista" (
   "instituicao" varchar(255) COLLATE "pg_catalog"."default"
 )
 ;
+
+-- ----------------------------
+-- Records of revista
+-- ----------------------------
+INSERT INTO "public"."revista" VALUES ('222www', 'eeeeee');
+INSERT INTO "public"."revista" VALUES ('112DD', 'SSSSSSS');
 
 -- ----------------------------
 -- Table structure for role
@@ -472,6 +496,7 @@ ALTER TABLE "public"."obra_autor" ADD CONSTRAINT "hashcode" FOREIGN KEY ("hashco
 -- Foreign Keys structure for table registroobra
 -- ----------------------------
 ALTER TABLE "public"."registroobra" ADD CONSTRAINT "Cota" FOREIGN KEY ("cota") REFERENCES "public"."obra" ("cota") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "public"."registroobra" ADD CONSTRAINT "iduser" FOREIGN KEY ("iduser") REFERENCES "public"."user" ("user_id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- ----------------------------
 -- Foreign Keys structure for table revista
