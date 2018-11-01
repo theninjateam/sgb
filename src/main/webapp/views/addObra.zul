@@ -61,6 +61,8 @@
 
                                                                     <button label="adicionar  PDF" upload="true" id="upLoadPDF"  forward="onUpload=upLoadPDF.onUpLoadPDF">
                                                                     </button>
+                                                                    <button label="adicionar  Imagem" upload="true" id="upLoadIMG"  forward="onUpload=upLoadIMG.onUpLoadIMG">
+                                                                    </button>
                                                                     <label sclass="input-group-addon" id="addedFile">
                                                                     </label>
 

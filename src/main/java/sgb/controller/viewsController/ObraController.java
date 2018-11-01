@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package sgb.controller.viewsController;
 
 import org.springframework.dao.DataIntegrityViolationException;
@@ -59,6 +60,9 @@ public class ObraController extends SelectorComposer<Component> {
 
     @Wire
     private Button upLoadPDF;
+
+    @Wire
+    private Button upLoadIMG;
 
     @Wire
     private Label addedFile;
@@ -273,7 +277,24 @@ public class ObraController extends SelectorComposer<Component> {
         if (!media.getFormat().equals("pdf")) {
             Clients.showNotification("Ficheiro Invalido, carrega um ficheiro pdf");
         } else {
-            relativePath = "/WEB-INF/files/pdf/";
+            relativePath = "digitalLibrary/pdf";
+            fullPath = Executions.getCurrent().getDesktop().getWebApp().getRealPath(relativePath);
+            relativePath += media.getName();
+            fullPath += media.getName();
+            addedFile.setValue(media.getName());
+        }
+    }
+
+    @Listen("onUpLoadIMG = #upLoadIMG")
+    public void loadIMG(ForwardEvent event) {
+
+        UploadEvent uploadEvent = (UploadEvent) event.getOrigin();
+        media = uploadEvent.getMedia();
+
+        if (!media.getContentType().toString().contains("image")) {
+            Clients.showNotification("Ficheiro Invalido, carrega uma imagem");
+        } else {
+            relativePath = "/digitalLibrary/cover";
             fullPath = Executions.getCurrent().getDesktop().getWebApp().getRealPath(relativePath);
             relativePath += media.getName();
             fullPath += media.getName();
@@ -331,7 +352,6 @@ public class ObraController extends SelectorComposer<Component> {
             }
         }
     }
-
 
     private void limpar(Component component) {
         limparComp(component);
