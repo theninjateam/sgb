@@ -17,7 +17,6 @@ public class Obra {
     private Integer registro;
     private String titulo;
     private String localpublicacao;
-    private Date datapublicacao;
     private Integer quantidade;
     private AreaCientifica areacientifica;
     private TipoObra tipoobra;
@@ -27,22 +26,26 @@ public class Obra {
     private Cd cd;
     private Revista revista;
     private RegistroObra registroObra;
+    private String pathpdf;
+    private String pathcapa;
+    private Integer anoPublicacao;
 
     @Id
     @Column(name = "cota")
     public String getCota() {
         return cota;
     }
+
     public void setCota(String cota) {
         this.cota = cota;
     }
-
 
     @Basic
     @Column(name = "registro")
     public Integer getRegistro() {
         return registro;
     }
+
     public void setRegistro(Integer registro) {
         this.registro = registro;
     }
@@ -52,38 +55,21 @@ public class Obra {
     public String getTitulo() {
         return titulo;
     }
+
     public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
-
 
     @Basic
     @Column(name = "localpublicacao")
     public String getLocalpublicacao() {
         return localpublicacao;
     }
+
     public void setLocalpublicacao(String localpublicacao) {
         this.localpublicacao = localpublicacao;
     }
 
-    @Basic
-    @Column(name = "datapublicacao")
-    public Date getDatapublicacao() {
-        return datapublicacao;
-    }
-    public void setDatapublicacao(Date datapublicacao) {
-        this.datapublicacao = datapublicacao;
-    }
-
-    @Basic
-    @Column(name = "quantidade")
-    public Integer getQuantidade() {
-        return quantidade;
-    }
-
-    public void setQuantidade(Integer quantidade) {
-        this.quantidade = quantidade;
-    }
 
 
 //    @Override
@@ -102,27 +88,69 @@ public class Obra {
 //                Objects.equals(idtipo, obra.idtipo);
 //    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(cota, registro, titulo, localpublicacao, datapublicacao,  quantidade);
+
+
+    @Basic
+    @Column(name = "quantidade")
+    public Integer getQuantidade() {
+        return quantidade;
     }
 
+    public void setQuantidade(Integer quantidade) {
+        this.quantidade = quantidade;
+    }
+
+    @Basic
+    @Column(name = "pathpdf")
+    public String getPathpdf() {
+        return pathpdf;
+    }
+
+    public void setPathpdf(String pathpdf) {
+        this.pathpdf = pathpdf;
+    }
+
+    @Basic
+    @Column(name = "pathcapa")
+    public String getPathcapa() {
+        return pathcapa;
+    }
+
+    public void setPathcapa(String pathcapa) {
+        this.pathcapa = pathcapa;
+    }
+
+    @Basic
+    @Column(name = "ano publicacao")
+    public Integer getAnoPublicacao() {
+        return anoPublicacao;
+    }
+
+    public void setAnoPublicacao(Integer anoPublicacao) {
+        this.anoPublicacao = anoPublicacao;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(cota, registro, titulo, localpublicacao, anoPublicacao,  quantidade);
+    }
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "ididioma", nullable = false)
     public Idioma getIdioma() {
         return idioma;
     }
+
     public void setIdioma(Idioma idioma) {
         this.idioma = idioma;
     }
-
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "idtipo", nullable = false)
     public TipoObra getTipoobra() {
         return tipoobra;
     }
+
     public void setTipoobra(TipoObra tipoobra) {
         this.tipoobra = tipoobra;
     }
@@ -145,10 +173,10 @@ public class Obra {
     public Set<Autor> getAutores(){
         return this.autores;
     }
+
     public void setAutores(Set<Autor> autores) {
         this.autores=autores;
     }
-
 
     @OneToOne(fetch = FetchType.LAZY,
             cascade =  CascadeType.ALL,
@@ -197,5 +225,7 @@ public class Obra {
     public void setRegistroObra(RegistroObra registroObra) {
         this.registroObra = registroObra;
     }
+
+
 
 }

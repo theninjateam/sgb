@@ -12,7 +12,7 @@
  Target Server Version : 100005
  File Encoding         : 65001
 
- Date: 01/11/2018 10:52:59
+ Date: 01/11/2018 13:54:09
 */
 
 
@@ -20,7 +20,7 @@
 -- Sequence structure for areacientifica_idarea_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "public"."areacientifica_idarea_seq";
-CREATE SEQUENCE "public"."areacientifica_idarea_seq" 
+CREATE SEQUENCE "public"."areacientifica_idarea_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -31,7 +31,7 @@ CACHE 1;
 -- Sequence structure for formatocd_idformato_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "public"."formatocd_idformato_seq";
-CREATE SEQUENCE "public"."formatocd_idformato_seq" 
+CREATE SEQUENCE "public"."formatocd_idformato_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -42,7 +42,7 @@ CACHE 1;
 -- Sequence structure for hibernate_sequence
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "public"."hibernate_sequence";
-CREATE SEQUENCE "public"."hibernate_sequence" 
+CREATE SEQUENCE "public"."hibernate_sequence"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 9223372036854775807
@@ -53,7 +53,7 @@ CACHE 1;
 -- Sequence structure for idioma_ididioma_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "public"."idioma_ididioma_seq";
-CREATE SEQUENCE "public"."idioma_ididioma_seq" 
+CREATE SEQUENCE "public"."idioma_ididioma_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -64,7 +64,7 @@ CACHE 1;
 -- Sequence structure for tipoobra_idtipo_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "public"."tipoobra_idtipo_seq";
-CREATE SEQUENCE "public"."tipoobra_idtipo_seq" 
+CREATE SEQUENCE "public"."tipoobra_idtipo_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -82,15 +82,6 @@ CREATE TABLE "public"."areacientifica" (
 ;
 
 -- ----------------------------
--- Records of areacientifica
--- ----------------------------
-INSERT INTO "public"."areacientifica" VALUES (1, 'Fisica');
-INSERT INTO "public"."areacientifica" VALUES (2, 'Matematica');
-INSERT INTO "public"."areacientifica" VALUES (3, 'Quimica');
-INSERT INTO "public"."areacientifica" VALUES (4, 'Literatura');
-INSERT INTO "public"."areacientifica" VALUES (5, 'Biologia');
-
--- ----------------------------
 -- Table structure for autor
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."autor";
@@ -99,17 +90,6 @@ CREATE TABLE "public"."autor" (
   "nomec" varchar(255) COLLATE "pg_catalog"."default"
 )
 ;
-
--- ----------------------------
--- Records of autor
--- ----------------------------
-INSERT INTO "public"."autor" VALUES ('8229a8b31ffcddd530ce6b821313a55a', 'Ricardo Daniel Fedeli');
-INSERT INTO "public"."autor" VALUES ('d1b547dcf8f6d14bbeb12619eff97819', 'Enrico Giulio Franco Polloni');
-INSERT INTO "public"."autor" VALUES ('ed4518f5dd79dfe71c93738816d642d5', 'Fernando Eduardo Peres');
-INSERT INTO "public"."autor" VALUES ('90455afe8bf918c581be908c174a0d30', 'Emerson Cardoso');
-INSERT INTO "public"."autor" VALUES ('4bbde07660e5eff90873642cfae9a8dd', 'SSSSSSSS');
-INSERT INTO "public"."autor" VALUES ('0b757be795f46a5c37c52e7932e8effc', 'Americo Jose');
-INSERT INTO "public"."autor" VALUES ('62b9aef3390384c34a495744df95e8dc', 'Joao Antonio');
 
 -- ----------------------------
 -- Table structure for cd
@@ -132,14 +112,6 @@ CREATE TABLE "public"."formatocd" (
 ;
 
 -- ----------------------------
--- Records of formatocd
--- ----------------------------
-INSERT INTO "public"."formatocd" VALUES (1, 'Audio');
-INSERT INTO "public"."formatocd" VALUES (2, 'Texto');
-INSERT INTO "public"."formatocd" VALUES (3, 'Video');
-INSERT INTO "public"."formatocd" VALUES (4, 'Sistema');
-
--- ----------------------------
 -- Table structure for idioma
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."idioma";
@@ -148,13 +120,6 @@ CREATE TABLE "public"."idioma" (
   "descricao" varchar(255) COLLATE "pg_catalog"."default"
 )
 ;
-
--- ----------------------------
--- Records of idioma
--- ----------------------------
-INSERT INTO "public"."idioma" VALUES (1, 'Portugues');
-INSERT INTO "public"."idioma" VALUES (2, 'Ingles');
-INSERT INTO "public"."idioma" VALUES (3, 'Espanhol');
 
 -- ----------------------------
 -- Table structure for item
@@ -191,14 +156,6 @@ CREATE TABLE "public"."livro" (
 ;
 
 -- ----------------------------
--- Records of livro
--- ----------------------------
-INSERT INTO "public"."livro" VALUES ('591.3A', '85-221-0845-5', 'Cengage Learning', '2', '9788822108459');
-INSERT INTO "public"."livro" VALUES ('591.3B', '85-221-0845-5', 'Cengage Learning', '2', '9788822108459');
-INSERT INTO "public"."livro" VALUES ('eee45', 'wqwqqqw', 'aaaa', '2', '123344');
-INSERT INTO "public"."livro" VALUES ('531.1A', '55-55-689', 'uniluro', '2', '112315');
-
--- ----------------------------
 -- Table structure for obra
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."obra";
@@ -208,22 +165,14 @@ CREATE TABLE "public"."obra" (
   "titulo" varchar(255) COLLATE "pg_catalog"."default",
   "idarea" int4,
   "localpublicacao" varchar(255) COLLATE "pg_catalog"."default",
-  "datapublicacao" date,
   "ididioma" int4,
   "quantidade" int4,
-  "idtipo" int4
+  "idtipo" int4,
+  "pathpdf" varchar(255) COLLATE "pg_catalog"."default",
+  "pathcapa" varchar(255) COLLATE "pg_catalog"."default",
+  "ano publicacao" int4
 )
 ;
-
--- ----------------------------
--- Records of obra
--- ----------------------------
-INSERT INTO "public"."obra" VALUES ('591.3A', 123, 'Introducao a ciencia de computacao ', 1, 'Brasil', '2013-01-24', 1, 1, 1);
-INSERT INTO "public"."obra" VALUES ('591.3B', 123, 'Introducao a ciencia de computacao ', 1, 'Brasil', '2013-01-24', 1, 1, 1);
-INSERT INTO "public"."obra" VALUES ('eee45', 111, 'redes ', 1, 'pemba', '2018-10-25', 1, 12, 1);
-INSERT INTO "public"."obra" VALUES ('222www', 111, 'wwwwww', 1, 'dddd', '2018-10-25', 1, 12, 2);
-INSERT INTO "public"."obra" VALUES ('112DD', 1111, 'EDDEDE', 2, 'SSSS', '2018-10-25', 1, 12, 2);
-INSERT INTO "public"."obra" VALUES ('531.1A', 1205, 'iIntroducao a Fisica', 1, 'Pemba', '2018-10-10', 1, 5, 1);
 
 -- ----------------------------
 -- Table structure for obra_autor
@@ -234,21 +183,6 @@ CREATE TABLE "public"."obra_autor" (
   "cota" varchar(255) COLLATE "pg_catalog"."default" NOT NULL
 )
 ;
-
--- ----------------------------
--- Records of obra_autor
--- ----------------------------
-INSERT INTO "public"."obra_autor" VALUES ('8229a8b31ffcddd530ce6b821313a55a', '591.3A');
-INSERT INTO "public"."obra_autor" VALUES ('d1b547dcf8f6d14bbeb12619eff97819', '591.3A');
-INSERT INTO "public"."obra_autor" VALUES ('ed4518f5dd79dfe71c93738816d642d5', '591.3A');
-INSERT INTO "public"."obra_autor" VALUES ('8229a8b31ffcddd530ce6b821313a55a', '591.3B');
-INSERT INTO "public"."obra_autor" VALUES ('d1b547dcf8f6d14bbeb12619eff97819', '591.3B');
-INSERT INTO "public"."obra_autor" VALUES ('ed4518f5dd79dfe71c93738816d642d5', '591.3B');
-INSERT INTO "public"."obra_autor" VALUES ('ed4518f5dd79dfe71c93738816d642d5', 'eee45');
-INSERT INTO "public"."obra_autor" VALUES ('90455afe8bf918c581be908c174a0d30', '222www');
-INSERT INTO "public"."obra_autor" VALUES ('4bbde07660e5eff90873642cfae9a8dd', '112DD');
-INSERT INTO "public"."obra_autor" VALUES ('0b757be795f46a5c37c52e7932e8effc', '531.1A');
-INSERT INTO "public"."obra_autor" VALUES ('62b9aef3390384c34a495744df95e8dc', '531.1A');
 
 -- ----------------------------
 -- Table structure for registroobra
@@ -262,12 +196,6 @@ CREATE TABLE "public"."registroobra" (
 ;
 
 -- ----------------------------
--- Records of registroobra
--- ----------------------------
-INSERT INTO "public"."registroobra" VALUES ('112DD', 1, '2018-10-29');
-INSERT INTO "public"."registroobra" VALUES ('531.1A', 1, '2018-10-30');
-
--- ----------------------------
 -- Table structure for revista
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."revista";
@@ -278,12 +206,6 @@ CREATE TABLE "public"."revista" (
 ;
 
 -- ----------------------------
--- Records of revista
--- ----------------------------
-INSERT INTO "public"."revista" VALUES ('222www', 'eeeeee');
-INSERT INTO "public"."revista" VALUES ('112DD', 'SSSSSSS');
-
--- ----------------------------
 -- Table structure for role
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."role";
@@ -292,11 +214,6 @@ CREATE TABLE "public"."role" (
   "role" varchar(255) COLLATE "pg_catalog"."default"
 )
 ;
-
--- ----------------------------
--- Records of role
--- ----------------------------
-INSERT INTO "public"."role" VALUES (1, 'ADMIN');
 
 -- ----------------------------
 -- Table structure for roleitem
@@ -319,13 +236,6 @@ CREATE TABLE "public"."tipoobra" (
 ;
 
 -- ----------------------------
--- Records of tipoobra
--- ----------------------------
-INSERT INTO "public"."tipoobra" VALUES (1, 'Livro');
-INSERT INTO "public"."tipoobra" VALUES (2, 'Revista');
-INSERT INTO "public"."tipoobra" VALUES (3, 'CD');
-
--- ----------------------------
 -- Table structure for user
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."user";
@@ -340,12 +250,6 @@ CREATE TABLE "public"."user" (
 ;
 
 -- ----------------------------
--- Records of user
--- ----------------------------
-INSERT INTO "public"."user" VALUES (1, 1, 'admin@admin', 'admin', 'admin', '21232f297a57a5a743894a0e4a801fc3');
-INSERT INTO "public"."user" VALUES (2, 1, 'fonseca@fonseca', 'fonseca', 'fonseca', 'e653d3954be6576488c5ce7a599869de');
-
--- ----------------------------
 -- Table structure for user_role
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."user_role";
@@ -354,12 +258,6 @@ CREATE TABLE "public"."user_role" (
   "role_id" int4 NOT NULL
 )
 ;
-
--- ----------------------------
--- Records of user_role
--- ----------------------------
-INSERT INTO "public"."user_role" VALUES (1, 1);
-INSERT INTO "public"."user_role" VALUES (2, 1);
 
 -- ----------------------------
 -- Alter sequences owned by

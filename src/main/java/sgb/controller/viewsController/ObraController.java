@@ -64,6 +64,9 @@ public class ObraController extends SelectorComposer<Component> {
     private Label addedFile;
 
     @Wire
+    private Label addedCapa;
+
+    @Wire
     private Window addObra;
 
     @Wire
@@ -112,7 +115,7 @@ public class ObraController extends SelectorComposer<Component> {
     private Textbox localPublicacao;
 
     @Wire
-    private Datebox dataPublicacao;
+    private Intbox anoPublicacao;
 
     @Wire
     private Intbox quatddObra;
@@ -163,19 +166,10 @@ public class ObraController extends SelectorComposer<Component> {
         TipoObra tipoObra = tipoObraListBox.getSelectedItem().getValue();
         grpData.setVisible(true);
         if (tipoObra.getDescricao().toLowerCase().equals("livro")) {
-
-//            grprevistadata.setVisible(false);
-//            grpcddata.setVisible(false);
             idInclData.setSrc("views/livro.zul");
         } else if (tipoObra.getDescricao().toLowerCase().equals("cd")) {
-//            grpcddata.setVisible(true);
-//            grplivrodata.setVisible(false);
-//            grprevistadata.setVisible(false);
             idInclData.setSrc("views/cd.zul");
         } else if (tipoObra.getDescricao().toLowerCase().equals("revista")) {
-//            grprevistadata.setVisible(true);
-//            grplivrodata.setVisible(false);
-//            grpcddata.setVisible(false);
             idInclData.setSrc("views/revista.zul");
 
         }
@@ -195,22 +189,18 @@ public class ObraController extends SelectorComposer<Component> {
         obra.setCota(cota.getValue());
         obra.setRegistro(registo.getValue());
         obra.setTipoobra(tipoObra);
-
         obra.setTitulo(titulo.getValue());
         obra.setAreacientifica(areaCientificaListBox.getSelectedItem().getValue());
-        DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
-        String data = df.format(dataPublicacao.getValue());
-        java.sql.Date datapu = new Date(df.parse(data).getTime());
-        obra.setDatapublicacao(datapu);
+        obra.setAnoPublicacao(anoPublicacao.getValue());
         obra.setLocalpublicacao(localPublicacao.getValue());
         obra.setQuantidade(quatddObra.getValue());
-
+        obra.setPathcapa(addedCapa.getValue());
+        obra.setPathpdf(addedFile.getValue());
 
         registroObra.setIduser(user.getId());
         registroObra.setCota(obra.getCota());
         registroObra.setDataRegisto(Calendar.getInstance());
         registroObra.setObra(obra);
-
 
         if (tipoObra.getDescricao().toLowerCase().equals("livro")) {
             livro.setCota(obra.getCota());
