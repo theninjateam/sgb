@@ -6,11 +6,8 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="heroku_zksandbox" />
+        <module name="zksandbox" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="heroku_zksandbox" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
 </project>
