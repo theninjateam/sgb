@@ -5,13 +5,13 @@
  */
 package sgb.controller.viewsController;
 
-
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.zkoss.lang.Strings;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.ForwardEvent;
+import org.zkoss.zk.ui.event.UploadEvent;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
@@ -22,6 +22,10 @@ import org.zkoss.zul.impl.InputElement;
 import sgb.domain.*;
 import sgb.service.CRUDService;
 import org.apache.commons.codec.digest.DigestUtils;
+import java.io.File;
+import org.zkoss.io.Files;
+import org.zkoss.util.media.Media;
+import org.zkoss.zk.ui.Executions;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -49,14 +53,25 @@ public class ObraController extends SelectorComposer<Component> {
     private ListModelList<Autor> authorListModel;
     Autor oAutor = new Autor();
     private RegistroObra registroObra = new RegistroObra();
+    private String fullPath = null;
+    private String relativePath = null;
+    private Media media;
+
+    @Wire
+    private Button upLoadPDF;
+
+    @Wire
+    private Label addedFile;
 
     @Wire
     private Window addObra;
+
     @Wire
     private Listbox authorListBox;
 
     @Wire
     private Label cota_duplicated_key;
+
     @Wire
     private Listbox tipoObraListBox;
 
@@ -142,7 +157,7 @@ public class ObraController extends SelectorComposer<Component> {
     }
 
 
-    @Listen("onSelect = #tipoObraListBox")
+        @Listen("onSelect = #tipoObraListBox")
     public void change() {
 
         TipoObra tipoObra = tipoObraListBox.getSelectedItem().getValue();
@@ -168,8 +183,6 @@ public class ObraController extends SelectorComposer<Component> {
 
     @Listen("onClick = #savebtn")
     public void saveData() throws ParseException {
-
-
         check(addObra);
 
         Obra obra = new Obra();
@@ -227,8 +240,14 @@ public class ObraController extends SelectorComposer<Component> {
 
             obra.setRegistroObra(registroObra);
             obra.setAutores(autores);
+
+            // deve existir transacoes
             crudService.Save(obra);
-            Clients.showNotification("Os dados foram guadados com sucesso!",null,null,null,1000);
+
+            if(fullPath != null)
+                Files.copy(new File(fullPath), media.getStreamData());
+
+            Clients.showNotification("Os dados foram guardados com sucesso!",null,null,null,5000);
         }
         catch (Exception e)
         {
@@ -242,6 +261,23 @@ public class ObraController extends SelectorComposer<Component> {
                 }
             }
             e.printStackTrace();
+        }
+    }
+
+    @Listen("onUpLoadPDF = #upLoadPDF")
+    public void loadPDF(ForwardEvent event) {
+
+        UploadEvent uploadEvent = (UploadEvent) event.getOrigin();
+        media = uploadEvent.getMedia();
+
+        if (!media.getFormat().equals("pdf")) {
+            Clients.showNotification("Ficheiro Invalido, carrega um ficheiro pdf");
+        } else {
+            relativePath = "/WEB-INF/files/pdf/";
+            fullPath = Executions.getCurrent().getDesktop().getWebApp().getRealPath(relativePath);
+            relativePath += media.getName();
+            fullPath += media.getName();
+            addedFile.setValue(media.getName());
         }
     }
 
@@ -282,7 +318,7 @@ public class ObraController extends SelectorComposer<Component> {
         Listitem litem = (Listitem)btn.getParent().getParent();
         Autor autor = (Autor) litem.getValue();
         authorListModel.remove(autor);
-        this.autor.setValue(autor.getNome().concat(" "+autor.getNome()));
+        this.autor.setValue(autor.getNome());
     }
 
     private void check(Component component) {

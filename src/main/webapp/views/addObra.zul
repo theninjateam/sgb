@@ -2,6 +2,7 @@
 <zk>
     <window id="addObra" apply="sgb.controller.viewsController.ObraController"
             border="none" hflex="1" vflex="1" contentStyle="overflow:auto">
+
         <div style="padding:0px">
             <tabbox>
                 <tabs>
@@ -57,6 +58,12 @@
                                                                             </template>
                                                                         </listbox>
                                                                     </div>
+
+                                                                    <button label="adicionar  PDF" upload="true" id="upLoadPDF"  forward="onUpload=upLoadPDF.onUpLoadPDF">
+                                                                    </button>
+                                                                    <label sclass="input-group-addon" id="addedFile">
+                                                                    </label>
+
                                                                 </hlayout>
                                                             </row>
 
