@@ -21,7 +21,7 @@ public class Autor {
     }
 
     @Basic
-    @Column(name = "nomec")
+    @Column(name = "nome")
     public String getNome() {
         return nome;
     }

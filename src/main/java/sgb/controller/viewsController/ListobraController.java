@@ -10,6 +10,7 @@ import sgb.domain.Obra;
 import sgb.domain.Users;
 import sgb.service.CRUDService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ListobraController extends SelectorComposer<Component> {
@@ -29,11 +30,19 @@ public class ListobraController extends SelectorComposer<Component> {
         obraListBox.setModel(obraListModel);
     }
 
-    public ListModelList<Obra> getObraListModel () {
+    public List<Obra> getObraListModel () {
         List<Obra> listaobra = crudService.getAll(Obra.class);
-        alert(listaobra.get(0).getIdioma().getDescricao());
-        return new ListModelList<Obra>(listaobra);
+        return listaobra;
+    }
 
+    public List<String> getAutores(){
+
+        List<String> list = new ArrayList<>();
+
+        list.add("a");
+        list.add("b");
+
+        return list;
     }
 
 }

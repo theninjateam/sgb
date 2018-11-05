@@ -30,9 +30,14 @@
                                                     <label value="Titulo:"/>
                                                     <label value="${each.titulo}"/>
                                                 </div>
+
                                                 <div>
                                                     <label value="Autores :"/>
-                                                    <label value="${each.autores}"/>
+
+
+                                                        <label value="${each.nome}" forEach="${each.autores}"/>
+
+
                                                 </div>
                                                 <div>
                                                     <label value="Idioma :"/>
@@ -40,7 +45,7 @@
                                                 </div>
                                                 <div>
                                                     <label value="Tipo:"/>
-                                                    <label value="${each.idtipo}"/>
+                                                    <label value="${each.tipoobra.descricao}"/>
                                                 </div>
                                                 <div>
                                                     <label value="Local Publicacao :"/>

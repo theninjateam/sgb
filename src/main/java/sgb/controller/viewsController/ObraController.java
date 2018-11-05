@@ -192,10 +192,12 @@ public class ObraController extends SelectorComposer<Component> {
         obra.setTitulo(titulo.getValue());
         obra.setAreacientifica(areaCientificaListBox.getSelectedItem().getValue());
         obra.setAnoPublicacao(anoPublicacao.getValue());
-        obra.setLocalpublicacao(localPublicacao.getValue());
+        obra.setLocalpublicacao("vggggggg");
         obra.setQuantidade(quatddObra.getValue());
         obra.setPathcapa(addedCapa.getValue());
         obra.setPathpdf(addedFile.getValue());
+//        obra.getAutores().toString();
+
 
         registroObra.setIduser(user.getId());
         registroObra.setCota(obra.getCota());
