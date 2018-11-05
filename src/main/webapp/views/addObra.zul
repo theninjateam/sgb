@@ -90,8 +90,8 @@
                                                                     <div sclass="description-area" height="100%">
 
                                                                         <intbox sclass="form-control" id="registo"
-                                                                                 disabled="false" hflex="1"
-                                                                                 constraint=" no Empty: Preenche o campo!"/>
+                                                                                disabled="false" hflex="1"
+                                                                                constraint=" no Empty: Preenche o campo!"/>
                                                                     </div>
                                                                 </hlayout>
                                                             </row>
@@ -117,9 +117,9 @@
                                                                     </div>
 
                                                                     <hlayout>
-                                                                            <textbox  id="autor"
-                                                                                 disabled="false" value="" hflex="1"/>
-                                                                            <button label="Addicioanr" id="addAuthor"/>
+                                                                        <textbox  id="autor"
+                                                                                  disabled="false" value="" hflex="1"/>
+                                                                        <button label="Addicioanr" id="addAuthor"/>
                                                                     </hlayout>
 
                                                                 </hlayout>
@@ -221,9 +221,9 @@
 
                                                                     <div sclass="description-area" height="100%">
                                                                         <intbox sclass="form-control"
-                                                                                 id="anoPublicacao" disabled="false"
-                                                                                 hflex="1"
-                                                                                 constraint=" no Empty: Preenche o campo!"/>
+                                                                                id="anoPublicacao" disabled="false"
+                                                                                hflex="1"
+                                                                                constraint=" no Empty: Preenche o campo!"/>
                                                                     </div>
                                                                 </hlayout>
                                                             </row>
@@ -237,25 +237,27 @@
 
                                                                     <div sclass="description-area" height="100%">
                                                                         <intbox sclass="form-control" id="quatddObra"
-                                                                                 disabled="false"  hflex="1"
-                                                                                 constraint=" no Empty: Preenche o campo!"/>
+                                                                                disabled="false"  hflex="1"
+                                                                                constraint=" no Empty: Preenche o campo!"/>
                                                                     </div>
                                                                 </hlayout>
                                                             </row>
 
                                                             <row>
                                                                 <hlayout vflex="1" hflex="1" sclass="second-layout">
-                                                                <div sclass="description-area" height="100%">
-                                                                    <span sclass="input-group-addon">Capa
-                                                                    </span>
-                                                                </div>
-                                                                <div sclass="description-area" height="10%">
-                                                                    <image width="120px" height="200px" src="img/bg2.jpg"/>
-                                                                    <button label="Adcionar Capa" upload="true" id="upLoadCAPA"  forward="onUpload=upLoadPDF.onUpLoadPDF"/>
-                                                                    <button label="adicionar  PDF" upload="true" id="upLoadPDF"  forward="onUpload=upLoadPDF.onUpLoadPDF"/>
-                                                                    <label sclass="input-group-addon" id="addedFile"/>
-                                                                    <label sclass="input-group-addon" id="addedCapa"/>
-                                                                </div>
+                                                                    <div sclass="description-area" height="100%">
+                                                                        <span sclass="input-group-addon">Capa
+                                                                        </span>
+                                                                    </div>
+                                                                    <div sclass="description-area" height="10%">
+                                                                        <image id="capa" width="120px" height="200px" src="img/bg2.jpg"/>
+                                                                        <button label="Adcionar Capa" upload="true" id="upLoadCAPA"  forward="onUpload=upLoadCAPA.onUpLoadCAPA,
+                                                                            onClick=upLoadCAPA.onDeleteUpLoadedCAPA"/>
+                                                                        <button label="adicionar  PDF" upload="true" onClick="false" id="upLoadPDF"  forward="onUpload=upLoadPDF.onUpLoadPDF,
+                                                                            onClick=upLoadPDF.onDeleteUpLoadedPDF"/>
+                                                                        <label sclass="input-group-addon" id="addedPDF"/>
+                                                                        <label sclass="input-group-addon" id="addedCapa"/>
+                                                                    </div>
                                                                 </hlayout>
                                                             </row>
 

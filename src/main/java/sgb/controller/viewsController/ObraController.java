@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package sgb.controller.viewsController;
 
 import org.springframework.dao.DataIntegrityViolationException;
@@ -22,11 +23,15 @@ import org.zkoss.zul.impl.InputElement;
 import sgb.domain.*;
 import sgb.service.CRUDService;
 import org.apache.commons.codec.digest.DigestUtils;
+
+import java.awt.image.RenderedImage;
 import java.io.File;
 import org.zkoss.io.Files;
 import org.zkoss.util.media.Media;
+import org.zkoss.image.AImage;
 import org.zkoss.zk.ui.Executions;
 
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
@@ -53,18 +58,26 @@ public class ObraController extends SelectorComposer<Component> {
     private ListModelList<Autor> authorListModel;
     Autor oAutor = new Autor();
     private RegistroObra registroObra = new RegistroObra();
-    private String fullPath = null;
-    private String relativePath = null;
-    private Media media;
+    private String fullPathPDF = null;
+    private String relativePathPDF = null;
+    private String fullPathCover = null;
+    private String relativePathCover = null;
+    private Media mediaCover;
+    private Media mediaPDF;
 
+    @Wire
+    private Image capa;
     @Wire
     private Button upLoadPDF;
 
     @Wire
-    private Label addedFile;
+    private Button upLoadCAPA;
 
     @Wire
-    private Label addedCapa;
+    private Label addedPDF;
+
+    @Wire
+    private Label addedCapa; // eliminar esta label
 
     @Wire
     private Window addObra;
@@ -194,10 +207,8 @@ public class ObraController extends SelectorComposer<Component> {
         obra.setAnoPublicacao(anoPublicacao.getValue());
         obra.setLocalpublicacao("vggggggg");
         obra.setQuantidade(quatddObra.getValue());
-        obra.setPathcapa(addedCapa.getValue());
-        obra.setPathpdf(addedFile.getValue());
-//        obra.getAutores().toString();
-
+        obra.setPathcapa(relativePathCover);
+        obra.setPathpdf(relativePathPDF);
 
         registroObra.setIduser(user.getId());
         registroObra.setCota(obra.getCota());
@@ -233,11 +244,15 @@ public class ObraController extends SelectorComposer<Component> {
             obra.setRegistroObra(registroObra);
             obra.setAutores(autores);
 
-            // deve existir transacoes
+          //   deve existir transacoes
             crudService.Save(obra);
 
-            if(fullPath != null)
-                Files.copy(new File(fullPath), media.getStreamData());
+            if(fullPathPDF != null)
+                Files.copy(new File(fullPathPDF), mediaPDF.getStreamData());
+
+            if(fullPathCover != null)
+                Files.copy(new File(fullPathCover), mediaCover.getStreamData());
+
 
             Clients.showNotification("Os dados foram guardados com sucesso!",null,null,null,5000);
         }
@@ -257,19 +272,84 @@ public class ObraController extends SelectorComposer<Component> {
     }
 
     @Listen("onUpLoadPDF = #upLoadPDF")
-    public void loadPDF(ForwardEvent event) {
-
+    public void loadPDF(ForwardEvent event)
+    {
         UploadEvent uploadEvent = (UploadEvent) event.getOrigin();
-        media = uploadEvent.getMedia();
+        mediaPDF = uploadEvent.getMedia();
 
-        if (!media.getFormat().equals("pdf")) {
+        if (!mediaPDF.getFormat().equals("pdf"))
+        {
             Clients.showNotification("Ficheiro Invalido, carrega um ficheiro pdf");
-        } else {
-            relativePath = "/WEB-INF/files/pdf/";
-            fullPath = Executions.getCurrent().getDesktop().getWebApp().getRealPath(relativePath);
-            relativePath += media.getName();
-            fullPath += media.getName();
-            addedFile.setValue(media.getName());
+        }
+        else
+        {
+            relativePathPDF = "digitalLibrary/pdf";
+            fullPathPDF = Executions.getCurrent().getDesktop().getWebApp().getRealPath(relativePathPDF);
+            relativePathPDF += "/"+mediaPDF.getName();
+            fullPathPDF += "/"+mediaPDF.getName();
+            addedPDF.setValue(mediaPDF.getName());
+
+            this.upLoadPDF.setLabel("eliminar PDF adicionado");
+            this.upLoadPDF.setUpload("false");
+        }
+    }
+
+    @Listen("onDeleteUpLoadedPDF = #upLoadPDF")
+    public void deletUpLoadPDF(ForwardEvent event)
+    {
+        if(relativePathPDF != null || fullPathPDF != null)
+        {
+            relativePathPDF = null;
+            fullPathPDF = null;
+            mediaPDF = null;
+
+            addedPDF.setValue(null);
+            this.upLoadPDF.setUpload("true");
+            this.upLoadPDF.setLabel("adicionar PDF");
+        }
+    }
+
+    @Listen("onUpLoadCAPA = #upLoadCAPA")
+    public void loadCAPA(ForwardEvent event)
+    {
+        UploadEvent uploadEvent = (UploadEvent) event.getOrigin();
+        mediaCover = uploadEvent.getMedia();
+
+        if (!mediaCover.getContentType().contains("image"))
+        {
+            Clients.showNotification("Ficheiro Invalido, carrega uma imagem");
+        }
+        else
+        {
+            relativePathCover = "digitalLibrary/cover";
+            fullPathCover = Executions.getCurrent().getDesktop().getWebApp().getRealPath(relativePathCover);
+            relativePathCover += "/"+mediaCover.getName();
+            fullPathCover += "/"+mediaCover.getName();
+
+            this.capa.setContent((org.zkoss.image.Image) mediaCover);
+            this.upLoadCAPA.setLabel("eliminar CAPA adicionada");
+            this.upLoadCAPA.setUpload("false");
+        }
+    }
+
+    @Listen("onDeleteUpLoadedCAPA = #upLoadCAPA")
+    public void deletUpLoadCAPA(ForwardEvent event) throws IOException {
+        if(relativePathCover != null || fullPathCover != null)
+        {
+
+            String fullPathDefaultCover = Executions.getCurrent().getDesktop().getWebApp().getRealPath("digitalLibrary/cover");
+            fullPathDefaultCover += "/default.jpg";
+
+            Media mediaCapa = new AImage(fullPathDefaultCover);
+
+            relativePathCover = null;
+            fullPathCover = null;
+            mediaCover = null;
+
+            this.capa.setContent((org.zkoss.image.Image) mediaCapa);
+
+            this.upLoadCAPA.setUpload("true");
+            this.upLoadCAPA.setLabel("adicionar CAPA");
         }
     }
 
@@ -323,7 +403,6 @@ public class ObraController extends SelectorComposer<Component> {
             }
         }
     }
-
 
     private void limpar(Component component) {
         limparComp(component);
