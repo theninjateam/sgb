@@ -1,3 +1,5 @@
+drop schema public cascade;
+create schema public;
 /*
  Navicat Premium Data Transfer
 

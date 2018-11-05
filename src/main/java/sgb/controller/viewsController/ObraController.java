@@ -205,7 +205,7 @@ public class ObraController extends SelectorComposer<Component> {
         obra.setTitulo(titulo.getValue());
         obra.setAreacientifica(areaCientificaListBox.getSelectedItem().getValue());
         obra.setAnoPublicacao(anoPublicacao.getValue());
-        //obra.setLocalpublicacao(localPublicacao.getValue());
+        obra.setLocalpublicacao("teste");
         obra.setQuantidade(quatddObra.getValue());
         obra.setPathcapa(relativePathCover);
         obra.setPathpdf(relativePathPDF);
@@ -245,7 +245,7 @@ public class ObraController extends SelectorComposer<Component> {
             obra.setAutores(autores);
 
           //   deve existir transacoes
-         //   crudService.Save(obra);
+            crudService.Save(obra);
 
             if(fullPathPDF != null)
                 Files.copy(new File(fullPathPDF), mediaPDF.getStreamData());
