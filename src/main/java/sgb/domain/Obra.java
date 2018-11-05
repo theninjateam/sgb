@@ -1,24 +1,21 @@
 package sgb.domain;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
 import javax.persistence.*;
-import java.sql.Date;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Table(name = "obra", schema = "public")
+@Table(name="obra")
 public class Obra {
     private String cota;
     private Integer registro;
     private String titulo;
     private String localpublicacao;
     private Integer quantidade;
-    private AreaCientifica areacientifica;
+    private String pathpdf;
+    private String pathcapa;
+    private Integer anoPublicacao;
     private TipoObra tipoobra;
     private Set<Autor> autores = new HashSet<>();;
     private Idioma idioma;
@@ -26,9 +23,8 @@ public class Obra {
     private Cd cd;
     private Revista revista;
     private RegistroObra registroObra;
-    private String pathpdf;
-    private String pathcapa;
-    private Integer anoPublicacao;
+    private AreaCientifica areacientifica;
+    private String listaautor;
 
     @Id
     @Column(name = "cota")
@@ -70,26 +66,6 @@ public class Obra {
         this.localpublicacao = localpublicacao;
     }
 
-
-
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//        Obra obra = (Obra) o;
-//        return Objects.equals(cota, obra.cota) &&
-//                Objects.equals(registro, obra.registro) &&
-//                Objects.equals(titulo, obra.titulo) &&
-//                Objects.equals(idarea, obra.idarea) &&
-//                Objects.equals(localpublicacao, obra.localpublicacao) &&
-//                Objects.equals(datapublicacao, obra.datapublicacao) &&
-////                Objects.equals(ididioma, obra.ididioma) &&
-//                Objects.equals(quantidade, obra.quantidade) &&
-//                Objects.equals(idtipo, obra.idtipo);
-//    }
-
-
-
     @Basic
     @Column(name = "quantidade")
     public Integer getQuantidade() {
@@ -106,6 +82,7 @@ public class Obra {
         return pathpdf;
     }
 
+
     public void setPathpdf(String pathpdf) {
         this.pathpdf = pathpdf;
     }
@@ -121,7 +98,7 @@ public class Obra {
     }
 
     @Basic
-    @Column(name = "ano publicacao")
+    @Column(name = "anopublicacao")
     public Integer getAnoPublicacao() {
         return anoPublicacao;
     }
@@ -131,8 +108,23 @@ public class Obra {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Obra obra = (Obra) o;
+        return Objects.equals(cota, obra.cota) &&
+                Objects.equals(registro, obra.registro) &&
+                Objects.equals(titulo, obra.titulo) &&
+                Objects.equals(localpublicacao, obra.localpublicacao) &&
+                Objects.equals(quantidade, obra.quantidade) &&
+                Objects.equals(pathpdf, obra.pathpdf) &&
+                Objects.equals(pathcapa, obra.pathcapa) &&
+                Objects.equals(anoPublicacao, obra.anoPublicacao);
+    }
+
+    @Override
     public int hashCode() {
-        return Objects.hash(cota, registro, titulo, localpublicacao, anoPublicacao,  quantidade);
+        return Objects.hash(cota, registro, titulo, localpublicacao, quantidade, pathpdf, pathcapa, anoPublicacao);
     }
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -167,7 +159,7 @@ public class Obra {
 
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = CascadeType.ALL
-            )
+    )
     @JoinTable(name="obra_autor", joinColumns = @JoinColumn(name ="cota", nullable = false),
             inverseJoinColumns = @JoinColumn(name="hashcode", nullable = false))
     public Set<Autor> getAutores(){
@@ -181,6 +173,7 @@ public class Obra {
     @OneToOne(fetch = FetchType.LAZY,
             cascade =  CascadeType.ALL,
             mappedBy = "obra")
+
 
     public Livro getLivro() {
         return livro;
@@ -226,6 +219,15 @@ public class Obra {
         this.registroObra = registroObra;
     }
 
+    public String autoresToString()
+    {
+        StringBuilder autores = new StringBuilder();
 
-
+        for(Autor autor: this.autores)
+        {
+            autores.append(autor.getNome());
+            autores.append(",  ");
+        }
+        return autores.toString();
+    }
 }
