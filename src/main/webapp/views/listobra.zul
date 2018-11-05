@@ -33,11 +33,7 @@
 
                                                 <div>
                                                     <label value="Autores :"/>
-
-
                                                         <label value="${each.nome}" forEach="${each.autores}"/>
-
-
                                                 </div>
                                                 <div>
                                                     <label value="Idioma :"/>

@@ -12,7 +12,7 @@
  Target Server Version : 100005
  File Encoding         : 65001
 
- Date: 01/11/2018 13:54:09
+ Date: 05/11/2018 14:03:52
 */
 
 
@@ -82,14 +82,35 @@ CREATE TABLE "public"."areacientifica" (
 ;
 
 -- ----------------------------
+-- Records of areacientifica
+-- ----------------------------
+INSERT INTO "public"."areacientifica" VALUES (1, 'Fisica');
+INSERT INTO "public"."areacientifica" VALUES (2, 'Matematica');
+INSERT INTO "public"."areacientifica" VALUES (3, 'Quimica');
+INSERT INTO "public"."areacientifica" VALUES (4, 'Literatura');
+INSERT INTO "public"."areacientifica" VALUES (5, 'Biologia');
+
+-- ----------------------------
 -- Table structure for autor
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."autor";
 CREATE TABLE "public"."autor" (
   "hashcode" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
-  "nomec" varchar(255) COLLATE "pg_catalog"."default"
+  "nome" varchar(255) COLLATE "pg_catalog"."default"
 )
 ;
+
+-- ----------------------------
+-- Records of autor
+-- ----------------------------
+INSERT INTO "public"."autor" VALUES ('8229a8b31ffcddd530ce6b821313a55a', 'Ricardo Daniel Fedeli');
+INSERT INTO "public"."autor" VALUES ('d1b547dcf8f6d14bbeb12619eff97819', 'Enrico Giulio Franco Polloni');
+INSERT INTO "public"."autor" VALUES ('ed4518f5dd79dfe71c93738816d642d5', 'Fernando Eduardo Peres');
+INSERT INTO "public"."autor" VALUES ('90455afe8bf918c581be908c174a0d30', 'Emerson Cardoso');
+INSERT INTO "public"."autor" VALUES ('4bbde07660e5eff90873642cfae9a8dd', 'SSSSSSSS');
+INSERT INTO "public"."autor" VALUES ('0b757be795f46a5c37c52e7932e8effc', 'Americo Jose');
+INSERT INTO "public"."autor" VALUES ('62b9aef3390384c34a495744df95e8dc', 'Joao Antonio');
+INSERT INTO "public"."autor" VALUES ('ebc308f979e135f40483eec4b35feea1', 'WSS');
 
 -- ----------------------------
 -- Table structure for cd
@@ -112,6 +133,14 @@ CREATE TABLE "public"."formatocd" (
 ;
 
 -- ----------------------------
+-- Records of formatocd
+-- ----------------------------
+INSERT INTO "public"."formatocd" VALUES (1, 'Audio');
+INSERT INTO "public"."formatocd" VALUES (2, 'Texto');
+INSERT INTO "public"."formatocd" VALUES (3, 'Video');
+INSERT INTO "public"."formatocd" VALUES (4, 'Sistema');
+
+-- ----------------------------
 -- Table structure for idioma
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."idioma";
@@ -120,6 +149,13 @@ CREATE TABLE "public"."idioma" (
   "descricao" varchar(255) COLLATE "pg_catalog"."default"
 )
 ;
+
+-- ----------------------------
+-- Records of idioma
+-- ----------------------------
+INSERT INTO "public"."idioma" VALUES (1, 'Portugues');
+INSERT INTO "public"."idioma" VALUES (2, 'Ingles');
+INSERT INTO "public"."idioma" VALUES (3, 'Espanhol');
 
 -- ----------------------------
 -- Table structure for item
@@ -170,9 +206,15 @@ CREATE TABLE "public"."obra" (
   "idtipo" int4,
   "pathpdf" varchar(255) COLLATE "pg_catalog"."default",
   "pathcapa" varchar(255) COLLATE "pg_catalog"."default",
-  "ano publicacao" int4
+  "anopublicacao" int4
 )
 ;
+
+-- ----------------------------
+-- Records of obra
+-- ----------------------------
+INSERT INTO "public"."obra" VALUES ('531.4F', 1223, 'Introducao Fisica', 1, 'Pemba', 1, 20, 1, 'aaa', 'aaa', 2001);
+INSERT INTO "public"."obra" VALUES ('WW2', 7777, 'WWWW', 1, 'vggggggg', 2, 444, 2, '', '', 44444);
 
 -- ----------------------------
 -- Table structure for obra_autor
@@ -183,6 +225,11 @@ CREATE TABLE "public"."obra_autor" (
   "cota" varchar(255) COLLATE "pg_catalog"."default" NOT NULL
 )
 ;
+
+-- ----------------------------
+-- Records of obra_autor
+-- ----------------------------
+INSERT INTO "public"."obra_autor" VALUES ('8229a8b31ffcddd530ce6b821313a55a', '531.4F');
 
 -- ----------------------------
 -- Table structure for registroobra
@@ -196,6 +243,11 @@ CREATE TABLE "public"."registroobra" (
 ;
 
 -- ----------------------------
+-- Records of registroobra
+-- ----------------------------
+INSERT INTO "public"."registroobra" VALUES ('WW2', 1, '2018-11-05');
+
+-- ----------------------------
 -- Table structure for revista
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."revista";
@@ -206,6 +258,11 @@ CREATE TABLE "public"."revista" (
 ;
 
 -- ----------------------------
+-- Records of revista
+-- ----------------------------
+INSERT INTO "public"."revista" VALUES ('WW2', 'WWWWWWWWWWWWWWWWWWWW');
+
+-- ----------------------------
 -- Table structure for role
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."role";
@@ -214,6 +271,11 @@ CREATE TABLE "public"."role" (
   "role" varchar(255) COLLATE "pg_catalog"."default"
 )
 ;
+
+-- ----------------------------
+-- Records of role
+-- ----------------------------
+INSERT INTO "public"."role" VALUES (1, 'ADMIN');
 
 -- ----------------------------
 -- Table structure for roleitem
@@ -236,6 +298,13 @@ CREATE TABLE "public"."tipoobra" (
 ;
 
 -- ----------------------------
+-- Records of tipoobra
+-- ----------------------------
+INSERT INTO "public"."tipoobra" VALUES (1, 'Livro');
+INSERT INTO "public"."tipoobra" VALUES (2, 'Revista');
+INSERT INTO "public"."tipoobra" VALUES (3, 'CD');
+
+-- ----------------------------
 -- Table structure for user
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."user";
@@ -250,6 +319,12 @@ CREATE TABLE "public"."user" (
 ;
 
 -- ----------------------------
+-- Records of user
+-- ----------------------------
+INSERT INTO "public"."user" VALUES (1, 1, 'admin@admin', 'admin', 'admin', '21232f297a57a5a743894a0e4a801fc3');
+INSERT INTO "public"."user" VALUES (2, 1, 'fonseca@fonseca', 'fonseca', 'fonseca', 'e653d3954be6576488c5ce7a599869de');
+
+-- ----------------------------
 -- Table structure for user_role
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."user_role";
@@ -258,6 +333,12 @@ CREATE TABLE "public"."user_role" (
   "role_id" int4 NOT NULL
 )
 ;
+
+-- ----------------------------
+-- Records of user_role
+-- ----------------------------
+INSERT INTO "public"."user_role" VALUES (1, 1);
+INSERT INTO "public"."user_role" VALUES (2, 1);
 
 -- ----------------------------
 -- Alter sequences owned by
