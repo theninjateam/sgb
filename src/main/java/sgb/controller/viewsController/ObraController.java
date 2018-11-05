@@ -205,7 +205,7 @@ public class ObraController extends SelectorComposer<Component> {
         obra.setTitulo(titulo.getValue());
         obra.setAreacientifica(areaCientificaListBox.getSelectedItem().getValue());
         obra.setAnoPublicacao(anoPublicacao.getValue());
-        obra.setLocalpublicacao(localPublicacao.getValue());
+        //obra.setLocalpublicacao(localPublicacao.getValue());
         obra.setQuantidade(quatddObra.getValue());
         obra.setPathcapa(relativePathCover);
         obra.setPathpdf(relativePathPDF);
@@ -245,7 +245,7 @@ public class ObraController extends SelectorComposer<Component> {
             obra.setAutores(autores);
 
           //   deve existir transacoes
-            crudService.Save(obra);
+         //   crudService.Save(obra);
 
             if(fullPathPDF != null)
                 Files.copy(new File(fullPathPDF), mediaPDF.getStreamData());
@@ -283,10 +283,8 @@ public class ObraController extends SelectorComposer<Component> {
         }
         else
         {
-            relativePathPDF = "digitalLibrary/pdf";
+            relativePathPDF = "digitalLibrary/pdf/".concat(mediaPDF.getName());
             fullPathPDF = Executions.getCurrent().getDesktop().getWebApp().getRealPath(relativePathPDF);
-            relativePathPDF += "/"+mediaPDF.getName();
-            fullPathPDF += "/"+mediaPDF.getName();
             addedPDF.setValue(mediaPDF.getName());
 
             this.upLoadPDF.setLabel("eliminar PDF adicionado");
@@ -321,10 +319,8 @@ public class ObraController extends SelectorComposer<Component> {
         }
         else
         {
-            relativePathCover = "digitalLibrary/cover";
+            relativePathCover = "digitalLibrary/cover/".concat(mediaCover.getName());
             fullPathCover = Executions.getCurrent().getDesktop().getWebApp().getRealPath(relativePathCover);
-            relativePathCover += "/"+mediaCover.getName();
-            fullPathCover += "/"+mediaCover.getName();
 
             this.capa.setContent((org.zkoss.image.Image) mediaCover);
             this.upLoadCAPA.setLabel("eliminar CAPA adicionada");
@@ -337,16 +333,16 @@ public class ObraController extends SelectorComposer<Component> {
         if(relativePathCover != null || fullPathCover != null)
         {
 
-            String fullPathDefaultCover = Executions.getCurrent().getDesktop().getWebApp().getRealPath("digitalLibrary/cover");
-            fullPathDefaultCover += "/default.jpg";
+            //Clients.showNotification(Executions.getCurrent().getDesktop().getWebApp().getRealPath("digitalLibrary/cover/default.jpg"));
+            String fullPathDefaultCover = Executions.getCurrent().getDesktop().getWebApp().getRealPath("digitalLibrary/cover/default.jpg");
 
-            Media mediaCapa = new AImage(fullPathDefaultCover);
+            Media mediaDefaultCover = new AImage(fullPathDefaultCover);
 
             relativePathCover = null;
             fullPathCover = null;
             mediaCover = null;
 
-            this.capa.setContent((org.zkoss.image.Image) mediaCapa);
+            this.capa.setContent((org.zkoss.image.Image) mediaDefaultCover);
 
             this.upLoadCAPA.setUpload("true");
             this.upLoadCAPA.setLabel("adicionar CAPA");
