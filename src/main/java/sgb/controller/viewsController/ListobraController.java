@@ -1,6 +1,7 @@
 package sgb.controller.viewsController;
 
 import org.zkoss.zk.ui.Component;
+
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zkplus.spring.SpringUtil;
@@ -9,6 +10,7 @@ import org.zkoss.zul.Listbox;
 import sgb.domain.Obra;
 import sgb.domain.Users;
 import sgb.service.CRUDService;
+import org.hibernate.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,22 +24,23 @@ public class ListobraController extends SelectorComposer<Component> {
     @Wire
     private Listbox obraListBox;
 
-
     @Override
     public void doAfterCompose(Component comp) throws Exception {
         super.doAfterCompose(comp);
-        obraListModel = new ListModelList<Obra>(getObraListModel());
+        obraListModel = getObraListModel();
         obraListBox.setModel(obraListModel);
     }
 
-    public List<Obra> getObraListModel () {
+    public ListModelList<Obra> getObraListModel () {
         List<Obra> listaobra = crudService.getAll(Obra.class);
-        return listaobra;
+       return new ListModelList<Obra>(listaobra);
     }
 
     public List<String> getAutores(){
 
         List<String> list = new ArrayList<>();
+
+
 
         list.add("a");
         list.add("b");

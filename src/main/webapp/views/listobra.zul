@@ -32,8 +32,51 @@
                                                 </div>
 
                                                 <div>
+
+
+
+                                                    <!--<zscript>-->
+
+                                                        <!--import java.util.HashSet;-->
+                                                        <!--import sgb.domain.Autor;-->
+
+
+                                                        <!--&lt;!&ndash;Set auts = new HashSet (each.autores);&ndash;&gt;-->
+                                                        <!--String auts;-->
+
+                                                        <!--for(Autor autor: each.autores)-->
+                                                            <!--auts += " "+autor.nome;-->
+
+                                                        <!--&lt;!&ndash;System.out.println(autor.nome);&ndash;&gt;-->
+                                                        <!--&lt;!&ndash;&ndash;&gt;-->
+                                                    <!--</zscript>-->
+
                                                     <label value="Autores :"/>
-                                                        <label value="${each.nome}" forEach="${each.autores}"/>
+                                                        <label forEach="${each.autores}" value="${each.nome}" />
+                                                    <!--&lt;!&ndash; i added this&ndash;&gt;-->
+                                                    <!--<zscript>-->
+                                                        <!--import org.zkoss.zul.*;-->
+                                                        <!--import sgb.domain.*;-->
+
+                                                        <!--ListModelList<Autor> authorListModel;-->
+
+                                                    <!--</zscript>-->
+                                                    <!--<listbox width="100%"-->
+                                                             <!--emptyMessage="Nenhum Tipo de idioma Encotrado"-->
+                                                             <!--model="${each.autores}"-->
+                                                             <!--mold="select">-->
+
+                                                        <!--<listhead>-->
+                                                            <!--<listheader label="autores"/>-->
+                                                        <!--</listhead>-->
+                                                        <!--<template name="model">-->
+                                                            <!--<listitem>-->
+                                                                <!--<listcell-->
+                                                                        <!--label="${each.nome}"></listcell>-->
+                                                            <!--</listitem>-->
+                                                        <!--</template>-->
+                                                    <!--</listbox>-->
+                                                        <!-- i added this-->
                                                 </div>
                                                 <div>
                                                     <label value="Idioma :"/>
