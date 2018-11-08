@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zk>
-    <window id="" apply="sgb.controller.viewsController.ListobraController"
+    <window id="listObra" apply="sgb.controller.viewsController.ListobraController"
             border="none" hflex="1" vflex="1" contentStyle="overflow:auto">
         <div style="padding:0px">
             <tabbox>
@@ -10,62 +10,65 @@
                 <tabpanels>
                     <tabpanel>
 
-                    <grid>
-                        <rows>
-                            <row>
-                        <listbox width="100%" id="obraListBox">
-                            <listhead>
-                                <listheader width="15%" label="Capa"/>
-                                <listheader width="60%" label="Descricao" />
-                            </listhead>
-                            <template name="model">
-                                <listitem>
-                                    <listcell>
-                                        <image width="100%" height="100%" src="${each.pathcapa}"/>
-                                    </listcell>
-                                    <listcell>
-                                        <hlayout>
-                                            <div>
-                                                <div>
-                                                    <label value="Titulo:"/>
-                                                    <label value="${each.titulo}"/>
-                                                </div>
+                        <grid>
+                            <rows>
+                                <row>
+                                    <listbox width="100%" id="obraList">
+                                        <listhead>
+                                            <listheader width="15%" label="Capa"/>
+                                            <listheader width="85%" label="Descricao" />
+                                        </listhead>
+                                        <template name="model">
+                                            <listitem>
+                                                <listcell>
+                                                    <image width="100%" height="100%" src="${each.pathcapa}"/>
+                                                </listcell>
+                                                <listcell>
+                                                    <hlayout>
+                                                        <div>
+                                                            <div>
+                                                                <label value="Titulo:"/>
+                                                                <label value="${each.titulo}"/>
+                                                            </div>
 
-                                                <div>
-                                                    <!--<label value="Autores :"/>-->
-                                                        <label value="${each.nome}" forEach="${each.autores}"/>
-                                                    <!--<listbox forEach="${each.autores}">-->
-                                                        <!--<listitem label="${each.nome}"></listitem>-->
-                                                    <!--</listbox>-->
-                                                </div>
-                                                <div>
-                                                    <label value="Idioma :"/>
-                                                    <label value="${each.idioma.descricao}"/>
-                                                </div>
-                                                <div>
-                                                    <label value="Tipo:"/>
-                                                    <label value="${each.tipoobra.descricao}"/>
-                                                </div>
-                                                <div>
-                                                    <label value="Local Publicacao :"/>
-                                                    <label value="${each.localpublicacao}"/>
-                                                </div>
-                                                <div>
-                                                    <button label="Eliminar"/>
-                                                    <button label="Editar"/>
-                                                    <button label="Detalhes"/>
-                                                    <button label="Requisitar"/>
-                                                </div>
-                                            </div>
-                                        </hlayout>
-                                    </listcell>
-                                </listitem>
-                            </template>
-                        </listbox>
+                                                            <div>
+                                                                <label value="Cota:"/>
+                                                                <label value="${each.cota}"/>
+                                                            </div>
 
-                    </row>
-                    </rows>
-                    </grid>
+                                                            <div>
+                                                                <label value="Autores :"/>
+                                                                <label forEach="${each.autores}" value="${each.nome} , " />
+                                                            </div>
+                                                            <div>
+                                                                <label value="Idioma :"/>
+                                                                <label value="${each.idioma.descricao}"/>
+                                                            </div>
+                                                            <div>
+                                                                <label value="Tipo:"/>
+                                                                <label value="${each.tipoobra.descricao}"/>
+                                                            </div>
+                                                            <div>
+                                                                <label value="Local Publicacao :"/>
+                                                                <label value="${each.localpublicacao}"/>
+                                                            </div>
+                                                            <div>
+                                                                <button label="Eliminar"/>
+                                                                <button label="Editar"/>
+                                                                <button label="Detalhes" sclass="detalhes" />
+                                                                <button label="Requisitar"
+                                                                        forward="onClick=obraList.ondoRequisitar"/>
+                                                            </div>
+                                                        </div>
+                                                    </hlayout>
+                                                </listcell>
+                                            </listitem>
+                                        </template>
+                                    </listbox>
+
+                                </row>
+                            </rows>
+                        </grid>
                     </tabpanel>
                 </tabpanels>
             </tabbox>
