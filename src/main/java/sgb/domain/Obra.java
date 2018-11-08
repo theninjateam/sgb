@@ -119,7 +119,8 @@ public class Obra {
                 Objects.equals(quantidade, obra.quantidade) &&
                 Objects.equals(pathpdf, obra.pathpdf) &&
                 Objects.equals(pathcapa, obra.pathcapa) &&
-                Objects.equals(anoPublicacao, obra.anoPublicacao);
+                Objects.equals(anoPublicacao, obra.anoPublicacao) &&
+                Objects.equals(autores, obra.autores);
     }
 
     @Override
@@ -157,10 +158,8 @@ public class Obra {
         this.areacientifica = areacientifica;
     }
 
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL
-    )
-    @JoinTable(name="obra_autor", joinColumns = @JoinColumn(name ="cota", nullable = false),
+    @ManyToMany
+    @JoinTable(name="obra_autor",  joinColumns = @JoinColumn(name ="cota", nullable = false),
             inverseJoinColumns = @JoinColumn(name="hashcode", nullable = false))
     public Set<Autor> getAutores(){
         return this.autores;

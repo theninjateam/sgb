@@ -21,7 +21,7 @@
                             <template name="model">
                                 <listitem>
                                     <listcell>
-                                        <image width="100%" height="100%" src="img/bg2.jpg"/>
+                                        <image width="100%" height="100%" src="${each.pathcapa}"/>
                                     </listcell>
                                     <listcell>
                                         <hlayout>
@@ -32,8 +32,11 @@
                                                 </div>
 
                                                 <div>
-                                                    <label value="Autores :"/>
+                                                    <!--<label value="Autores :"/>-->
                                                         <label value="${each.nome}" forEach="${each.autores}"/>
+                                                    <!--<listbox forEach="${each.autores}">-->
+                                                        <!--<listitem label="${each.nome}"></listitem>-->
+                                                    <!--</listbox>-->
                                                 </div>
                                                 <div>
                                                     <label value="Idioma :"/>
