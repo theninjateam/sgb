@@ -2,11 +2,13 @@ package sgb.controller.viewsController;
 
 import org.zkoss.zk.ui.Component;
 
+import org.zkoss.zk.ui.event.ForwardEvent;
 import org.zkoss.zk.ui.select.SelectorComposer;
+import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zkplus.spring.SpringUtil;
-import org.zkoss.zul.ListModelList;
-import org.zkoss.zul.Listbox;
+import org.zkoss.zul.*;
 import sgb.domain.Obra;
 import sgb.domain.Users;
 import sgb.service.CRUDService;
@@ -22,6 +24,9 @@ public class ListobraController extends SelectorComposer<Component> {
     private ListModelList<Obra> obraListModel;
 
     @Wire
+    private Window listObra;
+
+    @Wire
     private Listbox obraListBox;
 
     @Override
@@ -31,15 +36,14 @@ public class ListobraController extends SelectorComposer<Component> {
         obraListBox.setModel(obraListModel);
     }
 
-    public ListModelList<Obra> getObraListModel () {
+    public ListModelList<Obra> getObraListModel() {
         List<Obra> listaobra = crudService.getAll(Obra.class);
-       return new ListModelList<Obra>(listaobra);
+        return new ListModelList<Obra>(listaobra);
     }
 
-    public List<String> getAutores(){
+    public List<String> getAutores() {
 
         List<String> list = new ArrayList<>();
-
 
 
         list.add("a");
@@ -48,4 +52,18 @@ public class ListobraController extends SelectorComposer<Component> {
         return list;
     }
 
+    @Listen("onClick = #listObra")
+    public void doRequisitar(ForwardEvent event)
+    {
+        String op = (String) event.getData();
+
+        if(op.trim().contains("requisitar"))
+        {
+            Button btn = (Button)event.getOrigin().getTarget();
+            Listitem litem = (Listitem)btn.getParent().getParent().getParent().getParent().getParent();
+
+            Obra obra = (Obra) litem.getValue();
+            Clients.showNotification("Ola: "+obra.getTitulo());
+        }
+    }
 }

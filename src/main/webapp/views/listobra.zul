@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zk>
-    <window id="" apply="sgb.controller.viewsController.ListobraController"
+    <window id="listObra" apply="sgb.controller.viewsController.ListobraController"
             border="none" hflex="1" vflex="1" contentStyle="overflow:auto">
         <div style="padding:0px">
             <tabbox>
@@ -33,50 +33,8 @@
 
                                                 <div>
 
-
-
-                                                    <!--<zscript>-->
-
-                                                        <!--import java.util.HashSet;-->
-                                                        <!--import sgb.domain.Autor;-->
-
-
-                                                        <!--&lt;!&ndash;Set auts = new HashSet (each.autores);&ndash;&gt;-->
-                                                        <!--String auts;-->
-
-                                                        <!--for(Autor autor: each.autores)-->
-                                                            <!--auts += " "+autor.nome;-->
-
-                                                        <!--&lt;!&ndash;System.out.println(autor.nome);&ndash;&gt;-->
-                                                        <!--&lt;!&ndash;&ndash;&gt;-->
-                                                    <!--</zscript>-->
-
                                                     <label value="Autores :"/>
                                                         <label forEach="${each.autores}" value="${each.nome}" />
-                                                    <!--&lt;!&ndash; i added this&ndash;&gt;-->
-                                                    <!--<zscript>-->
-                                                        <!--import org.zkoss.zul.*;-->
-                                                        <!--import sgb.domain.*;-->
-
-                                                        <!--ListModelList<Autor> authorListModel;-->
-
-                                                    <!--</zscript>-->
-                                                    <!--<listbox width="100%"-->
-                                                             <!--emptyMessage="Nenhum Tipo de idioma Encotrado"-->
-                                                             <!--model="${each.autores}"-->
-                                                             <!--mold="select">-->
-
-                                                        <!--<listhead>-->
-                                                            <!--<listheader label="autores"/>-->
-                                                        <!--</listhead>-->
-                                                        <!--<template name="model">-->
-                                                            <!--<listitem>-->
-                                                                <!--<listcell-->
-                                                                        <!--label="${each.nome}"></listcell>-->
-                                                            <!--</listitem>-->
-                                                        <!--</template>-->
-                                                    <!--</listbox>-->
-                                                        <!-- i added this-->
                                                 </div>
                                                 <div>
                                                     <label value="Idioma :"/>
@@ -93,8 +51,8 @@
                                                 <div>
                                                     <button label="Eliminar"/>
                                                     <button label="Editar"/>
-                                                    <button label="Detalhes"/>
-                                                    <button label="Requisitar"/>
+                                                    <button label="Detalhes" />
+                                                    <button label="Requisitar" forward="onClick('requisitar')"/>
                                                 </div>
                                             </div>
                                         </hlayout>
