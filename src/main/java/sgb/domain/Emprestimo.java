@@ -5,39 +5,24 @@ import java.sql.Date;
 import java.util.Objects;
 
 @Entity
-@IdClass(EmprestimoPK.class)
+@Table(name = "emprestimo", schema = "public")
 public class Emprestimo {
-    private Obra obra;
-    private Users user;
+
+    @EmbeddedId
+    private EmprestimoPK emprestimoPK;
+
     private Date dataentrada;
     private Date dataaprovacao;
     private Date datadevolucao;
     private String quantidade;
     private String comentario;
 
-
-    @Id
-    @Column(name = "user_id", nullable = false)
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", nullable = false)
-    public Users getUser() {
-        return user;
+    public EmprestimoPK getEmprestimoPK() {
+        return this.emprestimoPK;
     }
 
-    public void setUser(Users user) {
-        this.user = user;
-    }
-
-    @Id
-    @Column(name = "cota", nullable = false, length = 255)
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "cota", nullable = false)
-    public Obra getObra() {
-        return obra;
-    }
-
-    public void setObra(Obra obra) {
-        this.obra = obra;
+    public void setEmprestimoPK(EmprestimoPK emprestimoPK) {
+        this.emprestimoPK = emprestimoPK;
     }
 
     @Basic

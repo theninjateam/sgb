@@ -1,45 +1,35 @@
 package sgb.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
+@Embeddable
 public class EmprestimoPK implements Serializable {
-    private int userId;
-    private String cota;
 
-    @Column(name = "user_id", nullable = false)
-    @Id
-    public int getUserId() {
-        return userId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="cota")
+    private Obra obra;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="user_id")
+    private Users user;
+
+    public Obra getObra() {
+        return this.obra;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setObra(Obra obra) {
+        this.obra = obra;
     }
 
-    @Column(name = "cota", nullable = false, length = 255)
-    @Id
-    public String getCota() {
-        return cota;
+
+    public Users getUser() {
+        return this.user;
     }
 
-    public void setCota(String cota) {
-        this.cota = cota;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        EmprestimoPK that = (EmprestimoPK) o;
-        return userId == that.userId &&
-                Objects.equals(cota, that.cota);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(userId, cota);
+    public void setUser(Users user) {
+        this.user = user;
     }
 }

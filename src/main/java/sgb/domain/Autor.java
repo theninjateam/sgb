@@ -44,7 +44,8 @@ public class Autor {
         return Objects.hash(hashcode, nome);
     }
 
-    @ManyToMany(mappedBy = "autores" )
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL,
+            mappedBy = "autores" )
     public Set<Obra> getObras() {
         return obras;
     }

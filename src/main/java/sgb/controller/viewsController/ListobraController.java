@@ -12,6 +12,7 @@ import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.*;
 import sgb.domain.Emprestimo;
+import sgb.domain.EmprestimoPK;
 import sgb.domain.Obra;
 import sgb.domain.Users;
 import sgb.service.CRUDService;
@@ -84,19 +85,24 @@ public class ListobraController extends SelectorComposer<Component> {
 
         if(op.trim().contains("requisitar"))
         {
-            Emprestimo emp =new Emprestimo();
+            EmprestimoPK emPK= new EmprestimoPK();
+            Emprestimo emp = new Emprestimo();
+
             Button btn = (Button)event.getOrigin().getTarget();
             Listitem litem = (Listitem)btn.getParent().getParent().getParent().getParent().getParent();
 
             Obra obra = (Obra) litem.getValue();
             user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-            emp.setObra(obra);
-            emp.setUser(user);
-            emp.setComentario(null);
+            emPK.setObra(obra);
+            emPK.setUser(user);
+
+            emp.setEmprestimoPK(emPK);
+            emp.setComentario("Teste");
             emp.setDataaprovacao(null);
             emp.setDataentrada(null);
             emp.setQuantidade(null);
+            crudService.Save(emp);
 
             Clients.showNotification("Ola: "+obra.getTitulo());
         }

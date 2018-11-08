@@ -24,7 +24,6 @@ public class Obra {
     private Revista revista;
     private RegistroObra registroObra;
     private AreaCientifica areacientifica;
-    private String listaautor;
 
     @Id
     @Column(name = "cota")
@@ -158,7 +157,7 @@ public class Obra {
         this.areacientifica = areacientifica;
     }
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name="obra_autor",  joinColumns = @JoinColumn(name ="cota", nullable = false),
             inverseJoinColumns = @JoinColumn(name="hashcode", nullable = false))
     public Set<Autor> getAutores(){
@@ -216,17 +215,5 @@ public class Obra {
 
     public void setRegistroObra(RegistroObra registroObra) {
         this.registroObra = registroObra;
-    }
-
-    public String autoresToString()
-    {
-        StringBuilder autores = new StringBuilder();
-
-        for(Autor autor: this.autores)
-        {
-            autores.append(autor.getNome());
-            autores.append(",  ");
-        }
-        return autores.toString();
     }
 }
