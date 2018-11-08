@@ -49,9 +49,9 @@
                                                     <label value="${each.localpublicacao}"/>
                                                 </div>
                                                 <div>
-                                                    <button label="Eliminar"/>
-                                                    <button label="Editar"/>
-                                                    <button label="Detalhes" />
+                                                    <button label="Eliminar" forward="onClick('eliminar')"/>
+                                                    <button label="Editar" forward="onClick('editar')"/>
+                                                    <button label="Detalhes" forward="onClick('detalhes') "/>
                                                     <button label="Requisitar" forward="onClick('requisitar')"/>
                                                 </div>
                                             </div>

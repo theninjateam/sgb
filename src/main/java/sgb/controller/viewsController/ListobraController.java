@@ -53,6 +53,38 @@ public class ListobraController extends SelectorComposer<Component> {
     }
 
     @Listen("onClick = #listObra")
+    public void doEliminar(ForwardEvent event)
+    {
+        String op = (String) event.getData();
+
+        if(op.trim().contains("eliminar"))
+        {
+            Clients.showNotification("Eliminar");
+        }
+    }
+
+    @Listen("onClick = #listObra")
+    public void doDetalhes(ForwardEvent event)
+    {
+        String op = (String) event.getData();
+
+        if(op.trim().contains("detalhes"))
+        {
+            Clients.showNotification("detalhes");
+        }
+    }
+    @Listen("onClick = #listObra")
+    public void doEditar(ForwardEvent event)
+    {
+        String op = (String) event.getData();
+
+        if(op.trim().contains("editar"))
+        {
+            Clients.showNotification("editar");
+        }
+    }
+
+    @Listen("onClick = #listObra")
     public void doRequisitar(ForwardEvent event)
     {
         String op = (String) event.getData();
