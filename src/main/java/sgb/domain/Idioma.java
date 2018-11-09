@@ -45,6 +45,4 @@ public class Idioma {
         return Objects.hash(ididioma, descricao);
     }
 
-
-
 }

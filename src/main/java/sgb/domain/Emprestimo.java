@@ -10,12 +10,22 @@ public class Emprestimo {
 
     @EmbeddedId
     private EmprestimoPK emprestimoPK;
-
     private Date dataentrada;
     private Date dataaprovacao;
     private Date datadevolucao;
     private String quantidade;
     private String comentario;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "estadopedido",
+            referencedColumnName = "idestadopedido", nullable = false)
+    private EstadoPedido estadoPedido;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "estadodevolucao",
+            referencedColumnName = "idestadodevolucao", nullable = false)
+    private EstadoDevolucao estadoDevolucao;
+
 
     public EmprestimoPK getEmprestimoPK() {
         return this.emprestimoPK;
@@ -76,5 +86,19 @@ public class Emprestimo {
     }
 
 
+    public EstadoPedido getEstadoPedido() {
+        return this.estadoPedido;
+    }
 
+    public void setEstadoPedido(EstadoPedido estadoPedido) {
+        this.estadoPedido = estadoPedido;
+    }
+
+
+    public EstadoDevolucao getEstadoDevolucao() { return this.estadoDevolucao; }
+
+    public void setEstadoDevolucao(EstadoDevolucao estadoDevolucao)
+    {
+        this.estadoDevolucao = estadoDevolucao;
+    }
 }

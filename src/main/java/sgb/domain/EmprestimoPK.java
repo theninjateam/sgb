@@ -7,7 +7,6 @@ import java.util.Objects;
 @Embeddable
 public class EmprestimoPK implements Serializable {
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="cota")
     private Obra obra;

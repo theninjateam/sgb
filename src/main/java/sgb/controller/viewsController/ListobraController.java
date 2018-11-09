@@ -11,10 +11,7 @@ import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.*;
-import sgb.domain.Emprestimo;
-import sgb.domain.EmprestimoPK;
-import sgb.domain.Obra;
-import sgb.domain.Users;
+import sgb.domain.*;
 import sgb.service.CRUDService;
 import org.hibernate.*;
 
@@ -24,6 +21,10 @@ import java.util.List;
 public class ListobraController extends SelectorComposer<Component> {
     private CRUDService crudService = (CRUDService) SpringUtil.getBean("CRUDService");
     private Users user;
+    private EmprestimoPK emprestimoPK;
+    private Emprestimo emprestimo;
+    private EstadoPedido estadoPedido;
+    private EstadoDevolucao estadoDevolucao;
 
     private ListModelList<Obra> obraListModel;
 
@@ -85,8 +86,10 @@ public class ListobraController extends SelectorComposer<Component> {
 
         if(op.trim().contains("requisitar"))
         {
-            EmprestimoPK emPK= new EmprestimoPK();
-            Emprestimo emp = new Emprestimo();
+            emprestimo = new Emprestimo();
+            emprestimoPK = new EmprestimoPK();
+            estadoDevolucao = crudService.get(EstadoDevolucao.class, 2);
+            estadoPedido= crudService.get(EstadoPedido.class, 1);
 
             Button btn = (Button)event.getOrigin().getTarget();
             Listitem litem = (Listitem)btn.getParent().getParent().getParent().getParent().getParent();
@@ -94,15 +97,17 @@ public class ListobraController extends SelectorComposer<Component> {
             Obra obra = (Obra) litem.getValue();
             user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-            emPK.setObra(obra);
-            emPK.setUser(user);
+            emprestimoPK.setObra(obra);
+            emprestimoPK.setUser(user);
 
-            emp.setEmprestimoPK(emPK);
-            emp.setComentario("Teste");
-            emp.setDataaprovacao(null);
-            emp.setDataentrada(null);
-            emp.setQuantidade(null);
-            crudService.Save(emp);
+            emprestimo.setEstadoDevolucao(estadoDevolucao);
+            emprestimo.setEstadoPedido(estadoPedido);
+            emprestimo.setEmprestimoPK(emprestimoPK);
+            emprestimo.setComentario("perdeu o livro");
+            emprestimo.setDataaprovacao(null);
+            emprestimo.setDataentrada(null);
+            emprestimo.setQuantidade(null);
+            crudService.Save(emprestimo);
 
             Clients.showNotification("Ola: "+obra.getTitulo());
         }
