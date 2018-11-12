@@ -4,6 +4,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.event.ForwardEvent;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
@@ -46,70 +47,55 @@ public class ListobraController extends SelectorComposer<Component> {
         return new ListModelList<Obra>(listaobra);
     }
 
-
-    @Listen("onClick = #listObra")
+    @Listen("onEliminarObra = #obraListBox")
     public void doEliminar(ForwardEvent event)
     {
-        String op = (String) event.getData();
+        Clients.showNotification("Eliminar");
 
-        if(op.trim().contains("eliminar"))
-        {
-            Clients.showNotification("Eliminar");
-        }
     }
 
-    @Listen("onClick = #listObra")
-    public void doDetalhes(ForwardEvent event)
+    @Listen("onDetalheObra = #obraListBox")
+    public void doDetalhe(ForwardEvent event)
     {
-        String op = (String) event.getData();
-
-        if(op.trim().contains("detalhes"))
-        {
-            Clients.showNotification("detalhes");
-        }
+            Clients.showNotification("Detalhes Obra");
     }
-    @Listen("onClick = #listObra")
+
+    @Listen("onEditarObra = #obraListBox")
     public void doEditar(ForwardEvent event)
     {
-        String op = (String) event.getData();
-
-        if(op.trim().contains("editar"))
-        {
-            Clients.showNotification("editar");
-        }
+        Clients.showNotification("Editar Obra");
     }
 
-    @Listen("onClick = #listObra")
+    @Listen("onRequisitarObra = #obraListBox")
     public void doRequisitar(ForwardEvent event)
     {
-        String op = (String) event.getData();
+        emprestimo = new Emprestimo();
+        emprestimoPK = new EmprestimoPK();
+        estadoDevolucao = crudService.get(EstadoDevolucao.class, 2);
+        estadoPedido= crudService.get(EstadoPedido.class, 1);
 
-        if(op.trim().contains("requisitar"))
-        {
-            emprestimo = new Emprestimo();
-            emprestimoPK = new EmprestimoPK();
-            estadoDevolucao = crudService.get(EstadoDevolucao.class, 2);
-            estadoPedido= crudService.get(EstadoPedido.class, 1);
+        Button btn = (Button)event.getOrigin().getTarget();
+        Listitem litem = (Listitem)btn.getParent().getParent().getParent().getParent().getParent();
 
-            Button btn = (Button)event.getOrigin().getTarget();
-            Listitem litem = (Listitem)btn.getParent().getParent().getParent().getParent().getParent();
+        Obra obra = (Obra) litem.getValue();
+        user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-            Obra obra = (Obra) litem.getValue();
-            user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        emprestimoPK.setObra(obra);
+        emprestimoPK.setUser(user);
 
-            emprestimoPK.setObra(obra);
-            emprestimoPK.setUser(user);
+        emprestimo.setEstadoDevolucao(estadoDevolucao);
+        emprestimo.setEstadoPedido(estadoPedido);
+        emprestimo.setEmprestimoPK(emprestimoPK);
+        emprestimo.setComentario("perdeu o livro");
+        emprestimo.setDataaprovacao(null);
+        emprestimo.setDataentrada(null);
+        emprestimo.setQuantidade(null);
+        crudService.Save(emprestimo);
 
-            emprestimo.setEstadoDevolucao(estadoDevolucao);
-            emprestimo.setEstadoPedido(estadoPedido);
-            emprestimo.setEmprestimoPK(emprestimoPK);
-            emprestimo.setComentario("perdeu o livro");
-            emprestimo.setDataaprovacao(null);
-            emprestimo.setDataentrada(null);
-            emprestimo.setQuantidade(null);
-            crudService.Save(emprestimo);
 
-            Clients.showNotification("Ola: "+obra.getTitulo());
-        }
+
+
+        Clients.showNotification("Ola: "+obra.getTitulo());
+
     }
 }

@@ -52,12 +52,10 @@
                                                                 <label value="${each.localpublicacao}"/>
                                                             </div>
                                                             <div>
-                                                                <button label="Eliminar" forward="onClick('eliminar')"/>
-                                                                <button label="Editar" forward="onClick('editar')"/>
-                                                                <button label="Detalhes"
-                                                                        forward="onClick('detalhes') "/>
-                                                                <button label="Requisitar"
-                                                                        forward="onClick('requisitar')"/>
+                                                                <button label="Eliminar" forward="onClick=obraListBox.onEliminarObra"/>
+                                                                <button label="Editar" forward="onClick=obraListBox.onEditarObra"/>
+                                                                <button label="Detalhe" forward="onClick=obraListBox.onDetalheObra"/>
+                                                                <button label="Requisitar" forward="onClick=obraListBox.onRequisitarObra"/>
                                                             </div>
                                                         </div>
                                                     </hlayout>
