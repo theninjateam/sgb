@@ -11,6 +11,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.zkoss.lang.Strings;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Session;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.ForwardEvent;
 import org.zkoss.zk.ui.event.UploadEvent;
 import org.zkoss.zk.ui.select.SelectorComposer;
@@ -64,6 +66,7 @@ public class ObraController extends SelectorComposer<Component> {
     private String relativePathCover = null;
     private Media mediaCover;
     private Media mediaPDF;
+    private Session session;
 
     @Wire
     private Image capa;
@@ -138,6 +141,10 @@ public class ObraController extends SelectorComposer<Component> {
     @Override
     public void doAfterCompose(Component comp) throws Exception {
         super.doAfterCompose(comp);
+
+        session = Sessions.getCurrent();
+
+        setAttributeSession(session);
 
         authorListModel = new ListModelList<Autor>();
         authorListBox.setModel(authorListModel);
@@ -441,4 +448,27 @@ public class ObraController extends SelectorComposer<Component> {
             }
         }
     }
+
+    private void setAttributeSession(Session session)
+    {
+        if (session.getAttribute("addObraCota") == null)
+            session.setAttribute("addObraCota", cota);
+        else
+            cota.setValue(((Textbox) session.getAttribute("addObraCota")).getValue());
+
+        if (session.getAttribute("addObraTitulo") == null)
+            session.setAttribute("addObraTitulo", titulo);
+        else
+            titulo.setValue(((Textbox) session.getAttribute("addObraTitulo")).getValue());
+    }
+
+    private void removeAttributeSession(Session session)
+    {
+        if (session.getAttribute ("addObraCota") != null)
+            session.removeAttribute("addObraCota");
+
+        if (session.getAttribute("addObraTitulo") != null)
+            session.removeAttribute("addObraTitulo");
+    }
+
 }

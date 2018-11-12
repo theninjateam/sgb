@@ -9,10 +9,9 @@
                 </tabs>
                 <tabpanels>
                     <tabpanel>
-
                         <grid>
-                            <rows>
-                                <row>
+                            <columns>
+                                <column width="80%">
                                     <listbox width="100%" id="obraListBox">
                                         <listhead>
                                             <listheader width="15%" label="Capa"/>
@@ -63,8 +62,19 @@
                                             </listitem>
                                         </template>
                                     </listbox>
-                                </row>
-                            </rows>
+                                </column>
+                                <column width="20%">
+                                    <listbox width="100%"  id="obraRequisitarListBox" emptyMessage="${labels.noitemadded}">
+                                        <listhead>
+                                            <listheader width="100%" label="Obras por requisitar"/>
+                                        </listhead>
+                                        <template name="model">
+                                            <listitem>
+                                            </listitem>
+                                        </template>
+                                    </listbox>
+                                </column>
+                            </columns>
                         </grid>
                     </tabpanel>
                 </tabpanels>

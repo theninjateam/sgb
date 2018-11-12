@@ -5,6 +5,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Session;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.ForwardEvent;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
@@ -14,7 +15,6 @@ import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.*;
 import sgb.domain.*;
 import sgb.service.CRUDService;
-import org.hibernate.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +22,7 @@ import java.util.List;
 public class ListobraController extends SelectorComposer<Component> {
     private CRUDService crudService = (CRUDService) SpringUtil.getBean("CRUDService");
     private Users user;
+    private Session session;
     private EmprestimoPK emprestimoPK;
     private Emprestimo emprestimo;
     private EstadoPedido estadoPedido;
@@ -29,17 +30,25 @@ public class ListobraController extends SelectorComposer<Component> {
 
     private ListModelList<Obra> obraListModel;
 
+    private ListModelList<Obra> obraRequisitarListModel = new ListModelList<Obra>();
+
     @Wire
     private Window listObra;
 
     @Wire
     private Listbox obraListBox;
 
+    @Wire
+    private Listbox obraRequisitarListBox;
+
     @Override
     public void doAfterCompose(Component comp) throws Exception {
         super.doAfterCompose(comp);
+        session = Sessions.getCurrent();
+
         obraListModel = getObraListModel();
         obraListBox.setModel(obraListModel);
+        obraRequisitarListBox.setModel(obraRequisitarListModel);
     }
 
     public ListModelList<Obra> getObraListModel() {
