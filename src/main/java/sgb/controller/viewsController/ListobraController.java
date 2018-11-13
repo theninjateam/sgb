@@ -30,7 +30,7 @@ public class ListobraController extends SelectorComposer<Component> {
 
     private ListModelList<Obra> obraListModel;
 
-    private ListModelList<Obra> obraRequisitarListModel = new ListModelList<Obra>();
+    private ListModelList<Requisicao> obraRequisitarListModel = new ListModelList<Requisicao>();
 
     @Wire
     private Window listObra;
@@ -78,33 +78,89 @@ public class ListobraController extends SelectorComposer<Component> {
     @Listen("onRequisitarObra = #obraListBox")
     public void doRequisitar(ForwardEvent event)
     {
-        emprestimo = new Emprestimo();
-        emprestimoPK = new EmprestimoPK();
-        estadoDevolucao = crudService.get(EstadoDevolucao.class, 2);
-        estadoPedido= crudService.get(EstadoPedido.class, 1);
-
         Button btn = (Button)event.getOrigin().getTarget();
         Listitem litem = (Listitem)btn.getParent().getParent().getParent().getParent().getParent();
 
         Obra obra = (Obra) litem.getValue();
-        user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        emprestimoPK.setObra(obra);
-        emprestimoPK.setUser(user);
-
-        emprestimo.setEstadoDevolucao(estadoDevolucao);
-        emprestimo.setEstadoPedido(estadoPedido);
-        emprestimo.setEmprestimoPK(emprestimoPK);
-        emprestimo.setComentario("perdeu o livro");
-        emprestimo.setDataaprovacao(null);
-        emprestimo.setDataentrada(null);
-        emprestimo.setQuantidade(null);
-        crudService.Save(emprestimo);
+        insertOnObraRequisitarListModel(obra);
 
 
+//        emprestimo = new Emprestimo();
+//        emprestimoPK = new EmprestimoPK();
+//        estadoDevolucao = crudService.get(EstadoDevolucao.class, 2);
+//        estadoPedido= crudService.get(EstadoPedido.class, 1);
+
+//        user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//
+//        emprestimoPK.setObra(obra);
+//        emprestimoPK.setUser(user);
+//
+//        emprestimo.setEstadoDevolucao(estadoDevolucao);
+//        emprestimo.setEstadoPedido(estadoPedido);
+//        emprestimo.setEmprestimoPK(emprestimoPK);
+//        emprestimo.setComentario("perdeu o livro");
+//        emprestimo.setDataaprovacao(null);
+//        emprestimo.setDataentrada(null);
+//        emprestimo.setQuantidade(null);
+//        crudService.Save(emprestimo);
+//
+//
+//        Clients.showNotification("Ola: "+obra.getTitulo());
+
+    }
 
 
-        Clients.showNotification("Ola: "+obra.getTitulo());
+    @Listen("onEliminarobraRequisitar = #obraRequisitarListBox")
+    public void doEliminarobraRequisitar(ForwardEvent event)
+    {
+        Clients.showNotification("Hi There");
 
+    }
+
+    public void insertOnObraRequisitarListModel(Obra obra)
+    {
+        boolean obraExists = false;
+
+        for(int i = 0; i <  obraRequisitarListModel.size(); i++)
+        {
+            if(obra.getCota() == obraRequisitarListModel.get(i).getObra().getCota())
+            {
+                int qtd =  obraRequisitarListModel.getElementAt(i).getQuantidade() + 1;
+                Requisicao requisicao = obraRequisitarListModel.getElementAt(i);
+
+                requisicao.setQuantidade(qtd);
+                obraRequisitarListModel.set(i, requisicao);
+                obraExists = true;
+                break;
+            }
+        }
+
+        if (!obraExists)
+        {
+            Requisicao requisicao = new Requisicao();
+
+            requisicao.setObra(obra);
+            requisicao.setQuantidade(1);
+
+            obraRequisitarListModel.add(requisicao);
+        }
+
+
+        for(int i = 0; i <  obraListModel.size(); i++)
+        {
+            if(obra.getCota() == obraListModel.get(i).getCota())
+            {
+                int qtd =  obraListModel.getElementAt(i).getQuantidade() - 1;
+                Obra ob  = obraListModel.getElementAt(i);
+
+                ob.setQuantidade(qtd);
+                obraListModel.set(i, ob);
+
+                if(qtd == 0)
+                    obraListModel.remove(i);
+
+                break;
+            }
+        }
     }
 }

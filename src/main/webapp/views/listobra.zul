@@ -11,16 +11,16 @@
                     <tabpanel>
                         <grid>
                             <columns>
-                                <column width="80%">
+                                <column width="50%">
                                     <listbox width="100%" id="obraListBox">
                                         <listhead>
-                                            <listheader width="15%" label="Capa"/>
-                                            <listheader width="85%" label="Descricao"/>
+                                            <listheader width="40%" height="100%" label="Capa"/>
+                                            <listheader width="60%" height="100%" label="Descricao"/>
                                         </listhead>
                                         <template name="model">
                                             <listitem>
                                                 <listcell>
-                                                    <image width="100%" height="100%" src="${each.pathcapa}"/>
+                                                    <image width="100%" height="100%"  src="${each.pathcapa}"/>
                                                 </listcell>
                                                 <listcell>
                                                     <hlayout>
@@ -63,16 +63,64 @@
                                         </template>
                                     </listbox>
                                 </column>
-                                <column width="20%">
-                                    <listbox width="100%"  id="obraRequisitarListBox" emptyMessage="${labels.noitemadded}">
-                                        <listhead>
-                                            <listheader width="100%" label="Obras por requisitar"/>
-                                        </listhead>
-                                        <template name="model">
-                                            <listitem>
-                                            </listitem>
-                                        </template>
-                                    </listbox>
+                                <column width="50%">
+                                    <groupbox mold="3d">
+                                        <caption sclass="folder" label="Obras para Requisitar"/>
+
+                                        <listbox width="100%"  id="obraRequisitarListBox" emptyMessage="${labels.noitemadded}">
+                                            <listhead>
+                                                <listheader width="40%" height="100%" label="Capa"/>
+                                                <listheader width="50%" height="100%" label="Descricao"/>
+                                                <listheader width="10%" height="100%" label="Qtd."/>
+                                            </listhead>
+                                            <template name="model">
+                                                <listitem>
+                                                    <listcell>
+                                                        <image width="100%" height="100%" src="${each.obra.pathcapa}"/>
+                                                    </listcell>
+                                                    <listcell>
+                                                        <hlayout>
+                                                            <div>
+                                                                <div>
+                                                                    <label value="Titulo:"/>
+                                                                    <label value="${each.obra.titulo}"/>
+                                                                </div>
+
+                                                                <div>
+                                                                    <label value="Cota:"/>
+                                                                    <label value="${each.obra.cota}"/>
+                                                                </div>
+                                                                <div>
+                                                                    <label value="Autores :"/>
+                                                                    <label forEach="${each.obra.autores}" value="${each.nome}"/>
+                                                                </div>
+                                                                <div>
+                                                                    <label value="Idioma :"/>
+                                                                    <label value="${each.obra.idioma.descricao}"/>
+                                                                </div>
+                                                                <div>
+                                                                    <label value="Tipo:"/>
+                                                                    <label value="${each.obra.tipoobra.descricao}"/>
+                                                                </div>
+                                                                <div>
+                                                                    <label value="Local Publicacao :"/>
+                                                                    <label value="${each.obra.localpublicacao}"/>
+                                                                </div>
+                                                                <div>
+                                                                    <button label="Eliminar"
+                                                                            forward="onClick=obraRequisitarListBox.onEliminarobraRequisitar"/>
+                                                                </div>
+                                                            </div>
+                                                        </hlayout>
+                                                    </listcell>
+                                                    <listcell>
+                                                       <label>${each.quantidade}</label>
+                                                    </listcell>
+
+                                                </listitem>
+                                            </template>
+                                        </listbox>
+                                    </groupbox>
                                 </column>
                             </columns>
                         </grid>
