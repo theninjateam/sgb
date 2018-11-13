@@ -1,9 +1,11 @@
 package sgb.domain;
 
+import java.util.ArrayList;
+
 public class Requisicao
 {
     private Obra obra;
-    private int quantidade;
+    private ArrayList<Integer> rangeQtd = new ArrayList<Integer>();
 
     public Obra getObra() {
         return this.obra;
@@ -13,11 +15,17 @@ public class Requisicao
         this.obra = obra;
     }
 
-    public int getQuantidade() {
-        return this.quantidade;
+    public void setRangeQtd(int qtd)
+    {
+        for (int i  = 1; i <= qtd; i++)
+            rangeQtd.add(i);
+
+        rangeQtd.remove(0);
     }
 
-    public void setQuantidade(int quantidade) {
-        this.quantidade = quantidade;
+    public ArrayList<Integer> getRangeQtd()
+    {
+        return this.rangeQtd;
     }
+
 }

@@ -30,7 +30,11 @@ public class ListobraController extends SelectorComposer<Component> {
 
     private ListModelList<Obra> obraListModel;
 
-    private ListModelList<Requisicao> obraRequisitarListModel = new ListModelList<Requisicao>();
+    private ListModelList<Requisicao> cestaListModel = new ListModelList<Requisicao>();
+
+
+    @Wire
+    private Button requisitar;
 
     @Wire
     private Window listObra;
@@ -39,7 +43,7 @@ public class ListobraController extends SelectorComposer<Component> {
     private Listbox obraListBox;
 
     @Wire
-    private Listbox obraRequisitarListBox;
+    private Listbox cestaListBox;
 
     @Override
     public void doAfterCompose(Component comp) throws Exception {
@@ -48,7 +52,8 @@ public class ListobraController extends SelectorComposer<Component> {
 
         obraListModel = getObraListModel();
         obraListBox.setModel(obraListModel);
-        obraRequisitarListBox.setModel(obraRequisitarListModel);
+        cestaListBox.setModel(cestaListModel);
+
     }
 
     public ListModelList<Obra> getObraListModel() {
@@ -73,16 +78,17 @@ public class ListobraController extends SelectorComposer<Component> {
     public void doEditar(ForwardEvent event)
     {
         Clients.showNotification("Editar Obra");
+
     }
 
-    @Listen("onRequisitarObra = #obraListBox")
+    @Listen("onAdicionarNaCesta = #obraListBox")
     public void doRequisitar(ForwardEvent event)
     {
         Button btn = (Button)event.getOrigin().getTarget();
         Listitem litem = (Listitem)btn.getParent().getParent().getParent().getParent().getParent();
 
         Obra obra = (Obra) litem.getValue();
-        insertOnObraRequisitarListModel(obra);
+        insertOnCestaListModel(obra);
 
 
 //        emprestimo = new Emprestimo();
@@ -107,29 +113,30 @@ public class ListobraController extends SelectorComposer<Component> {
 //
 //        Clients.showNotification("Ola: "+obra.getTitulo());
 
+
     }
 
 
-    @Listen("onEliminarobraRequisitar = #obraRequisitarListBox")
+    @Listen("onClick = #requisitar")
+    public void doSetQtd()
+    {
+        Clients.showNotification("requisitar");
+    }
+    @Listen("onRemoverDaCesta = #cestaListBox")
     public void doEliminarobraRequisitar(ForwardEvent event)
     {
-        Clients.showNotification("Hi There");
+        Clients.showNotification("Remover obra da cesta?");
 
     }
 
-    public void insertOnObraRequisitarListModel(Obra obra)
+    public void insertOnCestaListModel(Obra obra)
     {
         boolean obraExists = false;
 
-        for(int i = 0; i <  obraRequisitarListModel.size(); i++)
+        for(int i = 0; i <  cestaListModel.size(); i++)
         {
-            if(obra.getCota() == obraRequisitarListModel.get(i).getObra().getCota())
+            if(obra.getCota() == cestaListModel.get(i).getObra().getCota())
             {
-                int qtd =  obraRequisitarListModel.getElementAt(i).getQuantidade() + 1;
-                Requisicao requisicao = obraRequisitarListModel.getElementAt(i);
-
-                requisicao.setQuantidade(qtd);
-                obraRequisitarListModel.set(i, requisicao);
                 obraExists = true;
                 break;
             }
@@ -140,9 +147,9 @@ public class ListobraController extends SelectorComposer<Component> {
             Requisicao requisicao = new Requisicao();
 
             requisicao.setObra(obra);
-            requisicao.setQuantidade(1);
+            requisicao.setRangeQtd(obra.getQuantidade());
 
-            obraRequisitarListModel.add(requisicao);
+            cestaListModel.add(requisicao);
         }
 
 

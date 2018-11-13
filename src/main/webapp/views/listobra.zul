@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zk>
-    <window id="listObra" apply="sgb.controller.viewsController.ListobraController"
+    <window xmlns="http://www.zkoss.org/2005/zul"
+            id="listObra" apply="sgb.controller.viewsController.ListobraController"
             border="none" hflex="1" vflex="1" contentStyle="overflow:auto">
+
         <div style="padding:0px">
             <tabbox>
                 <tabs>
@@ -11,7 +13,7 @@
                     <tabpanel>
                         <grid>
                             <columns>
-                                <column width="50%">
+                                <column width="60%">
                                     <listbox width="100%" id="obraListBox">
                                         <listhead>
                                             <listheader width="40%" height="100%" label="Capa"/>
@@ -54,7 +56,7 @@
                                                                 <button label="Eliminar" forward="onClick=obraListBox.onEliminarObra"/>
                                                                 <button label="Editar" forward="onClick=obraListBox.onEditarObra"/>
                                                                 <button label="Detalhe" forward="onClick=obraListBox.onDetalheObra"/>
-                                                                <button label="Requisitar" forward="onClick=obraListBox.onRequisitarObra"/>
+                                                                <button label="Adicionar na cesta" forward="onClick=obraListBox.onAdicionarNaCesta"/>
                                                             </div>
                                                         </div>
                                                     </hlayout>
@@ -63,15 +65,15 @@
                                         </template>
                                     </listbox>
                                 </column>
-                                <column width="50%">
+                                <column width="40%">
                                     <groupbox mold="3d">
-                                        <caption sclass="folder" label="Obras para Requisitar"/>
+                                        <caption sclass="folder" label="Cesta"/>
 
-                                        <listbox width="100%"  id="obraRequisitarListBox" emptyMessage="${labels.noitemadded}">
+                                        <listbox width="100%"  id="cestaListBox" emptyMessage="nenhuma obra adicionada na cesta">
                                             <listhead>
-                                                <listheader width="40%" height="100%" label="Capa"/>
+                                                <listheader width="30%" height="100%" label="Capa"/>
                                                 <listheader width="50%" height="100%" label="Descricao"/>
-                                                <listheader width="10%" height="100%" label="Qtd."/>
+                                                <listheader width="20%" height="100%" label="Qtd."/>
                                             </listhead>
                                             <template name="model">
                                                 <listitem>
@@ -107,19 +109,27 @@
                                                                     <label value="${each.obra.localpublicacao}"/>
                                                                 </div>
                                                                 <div>
-                                                                    <button label="Eliminar"
-                                                                            forward="onClick=obraRequisitarListBox.onEliminarobraRequisitar"/>
+                                                                    <button label="Remover da cesta"
+                                                                            forward="onClick=cestaListBox.onRemoverDaCesta"/>
                                                                 </div>
                                                             </div>
                                                         </hlayout>
                                                     </listcell>
                                                     <listcell>
-                                                       <label>${each.quantidade}</label>
+                                                        <listbox
+                                                                mold="select" >
+                                                            <listhead>
+                                                                <listheader width="100%" height="100%" label="Quantidade"/>
+                                                            </listhead>
+                                                            <listitem label="1" selected="true"/>
+                                                            <listitem  label="${each}" forEach="${each.rangeQtd}" />
+                                                        </listbox>
                                                     </listcell>
-
                                                 </listitem>
                                             </template>
                                         </listbox>
+
+                                        <button id="requisitar" label="requisitar" width="100%"/>
                                     </groupbox>
                                 </column>
                             </columns>
