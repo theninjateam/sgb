@@ -1,7 +1,7 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : Emerson
+ Source Server         : Emerson and Matimbe
  Source Server Type    : PostgreSQL
  Source Server Version : 100005
  Source Host           : localhost:5432
@@ -21,77 +21,77 @@
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "public"."areacientifica_idarea_seq";
 CREATE SEQUENCE "public"."areacientifica_idarea_seq"
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 2147483647
-START 1
-CACHE 1;
+  INCREMENT 1
+  MINVALUE  1
+  MAXVALUE 2147483647
+  START 1
+  CACHE 1;
 
 -- ----------------------------
 -- Sequence structure for estadodevolucao_idestadodevolucao_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "public"."estadodevolucao_idestadodevolucao_seq";
 CREATE SEQUENCE "public"."estadodevolucao_idestadodevolucao_seq"
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 2147483647
-START 1
-CACHE 1;
+  INCREMENT 1
+  MINVALUE  1
+  MAXVALUE 2147483647
+  START 1
+  CACHE 1;
 
 -- ----------------------------
 -- Sequence structure for estadopedido_idestadopedido_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "public"."estadopedido_idestadopedido_seq";
 CREATE SEQUENCE "public"."estadopedido_idestadopedido_seq"
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 2147483647
-START 1
-CACHE 1;
+  INCREMENT 1
+  MINVALUE  1
+  MAXVALUE 2147483647
+  START 1
+  CACHE 1;
 
 -- ----------------------------
 -- Sequence structure for formatocd_idformato_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "public"."formatocd_idformato_seq";
 CREATE SEQUENCE "public"."formatocd_idformato_seq"
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 2147483647
-START 1
-CACHE 1;
+  INCREMENT 1
+  MINVALUE  1
+  MAXVALUE 2147483647
+  START 1
+  CACHE 1;
 
 -- ----------------------------
 -- Sequence structure for hibernate_sequence
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "public"."hibernate_sequence";
 CREATE SEQUENCE "public"."hibernate_sequence"
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 9223372036854775807
-START 1
-CACHE 1;
+  INCREMENT 1
+  MINVALUE  1
+  MAXVALUE 9223372036854775807
+  START 1
+  CACHE 1;
 
 -- ----------------------------
 -- Sequence structure for idioma_ididioma_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "public"."idioma_ididioma_seq";
 CREATE SEQUENCE "public"."idioma_ididioma_seq"
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 2147483647
-START 1
-CACHE 1;
+  INCREMENT 1
+  MINVALUE  1
+  MAXVALUE 2147483647
+  START 1
+  CACHE 1;
 
 -- ----------------------------
 -- Sequence structure for tipoobra_idtipo_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "public"."tipoobra_idtipo_seq";
 CREATE SEQUENCE "public"."tipoobra_idtipo_seq"
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 2147483647
-START 1
-CACHE 1;
+  INCREMENT 1
+  MINVALUE  1
+  MAXVALUE 2147483647
+  START 1
+  CACHE 1;
 
 -- ----------------------------
 -- Table structure for areacientifica
@@ -135,6 +135,8 @@ INSERT INTO "public"."autor" VALUES ('62b9aef3390384c34a495744df95e8dc', 'Joao A
 INSERT INTO "public"."autor" VALUES ('ebc308f979e135f40483eec4b35feea1', 'WSS');
 INSERT INTO "public"."autor" VALUES ('c6bc65d0f994ea20585b895298f9090c', 'emersondd ddd');
 INSERT INTO "public"."autor" VALUES ('7a739ded8071c43747c98df60e88c7d1', '45555dd fff');
+INSERT INTO "public"."autor" VALUES ('3863afeeb426a641420cbb3c5830c8f9', 'HÃ©lder Matimbe');
+INSERT INTO "public"."autor" VALUES ('e5202f07fe9f24969e101f5a91cd48d5', 'Zita witiness');
 
 -- ----------------------------
 -- Table structure for cd
@@ -248,13 +250,38 @@ CREATE TABLE "public"."livro" (
   "isbn" varchar(255) COLLATE "pg_catalog"."default",
   "editora" varchar(255) COLLATE "pg_catalog"."default",
   "edicao" varchar(255) COLLATE "pg_catalog"."default",
+  "volume" int4,
   "codigobarra" varchar(255) COLLATE "pg_catalog"."default"
 )
 ;
 
 -- ----------------------------
+-- Table structure for livro_cd
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."livrocd";
+CREATE TABLE "public"."livrocd" (
+  "cota" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
+  "isbn" varchar(255) COLLATE "pg_catalog"."default",
+  "editora" varchar(255) COLLATE "pg_catalog"."default",
+  "edicao" varchar(255) COLLATE "pg_catalog"."default",
+  "volume" int4,
+  "codigobarra" varchar(255) COLLATE "pg_catalog"."default",
+  "descricaocd" varchar(255) COLLATE "pg_catalog"."default"
+
+)
+;
+
+
+-- ----------------------------
+-- Records of livrocd
+-- ----------------------------
+INSERT INTO"public"."livrocd" VALUES ('12356', '1213243', 'Matimbe''s', '12', 1, '2dsf3', '12 MBs apresentaÃ§Ã£o do livro');
+
+
+-- ----------------------------
 -- Table structure for obra
 -- ----------------------------
+
 DROP TABLE IF EXISTS "public"."obra";
 CREATE TABLE "public"."obra" (
   "cota" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
@@ -278,6 +305,7 @@ INSERT INTO "public"."obra" VALUES ('WW2', 7777, 'Introducao a Biologia', 1, 'Na
 INSERT INTO "public"."obra" VALUES ('eee2', 1234, 'Introducao a Matematica', 1, 'Beira', 1, 25, 2, 'digitalLibrary/pdf/4.pdf', 'digitalLibrary/cover/bg4.jpg', 1298);
 INSERT INTO "public"."obra" VALUES ('77788', 555, 'Introducao a Quimica', 5, 'Maputo', 1, 77, 2, 'digitalLibrary/pdf/isbd-cons_2007-en.pdf', 'digitalLibrary/cover/bg.png', 788);
 INSERT INTO "public"."obra" VALUES ('531.4F', 1223, 'Introducao Fisica', 1, 'Pemba', 1, 20, 1, '', 'digitalLibrary/cover/bg4.jpg', 2001);
+INSERT INTO "public"."obra" VALUES ('12356', 13232, 'E-learning', 4, 'teste', null, 10, 4, 'digitalLibrary/pdf/Thesis - All Chaptes- ver 1.23.pdf', 'digitalLibrary/cover/elearning-300x150.png', 2018);
 
 -- ----------------------------
 -- Table structure for obra_autor
@@ -300,6 +328,8 @@ INSERT INTO "public"."obra_autor" VALUES ('0b757be795f46a5c37c52e7932e8effc', 'e
 INSERT INTO "public"."obra_autor" VALUES ('62b9aef3390384c34a495744df95e8dc', '77788');
 INSERT INTO "public"."obra_autor" VALUES ('ebc308f979e135f40483eec4b35feea1', 'WW2');
 INSERT INTO "public"."obra_autor" VALUES ('ebc308f979e135f40483eec4b35feea1', '77788');
+INSERT INTO "public"."obra_autor" VALUES ('e5202f07fe9f24969e101f5a91cd48d5', '12356');
+INSERT INTO "public"."obra_autor" VALUES ('3863afeeb426a641420cbb3c5830c8f9', '12356');
 
 -- ----------------------------
 -- Table structure for registroobra
@@ -318,6 +348,7 @@ CREATE TABLE "public"."registroobra" (
 INSERT INTO "public"."registroobra" VALUES ('WW2', 1, '2018-11-05');
 INSERT INTO "public"."registroobra" VALUES ('eee2', 1, '2018-11-05');
 INSERT INTO "public"."registroobra" VALUES ('77788', 1, '2018-11-05');
+INSERT INTO "public"."registroobra" VALUES ('12356', 2, '2018-11-15');
 
 -- ----------------------------
 -- Table structure for revista
@@ -377,6 +408,7 @@ CREATE TABLE "public"."tipoobra" (
 INSERT INTO "public"."tipoobra" VALUES (1, 'Livro');
 INSERT INTO "public"."tipoobra" VALUES (2, 'Revista');
 INSERT INTO "public"."tipoobra" VALUES (3, 'CD');
+INSERT INTO "public"."tipoobra" VALUES (4, 'Livro com CD');
 
 -- ----------------------------
 -- Table structure for user
@@ -418,23 +450,23 @@ INSERT INTO "public"."user_role" VALUES (2, 1);
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."areacientifica_idarea_seq"
-OWNED BY "public"."areacientifica"."idarea";
+  OWNED BY "public"."areacientifica"."idarea";
 SELECT setval('"public"."areacientifica_idarea_seq"', 7, true);
 ALTER SEQUENCE "public"."estadodevolucao_idestadodevolucao_seq"
-OWNED BY "public"."estadodevolucao"."idestadodevolucao";
+  OWNED BY "public"."estadodevolucao"."idestadodevolucao";
 SELECT setval('"public"."estadodevolucao_idestadodevolucao_seq"', 2, false);
 ALTER SEQUENCE "public"."estadopedido_idestadopedido_seq"
-OWNED BY "public"."estadopedido"."idestadopedido";
+  OWNED BY "public"."estadopedido"."idestadopedido";
 SELECT setval('"public"."estadopedido_idestadopedido_seq"', 2, false);
 ALTER SEQUENCE "public"."formatocd_idformato_seq"
-OWNED BY "public"."formatocd"."idformato";
+  OWNED BY "public"."formatocd"."idformato";
 SELECT setval('"public"."formatocd_idformato_seq"', 6, true);
 SELECT setval('"public"."hibernate_sequence"', 19, true);
 ALTER SEQUENCE "public"."idioma_ididioma_seq"
-OWNED BY "public"."idioma"."ididioma";
+  OWNED BY "public"."idioma"."ididioma";
 SELECT setval('"public"."idioma_ididioma_seq"', 5, true);
 ALTER SEQUENCE "public"."tipoobra_idtipo_seq"
-OWNED BY "public"."tipoobra"."idtipo";
+  OWNED BY "public"."tipoobra"."idtipo";
 SELECT setval('"public"."tipoobra_idtipo_seq"', 5, true);
 
 -- ----------------------------
@@ -491,6 +523,12 @@ ALTER TABLE "public"."item_role" ADD CONSTRAINT "item_role_pkey" PRIMARY KEY ("i
 -- Primary Key structure for table livro
 -- ----------------------------
 ALTER TABLE "public"."livro" ADD CONSTRAINT "livro_key" PRIMARY KEY ("cota");
+
+-- ----------------------------
+-- Primary Key structure for table livro
+-- ----------------------------
+ALTER TABLE "public"."livrocd" ADD CONSTRAINT "livrocd_key" PRIMARY KEY ("cota");
+
 
 -- ----------------------------
 -- Primary Key structure for table obra
@@ -560,6 +598,12 @@ ALTER TABLE "public"."item_role" ADD CONSTRAINT "item_role_role_id_fkey" FOREIGN
 -- Foreign Keys structure for table livro
 -- ----------------------------
 ALTER TABLE "public"."livro" ADD CONSTRAINT "cota" FOREIGN KEY ("cota") REFERENCES "public"."obra" ("cota") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- ----------------------------
+-- Foreign Keys structure for table livrocd
+-- ----------------------------
+ALTER TABLE "public"."livrocd" ADD CONSTRAINT "cota" FOREIGN KEY ("cota") REFERENCES "public"."obra" ("cota") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
 
 -- ----------------------------
 -- Foreign Keys structure for table obra

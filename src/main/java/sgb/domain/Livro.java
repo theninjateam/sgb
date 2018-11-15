@@ -10,6 +10,7 @@ public class Livro {
     private String isbn;
     private String editora;
     private String edicao;
+    private int volume;
     private String codigobarra;
     private Obra obra;
 
@@ -54,6 +55,17 @@ public class Livro {
     }
 
     @Basic
+    @Column(name = "volume")
+    public int getVolume() {
+        return volume;
+    }
+
+    public void setVolume(int volume) {
+        this.volume = volume;
+    }
+
+
+    @Basic
     @Column(name = "codigobarra")
     public String getCodigobarra() {
         return codigobarra;
@@ -72,6 +84,7 @@ public class Livro {
                 Objects.equals(isbn, livro.isbn) &&
                 Objects.equals(editora, livro.editora) &&
                 Objects.equals(edicao, livro.edicao) &&
+                Objects.equals(volume, livro.volume) &&
                 Objects.equals(codigobarra, livro.codigobarra);
     }
 

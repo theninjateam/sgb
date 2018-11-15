@@ -22,6 +22,7 @@ public class Obra {
     private Livro livro;
     private Cd cd;
     private Revista revista;
+    private LivroCd livroCd;
     private RegistroObra registroObra;
     private AreaCientifica areacientifica;
 
@@ -203,6 +204,18 @@ public class Obra {
 
     public void setRevista(Revista revista) {
         this.revista = revista;
+    }
+
+    @OneToOne(fetch = FetchType.LAZY,
+            cascade =  CascadeType.ALL,
+            mappedBy = "obra")
+
+    public LivroCd getLivroCd() {
+        return livroCd;
+    }
+
+    public void setLivroCd(LivroCd livroCd) {
+        this.livroCd = livroCd;
     }
 
     @OneToOne(fetch = FetchType.LAZY,

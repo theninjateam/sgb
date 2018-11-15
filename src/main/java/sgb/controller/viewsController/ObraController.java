@@ -94,8 +94,14 @@ public class ObraController extends SelectorComposer<Component> {
     @Wire
     private Listbox tipoObraListBox;
 
+    @Wire("#grpOtherData")
+    Div grpOtherData;
+
     @Wire("#grpData")
     Div grpData;
+
+    @Wire
+    Include idInclOtherData;
 
     @Wire
     Include idInclData;
@@ -192,6 +198,10 @@ public class ObraController extends SelectorComposer<Component> {
         } else if (tipoObra.getDescricao().toLowerCase().equals("revista")) {
             idInclData.setSrc("views/revista.zul");
 
+        } else if (tipoObra.getDescricao().toLowerCase().equals("livro com cd")) {
+            idInclData.setSrc("views/livro.zul");
+            grpOtherData.setVisible(true);
+            idInclOtherData.setSrc("views/cd.zul");
         }
     }
 
@@ -202,6 +212,7 @@ public class ObraController extends SelectorComposer<Component> {
         Obra obra = new Obra();
         Livro livro = new Livro();
         Cd cd = new Cd();
+        LivroCd livroCd = new LivroCd();
         Revista revista = new Revista();
         TipoObra tipoObra = tipoObraListBox.getSelectedItem().getValue();
         user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -223,23 +234,36 @@ public class ObraController extends SelectorComposer<Component> {
         registroObra.setObra(obra);
 
         if (tipoObra.getDescricao().toLowerCase().equals("livro")) {
-            livro.setCota(obra.getCota());
-            livro.setIsbn(((Textbox)idInclData.getFellow("isbn")).getValue());
-            livro.setCodigobarra(((Textbox)idInclData.getFellow("codigobarra")).getValue());
-            livro.setEdicao(((Textbox)idInclData.getFellow("edicao")).getValue());
-            livro.setEditora(((Textbox)idInclData.getFellow("editora")).getValue());
-            livro.setObra(obra);
-            obra.setLivro(livro);
+                livro.setCota(obra.getCota());
+                livro.setIsbn(((Textbox)idInclData.getFellow("isbn")).getValue());
+                livro.setCodigobarra(((Textbox)idInclData.getFellow("codigobarra")).getValue());
+                livro.setEdicao(((Textbox)idInclData.getFellow("edicao")).getValue());
+                livro.setEditora(((Textbox)idInclData.getFellow("editora")).getValue());
+                livro.setVolume(Integer.parseInt(((Textbox) idInclData.getFellow("volume")).getValue()));
+                livro.setObra(obra);
+                obra.setLivro(livro);
         } else if (tipoObra.getDescricao().toLowerCase().equals("cd")) {
             cd.setIdcd(obra.getCota());
             cd.setDescricao(((Textbox)idInclData.getFellow("descricaoCd")).getValue());
             cd.setObra(obra);
             obra.setCd(cd);
         } else if (tipoObra.getDescricao().toLowerCase().equals("revista")) {
+
             revista.setCota(obra.getCota());
             revista.setInstituicao(((Textbox)idInclData.getFellow("instituicaoRevista")).getValue());
             revista.setObra(obra);
             obra.setRevista(revista);
+        } else if (tipoObra.getDescricao().toLowerCase().equals("livro com cd")) {
+
+            livroCd.setCota(obra.getCota());
+            livroCd.setIsbn(((Textbox) idInclData.getFellow("isbn")).getValue());
+            livroCd.setCodigobarra(((Textbox) idInclData.getFellow("codigobarra")).getValue());
+            livroCd.setEdicao(((Textbox) idInclData.getFellow("edicao")).getValue());
+            livroCd.setEditora(((Textbox) idInclData.getFellow("editora")).getValue());
+            livroCd.setVolume(Integer.parseInt(((Textbox) idInclData.getFellow("volume")).getValue()));
+            livroCd.setDescricaocd(((Textbox) idInclOtherData.getFellow("descricaoCd")).getValue());
+            livroCd.setObra(obra);
+            obra.setLivroCd(livroCd);
         }
 
         try
