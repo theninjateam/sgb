@@ -23,20 +23,16 @@ import java.util.List;
 
 public class ListobraController extends SelectorComposer<Component> {
     private CRUDService crudService = (CRUDService) SpringUtil.getBean("CRUDService");
-    private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;
     private Session session;
     private EmprestimoPK emprestimoPK;
     private Emprestimo emprestimo;
     private EstadoPedido estadoPedido;
     private EstadoDevolucao estadoDevolucao;
-    private int qtdMaxObras;
+
     private ListModelList<Obra> obraListModel;
 
     private ListModelList<Requisicao> cestaListModel = new ListModelList<Requisicao>();
-
-
-    @Wire
-    private Button requisitar;
 
     @Wire
     private Window listObra;
@@ -52,18 +48,19 @@ public class ListobraController extends SelectorComposer<Component> {
         super.doAfterCompose(comp);
         session = Sessions.getCurrent();
 
+        session.setAttribute("qtdObrasRequisitadas", new Integer(getQtdObrasRequisitadas()));
         obraListModel = getObraListModel();
+        cestaListModel = getCestaListModel();
         obraListBox.setModel(obraListModel);
-//        cestaListBox.setModel(cestaListModel);
-        //
-        this.qtdMaxObras = getQtdMaxObras();
-
+        cestaListBox.setModel(cestaListModel);
     }
+
 
     public ListModelList<Obra> getObraListModel() {
-        List<Obra> listaobra = crudService.findByJPQuery("SELECT o FROM Obra o WHERE o.quantidade > 0", null);
+        List<Obra> listaobra = crudService.getAll(Obra.class);
         return new ListModelList<Obra>(listaobra);
     }
+
 
     @Listen("onEliminarObra = #obraListBox")
     public void doEliminar(ForwardEvent event)
@@ -75,146 +72,155 @@ public class ListobraController extends SelectorComposer<Component> {
     @Listen("onDetalheObra = #obraListBox")
     public void doDetalhe(ForwardEvent event)
     {
-            Clients.showNotification("Detalhes Obra");
+        Clients.showNotification("Detalhes Obra");
     }
 
     @Listen("onEditarObra = #obraListBox")
     public void doEditar(ForwardEvent event)
     {
         Clients.showNotification("Editar Obra");
-
     }
+
 
     @Listen("onAdicionarNaCesta = #obraListBox")
     public void doAdicionarNaCesta(ForwardEvent event)
     {
+        if (temObrasPorDevolver())
+        {
+            Clients.showNotification("Voce tem obras por devolver");
+            return;
+        }
+
         Button btn = (Button)event.getOrigin().getTarget();
         Listitem litem = (Listitem)btn.getParent().getParent().getParent().getParent().getParent();
         Obra obra = (Obra) litem.getValue();
-
-//        StringBuilder msg = new  StringBuilder();
-//        boolean podeAdicionar = true;
-//
-//
-//        if ( getcurrentQtdMaxObras() + 1 > this.qtdMaxObras)
-//        {
-//            msg.append("Voce so pode requisitar "+ this.qtdMaxObras+" obras no Maximo");
-//            podeAdicionar = false;
-//
-//        }
-//
-//        if (!podeAdicionar)
-//        {
-//            Clients.showNotification(msg.toString());
-//            return;
-//        }
-
-        Requisicao requisicao = new Requisicao();
-
-        requisicao.setObra(obra);
-        requisicao.setCurrentQtd(1);
-        requisicao.setRangeQtd(this.qtdMaxObras);
-
-        cestaListModel.add(requisicao);
-    //    insertOnCestaListModel(obra);
+        insertOncestaListModel(obra);
     }
 
-
-    @Listen("onClick = #requisitar")
-    public void doRequisitar()
+    @Listen("onRequisitarObra = #cestaListBox")
+    public void doRequisitar(ForwardEvent event)
     {
-        try
+        if (cestaListModel.size() == 0)
         {
-            // begin transaction
+            Clients.showNotification("A Cesta esta fazia");
+            return;
+        }
 
-            int size = cestaListModel.size();
 
-            if (size == 0)
+        // begin transactio
+        for (Requisicao requisicao: cestaListModel)
+        {
+            Obra obra = crudService.findEntByJPQueryT("SELECT o FROM Obra o WHERE o.cota = '"+ requisicao.getObra().getCota()+"'", null);
+
+            if (requisicao.getQuantidade() > obra.getQuantidade())
+                continue;
+
+            obra.setQuantidade(obra.getQuantidade() - requisicao.getQuantidade());
+
+            emprestimo = new Emprestimo();
+            emprestimoPK = new EmprestimoPK();
+            estadoDevolucao = crudService.get(EstadoDevolucao.class, 1);
+            estadoPedido= crudService.get(EstadoPedido.class, 1);
+
+            emprestimoPK.setObra(requisicao.getObra());
+            emprestimoPK.setUser(user);
+
+            emprestimo.setEstadoDevolucao(estadoDevolucao);
+            emprestimo.setEstadoPedido(estadoPedido);
+            emprestimo.setEmprestimoPK(emprestimoPK);
+            emprestimo.setComentario("--");
+            emprestimo.setDataaprovacao(null);
+            emprestimo.setDatadevolucao(null);
+            emprestimo.setDataentrada(Calendar.getInstance());
+            emprestimo.setQuantidade(requisicao.getQuantidade());
+
+            try
             {
-                Clients.showNotification("A cesta esta vazia");
-                return;
-            }
-            for (int i = 0; i < size  ; i++)
-            {
-                Listitem listitem = cestaListBox.getItemAtIndex(i);
-
-                Listbox listbox = (Listbox) listitem.query("listbox");
-                int qtd =  listbox.getSelectedItem().getValue();
-                Requisicao requisicao = (Requisicao) listitem.getValue();
-
-                Obra obra = crudService.get(Obra.class, requisicao.getObra().getCota());
-
-                if(obra.getQuantidade() < qtd)
-                    continue;
-
-                emprestimo = new Emprestimo();
-                emprestimoPK = new EmprestimoPK();
-
-                estadoDevolucao = crudService.get(EstadoDevolucao.class, 1);
-                estadoPedido= crudService.get(EstadoPedido.class, 1);
-                emprestimoPK.setObra(requisicao.getObra());
-                emprestimoPK.setUser(user);
-                emprestimo.setEstadoDevolucao(estadoDevolucao);
-                emprestimo.setEstadoPedido(estadoPedido);
-                emprestimo.setEmprestimoPK(emprestimoPK);
-                emprestimo.setComentario("requistou a(as) obra(s)");
-                emprestimo.setDataaprovacao(null);
-                emprestimo.setDataentrada(Calendar.getInstance());
-                emprestimo.setQuantidade(qtd);
-
-                obra.setQuantidade(obra.getQuantidade() - qtd);
-
-                if(obra.getQuantidade() == 0)
-                {
-                    int position = -1;
-
-                    for (int j = 0; j < obraListModel.size(); j++)
-                    {
-                        if ( obra.getCota().equals(obraListModel.get(j).getCota()))
-                        {
-                            position = j;
-                            break;
-                        }
-                    }
-
-                    if(position >= 0)
-                        obraListModel.remove(position);
-                }
-
                 crudService.update(obra);
                 crudService.Save(emprestimo);
 
+                int qtdR = ((Integer) session.getAttribute("qtdObrasRequisitadas")).intValue();
+                qtdR += requisicao.getQuantidade();
+                session.setAttribute("qtdObrasRequisitadas", new Integer(qtdR));
+            }
+            catch (Exception ex)
+            {
+                ex.printStackTrace();
             }
 
-            Clients.showNotification("Requisicao feita com sucesso.");
-
-            //end transsation
         }
-        catch (Exception e)
+
+        cestaListModel.removeAll(cestaListModel);
+        //ende transation
+
+        Clients.showNotification("successful");
+    }
+
+
+    @Listen("onAumentarQtd = #cestaListBox")
+    public void doAumentarQtd(ForwardEvent event)
+    {
+        Button btn = (Button)event.getOrigin().getTarget();
+        Listitem litem = (Listitem)btn.getParent().getParent();
+        Requisicao requisicao = (Requisicao) litem.getValue();
+        aumentarQtd(requisicao);
+    }
+
+    @Listen("onReduzirQtd = #cestaListBox")
+    public void doReduzirQtd(ForwardEvent event)
+    {
+        Button btn = (Button)event.getOrigin().getTarget();
+        Listitem litem = (Listitem)btn.getParent().getParent();
+        Requisicao requisicao = (Requisicao) litem.getValue();
+
+        if (requisicao.getQuantidade() > 1)
+            requisicao.setQuantidade(requisicao.getQuantidade() - 1);
+
+        for (int i = 0; i < cestaListModel.size(); i++)
         {
-            e.printStackTrace();
+            if ( cestaListModel.get(i).getObra().getCota().equals(requisicao.getObra().getCota()))
+            {
+                cestaListModel.remove(i);
+                cestaListModel.add(i, requisicao);
+                break;
+            }
         }
     }
+
+
     @Listen("onRemoverDaCesta = #cestaListBox")
-    public void doEliminarobraRequisitar(ForwardEvent event)
+    public void doEliminarcesta(ForwardEvent event)
     {
         Button btn = (Button)event.getOrigin().getTarget();
         Listitem litem = (Listitem)btn.getParent().getParent().getParent().getParent().getParent();
-
         Requisicao requisicao = (Requisicao) litem.getValue();
 
-        removetFromCestaListModel(requisicao.getObra());
+        int pos = 0;
+
+        for (int i = 0; i < cestaListModel.size(); i++ )
+        {
+            if (requisicao.getObra().getCota().equals(cestaListModel.get(i).getObra().getCota()))
+                break;
+
+            pos++;
+        }
+
+        cestaListModel.remove(pos);
     }
 
-    public void insertOnCestaListModel(Obra obra)
+    public void insertOncestaListModel(Obra obra)
     {
+        if (getQtdObrasRestantes() == 0)
+            return;
 
         boolean obraExists = false;
+        Requisicao requisicao = new Requisicao();
 
         for(int i = 0; i <  cestaListModel.size(); i++)
         {
             if(obra.getCota() == cestaListModel.get(i).getObra().getCota())
             {
+                requisicao = cestaListModel.get(i);
                 obraExists = true;
                 break;
             }
@@ -222,103 +228,91 @@ public class ListobraController extends SelectorComposer<Component> {
 
         if (!obraExists)
         {
-            Requisicao requisicao = new Requisicao();
+            requisicao = new Requisicao();
             requisicao.setObra(obra);
-            requisicao.setCurrentQtd(1);
-            requisicao.setRangeQtd(this.qtdMaxObras - getcurrentQtdMaxObras());
+            requisicao.setQuantidade(1);
             cestaListModel.add(requisicao);
-       }
-            upadateCestaListModel();
-
+        }
+        else
+        {
+            aumentarQtd(requisicao);
+        }
     }
 
-    public void removetFromCestaListModel(Obra obra)
+    public int getQtdObrasNaCesta()
     {
+        int qtdObrasNaCesta = 0;
 
-        int position = -1;
+        for (Requisicao requisicao: cestaListModel)
+            qtdObrasNaCesta += requisicao.getQuantidade();
 
-        for (int i = 0; i < cestaListModel.size(); i++)
-        {
-            String cota = cestaListModel.get(i).getObra().getCota();
-            if (obra.getCota().equals(cota))
-            {
-                position = i;
-                break;
-            }
-        }
-
-        if (position >= 0)
-            cestaListModel.remove(position);
+        return qtdObrasNaCesta;
     }
 
     public int getQtdMaxObras()
     {
-        int qtdMaxObras = 0;
+        int qtdMaxObras  = 0;
 
-        for (Role role: user.getRoles())
-        {
-            qtdMaxObras = Math.max(qtdMaxObras, role.getQtdmaxobras());
-        }
-
+        for ( Role role: user.getRoles())
+            qtdMaxObras = Math.max(qtdMaxObras, role.getQtdMaxObras());
         return qtdMaxObras;
     }
 
-    public int getcurrentQtdMaxObras()
+    public int getQtdObrasRestantes()
     {
-        int currentQtdMaxObras = 0;
-
-        for (int i = 0; i < this.cestaListModel.size(); i++)
-        {
-
-            int qtd = cestaListModel.get(i).getCurrentQtd();
-            currentQtdMaxObras += qtd;
-        }
-
-        return currentQtdMaxObras;
+        return getQtdMaxObras() - (getQtdObrasNaCesta()
+                +((Integer) session.getAttribute("qtdObrasRequisitadas")).intValue());
     }
 
-    public void upadateCestaListModel()
-    {
-        ListModelList<Requisicao> newCestaListModel = new ListModelList<Requisicao>();
-        int resto  = this.qtdMaxObras - getcurrentQtdMaxObras();
-
-
-        for (int i = 0; i <  this.cestaListModel.size(); i++)
-        {
-            int qtd = cestaListModel.get(i).getCurrentQtd();
-            Requisicao temp = (Requisicao) cestaListModel.get(i);
-            Requisicao requisicao = new Requisicao();
-
-            requisicao.setObra(temp.getObra());
-            requisicao.setCurrentQtd(temp.getCurrentQtd());
-
-            requisicao.setRangeQtd(requisicao.getCurrentQtd() + resto);
-
-            cestaListModel.set(i, requisicao);
-
-            //newCestaListModel.add(requisicao);
-        }
-
-        //cestaListBox = new Listbox();
-    //    cestaListBox.setModel(cestaListModel);
-        //cestaListModel =  new ListModelList<Requisicao>(newCestaListModel);
-        //
+    public void setObraListModel(ListModelList<Obra> obraListModel) {
+        this.obraListModel = obraListModel;
     }
 
-    public ListModelList<Requisicao> getCestaListModel() {
-        alert("ola");
-
-        Requisicao requisicao = new Requisicao();
-        requisicao.setObra(obraListModel.get(0));
-        requisicao.setCurrentQtd(1);
-        requisicao.setRangeQtd(this.qtdMaxObras);
-
-        cestaListModel.add(requisicao);
-
+    public ListModelList<Requisicao> getCestaListModel()
+    {
         return this.cestaListModel;
     }
 
     public void setCestaListModel(ListModelList<Requisicao> cestaListModel) {
         this.cestaListModel = cestaListModel;
+    }
+
+    public void aumentarQtd(Requisicao requisicao)
+    {
+
+        if (getQtdObrasRestantes() > 0)
+            requisicao.setQuantidade(requisicao.getQuantidade() + 1);
+
+        for (int i = 0; i < cestaListModel.size(); i++)
+        {
+            if ( cestaListModel.get(i).getObra().getCota().equals(requisicao.getObra().getCota()))
+            {
+                cestaListModel.remove(i);
+                cestaListModel.add(i, requisicao);
+                break;
+            }
+        }
+    }
+
+
+    public  boolean temObrasPorDevolver()
+    {
+        List<Emprestimo> emprestimos = crudService.findByJPQuery("SELECT e FROM Emprestimo e WHERE e.emprestimoPK.user.id = "+
+                user.getId()+" and e.estadoDevolucao.idestadodevolucao = 2", null);
+
+        return emprestimos.size() > 0 ?  true : false;
+    }
+
+    public int getQtdObrasRequisitadas()
+    {
+        int qtd = 0;
+
+        List<Emprestimo> emprestimos = crudService.findByJPQuery("SELECT e FROM Emprestimo e WHERE e.emprestimoPK.user.id = "+
+                user.getId()+" and e.estadoDevolucao.idestadodevolucao = 1", null);
+
+        for (Emprestimo e: emprestimos)
+            qtd += e.getQuantidade();
+
+        return qtd;
     }
 }

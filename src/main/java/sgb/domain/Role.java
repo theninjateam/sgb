@@ -6,7 +6,6 @@ import javax.persistence.*;
 @Table(name = "role", schema = "public")
 
 public class Role {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "role_id")
@@ -15,8 +14,9 @@ public class Role {
     @Column(name = "role")
     private String role;
 
+
     @Column(name = "qtdmaxobras")
-    private int qtdmaxobras;
+    private int qtdMaxObras;
 
     public Role() {
     }
@@ -37,7 +37,9 @@ public class Role {
         this.role = role;
     }
 
-    public int getQtdmaxobras() {  return this.qtdmaxobras; }
+    public int getQtdMaxObras() { return this.qtdMaxObras; }
 
-    public void setQtdmaxobras(int qtdmaxobras) { this.qtdmaxobras = qtdmaxobras; }
+    public void setQtdMaxObras(int qtdMaxObras) {
+        this.qtdMaxObras = qtdMaxObras;
+    }
 }
