@@ -2,6 +2,7 @@
 <zk>
     <window xmlns="http://www.zkoss.org/2005/zul"
             id="listObra" apply="sgb.controller.viewsController.ListobraController"
+            viewModel="@id('vm') @init('sgb.controller.viewsController.ListobraController')"
             border="none" hflex="1" vflex="1" contentStyle="overflow:auto">
 
         <div style="padding:0px">
@@ -65,72 +66,74 @@
                                         </template>
                                     </listbox>
                                 </column>
-                                <column width="40%">
-                                    <groupbox mold="3d">
-                                        <caption sclass="folder" label="Cesta"/>
-
-                                        <listbox width="100%"  id="cestaListBox" emptyMessage="nenhuma obra adicionada na cesta">
+                                <column width="40%" label="Cesta" align="center" style="font-size: large; font: bold;">
+                                        <listbox width="100%"  model="@init(vm.cestaListModel)"  vflex="1"
+                                                 emptyMessage="nenhuma obra adicionada na cesta">
                                             <listhead>
                                                 <listheader width="30%" height="100%" label="Capa"/>
                                                 <listheader width="50%" height="100%" label="Descricao"/>
                                                 <listheader width="20%" height="100%" label="Qtd."/>
                                             </listhead>
-                                            <template name="model">
+                                            <template name="model" >
                                                 <listitem>
-                                                    <listcell>
-                                                        <image width="100%" height="100%" src="${each.obra.pathcapa}"/>
-                                                    </listcell>
-                                                    <listcell>
-                                                        <hlayout>
-                                                            <div>
-                                                                <div>
-                                                                    <label value="Titulo:"/>
-                                                                    <label value="${each.obra.titulo}"/>
-                                                                </div>
+                                                    <listcell label="@init(each.titulo)"/>
+                                                    <!--<listcell>-->
+                                                        <!--<image width="100%" height="100%" src="${each.obra.pathcapa}"/>-->
+                                                    <!--</listcell>-->
+                                                    <!--<listcell>-->
+                                                        <!--<hlayout>-->
+                                                            <!--<div>-->
+                                                                <!--<div>-->
+                                                                    <!--<label value="Titulo:"/>-->
+                                                                    <!--<label value="${each.obra.titulo}"/>-->
+                                                                <!--</div>-->
 
-                                                                <div>
-                                                                    <label value="Cota:"/>
-                                                                    <label value="${each.obra.cota}"/>
-                                                                </div>
-                                                                <div>
-                                                                    <label value="Autores :"/>
-                                                                    <label forEach="${each.obra.autores}" value="${each.nome}"/>
-                                                                </div>
-                                                                <div>
-                                                                    <label value="Idioma :"/>
-                                                                    <label value="${each.obra.idioma.descricao}"/>
-                                                                </div>
-                                                                <div>
-                                                                    <label value="Tipo:"/>
-                                                                    <label value="${each.obra.tipoobra.descricao}"/>
-                                                                </div>
-                                                                <div>
-                                                                    <label value="Local Publicacao :"/>
-                                                                    <label value="${each.obra.localpublicacao}"/>
-                                                                </div>
-                                                                <div>
-                                                                    <button label="Remover da cesta"
-                                                                            forward="onClick=cestaListBox.onRemoverDaCesta"/>
-                                                                </div>
-                                                            </div>
-                                                        </hlayout>
-                                                    </listcell>
-                                                    <listcell>
-                                                        <listbox
-                                                                mold="select" >
-                                                            <listhead>
-                                                                <listheader width="100%" height="100%" label="Quantidade"/>
-                                                            </listhead>
-                                                            <listitem label="1" selected="true"/>
-                                                            <listitem  label="${each}" forEach="${each.rangeQtd}" />
-                                                        </listbox>
-                                                    </listcell>
+                                                                <!--<div>-->
+                                                                    <!--<label value="Cota:"/>-->
+                                                                    <!--<label value="${each.obra.cota}"/>-->
+                                                                <!--</div>-->
+                                                                <!--<div>-->
+                                                                    <!--<label value="Autores :"/>-->
+                                                                    <!--<label forEach="${each.obra.autores}" value="${each.nome}"/>-->
+                                                                <!--</div>-->
+                                                                <!--<div>-->
+                                                                    <!--<label value="Idioma :"/>-->
+                                                                    <!--<label value="${each.obra.idioma.descricao}"/>-->
+                                                                <!--</div>-->
+                                                                <!--<div>-->
+                                                                    <!--<label value="Tipo:"/>-->
+                                                                    <!--<label value="${each.obra.tipoobra.descricao}"/>-->
+                                                                <!--</div>-->
+                                                                <!--<div>-->
+                                                                    <!--<label value="Local Publicacao :"/>-->
+                                                                    <!--<label value="${each.obra.localpublicacao}"/>-->
+                                                                <!--</div>-->
+                                                                <!--<div>-->
+                                                                    <!--<button label="Remover da cesta"-->
+                                                                            <!--forward="onClick=cestaListBox.onRemoverDaCesta"/>-->
+                                                                <!--</div>-->
+                                                            <!--</div>-->
+                                                        <!--</hlayout>-->
+                                                    <!--</listcell>-->
+                                                    <!--<listcell>-->
+                                                        <!--<listbox name="RangeQuantidade"-->
+                                                                 <!--mold="select">-->
+                                                            <!--<listhead>-->
+                                                                <!--<listheader width="100%" height="100%" label="Quantidade"/>-->
+                                                            <!--</listhead>-->
+
+                                                            <!--<zk forEach="${each.rangeQtd}">-->
+                                                                <!--<listitem if="${each.num == each.currentQtd}" value="${each.num}" label="${each.num}" selected="true"/>-->
+                                                                <!--<listitem if="${each.num != each.currentQtd}" value="${each.num}" label="${each.num}"-->
+                                                                          <!--onClick="@command('showGroupsDialog', mode='${each.num}')"/>-->
+                                                            <!--</zk>-->
+
+                                                        <!--</listbox>-->
+                                                    <!--</listcell>-->
                                                 </listitem>
                                             </template>
                                         </listbox>
-
                                         <button id="requisitar" label="requisitar" width="100%"/>
-                                    </groupbox>
                                 </column>
                             </columns>
                         </grid>
@@ -140,3 +143,69 @@
         </div>
     </window>
 </zk>
+
+
+<!--<listbox width="100%"  id="cestaListBox"  emptyMessage="nenhuma obra adicionada na cesta">-->
+<!--<listhead>-->
+    <!--<listheader width="30%" height="100%" label="Capa"/>-->
+    <!--<listheader width="50%" height="100%" label="Descricao"/>-->
+    <!--<listheader width="20%" height="100%" label="Qtd."/>-->
+<!--</listhead>-->
+<!--<template name="model">-->
+    <!--<listitem>-->
+        <!--<listcell>-->
+            <!--<image width="100%" height="100%" src="${each.obra.pathcapa}"/>-->
+        <!--</listcell>-->
+        <!--<listcell>-->
+            <!--<hlayout>-->
+                <!--<div>-->
+                    <!--<div>-->
+                        <!--<label value="Titulo:"/>-->
+                        <!--<label value="${each.obra.titulo}"/>-->
+                    <!--</div>-->
+
+                    <!--<div>-->
+                        <!--<label value="Cota:"/>-->
+                        <!--<label value="${each.obra.cota}"/>-->
+                    <!--</div>-->
+                    <!--<div>-->
+                        <!--<label value="Autores :"/>-->
+                        <!--<label forEach="${each.obra.autores}" value="${each.nome}"/>-->
+                    <!--</div>-->
+                    <!--<div>-->
+                        <!--<label value="Idioma :"/>-->
+                        <!--<label value="${each.obra.idioma.descricao}"/>-->
+                    <!--</div>-->
+                    <!--<div>-->
+                        <!--<label value="Tipo:"/>-->
+                        <!--<label value="${each.obra.tipoobra.descricao}"/>-->
+                    <!--</div>-->
+                    <!--<div>-->
+                        <!--<label value="Local Publicacao :"/>-->
+                        <!--<label value="${each.obra.localpublicacao}"/>-->
+                    <!--</div>-->
+                    <!--<div>-->
+                        <!--<button label="Remover da cesta"-->
+                                <!--forward="onClick=cestaListBox.onRemoverDaCesta"/>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</hlayout>-->
+        <!--</listcell>-->
+        <!--<listcell>-->
+            <!--<listbox name="RangeQuantidade"-->
+                     <!--mold="select">-->
+                <!--<listhead>-->
+                    <!--<listheader width="100%" height="100%" label="Quantidade"/>-->
+                <!--</listhead>-->
+
+                <!--<zk forEach="${each.rangeQtd}">-->
+                    <!--<listitem if="${each.num == each.currentQtd}" value="${each.num}" label="${each.num}" selected="true"/>-->
+                    <!--<listitem if="${each.num != each.currentQtd}" value="${each.num}" label="${each.num}"-->
+                              <!--onClick="@command('showGroupsDialog', mode='${each.num}')"/>-->
+                <!--</zk>-->
+
+            <!--</listbox>-->
+        <!--</listcell>-->
+    <!--</listitem>-->
+<!--</template>-->
+<!--</listbox>-->

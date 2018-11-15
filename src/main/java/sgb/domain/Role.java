@@ -15,6 +15,9 @@ public class Role {
     @Column(name = "role")
     private String role;
 
+    @Column(name = "qtdmaxobras")
+    private int qtdmaxobras;
+
     public Role() {
     }
 
@@ -33,4 +36,8 @@ public class Role {
     public void setRole(String role) {
         this.role = role;
     }
+
+    public int getQtdmaxobras() {  return this.qtdmaxobras; }
+
+    public void setQtdmaxobras(int qtdmaxobras) { this.qtdmaxobras = qtdmaxobras; }
 }
