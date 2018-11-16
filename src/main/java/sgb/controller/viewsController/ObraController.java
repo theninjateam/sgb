@@ -252,7 +252,6 @@ public class ObraController extends SelectorComposer<Component> {
 //               Clients.showNotification("Ola sou sim");
            }
 
->>>>>>> e6bd73573db96a2c4f1d8de86b2ebe8864978134
         } else if (tipoObra.getDescricao().toLowerCase().equals("cd")) {
             cd.setIdcd(obra.getCota());
             cd.setDescricao(((Textbox)idInclData.getFellow("descricaoCd")).getValue());
