@@ -4,15 +4,15 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "livro", schema = "public")
-public class Livro {
+@Table(name = "livrocd", schema = "public")
+public class LivroCd {
     private String cota;
     private String isbn;
     private String editora;
     private String edicao;
     private int volume;
     private String codigobarra;
-    private Integer volume;
+    private String descricaocd;
     private Obra obra;
 
     @Id
@@ -65,7 +65,6 @@ public class Livro {
         this.volume = volume;
     }
 
-
     @Basic
     @Column(name = "codigobarra")
     public String getCodigobarra() {
@@ -77,31 +76,30 @@ public class Livro {
     }
 
     @Basic
-    @Column(name = "volume")
-    public Integer getVolume() {
-        return volume;
-    }
+    @Column(name = "descricaocd")
+    public String getDescricaocd() { return descricaocd; }
 
-    public void setVolume(Integer volume) {
-        this.volume = volume;
+    public void setDescricaocd(String descricaocd) {
+        this.descricaocd = descricaocd;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Livro livro = (Livro) o;
+        LivroCd livro = (LivroCd) o;
         return Objects.equals(cota, livro.cota) &&
                 Objects.equals(isbn, livro.isbn) &&
                 Objects.equals(editora, livro.editora) &&
                 Objects.equals(edicao, livro.edicao) &&
                 Objects.equals(volume, livro.volume) &&
-                Objects.equals(codigobarra, livro.codigobarra);
+                Objects.equals(codigobarra, livro.codigobarra) &&
+                Objects.equals(descricaocd, livro.descricaocd);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(cota, isbn, editora, edicao, codigobarra);
+        return Objects.hash(cota, isbn, editora, edicao,volume, codigobarra,descricaocd);
     }
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)

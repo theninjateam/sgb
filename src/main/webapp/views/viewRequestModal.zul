@@ -1,0 +1,119 @@
+<window id="modalDialog" title="Coffee Order" border="normal" width="60%"
+        apply="sgb.controller.viewsController.viewRequestModalController"
+        position="center,center" closable="true"
+        action="show: slideDown;hide: slideUp">
+    <div style="padding:0px">
+        <tabbox>
+            <tabs>
+                <tab label="${labels.obrainfo}"></tab>
+            </tabs>
+            <tabpanels>
+                <tabpanel>
+                    <grid>
+                        <columns>
+                            <column/>
+                        </columns>
+                        <rows>
+                            <!--<row>-->
+                            <!--<hlayout vflex="1" hflex="1" sclass="second-layout">-->
+                            <!--<div sclass="description-area" height="100%">-->
+                            <!--<span sclass="input-group-addon">Estado de Emprestimo-->
+                            <!--</span>-->
+                            <!--</div>-->
+
+                            <!--<div sclass="description-area" height="100%">-->
+                            <!--<listbox width="100%" id="estadopedidoListBox"-->
+                            <!--emptyMessage="Nenhum estado selecionado Encotrada"-->
+                            <!--model="${$composer.estadopedidoModel}"-->
+                            <!--mold="select">-->
+
+                            <!--<listhead>-->
+                            <!--<listheader label="Estado de Emprestimo"/>-->
+                            <!--</listhead>-->
+                            <!--<template name="model">-->
+                            <!--<listitem>-->
+                            <!--<listcell-->
+                            <!--label="${each.descricao}"></listcell>-->
+                            <!--</listitem>-->
+                            <!--</template>-->
+                            <!--</listbox>-->
+                            <!--</div>-->
+                            <!--</hlayout>-->
+                            <!--</row>-->
+
+                            <row>
+                                <listbox width="100%" id="emprestimoListBox">
+                                    <listhead>
+                                        <listheader width="25%" height="100%" label="Usuario"/>
+                                        <listheader width="20%" height="100%" label="Capa"/>
+                                        <listheader width="30%" height="100%" label="ObraRequisitad"/>
+                                        <listheader width="25%" height="100%" label="Operacoes"/>
+                                    </listhead>
+                                    <template name="model">
+                                        <listitem>
+                                            <listcell>
+                                                <div>
+                                                    <label value="Nome Completo:"/>
+                                                    <label value="${each.emprestimoPK.user.lastName} ${each.emprestimoPK.user.name} "/>
+                                                </div>
+                                                <div>
+                                                    <label value="Role"/>
+                                                    <!--<label value="${each.}"/>-->
+                                                </div>
+                                            </listcell>
+                                            <listcell>
+                                                <div>
+                                                    <image width="100%" height="100%"  src="${each.emprestimoPK.obra.pathcapa}"/>
+                                                </div>
+                                            </listcell>
+                                            <listcell>
+                                                <hlayout>
+                                                    <div>
+                                                        <div>
+                                                            <label value="Titulo:"/>
+                                                            <label value="${each.emprestimoPK.obra.titulo}"/>
+                                                        </div>
+
+                                                        <div>
+                                                            <label value="Cota:"/>
+                                                            <label value="${each.emprestimoPK.obra.cota}"/>
+                                                        </div>
+                                                        <div>
+                                                            <label value="Autores :"/>
+                                                            <label forEach="${each.emprestimoPK.obra.autores}"  value="${each.nome}"/>
+                                                        </div>
+                                                        <div>
+                                                            <label value="Idioma :"/>
+                                                            <!--<label value="${each.idioma.descricao}"/>-->
+                                                        </div>
+                                                        <div>
+                                                            <label value="Tipo:"/>
+                                                            <label value="${each.emprestimoPK.obra.tipoobra.descricao}"/>
+                                                        </div>
+                                                        <div>
+                                                            <label value="Local Publicacao :"/>
+                                                            <label value="${each.emprestimoPK.obra.localpublicacao}"/>
+                                                        </div>
+
+                                                    </div>
+                                                </hlayout>
+                                            </listcell>
+                                            <listcell>
+                                                <div>
+                                                    <button label="Eliminar" forward="onClick=obraListBox.onEliminarObra"/>
+                                                    <button label="Editar" forward="onClick=obraListBox.onEditarObra"/>
+                                                </div>
+                                            </listcell>
+                                        </listitem>
+                                    </template>
+                                </listbox>
+                            </row>
+                        </rows>
+                    </grid>
+                    <button id="acceptBtn" hflex="1" label="Aceitar Requisicao"/>
+                    <button id="rejectBtn" hflex="1" label="Rejeitar Requisicao"/>
+                </tabpanel>
+            </tabpanels>
+        </tabbox>
+    </div>
+</window>
