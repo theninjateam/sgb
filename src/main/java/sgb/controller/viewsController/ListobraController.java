@@ -36,6 +36,12 @@ public class ListobraController extends SelectorComposer<Component>
 
 
     @Wire
+    private Button buttonPesquisar;
+
+    @Wire
+    private Textbox textboxPesquisar;
+
+    @Wire
     private Window listObra;
 
     @Wire
@@ -150,6 +156,42 @@ public class ListobraController extends SelectorComposer<Component>
         Clients.showNotification("successful");
     }
 
+    @Listen("onPesquisar = #textboxPesquisar")
+    public void doAutoPesquisar(ForwardEvent event)
+    {
+        pesquisar(textboxPesquisar.getValue());
+    }
+
+    @Listen("onPesquisar = #buttonPesquisar")
+    public void doPesquisar(ForwardEvent event)
+    {
+        pesquisar(textboxPesquisar.getValue());
+    }
+
+    public void pesquisar(String keys)
+    {
+        if (textboxPesquisar.getValue().isEmpty())
+        {
+            obraListModel.removeAll(obraListModel);
+            obraListModel.addAll(getObraListModel());
+        }
+        else
+        {
+            obraListModel.removeAll(obraListModel);
+
+            for (Obra obra: getObraListModel())
+            {
+                for ( String key: keys.split(" "))
+                {
+                    if( obra.getTitulo().toLowerCase().contains(key.toLowerCase()))
+                    {
+                        obraListModel.add(obra);
+                        break;
+                    }
+                }
+            }
+        }
+    }
 
     @Listen("onAumentarQtd = #cestaListBox")
     public void doAumentarQtd(ForwardEvent event)

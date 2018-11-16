@@ -1,135 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zk>
     <window id="listObra" apply="sgb.controller.viewsController.ListobraController"
-            border="none" hflex="1" vflex="1" contentStyle="overflow:auto">
-        <div style="padding:0px">
-            <tabbox>
-                <tabs>
-                    <tab label="${labels.obrainfo}"></tab>
-                </tabs>
-                <tabpanels>
-                    <tabpanel>
-                        <grid>
-                            <columns>
-                                <column width="60%">
-                                    <listbox width="100%" id="obraListBox">
-                                        <listhead>
-                                            <listheader width="40%" height="100%" label="Capa"/>
-                                            <listheader width="60%" height="100%" label="Descricao"/>
-                                        </listhead>
-                                        <template name="model">
-                                            <listitem>
-                                                <listcell>
-                                                    <image width="100%" height="100%"  src="${each.pathcapa}"/>
-                                                </listcell>
-                                                <listcell>
-                                                    <hlayout>
-                                                        <div>
-                                                            <div>
-                                                                <label value="Titulo:"/>
-                                                                <label value="${each.titulo}"/>
-                                                            </div>
+            border="none" vflex="1" contentStyle="overflow:auto">
+        <vlayout>
+            <hlayout width="100%">
+                <textbox placeholder="informe o titulo da obra e pressione Enter" id="textboxPesquisar" hflex="1"
+                         forward="onOK=textboxPesquisar.onPesquisar"/>
+                <button label="pesquisar" width="20%" id="buttonPesquisar"
+                        forward="onClick=buttonPesquisar.onPesquisar"/>
+            </hlayout>
 
-                                                            <div>
-                                                                <label value="Cota:"/>
-                                                                <label value="${each.cota}"/>
-                                                            </div>
-                                                            <div>
-                                                                <label value="Autores :"/>
-                                                                <label forEach="${each.autores}"  value="${each.nome}"/>
-                                                            </div>
-                                                            <div>
-                                                                <label value="Idioma :"/>
-                                                                <label value="${each.idioma.descricao}"/>
-                                                            </div>
-                                                            <div>
-                                                                <label value="Tipo:"/>
-                                                                <label value="${each.tipoobra.descricao}"/>
-                                                            </div>
-                                                            <div>
-                                                                <label value="Local Publicacao :"/>
-                                                                <label value="${each.localpublicacao}"/>
-                                                            </div>
-                                                            <div>
-                                                                <button label="Eliminar" forward="onClick=obraListBox.onEliminarObra"/>
-                                                                <button label="Editar" forward="onClick=obraListBox.onEditarObra"/>
-                                                                <button label="Detalhe" forward="onClick=obraListBox.onDetalheObra"/>
-                                                                <button label="Adicionar na Cesta" forward="onClick=obraListBox.onAdicionarNaCesta"/>
-                                                            </div>
-                                                        </div>
-                                                    </hlayout>
-                                                </listcell>
-                                            </listitem>
-                                        </template>
-                                    </listbox>
-                                </column>
+            <listbox id="obraListBox" emptyMessage="Nenhuma Obra Encontrada">
+                <listhead>
+                    <listheader width="40%" height="100%" label="Capa"/>
+                    <listheader width="60%" height="100%" label="Descricao"/>
+                </listhead>
+                <template name="model">
+                    <listitem>
+                        <listcell>
+                            <image width="100%" height="100%"  src="${each.pathcapa}"/>
+                        </listcell>
+                        <listcell>
+                            <hlayout>
+                                <div>
+                                    <div>
+                                        <label value="Titulo:"/>
+                                        <label value="${each.titulo}"/>
+                                    </div>
 
-                                <column width="40%">
-                                    <listbox width="100%" id="cestaListBox"
-                                             emptyMessage="Nenhuma Obra Adicionada na Cesta">
-                                        <listhead>
-                                            <listheader width="30%" height="100%" label="Capa"/>
-                                            <listheader width="40%" height="100%" label="Descricao"/>
-                                            <listheader width="10%" height="100%" label="Qtd."/>
-                                            <listheader width="20%" height="100%" label="opcoes"/>
-                                        </listhead>
-                                        <template name="model">
-                                            <listitem>
-                                                <listcell>
-                                                    <image width="100%" height="100%" src="${each.obra.pathcapa}"/>
-                                                </listcell>
-                                                <listcell>
-                                                    <hlayout>
-                                                        <div>
-                                                            <div>
-                                                                <label value="Titulo:"/>
-                                                                <label value="${each.obra.titulo}"/>
-                                                            </div>
-
-                                                            <div>
-                                                                <label value="Cota:"/>
-                                                                <label value="${each.obra.cota}"/>
-                                                            </div>
-                                                            <div>
-                                                                <label value="Autores :"/>
-                                                                <label forEach="${each.obra.autores}" value="${each.nome}"/>
-                                                            </div>
-                                                            <div>
-                                                                <label value="Idioma :"/>
-                                                                <label value="${each.obra.idioma.descricao}"/>
-                                                            </div>
-                                                            <div>
-                                                                <label value="Tipo:"/>
-                                                                <label value="${each.obra.tipoobra.descricao}"/>
-                                                            </div>
-                                                            <div>
-                                                                <label value="Local Publicacao :"/>
-                                                                <label value="${each.obra.localpublicacao}"/>
-                                                            </div>
-                                                            <div>
-                                                                <button label="Remover da cesta"
-                                                                        forward="onClick=cestaListBox.onRemoverDaCesta"/>
-                                                            </div>
-                                                        </div>
-                                                    </hlayout>
-                                                </listcell>
-                                                <listcell >
-                                                    <label value="${each.quantidade}"/>
-                                                </listcell>
-                                                <listcell>
-                                                    <button label="-" forward="onClick=cestaListBox.onReduzirQtd"/>
-                                                    <button label="+" forward="onClick=cestaListBox.onAumentarQtd"/>
-                                                </listcell>
-                                            </listitem>
-                                        </template>
-                                    </listbox>
-                                    <button label="Requisitar" forward="onClick=cestaListBox.onRequisitarObra" width="100%"/>
-                                </column>
-                            </columns>
-                        </grid>
-                    </tabpanel>
-                </tabpanels>
-            </tabbox>
-        </div>
+                                    <div>
+                                        <label value="Cota:"/>
+                                        <label value="${each.cota}"/>
+                                    </div>
+                                    <div>
+                                        <label value="Autores :"/>
+                                        <label forEach="${each.autores}"  value="${each.nome}"/>
+                                    </div>
+                                    <div>
+                                        <label value="Idioma :"/>
+                                        <label value="${each.idioma.descricao}"/>
+                                    </div>
+                                    <div>
+                                        <label value="Tipo:"/>
+                                        <label value="${each.tipoobra.descricao}"/>
+                                    </div>
+                                    <div>
+                                        <label value="Local Publicacao :"/>
+                                        <label value="${each.localpublicacao}"/>
+                                    </div>
+                                    <div>
+                                        <button label="Eliminar" forward="onClick=obraListBox.onEliminarObra"/>
+                                        <button label="Editar" forward="onClick=obraListBox.onEditarObra"/>
+                                        <button label="Detalhe" forward="onClick=obraListBox.onDetalheObra"/>
+                                        <button label="Adicionar na Cesta" forward="onClick=obraListBox.onAdicionarNaCesta"/>
+                                    </div>
+                                </div>
+                            </hlayout>
+                        </listcell>
+                    </listitem>
+                </template>
+            </listbox>
+        </vlayout>
     </window>
 </zk>
