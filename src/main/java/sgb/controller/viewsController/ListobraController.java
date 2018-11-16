@@ -60,6 +60,7 @@ public class ListobraController extends SelectorComposer<Component>
 
     public ListModelList<Obra> getObraListModel() {
         List<Obra> listaobra = crudService.getAll(Obra.class);
+
         return new ListModelList<Obra>(listaobra);
     }
 

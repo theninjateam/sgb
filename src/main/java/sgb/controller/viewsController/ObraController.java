@@ -143,6 +143,7 @@ public class ObraController extends SelectorComposer<Component> {
 
 
 
+
     @Override
     public void doAfterCompose(Component comp) throws Exception {
         super.doAfterCompose(comp);
@@ -222,10 +223,11 @@ public class ObraController extends SelectorComposer<Component> {
         obra.setTitulo(titulo.getValue());
         obra.setAreacientifica(areaCientificaListBox.getSelectedItem().getValue());
         obra.setAnoPublicacao(anoPublicacao.getValue());
-        obra.setLocalpublicacao("teste");
+        obra.setLocalpublicacao(localPublicacao.getValue());
         obra.setQuantidade(quatddObra.getValue());
         obra.setPathcapa(relativePathCover);
         obra.setPathpdf(relativePathPDF);
+        obra.setIdioma(idiomaListBox.getSelectedItem().getValue());
 
         registroObra.setIduser(user.getId());
         registroObra.setCota(obra.getCota());
@@ -233,14 +235,24 @@ public class ObraController extends SelectorComposer<Component> {
         registroObra.setObra(obra);
 
         if (tipoObra.getDescricao().toLowerCase().equals("livro")) {
-                livro.setCota(obra.getCota());
-                livro.setIsbn(((Textbox)idInclData.getFellow("isbn")).getValue());
-                livro.setCodigobarra(((Textbox)idInclData.getFellow("codigobarra")).getValue());
-                livro.setEdicao(((Textbox)idInclData.getFellow("edicao")).getValue());
-                livro.setEditora(((Textbox)idInclData.getFellow("editora")).getValue());
-                livro.setVolume(Integer.parseInt(((Textbox) idInclData.getFellow("volume")).getValue()));
-                livro.setObra(obra);
-                obra.setLivro(livro);
+
+            livro.setCota(obra.getCota());
+            livro.setIsbn(((Textbox)idInclData.getFellow("isbn")).getValue());
+            livro.setCodigobarra(((Textbox)idInclData.getFellow("codigobarra")).getValue());
+            livro.setEdicao(((Textbox)idInclData.getFellow("edicao")).getValue());
+            livro.setEditora(((Textbox)idInclData.getFellow("editora")).getValue());
+            livro.setObra(obra);
+            obra.setLivro(livro);
+           String aa = ((Label)idInclData.getFellow("escolha")).getValue();
+           if(aa.equals("Sim")){
+               cd.setIdcd(obra.getCota());
+               cd.setDescricao(titulo.getValue());
+               cd.setObra(obra);
+               obra.setCd(cd);
+//               Clients.showNotification("Ola sou sim");
+           }
+
+>>>>>>> e6bd73573db96a2c4f1d8de86b2ebe8864978134
         } else if (tipoObra.getDescricao().toLowerCase().equals("cd")) {
             cd.setIdcd(obra.getCota());
             cd.setDescricao(((Textbox)idInclData.getFellow("descricaoCd")).getValue());

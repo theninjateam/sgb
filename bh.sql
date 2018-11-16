@@ -12,7 +12,7 @@
  Target Server Version : 100005
  File Encoding         : 65001
 
- Date: 08/11/2018 15:56:55
+ Date: 16/11/2018 16:18:05
 */
 
 
@@ -135,8 +135,14 @@ INSERT INTO "public"."autor" VALUES ('62b9aef3390384c34a495744df95e8dc', 'Joao A
 INSERT INTO "public"."autor" VALUES ('ebc308f979e135f40483eec4b35feea1', 'WSS');
 INSERT INTO "public"."autor" VALUES ('c6bc65d0f994ea20585b895298f9090c', 'emersondd ddd');
 INSERT INTO "public"."autor" VALUES ('7a739ded8071c43747c98df60e88c7d1', '45555dd fff');
+<<<<<<< HEAD
 INSERT INTO "public"."autor" VALUES ('3863afeeb426a641420cbb3c5830c8f9', 'HÃ©lder Matimbe');
 INSERT INTO "public"."autor" VALUES ('e5202f07fe9f24969e101f5a91cd48d5', 'Zita witiness');
+=======
+INSERT INTO "public"."autor" VALUES ('8f26e54c201a6f5ffdc79100f2126faf', 'b b');
+INSERT INTO "public"."autor" VALUES ('1bbda9b94de9eafe906b75b30834a8b0', 'a a');
+INSERT INTO "public"."autor" VALUES ('abf6dc183a0b72eed17416d0f1b435d8', 'ssss ddda');
+>>>>>>> e6bd73573db96a2c4f1d8de86b2ebe8864978134
 
 -- ----------------------------
 -- Table structure for cd
@@ -149,6 +155,11 @@ CREATE TABLE "public"."cd" (
 ;
 
 -- ----------------------------
+-- Records of cd
+-- ----------------------------
+INSERT INTO "public"."cd" VALUES ('1111', 'sssssa ddd');
+
+-- ----------------------------
 -- Table structure for emprestimo
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."emprestimo";
@@ -159,11 +170,16 @@ CREATE TABLE "public"."emprestimo" (
   "estadopedido" int4,
   "dataaprovacao" date,
   "datadevolucao" date,
-  "quantidade" varchar(255) COLLATE "pg_catalog"."default",
+  "quantidade" int4,
   "comentario" varchar(5000) COLLATE "pg_catalog"."default",
   "estadodevolucao" int4
 )
 ;
+
+-- ----------------------------
+-- Records of emprestimo
+-- ----------------------------
+INSERT INTO "public"."emprestimo" VALUES (2, '531.4F', '2018-11-16', 1, '2018-11-29', '2018-11-14', 15, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for estadodevolucao
@@ -176,14 +192,28 @@ CREATE TABLE "public"."estadodevolucao" (
 ;
 
 -- ----------------------------
+-- Records of estadodevolucao
+-- ----------------------------
+INSERT INTO "public"."estadodevolucao" VALUES (2, 'nao devolvido');
+INSERT INTO "public"."estadodevolucao" VALUES (3, 'devolvido');
+INSERT INTO "public"."estadodevolucao" VALUES (1, 'Indeterminado');
+
+-- ----------------------------
 -- Table structure for estadopedido
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."estadopedido";
 CREATE TABLE "public"."estadopedido" (
   "idestadopedido" int4 NOT NULL DEFAULT nextval('estadopedido_idestadopedido_seq'::regclass),
-  "descricao " varchar(255) COLLATE "pg_catalog"."default"
+  "descricao" varchar(255) COLLATE "pg_catalog"."default"
 )
 ;
+
+-- ----------------------------
+-- Records of estadopedido
+-- ----------------------------
+INSERT INTO "public"."estadopedido" VALUES (1, 'pendente');
+INSERT INTO "public"."estadopedido" VALUES (2, 'rejeitado');
+INSERT INTO "public"."estadopedido" VALUES (3, 'aceite');
 
 -- ----------------------------
 -- Table structure for formatocd
@@ -250,12 +280,18 @@ CREATE TABLE "public"."livro" (
   "isbn" varchar(255) COLLATE "pg_catalog"."default",
   "editora" varchar(255) COLLATE "pg_catalog"."default",
   "edicao" varchar(255) COLLATE "pg_catalog"."default",
+<<<<<<< HEAD
   "volume" int4,
   "codigobarra" varchar(255) COLLATE "pg_catalog"."default"
+=======
+  "codigobarra" varchar(255) COLLATE "pg_catalog"."default",
+  "volume" int4
+>>>>>>> e6bd73573db96a2c4f1d8de86b2ebe8864978134
 )
 ;
 
 -- ----------------------------
+<<<<<<< HEAD
 -- Table structure for livro_cd
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."livrocd";
@@ -277,6 +313,11 @@ CREATE TABLE "public"."livrocd" (
 -- ----------------------------
 INSERT INTO"public"."livrocd" VALUES ('12356', '1213243', 'Matimbe''s', '12', 1, '2dsf3', '12 MBs apresentaÃ§Ã£o do livro');
 
+=======
+-- Records of livro
+-- ----------------------------
+INSERT INTO "public"."livro" VALUES ('1111', '778888', '9999', '5555', '888888', NULL);
+>>>>>>> e6bd73573db96a2c4f1d8de86b2ebe8864978134
 
 -- ----------------------------
 -- Table structure for obra
@@ -301,11 +342,20 @@ CREATE TABLE "public"."obra" (
 -- ----------------------------
 -- Records of obra
 -- ----------------------------
+<<<<<<< HEAD
 INSERT INTO "public"."obra" VALUES ('WW2', 7777, 'Introducao a Biologia', 1, 'Nampula', 2, 444, 2, '', 'digitalLibrary/cover/bg4.jpg', 44444);
 INSERT INTO "public"."obra" VALUES ('eee2', 1234, 'Introducao a Matematica', 1, 'Beira', 1, 25, 2, 'digitalLibrary/pdf/4.pdf', 'digitalLibrary/cover/bg4.jpg', 1298);
 INSERT INTO "public"."obra" VALUES ('77788', 555, 'Introducao a Quimica', 5, 'Maputo', 1, 77, 2, 'digitalLibrary/pdf/isbd-cons_2007-en.pdf', 'digitalLibrary/cover/bg.png', 788);
 INSERT INTO "public"."obra" VALUES ('531.4F', 1223, 'Introducao Fisica', 1, 'Pemba', 1, 20, 1, '', 'digitalLibrary/cover/bg4.jpg', 2001);
 INSERT INTO "public"."obra" VALUES ('12356', 13232, 'E-learning', 4, 'teste', null, 10, 4, 'digitalLibrary/pdf/Thesis - All Chaptes- ver 1.23.pdf', 'digitalLibrary/cover/elearning-300x150.png', 2018);
+=======
+INSERT INTO "public"."obra" VALUES ('WW2', 7777, 'Introducao a Biologia', 1, 'Nampula', 2, 4, 2, '', 'digitalLibrary/cover/bg4.jpg', 44444);
+INSERT INTO "public"."obra" VALUES ('77788', 555, 'Introducao a Quimica', 5, 'Maputo', 1, 4, 2, 'digitalLibrary/pdf/isbd-cons_2007-en.pdf', 'digitalLibrary/cover/bg.png', 788);
+INSERT INTO "public"."obra" VALUES ('531.4F', 1223, 'Introducao Fisica', 1, 'Pemba', 1, 4, 1, '', 'digitalLibrary/cover/bg4.jpg', 2001);
+INSERT INTO "public"."obra" VALUES ('eee2', 1234, 'Introducao a Matematica', 1, 'Beira', 1, 4, 2, 'digitalLibrary/pdf/4.pdf', 'digitalLibrary/cover/bg4.jpg', 1298);
+INSERT INTO "public"."obra" VALUES ('ww23', 11, '11', 5, 'teste', 2, 0, 1, NULL, NULL, 2015);
+INSERT INTO "public"."obra" VALUES ('1111', 777, 'sssssa ddd', 1, 'teste', NULL, 122, 1, NULL, NULL, 123);
+>>>>>>> e6bd73573db96a2c4f1d8de86b2ebe8864978134
 
 -- ----------------------------
 -- Table structure for obra_autor
@@ -328,8 +378,14 @@ INSERT INTO "public"."obra_autor" VALUES ('0b757be795f46a5c37c52e7932e8effc', 'e
 INSERT INTO "public"."obra_autor" VALUES ('62b9aef3390384c34a495744df95e8dc', '77788');
 INSERT INTO "public"."obra_autor" VALUES ('ebc308f979e135f40483eec4b35feea1', 'WW2');
 INSERT INTO "public"."obra_autor" VALUES ('ebc308f979e135f40483eec4b35feea1', '77788');
+<<<<<<< HEAD
 INSERT INTO "public"."obra_autor" VALUES ('e5202f07fe9f24969e101f5a91cd48d5', '12356');
 INSERT INTO "public"."obra_autor" VALUES ('3863afeeb426a641420cbb3c5830c8f9', '12356');
+=======
+INSERT INTO "public"."obra_autor" VALUES ('8f26e54c201a6f5ffdc79100f2126faf', 'ww23');
+INSERT INTO "public"."obra_autor" VALUES ('1bbda9b94de9eafe906b75b30834a8b0', 'ww23');
+INSERT INTO "public"."obra_autor" VALUES ('abf6dc183a0b72eed17416d0f1b435d8', '1111');
+>>>>>>> e6bd73573db96a2c4f1d8de86b2ebe8864978134
 
 -- ----------------------------
 -- Table structure for registroobra
@@ -348,7 +404,12 @@ CREATE TABLE "public"."registroobra" (
 INSERT INTO "public"."registroobra" VALUES ('WW2', 1, '2018-11-05');
 INSERT INTO "public"."registroobra" VALUES ('eee2', 1, '2018-11-05');
 INSERT INTO "public"."registroobra" VALUES ('77788', 1, '2018-11-05');
+<<<<<<< HEAD
 INSERT INTO "public"."registroobra" VALUES ('12356', 2, '2018-11-15');
+=======
+INSERT INTO "public"."registroobra" VALUES ('ww23', 2, '2018-11-08');
+INSERT INTO "public"."registroobra" VALUES ('1111', 1, '2018-11-16');
+>>>>>>> e6bd73573db96a2c4f1d8de86b2ebe8864978134
 
 -- ----------------------------
 -- Table structure for revista
@@ -373,14 +434,17 @@ INSERT INTO "public"."revista" VALUES ('77788', 'rtrrrrrrrrrrrr');
 DROP TABLE IF EXISTS "public"."role";
 CREATE TABLE "public"."role" (
   "role_id" int4 NOT NULL,
-  "role" varchar(255) COLLATE "pg_catalog"."default"
+  "role" varchar(255) COLLATE "pg_catalog"."default",
+  "qtdmaxobras" int4 DEFAULT 0
 )
 ;
 
 -- ----------------------------
 -- Records of role
 -- ----------------------------
-INSERT INTO "public"."role" VALUES (1, 'ADMIN');
+INSERT INTO "public"."role" VALUES (3, 'teacher', 4);
+INSERT INTO "public"."role" VALUES (1, 'ADMIN', 0);
+INSERT INTO "public"."role" VALUES (2, 'student', 6);
 
 -- ----------------------------
 -- Table structure for roleitem
@@ -444,14 +508,19 @@ CREATE TABLE "public"."user_role" (
 -- Records of user_role
 -- ----------------------------
 INSERT INTO "public"."user_role" VALUES (1, 1);
-INSERT INTO "public"."user_role" VALUES (2, 1);
+INSERT INTO "public"."user_role" VALUES (2, 2);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."areacientifica_idarea_seq"
+<<<<<<< HEAD
   OWNED BY "public"."areacientifica"."idarea";
 SELECT setval('"public"."areacientifica_idarea_seq"', 7, true);
+=======
+OWNED BY "public"."areacientifica"."idarea";
+SELECT setval('"public"."areacientifica_idarea_seq"', 2, false);
+>>>>>>> e6bd73573db96a2c4f1d8de86b2ebe8864978134
 ALTER SEQUENCE "public"."estadodevolucao_idestadodevolucao_seq"
   OWNED BY "public"."estadodevolucao"."idestadodevolucao";
 SELECT setval('"public"."estadodevolucao_idestadodevolucao_seq"', 2, false);
@@ -459,6 +528,7 @@ ALTER SEQUENCE "public"."estadopedido_idestadopedido_seq"
   OWNED BY "public"."estadopedido"."idestadopedido";
 SELECT setval('"public"."estadopedido_idestadopedido_seq"', 2, false);
 ALTER SEQUENCE "public"."formatocd_idformato_seq"
+<<<<<<< HEAD
   OWNED BY "public"."formatocd"."idformato";
 SELECT setval('"public"."formatocd_idformato_seq"', 6, true);
 SELECT setval('"public"."hibernate_sequence"', 19, true);
@@ -468,6 +538,17 @@ SELECT setval('"public"."idioma_ididioma_seq"', 5, true);
 ALTER SEQUENCE "public"."tipoobra_idtipo_seq"
   OWNED BY "public"."tipoobra"."idtipo";
 SELECT setval('"public"."tipoobra_idtipo_seq"', 5, true);
+=======
+OWNED BY "public"."formatocd"."idformato";
+SELECT setval('"public"."formatocd_idformato_seq"', 2, false);
+SELECT setval('"public"."hibernate_sequence"', 2, false);
+ALTER SEQUENCE "public"."idioma_ididioma_seq"
+OWNED BY "public"."idioma"."ididioma";
+SELECT setval('"public"."idioma_ididioma_seq"', 2, false);
+ALTER SEQUENCE "public"."tipoobra_idtipo_seq"
+OWNED BY "public"."tipoobra"."idtipo";
+SELECT setval('"public"."tipoobra_idtipo_seq"', 2, false);
+>>>>>>> e6bd73573db96a2c4f1d8de86b2ebe8864978134
 
 -- ----------------------------
 -- Primary Key structure for table areacientifica
