@@ -2,7 +2,7 @@ package sgb.domain;
 
 import java.util.ArrayList;
 
-public class Requisicao
+public class Item
 {
     private Obra obra;
     private int quantidade;

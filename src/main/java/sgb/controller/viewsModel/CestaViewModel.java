@@ -2,17 +2,17 @@ package sgb.controller.viewsModel;
 
 import java.util.ArrayList;
 import java.util.List;
-import sgb.domain.Requisicao;
+import sgb.domain.Item;
 
 public class CestaViewModel
 {
-    private List<Requisicao> requisicoes = new ArrayList<Requisicao>();
+    private List<Item> requisicoes = new ArrayList<Item>();
 
-    public List<Requisicao> getRequisicoes() {
+    public List<Item> getRequisicoes() {
         return this.requisicoes;
     }
 
-    public void setRequisicoes(List<Requisicao> requisicoes) {
+    public void setRequisicoes(List<Item> requisicoes) {
         this.requisicoes = requisicoes;
     }
 }

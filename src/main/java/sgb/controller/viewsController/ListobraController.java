@@ -1,10 +1,7 @@
 package sgb.controller.viewsController;
 
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.zkoss.bind.annotation.Command;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
@@ -17,7 +14,7 @@ import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.*;
 import sgb.domain.*;
 import sgb.service.CRUDService;
-import java.util.ArrayList;
+
 import java.util.Calendar;
 import java.util.List;
 
@@ -34,10 +31,9 @@ public class ListobraController extends SelectorComposer<Component>
     private Emprestimo emprestimo;
     private EstadoPedido estadoPedido;
     private EstadoDevolucao estadoDevolucao;
-
     private ListModelList<Obra> obraListModel;
+    private ListModelList<Item> cestaListModel = new ListModelList<Item>();
 
-    private ListModelList<Requisicao> cestaListModel = new ListModelList<Requisicao>();
 
     @Wire
     private Window listObra;
@@ -114,14 +110,14 @@ public class ListobraController extends SelectorComposer<Component>
 
 
         // begin transactio
-        for (Requisicao requisicao: cestaListModel)
+        for (Item item : cestaListModel)
         {
             emprestimo = new Emprestimo();
             emprestimoPK = new EmprestimoPK();
             estadoDevolucao = crudService.get(EstadoDevolucao.class, 1);
             estadoPedido= crudService.get(EstadoPedido.class, 1);
 
-            emprestimoPK.setObra(requisicao.getObra());
+            emprestimoPK.setObra(item.getObra());
             emprestimoPK.setUser(user);
 
             emprestimo.setEstadoDevolucao(estadoDevolucao);
@@ -131,14 +127,14 @@ public class ListobraController extends SelectorComposer<Component>
             emprestimo.setDataaprovacao(null);
             emprestimo.setDatadevolucao(null);
             emprestimo.setDataentrada(Calendar.getInstance());
-            emprestimo.setQuantidade(requisicao.getQuantidade());
+            emprestimo.setQuantidade(item.getQuantidade());
 
             try
             {
                 crudService.Save(emprestimo);
 
                 int qtdR = ((Integer) session.getAttribute("qtdObrasRequisitadas")).intValue();
-                qtdR += requisicao.getQuantidade();
+                qtdR += item.getQuantidade();
                 session.setAttribute("qtdObrasRequisitadas", new Integer(qtdR));
             }
             catch (Exception ex)
@@ -160,8 +156,8 @@ public class ListobraController extends SelectorComposer<Component>
     {
         Button btn = (Button)event.getOrigin().getTarget();
         Listitem litem = (Listitem)btn.getParent().getParent();
-        Requisicao requisicao = (Requisicao) litem.getValue();
-        aumentarQtd(requisicao);
+        Item item = (Item) litem.getValue();
+        aumentarQtd(item);
     }
 
     @Listen("onReduzirQtd = #cestaListBox")
@@ -169,17 +165,17 @@ public class ListobraController extends SelectorComposer<Component>
     {
         Button btn = (Button)event.getOrigin().getTarget();
         Listitem litem = (Listitem)btn.getParent().getParent();
-        Requisicao requisicao = (Requisicao) litem.getValue();
+        Item item = (Item) litem.getValue();
 
-        if (requisicao.getQuantidade() > 1)
-            requisicao.setQuantidade(requisicao.getQuantidade() - 1);
+        if (item.getQuantidade() > 1)
+            item.setQuantidade(item.getQuantidade() - 1);
 
         for (int i = 0; i < cestaListModel.size(); i++)
         {
-            if ( cestaListModel.get(i).getObra().getCota().equals(requisicao.getObra().getCota()))
+            if ( cestaListModel.get(i).getObra().getCota().equals(item.getObra().getCota()))
             {
                 cestaListModel.remove(i);
-                cestaListModel.add(i, requisicao);
+                cestaListModel.add(i, item);
                 break;
             }
         }
@@ -191,13 +187,13 @@ public class ListobraController extends SelectorComposer<Component>
     {
         Button btn = (Button)event.getOrigin().getTarget();
         Listitem litem = (Listitem)btn.getParent().getParent().getParent().getParent().getParent();
-        Requisicao requisicao = (Requisicao) litem.getValue();
+        Item item = (Item) litem.getValue();
 
         int pos = 0;
 
         for (int i = 0; i < cestaListModel.size(); i++ )
         {
-            if (requisicao.getObra().getCota().equals(cestaListModel.get(i).getObra().getCota()))
+            if (item.getObra().getCota().equals(cestaListModel.get(i).getObra().getCota()))
                 break;
 
             pos++;
@@ -212,13 +208,13 @@ public class ListobraController extends SelectorComposer<Component>
             return;
 
         boolean obraExists = false;
-        Requisicao requisicao = new Requisicao();
+        Item item = new Item();
 
         for(int i = 0; i <  cestaListModel.size(); i++)
         {
             if(obra.getCota() == cestaListModel.get(i).getObra().getCota())
             {
-                requisicao = cestaListModel.get(i);
+                item = cestaListModel.get(i);
                 obraExists = true;
                 break;
             }
@@ -226,14 +222,14 @@ public class ListobraController extends SelectorComposer<Component>
 
         if (!obraExists)
         {
-            requisicao = new Requisicao();
-            requisicao.setObra(obra);
-            requisicao.setQuantidade(1);
-            cestaListModel.add(requisicao);
+            item = new Item();
+            item.setObra(obra);
+            item.setQuantidade(1);
+            cestaListModel.add(item);
         }
         else
         {
-            aumentarQtd(requisicao);
+            aumentarQtd(item);
         }
     }
 
@@ -241,8 +237,8 @@ public class ListobraController extends SelectorComposer<Component>
     {
         int qtdObrasNaCesta = 0;
 
-        for (Requisicao requisicao: cestaListModel)
-            qtdObrasNaCesta += requisicao.getQuantidade();
+        for (Item item : cestaListModel)
+            qtdObrasNaCesta += item.getQuantidade();
 
         return qtdObrasNaCesta;
     }
@@ -266,29 +262,29 @@ public class ListobraController extends SelectorComposer<Component>
         this.obraListModel = obraListModel;
     }
 
-    public ListModelList<Requisicao> getCestaListModel()
+    public ListModelList<Item> getCestaListModel()
     {
         return this.cestaListModel;
     }
 
-    public void setCestaListModel(ListModelList<Requisicao> cestaListModel) {
+    public void setCestaListModel(ListModelList<Item> cestaListModel) {
         this.cestaListModel = cestaListModel;
     }
 
-    public void aumentarQtd(Requisicao requisicao)
+    public void aumentarQtd(Item item)
     {
 
         if (getQtdObrasRestantes() == 0)
             return;
 
-        requisicao.setQuantidade(requisicao.getQuantidade() + 1);
+        item.setQuantidade(item.getQuantidade() + 1);
 
         for (int i = 0; i < cestaListModel.size(); i++)
         {
-            if ( cestaListModel.get(i).getObra().getCota().equals(requisicao.getObra().getCota()))
+            if ( cestaListModel.get(i).getObra().getCota().equals(item.getObra().getCota()))
             {
                 cestaListModel.remove(i);
-                cestaListModel.add(i, requisicao);
+                cestaListModel.add(i, item);
                 break;
             }
         }
@@ -315,4 +311,6 @@ public class ListobraController extends SelectorComposer<Component>
 
         return qtd;
     }
+
+
 }
