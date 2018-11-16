@@ -137,6 +137,7 @@ public class ObraController extends SelectorComposer<Component> {
 
 
 
+
     @Override
     public void doAfterCompose(Component comp) throws Exception {
         super.doAfterCompose(comp);
@@ -211,10 +212,11 @@ public class ObraController extends SelectorComposer<Component> {
         obra.setTitulo(titulo.getValue());
         obra.setAreacientifica(areaCientificaListBox.getSelectedItem().getValue());
         obra.setAnoPublicacao(anoPublicacao.getValue());
-        obra.setLocalpublicacao("teste");
+        obra.setLocalpublicacao(localPublicacao.getValue());
         obra.setQuantidade(quatddObra.getValue());
         obra.setPathcapa(relativePathCover);
         obra.setPathpdf(relativePathPDF);
+        obra.setIdioma(idiomaListBox.getSelectedItem().getValue());
 
         registroObra.setIduser(user.getId());
         registroObra.setCota(obra.getCota());
@@ -229,6 +231,15 @@ public class ObraController extends SelectorComposer<Component> {
             livro.setEditora(((Textbox)idInclData.getFellow("editora")).getValue());
             livro.setObra(obra);
             obra.setLivro(livro);
+           String aa = ((Label)idInclData.getFellow("escolha")).getValue();
+           if(aa.equals("Sim")){
+               cd.setIdcd(obra.getCota());
+               cd.setDescricao(titulo.getValue());
+               cd.setObra(obra);
+               obra.setCd(cd);
+//               Clients.showNotification("Ola sou sim");
+           }
+
         } else if (tipoObra.getDescricao().toLowerCase().equals("cd")) {
             cd.setIdcd(obra.getCota());
             cd.setDescricao(((Textbox)idInclData.getFellow("descricaoCd")).getValue());

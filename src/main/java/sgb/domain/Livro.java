@@ -11,6 +11,7 @@ public class Livro {
     private String editora;
     private String edicao;
     private String codigobarra;
+    private Integer volume;
     private Obra obra;
 
     @Id
@@ -61,6 +62,16 @@ public class Livro {
 
     public void setCodigobarra(String codigobarra) {
         this.codigobarra = codigobarra;
+    }
+
+    @Basic
+    @Column(name = "volume")
+    public Integer getVolume() {
+        return volume;
+    }
+
+    public void setVolume(Integer volume) {
+        this.volume = volume;
     }
 
     @Override

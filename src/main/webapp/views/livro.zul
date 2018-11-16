@@ -64,7 +64,35 @@
                     </div>
                 </hlayout>
             </row>
+            <row>
+                <hlayout vflex="1" hflex="1" sclass="second-layout">
+                    <div sclass="description-area" height="100%">
+                        <span sclass="input-group-addon">Volume</span>
+                    </div>
 
+                    <div sclass="description-area" height="100%">
+                        <intbox sclass="form-control" id="volume"
+                                disabled="false" value="" hflex="1"
+                                constraint=" no Empty: Preenche o campo!"/>
+                    </div>
+                </hlayout>
+            </row>
+            <row>
+                <hlayout vflex="1" hflex="1" sclass="second-layout">
+                    <div sclass="description-area" height="100%">
+                        <span sclass="input-group-addon">Anexo</span>
+                    </div>
+
+                    <div sclass="description-area" height="100%">
+                        O Livro vem com disco em anexo ?:
+                        <label id="escolha"/>
+                        <radiogroup id="anexocd" onCheck="escolha.value=self.selectedItem.label">
+                            <radio id="sim" label="Sim" />
+                            <radio id="nao" label="Nao"/>
+                        </radiogroup>
+                    </div>
+                </hlayout>
+            </row>
         </rows>
     </grid>
 </groupbox>

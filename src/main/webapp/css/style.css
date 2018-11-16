@@ -3,6 +3,7 @@
     align:right;
     margin: 0px 0px 0px 0px;
     padding: 0px 0px 0px 0px;
+
 }
 
 .second-layout{
@@ -10,13 +11,14 @@
 }
 
 .second-layout>.z-hlayout-inner:first-child{
-    width: 40%;
+    width: 20%;
     height: 100%;
     display:inline-block;
+    align-items: right;
 
 }
 .second-layout>.z-hlayout-inner:last-child{
-    width: 60%;
+    width: 78%;
     height: 100%;
     display:inline-block;
 }
@@ -55,6 +57,10 @@
     height: 100%;
     display:inline-block;
 
+}
+input {
+    height: 20px;
+    border: 1px solid;
 }
 
 .first-layout>.z-hlayout-inner:last-child{
