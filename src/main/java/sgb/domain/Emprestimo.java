@@ -2,6 +2,7 @@ package sgb.domain;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.Calendar;
 import java.util.Objects;
 
 @Entity
@@ -10,10 +11,10 @@ public class Emprestimo {
 
     @EmbeddedId
     private EmprestimoPK emprestimoPK;
-    private Date dataentrada;
-    private Date dataaprovacao;
-    private Date datadevolucao;
-    private String quantidade;
+    private Calendar dataentrada;
+    private Calendar dataaprovacao;
+    private Calendar datadevolucao;
+    private int quantidade;
     private String comentario;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -37,41 +38,41 @@ public class Emprestimo {
 
     @Basic
     @Column(name = "dataentrada", nullable = true)
-    public Date getDataentrada() {
+    public Calendar getDataentrada() {
         return dataentrada;
     }
 
-    public void setDataentrada(Date dataentrada) {
+    public void setDataentrada(Calendar dataentrada) {
         this.dataentrada = dataentrada;
     }
 
     @Basic
     @Column(name = "dataaprovacao", nullable = true)
-    public Date getDataaprovacao() {
+    public Calendar getDataaprovacao() {
         return dataaprovacao;
     }
 
-    public void setDataaprovacao(Date dataaprovacao) {
+    public void setDataaprovacao(Calendar dataaprovacao) {
         this.dataaprovacao = dataaprovacao;
     }
 
     @Basic
     @Column(name = "datadevolucao", nullable = true)
-    public Date getDatadevolucao() {
+    public Calendar getDatadevolucao() {
         return datadevolucao;
     }
 
-    public void setDatadevolucao(Date datadevolucao) {
+    public void setDatadevolucao(Calendar datadevolucao) {
         this.datadevolucao = datadevolucao;
     }
 
     @Basic
     @Column(name = "quantidade", nullable = true, length = 255)
-    public String getQuantidade() {
+    public int getQuantidade() {
         return quantidade;
     }
 
-    public void setQuantidade(String quantidade) {
+    public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
     }
 

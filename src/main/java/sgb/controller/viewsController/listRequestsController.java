@@ -18,10 +18,11 @@ import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.*;
-import sgb.domain.Obra;
-import sgb.domain.Requisicao;
+import sgb.domain.*;
 import sgb.service.CRUDService;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -33,6 +34,7 @@ public class listRequestsController extends SelectorComposer<Component> {
     private CRUDService crudService = (CRUDService) SpringUtil.getBean("CRUDService");
 //    private Users user;
     private Session session;
+
 
     private ListModelList<Requisicao> requestListModel;
 
@@ -51,27 +53,46 @@ public class listRequestsController extends SelectorComposer<Component> {
     }
 
     public ListModelList<Requisicao> getrequestListModel() {
-        List<Requisicao> listarequisicao = crudService.getAll(Requisicao.class);
-        listarequisicao.get(0);
+        HashMap<Users,List<Emprestimo>> hashMap = new HashMap<>();
+        List<Emprestimo> listammprestimos = crudService.getAll(Emprestimo.class);
+        List<Requisicao> listarequisicao = new ArrayList<>();
+
+        for(Emprestimo e: listammprestimos){
+                Users u = e.getEmprestimoPK().getUser();
+
+                if(hashMap.containsKey(u)){
+
+                    hashMap.get(u).add(e);
+                }else{
+                    ArrayList<Emprestimo> list = new ArrayList<>();
+                    list.add(e);
+                    hashMap.put(u,list);
+                }
+        }
+
+        for(Users u : hashMap.keySet()) {
+            Requisicao r = new Requisicao(u,hashMap.get(u));
+            listarequisicao.add(r);
+        }
+
         return new ListModelList<Requisicao>(listarequisicao);
     }
 
-    @Listen("onSelect = #orequestListBox")
-    public void doEliminar(ForwardEvent event)
+    @Listen("onSelect = #requestListBox")
+    public void doVerificarRequisicao(Event e)
     {
-        Clients.showNotification("Eliminar");
+
+        Requisicao r = (Requisicao) requestListBox.getSelectedItem().getValue();
+
+
+        session.setAttribute("requisicoes", r );
+
+
+        //create a window programmatically and use it as a modal dialog.
+        Window window = (Window)Executions.createComponents(
+                "views/viewRequestModal.zul", null, null);
+        window.doModal();
 
     }
 
-    //private static final long serialVersionUID = 1L;
-
-
-//
-//    @Listen("onClick = #orderBtn")
-//    public void showModal(Event e) {
-//        //create a window programmatically and use it as a modal dialog.
-//        Window window = (Window) Executions.createComponents(
-//                "/widgets/window/modal_dialog/employee_dialog.zul", null, null);
-//        window.doModal();
-//    }
 }

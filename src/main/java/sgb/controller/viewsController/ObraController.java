@@ -25,6 +25,7 @@ import org.zkoss.zul.impl.InputElement;
 import sgb.domain.*;
 import sgb.service.CRUDService;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.zkoss.zk.ui.util.ForEach;
 
 import java.awt.image.RenderedImage;
 import java.io.File;
@@ -40,10 +41,8 @@ import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.Calendar;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 /**
  * @author Fonseca, Emerson, Matimbe

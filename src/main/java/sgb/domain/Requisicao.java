@@ -1,23 +1,40 @@
 package sgb.domain;
 
+import java.util.Calendar;
+import java.util.List;
+
 public class Requisicao
 {
-    private Obra obra;
-    private int quantidade;
+    private Users user;
+    private List<Emprestimo> pedidos;
+    private String dataentrada;
 
-    public Obra getObra() {
-        return this.obra;
+    public Requisicao(Users user, List<Emprestimo> pedidos) {
+        this.user = user;
+        this.pedidos = pedidos;
     }
 
-    public void setObra(Obra obra) {
-        this.obra = obra;
+    public Users getUser() {
+        return user;
     }
 
-    public int getQuantidade() {
-        return this.quantidade;
+    public void setUser(Users user) {
+        this.user = user;
     }
 
-    public void setQuantidade(int quantidade) {
-        this.quantidade = quantidade;
+    public List<Emprestimo> getPedidos() {
+        return pedidos;
+    }
+
+    public void setPedidos(List<Emprestimo> pedidos) {
+        this.pedidos = pedidos;
+    }
+
+    public String getDataentrada() {
+        return dataentrada;
+    }
+
+    public void setDataentrada(String dataentrada) {
+        this.dataentrada = dataentrada;
     }
 }
