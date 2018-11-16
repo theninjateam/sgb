@@ -21,6 +21,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+/**
+ * @author Fonseca, Emerson
+ */
+
 public class ListobraController extends SelectorComposer<Component>
 {
     private CRUDService crudService = (CRUDService) SpringUtil.getBean("CRUDService");
@@ -112,13 +116,6 @@ public class ListobraController extends SelectorComposer<Component>
         // begin transactio
         for (Requisicao requisicao: cestaListModel)
         {
-            Obra obra = crudService.findEntByJPQueryT("SELECT o FROM Obra o WHERE o.cota = '"+ requisicao.getObra().getCota()+"'", null);
-
-            if (requisicao.getQuantidade() > obra.getQuantidade())
-                continue;
-
-            obra.setQuantidade(obra.getQuantidade() - requisicao.getQuantidade());
-
             emprestimo = new Emprestimo();
             emprestimoPK = new EmprestimoPK();
             estadoDevolucao = crudService.get(EstadoDevolucao.class, 1);
@@ -138,7 +135,6 @@ public class ListobraController extends SelectorComposer<Component>
 
             try
             {
-                crudService.update(obra);
                 crudService.Save(emprestimo);
 
                 int qtdR = ((Integer) session.getAttribute("qtdObrasRequisitadas")).intValue();
@@ -282,8 +278,10 @@ public class ListobraController extends SelectorComposer<Component>
     public void aumentarQtd(Requisicao requisicao)
     {
 
-        if (getQtdObrasRestantes() > 0)
-            requisicao.setQuantidade(requisicao.getQuantidade() + 1);
+        if (getQtdObrasRestantes() == 0)
+            return;
+
+        requisicao.setQuantidade(requisicao.getQuantidade() + 1);
 
         for (int i = 0; i < cestaListModel.size(); i++)
         {
