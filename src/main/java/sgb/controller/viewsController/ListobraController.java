@@ -21,7 +21,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class ListobraController extends SelectorComposer<Component> {
+public class ListobraController extends SelectorComposer<Component>
+{
     private CRUDService crudService = (CRUDService) SpringUtil.getBean("CRUDService");
     private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;
     private Session session;
@@ -44,7 +45,8 @@ public class ListobraController extends SelectorComposer<Component> {
     private Listbox cestaListBox;
 
     @Override
-    public void doAfterCompose(Component comp) throws Exception {
+    public void doAfterCompose(Component comp) throws Exception
+    {
         super.doAfterCompose(comp);
         session = Sessions.getCurrent();
 
