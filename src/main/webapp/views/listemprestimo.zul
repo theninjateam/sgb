@@ -42,23 +42,19 @@
                             <!--</row>-->
 
                             <row>
-                            <listbox width="100%" id="emprestimoListBox">
+                            <listbox width="100%" id="emprestimoListBox" emptyMessage="Nao tem nenhum pedido pendente" >
                                         <listhead>
-                                            <listheader width="25%" height="100%" label="Usuario"/>
+                                            <listheader width="25%" height="100%" label="Data"/>
                                             <listheader width="20%" height="100%" label="Capa"/>
-                                            <listheader width="60%" height="100%" label="ObraRequisitad"/>
+                                            <listheader width="60%" height="100%" label="Obra Requisitada"/>
+                                            <listheader width="5%" height="100%" label="Qtd"/>
                                             <listheader width="60%" height="100%" label="Operacoes"/>
                                         </listhead>
                                         <template name="model">
                                             <listitem>
                                                 <listcell>
                                                     <div>
-                                                        <label value="Nome Completo:"/>
-                                                        <label value="${each.emprestimoPK.user.lastName} ${each.emprestimoPK.user.name} "/>
-                                                    </div>
-                                                    <div>
-                                                        <label value="Role"/>
-                                                        <!--<label value="${each.}"/>-->
+                                                        <label value="${each.dataentrada} ${each.emprestimoPK.user.name} "/>
                                                     </div>
                                                 </listcell>
                                                 <listcell>
@@ -70,40 +66,33 @@
                                                     <hlayout>
                                                         <div>
                                                             <div>
-                                                                <label value="Titulo:"/>
-                                                                <label value="${each.emprestimoPK.obra.titulo}"/>
-                                                            </div>
-
-                                                            <div>
-                                                                <label value="Cota:"/>
-                                                                <label value="${each.emprestimoPK.obra.cota}"/>
+                                                                <label value="${each.emprestimoPK.obra.titulo}"
+                                                                       style="font-size: large; font-weight: bold; padding: 2px 2px 2px 2px; font-size: 15px;"/>
                                                             </div>
                                                             <div>
-                                                                <label value="Autores :"/>
+                                                                <label value="Por :"/>
                                                                 <label forEach="${each.emprestimoPK.obra.autores}"  value="${each.nome}"/>
                                                             </div>
                                                             <div>
-                                                                <label value="Idioma :"/>
-                                                                <!--<label value="${each.idioma.descricao}"/>-->
-                                                            </div>
-                                                            <div>
                                                                 <label value="Tipo:"/>
-                                                                <!--<label value="${each.tipoobra.descricao}"/>-->
+                                                                <label value="(${each.emprestimoPK.obra.tipoobra.descricao})"/>
                                                             </div>
-                                                            <div>
-                                                                <label value="Local Publicacao :"/>
-                                                                <!--<label value="${each.localpublicacao}"/>-->
-                                                            </div>
-
                                                         </div>
                                                     </hlayout>
                                                 </listcell>
                                                 <listcell>
                                                     <div>
-                                                        <button label="Eliminar" forward="onClick=obraListBox.onEliminarObra"/>
-                                                        <button label="Editar" forward="onClick=obraListBox.onEditarObra"/>
-                                                        <button label="Detalhe" forward="onClick=obraListBox.onDetalheObra"/>
-                                                        <button label="Adicionar na Cesta" forward="onClick=obraListBox.onAdicionarNaCesta"/>
+                                                        <label value="${each.quantidade}"/>
+                                                    </div>
+                                                </listcell>
+                                                <listcell>
+                                                    <div>
+                                                        <button label="Eliminar" forward="onClick=emprestimoListBox.onEliminarEmprestimo"
+                                                                mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold"/>
+                                                        <button label="Editar" forward="onClick=emprestimoListBox.onEditarEmprestimo"
+                                                                mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold"/>
+                                                        <button label="Detalhe" forward="onClick=emprestimoListBox.onDetalheEmprestimo"
+                                                                mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold"/>
                                                     </div>
                                                 </listcell>
                                             </listitem>

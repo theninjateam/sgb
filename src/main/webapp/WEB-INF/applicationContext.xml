@@ -54,5 +54,4 @@
     <context:annotation-config />
     <context:component-scan base-package="sgb"/>
 
-
 </beans>

@@ -316,11 +316,8 @@
                                                 </div>
 
                                                 <div id="grpOtherData" visible="false">
-<<<<<<< HEAD
                                                      <include id="idInclOtherData"/>
-=======
-                                                    <include id="idInclOtherData"/>
->>>>>>> e6bd73573db96a2c4f1d8de86b2ebe8864978134
+
                                                 </div>
 
                                             </vlayout>

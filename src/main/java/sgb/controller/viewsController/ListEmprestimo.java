@@ -35,7 +35,7 @@ public class ListEmprestimo extends SelectorComposer<Component> {
 
     private CRUDService crudService = (CRUDService) SpringUtil.getBean("CRUDService");
     private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;
-    private ListModel emprestimoListModel;
+    private ListModelList<Emprestimo> emprestimoListModel;
     private ListModel<EstadoPedido> estadopedidoModel;
     @Wire
     private Listbox emprestimoListBox;
@@ -47,20 +47,44 @@ public class ListEmprestimo extends SelectorComposer<Component> {
     public void doAfterCompose(Component comp) throws Exception
     {
         super.doAfterCompose(comp);
-        emprestimoListModel = getEmprestimoListModel();
+        emprestimoListModel = new ListModelList<Emprestimo>(getEmprestimoListModel());
         emprestimoListBox.setModel(emprestimoListModel);
 
         estadopedidoModel = getEstadopedidoListModel();
-        estadopedidoListBox.setModel(estadopedidoModel);
+//        estadopedidoListBox.setModel(estadopedidoModel);
     }
 
     public ListModelList<Emprestimo> getEmprestimoListModel() {
-        List<Emprestimo> lista = crudService.findByJPQuery("SELECT e FROM Emprestimo e WHERE e.estadoPedido.idestadopedido=1",null);
+        List<Emprestimo> lista = crudService.findByJPQuery("SELECT e FROM Emprestimo e WHERE e.estadoPedido.idestadopedido=1 and e.emprestimoPK.user.id = " +
+                user.getId(),null);
         return new ListModelList<Emprestimo>(lista);
     }
     public ListModelList<EstadoPedido> getEstadopedidoListModel () {
         List<EstadoPedido> lista = crudService.getAll(EstadoPedido.class);
         return new ListModelList<EstadoPedido>(lista);
     }
+
+    @Listen("onEliminarEmprestimo = #emprestimoListBox")
+    public void doEliminar(ForwardEvent event)
+    {
+        Button btn = (Button)event.getOrigin().getTarget();
+        Listitem litem = (Listitem)btn.getParent().getParent().getParent();
+        Emprestimo emp = (Emprestimo) litem.getValue();
+        emprestimoListModel.remove(emp);
+        crudService.delete(emp);
+        Clients.showNotification("Eliminado com sucesso");
+    }
+    @Listen("onDetalheEmprestimo = #emprestimoListBox")
+    public void doDetalhe(ForwardEvent event)
+    {
+        Clients.showNotification("Detalhes Obra");
+    }
+
+    @Listen("onEditarEmprestimo = #emprestimoListBox")
+    public void doEditar(ForwardEvent event)
+    {
+        Clients.showNotification("Editar Obra");
+    }
+
 
 }
