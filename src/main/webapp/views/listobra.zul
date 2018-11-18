@@ -198,6 +198,10 @@
                                     <hlayout style="background-color: white; border-style: none;">
                                         <div style="background-color: white; border-style: none;">
                                             <div>
+                                                <label value="${each.cota}"
+                                                       style="font-size: large; font-weight: bold; padding: 2px 2px 2px 2px; font-size: 15px;"/>
+                                            </div>
+                                            <div>
                                                 <label value="${each.titulo}"
                                                        style="font-size: large; font-weight: bold; padding: 2px 2px 2px 2px; font-size: 15px;"/>
                                             </div>

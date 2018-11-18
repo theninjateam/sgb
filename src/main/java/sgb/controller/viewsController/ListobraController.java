@@ -3,6 +3,7 @@ package sgb.controller.viewsController;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.Event;
@@ -122,7 +123,7 @@ public class ListobraController extends SelectorComposer<Component>
         Button btn = (Button)event.getOrigin().getTarget();
         Listitem litem = (Listitem)btn.getParent().getParent().getParent().getParent().getParent();
         Obra obra = (Obra) litem.getValue();
-        Messagebox.show("Tem certeza que deseja eliminar a obra ?", null,
+        Messagebox.show("Tem certeza que deseja eliminar a obra ?", "deletar obra",
                 Messagebox.YES + Messagebox.NO, Messagebox.QUESTION,
                 new EventListener<Event>() {
                     @Override
@@ -141,7 +142,7 @@ public class ListobraController extends SelectorComposer<Component>
     @Listen("onDetalheObra = #obraListBox")
     public void doDetalhe(ForwardEvent event)
     {
-        Clients.showNotification("Detalhes Obra");
+//        Clients.showNotification("Detalhes Obra");
         detalheobra = new ListModelList<>();
         gridListObra.setVisible(false);
         buttonPesquisar.setVisible(false);
@@ -163,7 +164,8 @@ public class ListobraController extends SelectorComposer<Component>
     @Listen("onEditarObra = #obraListBox")
     public void doEditar(ForwardEvent event)
     {
-        Clients.showNotification("Editar Obra");
+//        Clients.showNotification("Editar Obra");
+//        Executions.getCurrent().sendRedirect("views/addObra.zul");
     }
 
 
@@ -192,7 +194,7 @@ public class ListobraController extends SelectorComposer<Component>
         }
 
         List<Emprestimo> emprestimos = crudService.findByJPQuery("SELECT e FROM Emprestimo e WHERE e.emprestimoPK.user.id = "+
-                user.getId()+" and e.estadoDevolucao.idestadodevolucao = 1", null);
+                user.getId()+" and e.esgitadoDevolucao.idestadodevolucao = 1", null);
 
         // begin transactio
         for (Item item : cestaListModel)

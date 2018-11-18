@@ -44,7 +44,7 @@
                             <row>
                             <listbox width="100%" id="emprestimoListBox" emptyMessage="Nao tem nenhum pedido pendente" >
                                         <listhead>
-                                            <listheader width="25%" height="100%" label="Data"/>
+                                            <listheader width="20%" height="100%" label="Data"/>
                                             <listheader width="20%" height="100%" label="Capa"/>
                                             <listheader width="60%" height="100%" label="Obra Requisitada"/>
                                             <listheader width="5%" height="100%" label="Qtd"/>

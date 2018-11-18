@@ -72,7 +72,7 @@ public class ListEmprestimo extends SelectorComposer<Component> {
         Button btn = (Button)event.getOrigin().getTarget();
         Listitem litem = (Listitem)btn.getParent().getParent().getParent();
         Emprestimo emp = (Emprestimo) litem.getValue();
-        Messagebox.show("Tem certeza que deseja eliminar esse pedido ?", null,
+        Messagebox.show("Tem certeza que deseja eliminar esse pedido ?", "delete pedido",
                 Messagebox.YES + Messagebox.NO, Messagebox.QUESTION,
                 new EventListener<Event>() {
                     @Override
