@@ -5,7 +5,7 @@ Criterios de Aceitacao#1:
 
 ·       Eu quero ter a opção de visualização da lista de obras disponíveis; feito
 
-·       Eu quero poder filtrar a lista de obras por categorias ou pesquisar por nome; pendente
+·       Eu quero poder filtrar a lista de obras por categorias ou pesquisar por nome; quase feito(50%)
 
 ·       Eu quero realizar um empréstimo de obras em específicos; feito
 
@@ -19,9 +19,9 @@ User Story#2: Como Bibliotecário eu quero ver os pedidos de empréstimos para d
 Criterios de Aceitacao#2:
 
 
-·       Eu quero visualizar a lista de pedidos de empréstimos; pendente
+·       Eu quero visualizar a lista de pedidos de empréstimos; feito
 
-·       Eu quero aprovar ou reprovar um pedido de empréstimo; pendente
+·       Eu quero aprovar ou reprovar um pedido de empréstimo; feito
 
 ·       Cada pedido de empréstimo deve ser acompanhado do resumo histórico do utente requisitante; ?
 

@@ -3,6 +3,7 @@ package sgb.controller.viewsController;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.ForwardEvent;
@@ -66,6 +67,10 @@ public class ListobraController extends SelectorComposer<Component>
     @Override
     public void doAfterCompose(Component comp) throws Exception
     {
+
+//        this.getPage().getDesktop().getComponents();
+
+
         super.doAfterCompose(comp);
         session = Sessions.getCurrent();
 
