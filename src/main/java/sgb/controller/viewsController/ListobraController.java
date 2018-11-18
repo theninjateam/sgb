@@ -77,6 +77,10 @@ public class ListobraController extends SelectorComposer<Component>
     @Override
     public void doAfterCompose(Component comp) throws Exception
     {
+
+//        this.getPage().getDesktop().getComponents();
+
+
         super.doAfterCompose(comp);
         session = Sessions.getCurrent();
 
