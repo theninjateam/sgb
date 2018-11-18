@@ -179,5 +179,55 @@
                 </column>
             </columns>
         </grid>
+
+        <grid id="griddetalhe" visible="false" style="border-style: none;">
+            <columns>
+                <column label="Obras" style="font-size: larger; text-align: left;
+                                background-color: white;  border-style: none;  padding: 5px 5px 5px 5px;" width="100%" >
+                    <listbox visible="true" style="border-style: none;" hflex="1" id="obraShow" emptyMessage="Nenhuma Obra Encontrada">
+                        <listhead style="border-style: none;">
+                            <listheader  hflex="1" style="padding: 10px 20px; background-color: lightgray; border-style: none;"    height="100%" label=" "/>
+                            <listheader  hflex="1" style="padding: 10px 20px; background-color: lightgray; border-style: none;"    height="100%" label=" "/>
+                        </listhead>
+                        <template name="model">
+                            <listitem  style="background-color: white; border-style: none;">
+                                <listcell style="padding: 2px 20px; background-color: white; border-style: none;
+                                                    border-bottom: 2px double black;">
+                                    <image width="100%" height="100%"  src="${each.pathcapa}"/>
+                                </listcell>
+                                <listcell style="padding: 2px 20px; background-color: white; border-style: none;
+                                                    border-bottom: 2px double black;">
+                                    <hlayout style="background-color: white; border-style: none;">
+                                        <div style="background-color: white; border-style: none;">
+                                            <div>
+                                                <label value="${each.titulo}"
+                                                       style="font-size: large; font-weight: bold; padding: 2px 2px 2px 2px; font-size: 15px;"/>
+                                            </div>
+
+                                            <div>
+                                                <label value="Por:"/>
+                                                <label forEach="${each.autores}"  value="${each.nome } "/>
+                                            </div>
+                                            <div>
+                                                <label value="(${each.tipoobra.descricao})"/>
+                                            </div>
+                                            <div style="letter-spacing: 18px;  line-height: 5;">
+                                                <button  label="Eliminar" forward="onClick=obraListBox.onEliminarObra"
+                                                         mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold"/>
+                                                <button    label="Editar" forward="onClick=obraListBox.onEditarObra"
+                                                           mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold"/>
+                                                <button  label="Adicionar na Cesta" forward="onClick=obraListBox.onAdicionarNaCesta"
+                                                         mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold"/>
+                                            </div>
+                                        </div>
+                                    </hlayout>
+                                </listcell>
+                            </listitem>
+                        </template>
+                    </listbox>
+                </column>
+            </columns>
+
+        </grid>
     </window>
 </zk>

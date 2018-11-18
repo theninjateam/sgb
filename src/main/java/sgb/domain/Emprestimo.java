@@ -17,14 +17,12 @@ public class Emprestimo {
     private int quantidade;
     private String comentario;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "estadopedido",
-            referencedColumnName = "idestadopedido", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "estadopedido", nullable = false)
     private EstadoPedido estadoPedido;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "estadodevolucao",
-            referencedColumnName = "idestadodevolucao", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "estadodevolucao", nullable = false)
     private EstadoDevolucao estadoDevolucao;
 
 
