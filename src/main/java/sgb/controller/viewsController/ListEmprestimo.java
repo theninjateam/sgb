@@ -2,6 +2,8 @@ package sgb.controller.viewsController;
 
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.ListModelList;
@@ -70,9 +72,19 @@ public class ListEmprestimo extends SelectorComposer<Component> {
         Button btn = (Button)event.getOrigin().getTarget();
         Listitem litem = (Listitem)btn.getParent().getParent().getParent();
         Emprestimo emp = (Emprestimo) litem.getValue();
-        emprestimoListModel.remove(emp);
-        crudService.delete(emp);
-        Clients.showNotification("Eliminado com sucesso");
+        Messagebox.show("Tem certeza que deseja eliminar esse pedido ?", null,
+                Messagebox.YES + Messagebox.NO, Messagebox.QUESTION,
+                new EventListener<Event>() {
+                    @Override
+                    public void onEvent(Event event) throws Exception {
+                        if (Messagebox.ON_YES.equals(event.getName())) {
+                            emprestimoListModel.remove(emp);
+                            crudService.delete(emp);
+                            Clients.showNotification("Pedido eliminado com sucesso");                        }
+                    }
+                });
+
+
     }
     @Listen("onDetalheEmprestimo = #emprestimoListBox")
     public void doDetalhe(ForwardEvent event)
