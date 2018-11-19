@@ -41,6 +41,7 @@ import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.Calendar;
 
@@ -239,8 +240,9 @@ public class ObraController extends SelectorComposer<Component> {
             livro.setCota(obra.getCota());
             livro.setIsbn(((Textbox)idInclData.getFellow("isbn")).getValue());
             livro.setCodigobarra(((Textbox)idInclData.getFellow("codigobarra")).getValue());
-            livro.setEdicao(((Textbox)idInclData.getFellow("edicao")).getValue());
+            livro.setEdicao(((Intbox)idInclData.getFellow("edicao")).getValue());
             livro.setEditora(((Textbox)idInclData.getFellow("editora")).getValue());
+            livro.setVolume(((Intbox)idInclData.getFellow("volume")).getValue());
             livro.setObra(obra);
             obra.setLivro(livro);
            String aa = ((Label)idInclData.getFellow("escolha")).getValue();
@@ -280,7 +282,6 @@ public class ObraController extends SelectorComposer<Component> {
         {
             for(Autor autor: authorListModel) // esta linha devera sair
                 autores.add(autor);
-
 
             obra.setRegistroObra(registroObra);
             obra.setAutores(autores);

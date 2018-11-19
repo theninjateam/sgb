@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zk>
-    <window id="listObra" apply="sgb.controller.viewsController.ListEmprestimo"
+    <window id="listObra" apply="sgb.controller.viewsController.ListPedido"
             border="none" hflex="1" vflex="1" contentStyle="overflow:auto">
         <div style="padding:0px">
             <tabbox>
@@ -14,24 +14,47 @@
                                 <column/>
                             </columns>
                             <rows>
+                            <!--<row>-->
+                                <!--<hlayout vflex="1" hflex="1" sclass="second-layout">-->
+                                    <!--<div sclass="description-area" height="100%">-->
+                                        <!--<span sclass="input-group-addon">Estado de Emprestimo-->
+                                        <!--</span>-->
+                                    <!--</div>-->
+
+                                    <!--<div sclass="description-area" height="100%">-->
+                                        <!--<listbox width="100%" id="estadopedidoListBox"-->
+                                                 <!--emptyMessage="Nenhum estado selecionado Encotrada"-->
+                                                 <!--model="${$composer.estadopedidoModel}"-->
+                                                 <!--mold="select">-->
+
+                                            <!--<listhead>-->
+                                                <!--<listheader label="Estado de Emprestimo"/>-->
+                                            <!--</listhead>-->
+                                            <!--<template name="model">-->
+                                                <!--<listitem>-->
+                                                    <!--<listcell-->
+                                                            <!--label="${each.descricao}"></listcell>-->
+                                                <!--</listitem>-->
+                                            <!--</template>-->
+                                        <!--</listbox>-->
+                                    <!--</div>-->
+                                <!--</hlayout>-->
+                            <!--</row>-->
+
                             <row>
-                            <listbox width="100%" id="emprestimoListBox" emptyMessage="Nao tem nenhum pedido pendente" >
+                            <listbox width="100%" id="pedidoListBox" emptyMessage="Nao tem nenhum pedido pendente" >
                                         <listhead>
-                                            <listheader width="15%" height="100%" label="Data"/>
-                                            <listheader width="15%" height="100%" label="Capa"/>
-                                            <listheader width="50%" height="100%" label="Obra Requisitada"/>
-                                            <listheader width="20%" height="100%" label="Utente"/>
+                                            <listheader width="20%" height="100%" label="Data"/>
+                                            <listheader width="20%" height="100%" label="Capa"/>
+                                            <listheader width="60%" height="100%" label="Obra Requisitada"/>
                                             <listheader width="5%" height="100%" label="Qtd"/>
-                                            <listheader width="40%" height="100%" label="Operacoes"/>
+                                            <listheader width="60%" height="100%" label="Operacoes"/>
                                         </listhead>
                                         <template name="model">
                                             <listitem>
                                                 <listcell>
                                                     <div>
-                                                        <!--<zscript>-->
-                                                        <!--A ideia e escrever uma funcao que vai converter data antes de apresentar-->
-                                                        <!--</zscript>-->
-                                                        <label value="${each.dataaprovacao}"/>
+                                                        <label value="${each.dataentrada} "/>
                                                     </div>
                                                 </listcell>
                                                 <listcell>
@@ -59,24 +82,17 @@
                                                 </listcell>
                                                 <listcell>
                                                     <div>
-                                                        <label value="${each.emprestimoPK.user.name} ${each.emprestimoPK.user.lastName}"/>
-                                                        <separator/>
-                                                        <label forEach="${each.emprestimoPK.user.roles}"  value="(${each.role} ,)"/>
-                                                    </div>
-                                                </listcell>
-                                                <listcell>
-                                                    <div>
                                                         <label value="${each.quantidade}"/>
                                                     </div>
                                                 </listcell>
                                                 <listcell>
                                                     <div>
-                                                        <button label="Notificar Utente" forward="onClick=emprestimoListBox.onNotificarUtente"
+                                                        <button label="Eliminar" forward="onClick=pedidoListBox.onEliminarEmprestimo"
                                                                 mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold"/>
-                                                        <button label="Devolver" forward="onClick=emprestimoListBox.onDevolver"
-                                                                mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold"/>
-                                                        <button label="Detalhe" forward="onClick=emprestimoListBox.onDetalheEmprestimo"
-                                                                mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold"/>
+                                                        <!--<button label="Editar" forward="onClick=pedidoListBox.onEditarEmprestimo"-->
+                                                                <!--mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold"/>-->
+                                                        <!--<button label="Detalhe" forward="onClick=pedidoListBox.onDetalheEmprestimo"-->
+                                                                <!--mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold"/>-->
                                                     </div>
                                                 </listcell>
                                             </listitem>
