@@ -6,9 +6,7 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
-import org.zkoss.zk.ui.event.Event;
-import org.zkoss.zk.ui.event.EventListener;
-import org.zkoss.zk.ui.event.ForwardEvent;
+import org.zkoss.zk.ui.event.*;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
@@ -44,6 +42,9 @@ public class ListobraController extends SelectorComposer<Component>
     private Button buttonPesquisar;
 
     @Wire
+    protected Grid  gridPesquisar;
+
+    @Wire
     private Grid gridListObra;
 
     @Wire
@@ -77,10 +78,6 @@ public class ListobraController extends SelectorComposer<Component>
     @Override
     public void doAfterCompose(Component comp) throws Exception
     {
-
-//        this.getPage().getDesktop().getComponents();
-
-
         super.doAfterCompose(comp);
         session = Sessions.getCurrent();
 
@@ -110,6 +107,7 @@ public class ListobraController extends SelectorComposer<Component>
         obraListModel.addAll(getObraListModel());
 
     }
+
     @Listen("onShowCestaListBox = #divCesta")
     public void showCestaListBox(ForwardEvent event)
     {
@@ -467,6 +465,4 @@ public class ListobraController extends SelectorComposer<Component>
 
         return qtd;
     }
-
-
 }

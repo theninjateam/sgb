@@ -29,28 +29,21 @@ Copyright (C) 2008 Potix Corporation. All Rights Reserved.
 	String themeSClass = org.zkoss.zksandbox.Themes.isBlueTheme() ? "blue" : org.zkoss.zksandbox.Themes.getCurrentTheme();
 ]]></zscript>
 <borderlayout id="main" sclass="${themeSClass}" apply="org.zkoss.zksandbox.MainLayoutComposer">
-	<north border="none" size="100px" sclass="demo-header" collapsible="true">
-		<div>
-			<div sclass="demo-logo pointer">
+	<north border="none" size="100px" sclass="demo-header" collapsible="true" id="north">
+		<hlayout>
+			<div  sclass="demo-logo pointer">
 				<n:a xmlns:n="native" href="http://www.zkoss.org">
 				<image width="90px" height="80px" src="/img/ZK-Logo.gif"/>
 				</n:a>
 			</div>
 
 
-			<div  id="divCesta2"  style="background-color: white; cursor: pointer; float:right; "
-				 forward="onClick=divCesta.onShowCestaListBox" >
-				<image  src="img/basket.jpg" width="125px" height="125px" />
-					<label value="0" id="qtdObrasNaCesta"
-					style="position:absolute; top: 25%; left: 47%;
-					font-size: large; font-weight: bold;"/>
-					<label value="Cesta"
-					style="position:absolute; top: 75%; left: 30%;
-					font-size: large; font-weight: bold;"/>
-			</div>
+            <categorybar zclass="demo-categorybar" id="header">
+                <category zclass="demo-category" forEach="${main$MainLayoutComposer.categories}" id="${each.id}" image="${each.icon}" label="${each.label}"
+                          forward="onClick=main.onCategorySelect"/>
+            </categorybar>
 
-
-			<div  style=" float:right; padding: 50px 50px 0 50px;" >
+			<div  style="padding: 50px 50px 0 50px; cursor: pointer;" >
 				<hbox apply="sgb.controller.LoginController"
 					  hflex="1" vflex="1" pack="end" align="end" >
 					<image src="/img/profile.png" width="20px" height="20px"/>
@@ -59,13 +52,21 @@ Copyright (C) 2008 Potix Corporation. All Rights Reserved.
 				</hbox>
 			</div>
 
+            <div  apply="sgb.controller.viewsController.Cesta"
+                  id="divBusket"  style="background-color: white; cursor: pointer;"
+                  forward="onClick=divBusket.onShowCestaListBox" >
+                <image  src="img/basket.jpg" width="110px" height="110px" />
 
-			<categorybar zclass="demo-categorybar" id="header">
-				<category zclass="demo-category" forEach="${main$MainLayoutComposer.categories}" id="${each.id}" image="${each.icon}" label="${each.label}" 
-				forward="onClick=main.onCategorySelect"/>
-			</categorybar>
-		</div>
+                <label value="0" id="qtdObrasNaCesta"
+                       style="position:absolute; top: 25%; left: 44%;
+					font-size: large; font-weight: bold;" />
+                <label value="Cesta"
+                       style="position:absolute; top: 70%; left: 28%;
+					font-size: large; font-weight: bold;"/>
+            </div>
 
+
+        </hlayout>
 
 			<!--<hbox  id="autent" style="align:center" apply="municipio.controller.LoginController"-->
 				   <!--hflex="min" vflex="min" pack="end" align="end" >-->
@@ -81,9 +82,6 @@ Copyright (C) 2008 Potix Corporation. All Rights Reserved.
 
 				<!--</window>-->
 			<!--</hbox>-->
-
-
-
 	</north>
 	<west title="ZK ${desktop.webApp.version}" size="250px" flex="true" splittable="true"
 		minsize="210" maxsize="500" collapsible="true">
@@ -100,6 +98,7 @@ Copyright (C) 2008 Potix Corporation. All Rights Reserved.
 		</panel>
 	</west>
 	<center flex="true">
+
 		<include style="padding:3px;" id="xcontents" />
 	</center>
 </borderlayout>

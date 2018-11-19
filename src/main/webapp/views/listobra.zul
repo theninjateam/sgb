@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<zk>
-    <style>
-       .btn
-        {
+<zk >
+    <window id="listObra" apply="sgb.controller.viewsController.ListobraController"
+            border="none" hflex="1" vflex="1" contentStyle="overflow:auto">
+
+
+        <script type="text/javascript">
+
+            window.addEvent('scroll',function(e) {
+                alert("hello dude");
+            });
+        </script>
+
+        <style>
+            .btn
+            {
             text-transform: uppercase;
             letter-spacing: 2.5px;
             border-radius: 10px;
-            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease 0s;
             cursor: pointer;
             outline: none;
@@ -15,48 +25,52 @@
             text-decoration: none;
             display: inline-block;
             margin: 4px 2px;
-        }
+            }
 
-        .btn:hover
-        {
+            .btn:hover
+            {
             background-color: white;
-            box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+            box-shadow: 1px 15px 20px rgba(0, 0, 0, 0.4);
             color: black;
             transform: translateY(-4px);
-        }
-    </style>
-    <window id="listObra" apply="sgb.controller.viewsController.ListobraController"
-            border="none" hflex="1" vflex="1" contentStyle="overflow:auto">
-        <hlayout width="100%">
-            <vlayout  hflex="1">
-                <textbox placeholder="informe o titulo da obra e pressione Enter" id="textboxPesquisar" width="100%"
-                         forward="onOK=textboxPesquisar.onPesquisar,
+            }
+        </style>
+
+        <grid id="gridPesquisar" visible="true" style="border-style: none;" >
+            <columns>
+                <column label="Pesquisa" style="font-size: larger; text-align: left;
+                                background-color: white;  border-style: none;  padding: 5px 5px 5px 5px;" width="100%" >
+                    <hlayout width="100%">
+                        <vlayout  hflex="1">
+                            <textbox placeholder="informe o titulo da obra e pressione Enter" id="textboxPesquisar" width="100%"
+                                     forward="onOK=textboxPesquisar.onPesquisar,
                                 onChange=textboxPesquisar.onPesquisar"
-                         style="padding: 10px 10px 10px 10px; background-color: white; border-style:double; font-weight: bold;
+                                     style="padding: 10px 10px 10px 10px; background-color: white; border-style:double; font-weight: bold;
                                     font-size: 15px;"/>
-            <hlayout>
-                <button label="pesquisar"  id="buttonPesquisar"
-                        forward="onClick=buttonPesquisar.onPesquisar"
-                        mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold;"/>
+                            <hlayout>
+                                <button label="pesquisar"  id="buttonPesquisar"
+                                        forward="onClick=buttonPesquisar.onPesquisar"
+                                        mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold;"/>
 
-                <button visible="true" label="listar todas obras"  id="buttonListarObras"
-                        forward="onClick=buttonListarObras.onListarObras"
-                        mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold;"/>
-            </hlayout>
-            </vlayout>
-
-            <div id="divCesta"  style="background-color: white; cursor: pointer;"
-                 forward="onClick=divCesta.onShowCestaListBox">
-                <image  src="img/basket.jpg" width="125px" height="125px" />
-                <label value="0" id="qtdObrasNaCesta"
-                       style="position:absolute; top: 25%; left: 47%;
+                                <button visible="true" label="listar todas obras"  id="buttonListarObras"
+                                        forward="onClick=buttonListarObras.onListarObras"
+                                        mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold;"/>
+                            </hlayout>
+                        </vlayout>
+                        <div id="divCesta"  style="background-color: white; cursor: pointer; z-index: 10;"
+                             forward="onClick=divCesta.onShowCestaListBox">
+                            <image  src="img/basket.jpg" width="125px" height="125px" />
+                            <label value="0" id="qtdObrasNaCesta"
+                                   style="position:absolute; top: 25%; left: 47%;
                              font-size: large; font-weight: bold;"/>
-                <label value="Cesta"
-                       style="position:absolute; top: 75%; left: 30%;
+                            <label value="Cesta"
+                                   style="position:absolute; top: 75%; left: 30%;
                              font-size: large; font-weight: bold;"/>
-            </div>
-
-        </hlayout>
+                        </div>
+                    </hlayout>
+                </column>
+            </columns>
+        </grid>
 
         <grid id="gridListObra" visible="true" style="border-style: none;">
             <columns>
@@ -227,7 +241,6 @@
                     </listbox>
                 </column>
             </columns>
-
         </grid>
     </window>
 </zk>
