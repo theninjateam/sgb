@@ -11,7 +11,9 @@ import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.ForwardEvent;
+import org.zkoss.zk.ui.event.OpenEvent;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
@@ -41,6 +43,9 @@ public class listRequestsController extends SelectorComposer<Component> {
     @Wire
     private Listbox requestListBox;
 
+    @Wire
+    Window listObra;
+
 
     @Override
     public void doAfterCompose(Component comp) throws Exception {
@@ -54,7 +59,7 @@ public class listRequestsController extends SelectorComposer<Component> {
 
     public ListModelList<Requisicao> getrequestListModel() {
         HashMap<Users,List<Emprestimo>> hashMap = new HashMap<>();
-        List<Emprestimo> listammprestimos = crudService.getAll(Emprestimo.class);
+        List<Emprestimo> listammprestimos = crudService.findByJPQuery("SELECT e FROM Emprestimo e WHERE e.estadoPedido.idestadopedido=1",null);
         List<Requisicao> listarequisicao = new ArrayList<>();
 
         for(Emprestimo e: listammprestimos){
@@ -72,6 +77,7 @@ public class listRequestsController extends SelectorComposer<Component> {
 
         for(Users u : hashMap.keySet()) {
             Requisicao r = new Requisicao(u,hashMap.get(u));
+
             listarequisicao.add(r);
         }
 
@@ -87,12 +93,9 @@ public class listRequestsController extends SelectorComposer<Component> {
 
         session.setAttribute("requisicoes", r );
 
-
-        //create a window programmatically and use it as a modal dialog.
         Window window = (Window)Executions.createComponents(
-                "views/viewRequestModal.zul", null, null);
+                "views/viewRequestModal.zul", listObra, null);
         window.doModal();
-
     }
 
 }

@@ -317,7 +317,6 @@
 
                                                 <div id="grpOtherData" visible="false">
                                                      <include id="idInclOtherData"/>
-
                                                 </div>
 
                                             </vlayout>
