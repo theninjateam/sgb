@@ -1,135 +1,181 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zk>
+    <style>
+       .btn
+        {
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            border-radius: 10px;
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease 0s;
+            cursor: pointer;
+            outline: none;
+            background-color: ligthgray; border: none; color: black;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            margin: 4px 2px;
+        }
+
+        .btn:hover
+        {
+            background-color: white;
+            box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+            color: black;
+            transform: translateY(-4px);
+        }
+    </style>
     <window id="listObra" apply="sgb.controller.viewsController.ListobraController"
             border="none" hflex="1" vflex="1" contentStyle="overflow:auto">
-        <div style="padding:0px">
-            <tabbox>
-                <tabs>
-                    <tab label="${labels.obrainfo}"></tab>
-                </tabs>
-                <tabpanels>
-                    <tabpanel>
-                        <grid>
-                            <columns>
-                                <column width="60%">
-                                    <listbox width="100%" id="obraListBox">
-                                        <listhead>
-                                            <listheader width="40%" height="100%" label="Capa"/>
-                                            <listheader width="60%" height="100%" label="Descricao"/>
-                                        </listhead>
-                                        <template name="model">
-                                            <listitem>
-                                                <listcell>
-                                                    <image width="100%" height="100%"  src="${each.pathcapa}"/>
-                                                </listcell>
-                                                <listcell>
-                                                    <hlayout>
-                                                        <div>
-                                                            <div>
-                                                                <label value="Titulo:"/>
-                                                                <label value="${each.titulo}"/>
-                                                            </div>
+        <hlayout width="100%">
+            <vlayout  hflex="1">
+                <textbox placeholder="informe o titulo da obra e pressione Enter" id="textboxPesquisar" width="100%"
+                         forward="onOK=textboxPesquisar.onPesquisar,
+                                onChange=textboxPesquisar.onPesquisar"
+                         style="padding: 10px 10px 10px 10px; background-color: white; border-style:double; font-weight: bold;
+                                    font-size: 15px;"/>
+            <hlayout>
+                <button label="pesquisar"  id="buttonPesquisar"
+                        forward="onClick=buttonPesquisar.onPesquisar"
+                        mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold;"/>
 
-                                                            <div>
-                                                                <label value="Cota:"/>
-                                                                <label value="${each.cota}"/>
-                                                            </div>
-                                                            <div>
-                                                                <label value="Autores :"/>
-                                                                <label forEach="${each.autores}"  value="${each.nome}"/>
-                                                            </div>
-                                                            <div>
-                                                                <label value="Idioma :"/>
-                                                                <label value="${each.idioma.descricao}"/>
-                                                            </div>
-                                                            <div>
-                                                                <label value="Tipo:"/>
-                                                                <label value="${each.tipoobra.descricao}"/>
-                                                            </div>
-                                                            <div>
-                                                                <label value="Local Publicacao :"/>
-                                                                <label value="${each.localpublicacao}"/>
-                                                            </div>
-                                                            <div>
-                                                                <button label="Eliminar" forward="onClick=obraListBox.onEliminarObra"/>
-                                                                <button label="Editar" forward="onClick=obraListBox.onEditarObra"/>
-                                                                <button label="Detalhe" forward="onClick=obraListBox.onDetalheObra"/>
-                                                                <button label="Adicionar na Cesta" forward="onClick=obraListBox.onAdicionarNaCesta"/>
-                                                            </div>
-                                                        </div>
-                                                    </hlayout>
-                                                </listcell>
-                                            </listitem>
-                                        </template>
-                                    </listbox>
-                                </column>
+                <button visible="true" label="listar todas obras"  id="buttonListarObras"
+                        forward="onClick=buttonListarObras.onListarObras"
+                        mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold;"/>
+            </hlayout>
+            </vlayout>
+            <div id="divCesta"  style="background-color: white; cursor: pointer;"
+                 forward="onClick=divCesta.onShowCestaListBox">
+                <image  src="img/basket.jpg" width="125px" height="125px" />
+                <label value="0" id="qtdObrasNaCesta"
+                       style="position:absolute; top: 25%; left: 47%;
+                             font-size: large; font-weight: bold;"/>
+                <label value="Cesta"
+                       style="position:absolute; top: 75%; left: 30%;
+                             font-size: large; font-weight: bold;"/>
+            </div>
+        </hlayout>
 
-                                <column width="40%">
-                                    <listbox width="100%" id="cestaListBox"
-                                             emptyMessage="Nenhuma Obra Adicionada na Cesta">
-                                        <listhead>
-                                            <listheader width="30%" height="100%" label="Capa"/>
-                                            <listheader width="40%" height="100%" label="Descricao"/>
-                                            <listheader width="10%" height="100%" label="Qtd."/>
-                                            <listheader width="20%" height="100%" label="opcoes"/>
-                                        </listhead>
-                                        <template name="model">
-                                            <listitem>
-                                                <listcell>
-                                                    <image width="100%" height="100%" src="${each.obra.pathcapa}"/>
-                                                </listcell>
-                                                <listcell>
-                                                    <hlayout>
-                                                        <div>
-                                                            <div>
-                                                                <label value="Titulo:"/>
-                                                                <label value="${each.obra.titulo}"/>
-                                                            </div>
+        <grid id="gridListObra" visible="true" style="border-style: none;">
+            <columns>
+                <column label="Obras" style="font-size: larger; text-align: left;
+                                background-color: white;  border-style: none;  padding: 5px 5px 5px 5px;" width="100%" >
+                    <listbox visible="true" style="border-style: none;" hflex="1" id="obraListBox" emptyMessage="Nenhuma Obra Encontrada">
+                        <listhead style="border-style: none;">
+                            <listheader  hflex="1" style="padding: 10px 20px; background-color: lightgray; border-style: none;"    height="100%" label=" "/>
+                            <listheader  hflex="1" style="padding: 10px 20px; background-color: lightgray; border-style: none;"    height="100%" label=" "/>
+                            </listhead>
+                        <template name="model">
+                            <listitem  style="background-color: white; border-style: none;">
+                                <listcell style="padding: 2px 20px; background-color: white; border-style: none;
+                                                    border-bottom: 2px double black;">
+                                    <image width="100%" height="100%"  src="${each.pathcapa}"/>
+                                </listcell>
+                                <listcell style="padding: 2px 20px; background-color: white; border-style: none;
+                                                    border-bottom: 2px double black;">
+                                    <hlayout style="background-color: white; border-style: none;">
+                                        <div style="background-color: white; border-style: none;">
+                                            <div>
+                                                <label value="${each.titulo}"
+                                                       style="font-size: large; font-weight: bold; padding: 2px 2px 2px 2px; font-size: 15px;"/>
+                                            </div>
 
-                                                            <div>
-                                                                <label value="Cota:"/>
-                                                                <label value="${each.obra.cota}"/>
-                                                            </div>
-                                                            <div>
-                                                                <label value="Autores :"/>
-                                                                <label forEach="${each.obra.autores}" value="${each.nome}"/>
-                                                            </div>
-                                                            <div>
-                                                                <label value="Idioma :"/>
-                                                                <label value="${each.obra.idioma.descricao}"/>
-                                                            </div>
-                                                            <div>
-                                                                <label value="Tipo:"/>
-                                                                <label value="${each.obra.tipoobra.descricao}"/>
-                                                            </div>
-                                                            <div>
-                                                                <label value="Local Publicacao :"/>
-                                                                <label value="${each.obra.localpublicacao}"/>
-                                                            </div>
-                                                            <div>
-                                                                <button label="Remover da cesta"
-                                                                        forward="onClick=cestaListBox.onRemoverDaCesta"/>
-                                                            </div>
-                                                        </div>
-                                                    </hlayout>
-                                                </listcell>
-                                                <listcell >
-                                                    <label value="${each.quantidade}"/>
-                                                </listcell>
-                                                <listcell>
-                                                    <button label="-" forward="onClick=cestaListBox.onReduzirQtd"/>
-                                                    <button label="+" forward="onClick=cestaListBox.onAumentarQtd"/>
-                                                </listcell>
-                                            </listitem>
-                                        </template>
-                                    </listbox>
-                                    <button label="Requisitar" forward="onClick=cestaListBox.onRequisitarObra" width="100%"/>
-                                </column>
-                            </columns>
-                        </grid>
-                    </tabpanel>
-                </tabpanels>
-            </tabbox>
-        </div>
+                                            <div>
+                                                <label value="Por:"/>
+                                                <label forEach="${each.autores}"  value="${each.nome}"/>
+                                            </div>
+                                            <div>
+                                                <label value="(${each.tipoobra.descricao})"/>
+                                            </div>
+                                            <div style="letter-spacing: 18px;  line-height: 5;">
+                                                <button  label="Eliminar" forward="onClick=obraListBox.onEliminarObra"
+                                                         mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold"/>
+                                                <button    label="Editar" forward="onClick=obraListBox.onEditarObra"
+                                                           mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold"/>
+                                                <button   label="Detalhe" forward="onClick=obraListBox.onDetalheObra"
+                                                          mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold"/>
+                                                <button  label="Adicionar na Cesta" forward="onClick=obraListBox.onAdicionarNaCesta"
+                                                         mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold"/>
+                                            </div>
+                                        </div>
+                                    </hlayout>
+                                </listcell>
+                            </listitem>
+                        </template>
+                    </listbox>
+                </column>
+            </columns>
+        </grid>
+
+        <grid id="gridCesta" visible="false" style="border-style: none;">
+            <columns>
+                <column label="Cesta de livros" style="font-size: larger; text-align: left;
+                                background-color: white;  border-style: none;  padding: 5px 5px 5px 5px;" width="100%" >
+
+                    <vlayout   style="text-align: center;">
+                        <listbox   style=" text-align: left;"  id="cestaListBox"
+                                   emptyMessage="Nenhuma Obra Adicionada na Cesta">
+                            <listhead >
+                                <listheader style="padding: 2px 20px; background-color: lightgray; border-style: none;"   width="30%" height="100%" label=""/>
+                                <listheader style="padding: 2px 20px; background-color: lightgray; border-style: none;" width="40%" height="100%" label=""/>
+                                <listheader style="padding: 2px 20px; background-color: lightgray; border-style: none; font-weight: bold;" width="30%" height="100%" label="Quantidade"/>
+                            </listhead>
+                            <template name="model">
+                                <listitem  style="background-color: white; border-style: none;">
+                                    <listcell  style="background-color: white; border-style: none;
+                                                    border-bottom: 2px double black;">
+                                        <image width="100%" height="100%" src="${each.obra.pathcapa}"/>
+                                    </listcell>
+                                    <listcell style="background-color: white; border-style: none;
+                                                     border-bottom: 2px double black;">
+                                        <hlayout>
+                                            <div>
+                                                <div>
+                                                    <label value="${each.obra.titulo}"
+                                                           style="font-size: large; font-weight: bold; padding: 2px 2px 2px 2px; font-size: 15px;"/>
+                                                </div>
+                                                <div>
+                                                    <label value="por:"/>
+                                                    <label forEach="${each.obra.autores}" value="${each.nome}"/>
+                                                </div>
+                                                <div>
+                                                    <label value="(${each.obra.tipoobra.descricao})"/>
+                                                </div>
+                                                <div>
+                                                    <button label="Remover da cesta" forward="onClick=cestaListBox.onRemoverDaCesta"
+                                                            mold="os" sclass="btn" style="padding: 5px 5px 5px 5px; font-size: 12px; font-weight: bold"/>
+                                                </div>
+                                            </div>
+                                        </hlayout>
+                                    </listcell >
+                                    <listcell  style="padding: 2px 20px; background-color: white; border-style: none;
+                                                    border-bottom: 2px double black;">
+                                        <vlayout style="text-align: center;" spacing="10%">
+                                            <label value="${each.quantidade}"
+                                                   style="font-size: x-large; font-weight: bold;"/>
+                                            <hlayout>
+                                                <button sclass="btn"  label="-" forward="onClick=cestaListBox.onReduzirQtd"
+                                                        style="font-size: x-large; font-weight: bold; padding: 2px 12px; font-size: 20px;"
+                                                        mold="os"/>
+                                                <button sclass="btn" label="+" forward="onClick=cestaListBox.onAumentarQtd"
+                                                        style="font-size: x-large; font-weight: bold; padding: 2px 12px; font-size: 20px;"
+                                                        mold="os"/>
+                                            </hlayout>
+                                        </vlayout>
+                                    </listcell>
+                                </listitem>
+                            </template>
+                            <listfoot >
+                                <listfooter  height="100%" width="100%" style="padding: 15px 32px; background-color: lightgray; border-style: none;"/>
+                                <listfooter  height="100%" width="100%" style="padding: 15px 32px; background-color: lightgray; border-style: none;"/>
+                                <listfooter  height="100%" width="100%" style="padding: 15px 32px; background-color: lightgray; border-style: none;"/>
+                            </listfoot>
+                        </listbox>
+                        <button     label="Requisitar" forward="onClick=cestaListBox.onRequisitarObra"
+                                    mold="os" sclass="btn" style="padding: 15px 32px; font-size: 16px;"/>
+                    </vlayout>
+                </column>
+            </columns>
+        </grid>
     </window>
 </zk>

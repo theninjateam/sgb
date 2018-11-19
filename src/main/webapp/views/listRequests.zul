@@ -14,9 +14,9 @@
                                 <column width="100%">
                                     <listbox width="100%" id="requestListBox">
                                         <listhead>
-                                            <listheader width="40%" height="100%" label="Requisitante"/>
-                                            <listheader width="20%" height="100%" label="Tipo Usuario"/>
-                                            <listheader width="30%" height="100%" label="Data de Entrada"/>
+                                            <listheader style=" font-size: medium; padding: 1% 2%; background-color: DodgerBlue; color: white; border-style: none;" width="30%" height="100%" label="Requisitante"/>
+                                            <listheader style=" font-size: medium; padding: 1% 2%; background-color: DodgerBlue; color: white; border-style: none;" width="30%" height="100%" label="Tipo Usuario"/>
+                                            <listheader style=" font-size: medium; padding: 1% 2%; background-color: DodgerBlue; color: white; border-style: none;" width="40%" height="100%" label="Data de Entrada"/>
 
                                         </listhead>
                                         <template name="model">
