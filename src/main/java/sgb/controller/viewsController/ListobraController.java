@@ -125,7 +125,7 @@ public class ListobraController extends SelectorComposer<Component>
         Button btn = (Button)event.getOrigin().getTarget();
         Listitem litem = (Listitem)btn.getParent().getParent().getParent().getParent().getParent();
         Obra obra = (Obra) litem.getValue();
-        Messagebox.show("Tem certeza que deseja eliminar a obra ?", null,
+        Messagebox.show("Tem certeza que deseja eliminar a obra ?", "deletar obra",
                 Messagebox.YES + Messagebox.NO, Messagebox.QUESTION,
                 new EventListener<Event>() {
                     @Override
@@ -133,7 +133,7 @@ public class ListobraController extends SelectorComposer<Component>
                         if (Messagebox.ON_YES.equals(event.getName())) {
                             obraListModel.remove(obra);
                             crudService.delete(obra);
-                            Clients.showNotification("Obra eliminado com sucesso");
+                            Clients.showNotification("Obra eliminado com sucesso",null,null,null,5000);
                         }
                     }
                 });
@@ -144,7 +144,7 @@ public class ListobraController extends SelectorComposer<Component>
     @Listen("onDetalheObra = #obraListBox")
     public void doDetalhe(ForwardEvent event)
     {
-        Clients.showNotification("Detalhes Obra");
+//        Clients.showNotification("Detalhes Obra");
         detalheobra = new ListModelList<>();
         gridListObra.setVisible(false);
         buttonPesquisar.setVisible(false);
@@ -166,7 +166,8 @@ public class ListobraController extends SelectorComposer<Component>
     @Listen("onEditarObra = #obraListBox")
     public void doEditar(ForwardEvent event)
     {
-        Clients.showNotification("Editar Obra");
+        Clients.showNotification("Editar Obra",null,null,null,5000);
+//        Executions.getCurrent().sendRedirect("views/addObra.zul");
     }
 
 
@@ -175,7 +176,7 @@ public class ListobraController extends SelectorComposer<Component>
     {
         if (temObrasPorDevolver())
         {
-            Clients.showNotification("Voce tem obras por devolver");
+            Clients.showNotification("Voce tem obras por devolver",null,null,null,5000);
             return;
         }
 
@@ -190,7 +191,7 @@ public class ListobraController extends SelectorComposer<Component>
     {
         if (cestaListModel.size() == 0)
         {
-            Clients.showNotification("A Cesta esta fazia");
+            Clients.showNotification("A Cesta esta vazia",null,null,null,5000);
             return;
         }
 
@@ -248,7 +249,7 @@ public class ListobraController extends SelectorComposer<Component>
         this.qtdObrasNaCesta.setValue(""+getQtdObrasNaCesta());
         //ende transation
 
-        Clients.showNotification("successful");
+        Clients.showNotification("successful",null,null,null,5000);
     }
 
     @Listen("onPesquisar = #textboxPesquisar")
@@ -349,7 +350,7 @@ public class ListobraController extends SelectorComposer<Component>
     {
         if (getQtdObrasRestantes() == 0)
         {
-            Clients.showNotification("Voce so pode requisitar '"+ getQtdMaxObras()+"' obras no maximo");
+            Clients.showNotification("Voce so pode requisitar '"+ getQtdMaxObras()+"' obras no maximo",null,null,null,5000);
             return;
         }
 
@@ -427,7 +428,7 @@ public class ListobraController extends SelectorComposer<Component>
 
         if (getQtdObrasRestantes() == 0)
         {
-            Clients.showNotification("Voce so pode requisitar '"+ getQtdMaxObras()+"' obras no maximo");
+            Clients.showNotification("Voce so pode requisitar '"+ getQtdMaxObras()+"' obras no maximo",null,null,null,5000);
             return;
         }
 

@@ -128,7 +128,7 @@ public class Obra {
         return Objects.hash(cota, registro, titulo, localpublicacao, quantidade, pathpdf, pathcapa, anoPublicacao);
     }
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "ididioma", nullable = false)
     public Idioma getIdioma() {
         return idioma;
@@ -138,7 +138,7 @@ public class Obra {
         this.idioma = idioma;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "idtipo", nullable = false)
     public TipoObra getTipoobra() {
         return tipoobra;
@@ -148,7 +148,7 @@ public class Obra {
         this.tipoobra = tipoobra;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "idarea", nullable = false)
     public AreaCientifica getAreacientifica() {
         return areacientifica;

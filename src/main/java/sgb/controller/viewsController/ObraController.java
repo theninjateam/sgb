@@ -305,7 +305,7 @@ public class ObraController extends SelectorComposer<Component> {
 
                 if(dive.getMostSpecificCause().toString().contains("duplicate key value"))
                 {
-                    Clients.showNotification("Ops: Parece que ja existe uma Obra com numero de cota '"+cota.getValue()+"'");
+                    Clients.showNotification("Ops: Parece que ja existe uma Obra com numero de cota '"+cota.getValue()+"'",null,null,null,5000);
                 }
             }
             e.printStackTrace();
@@ -320,7 +320,7 @@ public class ObraController extends SelectorComposer<Component> {
 
         if (!mediaPDF.getFormat().equals("pdf"))
         {
-            Clients.showNotification("Ficheiro Invalido, carrega um ficheiro pdf");
+            Clients.showNotification("Ficheiro Invalido, carrega um ficheiro pdf",null,null,null,5000);
         }
         else
         {
@@ -356,7 +356,7 @@ public class ObraController extends SelectorComposer<Component> {
 
         if (!mediaCover.getContentType().contains("image"))
         {
-            Clients.showNotification("Ficheiro Invalido, carrega uma imagem");
+            Clients.showNotification("Ficheiro Invalido, carrega uma imagem",null,null,null,5000);
         }
         else
         {
@@ -395,7 +395,7 @@ public class ObraController extends SelectorComposer<Component> {
 
         if (Strings.isBlank(autor.getValue()))
         {
-            Clients.showNotification("Informe O Nome e o Apelido do Autor");
+            Clients.showNotification("Informe O Nome e o Apelido do Autor",null,null,null,5000);
         }
         else
         {

@@ -10,7 +10,6 @@ public class Livro {
     private String isbn;
     private String editora;
     private String edicao;
-    private int volume;
     private String codigobarra;
     private Integer volume;
     private Obra obra;
@@ -53,16 +52,6 @@ public class Livro {
 
     public void setEdicao(String edicao) {
         this.edicao = edicao;
-    }
-
-    @Basic
-    @Column(name = "volume")
-    public int getVolume() {
-        return volume;
-    }
-
-    public void setVolume(int volume) {
-        this.volume = volume;
     }
 
 
