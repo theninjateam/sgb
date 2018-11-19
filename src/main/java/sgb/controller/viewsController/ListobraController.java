@@ -135,7 +135,7 @@ public class ListobraController extends SelectorComposer<Component>
                         if (Messagebox.ON_YES.equals(event.getName())) {
                             obraListModel.remove(obra);
                             crudService.delete(obra);
-                            Clients.showNotification("Obra eliminado com sucesso");
+                            Clients.showNotification("Obra eliminado com sucesso",null,null,null,5000);
                         }
                     }
                 });
@@ -168,7 +168,7 @@ public class ListobraController extends SelectorComposer<Component>
     @Listen("onEditarObra = #obraListBox")
     public void doEditar(ForwardEvent event)
     {
-//        Clients.showNotification("Editar Obra");
+        Clients.showNotification("Editar Obra",null,null,null,5000);
 //        Executions.getCurrent().sendRedirect("views/addObra.zul");
     }
 
@@ -178,7 +178,7 @@ public class ListobraController extends SelectorComposer<Component>
     {
         if (temObrasPorDevolver())
         {
-            Clients.showNotification("Voce tem obras por devolver");
+            Clients.showNotification("Voce tem obras por devolver",null,null,null,5000);
             return;
         }
 
@@ -193,12 +193,12 @@ public class ListobraController extends SelectorComposer<Component>
     {
         if (cestaListModel.size() == 0)
         {
-            Clients.showNotification("A Cesta esta fazia");
+            Clients.showNotification("A Cesta esta vazia",null,null,null,5000);
             return;
         }
 
         List<Emprestimo> emprestimos = crudService.findByJPQuery("SELECT e FROM Emprestimo e WHERE e.emprestimoPK.user.id = "+
-                user.getId()+" and e.esgitadoDevolucao.idestadodevolucao = 1", null);
+                user.getId()+" and e.estadoDevolucao.idestadodevolucao = 1", null);
 
         // begin transactio
         for (Item item : cestaListModel)
@@ -251,7 +251,7 @@ public class ListobraController extends SelectorComposer<Component>
         this.qtdObrasNaCesta.setValue(""+getQtdObrasNaCesta());
         //ende transation
 
-        Clients.showNotification("successful");
+        Clients.showNotification("successful",null,null,null,5000);
     }
 
     @Listen("onPesquisar = #textboxPesquisar")
@@ -352,7 +352,7 @@ public class ListobraController extends SelectorComposer<Component>
     {
         if (getQtdObrasRestantes() == 0)
         {
-            Clients.showNotification("Voce so pode requisitar '"+ getQtdMaxObras()+"' obras no maximo");
+            Clients.showNotification("Voce so pode requisitar '"+ getQtdMaxObras()+"' obras no maximo",null,null,null,5000);
             return;
         }
 
@@ -430,7 +430,7 @@ public class ListobraController extends SelectorComposer<Component>
 
         if (getQtdObrasRestantes() == 0)
         {
-            Clients.showNotification("Voce so pode requisitar '"+ getQtdMaxObras()+"' obras no maximo");
+            Clients.showNotification("Voce so pode requisitar '"+ getQtdMaxObras()+"' obras no maximo",null,null,null,5000);
             return;
         }
 

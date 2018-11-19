@@ -80,7 +80,7 @@ public class ListEmprestimo extends SelectorComposer<Component> {
                         if (Messagebox.ON_YES.equals(event.getName())) {
                             emprestimoListModel.remove(emp);
                             crudService.delete(emp);
-                            Clients.showNotification("Pedido eliminado com sucesso");                        }
+                            Clients.showNotification("Pedido eliminado com sucesso",null,null,null,5000);                        }
                     }
                 });
 
@@ -89,13 +89,13 @@ public class ListEmprestimo extends SelectorComposer<Component> {
     @Listen("onDetalheEmprestimo = #emprestimoListBox")
     public void doDetalhe(ForwardEvent event)
     {
-        Clients.showNotification("Detalhes Obra");
+        Clients.showNotification("Detalhes Obra",null,null,null,5000);
     }
 
     @Listen("onEditarEmprestimo = #emprestimoListBox")
     public void doEditar(ForwardEvent event)
     {
-        Clients.showNotification("Editar Obra");
+        Clients.showNotification("Editar Obra",null,null,null,5000);
     }
 
 
