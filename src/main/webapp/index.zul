@@ -37,6 +37,19 @@ Copyright (C) 2008 Potix Corporation. All Rights Reserved.
 				</n:a>
 			</div>
 
+
+			<div  id="divCesta2"  style="background-color: white; cursor: pointer; float:right; "
+				 forward="onClick=divCesta.onShowCestaListBox" >
+				<image  src="img/basket.jpg" width="125px" height="125px" />
+					<label value="0" id="qtdObrasNaCesta"
+					style="position:absolute; top: 25%; left: 47%;
+					font-size: large; font-weight: bold;"/>
+					<label value="Cesta"
+					style="position:absolute; top: 75%; left: 30%;
+					font-size: large; font-weight: bold;"/>
+			</div>
+
+
 			<div  style=" float:right; padding: 50px 50px 0 50px;" >
 				<hbox apply="sgb.controller.LoginController"
 					  hflex="1" vflex="1" pack="end" align="end" >
@@ -45,6 +58,8 @@ Copyright (C) 2008 Potix Corporation. All Rights Reserved.
 					<label id="logout" value="${labels.logout}"  sclass="logout" if="${not sessionScope.userCredential.anonymous}"/>
 				</hbox>
 			</div>
+
+
 			<categorybar zclass="demo-categorybar" id="header">
 				<category zclass="demo-category" forEach="${main$MainLayoutComposer.categories}" id="${each.id}" image="${each.icon}" label="${each.label}" 
 				forward="onClick=main.onCategorySelect"/>

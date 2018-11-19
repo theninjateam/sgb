@@ -3,8 +3,11 @@ package sgb.controller.viewsController;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.ForwardEvent;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
@@ -15,6 +18,7 @@ import org.zkoss.zul.*;
 import sgb.domain.*;
 import sgb.service.CRUDService;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -33,6 +37,7 @@ public class ListobraController extends SelectorComposer<Component>
     private EstadoDevolucao estadoDevolucao;
     private ListModelList<Obra> obraListModel;
     private ListModelList<Item> cestaListModel = new ListModelList<Item>();
+    private ListModelList<Obra> detalheobra;
 
 
     @Wire
@@ -63,9 +68,19 @@ public class ListobraController extends SelectorComposer<Component>
     @Wire
     private Listbox cestaListBox;
 
+    @Wire
+    private Grid griddetalhe;
+
+    @Wire
+    private Listbox obraShow;
+
     @Override
     public void doAfterCompose(Component comp) throws Exception
     {
+
+//        this.getPage().getDesktop().getComponents();
+
+
         super.doAfterCompose(comp);
         session = Sessions.getCurrent();
 
@@ -101,13 +116,30 @@ public class ListobraController extends SelectorComposer<Component>
         gridListObra.setVisible(false);
         buttonPesquisar.setVisible(false);
         textboxPesquisar.setVisible(false);
+        griddetalhe.setVisible(false);
         gridCesta.setVisible(true);
     }
 
     @Listen("onEliminarObra = #obraListBox")
     public void doEliminar(ForwardEvent event)
     {
-        Clients.showNotification("Eliminar");
+
+        Button btn = (Button)event.getOrigin().getTarget();
+        Listitem litem = (Listitem)btn.getParent().getParent().getParent().getParent().getParent();
+        Obra obra = (Obra) litem.getValue();
+        Messagebox.show("Tem certeza que deseja eliminar a obra ?", null,
+                Messagebox.YES + Messagebox.NO, Messagebox.QUESTION,
+                new EventListener<Event>() {
+                    @Override
+                    public void onEvent(Event event) throws Exception {
+                        if (Messagebox.ON_YES.equals(event.getName())) {
+                            obraListModel.remove(obra);
+                            crudService.delete(obra);
+                            Clients.showNotification("Obra eliminado com sucesso");
+                        }
+                    }
+                });
+
 
     }
 
@@ -115,6 +147,22 @@ public class ListobraController extends SelectorComposer<Component>
     public void doDetalhe(ForwardEvent event)
     {
         Clients.showNotification("Detalhes Obra");
+        detalheobra = new ListModelList<>();
+        gridListObra.setVisible(false);
+        buttonPesquisar.setVisible(false);
+        textboxPesquisar.setVisible(false);
+        gridCesta.setVisible(false);
+//        divCesta.setVisible(false);
+        buttonListarObras.setVisible(false);
+        Button btn = (Button)event.getOrigin().getTarget();
+        Listitem litem = (Listitem)btn.getParent().getParent().getParent().getParent().getParent();
+        Obra obra = (Obra) litem.getValue();
+
+        detalheobra.add(obra);
+        detalheobra.addSelection(obra);
+        obraShow.setModel(detalheobra);
+        griddetalhe.setVisible(true);
+
     }
 
     @Listen("onEditarObra = #obraListBox")
