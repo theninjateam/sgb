@@ -108,6 +108,7 @@ public class ListobraController extends SelectorComposer<Component>
         obraListModel.removeAll(obraListModel);
         obraListModel.addAll(getObraListModel());
 
+
     }
 
     @Listen("onShowCestaListBox = #divCesta")
