@@ -1,15 +1,21 @@
 
-.title {
-
+.subTitleMob {
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    font-size: 1.2em;
+    font-weight: bolder;
+    text-align: justify;
+    text-justify: inter-word;
+    line-height: 1.4em;
 }
 
-.subTitle {
-
+.tinylText {
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    font-size: 0.7em;
+    text-align: justify;
+    text-justify: inter-word;
+    line-height: 1em;
 }
 
-.normalText {
-
-}
 
 .button {
     font-family: Arial, Helvetica, sans-serif;
