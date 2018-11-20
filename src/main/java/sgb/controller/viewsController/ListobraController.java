@@ -123,7 +123,7 @@ public class ListobraController extends SelectorComposer<Component>
     {
 
         Button btn = (Button)event.getOrigin().getTarget();
-        Listitem litem = (Listitem)btn.getParent().getParent().getParent().getParent().getParent();
+        Listitem litem = (Listitem)btn.getParent().getParent().getParent().getParent().getParent().getParent();
         Obra obra = (Obra) litem.getValue();
         Messagebox.show("Tem certeza que deseja eliminar a obra ?", "deletar obra",
                 Messagebox.YES + Messagebox.NO, Messagebox.QUESTION,
@@ -153,7 +153,7 @@ public class ListobraController extends SelectorComposer<Component>
 //        divCesta.setVisible(false);
         buttonListarObras.setVisible(false);
         Button btn = (Button)event.getOrigin().getTarget();
-        Listitem litem = (Listitem)btn.getParent().getParent().getParent().getParent().getParent();
+        Listitem litem = (Listitem)btn.getParent().getParent().getParent().getParent().getParent().getParent();
         Obra obra = (Obra) litem.getValue();
 
         detalheobra.add(obra);
@@ -181,7 +181,7 @@ public class ListobraController extends SelectorComposer<Component>
         }
 
         Button btn = (Button)event.getOrigin().getTarget();
-        Listitem litem = (Listitem)btn.getParent().getParent().getParent().getParent().getParent();
+        Listitem litem = (Listitem)btn.getParent().getParent().getParent().getParent().getParent().getParent();
         Obra obra = (Obra) litem.getValue();
         insertOncestaListModel(obra);
     }
@@ -328,7 +328,7 @@ public class ListobraController extends SelectorComposer<Component>
     public void doEliminarcesta(ForwardEvent event)
     {
         Button btn = (Button)event.getOrigin().getTarget();
-        Listitem litem = (Listitem)btn.getParent().getParent().getParent().getParent().getParent();
+        Listitem litem = (Listitem)btn.getParent().getParent().getParent().getParent().getParent().getParent();
         Item item = (Item) litem.getValue();
 
         int pos = 0;
