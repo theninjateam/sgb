@@ -9,7 +9,7 @@ public class Livro {
     private String cota;
     private String isbn;
     private String editora;
-    private String edicao;
+    private Integer edicao;
     private String codigobarra;
     private Integer volume;
     private Obra obra;
@@ -46,11 +46,11 @@ public class Livro {
 
     @Basic
     @Column(name = "edicao")
-    public String getEdicao() {
+    public Integer getEdicao() {
         return edicao;
     }
 
-    public void setEdicao(String edicao) {
+    public void setEdicao(Integer edicao) {
         this.edicao = edicao;
     }
 

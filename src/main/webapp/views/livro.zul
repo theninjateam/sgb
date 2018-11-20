@@ -50,49 +50,38 @@
                     </div>
                 </hlayout>
             </row>
-
             <row>
                 <hlayout vflex="1" hflex="1" sclass="second-layout">
                     <div sclass="description-area" height="100%">
-                        <span sclass="input-group-addon">Edicao</span>
+                        <span sclass="input-group-addon">Edicao
+                        </span>
                     </div>
 
                     <div sclass="description-area" height="100%">
-                        <textbox sclass="form-control" id="edicao"
-                                 disabled="false" value="" hflex="1"
-                                 constraint=" no Empty: Preenche o campo!"/>
-                    </div>
-                </hlayout>
-            </row>
-            <row>
-                <hlayout vflex="1" hflex="1" sclass="second-layout">
-                    <div sclass="description-area" height="100%">
-                        <span sclass="input-group-addon">Volume</span>
-                    </div>
-
-<<<<<<< HEAD
-            <row>
-                 <hlayout vflex="1" hflex="1" sclass="second-layout">
-                     <div sclass="description-area" height="100%">
-                          <span sclass="input-group-addon">Volume</span>
-                     </div>
-
-                     <div sclass="description-area" height="100%">
-                         <textbox sclass="form-control" id="volume"
-                              disabled="false" value="" hflex="1"
-                              constraint=" no Empty: Preenche o campo!"/>
-                     </div>
-                 </hlayout>
-            </row>
-
-=======
-                    <div sclass="description-area" height="100%">
-                        <intbox sclass="form-control" id="volume"
-                                disabled="false" value="" hflex="1"
+                        <intbox sclass="form-control"
+                                id="edicao" disabled="false"
+                                hflex="1"
                                 constraint=" no Empty: Preenche o campo!"/>
                     </div>
                 </hlayout>
             </row>
+
+            <row>
+                <hlayout vflex="1" hflex="1" sclass="second-layout">
+                    <div sclass="description-area" height="100%">
+                        <span sclass="input-group-addon">volume
+                        </span>
+                    </div>
+
+                    <div sclass="description-area" height="100%">
+                        <intbox sclass="form-control"
+                                id="volume" disabled="false"
+                                hflex="1"
+                                constraint=" no Empty: Preenche o campo!"/>
+                    </div>
+                </hlayout>
+            </row>
+
             <row>
                 <hlayout vflex="1" hflex="1" sclass="second-layout">
                     <div sclass="description-area" height="100%">
@@ -102,14 +91,13 @@
                     <div sclass="description-area" height="100%">
                         O Livro vem com disco em anexo ?:
                         <label id="escolha"/>
-                        <radiogroup id="anexocd" onCheck="escolha.value=self.selectedItem.label">
-                            <radio id="sim" label="Sim" />
+                        <radiogroup id="anexocd" onCheck="escolha.value=self.selectedItem.label" >
+                            <radio id="sim" label="Sim"  />
                             <radio id="nao" label="Nao"/>
                         </radiogroup>
                     </div>
                 </hlayout>
             </row>
->>>>>>> e6bd73573db96a2c4f1d8de86b2ebe8864978134
         </rows>
     </grid>
 </groupbox>
