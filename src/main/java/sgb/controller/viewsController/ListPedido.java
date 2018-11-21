@@ -27,6 +27,8 @@ import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.*;
 import sgb.domain.*;
 import sgb.service.CRUDService;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -98,5 +100,10 @@ public class ListPedido extends SelectorComposer<Component> {
         Clients.showNotification("Editar Obra",null,null,null,5000);
     }
 
+    public String Convert(Calendar dt) {
+        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+        String dateformated = date.format(dt.getTime());
+        return dateformated;
+    }
 
 }
