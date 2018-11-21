@@ -158,7 +158,7 @@ public class Obra {
         this.areacientifica = areacientifica;
     }
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     @JoinTable(name="obra_autor",  joinColumns = @JoinColumn(name ="cota", nullable = false),
             inverseJoinColumns = @JoinColumn(name="hashcode", nullable = false))
     public Set<Autor> getAutores(){
@@ -168,6 +168,7 @@ public class Obra {
     public void setAutores(Set<Autor> autores) {
         this.autores=autores;
     }
+
 
     @OneToOne(fetch = FetchType.LAZY,
             cascade =  CascadeType.ALL,

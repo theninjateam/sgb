@@ -2,6 +2,7 @@ package sgb.controller.viewsController;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.transaction.annotation.Transactional;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Session;
@@ -104,7 +105,9 @@ public class ListobraController extends SelectorComposer<Component>
         gridListObra.setVisible(true);
         buttonPesquisar.setVisible(true);
         textboxPesquisar.setVisible(true);
+        obraListModel.removeAll(obraListModel);
         obraListModel.addAll(getObraListModel());
+
 
     }
 
@@ -118,12 +121,30 @@ public class ListobraController extends SelectorComposer<Component>
         gridCesta.setVisible(true);
     }
 
+    @Listen("onShowOperacoes = #obraListBox")
+    public void doShowOperacoes(ForwardEvent event)
+    {
+        Button btn = (Button)event.getOrigin().getTarget();
+        Div div = (Div) btn.getNextSibling();
+
+        if (div.isVisible())
+        {
+            btn.setLabel("Outras operações");
+            div.setVisible(false);
+        }
+        else
+        {
+            btn.setLabel("Ocultar operações");
+            div.setVisible(true);
+        }
+    }
+
     @Listen("onEliminarObra = #obraListBox")
     public void doEliminar(ForwardEvent event)
     {
 
         Button btn = (Button)event.getOrigin().getTarget();
-        Listitem litem = (Listitem)btn.getParent().getParent().getParent().getParent().getParent().getParent();
+        Listitem litem = (Listitem) getListitem(btn);
         Obra obra = (Obra) litem.getValue();
         Messagebox.show("Tem certeza que deseja eliminar a obra ?", "deletar obra",
                 Messagebox.YES + Messagebox.NO, Messagebox.QUESTION,
@@ -132,13 +153,12 @@ public class ListobraController extends SelectorComposer<Component>
                     public void onEvent(Event event) throws Exception {
                         if (Messagebox.ON_YES.equals(event.getName())) {
                             obraListModel.remove(obra);
+                            obra.setAutores(null);
                             crudService.delete(obra);
                             Clients.showNotification("Obra eliminado com sucesso",null,null,null,5000);
                         }
                     }
                 });
-
-
     }
 
     @Listen("onDetalheObra = #obraListBox")
@@ -153,7 +173,7 @@ public class ListobraController extends SelectorComposer<Component>
 //        divCesta.setVisible(false);
         buttonListarObras.setVisible(false);
         Button btn = (Button)event.getOrigin().getTarget();
-        Listitem litem = (Listitem)btn.getParent().getParent().getParent().getParent().getParent().getParent();
+        Listitem litem = (Listitem) getListitem(btn);
         Obra obra = (Obra) litem.getValue();
 
         detalheobra.add(obra);
@@ -172,6 +192,7 @@ public class ListobraController extends SelectorComposer<Component>
 
 
     @Listen("onAdicionarNaCesta = #obraListBox")
+    @Transactional
     public void doAdicionarNaCesta(ForwardEvent event)
     {
         if (temObrasPorDevolver())
@@ -180,10 +201,17 @@ public class ListobraController extends SelectorComposer<Component>
             return;
         }
 
-        Button btn = (Button)event.getOrigin().getTarget();
-        Listitem litem = (Listitem)btn.getParent().getParent().getParent().getParent().getParent().getParent();
-        Obra obra = (Obra) litem.getValue();
-        insertOncestaListModel(obra);
+        try
+        {
+            Button btn = (Button)event.getOrigin().getTarget();
+            Listitem litem =  (Listitem) getListitem(btn);
+            Obra obra = (Obra) litem.getValue();
+            insertOncestaListModel(obra);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
     @Listen("onRequisitarObra = #cestaListBox")
@@ -293,7 +321,7 @@ public class ListobraController extends SelectorComposer<Component>
     public void doAumentarQtd(ForwardEvent event)
     {
         Button btn = (Button)event.getOrigin().getTarget();
-        Listitem litem = (Listitem)btn.getParent().getParent().getParent().getParent();
+        Listitem litem = (Listitem) getListitem(btn);;
         Item item = (Item) litem.getValue();
         aumentarQtd(item);
 
@@ -304,7 +332,7 @@ public class ListobraController extends SelectorComposer<Component>
     public void doReduzirQtd(ForwardEvent event)
     {
         Button btn = (Button)event.getOrigin().getTarget();
-        Listitem litem = (Listitem)btn.getParent().getParent().getParent().getParent();
+        Listitem litem = (Listitem) getListitem(btn);;
         Item item = (Item) litem.getValue();
 
         if (item.getQuantidade() > 1)
@@ -328,7 +356,7 @@ public class ListobraController extends SelectorComposer<Component>
     public void doEliminarcesta(ForwardEvent event)
     {
         Button btn = (Button)event.getOrigin().getTarget();
-        Listitem litem = (Listitem)btn.getParent().getParent().getParent().getParent().getParent().getParent();
+        Listitem litem = (Listitem) getListitem(btn);
         Item item = (Item) litem.getValue();
 
         int pos = 0;
@@ -465,5 +493,23 @@ public class ListobraController extends SelectorComposer<Component>
             qtd += e.getQuantidade();
 
         return qtd;
+    }
+
+    public Component getListitem (Button btn)
+    {
+        Component component = btn.getParent();
+
+        while(true)
+        {
+            if ( component instanceof  Listitem)
+            {
+                return  component;
+            }
+
+            if(component == null)
+                return null;
+
+            component = component.getParent();
+        }
     }
 }
