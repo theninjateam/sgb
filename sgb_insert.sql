@@ -64,9 +64,4 @@ INSERT INTO public.revista (cota, instituicao) VALUES ('WW2', 'WWWWWWWWWWWWWWWWW
 INSERT INTO public.revista (cota, instituicao) VALUES ('eee2', 'ddddddd');
 INSERT INTO public.revista (cota, instituicao) VALUES ('77788', 'rtrrrrrrrrrrrr');
 
-INSERT INTO public.role (role_id, role, qtdmaxobras) VALUES (3, 'teacher', 4);
-INSERT INTO public.role (role_id, role, qtdmaxobras) VALUES (1, 'ADMIN', 0);
-INSERT INTO public.role (role_id, role, qtdmaxobras) VALUES (2, 'student', 6);
 
-INSERT INTO public.user_role (user_id, role_id) VALUES (1, 1);
-INSERT INTO public.user_role (user_id, role_id) VALUES (2, 2);
