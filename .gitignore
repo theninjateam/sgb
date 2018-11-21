@@ -5,3 +5,5 @@ target
 src/main/webapp/digitalLibrary/pdf/*
 src/main/webapp/digitalLibrary/cover/*
 
+WEB-INF/applicationContext.xml
+pom.xml
