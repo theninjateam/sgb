@@ -64,7 +64,7 @@
     <!--}-->
                                                             <!--]]>-->
                                                         <!--</zscript>-->
-                                                        <label value='@load(vm.Convert(${each.dataentrada})'/>
+                                                        <label value="${each.dataentrada}"/>
                                                     </div>
                                                 </listcell>
                                                 <listcell>
