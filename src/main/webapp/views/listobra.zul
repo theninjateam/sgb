@@ -56,7 +56,7 @@
                                                     border-bottom: 0.1em double rgb(0, 0, 0, 0.4);">
 
                                     <!--For Mobile-->
-                                    <div sclass="w3-row w3-hide-large w3-hide-medium" style="white-space: normal;">
+                                    <div sclass="w3-row w3-hide-large" style="white-space: normal;">
                                         <div sclass="w3-col w3-white w3-center w3-padding-16">
                                             <image src="${each.pathcapa}" sclass="w3-card-4 w3-padding-16"
                                                    style="width: 100%; height:120px; width:89px;"/>
@@ -75,7 +75,7 @@
                                         <button  label="Adicionar na cesta" forward="onClick=obraListBox.onAdicionarNaCesta"
                                                  mold="os" sclass="w3-bar-item w3-btn w3-light-gray w3-col"/>
 
-                                        <button   label="Outras operações" forward="onClick=obraListBox.onShowOperacoes"
+                                        <button  label="Outras operações" forward="onClick=obraListBox.onShowOperacoes"
                                                   mold="os" sclass="w3-bar-item w3-btn w3-light-gray w3-col"/>
 
                                         <div sclass="w3-row" visible="false">
@@ -93,63 +93,40 @@
                                     </div>
 
                                     <!-- For no Mobile-->
+                                    <div sclass="w3-container w3-hide-small w3-hide-medium w3-padding-16"  style="white-space: normal;">
 
-                </listcell>
-                <!--<listcell>-->
-
-                                    <!--<hlayout  style="background-color: white; border-style: none;">-->
-                                        <!--<vlayout sclass="w3-padding-large">-->
-                                            <!--<div sclass="w3-hide-small"  style="background-color: white; border-style: none; line-height: 1.4em;">-->
-                                                <!--<div>-->
-                                                    <!--<label value="${each.titulo}"-->
-                                                           <!--style="font-size: large; font-weight: bold; padding: 2px 2px 2px 2px; font-size: 1.5em;"/>-->
-                                                <!--</div>-->
-                                                <!--<div>-->
-                                                    <!--<label value="Por:"/>-->
-                                                    <!--<label forEach="${each.autores}"  value="${each.nome}"/>-->
-                                                <!--</div>-->
-                                                <!--<div>-->
-                                                    <!--<label value="${each.anoPublicacao}"/>-->
-                                                <!--</div>-->
-                                                <!--<div>-->
-                                                    <!--<label value="(${each.tipoobra.descricao})"/>-->
-                                                <!--</div>-->
-                                            <!--</div>-->
-
-                                            <!--<div  sclass="w3-hide-large w3-hide-medium"  style="background-color: white; border-style: none; line-height: 1.4em;">-->
-                                                <!--<div>-->
-                                                    <!--<label sclass="subTitleMob" value="${each.titulo}"/>-->
-                                                <!--</div>-->
-                                                <!---->
-                                                <!--<div>-->
-                                                    <!--<label value="Por:"/>-->
-                                                    <!--<label forEach="${each.autores}"  value="${each.nome}"/>-->
-                                                <!--</div>-->
-                                                <!--<div>-->
-                                                    <!--<label value="${each.anoPublicacao}"/>-->
-                                                <!--</div>-->
-                                                <!--<div>-->
-                                                    <!--<label value="(${each.tipoobra.descricao})"/>-->
-                                                <!--</div>-->
-                                            <!--</div>-->
-
-                                            <!--<div sclass="w3-hide-small" style="background-color: white; border-style: none;">-->
-                                                <!--<div style="line-height: 6em; display: run-in; box-sizing: border-box;">-->
-
-                                                    <!--<button  label="Eliminar" forward="onClick=obraListBox.onEliminarObra"-->
-                                                             <!--mold="os" sclass="button"/>-->
-                                                    <!--<button    label="Editar" forward="onClick=obraListBox.onEditarObra"-->
-                                                               <!--mold="os" sclass="button"/>-->
-                                                    <!--<button   label="Detalhe" forward="onClick=obraListBox.onDetalheObra"-->
-                                                              <!--mold="os" sclass="button"/>-->
-                                                    <!--<button  label="Adicionar na Cesta" forward="onClick=obraListBox.onAdicionarNaCesta"-->
-                                                             <!--mold="os" sclass="button"/>-->
-                                                <!--</div>-->
-                                            <!--</div>-->
-
-                                        <!--</vlayout>-->
-                                    <!--</hlayout>-->
-                                <!--</listcell>-->
+                                        <div sclass="w3-container w3-white w3-left" style="width: 20%; position: relative;">
+                                            <image src="${each.pathcapa}" sclass="w3-card-4 w3-padding-16"
+                                                   style="width: 100%; height:208px; width:145px;"/>
+                                        </div>
+                                        <div sclass="w3-container w3-rest w3-display-container w3-white w3-left  w3-card-4 w3-padding-16"
+                                              style="width: 80%; position: relative;">
+                                            <label sclass="w3-col w3-xlarge w3-left" value="${each.titulo}"
+                                            style=" line-height: 1.4em;"/>
+                                            <div sclass="w3-left" style="display: grid;">
+                                                <div sclass="w3-left">
+                                                    <label sclass="normalText" value="Por:"/>
+                                                    <label sclass="normalText " forEach="${each.autores}"  value="${each.nome}"/>
+                                                </div>
+                                                <div sclass="w3-padding-16">
+                                                    <button  label="Adicionar na cesta" forward="onClick=obraListBox.onAdicionarNaCesta"
+                                                                 mold="os" sclass="w3-btn w3-light-gray"/>
+                                                </div>
+                                                <div>
+                                                    <button sclass="w3-btn w3-light-gray"
+                                                            label="Eliminar" forward="onClick=obraListBox.onEliminarObra"
+                                                            mold="os"/>
+                                                    <button sclass="w3-btn w3-light-gray"
+                                                            label="Editar" forward="onClick=obraListBox.onEditarObra"
+                                                            mold="os" />
+                                                    <button sclass=" w3-btn w3-light-gray"
+                                                            label="Detalhe" forward="onClick=obraListBox.onDetalheObra"
+                                                            mold="os" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </listcell>
                             </listitem>
                         </template>
                     </listbox>
@@ -173,7 +150,7 @@
                                                     border-bottom: 0.1em double rgb(0, 0, 0, 0.4);">
 
                                     <!--For Mobile-->
-                                    <div sclass="w3-row w3-hide-large w3-hide-medium" style="white-space: normal;">
+                                    <div sclass="w3-row w3-hide-large" style="white-space: normal;">
                                         <div sclass="w3-col w3-white w3-center w3-padding-16">
                                             <image src="${each.obra.pathcapa}" sclass="w3-card-4 w3-padding-16"
                                                    style="width: 100%; height:120px; width:89px;"/>
@@ -211,50 +188,45 @@
 
                                     <!-- For no Mobile-->
 
+                                        <div sclass="w3-container w3-hide-small w3-hide-medium w3-padding-16"  style="white-space: normal;">
+
+                                            <div sclass="w3-container w3-white w3-left" style="width: 20%; position: relative;">
+                                                <image src="${each.obra.pathcapa}" sclass="w3-card-4 w3-padding-16"
+                                                       style="width: 100%; height:208px; width:145px;"/>
+                                            </div>
+                                            <div sclass="w3-container w3-rest w3-display-container w3-white w3-left  w3-card-4 w3-padding-16"
+                                                 style="width: 80%; position: relative;">
+                                                <label sclass="w3-col w3-xlarge w3-left" value="${each.obra.titulo}"
+                                                       style=" line-height: 1.4em;"/>
+                                                <div sclass="w3-left" style="display: grid;">
+                                                    <div sclass="w3-left">
+                                                        <label sclass="normalText" value="Por:"/>
+                                                        <label sclass="normalText " forEach="${each.obra.autores}"  value="${each.nome}"/>
+                                                    </div>
+                                                    <div sclass="w3-padding-16">
+                                                        <button label="Remover da cesta" forward="onClick=cestaListBox.onRemoverDaCesta"
+                                                                mold="os"  sclass="w3-bar-item w3-btn w3-light-gray w3-col" />
+                                                    </div>
+                                                    <div sclass="w3-row w3-left">
+                                                        <hlayout>
+                                                            <div  sclass="w3-col w3-white w3-center">
+                                                                <button  sclass="w3-btn w3-light-gray "
+                                                                         label="-" forward="onClick=cestaListBox.onReduzirQtd" mold="os"/>
+                                                                <button  sclass="w3-btn w3-light-gray"
+                                                                         label="+" forward="onClick=cestaListBox.onAumentarQtd" mold="os"/>
+                                                            </div>
+                                                            <vlayout  style="text-align: center;">
+                                                                <label value="${each.quantidade}"
+                                                                       style="font-size: x-large; font-weight: bold;"/>
+                                                                <label value="(Quantidade)" sclass="tinylText"/>
+                                                            </vlayout>
+
+                                                        </hlayout>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </listcell>
-                                    <!--<hlayout style="background-color: white; border-style: none;">-->
-                                            <!--<div width="208px" height="208px" style="background-color: white;">-->
-                                                <!--<image src="${each.obra.pathcapa}" width="145px" height="208px"-->
-                                                       <!--style="padding-left: 31.5px;"/>-->
-                                            <!--</div>-->
-                                            <!--<vlayout>-->
-                                                <!--<div style="background-color: white; border-style: none; line-height: 1.4em;">-->
-                                                    <!--<div>-->
-                                                        <!--<label value="${each.obra.titulo}"-->
-                                                               <!--style="font-size: large; font-weight: bold; padding: 2px 2px 2px 2px; font-size: 1.5em;"/>-->
-                                                    <!--</div>-->
-                                                    <!--<div>-->
-                                                        <!--<label value="Por:"/>-->
-                                                        <!--<label forEach="${each.obra.autores}"  value="${each.nome}"/>-->
-                                                    <!--</div>-->
-                                                    <!--<div>-->
-                                                        <!--<label value="${each.obra.anoPublicacao}"/>-->
-                                                    <!--</div>-->
-                                                    <!--<div>-->
-                                                        <!--&lt;!&ndash;<label value="${each.obra.tipoobra.descricao}"/>&ndash;&gt;-->
-                                                    <!--</div>-->
-                                                <!--</div>-->
-                                                <!--<div style="background-color: white; border-style: none;">-->
-                                                    <!--<div style="line-height: 6em; padding-top: 1em;">-->
-                                                        <!--<button label="Remover da cesta" forward="onClick=cestaListBox.onRemoverDaCesta"-->
-                                                                <!--mold="os"  sclass="button" />-->
-
-                                                    <!--</div>-->
-                                                <!--</div>-->
-                                            <!--</vlayout>-->
-                                        <!--</hlayout>-->
-                                    <!--</listcell>-->
-                                    <!--<listcell  style="background-color: white; border-style: none;-->
-                                                    <!--border-bottom: 0.1em double rgb(0, 0, 0, 0.4);">-->
-                                        <!--<vlayout style="text-align: center;" spacing="10%">-->
-                                            <!--<label value="${each.quantidade}"-->
-                                                   <!--style="font-size: x-large; font-weight: bold;"/>-->
-                                            <!--<hlayout>-->
-                                                <!--<button  sclass="button"  label="-" forward="onClick=cestaListBox.onReduzirQtd" mold="os"/>-->
-                                                <!--<button  sclass="button" label="+" forward="onClick=cestaListBox.onAumentarQtd" mold="os"/>-->
-                                            <!--</hlayout>-->
-                                        <!--</vlayout>-->
-
                                 </listitem>
                             </template>
                             <listfoot >
@@ -262,7 +234,7 @@
                             </listfoot>
                         </listbox>
                         <button     label="Requisitar" forward="onClick=cestaListBox.onRequisitarObra"
-                                    mold="os"  sclass="w3-btn w3-light-gray"/>
+                                    mold="os"  sclass="w3-btn w3-black"/>
                     </vlayout>
                 </column>
             </columns>

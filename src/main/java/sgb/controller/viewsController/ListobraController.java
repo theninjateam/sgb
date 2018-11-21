@@ -121,12 +121,30 @@ public class ListobraController extends SelectorComposer<Component>
         gridCesta.setVisible(true);
     }
 
+    @Listen("onShowOperacoes = #obraListBox")
+    public void doShowOperacoes(ForwardEvent event)
+    {
+        Button btn = (Button)event.getOrigin().getTarget();
+        Div div = (Div) btn.getNextSibling();
+
+        if (div.isVisible())
+        {
+            btn.setLabel("Outras operações");
+            div.setVisible(false);
+        }
+        else
+        {
+            btn.setLabel("Ocultar operações");
+            div.setVisible(true);
+        }
+    }
+
     @Listen("onEliminarObra = #obraListBox")
     public void doEliminar(ForwardEvent event)
     {
 
         Button btn = (Button)event.getOrigin().getTarget();
-        Listitem litem = (Listitem)btn.getParent().getParent().getParent().getParent().getParent().getParent();
+        Listitem litem = (Listitem) getListitem(btn);
         Obra obra = (Obra) litem.getValue();
         Messagebox.show("Tem certeza que deseja eliminar a obra ?", "deletar obra",
                 Messagebox.YES + Messagebox.NO, Messagebox.QUESTION,
@@ -154,7 +172,7 @@ public class ListobraController extends SelectorComposer<Component>
 //        divCesta.setVisible(false);
         buttonListarObras.setVisible(false);
         Button btn = (Button)event.getOrigin().getTarget();
-        Listitem litem = (Listitem)btn.getParent().getParent().getParent().getParent().getParent().getParent();
+        Listitem litem = (Listitem) getListitem(btn);
         Obra obra = (Obra) litem.getValue();
 
         detalheobra.add(obra);
