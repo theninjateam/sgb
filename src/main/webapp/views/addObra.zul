@@ -145,7 +145,7 @@
                                                                                      id="autor"
                                                                                      disabled="false" value=""
                                                                                      hflex="1"/>
-                                                                            <button label="Addicioanr" id="addAuthor"/>
+                                                                            <button label="Addicionar" id="addAuthor"/>
                                                                         </hlayout>
 
                                                                     </hlayout>

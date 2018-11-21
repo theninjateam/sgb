@@ -2,6 +2,8 @@ target
 .idea
 
 .settings
-src/main/webapp/digitalLibrary/pdf/*
-src/main/webapp/digitalLibrary/cover/*
+porm.xml
+src/main/webapp/digitalLibrary/WEB-INF/applicationContext.xml
+.gitignore
+
 
