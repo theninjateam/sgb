@@ -1,7 +1,3 @@
 target
 .idea
 .settings
-porm.xml
-src/main/webapp/digitalLibrary/WEB-INF/applicationContext.xml
-WEB-INF/applicationContext.xml
-pom.xml
