@@ -5,7 +5,5 @@ target
 porm.xml
 src/main/webapp/digitalLibrary/WEB-INF/applicationContext.xml
 .gitignore
-
-
 WEB-INF/applicationContext.xml
 pom.xml
