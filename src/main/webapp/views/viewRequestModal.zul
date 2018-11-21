@@ -1,0 +1,119 @@
+<window id="modalDialog" title="Verificacao de Requisicao" border="normal" width="65%"
+        apply="sgb.controller.viewsController.viewRequestModalController"
+        position="center,center" closable="true"
+        action="show: slideDown;hide: slideUp">
+
+
+    <style>
+        *
+        {
+
+
+        }
+
+
+        .img {
+        max-width:100%;
+        max-height:100%;
+        width: auto;
+        height: auto;
+        }
+    </style>
+    <div style="padding:0px">
+        <tabbox>
+            <tabs>
+                <tab id="tab"></tab>
+            </tabs>
+            <tabpanels>
+                <tabpanel>
+                    <grid>
+                        <columns>
+                            <column/>
+                        </columns>
+                        <rows>
+
+                            <row>
+                                <listbox width="100%" id="emprestimoListBox">
+                                    <listhead>
+                                        <listheader
+                                                style=" font-size: large; font-align: center; padding: 1% 2%; background-color: DodgerBlue; color: white; border-style: none;"
+                                                width="35%" height="100%" label="Capa"/>
+                                        <listheader
+                                                style="font-size: large; font-align: center; padding: 1% 2%; background-color: DodgerBlue; color: white; border-style: none;"
+                                                width="35%" height="100%" label="Obra Requisitada"/>
+                                        <listheader
+                                                style="font-size: large; font-align: center; padding: 1% 2%; background-color: DodgerBlue; color: white; border-style: none;"
+                                                width="30%" height="100%" label="Operacoes"/>
+                                    </listhead>
+                                    <template name="model">
+                                        <listitem style="background-color: white; border-style: none;">
+                                            <listcell style="border-bottom: 2px double black;">
+                                                <div>
+                                                    <image sclass="img"
+                                                           src="${each.emprestimoPK.obra.pathcapa}"/>
+                                                </div>
+                                            </listcell>
+                                            <listcell style="border-bottom: 2px double black;">
+                                                <hlayout>
+
+                                                    <div>
+                                                        <div>
+                                                            <label style=" color:blue; font-size: medium; font-weight: bold;" value="${each.emprestimoPK.obra.tipoobra.descricao}"/>
+                                                        </div>
+                                                        <div>
+                                                            <label style=" font-size: small; font-weight: bold;" value="Titulo:"/>
+                                                            <label value="${each.emprestimoPK.obra.titulo}"/>
+                                                        </div>
+
+                                                        <div>
+                                                            <label style=" font-size: small; font-weight: bold;" value="Cota:"/>
+                                                            <label value="${each.emprestimoPK.obra.cota}"/>
+                                                        </div>
+                                                        <div>
+                                                            <label style=" font-size: small; font-weight: bold;"  value="Autores :"/>
+                                                            <label forEach="${each.emprestimoPK.obra.autores}"
+                                                                   value="${each.nome} e "/>
+                                                        </div>
+                                                        <div>
+                                                            <label style=" font-size: small; font-weight: bold;"  value="Idioma :"/>
+                                                            <label value="${each.emprestimoPK.obra.idioma.descricao}"/>
+                                                        </div>
+
+                                                        <div>
+                                                            <label style=" font-size: small; font-weight: bold;" value="Local Publicacao :"/>
+                                                            <label value="${each.emprestimoPK.obra.localpublicacao}"/>
+                                                        </div>
+
+                                                        <div>
+                                                            <label style=" font-size: small; font-weight: bold;" value="Qtdd Requisitada :"/>
+                                                            <label  value="${each.quantidade}"/>
+                                                        </div>
+
+                                                    </div>
+                                                </hlayout>
+                                            </listcell>
+                                            <listcell style="border-bottom: 2px double black;">
+                                                <div>
+                                                    <button label="Eliminar"
+                                                            forward="onClick=emprestimoListBox.onEliminarObra" style="font-size: large; font-weight: bold;"/>
+                                                    <button sclass="btn"  label="-" forward="onClick=emprestimoListBox.onReduzirQtd"
+                                                            style="font-size: large; font-weight: bold; "/>
+                                                    <button sclass="btn" label="+" forward="onClick=emprestimoListBox.onAumentarQtd"
+                                                            style="font-size: large; font-weight: bold;"/>
+                                                </div>
+                                            </listcell>
+                                        </listitem>
+                                    </template>
+                                </listbox>
+                            </row>
+                        </rows>
+                    </grid>
+                    <button style="background: red; color: white; font-size: large; float: right;" id="rejectBtn"
+                            hflex="1" label="Rejeitar Requisicao"/>
+                    <button style="background: green; color: white; font-size: large; float: right;" id="acceptBtn"
+                            hflex="1" label="Aceitar Requisicao"/>
+                </tabpanel>
+            </tabpanels>
+        </tabbox>
+    </div>
+</window>
