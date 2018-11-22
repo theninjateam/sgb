@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk>
+    <window id="" apply="sgb.controller.viewsController.ListobraController"
+            border="none" hflex="1" vflex="1" contentStyle="overflow:auto">
+        <div style="padding:0px">
+            <tabbox>
+                <tabs>
+                    <tab label="Lista Obras Disponiveis"/>
+                </tabs>
+                <tabpanels>
+                    <tabpanel>
+
+                        <grid>
+
+                            <columns>
+                                <column width="15%" label="Capa"/>
+                                <column width="60%" label="Descricao"/>
+                            </columns>
+
+                            <rows id="obra">
+                                <template name="model">
+                                <row>
+                                    <image width="100%" height="100%" src="${each.pathcapa}"/>
+                                    <hlayout>
+                                        <div>
+                                            <div>
+                                                <label value="Titulo:"/>
+                                                <label value="${each.titulo}"/>
+                                            </div>
+
+                                            <div>
+                                                <label value="Autores :"/>
+                                                <label value="${each.nome}" forEach="${each.autores}"/>
+                                            </div>
+                                            <div>
+                                                <label value="Idioma :"/>
+                                                <label value="${each.idioma.descricao}"/>
+                                            </div>
+                                            <div>
+                                                <label value="Tipo:"/>
+                                                <label value="${each.tipoobra.descricao}"/>
+                                            </div>
+                                            <div>
+                                                <label value="Local Publicacao :"/>
+                                                <label value="${each.localpublicacao}"/>
+                                            </div>
+                                            <div>
+                                                <button label="Eliminar"/>
+                                                <button label="Editar"/>
+                                                <button label="Detalhes"/>
+                                                <button label="Requisitar"/>
+                                            </div>
+                                        </div>
+                                    </hlayout>
+                                </row>
+                                </template>
+                            </rows>
+
+                        </grid>
+                    </tabpanel>
+                </tabpanels>
+            </tabbox>
+
+        </div>
+    </window>
+</zk>

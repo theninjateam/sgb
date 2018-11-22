@@ -1,2 +1,8 @@
+<<<<<<< HEAD
 target/
 .idea
+=======
+target
+.idea
+.settings
+>>>>>>> gestaoobras

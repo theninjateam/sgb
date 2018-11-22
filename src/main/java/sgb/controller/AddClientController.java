@@ -56,6 +56,7 @@ public class AddClientController extends SelectorComposer {
         if(str.equals("Pessoa Singular")) {
             grpData.setVisible(true);
             idInclData.setSrc("conta/clientdata.zul");
+            ((Textbox)idInclData.getFellow("txtRegnumber")).getValue();
         }else if(str.equals("Organização")){
             grpData.setVisible(true);
             idInclData.setSrc("conta/orgdata.zul");

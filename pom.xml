@@ -6,7 +6,6 @@
 	<version>6.5.0</version>
 	<packaging>war</packaging>
 
-
 	<properties>
 		<zkel.version>1.1.0</zkel.version>
 		<commons-lang.version>2.4</commons-lang.version>
@@ -92,13 +91,6 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>1.8.0-beta2</version>
-		</dependency>
-
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>3.8.1</version>
-			<scope>test</scope>
 		</dependency>
 
 		<!-- Spring framework -->
@@ -353,6 +345,13 @@
 			<version>${bsh.version}</version>
 			<scope>runtime</scope>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.4</version>
+		</dependency>
+
 
 		<!--<dependency>-->
 		<!--<groupId>postgresql</groupId>-->
@@ -372,14 +371,19 @@
 			<artifactId>commons-dbcp</artifactId>
 			<version>1.4</version>
 		</dependency>
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>RELEASE</version>
+			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
-
-
+		<!--https://mvnrepository.com/artifact/org.zkoss.zats/zats-mimic-->
+		<dependency>
+			<groupId>org.zkoss.zats</groupId>
+			<artifactId>zats-mimic</artifactId>
+			<version>2.0.1-FL-2018012915</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>${project.artifactId}</finalName>
@@ -449,7 +453,7 @@
 			</executions>
 			</plugin>
 
-			<!--Run with Jetty-->
+			<!--&lt;!&ndash;Run with Jetty&ndash;&gt;-->
 			<!--<plugin>-->
 				<!--<groupId>org.mortbay.jetty</groupId>-->
 				<!--<artifactId>jetty-maven-plugin</artifactId>-->
