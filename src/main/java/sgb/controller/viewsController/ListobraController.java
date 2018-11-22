@@ -49,7 +49,7 @@ public class ListobraController extends SelectorComposer<Component>
     private Grid gridListObra;
 
     @Wire
-    private Button buttonListarObras;
+    private Button buttonVoltar;
     @Wire
     private Grid gridCesta;
 
@@ -98,17 +98,16 @@ public class ListobraController extends SelectorComposer<Component>
 
 
 
-    @Listen("onListarObras = #buttonListarObras")
+    @Listen("onVoltar = #buttonVoltar")
     public void listarObras(ForwardEvent event)
     {
         gridCesta.setVisible(false);
+        griddetalhe.setVisible(false);
         gridListObra.setVisible(true);
         buttonPesquisar.setVisible(true);
         textboxPesquisar.setVisible(true);
-        obraListModel.removeAll(obraListModel);
-        obraListModel.addAll(getObraListModel());
-
-
+        buttonVoltar.setVisible(false);
+        divCesta.setVisible(true);
     }
 
     @Listen("onShowCestaListBox = #divCesta")
@@ -119,6 +118,7 @@ public class ListobraController extends SelectorComposer<Component>
         textboxPesquisar.setVisible(false);
         griddetalhe.setVisible(false);
         gridCesta.setVisible(true);
+        buttonVoltar.setVisible(true);
     }
 
     @Listen("onShowOperacoes = #obraListBox")
@@ -169,12 +169,23 @@ public class ListobraController extends SelectorComposer<Component>
         gridListObra.setVisible(false);
         buttonPesquisar.setVisible(false);
         textboxPesquisar.setVisible(false);
+        buttonVoltar.setVisible(true);
         gridCesta.setVisible(false);
+        divCesta.setVisible(false);
 //        divCesta.setVisible(false);
-        buttonListarObras.setVisible(false);
+
         Button btn = (Button)event.getOrigin().getTarget();
         Listitem litem = (Listitem) getListitem(btn);
         Obra obra = (Obra) litem.getValue();
+
+        for (Obra o : getObraListModel())
+        {
+            if (o.getCota().equals(obra.getCota()))
+            {
+                obra = o;
+                break;
+            }
+        }
 
         detalheobra.add(obra);
         detalheobra.addSelection(obra);

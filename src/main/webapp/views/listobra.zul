@@ -7,18 +7,22 @@
     <window id="listObra" apply="sgb.controller.viewsController.ListobraController"
             border="none" hflex="1" vflex="1" contentStyle="overflow:auto">
 
+        <!--For Mobile and no Mobile-->
+        <button  visible="false" label="Voltar"  id="buttonVoltar"
+                 forward="onClick=buttonVoltar.onVoltar"
+                 mold="os" sclass="w3-btn w3-light-gray" style="text-align: left;"/>
 
-        <!--For Mobile-->
         <div sclass="w3-display-container w3-white w3-top w3-opacity-min " id="divCesta"
              forward="onClick=divCesta.onShowCestaListBox"
-             style="background-color: white; cursor: pointer; position: absolute; right: 2px; width:auto; height: auto;">
-            <div style="height: 10px;">
+             style="background-color: white; cursor: pointer; position: absolute; right: 2%; width:auto; height: auto;">
+            <div style="height: 20px;">
             </div>
             <image sclass="w3-card-4 " src="img/basket.jpg" width="50px" height="50px"/>
             <label sclass="w3-display-middle w3-large" value="0"  id="qtdObrasNaCesta"
                    mold="default"/>
         </div>
 
+        <!--For Mobile-->
         <grid id="gridPesquisar" visible="true" style="border-style: none;" >
             <columns>
                 <column style="text-align: left; background-color: white;" width="100%"  >
@@ -36,9 +40,7 @@
                             mold="os" sclass="w3-btn w3-light-gray"/>
                     </div>
 
-
                     <!-- For no Mobile-->
-
                 </column>
             </columns>
         </grid>
@@ -48,24 +50,23 @@
                 <column style="background-color: white;  border-style: none;  " width="100%" >
                     <listbox visible="true" style=" border-style: none;" hflex="1" id="obraListBox" emptyMessage="Nenhuma Obra Encontrada">
                         <template name="model" var="obra">
-                            <listitem  style="background-color: white; border-style: none;">
+                            <listitem  style="background-color: white; border-style:">
                                 <listcell  style="background-color: white; border-style: none;
                                                     border-bottom: 0.1em double rgb(0, 0, 0, 0.4);">
-
                                     <!--For Mobile-->
-                                    <div sclass="w3-row w3-hide-large" style="white-space: normal;">
+                                    <div sclass="w3-row w3-hide-large" style="white-space: normal;  line-height: 1.25;  none;">
                                         <div sclass="w3-col w3-white w3-center w3-padding-16">
                                             <image src="${each.pathcapa}" sclass="w3-card-4"
                                                    style="width: 100%; height:160px; width:129px;"/>
                                         </div>
 
-                                        <div  sclass="w3-col w3-white w3-center">
-                                            <label sclass="subTitleMob" value="${each.titulo}"/>
+                                        <div  sclass="w3-col w3-white w3-center w3-padding-8">
+                                            <label sclass="w3-large" value="${each.titulo}"/>
                                         </div>
 
                                         <div  sclass="w3-col w3-white w3-center">
-                                            <label sclass="normalText" value="Por:"/>
-                                            <label sclass="normalText" forEach="${each.autores}"  value="{${each.nome}}"
+                                            <label sclass="w3-tiny" value="Por:"/>
+                                            <label sclass="w3-tiny" forEach="${each.autores}"  value="${each.nome}. "
                                                    style="white-space: normal;"/>
                                         </div>
 
@@ -90,7 +91,7 @@
                                     </div>
 
                                     <!-- For no Mobile-->
-                                    <div sclass="w3-container w3-hide-small w3-hide-medium w3-padding-16"  style="white-space: normal;">
+                                    <div sclass="w3-container w3-hide-small w3-hide-medium w3-padding-16"  style="white-space: normal; line-height: 1.25;">
 
                                         <div sclass="w3-container w3-white w3-left " style="width: 20%; position: relative;">
                                             <image src="${each.pathcapa}" sclass="w3-card-4 "
@@ -102,8 +103,8 @@
                                             style=" line-height: 1.4em;"/>
                                             <div sclass="w3-left" style="display: grid;">
                                                 <div sclass="w3-left">
-                                                    <label sclass="normalText" value="Por:"/>
-                                                    <label sclass="normalText " forEach="${each.autores}"  value="${each.nome}"/>
+                                                    <label sclass="w3-medium" value="Por:"/>
+                                                    <label sclass="w3-medium " forEach="${each.autores}"  value="${each.nome}. "/>
                                                 </div>
                                                 <div sclass="w3-padding-16">
                                                     <button  label="Adicionar na cesta" forward="onClick=obraListBox.onAdicionarNaCesta"
@@ -132,39 +133,32 @@
         </grid>
 
         <grid id="gridCesta" visible="false" style="border-style: none;">
-            <columns>
+            <columns style=" background-color: white;  border-style: none;">
                 <column style=" background-color: white;  border-style: none;" width="100%" >
-
-                    <button  visible="true" label="Voltar"  id="buttonListarObras"
-                             forward="onClick=buttonListarObras.onListarObras"
-                             mold="os" sclass="w3-btn w3-light-gray" style="text-align: left;"/>
-
                     <vlayout   style="text-align: center;">
                         <listbox    style=" text-align: left;"  id="cestaListBox"
                                    emptyMessage="Cesta vazia">
                             <listhead >
                                 <listheader hflex="1" style="background-color: lightgray; border-style: none; text-align: center;" width="100%" height="100%" label="Cesta de livros"/>
                             </listhead>
-
                             <template name="model">
                                 <listitem  style="background-color: white; border-style: none;">
                                     <listcell style="background-color: white; border-style: none;
                                                     border-bottom: 0.1em double rgb(0, 0, 0, 0.4);">
-
                                     <!--For Mobile-->
-                                    <div sclass="w3-row w3-hide-large" style="white-space: normal;">
+                                    <div sclass="w3-row w3-hide-large" style="white-space: normal; line-height: 1.25;">
                                         <div sclass="w3-col w3-white w3-center w3-padding-16">
                                             <image src="${each.obra.pathcapa}" sclass="w3-card-4"
                                                    style="width: 100%; height:160px; width:129px;"/>
                                         </div>
 
                                         <div  sclass="w3-col w3-white w3-center">
-                                            <label sclass="subTitleMob" value="${each.obra.titulo}"/>
+                                            <label sclass="w3-large" value="${each.obra.titulo}"/>
                                         </div>
 
                                         <div  sclass="w3-col w3-white w3-center">
-                                            <label sclass="normalText" value="Por:"/>
-                                            <label sclass="normalText" forEach="${each.obra.autores}"  value="${each.nome}"
+                                            <label sclass="w3-tiny" value="Por:"/>
+                                            <label sclass="w3-tiny" forEach="${each.obra.autores}"  value="${each.nome}. "
                                                    style="white-space: normal;"/>
                                         </div>
 
@@ -178,7 +172,7 @@
                                             <vlayout  style="text-align: center;">
                                                 <label value="${each.quantidade}"
                                                        style="font-size: x-large; font-weight: bold;"/>
-                                                <label value="(Quantidade)" sclass="normalText"/>
+                                                <label value="(Quantidade)" sclass="w3-tiny"/>
                                             </vlayout>
 
                                             <div  sclass="w3-col w3-white w3-center">
@@ -206,8 +200,8 @@
                                                        style=" line-height: 1.4em;"/>
                                                 <div sclass="w3-left" style="display: grid;">
                                                     <div sclass="w3-left">
-                                                        <label sclass="normalText" value="Por:"/>
-                                                        <label sclass="normalText " forEach="${each.obra.autores}"  value="${each.nome}"/>
+                                                        <label sclass="w3-medium" value="Por:"/>
+                                                        <label sclass="w3-mediu " forEach="${each.obra.autores}"  value="${each.nome}. "/>
                                                     </div>
                                                     <div sclass="w3-padding-16">
                                                         <button label="Remover da cesta" forward="onClick=cestaListBox.onRemoverDaCesta"
@@ -224,7 +218,7 @@
                                                             <vlayout  style="text-align: center;">
                                                                 <label  value="${each.quantidade}"
                                                                         style="font-size: x-large; font-weight: bold;"/>
-                                                                <label value="(Quantidade)" sclass="tinylText"/>
+                                                                <label value="(Quantidade)" sclass="w3-medium"/>
                                                             </vlayout>
                                                         </hlayout>
                                                     </div>
@@ -247,49 +241,148 @@
 
         <grid id="griddetalhe" visible="false" style="border-style: none;">
             <columns>
-                <column label="Obras" style="font-size: larger; text-align: left;
-                                background-color: white;  border-style: none;  padding: 5px 5px 5px 5px;" width="100%" >
+                <column>
                     <listbox visible="true" style="border-style: none;" hflex="1" id="obraShow" emptyMessage="Nenhuma Obra Encontrada">
                         <listhead style="border-style: none;">
-                            <listheader  hflex="1" style="padding: 10px 20px; background-color: lightgray; border-style: none;"    height="100%" label=" "/>
-                            <listheader  hflex="1" style="padding: 10px 20px; background-color: lightgray; border-style: none;"    height="100%" label=" "/>
+                            <listheader  hflex="1" style="background-color: lightgray; border-style: none; text-align: center;" height="100%" label="Detalhes"/>
                         </listhead>
                         <template name="model">
                             <listitem  style="background-color: white; border-style: none;">
-                                <listcell style="padding: 2px 20px; background-color: white; border-style: none;
-                                                    border-bottom: 2px double black;">
-                                    <image width="100%" height="100%"  src="${each.pathcapa}"/>
-                                </listcell>
-                                <listcell style="padding: 2px 20px; background-color: white; border-style: none;
-                                                    border-bottom: 2px double black;">
-                                    <hlayout style="background-color: white; border-style: none;">
-                                        <div style="background-color: white; border-style: none;">
-                                            <div>
-                                                <label value="${each.cota}"
-                                                       style="font-size: large; font-weight: bold; padding: 2px 2px 2px 2px; font-size: 15px;"/>
-                                            </div>
-                                            <div>
-                                                <label value="${each.titulo}"
-                                                       style="font-size: large; font-weight: bold; padding: 2px 2px 2px 2px; font-size: 15px;"/>
-                                            </div>
+                                <listcell  style="background-color: white; border-style: none;
+                                                    border-bottom: 0.1em double rgb(0, 0, 0, 0.4);">
+                                    <!--For Mobile-->
+                                    <div sclass="w3-row w3-hide-large" style="white-space: normal;">
+                                        <div sclass="w3-col w3-white w3-center w3-padding-16">
+                                            <image src="${each.pathcapa}" sclass="w3-card-4"
+                                                   style="width: 100%; height:160px; width:129px;"/>
+                                        </div>
 
-                                            <div>
-                                                <label value="Por:"/>
-                                                <label forEach="${each.autores}"  value="${each.nome } "/>
-                                            </div>
-                                            <div>
-                                                <!--<label value="(${each.tipoobra.descricao})"/>-->
-                                            </div>
-                                            <div style="line-height: 6em; display: run-in; box-sizing: border-box;">
-                                                <button  label="Eliminar" forward="onClick=obraListBox.onEliminarObra"
-                                                         mold="os" sclass="button" />
-                                                <button    label="Editar" forward="onClick=obraListBox.onEditarObra"
-                                                           mold="os" sclass="button" />
-                                                <button  label="Adicionar na Cesta" forward="onClick=obraListBox.onAdicionarNaCesta"
-                                                         mold="os" sclass="button"/>
+                                        <div  sclass="w3-col w3-white w3-center">
+                                            <label sclass="w3-large" value="${each.titulo}"/>
+                                        </div>
+
+                                        <div  sclass="w3-col w3-white w3-center">
+                                            <label sclass="w3-tiny" value="Por:"/>
+                                            <label sclass="w3-tiny" forEach="${each.autores}"  value="${each.nome}. "
+                                                   style="white-space: normal;"/>
+                                        </div>
+
+                                        <div sclass="w3-padding-16"></div>
+                                        <div  sclass="w3-col w3-white w3-left">
+                                            <label sclass="w3-tiny" value="Cota:"/>
+                                            <label sclass="w3-tiny" value="${each.cota}."
+                                                   style="white-space: normal; font-weight: bolder;"/>
+                                        </div>
+
+                                        <div  sclass="w3-col w3-white w3-left">
+                                            <label sclass="w3-tiny" value="Registro:"/>
+                                            <label sclass="w3-tiny" value="${each.registro}."
+                                                   style="white-space: normal; font-weight: bolder;"/>
+                                        </div>
+
+
+                                        <div  sclass="w3-col w3-white w3-left">
+                                            <label sclass="w3-tiny" value="Quantidade disponível:"/>
+                                            <label sclass="w3-tiny" value="${each.quantidade}."
+                                                   style="white-space: normal; font-weight: bolder;"/>
+                                        </div>
+
+                                        <div  sclass="w3-col w3-white w3-left">
+                                            <label sclass="w3-tiny" value="Área científica:"/>
+                                            <label sclass="w3-tiny" value="${each.areacientifica.descricao}."
+                                                   style="white-space: normal; font-weight: bolder;"/>
+                                        </div>
+
+                                        <div  sclass="w3-col w3-white w3-left">
+                                            <label sclass="w3-tiny" value="Ano:"/>
+                                            <label sclass="w3-tiny" value="${each.anoPublicacao}."
+                                                   style="white-space: normal; font-weight: bolder;"/>
+                                        </div>
+
+                                        <div if="${each.tipoobra.descricao == 'Livro'}"  sclass="w3-col w3-white w3-left">
+                                            <label sclass="w3-tiny" value="Editora:"/>
+                                            <label sclass="w3-tiny" value="${each.livro.editora}."
+                                                   style="white-space: normal; font-weight: bolder;"/>
+                                        </div>
+
+                                        <div if="${each.tipoobra.descricao == 'Revista'}"  sclass="w3-col w3-white w3-left">
+                                            <label sclass="w3-tiny" value="Instituição:"/>
+                                            <label sclass="w3-tiny" value="${each.revista.instituicao}."
+                                                   style="white-space: normal; font-weight: bolder;"/>
+                                        </div>
+
+                                        <div sclass="w3-col w3-white w3-left">
+                                            <label sclass="w3-tiny" value="Local de publicação:"/>
+                                            <label sclass="w3-tiny" value="${each.localpublicacao}."
+                                                   style="white-space: normal; font-weight: bolder;"/>
+                                        </div>
+                                    </div>
+
+                                    <!-- For no Mobile-->
+                                    <div sclass="w3-container w3-hide-small w3-hide-medium w3-padding-16"  style="white-space: normal;">
+
+                                        <div sclass="w3-container w3-white w3-left " style="width: 20%; position: relative;">
+                                            <image src="${each.pathcapa}" sclass="w3-card-4 "
+                                                   style="width: 100%; height:208px; width:145px;"/>
+                                        </div>
+                                        <div sclass="w3-container w3-rest w3-display-container w3-white w3-left  w3-card-4 w3-padding-16"
+                                             style="width: 80%; position: relative;">
+                                            <label sclass="w3-col w3-xlarge w3-left" value="${each.titulo}"
+                                                   style=" line-height: 1.4em;"/>
+                                            <div sclass="w3-left" style="display: grid;">
+
+                                                <div sclass="w3-padding-16"></div>
+                                                <div  sclass="w3-col w3-white w3-left">
+                                                    <label sclass="w3-medium" value="Cota:"/>
+                                                    <label sclass="w3-medium" value="${each.cota}."
+                                                           style="white-space: normal; font-weight: bolder;"/>
+                                                </div>
+
+                                                <div  sclass="w3-col w3-white w3-left">
+                                                    <label sclass="w3-tiny" value="Registro:"/>
+                                                    <label sclass="w3-tiny" value="${each.registro}."
+                                                           style="white-space: normal; font-weight: bolder;"/>
+                                                </div>
+
+                                                <div  sclass="w3-col w3-white w3-left">
+                                                    <label sclass="w3-medium" value="Quantidade disponível:"/>
+                                                    <label sclass="w3-medium" value="${each.quantidade}."
+                                                           style="white-space: normal; font-weight: bolder;"/>
+                                                </div>
+
+                                                <div  sclass="w3-col w3-white w3-left">
+                                                    <label sclass="w3-medium" value="Área científica:"/>
+                                                    <label sclass="w3-medium" value="${each.areacientifica.descricao}."
+                                                           style="white-space: normal; font-weight: bolder;"/>
+                                                </div>
+
+                                                <div  sclass="w3-col w3-white w3-left">
+                                                    <label sclass="w3-medium" value="Ano:"/>
+                                                    <label sclass="w3-medium" value="${each.anoPublicacao}."
+                                                           style="white-space: normal; font-weight: bolder;"/>
+                                                </div>
+
+                                                <div if="${each.tipoobra.descricao == 'Livro'}"  sclass="w3-col w3-white w3-left">
+                                                    <label sclass="w3-medium" value="Editora:"/>
+                                                    <label sclass="w3-medium" value="${each.livro.editora}."
+                                                           style="white-space: normal; font-weight: bolder;"/>
+                                                </div>
+
+                                                <div if="${each.tipoobra.descricao == 'Revista'}"  sclass="w3-col w3-white w3-left">
+                                                    <label sclass="w3-medium" value="Instituição:"/>
+                                                    <label sclass="w3-medium" value="${each.revista.instituicao}."
+                                                           style="white-space: normal; font-weight: bolder;"/>
+                                                </div>
+
+                                                <div sclass="w3-col w3-white w3-left">
+                                                    <label sclass="w3-medium" value="Local de publicação:"/>
+                                                    <label sclass="w3-medium" value="${each.localpublicacao}."
+                                                           style="white-space: normal; font-weight: bolder;"/>
+                                                </div>
+
                                             </div>
                                         </div>
-                                    </hlayout>
+                                    </div>
                                 </listcell>
                             </listitem>
                         </template>
