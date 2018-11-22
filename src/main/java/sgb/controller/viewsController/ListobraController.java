@@ -381,6 +381,11 @@ public class ListobraController extends SelectorComposer<Component>
             Clients.showNotification("Voce so pode requisitar '"+ getQtdMaxObras()+"' obras no maximo",null,null,null,5000);
             return;
         }
+        else if (getQtdExemplaresNaCesta(obra) + 1 > obra.getQuantidade() )
+        {
+            Clients.showNotification("So existem '"+ obra.getQuantidade() +"' exemplares dessa obra",null,null,null,5000);
+            return;
+        }
 
         boolean obraExists = false;
         Item item = new Item();
@@ -401,8 +406,6 @@ public class ListobraController extends SelectorComposer<Component>
             item.setObra(obra);
             item.setQuantidade(1);
             cestaListModel.add(item);
-
-
         }
         else
         {
@@ -459,6 +462,11 @@ public class ListobraController extends SelectorComposer<Component>
             Clients.showNotification("Voce so pode requisitar '"+ getQtdMaxObras()+"' obras no maximo",null,null,null,5000);
             return;
         }
+        else if (getQtdExemplaresNaCesta(item.getObra()) + 1 > item.getObra().getQuantidade() )
+        {
+            Clients.showNotification("So existem '"+ item.getObra().getQuantidade() +"' exemplares dessa obra",null,null,null,5000);
+            return;
+        }
 
         item.setQuantidade(item.getQuantidade() + 1);
 
@@ -511,5 +519,17 @@ public class ListobraController extends SelectorComposer<Component>
 
             component = component.getParent();
         }
+    }
+
+    public int getQtdExemplaresNaCesta(Obra obra)
+    {
+        for ( Item item: cestaListModel)
+        {
+            if (item.getObra().getCota().equals(obra.getCota()))
+            {
+                return item.getQuantidade();
+            }
+        }
+        return 0;
     }
 }
