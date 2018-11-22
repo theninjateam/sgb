@@ -1,0 +1,103 @@
+<groupbox mold="3d">
+    <caption sclass="folder" label="${labels.livroinfo}"/>
+
+    <grid>
+        <columns sizable="true">
+            <column hflex="1" vflex="1"/>
+        </columns>
+        <rows>
+
+            <row>
+                <hlayout vflex="1" hflex="1" sclass="second-layout">
+                    <div sclass="description-area" height="100%">
+                        <span sclass="input-group-addon">ISBN</span>
+                    </div>
+
+                    <div sclass="description-area" height="100%">
+                        <textbox sclass="form-control" id="isbn"
+                                 disabled="false" value="" hflex="1"
+                                 constraint=" no Empty: Preenche o campo!"/>
+                    </div>
+                </hlayout>
+            </row>
+
+            <row>
+                <hlayout vflex="1" hflex="1" sclass="second-layout">
+                    <div sclass="description-area" height="100%">
+                        <span sclass="input-group-addon">Codigo de
+                            Barra
+                        </span>
+                    </div>
+
+                    <div sclass="description-area" height="100%">
+                        <textbox sclass="form-control" id="codigobarra"
+                                 disabled="false" value="" hflex="1"
+                                 constraint=" no Empty: Preenche o campo!"/>
+                    </div>
+                </hlayout>
+            </row>
+
+            <row>
+                <hlayout vflex="1" hflex="1" sclass="second-layout">
+                    <div sclass="description-area" height="100%">
+                        <span sclass="input-group-addon">Editora</span>
+                    </div>
+
+                    <div sclass="description-area" height="100%">
+                        <textbox sclass="form-control" id="editora"
+                                 disabled="false" value="" hflex="1"
+                                 constraint=" no Empty: Preenche o campo!"/>
+                    </div>
+                </hlayout>
+            </row>
+            <row>
+                <hlayout vflex="1" hflex="1" sclass="second-layout">
+                    <div sclass="description-area" height="100%">
+                        <span sclass="input-group-addon">Edicao
+                        </span>
+                    </div>
+
+                    <div sclass="description-area" height="100%">
+                        <intbox sclass="form-control"
+                                id="edicao" disabled="false"
+                                hflex="1"
+                                constraint=" no Empty: Preenche o campo!"/>
+                    </div>
+                </hlayout>
+            </row>
+
+            <row>
+                <hlayout vflex="1" hflex="1" sclass="second-layout">
+                    <div sclass="description-area" height="100%">
+                        <span sclass="input-group-addon">volume
+                        </span>
+                    </div>
+
+                    <div sclass="description-area" height="100%">
+                        <intbox sclass="form-control"
+                                id="volume" disabled="false"
+                                hflex="1"
+                                constraint=" no Empty: Preenche o campo!"/>
+                    </div>
+                </hlayout>
+            </row>
+
+            <row>
+                <hlayout vflex="1" hflex="1" sclass="second-layout">
+                    <div sclass="description-area" height="100%">
+                        <span sclass="input-group-addon">Anexo</span>
+                    </div>
+
+                    <div sclass="description-area" height="100%">
+                        O Livro vem com disco em anexo ?:
+                        <label id="escolha"/>
+                        <radiogroup id="anexocd" onCheck="escolha.value=self.selectedItem.label" >
+                            <radio id="sim" label="Sim"  />
+                            <radio id="nao" label="Nao"/>
+                        </radiogroup>
+                    </div>
+                </hlayout>
+            </row>
+        </rows>
+    </grid>
+</groupbox>

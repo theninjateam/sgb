@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk>
+    <window id="listObra" apply="sgb.controller.viewsController.listRequestsController"
+            border="none" hflex="1" vflex="1" contentStyle="overflow:auto">
+        <div style="padding:0px">
+            <tabbox>
+                <tabs>
+                    <tab label="${labels.obrainfo}"></tab>
+                </tabs>
+                <tabpanels>
+                    <tabpanel>
+                        <grid>
+                            <columns>
+                                <column width="100%">
+                                    <listbox width="100%" id="requestListBox">
+                                        <listhead>
+                                            <listheader style=" font-size: medium; padding: 1% 2%; background-color: DodgerBlue; color: white; border-style: none;" width="30%" height="100%" label="Requisitante"/>
+                                            <listheader style=" font-size: medium; padding: 1% 2%; background-color: DodgerBlue; color: white; border-style: none;" width="30%" height="100%" label="Tipo Usuario"/>
+                                            <listheader style=" font-size: medium; padding: 1% 2%; background-color: DodgerBlue; color: white; border-style: none;" width="40%" height="100%" label="Data de Entrada"/>
+
+                                        </listhead>
+                                        <template name="model">
+                                            <listitem >
+
+                                                <listcell forEach="${each.user}" >
+                                                    <label   value="${each.name} ${each.lastName}"/>
+                                                </listcell>
+                                                <listcell forEach="${each.user}" >
+                                                    <label  forEach="${each.roles}" value="${each.role}"/>
+                                                </listcell>
+                                                <listcell forEach="${each.pedidos[0]}" >
+                                                    <label   value="${each.dataentrada}"/>
+                                                </listcell>
+
+                                            </listitem>
+                                        </template>
+                                    </listbox>
+                                </column>
+                            </columns>
+                        </grid>
+                    </tabpanel>
+                </tabpanels>
+            </tabbox>
+        </div>
+    </window>
+
+    <!--<div apply="demo.window.modal_dialog.ModalDialogController">-->
+            <!--<button id="orderBtn" label="Order Coffee" autodisable="self" />-->
+        <!--</div>-->
+
+</zk>
+
+

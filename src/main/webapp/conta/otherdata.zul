@@ -1,0 +1,358 @@
+<tabbox>
+    <tabs>
+        <tab label="${labels.clientcontacts}"/>
+        <tab label="${labels.address}"/>
+        <tab label="${labels.properties}"/>
+        <tab label="${labels.vehicle}"/>
+        <tab label="${labels.economicactivity}"/>
+        <tab label="${labels.advertisement}"/>
+        <tab label="${labels.accouting}"/>
+        <tab label="${labels.certifcates}"/>
+        <tab label="${labels.inquiries}"/>
+    </tabs>
+    <tabpanels>
+        <tabpanel>
+            <grid mold="paging" pageSize="3">
+                <columns>
+                    <column hflex="1" label="${labels.prefcontact}"
+                            align="left"/>
+                    <column hflex="2" label="${labels.addcontact}"
+                            align="center"/>
+                    <column hflex="2" label="${labels.typeofcontact}"
+                            align="center"/>
+                    <column hflex="1" label="${labels.clientname}"
+                            align="center"/>
+                    <column hflex="1" label="${labels.surname}"
+                            align="center"/>
+                </columns>
+                <rows onClick='municipio.controller.AddClientController.setFormVisible()'>
+                    <row>
+                        <label>825407883</label>
+                        <label>846689637</label>
+                        <label>Secundario</label>
+                        <label>Elizete</label>
+                        <label>Joao</label>
+                    </row>
+                </rows>
+            </grid>
+
+            <toolbar id="" height="30px" align="start">
+                <button>${labels.btnnew}</button>
+                <button>${labels.btnsave}</button>
+                <button>${labels.btndelete}</button>
+            </toolbar>
+
+            <grid id="addContact" visible="false">
+                <columns sizable="true">
+                    <column hflex="1" vflex="1"/>
+                    <column hflex="1" vflex="1"/>
+                </columns>
+                <rows>
+                    <row>
+                        <hlayout vflex="1" hflex="1"
+                                 sclass="second-layout">
+                            <div sclass="description-area"
+                                 height="100%">
+                                <label value="${labels.clientname}"/>
+                            </div>
+                            <div sclass="description-area"
+                                 height="100%">
+                                <textbox value="" hflex="1" id=""/>
+                            </div>
+                        </hlayout>
+                        <hlayout vflex="1" hflex="1"
+                                 sclass="second-layout">
+                            <div sclass="description-area"
+                                 height="100%">
+                                <label value="${labels.surname}"/>
+                            </div>
+                            <div sclass="description-area"
+                                 height="100%">
+                                <textbox value="" hflex="1" id=""/>
+                            </div>
+                        </hlayout>
+                    </row>
+
+                    <row>
+                        <hlayout vflex="1" hflex="1"
+                                 sclass="second-layout">
+                            <div sclass="description-area"
+                                 height="100%">
+                                <label value="${labels.typeofcontact}"/>
+                            </div>
+                            <div sclass="description-area"
+                                 height="100%">
+                                <combobox hflex="1"
+                                          id="cmbTypeofcontact"
+                                          constraint=" no Empty: ${labels.selectone}">
+                                    <comboitem
+                                            label="${each.descricao}"/>
+                                </combobox>
+                            </div>
+                        </hlayout>
+
+                        <hlayout vflex="1" hflex="1"
+                                 sclass="second-layout">
+                            <div sclass="description-area"
+                                 height="100%">
+                                <label value="${labels.prefcontact}"/>
+                            </div>
+                            <div sclass="description-area"
+                                 height="100%">
+                                <combobox hflex="1" id="cmbPrefcontact"
+                                          constraint=" no Empty: ${labels.selectone}">
+                                    <comboitem
+                                            label="${each.descricao}"/>
+                                </combobox>
+                            </div>
+                        </hlayout>
+                    </row>
+                    <row>
+                        <hlayout vflex="1" hflex="1"
+                                 sclass="second-layout">
+                            <div sclass="description-area"
+                                 height="100%">
+                                <label value="${labels.addcontact}"/>
+                            </div>
+                            <div sclass="description-area"
+                                 height="100%">
+                                <combobox hflex="1" id="cmbAddlcontact"
+                                          constraint=" no Empty: ${labels.selectone}">
+                                    <comboitem
+                                            label="${each.descricao}"/>
+                                </combobox>
+                            </div>
+                        </hlayout>
+
+                        <hlayout vflex="1" hflex="1"
+                                 sclass="second-layout">
+                            <div sclass="description-area"
+                                 height="100%">
+                                <label value="${labels.tel}"/>
+                            </div>
+                            <textbox value="" hflex="1" id=""/>
+                        </hlayout>
+                    </row>
+
+                    <row>
+                        <hlayout vflex="1" hflex="1"
+                                 sclass="second-layout">
+                            <div sclass="description-area"
+                                 height="100%">
+                                <label value="${labels.email}"/>
+                            </div>
+                            <div sclass="description-area"
+                                 height="100%">
+                                <textbox value="" hflex="1" id=""/>
+                            </div>
+                        </hlayout>
+
+                        <hlayout vflex="1" hflex="1"
+                                 sclass="second-layout">
+                            <div sclass="description-area"
+                                 height="100%">
+                                <label value="${labels.altcontact}"/>
+                            </div>
+                            <div sclass="description-area"
+                                 height="100%">
+                                <textbox value="" hflex="1" id=""/>
+                            </div>
+                        </hlayout>
+
+                    </row>
+
+                    <row>
+                        <hlayout vflex="1" hflex="1"
+                                 sclass="second-layout">
+                            <div sclass="description-area"
+                                 height="100%">
+                                <label value="${labels.relationship}"/>
+                            </div>
+                            <div sclass="description-area"
+                                 height="100%">
+                                <combobox hflex="1" id="cmbRelationship"
+                                          constraint=" no Empty: ${labels.selectone}">
+                                    <comboitem
+                                            label="${each.descricao}"/>
+                                </combobox>
+                            </div>
+                        </hlayout>
+                        <hlayout vflex="1" hflex="1"
+                                 sclass="second-layout">
+                        </hlayout>
+                    </row>
+
+                </rows>
+            </grid>
+
+        </tabpanel>
+        <tabpanel>
+            <grid mold="paging" pageSize="3">
+                <columns>
+                    <column hflex="1" label="${labels.typeofaddress}"
+                            align="left"/>
+                    <column hflex="2" label="${labels.address}"
+                            align="center"/>
+                </columns>
+                <rows>
+                    <row>
+                        <label>Endereço Fisico</label>
+                        <label>Bairro Cimento, casa n 10, pemba, cabo
+                            delgado
+                        </label>
+                    </row>
+                </rows>
+            </grid>
+
+            <toolbar id="" height="30px" align="start">
+                <button>${labels.btnnew}</button>
+                <button>${labels.btnsave}</button>
+                <button>${labels.btndelete}</button>
+            </toolbar>
+            <grid>
+                <columns sizable="true">
+                    <column hflex="1" vflex="1"/>
+                    <column hflex="1" vflex="1"/>
+                </columns>
+                <rows>
+                    <row>
+                        <hlayout vflex="1" hflex="1"
+                                 sclass="second-layout">
+                            <div sclass="description-area"
+                                 height="100%">
+                                <label value="${labels.country}"/>
+                            </div>
+                            <div sclass="description-area"
+                                 height="100%">
+                                <combobox hflex="1" id="cmbCountry"
+                                          constraint=" no Empty: ${labels.selectone}">
+                                    <comboitem
+                                            label="${each.descricao}"/>
+                                </combobox>
+                            </div>
+                        </hlayout>
+                        <hlayout vflex="1" hflex="1"
+                                 sclass="second-layout">
+                            <div sclass="description-area"
+                                 height="100%">
+                                <label value="${labels.county}"/>
+                            </div>
+                            <div sclass="description-area"
+                                 height="100%">
+                                <combobox hflex="1" id="cmbCounty"
+                                          constraint=" no Empty: ${labels.selectone}">
+                                    <comboitem
+                                            label="${each.descricao}"/>
+                                </combobox>
+                            </div>
+                        </hlayout>
+                    </row>
+
+                    <row>
+                        <hlayout vflex="1" hflex="1"
+                                 sclass="second-layout">
+                            <div sclass="description-area"
+                                 height="100%">
+                                <label value="${labels.accountname}"/>
+                            </div>
+                            <div sclass="description-area"
+                                 height="100%">
+                                <combobox hflex="1" id="cmbAccountname"
+                                          constraint=" no Empty: ${labels.selectone}">
+                                    <comboitem
+                                            label="${each.descricao}"/>
+                                </combobox>
+                            </div>
+                        </hlayout>
+
+                        <hlayout vflex="1" hflex="1"
+                                 sclass="second-layout">
+                            <div sclass="description-area"
+                                 height="100%">
+                                <label value="${labels.typeofaddress}"/>
+                            </div>
+                            <div sclass="description-area"
+                                 height="100%">
+                                <combobox hflex="1"
+                                          id="cmbTypeofaddress"
+                                          constraint=" no Empty: ${labels.selectone}">
+                                    <comboitem
+                                            label="${each.descricao}"/>
+                                </combobox>
+                            </div>
+                        </hlayout>
+                    </row>
+                    <row>
+                        <hlayout vflex="1" hflex="1"
+                                 sclass="second-layout">
+                            <div sclass="description-area"
+                                 height="100%">
+                                <label value="${labels.address}"/>
+                            </div>
+                            <div sclass="description-area"
+                                 height="100%">
+                                <textbox value="" hflex="1" id=""/>
+                            </div>
+                        </hlayout>
+
+                        <hlayout vflex="1" hflex="1"
+                                 sclass="second-layout">
+                            <div sclass="description-area"
+                                 height="100%">
+                                <label value="${labels.adminpost}"/>
+                            </div>
+                            <div sclass="description-area"
+                                 height="100%">
+                                <combobox hflex="1" id="cmbAdminpost"
+                                          constraint=" no Empty: ${labels.selectone}">
+                                    <comboitem
+                                            label="${each.descricao}"/>
+                                </combobox>
+                            </div>
+                        </hlayout>
+                    </row>
+                    <row>
+
+                        <hlayout vflex="1" hflex="1"
+                                 sclass="second-layout">
+                            <div sclass="description-area"
+                                 height="100%">
+                                <label value="${labels.neighborhood}"/>
+                            </div>
+                            <div sclass="description-area"
+                                 height="100%">
+                                <combobox hflex="1" id="cmbNeighborhood"
+                                          constraint=" no Empty: ${labels.selectone}">
+                                    <comboitem
+                                            label="${each.descricao}"/>
+                                </combobox>
+                            </div>
+                        </hlayout>
+
+
+                        <hlayout vflex="1" hflex="1"
+                                 sclass="second-layout">
+                            <div sclass="description-area"
+                                 height="100%">
+                                <label value="${labels.invoceaddress}"/>
+                            </div>
+                            <div sclass="description-area"
+                                 height="100%">
+                                <checkbox id="l1"
+                                          label="${each.invoceaddress}"/>
+                            </div>
+                        </hlayout>
+                    </row>
+
+                </rows>
+            </grid>
+        </tabpanel>
+        <tabpanel></tabpanel>
+        <tabpanel></tabpanel>
+        <tabpanel></tabpanel>
+        <tabpanel></tabpanel>
+        <tabpanel></tabpanel>
+        <tabpanel></tabpanel>
+        <tabpanel></tabpanel>
+    </tabpanels>
+</tabbox>
