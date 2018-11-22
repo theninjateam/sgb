@@ -1,5 +1,0 @@
-target
-.idea
-.settings
-pom.xml
-src/main/webapp/WEB-INF/applicationContext.xml
