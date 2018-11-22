@@ -7,49 +7,46 @@
     <window id="listObra" apply="sgb.controller.viewsController.ListobraController"
             border="none" hflex="1" vflex="1" contentStyle="overflow:auto">
 
+
+        <!--For Mobile-->
+        <div sclass="w3-display-container w3-white w3-top w3-opacity-min " id="divCesta"
+             forward="onClick=divCesta.onShowCestaListBox"
+             style="background-color: white; cursor: pointer; position: absolute; right: 2px; width:auto; height: auto;">
+            <div style="height: 10px;">
+            </div>
+            <image sclass="w3-card-4 " src="img/basket.jpg" width="50px" height="50px"/>
+            <label sclass="w3-display-middle w3-large" value="0"  id="qtdObrasNaCesta"
+                   mold="default"/>
+        </div>
+
         <grid id="gridPesquisar" visible="true" style="border-style: none;" >
             <columns>
-                <column label="Pesquisa" style="text-align: left; background-color: white;" width="100%" >
-                    <hlayout width="100%">
-                        <vlayout  hflex="1">
-                            <textbox placeholder="informe o titulo da obra e pressione Enter" id="textboxPesquisar" width="100%"
-                                     forward="onOK=textboxPesquisar.onPesquisar,
-                                onChange=textboxPesquisar.onPesquisar"
-                                     style="padding: 10px 10px 10px 10px; background-color: white; border-style:double; font-weight: bold;
-                                    font-size: 15px;"/>
-                            <hlayout>
-                                <button label="Pesquisar"  id="buttonPesquisar"
-                                        forward="onClick=buttonPesquisar.onPesquisar"
-                                        mold="os" sclass="button" />
+                <column style="text-align: left; background-color: white;" width="100%"  >
 
-                                <button visible="true" label="Listar todas obras"  id="buttonListarObras"
-                                        forward="onClick=buttonListarObras.onListarObras"
-                                        mold="os" sclass="button"/>
-                            </hlayout>
-                        </vlayout>
-                        <div id="divCesta"  style="background-color: white; cursor: pointer; z-index: 10;"
-                             forward="onClick=divCesta.onShowCestaListBox">
-                            <image  src="img/basket.jpg" width="125px" height="125px" />
-                            <label value="0" id="qtdObrasNaCesta"
-                                   style="position:absolute; top: 25%; left: 47%;
-                             font-size: large; font-weight: bold;"/>
-                            <label value="Cesta"
-                                   style="position:absolute; top: 75%; left: 30%;
-                             font-size: large; font-weight: bold;"/>
-                        </div>
-                    </hlayout>
+                    <div sclass="w3-container w3-hide-large w3-white"
+                         style="white-space: normal; width: 100%;">
+                        <textbox  id="textboxPesquisar" forward="onOK=textboxPesquisar.onPesquisar,
+                        onChange=textboxPesquisar.onPesquisar" mold="default"
+                                  sclass="w3-left w3-white w3-card-4  w3-padding-16 w3-border" style="width: 80%;"/>
+                    </div>
+                    <div style="padding: 4px;"> </div>
+                    <div sclass="w3-container w3-left w3-hide-large">
+                        <button label="Pesquisar"  id="buttonPesquisar"
+                            forward="onClick=buttonPesquisar.onPesquisar"
+                            mold="os" sclass="w3-btn w3-light-gray"/>
+                    </div>
+
+
+                    <!-- For no Mobile-->
+
                 </column>
             </columns>
         </grid>
 
         <grid id="gridListObra" visible="true" style="border-style: none;">
             <columns>
-                <column label="Obras" style="font-size: larger; text-align: left;
-                                background-color: white;  border-style: none;  " width="100%" >
+                <column style="background-color: white;  border-style: none;  " width="100%" >
                     <listbox visible="true" style=" border-style: none;" hflex="1" id="obraListBox" emptyMessage="Nenhuma Obra Encontrada">
-                        <listhead style="border-style: none;">
-                            <listheader  hflex="1" style="padding: 10px 20px; background-color: lightgray; border-style: none;"    height="100%" label=" "/>
-                        </listhead>
                         <template name="model" var="obra">
                             <listitem  style="background-color: white; border-style: none;">
                                 <listcell  style="background-color: white; border-style: none;
@@ -58,8 +55,8 @@
                                     <!--For Mobile-->
                                     <div sclass="w3-row w3-hide-large" style="white-space: normal;">
                                         <div sclass="w3-col w3-white w3-center w3-padding-16">
-                                            <image src="${each.pathcapa}" sclass="w3-card-4 w3-padding-16"
-                                                   style="width: 100%; height:140px; width:109px;"/>
+                                            <image src="${each.pathcapa}" sclass="w3-card-4"
+                                                   style="width: 100%; height:160px; width:129px;"/>
                                         </div>
 
                                         <div  sclass="w3-col w3-white w3-center">
@@ -95,8 +92,8 @@
                                     <!-- For no Mobile-->
                                     <div sclass="w3-container w3-hide-small w3-hide-medium w3-padding-16"  style="white-space: normal;">
 
-                                        <div sclass="w3-container w3-white w3-left" style="width: 20%; position: relative;">
-                                            <image src="${each.pathcapa}" sclass="w3-card-4 w3-padding-16"
+                                        <div sclass="w3-container w3-white w3-left " style="width: 20%; position: relative;">
+                                            <image src="${each.pathcapa}" sclass="w3-card-4 "
                                                    style="width: 100%; height:208px; width:145px;"/>
                                         </div>
                                         <div sclass="w3-container w3-rest w3-display-container w3-white w3-left  w3-card-4 w3-padding-16"
@@ -136,12 +133,17 @@
 
         <grid id="gridCesta" visible="false" style="border-style: none;">
             <columns>
-                <column label="Cesta de livros" style=" background-color: white;  border-style: none;" width="100%" >
+                <column style=" background-color: white;  border-style: none;" width="100%" >
+
+                    <button  visible="true" label="Voltar"  id="buttonListarObras"
+                             forward="onClick=buttonListarObras.onListarObras"
+                             mold="os" sclass="w3-btn w3-light-gray" style="text-align: left;"/>
+
                     <vlayout   style="text-align: center;">
                         <listbox    style=" text-align: left;"  id="cestaListBox"
                                    emptyMessage="Cesta vazia">
                             <listhead >
-                                <listheader hflex="1" style="padding: 10px 20px; background-color: lightgray; border-style: none;" width="100%" height="100%" label=" "/>
+                                <listheader hflex="1" style="background-color: lightgray; border-style: none; text-align: center;" width="100%" height="100%" label="Cesta de livros"/>
                             </listhead>
 
                             <template name="model">
@@ -152,8 +154,8 @@
                                     <!--For Mobile-->
                                     <div sclass="w3-row w3-hide-large" style="white-space: normal;">
                                         <div sclass="w3-col w3-white w3-center w3-padding-16">
-                                            <image src="${each.obra.pathcapa}" sclass="w3-card-4 w3-padding-16"
-                                                   style="width: 100%; height:140px; width:109px;"/>
+                                            <image src="${each.obra.pathcapa}" sclass="w3-card-4"
+                                                   style="width: 100%; height:160px; width:129px;"/>
                                         </div>
 
                                         <div  sclass="w3-col w3-white w3-center">
@@ -193,10 +195,11 @@
 
                                         <div sclass="w3-container w3-hide-small w3-hide-medium w3-padding-16"  style="white-space: normal;">
 
-                                            <div sclass="w3-container w3-white w3-left" style="width: 20%; position: relative;">
-                                                <image src="${each.obra.pathcapa}" sclass="w3-card-4 w3-padding-16"
+                                            <div sclass="w3-container w3-white w3-left " style="width: 20%; position: relative;">
+                                                <image src="${each.obra.pathcapa}" sclass="w3-card-4 "
                                                        style="width: 100%; height:208px; width:145px;"/>
                                             </div>
+
                                             <div sclass="w3-container w3-rest w3-display-container w3-white w3-left  w3-card-4 w3-padding-16"
                                                  style="width: 80%; position: relative;">
                                                 <label sclass="w3-col w3-xlarge w3-left" value="${each.obra.titulo}"
