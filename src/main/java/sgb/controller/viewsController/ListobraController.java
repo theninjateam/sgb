@@ -113,7 +113,6 @@ public class ListobraController extends SelectorComposer<Component>
         buttonPesquisar.setVisible(true);
         textboxPesquisar.setVisible(true);
         buttonVoltar.setVisible(false);
-        divCesta.setVisible(true);
     }
 
     @Listen("onShowCestaListBox = #divCesta")
@@ -177,7 +176,6 @@ public class ListobraController extends SelectorComposer<Component>
         textboxPesquisar.setVisible(false);
         buttonVoltar.setVisible(true);
         gridCesta.setVisible(false);
-        divCesta.setVisible(false);
 //        divCesta.setVisible(false);
 
         Button btn = (Button)event.getOrigin().getTarget();

@@ -1,3 +1,7 @@
 target
 .idea
 .settings
+src/main/webapp/digitalLibrary/cover/*
+src/main/webapp/digitalLibrary/pdf/*
+
+

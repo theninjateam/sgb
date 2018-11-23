@@ -26,7 +26,7 @@
         <grid id="gridPesquisar" visible="true" style="border-style: none;" >
             <columns>
                 <column style="text-align: left; background-color: white;" width="100%"  >
-                    <!--For Mobile-->
+                    <!--For Mobile and no Mobile-->
                     <div sclass="w3-container w3-white"
                          style="white-space: normal; width: 100%;">
                         <textbox  id="textboxPesquisar" forward="onOK=textboxPesquisar.onPesquisar,
@@ -39,20 +39,6 @@
                             forward="onClick=buttonPesquisar.onPesquisar"
                             mold="os" sclass="w3-btn w3-light-gray"/>
                     </div>
-
-                    <!--&lt;!&ndash; For no Mobile&ndash;&gt;-->
-                    <!--<div sclass="w3-left w3-container w3-hide-small w3-hide-medium  w3-white"-->
-                         <!--style="white-space: normal; width: 100%;">-->
-                        <!--<textbox   forward="onOK=gridPesquisar.onPesquisar,-->
-                        <!--onChange=gridPesquisar.onPesquisar" mold="default"-->
-                                  <!--sclass="w3-left w3-white w3-card-4  w3-padding-16 w3-border" style="width: 90%;"/>-->
-                    <!--</div>-->
-                    <!--<div sclass="w3-container w3-left w3-hide-small w3-hide-medium  w3-padding-16">-->
-                        <!--<button label="Pesquisar"-->
-                                <!--forward="onClick=gridPesquisar.onPesquisar"-->
-                                <!--mold="os" sclass="w3-btn w3-light-gray"/>-->
-                    <!--</div>-->
-
                 </column>
             </columns>
         </grid>
@@ -279,6 +265,23 @@
                                                    style="white-space: normal;"/>
                                         </div>
 
+
+                                        <button  label="Adicionar na cesta" forward="onClick=obraListBox.onAdicionarNaCesta"
+                                                 mold="os" sclass="w3-bar-item w3-btn w3-light-gray w3-col"/>
+
+                                        <button  label="Outras operações" forward="onClick=obraListBox.onShowOperacoes"
+                                                 mold="os" sclass="w3-bar-item w3-btn w3-light-gray w3-col"/>
+
+                                        <div sclass="w3-row" visible="false">
+                                            <button sclass="w3-bar-item w3-btn w3-light-gray w3-col"
+                                                    label="Eliminar" forward="onClick=obraListBox.onEliminarObra"
+                                                    mold="os"/>
+                                            <button sclass="w3-bar-item w3-btn w3-light-gray w3-col "
+                                                    label="Editar" forward="onClick=obraListBox.onEditarObra"
+                                                    mold="os" />
+                                        </div>
+
+
                                         <div sclass="w3-padding-16"></div>
                                         <div  sclass="w3-col w3-white w3-left">
                                             <label sclass="w3-tiny" value="Cota:"/>
@@ -341,7 +344,25 @@
                                              style="width: 80%; position: relative;">
                                             <label sclass="w3-col w3-xlarge w3-left" value="${each.titulo}"
                                                    style=" line-height: 1.4em;"/>
+
                                             <div sclass="w3-left" style="display: grid;">
+
+                                                <div sclass="w3-left">
+                                                    <label sclass="w3-medium" value="Por:"/>
+                                                    <label sclass="w3-medium " forEach="${each.autores}"  value="${each.nome}. "/>
+                                                </div>
+                                                <div sclass="w3-padding-16">
+                                                    <button  label="Adicionar na cesta" forward="onClick=obraListBox.onAdicionarNaCesta"
+                                                             mold="os" sclass="w3-btn w3-light-gray"/>
+                                                </div>
+                                                <div>
+                                                    <button sclass="w3-btn w3-light-gray"
+                                                            label="Eliminar" forward="onClick=obraListBox.onEliminarObra"
+                                                            mold="os"/>
+                                                    <button sclass="w3-btn w3-light-gray"
+                                                            label="Editar" forward="onClick=obraListBox.onEditarObra"
+                                                            mold="os" />
+                                                </div>
 
                                                 <div sclass="w3-padding-16"></div>
                                                 <div  sclass="w3-col w3-white w3-left">
