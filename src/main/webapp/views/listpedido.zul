@@ -103,10 +103,11 @@
                                                                 forward="onClick=pedidoListBox.onEliminarEmprestimo"
                                                                 mold="os" sclass="btn"
                                                                 style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold"/>
-                                                        <!--<button label="Editar" forward="onClick=pedidoListBox.onEditarEmprestimo"-->
-                                                        <!--mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold"/>-->
-                                                        <!--<button label="Detalhe" forward="onClick=pedidoListBox.onDetalheEmprestimo"-->
-                                                        <!--mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold"/>-->
+                                                        <!-- Devem estar disponivel so para administrador-->
+                                                        <button  label="Aprovar" forward="onClick=pedidoListBox.onAprovarEmprestimo"
+                                                        mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold"/>
+                                                        <button  label="Reprovar" forward="onClick=pedidoListBox.onReprovarEmprestimo"
+                                                        mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold"/>
                                                     </div>
                                                 </listcell>
                                             </listitem>

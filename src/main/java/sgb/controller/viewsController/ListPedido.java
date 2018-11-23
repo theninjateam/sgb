@@ -29,10 +29,9 @@ import sgb.domain.*;
 import sgb.service.CRUDService;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 
+import java.util.Calendar;
 import java.util.List;
 
 public class ListPedido extends SelectorComposer<Component> {
@@ -41,8 +40,19 @@ public class ListPedido extends SelectorComposer<Component> {
     private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;
     private ListModelList<Emprestimo> pedidoListModel;
     private ListModel<EstadoPedido> estadopedidoModel;
+    private Boolean isNormalUser = true;
     @Wire
     private Listbox pedidoListBox;
+
+    @Wire
+    private Button Eliminar;
+
+    @Wire
+    private Button Aprovar;
+
+    @Wire
+    private Button Reprovar;
+
 
     @Wire
     private Listbox estadopedidoListBox;
@@ -51,54 +61,101 @@ public class ListPedido extends SelectorComposer<Component> {
     public void doAfterCompose(Component comp) throws Exception
     {
         super.doAfterCompose(comp);
-        pedidoListModel = new ListModelList<Emprestimo>(getEmprestimoListModel());
-        pedidoListBox.setModel(pedidoListModel);
+        Set<Role> userrole =user.getRoles();
 
-        estadopedidoModel = getEstadopedidoListModel();
-//        estadopedidoListBox.setModel(estadopedidoModel);
+        for(Role role : userrole) {
+            if(role.getRole().equals("ADMIN"))
+                isNormalUser = false;
+        }
+        if (isNormalUser) {
+            ComposeUserNormal();
+        }
+        else {
+           ComposeUserAdmin();
+        }
+
+
     }
 
-    public ListModelList<Emprestimo> getEmprestimoListModel() {
+    public void ComposeUserAdmin(){
+        pedidoListModel = new ListModelList<Emprestimo>(getAllEmprestimoListModel());
+        pedidoListBox.setModel(pedidoListModel);
+
+
+    }
+    public void ComposeUserNormal() {
+        pedidoListModel = new ListModelList<Emprestimo>(getUserEmprestimoListModel());
+        pedidoListBox.setModel(pedidoListModel);
+    }
+
+    public ListModelList<Emprestimo> getUserEmprestimoListModel() {
         List<Emprestimo> lista = crudService.findByJPQuery("SELECT e FROM Emprestimo e WHERE e.estadoPedido.idestadopedido=1 and e.emprestimoPK.user.id = " +
                 user.getId(),null);
         return new ListModelList<Emprestimo>(lista);
     }
-    public ListModelList<EstadoPedido> getEstadopedidoListModel () {
-        List<EstadoPedido> lista = crudService.getAll(EstadoPedido.class);
-        return new ListModelList<EstadoPedido>(lista);
+    public ListModelList<Emprestimo> getAllEmprestimoListModel () {
+        List<Emprestimo> lista = crudService.findByJPQuery("SELECT e FROM Emprestimo e WHERE e.estadoPedido.idestadopedido=1",null);
+        return new ListModelList<Emprestimo>(lista);
     }
 
     @Listen("onEliminarEmprestimo = #pedidoListBox")
     public void doEliminar(ForwardEvent event)
     {
-        Button btn = (Button)event.getOrigin().getTarget();
-        Listitem litem = (Listitem)btn.getParent().getParent().getParent();
-        Emprestimo emp = (Emprestimo) litem.getValue();
-        Messagebox.show("Tem certeza que deseja eliminar esse pedido ?", "delete pedido",
-                Messagebox.YES + Messagebox.NO, Messagebox.QUESTION,
-                new EventListener<Event>() {
-                    @Override
-                    public void onEvent(Event event) throws Exception {
-                        if (Messagebox.ON_YES.equals(event.getName())) {
-                            pedidoListModel.remove(emp);
-                            crudService.delete(emp);
-                            Clients.showNotification("Pedido eliminado com sucesso",null,null,null,5000);                        }
-                    }
-                });
-
+        if (isNormalUser) {
+            Button btn = (Button) event.getOrigin().getTarget();
+            Listitem litem = (Listitem) btn.getParent().getParent().getParent();
+            Emprestimo emp = (Emprestimo) litem.getValue();
+            Messagebox.show("Tem certeza que deseja eliminar esse pedido ?", "delete pedido",
+                    Messagebox.YES + Messagebox.NO, Messagebox.QUESTION,
+                    new EventListener<Event>() {
+                        @Override
+                        public void onEvent(Event event) throws Exception {
+                            if (Messagebox.ON_YES.equals(event.getName())) {
+                                pedidoListModel.remove(emp);
+                                crudService.delete(emp);
+                                Clients.showNotification("Pedido eliminado com sucesso", null, null, null, 5000);
+                            }
+                        }
+                    });
+        }else {
+            Clients.showNotification("Precisa ser Utente para executar essa acao ", null, null, null, 5000);
+        }
 
     }
-    @Listen("onDetalheEmprestimo = #pedidoListBox")
-    public void doDetalhe(ForwardEvent event)
+    @Listen("onReprovarEmprestimo = #pedidoListBox")
+    public void doReprovar(ForwardEvent event)
     {
-        Clients.showNotification("Detalhes Obra",null,null,null,5000);
+        if(isNormalUser) {
+            Clients.showNotification("Precisa ser Bibliotecario para executar essa acao ", null, null, null, 5000);
+        } else {
+            Button btn = (Button) event.getOrigin().getTarget();
+            Listitem litem = (Listitem) btn.getParent().getParent().getParent();
+            Emprestimo emp = (Emprestimo) litem.getValue();
+            EstadoPedido estadoPedido = crudService.get(EstadoPedido.class, 2);
+            emp.setEstadoPedido(estadoPedido);
+            emp.setDataaprovacao(Calendar.getInstance());
+        }
     }
 
-    @Listen("onEditarEmprestimo = #pedidoListBox")
-    public void doEditar(ForwardEvent event)
+    @Listen("onAprovarEmprestimo = #pedidoListBox")
+    public void doAprovar(ForwardEvent event)
     {
-        Clients.showNotification("Editar Obra",null,null,null,5000);
+        if(isNormalUser) {
+            Clients.showNotification("Precisa ser Bibliotecario para executar essa acao ", null, null, null, 5000);
+        } else {
+            Button btn = (Button) event.getOrigin().getTarget();
+            Listitem litem = (Listitem) btn.getParent().getParent().getParent();
+            Emprestimo emp = (Emprestimo) litem.getValue();
+            EstadoPedido estadoPedido = crudService.get(EstadoPedido.class, 3);
+            emp.setEstadoPedido(estadoPedido);
+            emp.setDataaprovacao(Calendar.getInstance());
+            emp.setDatadevolucao(Calendar.getInstance());
+            pedidoListModel.remove(emp);
+            crudService.update(emp);
+            Clients.showNotification("Pedido aprovado com sucesso ", null, null, null, 5000);
+        }
     }
+
 
     public String Convert(Calendar dt) {
         SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");

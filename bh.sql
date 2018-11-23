@@ -8,11 +8,11 @@
  Source Catalog        : sgb
  Source Schema         : public
 
- Target Server Type    : PostgreSQL
+  Target Server Type    : PostgreSQL
  Target Server Version : 100005
  File Encoding         : 65001
 
- Date: 18/11/2018 00:26:41
+ Date: 23/11/2018 11:34:24
 */
 
 
@@ -126,18 +126,13 @@ CREATE TABLE "public"."autor" (
 -- Records of autor
 -- ----------------------------
 INSERT INTO "public"."autor" VALUES ('8229a8b31ffcddd530ce6b821313a55a', 'Ricardo Daniel Fedeli');
-INSERT INTO "public"."autor" VALUES ('d1b547dcf8f6d14bbeb12619eff97819', 'Enrico Giulio Franco Polloni');
 INSERT INTO "public"."autor" VALUES ('ed4518f5dd79dfe71c93738816d642d5', 'Fernando Eduardo Peres');
-INSERT INTO "public"."autor" VALUES ('90455afe8bf918c581be908c174a0d30', 'Emerson Cardoso');
-INSERT INTO "public"."autor" VALUES ('4bbde07660e5eff90873642cfae9a8dd', 'SSSSSSSS');
-INSERT INTO "public"."autor" VALUES ('0b757be795f46a5c37c52e7932e8effc', 'Americo Jose');
 INSERT INTO "public"."autor" VALUES ('62b9aef3390384c34a495744df95e8dc', 'Joao Antonio');
-INSERT INTO "public"."autor" VALUES ('ebc308f979e135f40483eec4b35feea1', 'WSS');
-INSERT INTO "public"."autor" VALUES ('c6bc65d0f994ea20585b895298f9090c', 'emersondd ddd');
-INSERT INTO "public"."autor" VALUES ('7a739ded8071c43747c98df60e88c7d1', '45555dd fff');
-INSERT INTO "public"."autor" VALUES ('8f26e54c201a6f5ffdc79100f2126faf', 'b b');
-INSERT INTO "public"."autor" VALUES ('1bbda9b94de9eafe906b75b30834a8b0', 'a a');
-INSERT INTO "public"."autor" VALUES ('abf6dc183a0b72eed17416d0f1b435d8', 'ssss ddda');
+INSERT INTO "public"."autor" VALUES ('0b757be795f46a5c37c52e7932e8effc', 'Americo Jose');
+INSERT INTO "public"."autor" VALUES ('90455afe8bf918c581be908c174a0d30', 'Emerson Cardoso');
+INSERT INTO "public"."autor" VALUES ('ebc308f979e135f40483eec4b35feea1', 'Jason Martin');
+INSERT INTO "public"."autor" VALUES ('22c715b94d62279d68322ab7b6f369e1', 'Fernando Frances');
+INSERT INTO "public"."autor" VALUES ('6bff12cb3b31c3ff69252b390748b18c', 'Americo Antonio');
 
 -- ----------------------------
 -- Table structure for cd
@@ -148,11 +143,6 @@ CREATE TABLE "public"."cd" (
   "descricao" varchar(255) COLLATE "pg_catalog"."default"
 )
 ;
-
--- ----------------------------
--- Records of cd
--- ----------------------------
-INSERT INTO "public"."cd" VALUES ('1111', 'sssssa ddd');
 
 -- ----------------------------
 -- Table structure for emprestimo
@@ -174,10 +164,11 @@ CREATE TABLE "public"."emprestimo" (
 -- ----------------------------
 -- Records of emprestimo
 -- ----------------------------
-INSERT INTO "public"."emprestimo" VALUES (2, 'WW2', '2018-11-18', 1, NULL, NULL, 1, '--', 1);
-INSERT INTO "public"."emprestimo" VALUES (2, '77788', '2018-11-18', 1, NULL, NULL, 1, '--', 1);
-INSERT INTO "public"."emprestimo" VALUES (2, '531.4F', '2018-11-18', 1, NULL, NULL, 1, '--', 1);
-INSERT INTO "public"."emprestimo" VALUES (2, 'eee2', '2018-11-18', 1, NULL, NULL, 2, '--', 1);
+INSERT INTO "public"."emprestimo" VALUES (2, '77788', '2018-11-18', 3, '2018-11-25', '2018-11-25', 2, '--', 1);
+INSERT INTO "public"."emprestimo" VALUES (3, '77788', '2018-11-23', 1, NULL, NULL, 1, '--', 1);
+INSERT INTO "public"."emprestimo" VALUES (3, '544FF', '2018-11-23', 1, NULL, NULL, 1, '--', 1);
+INSERT INTO "public"."emprestimo" VALUES (3, '531.4F', '2018-11-23', 3, '2018-11-25', '2018-11-25', 1, '--', 1);
+INSERT INTO "public"."emprestimo" VALUES (3, '589AF', '2018-11-23', 3, '2018-11-25', '2018-11-25', 1, '--', 1);
 
 -- ----------------------------
 -- Table structure for estadodevolucao
@@ -277,7 +268,7 @@ CREATE TABLE "public"."livro" (
   "cota" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
   "isbn" varchar(255) COLLATE "pg_catalog"."default",
   "editora" varchar(255) COLLATE "pg_catalog"."default",
-  "edicao" varchar(255) COLLATE "pg_catalog"."default",
+  "edicao" int4,
   "codigobarra" varchar(255) COLLATE "pg_catalog"."default",
   "volume" int4
 )
@@ -286,7 +277,7 @@ CREATE TABLE "public"."livro" (
 -- ----------------------------
 -- Records of livro
 -- ----------------------------
-INSERT INTO "public"."livro" VALUES ('1111', '778888', '9999', '5555', '888888', NULL);
+INSERT INTO "public"."livro" VALUES ('544FF', '78-258-2147', 'FCAT', 2, '12345689', 1);
 
 -- ----------------------------
 -- Table structure for livrocd
@@ -325,12 +316,11 @@ CREATE TABLE "public"."obra" (
 -- ----------------------------
 -- Records of obra
 -- ----------------------------
-INSERT INTO "public"."obra" VALUES ('WW2', 7777, 'Introducao a Biologia', 1, 'Nampula', 2, 4, 2, '', 'digitalLibrary/cover/bg4.jpg', 44444);
-INSERT INTO "public"."obra" VALUES ('77788', 555, 'Introducao a Quimica', 5, 'Maputo', 1, 4, 2, 'digitalLibrary/pdf/isbd-cons_2007-en.pdf', 'digitalLibrary/cover/bg.png', 788);
-INSERT INTO "public"."obra" VALUES ('531.4F', 1223, 'Introducao Fisica', 1, 'Pemba', 1, 4, 1, '', 'digitalLibrary/cover/bg4.jpg', 2001);
-INSERT INTO "public"."obra" VALUES ('eee2', 1234, 'Introducao a Matematica', 1, 'Beira', 1, 4, 2, 'digitalLibrary/pdf/4.pdf', 'digitalLibrary/cover/bg4.jpg', 1298);
-INSERT INTO "public"."obra" VALUES ('ww23', 11, '11', 5, 'teste', 2, 0, 1, NULL, NULL, 2015);
-INSERT INTO "public"."obra" VALUES ('1111', 777, 'sssssa ddd', 1, 'teste', NULL, 122, 1, NULL, NULL, 123);
+INSERT INTO "public"."obra" VALUES ('531.4F', 1223, 'Introducao Fisica', 1, 'Pemba', 1, 4, 1, 'digitalLibrary/pdf/isbd-cons_2007-en.pdf', 'digitalLibrary/cover/fisica.jpg', 2001);
+INSERT INTO "public"."obra" VALUES ('589AF', 78988, 'Introducao a Geografia', 1, 'teste', 1, 20, 2, NULL, 'digitalLibrary/cover/geografia.jpg', 2018);
+INSERT INTO "public"."obra" VALUES ('77788', 555, 'Introducao a Quimica', 5, 'Maputo', 1, 4, 2, 'digitalLibrary/pdf/isbd-cons_2007-en.pdf', 'digitalLibrary/cover/quimica.jpg', 788);
+INSERT INTO "public"."obra" VALUES ('544FF', 7887, 'Introducao a Matematica', 1, 'Pemba', 1, 8, 1, NULL, 'digitalLibrary/cover/Introducao-a-Matematica.jpg', 2018);
+INSERT INTO "public"."obra" VALUES ('545AA', 785, 'Introducao a Estatistica', 1, 'Maputo', 1, 2, 2, NULL, 'digitalLibrary/cover/Introducao-a-Estatistica-Enfoque-Informatico-com-o-Pacote-Estatistico-SPSS-275390.jpg', 2017);
 
 -- ----------------------------
 -- Table structure for obra_autor
@@ -347,15 +337,14 @@ CREATE TABLE "public"."obra_autor" (
 -- ----------------------------
 INSERT INTO "public"."obra_autor" VALUES ('8229a8b31ffcddd530ce6b821313a55a', '531.4F');
 INSERT INTO "public"."obra_autor" VALUES ('ed4518f5dd79dfe71c93738816d642d5', '531.4F');
-INSERT INTO "public"."obra_autor" VALUES ('90455afe8bf918c581be908c174a0d30', 'WW2');
-INSERT INTO "public"."obra_autor" VALUES ('4bbde07660e5eff90873642cfae9a8dd', 'eee2');
-INSERT INTO "public"."obra_autor" VALUES ('0b757be795f46a5c37c52e7932e8effc', 'eee2');
 INSERT INTO "public"."obra_autor" VALUES ('62b9aef3390384c34a495744df95e8dc', '77788');
-INSERT INTO "public"."obra_autor" VALUES ('ebc308f979e135f40483eec4b35feea1', 'WW2');
 INSERT INTO "public"."obra_autor" VALUES ('ebc308f979e135f40483eec4b35feea1', '77788');
-INSERT INTO "public"."obra_autor" VALUES ('8f26e54c201a6f5ffdc79100f2126faf', 'ww23');
-INSERT INTO "public"."obra_autor" VALUES ('1bbda9b94de9eafe906b75b30834a8b0', 'ww23');
-INSERT INTO "public"."obra_autor" VALUES ('abf6dc183a0b72eed17416d0f1b435d8', '1111');
+INSERT INTO "public"."obra_autor" VALUES ('0b757be795f46a5c37c52e7932e8effc', '589AF');
+INSERT INTO "public"."obra_autor" VALUES ('62b9aef3390384c34a495744df95e8dc', '589AF');
+INSERT INTO "public"."obra_autor" VALUES ('90455afe8bf918c581be908c174a0d30', '589AF');
+INSERT INTO "public"."obra_autor" VALUES ('22c715b94d62279d68322ab7b6f369e1', '544FF');
+INSERT INTO "public"."obra_autor" VALUES ('6bff12cb3b31c3ff69252b390748b18c', '544FF');
+INSERT INTO "public"."obra_autor" VALUES ('6bff12cb3b31c3ff69252b390748b18c', '545AA');
 
 -- ----------------------------
 -- Table structure for registroobra
@@ -371,11 +360,9 @@ CREATE TABLE "public"."registroobra" (
 -- ----------------------------
 -- Records of registroobra
 -- ----------------------------
-INSERT INTO "public"."registroobra" VALUES ('WW2', 1, '2018-11-05');
-INSERT INTO "public"."registroobra" VALUES ('eee2', 1, '2018-11-05');
 INSERT INTO "public"."registroobra" VALUES ('77788', 1, '2018-11-05');
-INSERT INTO "public"."registroobra" VALUES ('ww23', 2, '2018-11-08');
-INSERT INTO "public"."registroobra" VALUES ('1111', 1, '2018-11-16');
+INSERT INTO "public"."registroobra" VALUES ('589AF', 1, '2018-11-18');
+INSERT INTO "public"."registroobra" VALUES ('544FF', 1, '2018-11-21');
 
 -- ----------------------------
 -- Table structure for revista
@@ -390,9 +377,8 @@ CREATE TABLE "public"."revista" (
 -- ----------------------------
 -- Records of revista
 -- ----------------------------
-INSERT INTO "public"."revista" VALUES ('WW2', 'WWWWWWWWWWWWWWWWWWWW');
-INSERT INTO "public"."revista" VALUES ('eee2', 'ddddddd');
 INSERT INTO "public"."revista" VALUES ('77788', 'rtrrrrrrrrrrrr');
+INSERT INTO "public"."revista" VALUES ('589AF', 'Unilurio');
 
 -- ----------------------------
 -- Table structure for role
@@ -458,6 +444,8 @@ CREATE TABLE "public"."user" (
 -- ----------------------------
 INSERT INTO "public"."user" VALUES (1, 1, 'admin@admin', 'admin', 'admin', '21232f297a57a5a743894a0e4a801fc3');
 INSERT INTO "public"."user" VALUES (2, 1, 'fonseca@fonseca', 'fonseca', 'fonseca', 'e653d3954be6576488c5ce7a599869de');
+INSERT INTO "public"."user" VALUES (3, 1, 'student@unilurio.ac.mz', 'student', 'student', '289ffeb2a745ccf51ca89a297f47e382');
+INSERT INTO "public"."user" VALUES (4, 1, 'teacher@unilurio.ac.mz', 'teacher', 'teacher', '289ffeb2a745ccf51ca89a297f47e382');
 
 -- ----------------------------
 -- Table structure for user_role
@@ -474,6 +462,8 @@ CREATE TABLE "public"."user_role" (
 -- ----------------------------
 INSERT INTO "public"."user_role" VALUES (1, 1);
 INSERT INTO "public"."user_role" VALUES (2, 2);
+INSERT INTO "public"."user_role" VALUES (4, 3);
+INSERT INTO "public"."user_role" VALUES (3, 2);
 
 -- ----------------------------
 -- Alter sequences owned by
