@@ -22,25 +22,37 @@
                    mold="default"/>
         </div>
 
-        <!--For Mobile-->
+
         <grid id="gridPesquisar" visible="true" style="border-style: none;" >
             <columns>
                 <column style="text-align: left; background-color: white;" width="100%"  >
-
-                    <div sclass="w3-container w3-hide-large w3-white"
+                    <!--For Mobile-->
+                    <div sclass="w3-container w3-white"
                          style="white-space: normal; width: 100%;">
                         <textbox  id="textboxPesquisar" forward="onOK=textboxPesquisar.onPesquisar,
                         onChange=textboxPesquisar.onPesquisar" mold="default"
                                   sclass="w3-left w3-white w3-card-4  w3-padding-16 w3-border" style="width: 80%;"/>
                     </div>
                     <div style="padding: 4px;"> </div>
-                    <div sclass="w3-container w3-left w3-hide-large">
+                    <div sclass="w3-container w3-left">
                         <button label="Pesquisar"  id="buttonPesquisar"
                             forward="onClick=buttonPesquisar.onPesquisar"
                             mold="os" sclass="w3-btn w3-light-gray"/>
                     </div>
 
-                    <!-- For no Mobile-->
+                    <!--&lt;!&ndash; For no Mobile&ndash;&gt;-->
+                    <!--<div sclass="w3-left w3-container w3-hide-small w3-hide-medium  w3-white"-->
+                         <!--style="white-space: normal; width: 100%;">-->
+                        <!--<textbox   forward="onOK=gridPesquisar.onPesquisar,-->
+                        <!--onChange=gridPesquisar.onPesquisar" mold="default"-->
+                                  <!--sclass="w3-left w3-white w3-card-4  w3-padding-16 w3-border" style="width: 90%;"/>-->
+                    <!--</div>-->
+                    <!--<div sclass="w3-container w3-left w3-hide-small w3-hide-medium  w3-padding-16">-->
+                        <!--<button label="Pesquisar"-->
+                                <!--forward="onClick=gridPesquisar.onPesquisar"-->
+                                <!--mold="os" sclass="w3-btn w3-light-gray"/>-->
+                    <!--</div>-->
+
                 </column>
             </columns>
         </grid>
