@@ -98,6 +98,12 @@ public class ListobraController extends SelectorComposer<Component>
 
 
 
+    @Listen("onPesquisar = #gridPesquisar")
+    public void doPesquisa(ForwardEvent event)
+    {
+
+    }
+
     @Listen("onVoltar = #buttonVoltar")
     public void listarObras(ForwardEvent event)
     {
