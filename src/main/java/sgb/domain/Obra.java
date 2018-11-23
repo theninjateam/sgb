@@ -158,7 +158,7 @@ public class Obra {
         this.areacientifica = areacientifica;
     }
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
     @JoinTable(name="obra_autor",  joinColumns = @JoinColumn(name ="cota", nullable = false),
             inverseJoinColumns = @JoinColumn(name="hashcode", nullable = false))
     public Set<Autor> getAutores(){
