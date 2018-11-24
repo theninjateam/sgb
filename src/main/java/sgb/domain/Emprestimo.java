@@ -11,15 +11,12 @@ public class Emprestimo {
 
     @EmbeddedId
     private EmprestimoPK emprestimoPK;
-    private Calendar dataentrada;
     private Calendar dataaprovacao;
     private Calendar datadevolucao;
     private int quantidade;
     private String comentario;
-
     private Calendar datarenovacao;
     private Calendar datadevolucaorenovacao;
-
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "estadopedido", nullable = false)
@@ -40,16 +37,6 @@ public class Emprestimo {
 
     public void setEmprestimoPK(EmprestimoPK emprestimoPK) {
         this.emprestimoPK = emprestimoPK;
-    }
-
-    @Basic
-    @Column(name = "dataentrada", nullable = true)
-    public Calendar getDataentrada() {
-        return dataentrada;
-    }
-
-    public void setDataentrada(Calendar dataentrada) {
-        this.dataentrada = dataentrada;
     }
 
     @Basic

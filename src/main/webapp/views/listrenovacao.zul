@@ -29,7 +29,22 @@
                                             <listitem>
                                                 <listcell>
                                                     <div>
-                                                        <label value="${each.dataentrada}"/>
+                                                        <![CDATA[
+                                                        import java.text.*;
+                                                        SimpleDateFormat  timeFormatter = new SimpleDateFormat("'('HH:mm:s')'");
+                                                        DateFormat  dateFormatter = new SimpleDateFormat();
+                                                        Locale MOZAMBIQUE = new Locale("pt","MZ");
+                                                        StringBuilder builder = new StringBuilder();
+
+                                                        dateFormatter = DateFormat.getDateInstance(DateFormat.FULL, MOZAMBIQUE);
+
+                                                        builder.append(dateFormatter.format(each.emprestimoPK.dataentrada.getTime()));
+                                                        builder.append("\n");
+                                                        builder.append(timeFormatter.format(each.emprestimoPK.dataentrada.getTime()));
+
+                                                        String dataEntrada = builder.toString();
+                                                    ]]>
+                                                        <label value="${dataEntrada}"/>
                                                     </div>
                                                 </listcell>
                                                 <listcell>

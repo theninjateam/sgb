@@ -242,7 +242,7 @@ public class ListobraController extends SelectorComposer<Component>
         List<Emprestimo> emprestimos = crudService.findByJPQuery("SELECT e FROM Emprestimo e WHERE e.emprestimoPK.user.id = "+
                 user.getId()+" and e.estadoDevolucao.idestadodevolucao = 1", null);
 
-        // begin transactio
+        // begin transaction
         for (Item item : cestaListModel)
         {
             boolean exists = false;
@@ -255,6 +255,7 @@ public class ListobraController extends SelectorComposer<Component>
 
             emprestimoPK.setObra(item.getObra());
             emprestimoPK.setUser(user);
+            emprestimoPK.setDataentrada(Calendar.getInstance());
 
             emprestimo.setEstadoDevolucao(estadoDevolucao);
             emprestimo.setEstadoPedido(estadoPedido);
@@ -262,7 +263,6 @@ public class ListobraController extends SelectorComposer<Component>
             emprestimo.setComentario("--");
             emprestimo.setDataaprovacao(null);
             emprestimo.setDatadevolucao(null);
-            emprestimo.setDataentrada(Calendar.getInstance());
             emprestimo.setQuantidade(item.getQuantidade());
             emprestimo.setEstadoRenovacao(estadoRenovacao);
             emprestimo.setDatarenovacao(null);
@@ -401,7 +401,8 @@ public class ListobraController extends SelectorComposer<Component>
             Clients.showNotification("Voce so pode requisitar '"+ getQtdMaxObras()+"' obras no maximo",null,null,null,5000);
             return;
         }
-        else if (getQtdExemplaresNaCesta(obra) + 1 > obra.getQuantidade() )
+        else if ( getQtdExemplaresRequisitados(obra)+
+                getQtdExemplaresNaCesta(obra) + 1 > obra.getQuantidade() )
         {
             Clients.showNotification("So existem '"+ obra.getQuantidade() +"' exemplares dessa obra",null,null,null,5000);
             return;
@@ -482,7 +483,8 @@ public class ListobraController extends SelectorComposer<Component>
             Clients.showNotification("Voce so pode requisitar '"+ getQtdMaxObras()+"' obras no maximo",null,null,null,5000);
             return;
         }
-        else if (getQtdExemplaresNaCesta(item.getObra()) + 1 > item.getObra().getQuantidade() )
+        else if (getQtdExemplaresRequisitados(item.getObra())
+                + getQtdExemplaresNaCesta(item.getObra()) +  1 > item.getObra().getQuantidade() )
         {
             Clients.showNotification("So existem '"+ item.getObra().getQuantidade() +"' exemplares dessa obra",null,null,null,5000);
             return;
@@ -523,6 +525,18 @@ public class ListobraController extends SelectorComposer<Component>
         return qtd;
     }
 
+    public int getQtdExemplaresRequisitados(Obra obra)
+    {
+        int qtd = 0;
+
+        List<Emprestimo> emprestimos = crudService.findByJPQuery("SELECT e FROM Emprestimo e WHERE e.emprestimoPK.user.id = "+
+                user.getId()+" and e.estadoDevolucao.idestadodevolucao = 1 and e.emprestimoPK.obra.cota = '"+obra.getCota() +"'", null);
+
+        for (Emprestimo e: emprestimos)
+            qtd += e.getQuantidade();
+
+        return qtd;
+    }
     public Component getListitem (Button btn)
     {
         Component component = btn.getParent();
@@ -543,6 +557,7 @@ public class ListobraController extends SelectorComposer<Component>
 
     public int getQtdExemplaresNaCesta(Obra obra)
     {
+
         for ( Item item: cestaListModel)
         {
             if (item.getObra().getCota().equals(obra.getCota()))
