@@ -17,7 +17,6 @@ import org.zkoss.zul.*;
 import sgb.domain.*;
 import sgb.service.CRUDService;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -413,7 +412,7 @@ public class ListobraController extends SelectorComposer<Component>
 
         for(int i = 0; i <  cestaListModel.size(); i++)
         {
-            if(obra.getCota() == cestaListModel.get(i).getObra().getCota())
+            if(obra.getCota().equals(cestaListModel.get(i).getObra().getCota()))
             {
                 item = cestaListModel.get(i);
                 obraExists = true;
@@ -456,6 +455,9 @@ public class ListobraController extends SelectorComposer<Component>
         return qtdMaxObras;
     }
 
+    /*
+    * quantidade de obras que um utilizador ainda pode requisitar
+    * */
     public int getQtdObrasRestantes()
     {
         return getQtdMaxObras() - (getQtdObrasNaCesta()
@@ -537,6 +539,7 @@ public class ListobraController extends SelectorComposer<Component>
 
         return qtd;
     }
+
     public Component getListitem (Button btn)
     {
         Component component = btn.getParent();
