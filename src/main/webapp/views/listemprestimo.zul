@@ -77,9 +77,8 @@
                                                                 mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold"/>
                                                         <button label="Detalhe" forward="onClick=emprestimoListBox.onDetalheEmprestimo"
                                                                 mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold"/>
-                                                        <button label="Renovar" forward="onClick=emprestimoListBox.RenovarEmprestimo"
+                                                        <button label="Renovar" forward="onClick=emprestimoListBox.onRenovarEmprestimo"
                                                                 mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold"/>
-
                                                     </div>
                                                 </listcell>
                                             </listitem>

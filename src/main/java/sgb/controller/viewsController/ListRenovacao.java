@@ -34,16 +34,15 @@ import java.util.*;
 import java.util.Calendar;
 import java.util.List;
 
-public class ListPedido extends SelectorComposer<Component> {
-
+public class ListRenovacao extends SelectorComposer<Component> {
     private CRUDService crudService = (CRUDService) SpringUtil.getBean("CRUDService");
     private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;
-    private ListModelList<Emprestimo> pedidoListModel;
-    private ListModel<EstadoPedido> estadopedidoModel;
+    private ListModelList<Emprestimo> renovacaoListModel;
     private Boolean isNormalUser = true;
-    @Wire
-    private Listbox pedidoListBox;
+    private EstadoRenovacao estadoRenovacao;
 
+    @Wire
+    private Listbox renovacaoListBox;
 
     @Override
     public void doAfterCompose(Component comp) throws Exception
@@ -59,34 +58,29 @@ public class ListPedido extends SelectorComposer<Component> {
             ComposeUserNormal();
         }
         else {
-           ComposeUserAdmin();
+            ComposeUserAdmin();
         }
-
-
     }
 
     public void ComposeUserAdmin(){
-        pedidoListModel = new ListModelList<Emprestimo>(getAllEmprestimoListModel());
-        pedidoListBox.setModel(pedidoListModel);
-
-
+        renovacaoListModel = new ListModelList<Emprestimo>(getAllEmprestimoListModel());
+        renovacaoListBox.setModel(renovacaoListModel);
     }
     public void ComposeUserNormal() {
-        pedidoListModel = new ListModelList<Emprestimo>(getUserEmprestimoListModel());
-        pedidoListBox.setModel(pedidoListModel);
+        renovacaoListModel = new ListModelList<Emprestimo>(getUserEmprestimoListModel());
+        renovacaoListBox.setModel(renovacaoListModel);
     }
-
     public ListModelList<Emprestimo> getUserEmprestimoListModel() {
-        List<Emprestimo> lista = crudService.findByJPQuery("SELECT e FROM Emprestimo e WHERE e.estadoPedido.idestadopedido=1 and e.emprestimoPK.user.id = " +
+        List<Emprestimo> lista = crudService.findByJPQuery("SELECT e FROM Emprestimo e WHERE e.estadoRenovacao.idestadorenovacao=2 and e.estadoPedido.idestadopedido=3 and e.emprestimoPK.user.id = " +
                 user.getId(),null);
         return new ListModelList<Emprestimo>(lista);
     }
     public ListModelList<Emprestimo> getAllEmprestimoListModel () {
-        List<Emprestimo> lista = crudService.findByJPQuery("SELECT e FROM Emprestimo e WHERE e.estadoPedido.idestadopedido=1",null);
+        List<Emprestimo> lista = crudService.findByJPQuery("SELECT e FROM Emprestimo e WHERE e.estadoRenovacao.idestadorenovacao=2 and e.estadoPedido.idestadopedido=3",null);
         return new ListModelList<Emprestimo>(lista);
     }
 
-    @Listen("onEliminarEmprestimo = #pedidoListBox")
+    @Listen("onEliminarRenovacao = #renovacaoListBox")
     public void doEliminar(ForwardEvent event)
     {
         if (isNormalUser) {
@@ -99,8 +93,10 @@ public class ListPedido extends SelectorComposer<Component> {
                         @Override
                         public void onEvent(Event event) throws Exception {
                             if (Messagebox.ON_YES.equals(event.getName())) {
-                                pedidoListModel.remove(emp);
-                                crudService.delete(emp);
+                                estadoRenovacao = crudService.get(EstadoRenovacao.class, 1);
+                                emp.setEstadoRenovacao(estadoRenovacao);
+                                renovacaoListModel.remove(emp);
+                                crudService.update(emp);
                                 Clients.showNotification("Pedido eliminado com sucesso", null, null, null, 5000);
                             }
                         }
@@ -110,7 +106,7 @@ public class ListPedido extends SelectorComposer<Component> {
         }
 
     }
-    @Listen("onReprovarEmprestimo = #pedidoListBox")
+    @Listen("onReprovarRenovacao = #renovacaoListBox")
     public void doReprovar(ForwardEvent event)
     {
         if(isNormalUser) {
@@ -122,13 +118,16 @@ public class ListPedido extends SelectorComposer<Component> {
             EstadoPedido estadoPedido = crudService.get(EstadoPedido.class, 2);
             emp.setEstadoPedido(estadoPedido);
             emp.setDataaprovacao(Calendar.getInstance());
-            pedidoListModel.remove(emp);
+            estadoRenovacao = crudService.get(EstadoRenovacao.class, 4);
+            emp.setEstadoRenovacao(estadoRenovacao);
+            renovacaoListModel.remove(emp);
             crudService.update(emp);
             Clients.showNotification("Pedido reprovado com sucesso ", null, null, null, 5000);
         }
+
     }
 
-    @Listen("onAprovarEmprestimo = #pedidoListBox")
+    @Listen("onAprovarRenovacao = #renovacaoListBox")
     public void doAprovar(ForwardEvent event)
     {
         if(isNormalUser) {
@@ -141,17 +140,14 @@ public class ListPedido extends SelectorComposer<Component> {
             emp.setEstadoPedido(estadoPedido);
             emp.setDataaprovacao(Calendar.getInstance());
             emp.setDatadevolucao(Calendar.getInstance());
-            pedidoListModel.remove(emp);
+            estadoRenovacao = crudService.get(EstadoRenovacao.class, 3);
+            emp.setEstadoRenovacao(estadoRenovacao);
+            renovacaoListModel.remove(emp);
             crudService.update(emp);
             Clients.showNotification("Pedido aprovado com sucesso ", null, null, null, 5000);
         }
+
     }
 
-
-    public String Convert(Calendar dt) {
-        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
-        String dateformated = date.format(dt.getTime());
-        return dateformated;
-    }
 
 }

@@ -34,6 +34,7 @@ public class ListobraController extends SelectorComposer<Component>
     private Emprestimo emprestimo;
     private EstadoPedido estadoPedido;
     private EstadoDevolucao estadoDevolucao;
+    private EstadoRenovacao estadoRenovacao;
     private ListModelList<Obra> obraListModel;
     private ListModelList<Item> cestaListModel = new ListModelList<Item>();
     private ListModelList<Obra> detalheobra;
@@ -250,6 +251,7 @@ public class ListobraController extends SelectorComposer<Component>
             emprestimoPK = new EmprestimoPK();
             estadoDevolucao = crudService.get(EstadoDevolucao.class, 1);
             estadoPedido= crudService.get(EstadoPedido.class, 1);
+            estadoRenovacao = crudService.get(EstadoRenovacao.class,1);
 
             emprestimoPK.setObra(item.getObra());
             emprestimoPK.setUser(user);
@@ -262,6 +264,9 @@ public class ListobraController extends SelectorComposer<Component>
             emprestimo.setDatadevolucao(null);
             emprestimo.setDataentrada(Calendar.getInstance());
             emprestimo.setQuantidade(item.getQuantidade());
+            emprestimo.setEstadoRenovacao(estadoRenovacao);
+            emprestimo.setDatarenovacao(null);
+            emprestimo.setDatadevolucaorenovacao(null);
 
 
             try

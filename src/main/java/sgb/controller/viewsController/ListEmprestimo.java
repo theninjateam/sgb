@@ -12,10 +12,7 @@ import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.*;
-import sgb.domain.Emprestimo;
-import sgb.domain.EstadoPedido;
-import sgb.domain.Role;
-import sgb.domain.Users;
+import sgb.domain.*;
 import sgb.service.CRUDService;
 
 import javax.swing.plaf.PanelUI;
@@ -29,6 +26,7 @@ public class ListEmprestimo extends SelectorComposer<Component> {
     private ListModelList<Emprestimo> emprestimoListModel;
     private ListModel<EstadoPedido> estadopedidoModel;
     private Boolean isNormalUser = true;
+    private EstadoRenovacao estadoRenovacao;
     @Wire
     private Listbox emprestimoListBox;
 
@@ -94,6 +92,12 @@ public class ListEmprestimo extends SelectorComposer<Component> {
     @Listen("onRenovarEmprestimo = #emprestimoListBox")
     public void doRenovar(ForwardEvent event)
     {
+        Button btn = (Button) event.getOrigin().getTarget();
+        Listitem litem = (Listitem) btn.getParent().getParent().getParent();
+        Emprestimo emp = (Emprestimo) litem.getValue();
+        estadoRenovacao = crudService.get(EstadoRenovacao.class,2);
+        emp.setEstadoRenovacao(estadoRenovacao);
+        crudService.update(emp);
         Clients.showNotification("Renovacao do Emprestimo",null,null,null,5000);
     }
 

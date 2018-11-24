@@ -1,18 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : Emerson Matimbe Bania
+ Source Server         : Ninja Team
  Source Server Type    : PostgreSQL
  Source Server Version : 100005
  Source Host           : localhost:5432
  Source Catalog        : sgb
  Source Schema         : public
-
-  Target Server Type    : PostgreSQL
+ Target Server Type    : PostgreSQL
  Target Server Version : 100005
  File Encoding         : 65001
 
- Date: 23/11/2018 11:34:24
+ Date: 24/11/2018 15:49:42
 */
 
 
@@ -46,6 +45,17 @@ CREATE SEQUENCE "public"."estadopedido_idestadopedido_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
+START 1
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for estadorenovacao_idestadorenovacao_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."estadorenovacao_idestadorenovacao_seq";
+CREATE SEQUENCE "public"."estadorenovacao_idestadorenovacao_seq"
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
 START 1
 CACHE 1;
 
@@ -157,18 +167,20 @@ CREATE TABLE "public"."emprestimo" (
   "datadevolucao" date,
   "quantidade" int4,
   "comentario" varchar(5000) COLLATE "pg_catalog"."default",
-  "estadodevolucao" int4
+  "estadodevolucao" int4,
+  "estadorenovacao" int8,
+  "datarenovacao" date,
+  "datadevolucaorenovacao" date
 )
 ;
 
 -- ----------------------------
 -- Records of emprestimo
 -- ----------------------------
-INSERT INTO "public"."emprestimo" VALUES (2, '77788', '2018-11-18', 3, '2018-11-25', '2018-11-25', 2, '--', 1);
-INSERT INTO "public"."emprestimo" VALUES (3, '77788', '2018-11-23', 1, NULL, NULL, 1, '--', 1);
-INSERT INTO "public"."emprestimo" VALUES (3, '544FF', '2018-11-23', 1, NULL, NULL, 1, '--', 1);
-INSERT INTO "public"."emprestimo" VALUES (3, '531.4F', '2018-11-23', 3, '2018-11-25', '2018-11-25', 1, '--', 1);
-INSERT INTO "public"."emprestimo" VALUES (3, '589AF', '2018-11-23', 3, '2018-11-25', '2018-11-25', 1, '--', 1);
+INSERT INTO "public"."emprestimo" VALUES (3, '531.4F', '2018-11-23', 3, '2018-11-25', '2018-11-25', 1, '--', 1, 1, NULL, NULL);
+INSERT INTO "public"."emprestimo" VALUES (3, '77788', '2018-11-23', 3, '2018-11-23', '2018-11-23', 1, '--', 1, 1, NULL, NULL);
+INSERT INTO "public"."emprestimo" VALUES (3, '544FF', '2018-11-23', 1, '2018-11-23', '2018-11-23', 1, '--', 1, 1, NULL, NULL);
+INSERT INTO "public"."emprestimo" VALUES (3, '589AF', '2018-11-23', 1, '2018-11-25', '2018-11-25', 1, '--', 1, 2, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for estadodevolucao
@@ -203,6 +215,24 @@ CREATE TABLE "public"."estadopedido" (
 INSERT INTO "public"."estadopedido" VALUES (2, 'rejeitado');
 INSERT INTO "public"."estadopedido" VALUES (3, 'aceite');
 INSERT INTO "public"."estadopedido" VALUES (1, 'pendente');
+
+-- ----------------------------
+-- Table structure for estadorenovacao
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."estadorenovacao";
+CREATE TABLE "public"."estadorenovacao" (
+  "idestadorenovacao" int8 NOT NULL DEFAULT nextval('estadorenovacao_idestadorenovacao_seq'::regclass),
+  "descricao" varchar(255) COLLATE "pg_catalog"."default"
+)
+;
+
+-- ----------------------------
+-- Records of estadorenovacao
+-- ----------------------------
+INSERT INTO "public"."estadorenovacao" VALUES (1, 'indeterminado');
+INSERT INTO "public"."estadorenovacao" VALUES (2, 'pendente');
+INSERT INTO "public"."estadorenovacao" VALUES (3, 'aceite');
+INSERT INTO "public"."estadorenovacao" VALUES (4, 'rejeitado');
 
 -- ----------------------------
 -- Table structure for formatocd
@@ -477,6 +507,9 @@ SELECT setval('"public"."estadodevolucao_idestadodevolucao_seq"', 2, false);
 ALTER SEQUENCE "public"."estadopedido_idestadopedido_seq"
 OWNED BY "public"."estadopedido"."idestadopedido";
 SELECT setval('"public"."estadopedido_idestadopedido_seq"', 2, false);
+ALTER SEQUENCE "public"."estadorenovacao_idestadorenovacao_seq"
+OWNED BY "public"."estadorenovacao"."idestadorenovacao";
+SELECT setval('"public"."estadorenovacao_idestadorenovacao_seq"', 5, true);
 ALTER SEQUENCE "public"."formatocd_idformato_seq"
 OWNED BY "public"."formatocd"."idformato";
 SELECT setval('"public"."formatocd_idformato_seq"', 2, false);
@@ -517,6 +550,11 @@ ALTER TABLE "public"."estadodevolucao" ADD CONSTRAINT "estadodevolucao_pkey" PRI
 -- Primary Key structure for table estadopedido
 -- ----------------------------
 ALTER TABLE "public"."estadopedido" ADD CONSTRAINT "estadopedido_pkey" PRIMARY KEY ("idestadopedido");
+
+-- ----------------------------
+-- Primary Key structure for table estadorenovacao
+-- ----------------------------
+ALTER TABLE "public"."estadorenovacao" ADD CONSTRAINT "estadorenovacao_pkey" PRIMARY KEY ("idestadorenovacao");
 
 -- ----------------------------
 -- Primary Key structure for table formatocd
@@ -604,6 +642,7 @@ ALTER TABLE "public"."cd" ADD CONSTRAINT "idcd" FOREIGN KEY ("cota") REFERENCES 
 ALTER TABLE "public"."emprestimo" ADD CONSTRAINT "cota" FOREIGN KEY ("cota") REFERENCES "public"."obra" ("cota") ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE "public"."emprestimo" ADD CONSTRAINT "idestadodevolucao" FOREIGN KEY ("estadodevolucao") REFERENCES "public"."estadodevolucao" ("idestadodevolucao") ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE "public"."emprestimo" ADD CONSTRAINT "idestadopedido" FOREIGN KEY ("estadopedido") REFERENCES "public"."estadopedido" ("idestadopedido") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "public"."emprestimo" ADD CONSTRAINT "idestadorenovacao" FOREIGN KEY ("estadorenovacao") REFERENCES "public"."estadorenovacao" ("idestadorenovacao") ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE "public"."emprestimo" ADD CONSTRAINT "user_id" FOREIGN KEY ("user_id") REFERENCES "public"."user" ("user_id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- ----------------------------
