@@ -8,6 +8,7 @@ import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
+import sgb.controller.domainController.EmprestimoController;
 import sgb.domain.Emprestimo;
 import sgb.domain.Obra;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -41,6 +42,8 @@ public class ListPedido extends SelectorComposer<Component> {
     private ListModelList<Emprestimo> pedidoListModel;
     private ListModel<EstadoPedido> estadopedidoModel;
     private Boolean isNormalUser = true;
+    private EmprestimoController emprestimoController = new EmprestimoController(crudService);
+
     @Wire
     private Listbox pedidoListBox;
 
@@ -61,29 +64,16 @@ public class ListPedido extends SelectorComposer<Component> {
         else {
            ComposeUserAdmin();
         }
-
-
     }
 
     public void ComposeUserAdmin(){
-        pedidoListModel = new ListModelList<Emprestimo>(getAllEmprestimoListModel());
+        pedidoListModel = new ListModelList<Emprestimo>(emprestimoController.getRequisicoes(1));
         pedidoListBox.setModel(pedidoListModel);
-
-
     }
+
     public void ComposeUserNormal() {
-        pedidoListModel = new ListModelList<Emprestimo>(getUserEmprestimoListModel());
+        pedidoListModel = new ListModelList<Emprestimo>(emprestimoController.getRequisicoes(this.user, 1));
         pedidoListBox.setModel(pedidoListModel);
-    }
-
-    public ListModelList<Emprestimo> getUserEmprestimoListModel() {
-        List<Emprestimo> lista = crudService.findByJPQuery("SELECT e FROM Emprestimo e WHERE e.estadoPedido.idestadopedido=1 and e.emprestimoPK.user.id = " +
-                user.getId(),null);
-        return new ListModelList<Emprestimo>(lista);
-    }
-    public ListModelList<Emprestimo> getAllEmprestimoListModel () {
-        List<Emprestimo> lista = crudService.findByJPQuery("SELECT e FROM Emprestimo e WHERE e.estadoPedido.idestadopedido=1",null);
-        return new ListModelList<Emprestimo>(lista);
     }
 
     @Listen("onEliminarEmprestimo = #pedidoListBox")
@@ -110,6 +100,7 @@ public class ListPedido extends SelectorComposer<Component> {
         }
 
     }
+
     @Listen("onReprovarEmprestimo = #pedidoListBox")
     public void doReprovar(ForwardEvent event)
     {
@@ -146,12 +137,4 @@ public class ListPedido extends SelectorComposer<Component> {
             Clients.showNotification("Pedido aprovado com sucesso ", null, null, null, 5000);
         }
     }
-
-
-    public String Convert(Calendar dt) {
-        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
-        String dateformated = date.format(dt.getTime());
-        return dateformated;
-    }
-
 }

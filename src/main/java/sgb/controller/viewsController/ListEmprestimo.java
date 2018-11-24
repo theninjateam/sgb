@@ -52,11 +52,13 @@ public class ListEmprestimo extends SelectorComposer<Component> {
 
 
     }
+
     public void ComposeUserAdmin () {
         emprestimoListModel = new ListModelList<Emprestimo>(getAllEmprestimoListModel());
         emprestimoListBox.setModel(emprestimoListModel);
 
     }
+
     public void ComposeUserNormal () {
         emprestimoListModel = new ListModelList<Emprestimo>(getUserEmprestimoListModel());
         emprestimoListBox.setModel(emprestimoListModel);
@@ -66,6 +68,7 @@ public class ListEmprestimo extends SelectorComposer<Component> {
         List<Emprestimo> lista = crudService.findByJPQuery("SELECT e FROM Emprestimo e WHERE e.estadoPedido.idestadopedido=3 " ,null);
         return new ListModelList<Emprestimo>(lista);
     }
+
     public ListModelList<Emprestimo> getUserEmprestimoListModel() {
         List<Emprestimo> lista = crudService.findByJPQuery("SELECT e FROM Emprestimo e WHERE e.estadoPedido.idestadopedido=3 and e.emprestimoPK.user.id = " +
                                 user.getId()  ,null);

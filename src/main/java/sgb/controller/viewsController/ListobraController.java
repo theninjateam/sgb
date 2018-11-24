@@ -16,6 +16,7 @@ import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.*;
 import sgb.domain.*;
 import sgb.service.CRUDService;
+import sgb.controller.domainController.*;
 
 import java.util.Calendar;
 import java.util.List;
@@ -37,7 +38,7 @@ public class ListobraController extends SelectorComposer<Component>
     private ListModelList<Obra> obraListModel;
     private ListModelList<Item> cestaListModel = new ListModelList<Item>();
     private ListModelList<Obra> detalheobra;
-
+    private EmprestimoController emprestimoController =  new EmprestimoController(this.crudService);
 
     @Wire
     private Button buttonPesquisar;
