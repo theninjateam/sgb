@@ -4,7 +4,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 import org.zkoss.zk.ui.Component;
-import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.*;
@@ -16,8 +15,8 @@ import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.*;
 import sgb.domain.*;
 import sgb.service.CRUDService;
+import sgb.controller.domainController.*;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -34,10 +33,11 @@ public class ListobraController extends SelectorComposer<Component>
     private Emprestimo emprestimo;
     private EstadoPedido estadoPedido;
     private EstadoDevolucao estadoDevolucao;
+    private EstadoRenovacao estadoRenovacao;
     private ListModelList<Obra> obraListModel;
     private ListModelList<Item> cestaListModel = new ListModelList<Item>();
     private ListModelList<Obra> detalheobra;
-
+    private EmprestimoControllerSingleton emprestimoControllerSingleton =  EmprestimoControllerSingleton.getInstance(crudService);
 
     @Wire
     private Button buttonPesquisar;
@@ -49,7 +49,7 @@ public class ListobraController extends SelectorComposer<Component>
     private Grid gridListObra;
 
     @Wire
-    private Button buttonListarObras;
+    private Button buttonVoltar;
     @Wire
     private Grid gridCesta;
 
@@ -98,17 +98,21 @@ public class ListobraController extends SelectorComposer<Component>
 
 
 
-    @Listen("onListarObras = #buttonListarObras")
+    @Listen("onPesquisar = #gridPesquisar")
+    public void doPesquisa(ForwardEvent event)
+    {
+
+    }
+
+    @Listen("onVoltar = #buttonVoltar")
     public void listarObras(ForwardEvent event)
     {
         gridCesta.setVisible(false);
+        griddetalhe.setVisible(false);
         gridListObra.setVisible(true);
         buttonPesquisar.setVisible(true);
         textboxPesquisar.setVisible(true);
-        obraListModel.removeAll(obraListModel);
-        obraListModel.addAll(getObraListModel());
-
-
+        buttonVoltar.setVisible(false);
     }
 
     @Listen("onShowCestaListBox = #divCesta")
@@ -119,6 +123,7 @@ public class ListobraController extends SelectorComposer<Component>
         textboxPesquisar.setVisible(false);
         griddetalhe.setVisible(false);
         gridCesta.setVisible(true);
+        buttonVoltar.setVisible(true);
     }
 
     @Listen("onShowOperacoes = #obraListBox")
@@ -153,7 +158,7 @@ public class ListobraController extends SelectorComposer<Component>
                     public void onEvent(Event event) throws Exception {
                         if (Messagebox.ON_YES.equals(event.getName())) {
                             obraListModel.remove(obra);
-                            obra.setAutores(null);
+//                            obra.setAutores(null);
                             crudService.delete(obra);
                             Clients.showNotification("Obra eliminado com sucesso",null,null,null,5000);
                         }
@@ -169,12 +174,22 @@ public class ListobraController extends SelectorComposer<Component>
         gridListObra.setVisible(false);
         buttonPesquisar.setVisible(false);
         textboxPesquisar.setVisible(false);
+        buttonVoltar.setVisible(true);
         gridCesta.setVisible(false);
 //        divCesta.setVisible(false);
-        buttonListarObras.setVisible(false);
+
         Button btn = (Button)event.getOrigin().getTarget();
         Listitem litem = (Listitem) getListitem(btn);
         Obra obra = (Obra) litem.getValue();
+
+        for (Obra o : getObraListModel())
+        {
+            if (o.getCota().equals(obra.getCota()))
+            {
+                obra = o;
+                break;
+            }
+        }
 
         detalheobra.add(obra);
         detalheobra.addSelection(obra);
@@ -226,7 +241,7 @@ public class ListobraController extends SelectorComposer<Component>
         List<Emprestimo> emprestimos = crudService.findByJPQuery("SELECT e FROM Emprestimo e WHERE e.emprestimoPK.user.id = "+
                 user.getId()+" and e.estadoDevolucao.idestadodevolucao = 1", null);
 
-        // begin transactio
+        // begin transaction
         for (Item item : cestaListModel)
         {
             boolean exists = false;
@@ -235,9 +250,11 @@ public class ListobraController extends SelectorComposer<Component>
             emprestimoPK = new EmprestimoPK();
             estadoDevolucao = crudService.get(EstadoDevolucao.class, 1);
             estadoPedido= crudService.get(EstadoPedido.class, 1);
+            estadoRenovacao = crudService.get(EstadoRenovacao.class,1);
 
             emprestimoPK.setObra(item.getObra());
             emprestimoPK.setUser(user);
+            emprestimoPK.setDataentrada(Calendar.getInstance());
 
             emprestimo.setEstadoDevolucao(estadoDevolucao);
             emprestimo.setEstadoPedido(estadoPedido);
@@ -245,8 +262,10 @@ public class ListobraController extends SelectorComposer<Component>
             emprestimo.setComentario("--");
             emprestimo.setDataaprovacao(null);
             emprestimo.setDatadevolucao(null);
-            emprestimo.setDataentrada(Calendar.getInstance());
             emprestimo.setQuantidade(item.getQuantidade());
+            emprestimo.setEstadoRenovacao(estadoRenovacao);
+            emprestimo.setDatarenovacao(null);
+            emprestimo.setDatadevolucaorenovacao(null);
 
 
             try
@@ -381,7 +400,8 @@ public class ListobraController extends SelectorComposer<Component>
             Clients.showNotification("Voce so pode requisitar '"+ getQtdMaxObras()+"' obras no maximo",null,null,null,5000);
             return;
         }
-        else if (getQtdExemplaresNaCesta(obra) + 1 > obra.getQuantidade() )
+        else if ( getQtdExemplaresRequisitados(obra)+
+                getQtdExemplaresNaCesta(obra) + 1 > obra.getQuantidade() )
         {
             Clients.showNotification("So existem '"+ obra.getQuantidade() +"' exemplares dessa obra",null,null,null,5000);
             return;
@@ -392,7 +412,7 @@ public class ListobraController extends SelectorComposer<Component>
 
         for(int i = 0; i <  cestaListModel.size(); i++)
         {
-            if(obra.getCota() == cestaListModel.get(i).getObra().getCota())
+            if(obra.getCota().equals(cestaListModel.get(i).getObra().getCota()))
             {
                 item = cestaListModel.get(i);
                 obraExists = true;
@@ -435,6 +455,9 @@ public class ListobraController extends SelectorComposer<Component>
         return qtdMaxObras;
     }
 
+    /*
+    * quantidade de obras que um utilizador ainda pode requisitar
+    * */
     public int getQtdObrasRestantes()
     {
         return getQtdMaxObras() - (getQtdObrasNaCesta()
@@ -462,7 +485,8 @@ public class ListobraController extends SelectorComposer<Component>
             Clients.showNotification("Voce so pode requisitar '"+ getQtdMaxObras()+"' obras no maximo",null,null,null,5000);
             return;
         }
-        else if (getQtdExemplaresNaCesta(item.getObra()) + 1 > item.getObra().getQuantidade() )
+        else if (getQtdExemplaresRequisitados(item.getObra())
+                + getQtdExemplaresNaCesta(item.getObra()) +  1 > item.getObra().getQuantidade() )
         {
             Clients.showNotification("So existem '"+ item.getObra().getQuantidade() +"' exemplares dessa obra",null,null,null,5000);
             return;
@@ -503,6 +527,19 @@ public class ListobraController extends SelectorComposer<Component>
         return qtd;
     }
 
+    public int getQtdExemplaresRequisitados(Obra obra)
+    {
+        int qtd = 0;
+
+        List<Emprestimo> emprestimos = crudService.findByJPQuery("SELECT e FROM Emprestimo e WHERE e.emprestimoPK.user.id = "+
+                user.getId()+" and e.estadoDevolucao.idestadodevolucao = 1 and e.emprestimoPK.obra.cota = '"+obra.getCota() +"'", null);
+
+        for (Emprestimo e: emprestimos)
+            qtd += e.getQuantidade();
+
+        return qtd;
+    }
+
     public Component getListitem (Button btn)
     {
         Component component = btn.getParent();
@@ -523,6 +560,7 @@ public class ListobraController extends SelectorComposer<Component>
 
     public int getQtdExemplaresNaCesta(Obra obra)
     {
+
         for ( Item item: cestaListModel)
         {
             if (item.getObra().getCota().equals(obra.getCota()))

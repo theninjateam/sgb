@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zk>
-    <window id="listObra" apply="sgb.controller.viewsController.ListPedido"
+    <window id="listObra" apply="sgb.controller.viewsController.ListRenovacao"
             border="none" hflex="1" vflex="1" contentStyle="overflow:auto">
         <div style="padding:0px">
             <tabbox>
@@ -16,7 +16,7 @@
                             <rows>
 
                                 <row>
-                                    <listbox width="100%" id="pedidoListBox"
+                                    <listbox width="100%" id="renovacaoListBox"
                                              emptyMessage="Nao tem nenhum pedido pendente">
                                         <listhead>
                                             <listheader width="20%" height="100%" label="Data"/>
@@ -28,7 +28,7 @@
                                         <template name="model">
                                             <listitem>
                                                 <listcell>
-                                                    <zscript>
+                                                    <div>
                                                         <![CDATA[
                                                         import java.text.*;
                                                         SimpleDateFormat  timeFormatter = new SimpleDateFormat("'('HH:mm:s')'");
@@ -44,8 +44,6 @@
 
                                                         String dataEntrada = builder.toString();
                                                     ]]>
-                                                    </zscript>
-                                                    <div>
                                                         <label value="${dataEntrada}"/>
                                                     </div>
                                                 </listcell>
@@ -82,14 +80,14 @@
                                                 <listcell>
                                                     <div>
                                                         <button label="Eliminar"
-                                                                forward="onClick=pedidoListBox.onEliminarEmprestimo"
+                                                                forward="onClick=renovacaoListBox.onEliminarRenovacao"
                                                                 mold="os" sclass="btn"
                                                                 style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold"/>
                                                         <!-- Devem estar disponivel so para administrador-->
-                                                        <button  label="Aprovar" forward="onClick=pedidoListBox.onAprovarEmprestimo"
-                                                        mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold"/>
-                                                        <button  label="Reprovar" forward="onClick=pedidoListBox.onReprovarEmprestimo"
-                                                        mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold"/>
+                                                        <button  label="Aprovar" forward="onClick=renovacaoListBox.onAprovarRenovacao"
+                                                                 mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold"/>
+                                                        <button  label="Reprovar" forward="onClick=renovacaoListBox.onReprovarRenovacao"
+                                                                 mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold"/>
                                                     </div>
                                                 </listcell>
                                             </listitem>

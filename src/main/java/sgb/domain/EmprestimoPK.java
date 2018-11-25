@@ -2,6 +2,7 @@ package sgb.domain;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Objects;
 
 @Embeddable
@@ -14,6 +15,17 @@ public class EmprestimoPK implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
     private Users user;
+
+    @Column(name = "dataentrada", nullable = true)
+    private Calendar dataentrada;
+
+    public Calendar getDataentrada() {
+        return dataentrada;
+    }
+
+    public void setDataentrada(Calendar dataentrada) {
+        this.dataentrada = dataentrada;
+    }
 
     public Obra getObra() {
         return this.obra;

@@ -28,10 +28,22 @@
                                             <listitem>
                                                 <listcell>
                                                     <div>
-                                                        <!--<zscript>-->
-                                                        <!--A ideia e escrever uma funcao que vai converter data antes de apresentar-->
-                                                        <!--</zscript>-->
-                                                        <label value="${each.dataaprovacao}"/>
+                                                        <![CDATA[
+                                                            import java.text.*;
+                                                            SimpleDateFormat  timeFormatter = new SimpleDateFormat("'('HH:mm:s')'");
+                                                            DateFormat  dateFormatter = new SimpleDateFormat();
+                                                            Locale MOZAMBIQUE = new Locale("pt","MZ");
+                                                            StringBuilder builder = new StringBuilder();
+
+                                                            dateFormatter = DateFormat.getDateInstance(DateFormat.FULL, MOZAMBIQUE);
+
+                                                            builder.append(dateFormatter.format(each.dataaprovacao.getTime()));
+                                                            builder.append("\n");
+                                                            builder.append(timeFormatter.format(each.dataaprovacao.getTime()));
+
+                                                            String dataAprovacao = builder.toString();
+                                                    ]]>
+                                                        <label value="${dataAprovacao}"/>
                                                     </div>
                                                 </listcell>
                                                 <listcell>
@@ -76,6 +88,8 @@
                                                         <button label="Devolver" forward="onClick=emprestimoListBox.onDevolver"
                                                                 mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold"/>
                                                         <button label="Detalhe" forward="onClick=emprestimoListBox.onDetalheEmprestimo"
+                                                                mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold"/>
+                                                        <button label="Renovar" forward="onClick=emprestimoListBox.onRenovarEmprestimo"
                                                                 mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold"/>
                                                     </div>
                                                 </listcell>

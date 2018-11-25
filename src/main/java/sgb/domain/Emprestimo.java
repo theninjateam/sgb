@@ -11,11 +11,12 @@ public class Emprestimo {
 
     @EmbeddedId
     private EmprestimoPK emprestimoPK;
-    private Calendar dataentrada;
     private Calendar dataaprovacao;
     private Calendar datadevolucao;
     private int quantidade;
     private String comentario;
+    private Calendar datarenovacao;
+    private Calendar datadevolucaorenovacao;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "estadopedido", nullable = false)
@@ -24,6 +25,10 @@ public class Emprestimo {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "estadodevolucao", nullable = false)
     private EstadoDevolucao estadoDevolucao;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name="estadorenovacao", nullable = false)
+    private EstadoRenovacao estadoRenovacao;
 
 
     public EmprestimoPK getEmprestimoPK() {
@@ -35,16 +40,6 @@ public class Emprestimo {
     }
 
     @Basic
-    @Column(name = "dataentrada", nullable = true)
-    public Calendar getDataentrada() {
-        return dataentrada;
-    }
-
-    public void setDataentrada(Calendar dataentrada) {
-        this.dataentrada = dataentrada;
-    }
-
-    @Basic
     @Column(name = "dataaprovacao", nullable = true)
     public Calendar getDataaprovacao() {
         return dataaprovacao;
@@ -52,6 +47,27 @@ public class Emprestimo {
 
     public void setDataaprovacao(Calendar dataaprovacao) {
         this.dataaprovacao = dataaprovacao;
+    }
+
+
+    @Basic
+    @Column(name = "datarenovacao", nullable = true)
+    public Calendar getDatarenovacao() {
+        return datarenovacao;
+    }
+
+    public void setDatarenovacao(Calendar datarenovacao) {
+        this.datarenovacao = datarenovacao;
+    }
+
+    @Basic
+    @Column(name = "datadevolucaorenovacao", nullable = true)
+    public Calendar getDatadevolucaorenovacao() {
+        return datadevolucaorenovacao;
+    }
+
+    public void setDatadevolucaorenovacao(Calendar datadevolucaorenovacao) {
+        this.datadevolucaorenovacao = datadevolucaorenovacao;
     }
 
     @Basic
@@ -99,5 +115,13 @@ public class Emprestimo {
     public void setEstadoDevolucao(EstadoDevolucao estadoDevolucao)
     {
         this.estadoDevolucao = estadoDevolucao;
+    }
+
+    public EstadoRenovacao getEstadoRenovacao() {
+        return estadoRenovacao;
+    }
+
+    public void setEstadoRenovacao(EstadoRenovacao estadoRenovacao) {
+        this.estadoRenovacao = estadoRenovacao;
     }
 }

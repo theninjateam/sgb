@@ -1,40 +1,48 @@
 package sgb.controller.viewsController;
 
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
-import sgb.controller.domainController.EmprestimoControllerSingleton;
 import sgb.domain.Emprestimo;
+import sgb.domain.Obra;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.zkoss.bind.annotation.Command;
+import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Session;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.ForwardEvent;
+import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
+import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.*;
 import sgb.domain.*;
 import sgb.service.CRUDService;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import java.util.Calendar;
+import java.util.List;
 
-public class ListPedido extends SelectorComposer<Component> {
-
+public class ListRenovacao extends SelectorComposer<Component> {
     private CRUDService crudService = (CRUDService) SpringUtil.getBean("CRUDService");
     private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;
-    private ListModelList<Emprestimo> pedidoListModel;
-    private ListModel<EstadoPedido> estadopedidoModel;
+    private ListModelList<Emprestimo> renovacaoListModel;
     private Boolean isNormalUser = true;
-    private EmprestimoControllerSingleton emprestimoControllerSingleton = EmprestimoControllerSingleton.getInstance(crudService);
+    private EstadoRenovacao estadoRenovacao;
 
     @Wire
-    private Listbox pedidoListBox;
-
+    private Listbox renovacaoListBox;
 
     @Override
     public void doAfterCompose(Component comp) throws Exception
@@ -50,21 +58,29 @@ public class ListPedido extends SelectorComposer<Component> {
             ComposeUserNormal();
         }
         else {
-           ComposeUserAdmin();
+            ComposeUserAdmin();
         }
     }
 
     public void ComposeUserAdmin(){
-        pedidoListModel = new ListModelList<Emprestimo>(emprestimoControllerSingleton.getRequisicoes(1));
-        pedidoListBox.setModel(pedidoListModel);
+        renovacaoListModel = new ListModelList<Emprestimo>(getAllEmprestimoListModel());
+        renovacaoListBox.setModel(renovacaoListModel);
     }
-
     public void ComposeUserNormal() {
-        pedidoListModel = new ListModelList<Emprestimo>(emprestimoControllerSingleton.getRequisicoes(this.user, 1));
-        pedidoListBox.setModel(pedidoListModel);
+        renovacaoListModel = new ListModelList<Emprestimo>(getUserEmprestimoListModel());
+        renovacaoListBox.setModel(renovacaoListModel);
+    }
+    public ListModelList<Emprestimo> getUserEmprestimoListModel() {
+        List<Emprestimo> lista = crudService.findByJPQuery("SELECT e FROM Emprestimo e WHERE e.estadoRenovacao.idestadorenovacao=2 and e.estadoPedido.idestadopedido=3 and e.emprestimoPK.user.id = " +
+                user.getId(),null);
+        return new ListModelList<Emprestimo>(lista);
+    }
+    public ListModelList<Emprestimo> getAllEmprestimoListModel () {
+        List<Emprestimo> lista = crudService.findByJPQuery("SELECT e FROM Emprestimo e WHERE e.estadoRenovacao.idestadorenovacao=2 and e.estadoPedido.idestadopedido=3",null);
+        return new ListModelList<Emprestimo>(lista);
     }
 
-    @Listen("onEliminarEmprestimo = #pedidoListBox")
+    @Listen("onEliminarRenovacao = #renovacaoListBox")
     public void doEliminar(ForwardEvent event)
     {
         if (isNormalUser) {
@@ -77,8 +93,10 @@ public class ListPedido extends SelectorComposer<Component> {
                         @Override
                         public void onEvent(Event event) throws Exception {
                             if (Messagebox.ON_YES.equals(event.getName())) {
-                                pedidoListModel.remove(emp);
-                                crudService.delete(emp);
+                                estadoRenovacao = crudService.get(EstadoRenovacao.class, 1);
+                                emp.setEstadoRenovacao(estadoRenovacao);
+                                renovacaoListModel.remove(emp);
+                                crudService.update(emp);
                                 Clients.showNotification("Pedido eliminado com sucesso", null, null, null, 5000);
                             }
                         }
@@ -88,8 +106,7 @@ public class ListPedido extends SelectorComposer<Component> {
         }
 
     }
-
-    @Listen("onReprovarEmprestimo = #pedidoListBox")
+    @Listen("onReprovarRenovacao = #renovacaoListBox")
     public void doReprovar(ForwardEvent event)
     {
         if(isNormalUser) {
@@ -101,13 +118,16 @@ public class ListPedido extends SelectorComposer<Component> {
             EstadoPedido estadoPedido = crudService.get(EstadoPedido.class, 2);
             emp.setEstadoPedido(estadoPedido);
             emp.setDataaprovacao(Calendar.getInstance());
-            pedidoListModel.remove(emp);
+            estadoRenovacao = crudService.get(EstadoRenovacao.class, 4);
+            emp.setEstadoRenovacao(estadoRenovacao);
+            renovacaoListModel.remove(emp);
             crudService.update(emp);
             Clients.showNotification("Pedido reprovado com sucesso ", null, null, null, 5000);
         }
+
     }
 
-    @Listen("onAprovarEmprestimo = #pedidoListBox")
+    @Listen("onAprovarRenovacao = #renovacaoListBox")
     public void doAprovar(ForwardEvent event)
     {
         if(isNormalUser) {
@@ -120,9 +140,14 @@ public class ListPedido extends SelectorComposer<Component> {
             emp.setEstadoPedido(estadoPedido);
             emp.setDataaprovacao(Calendar.getInstance());
             emp.setDatadevolucao(Calendar.getInstance());
-            pedidoListModel.remove(emp);
+            estadoRenovacao = crudService.get(EstadoRenovacao.class, 3);
+            emp.setEstadoRenovacao(estadoRenovacao);
+            renovacaoListModel.remove(emp);
             crudService.update(emp);
             Clients.showNotification("Pedido aprovado com sucesso ", null, null, null, 5000);
         }
+
     }
+
+
 }
