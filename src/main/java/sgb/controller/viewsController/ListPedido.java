@@ -1,39 +1,27 @@
 package sgb.controller.viewsController;
 
 import org.zkoss.zk.ui.Component;
-import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
-import sgb.controller.domainController.EmprestimoController;
+import sgb.controller.domainController.EmprestimoControllerSingleton;
 import sgb.domain.Emprestimo;
-import sgb.domain.Obra;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.zkoss.bind.annotation.Command;
-import org.zkoss.zk.ui.Component;
-import org.zkoss.zk.ui.Session;
-import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.ForwardEvent;
-import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
-import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.*;
 import sgb.domain.*;
 import sgb.service.CRUDService;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 import java.util.Calendar;
-import java.util.List;
 
 public class ListPedido extends SelectorComposer<Component> {
 
@@ -42,7 +30,7 @@ public class ListPedido extends SelectorComposer<Component> {
     private ListModelList<Emprestimo> pedidoListModel;
     private ListModel<EstadoPedido> estadopedidoModel;
     private Boolean isNormalUser = true;
-    private EmprestimoController emprestimoController = new EmprestimoController(crudService);
+    private EmprestimoControllerSingleton emprestimoControllerSingleton = EmprestimoControllerSingleton.getInstance(crudService);
 
     @Wire
     private Listbox pedidoListBox;
@@ -67,12 +55,12 @@ public class ListPedido extends SelectorComposer<Component> {
     }
 
     public void ComposeUserAdmin(){
-        pedidoListModel = new ListModelList<Emprestimo>(emprestimoController.getRequisicoes(1));
+        pedidoListModel = new ListModelList<Emprestimo>(emprestimoControllerSingleton.getRequisicoes(1));
         pedidoListBox.setModel(pedidoListModel);
     }
 
     public void ComposeUserNormal() {
-        pedidoListModel = new ListModelList<Emprestimo>(emprestimoController.getRequisicoes(this.user, 1));
+        pedidoListModel = new ListModelList<Emprestimo>(emprestimoControllerSingleton.getRequisicoes(this.user, 1));
         pedidoListBox.setModel(pedidoListModel);
     }
 

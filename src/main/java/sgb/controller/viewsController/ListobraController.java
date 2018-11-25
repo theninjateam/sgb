@@ -4,7 +4,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 import org.zkoss.zk.ui.Component;
-import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.*;
@@ -38,7 +37,7 @@ public class ListobraController extends SelectorComposer<Component>
     private ListModelList<Obra> obraListModel;
     private ListModelList<Item> cestaListModel = new ListModelList<Item>();
     private ListModelList<Obra> detalheobra;
-    private EmprestimoController emprestimoController =  new EmprestimoController(this.crudService);
+    private EmprestimoControllerSingleton emprestimoControllerSingleton =  EmprestimoControllerSingleton.getInstance(crudService);
 
     @Wire
     private Button buttonPesquisar;
