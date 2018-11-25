@@ -29,6 +29,7 @@
                                             <listitem>
                                                 <listcell>
                                                     <div>
+                                                        <zscript>
                                                         <![CDATA[
                                                         import java.text.*;
                                                         SimpleDateFormat  timeFormatter = new SimpleDateFormat("'('HH:mm:s')'");
@@ -44,6 +45,7 @@
 
                                                         String dataEntrada = builder.toString();
                                                     ]]>
+                                                        </zscript>
                                                         <label value="${dataEntrada}"/>
                                                     </div>
                                                 </listcell>
