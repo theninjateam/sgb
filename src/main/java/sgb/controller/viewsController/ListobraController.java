@@ -159,6 +159,7 @@ public class ListobraController extends SelectorComposer<Component>
                         if (Messagebox.ON_YES.equals(event.getName())) {
                             obraListModel.remove(obra);
 //                            obra.setAutores(null);
+                            obra.setAutores(null);
                             crudService.delete(obra);
                             Clients.showNotification("Obra eliminado com sucesso",null,null,null,5000);
                         }
