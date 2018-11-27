@@ -13,7 +13,7 @@ import java.util.List;
  * @author Fonseca
  *
  *@Description: We use Singleton because there are several classes that use methods present in
- * this class to read data from DB, so we decide that the instace of that class can shared.
+ * this class to read data from DB, so we decide that, the instace of that class can be shared.
  */
 
 public class EmprestimoControllerSingleton
