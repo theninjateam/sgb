@@ -35,17 +35,23 @@ public class ObraTest
     @Autowired
     private ApplicationContext context;
 
+    private EmprestimoControllerSingleton eCSingleton;
+    private CRUDService crudService;
+
     @Before
     @Transactional
     public void before() throws Exception
     {
         System.out.println("Setting it up!");
 
-        CRUDService crudService = (CRUDService) context.getBean("CRUDService");
+        this.crudService = (CRUDService) context.getBean("CRUDService");
+        this.eCSingleton = EmprestimoControllerSingleton.getInstance(crudService);
         List<Emprestimo> listem = crudService.getAll(Emprestimo.class);
 
         for (Emprestimo e: listem)
-            crudService.delete(e);
+        {
+            this.crudService.delete(e);
+        }
 
         EmprestimoPK emprestimoPK = new EmprestimoPK();
         Emprestimo emprestimo = new Emprestimo();
@@ -54,26 +60,12 @@ public class ObraTest
         estadoPedido.setIdestadopedido(4);
         ca.set(Calendar.DATE, 21);
         emprestimoPK.setDataentrada(ca);
-        emprestimoPK.setUser(crudService.get(Users.class, 3));
-        emprestimoPK.setObra(crudService.get(Obra.class, "eee2"));
-        emprestimo.setEmprestimoPK(emprestimoPK);
-        emprestimo.setEstadoPedido(estadoPedido);
-        queue[1] = emprestimoPK.toString();
-        crudService.Save(emprestimo);
-
-        emprestimoPK = new EmprestimoPK();
-        emprestimo = new Emprestimo();
-        ca = Calendar.getInstance();
-        estadoPedido = new EstadoPedido();
-        estadoPedido.setIdestadopedido(4);
-        ca.set(Calendar.DATE, 22);
-        emprestimoPK.setDataentrada(ca);
-        emprestimoPK.setUser(crudService.get(Users.class, 2));
-        emprestimoPK.setObra(crudService.get(Obra.class, "eee2"));
+        emprestimoPK.setUser(this.crudService.get(Users.class, 3));
+        emprestimoPK.setObra(this.crudService.get(Obra.class, "eee2"));
         emprestimo.setEmprestimoPK(emprestimoPK);
         emprestimo.setEstadoPedido(estadoPedido);
         queue[2] = emprestimoPK.toString();
-        crudService.Save(emprestimo);
+        this.crudService.Save(emprestimo);
 
         emprestimoPK = new EmprestimoPK();
         emprestimo = new Emprestimo();
@@ -82,12 +74,28 @@ public class ObraTest
         estadoPedido.setIdestadopedido(4);
         ca.set(Calendar.DATE, 19);
         emprestimoPK.setDataentrada(ca);
-        emprestimoPK.setUser(crudService.get(Users.class, 4));
-        emprestimoPK.setObra(crudService.get(Obra.class, "eee2"));
+        emprestimoPK.setUser(this.crudService.get(Users.class, 2));
+        emprestimoPK.setObra(this.crudService.get(Obra.class, "eee2"));
         emprestimo.setEmprestimoPK(emprestimoPK);
         emprestimo.setEstadoPedido(estadoPedido);
         queue[0] = emprestimoPK.toString();
-        crudService.Save(emprestimo);
+        this.crudService.Save(emprestimo);
+
+        Thread.sleep(4 * 1000);
+
+        emprestimoPK = new EmprestimoPK();
+        emprestimo = new Emprestimo();
+        ca = Calendar.getInstance();
+        estadoPedido = new EstadoPedido();
+        estadoPedido.setIdestadopedido(4);
+        ca.set(Calendar.DATE, 19);
+        emprestimoPK.setDataentrada(ca);
+        emprestimoPK.setUser(this.crudService.get(Users.class, 4));
+        emprestimoPK.setObra(this.crudService.get(Obra.class, "eee2"));
+        emprestimo.setEmprestimoPK(emprestimoPK);
+        emprestimo.setEstadoPedido(estadoPedido);
+        queue[1] = emprestimoPK.toString();
+        this.crudService.Save(emprestimo);
 
         emprestimoPK = new EmprestimoPK();
         emprestimo = new Emprestimo();
@@ -96,30 +104,41 @@ public class ObraTest
         estadoPedido.setIdestadopedido(4);
         ca.set(Calendar.DATE, 25);
         emprestimoPK.setDataentrada(ca);
-        emprestimoPK.setUser(crudService.get(Users.class, 1));
-        emprestimoPK.setObra(crudService.get(Obra.class, "eee2"));
+        emprestimoPK.setUser(this.crudService.get(Users.class, 1));
+        emprestimoPK.setObra(this.crudService.get(Obra.class, "eee2"));
         emprestimo.setEmprestimoPK(emprestimoPK);
         emprestimo.setEstadoPedido(estadoPedido);
         queue[3] = emprestimoPK.toString();
-        crudService.Save(emprestimo);
+        this.crudService.Save(emprestimo);
+
+        emprestimoPK = new EmprestimoPK();
+        emprestimo = new Emprestimo();
+        ca = Calendar.getInstance();
+        estadoPedido = new EstadoPedido();
+        estadoPedido.setIdestadopedido(4);
+        ca.set(Calendar.DATE, 25);
+        emprestimoPK.setDataentrada(ca);
+        emprestimoPK.setUser(this.crudService.get(Users.class, 1));
+        emprestimoPK.setObra(this.crudService.get(Obra.class, "WW2"));
+        emprestimo.setEmprestimoPK(emprestimoPK);
+        emprestimo.setEstadoPedido(estadoPedido);
+        this.crudService.Save(emprestimo);
     }
 
     @Test
     @Transactional
     public void generateDomiciliarQueue() throws Exception
     {
-        CRUDService crudService = (CRUDService) context.getBean("CRUDService");
-
         StringBuilder actualBuilder = new StringBuilder();
         StringBuilder espectedBuilder = new StringBuilder();
-        Obra o = crudService.get(Obra.class, "eee2");
-        EmprestimoControllerSingleton eCSingleton = EmprestimoControllerSingleton
-                .getInstance(crudService);
-        PriorityQueue<Emprestimo> pq = new PriorityQueue<>(o.generateDomiciliarQueue(eCSingleton));
+        Obra o = this.crudService.get(Obra.class, "eee2");
+        PriorityQueue<Emprestimo> pq = new PriorityQueue<>(o.generateDomiciliarQueue(this.eCSingleton));
 
         while (!pq.isEmpty())
         {
-            espectedBuilder.append(pq.remove().getEmprestimoPK().toString()+"\n");
+            Emprestimo e = pq.remove();
+            espectedBuilder.append(e.getEmprestimoPK().toString()+"\n");
+            this.crudService.delete(e);
         }
 
         actualBuilder.append(queue[0]+"\n");
@@ -128,6 +147,7 @@ public class ObraTest
         actualBuilder.append(queue[3]+"\n");
 
        assertThat(actualBuilder.toString()).isEqualTo(espectedBuilder.toString());
-       System.out.println(actualBuilder.toString());
+       assertThat(o.generateDomiciliarQueue(this.eCSingleton).isEmpty()).isEqualTo(true);
+       System.out.println(espectedBuilder.toString());
     }
 }
