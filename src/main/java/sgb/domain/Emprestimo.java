@@ -7,7 +7,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "emprestimo", schema = "public")
-public class Emprestimo {
+public class Emprestimo  implements Comparable<Emprestimo>{
 
     @EmbeddedId
     private EmprestimoPK emprestimoPK;
@@ -123,5 +123,50 @@ public class Emprestimo {
 
     public void setEstadoRenovacao(EstadoRenovacao estadoRenovacao) {
         this.estadoRenovacao = estadoRenovacao;
+    }
+
+    @Override
+    public int compareTo(Emprestimo emprestimo)
+    {
+        return this.getEmprestimoPK().getDataentrada().
+                compareTo(emprestimo.getEmprestimoPK().getDataentrada());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Emprestimo that = (Emprestimo) o;
+        return quantidade == that.quantidade &&
+                Objects.equals(emprestimoPK, that.emprestimoPK) &&
+                Objects.equals(dataaprovacao, that.dataaprovacao) &&
+                Objects.equals(datadevolucao, that.datadevolucao) &&
+                Objects.equals(comentario, that.comentario) &&
+                Objects.equals(datarenovacao, that.datarenovacao) &&
+                Objects.equals(datadevolucaorenovacao, that.datadevolucaorenovacao) &&
+                Objects.equals(estadoPedido, that.estadoPedido) &&
+                Objects.equals(estadoDevolucao, that.estadoDevolucao) &&
+                Objects.equals(estadoRenovacao, that.estadoRenovacao);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(emprestimoPK, dataaprovacao, datadevolucao, quantidade, comentario, datarenovacao, datadevolucaorenovacao, estadoPedido, estadoDevolucao, estadoRenovacao);
+    }
+
+    @Override
+    public String toString() {
+        return "Emprestimo{" +
+                "emprestimoPK=" + emprestimoPK.toString() +
+                ", dataaprovacao=" + dataaprovacao +
+                ", datadevolucao=" + datadevolucao +
+                ", quantidade=" + quantidade +
+                ", comentario='" + comentario + '\'' +
+                ", datarenovacao=" + datarenovacao +
+                ", datadevolucaorenovacao=" + datadevolucaorenovacao +
+                ", estadoPedido=" + estadoPedido +
+                ", estadoDevolucao=" + estadoDevolucao +
+                ", estadoRenovacao=" + estadoRenovacao +
+                '}';
     }
 }

@@ -2,6 +2,7 @@ package sgb.service;
 
 import org.hibernate.LockMode;
 import org.hibernate.Transaction;
+import sgb.dao.CRUDDao;
 
 import java.io.Serializable;
 import java.util.List;
@@ -82,4 +83,5 @@ public interface CRUDService {
     <T> void refreshSes(T klass, String tenant);
 
     <T> int updateQuerySes(String query, String tenant);
+
 }

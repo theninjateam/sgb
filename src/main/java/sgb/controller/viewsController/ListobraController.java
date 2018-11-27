@@ -19,6 +19,7 @@ import sgb.controller.domainController.*;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.PriorityQueue;
 
 /**
  * @author Fonseca, Emerson
@@ -87,6 +88,25 @@ public class ListobraController extends SelectorComposer<Component>
         obraListBox.setModel(obraListModel);
         cestaListBox.setModel(cestaListModel);
         this.qtdObrasNaCesta.setValue("0");
+
+
+        for ( Obra o : obraListModel)
+        {
+            PriorityQueue<Emprestimo> domiciliarQueue = o.generateDomiciliarQueue(emprestimoControllerSingleton);
+
+            if (!domiciliarQueue.isEmpty())
+            {
+                System.out.println("==================================================================================");
+
+                while (!domiciliarQueue.isEmpty())
+                {
+
+                    System.out.println(domiciliarQueue.remove().toString());
+                }
+
+                break;
+            }
+        }
     }
 
 

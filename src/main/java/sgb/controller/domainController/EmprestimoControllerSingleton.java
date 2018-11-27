@@ -2,6 +2,7 @@ package sgb.controller.domainController;
 
 import org.zkoss.zul.ListModelList;
 import sgb.domain.Emprestimo;
+import sgb.domain.Obra;
 import sgb.domain.Users;
 import sgb.service.CRUDService;
 import java.util.HashMap;
@@ -78,6 +79,22 @@ public class EmprestimoControllerSingleton
         parameters.put("idEstadoPedido", idEstadoPedido);
 
         query.append("SELECT e FROM Emprestimo e WHERE e.estadoPedido.idestadopedido = :idEstadoPedido");
+
+        List<Emprestimo> list = crudService.findByJPQuery(query.toString(), parameters);
+
+        return new ListModelList<Emprestimo>(list);
+    }
+
+    public ListModelList<Emprestimo> getRequisicoes(Obra obra, int idEstadoPedido)
+    {
+        parameters = new HashMap<String, Object>(2);
+        query = new StringBuilder();
+
+        parameters.put("idEstadoPedido", idEstadoPedido);
+        parameters.put("cota", obra.getCota());
+
+        query.append("SELECT e FROM Emprestimo e WHERE e.estadoPedido.idestadopedido = :idEstadoPedido and ");
+        query.append("e.emprestimoPK.obra.cota = :cota");
 
         List<Emprestimo> list = crudService.findByJPQuery(query.toString(), parameters);
 

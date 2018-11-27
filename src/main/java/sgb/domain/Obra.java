@@ -1,9 +1,15 @@
 package sgb.domain;
 
+import org.zkoss.zkplus.spring.SpringUtil;
+import sgb.controller.domainController.EmprestimoControllerSingleton;
+import sgb.service.CRUDService;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.PriorityQueue;
+
 
 @Entity
 @Table(name="obra")
@@ -107,26 +113,6 @@ public class Obra {
         this.anoPublicacao = anoPublicacao;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Obra obra = (Obra) o;
-        return Objects.equals(cota, obra.cota) &&
-                Objects.equals(registro, obra.registro) &&
-                Objects.equals(titulo, obra.titulo) &&
-                Objects.equals(localpublicacao, obra.localpublicacao) &&
-                Objects.equals(quantidade, obra.quantidade) &&
-                Objects.equals(pathpdf, obra.pathpdf) &&
-                Objects.equals(pathcapa, obra.pathcapa) &&
-                Objects.equals(anoPublicacao, obra.anoPublicacao) &&
-                Objects.equals(autores, obra.autores);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(cota, registro, titulo, localpublicacao, quantidade, pathpdf, pathcapa, anoPublicacao);
-    }
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "ididioma", nullable = false)
@@ -229,5 +215,17 @@ public class Obra {
 
     public void setRegistroObra(RegistroObra registroObra) {
         this.registroObra = registroObra;
+    }
+
+    public PriorityQueue<Emprestimo> generateDomiciliarQueue(EmprestimoControllerSingleton eCSingleton)
+    {
+        PriorityQueue<Emprestimo> domiciliarQueue = new PriorityQueue<>();
+
+        for (Emprestimo e: eCSingleton.getRequisicoes(this, 4))
+        {
+            domiciliarQueue.add(e);
+        }
+
+        return domiciliarQueue;
     }
 }
