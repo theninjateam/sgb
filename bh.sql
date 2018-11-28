@@ -1,357 +1,723 @@
-create table if not exists areacientifica
-(
-	idarea serial not null
-		constraint areacientifica_pkey
-			primary key,
-	descricao varchar(255)
+/*
+ Navicat Premium Data Transfer
+
+ Source Server         : Emerson
+ Source Server Type    : PostgreSQL
+ Source Server Version : 100005
+ Source Host           : localhost:5432
+ Source Catalog        : sgb
+ Source Schema         : public
+
+ Target Server Type    : PostgreSQL
+ Target Server Version : 100005
+ File Encoding         : 65001
+
+ Date: 28/11/2018 22:08:33
+*/
+
+
+-- ----------------------------
+-- Sequence structure for areacientifica_idarea_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."areacientifica_idarea_seq";
+CREATE SEQUENCE "public"."areacientifica_idarea_seq"
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 2147483647
+START 1
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for estadodevolucao_idestadodevolucao_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."estadodevolucao_idestadodevolucao_seq";
+CREATE SEQUENCE "public"."estadodevolucao_idestadodevolucao_seq"
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 2147483647
+START 1
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for estadopedido_idestadopedido_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."estadopedido_idestadopedido_seq";
+CREATE SEQUENCE "public"."estadopedido_idestadopedido_seq"
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 2147483647
+START 1
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for estadorenovacao_idestadorenovacao_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."estadorenovacao_idestadorenovacao_seq";
+CREATE SEQUENCE "public"."estadorenovacao_idestadorenovacao_seq"
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 1
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for formaaquisicao_formaaquisicao_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."formaaquisicao_formaaquisicao_seq";
+CREATE SEQUENCE "public"."formaaquisicao_formaaquisicao_seq"
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 2147483647
+START 1
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for formatocd_idformato_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."formatocd_idformato_seq";
+CREATE SEQUENCE "public"."formatocd_idformato_seq"
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 2147483647
+START 1
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for hibernate_sequence
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."hibernate_sequence";
+CREATE SEQUENCE "public"."hibernate_sequence"
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 1
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for idioma_ididioma_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."idioma_ididioma_seq";
+CREATE SEQUENCE "public"."idioma_ididioma_seq"
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 2147483647
+START 1
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for tipoobra_idtipo_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."tipoobra_idtipo_seq";
+CREATE SEQUENCE "public"."tipoobra_idtipo_seq"
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 2147483647
+START 1
+CACHE 1;
+
+-- ----------------------------
+-- Table structure for areacientifica
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."areacientifica";
+CREATE TABLE "public"."areacientifica" (
+  "idarea" int4 NOT NULL DEFAULT nextval('areacientifica_idarea_seq'::regclass),
+  "descricao" varchar(255) COLLATE "pg_catalog"."default"
 )
 ;
 
-alter table areacientifica owner to postgres
-;
+-- ----------------------------
+-- Records of areacientifica
+-- ----------------------------
+INSERT INTO "public"."areacientifica" VALUES (1, 'Fisica');
+INSERT INTO "public"."areacientifica" VALUES (2, 'Matematica');
+INSERT INTO "public"."areacientifica" VALUES (3, 'Quimica');
+INSERT INTO "public"."areacientifica" VALUES (4, 'Literatura');
+INSERT INTO "public"."areacientifica" VALUES (5, 'Biologia');
 
-create table if not exists autor
-(
-	hashcode varchar(255) not null
-		constraint autor_pk
-			primary key,
-	nome varchar(255)
+-- ----------------------------
+-- Table structure for autor
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."autor";
+CREATE TABLE "public"."autor" (
+  "hashcode" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
+  "nome" varchar(255) COLLATE "pg_catalog"."default"
 )
 ;
 
-alter table autor owner to postgres
-;
+-- ----------------------------
+-- Records of autor
+-- ----------------------------
+INSERT INTO "public"."autor" VALUES ('8229a8b31ffcddd530ce6b821313a55a', 'Ricardo Daniel Fedeli');
+INSERT INTO "public"."autor" VALUES ('ed4518f5dd79dfe71c93738816d642d5', 'Fernando Eduardo Peres');
+INSERT INTO "public"."autor" VALUES ('62b9aef3390384c34a495744df95e8dc', 'Joao Antonio');
+INSERT INTO "public"."autor" VALUES ('0b757be795f46a5c37c52e7932e8effc', 'Americo Jose');
+INSERT INTO "public"."autor" VALUES ('90455afe8bf918c581be908c174a0d30', 'Emerson Cardoso');
+INSERT INTO "public"."autor" VALUES ('ebc308f979e135f40483eec4b35feea1', 'Jason Martin');
+INSERT INTO "public"."autor" VALUES ('22c715b94d62279d68322ab7b6f369e1', 'Fernando Frances');
+INSERT INTO "public"."autor" VALUES ('6bff12cb3b31c3ff69252b390748b18c', 'Americo Antonio');
 
-create table if not exists estadodevolucao
-(
-	idestadodevolucao serial not null
-		constraint estadodevolucao_pkey
-			primary key,
-	descricao varchar(255)
+-- ----------------------------
+-- Table structure for cd
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."cd";
+CREATE TABLE "public"."cd" (
+  "cota" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
+  "descricao" varchar(255) COLLATE "pg_catalog"."default"
 )
 ;
 
-alter table estadodevolucao owner to postgres
-;
-
-create table if not exists estadopedido
-(
-	idestadopedido serial not null
-		constraint estadopedido_pkey
-			primary key,
-	descricao varchar(255)
+-- ----------------------------
+-- Table structure for emprestimo
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."emprestimo";
+CREATE TABLE "public"."emprestimo" (
+  "user_id" int4 NOT NULL,
+  "cota" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
+  "dataentrada" timestamp(6) NOT NULL,
+  "estadopedido" int4,
+  "dataaprovacao" date,
+  "datadevolucao" date,
+  "quantidade" int4,
+  "comentario" varchar(5000) COLLATE "pg_catalog"."default",
+  "estadodevolucao" int4,
+  "estadorenovacao" int8,
+  "datarenovacao" date,
+  "datadevolucaorenovacao" date
 )
 ;
 
-alter table estadopedido owner to postgres
-;
+-- ----------------------------
+-- Records of emprestimo
+-- ----------------------------
+INSERT INTO "public"."emprestimo" VALUES (3, '77788', '2018-11-23 00:00:00', 3, '2018-11-23', '2018-11-23', 1, 'a', 1, 1, NULL, NULL);
+INSERT INTO "public"."emprestimo" VALUES (3, '589AF', '2018-11-23 00:00:00', 1, '2018-11-25', '2018-11-25', 1, 'c', 1, 2, NULL, NULL);
+INSERT INTO "public"."emprestimo" VALUES (3, '531.4F', '2018-11-23 00:00:00', 3, '2018-11-25', '2018-11-25', 1, 'd', 1, 2, NULL, NULL);
+INSERT INTO "public"."emprestimo" VALUES (2, '531.4F', '2018-11-24 19:57:58.518', 1, NULL, NULL, 1, 'f', 1, 1, NULL, NULL);
+INSERT INTO "public"."emprestimo" VALUES (2, '589AF', '2018-11-24 19:57:58.545', 1, NULL, NULL, 2, 'g', 1, 1, NULL, NULL);
+INSERT INTO "public"."emprestimo" VALUES (2, '545AA', '2018-11-24 19:57:58.606', 1, NULL, NULL, 1, 'h', 1, 1, NULL, NULL);
+INSERT INTO "public"."emprestimo" VALUES (2, '544FF', '2018-11-24 19:57:58.661', 1, NULL, NULL, 2, 'i', 1, 1, NULL, NULL);
+INSERT INTO "public"."emprestimo" VALUES (3, '544FF', '2018-11-23 00:00:00', 1, '2018-11-23', '2018-11-23', 1, 'b', 1, 1, NULL, NULL);
 
-create table if not exists estadorenovacao
-(
-	idestadorenovacao bigserial not null
-		constraint estadorenovacao_pkey
-			primary key,
-	descricao varchar(255)
+-- ----------------------------
+-- Table structure for estadodevolucao
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."estadodevolucao";
+CREATE TABLE "public"."estadodevolucao" (
+  "idestadodevolucao" int4 NOT NULL DEFAULT nextval('estadodevolucao_idestadodevolucao_seq'::regclass),
+  "descricao" varchar(255) COLLATE "pg_catalog"."default"
 )
 ;
 
-alter table estadorenovacao owner to postgres
-;
+-- ----------------------------
+-- Records of estadodevolucao
+-- ----------------------------
+INSERT INTO "public"."estadodevolucao" VALUES (2, 'nao devolvido');
+INSERT INTO "public"."estadodevolucao" VALUES (3, 'devolvido');
+INSERT INTO "public"."estadodevolucao" VALUES (1, 'Indeterminado');
 
-create table if not exists formatocd
-(
-	idformato serial not null
-		constraint formatocd_pkey
-			primary key,
-	descricao varchar(255)
+-- ----------------------------
+-- Table structure for estadopedido
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."estadopedido";
+CREATE TABLE "public"."estadopedido" (
+  "idestadopedido" int4 NOT NULL DEFAULT nextval('estadopedido_idestadopedido_seq'::regclass),
+  "descricao" varchar(255) COLLATE "pg_catalog"."default"
 )
 ;
 
-alter table formatocd owner to postgres
-;
+-- ----------------------------
+-- Records of estadopedido
+-- ----------------------------
+INSERT INTO "public"."estadopedido" VALUES (2, 'rejeitado');
+INSERT INTO "public"."estadopedido" VALUES (3, 'aceite');
+INSERT INTO "public"."estadopedido" VALUES (1, 'pendente');
 
-create table if not exists idioma
-(
-	ididioma serial not null
-		constraint idioma_pkey
-			primary key,
-	descricao varchar(255)
+-- ----------------------------
+-- Table structure for estadorenovacao
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."estadorenovacao";
+CREATE TABLE "public"."estadorenovacao" (
+  "idestadorenovacao" int8 NOT NULL DEFAULT nextval('estadorenovacao_idestadorenovacao_seq'::regclass),
+  "descricao" varchar(255) COLLATE "pg_catalog"."default"
 )
 ;
 
-alter table idioma owner to postgres
-;
+-- ----------------------------
+-- Records of estadorenovacao
+-- ----------------------------
+INSERT INTO "public"."estadorenovacao" VALUES (1, 'indeterminado');
+INSERT INTO "public"."estadorenovacao" VALUES (2, 'pendente');
+INSERT INTO "public"."estadorenovacao" VALUES (3, 'aceite');
+INSERT INTO "public"."estadorenovacao" VALUES (4, 'rejeitado');
 
-create table if not exists item
-(
-	item_id integer not null
-		constraint item_pkey
-			primary key,
-	descricao varchar(255),
-	item varchar(255) not null
+-- ----------------------------
+-- Table structure for formaaquisicao
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."formaaquisicao";
+CREATE TABLE "public"."formaaquisicao" (
+  "formaaquisicao" int4 NOT NULL DEFAULT nextval('formaaquisicao_formaaquisicao_seq'::regclass),
+  "descricao" varchar(255) COLLATE "pg_catalog"."default"
 )
 ;
 
-alter table item owner to postgres
-;
+-- ----------------------------
+-- Records of formaaquisicao
+-- ----------------------------
+INSERT INTO "public"."formaaquisicao" VALUES (1, 'Compra');
+INSERT INTO "public"."formaaquisicao" VALUES (2, 'Doacao');
 
-create table if not exists role
-(
-	role_id integer not null
-		constraint role_pkey
-			primary key,
-	role varchar(255),
-	qtdmaxobras integer default 0
+-- ----------------------------
+-- Table structure for formatocd
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."formatocd";
+CREATE TABLE "public"."formatocd" (
+  "idformato" int4 NOT NULL DEFAULT nextval('formatocd_idformato_seq'::regclass),
+  "descricao" varchar(255) COLLATE "pg_catalog"."default"
 )
 ;
 
-alter table role owner to postgres
-;
+-- ----------------------------
+-- Records of formatocd
+-- ----------------------------
+INSERT INTO "public"."formatocd" VALUES (1, 'Audio');
+INSERT INTO "public"."formatocd" VALUES (2, 'Texto');
+INSERT INTO "public"."formatocd" VALUES (3, 'Video');
+INSERT INTO "public"."formatocd" VALUES (4, 'Sistema');
 
-create table if not exists item_role
-(
-	item_id integer not null
-		constraint item_role_item_id_fkey
-			references item,
-	role_id integer not null
-		constraint item_role_role_id_fkey
-			references role,
-	constraint item_role_pkey
-		primary key (item_id, role_id)
+-- ----------------------------
+-- Table structure for idioma
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."idioma";
+CREATE TABLE "public"."idioma" (
+  "ididioma" int4 NOT NULL DEFAULT nextval('idioma_ididioma_seq'::regclass),
+  "descricao" varchar(255) COLLATE "pg_catalog"."default"
 )
 ;
 
-alter table item_role owner to postgres
-;
+-- ----------------------------
+-- Records of idioma
+-- ----------------------------
+INSERT INTO "public"."idioma" VALUES (1, 'Portugues');
+INSERT INTO "public"."idioma" VALUES (2, 'Ingles');
+INSERT INTO "public"."idioma" VALUES (3, 'Espanhol');
 
-create table if not exists roleitem
-(
-	item varchar(255) not null,
-	idrole integer not null,
-	constraint roleitem_pkey
-		primary key (item, idrole)
+-- ----------------------------
+-- Table structure for item
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."item";
+CREATE TABLE "public"."item" (
+  "item_id" int4 NOT NULL,
+  "descricao" varchar(255) COLLATE "pg_catalog"."default",
+  "item" varchar(255) COLLATE "pg_catalog"."default" NOT NULL
 )
 ;
 
-alter table roleitem owner to postgres
-;
-
-create table if not exists tipoobra
-(
-	idtipo serial not null
-		constraint tipoobra_pkey
-			primary key,
-	descricao varchar(255)
+-- ----------------------------
+-- Table structure for item_role
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."item_role";
+CREATE TABLE "public"."item_role" (
+  "item_id" int4 NOT NULL,
+  "role_id" int4 NOT NULL
 )
 ;
 
-alter table tipoobra owner to postgres
-;
-
-create table if not exists obra
-(
-	cota varchar(255) not null
-		constraint obra_key
-			primary key,
-	registro integer,
-	titulo varchar(255),
-	idarea integer
-		constraint idarea
-			references areacientifica,
-	localpublicacao varchar(255),
-	ididioma integer
-		constraint ididioma
-			references idioma,
-	quantidade integer,
-	idtipo integer
-		constraint idtipo
-			references tipoobra,
-	pathpdf varchar(255),
-	pathcapa varchar(255),
-	anopublicacao integer,
-	domiciliarqueue bytea
+-- ----------------------------
+-- Table structure for livro
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."livro";
+CREATE TABLE "public"."livro" (
+  "cota" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
+  "isbn" varchar(255) COLLATE "pg_catalog"."default",
+  "editora" varchar(255) COLLATE "pg_catalog"."default",
+  "edicao" int4,
+  "codigobarra" varchar(255) COLLATE "pg_catalog"."default",
+  "volume" int4
 )
 ;
 
-alter table obra owner to postgres
-;
-
-create table if not exists cd
-(
-	cota varchar(255) not null
-		constraint cd_key
-			primary key
-		constraint idcd
-			references obra,
-	descricao varchar(255)
+-- ----------------------------
+-- Table structure for livrocd
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."livrocd";
+CREATE TABLE "public"."livrocd" (
+  "cota" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
+  "codigobarra" varchar(255) COLLATE "pg_catalog"."default",
+  "descricaocd" varchar(255) COLLATE "pg_catalog"."default",
+  "edicao" varchar(255) COLLATE "pg_catalog"."default",
+  "editora" varchar(255) COLLATE "pg_catalog"."default",
+  "isbn" varchar(255) COLLATE "pg_catalog"."default",
+  "volume" int4
 )
 ;
 
-alter table cd owner to postgres
-;
-
-create table if not exists livro
-(
-	cota varchar(255) not null
-		constraint livro_key
-			primary key
-		constraint cota
-			references obra,
-	isbn varchar(255),
-	editora varchar(255),
-	edicao integer,
-	codigobarra varchar(255),
-	volume integer
+-- ----------------------------
+-- Table structure for obra
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."obra";
+CREATE TABLE "public"."obra" (
+  "cota" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
+  "registro" int4,
+  "titulo" varchar(255) COLLATE "pg_catalog"."default",
+  "idarea" int4,
+  "localpublicacao" varchar(255) COLLATE "pg_catalog"."default",
+  "ididioma" int4,
+  "quantidade" int4,
+  "idtipo" int4,
+  "pathpdf" varchar(255) COLLATE "pg_catalog"."default",
+  "pathcapa" varchar(255) COLLATE "pg_catalog"."default",
+  "anopublicacao" int4
 )
 ;
 
-alter table livro owner to postgres
-;
+-- ----------------------------
+-- Records of obra
+-- ----------------------------
+INSERT INTO "public"."obra" VALUES ('531.4F', 1223, 'Introducao Fisica', 1, 'Pemba', 1, 4, 1, 'digitalLibrary/pdf/isbd-cons_2007-en.pdf', 'digitalLibrary/cover/fisica.jpg', 2001);
+INSERT INTO "public"."obra" VALUES ('589AF', 78988, 'Introducao a Geografia', 1, 'teste', 1, 20, 2, NULL, 'digitalLibrary/cover/geografia.jpg', 2018);
+INSERT INTO "public"."obra" VALUES ('77788', 555, 'Introducao a Quimica', 5, 'Maputo', 1, 4, 2, 'digitalLibrary/pdf/isbd-cons_2007-en.pdf', 'digitalLibrary/cover/quimica.jpg', 788);
+INSERT INTO "public"."obra" VALUES ('544FF', 7887, 'Introducao a Matematica', 1, 'Pemba', 1, 8, 1, NULL, 'digitalLibrary/cover/Introducao-a-Matematica.jpg', 2018);
+INSERT INTO "public"."obra" VALUES ('545AA', 785, 'Introducao a Estatistica', 1, 'Maputo', 1, 2, 2, NULL, 'digitalLibrary/cover/Introducao-a-Estatistica-Enfoque-Informatico-com-o-Pacote-Estatistico-SPSS-275390.jpg', 2017);
 
-create table if not exists livrocd
-(
-	cota varchar(255) not null
-		constraint livrocd_pkey
-			primary key
-		constraint fkb022d77f183e4c5
-			references obra,
-	codigobarra varchar(255),
-	descricaocd varchar(255),
-	edicao varchar(255),
-	editora varchar(255),
-	isbn varchar(255),
-	volume integer
+-- ----------------------------
+-- Table structure for obra_autor
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."obra_autor";
+CREATE TABLE "public"."obra_autor" (
+  "hashcode" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
+  "cota" varchar(255) COLLATE "pg_catalog"."default" NOT NULL
 )
 ;
 
-alter table livrocd owner to postgres
-;
+-- ----------------------------
+-- Records of obra_autor
+-- ----------------------------
+INSERT INTO "public"."obra_autor" VALUES ('8229a8b31ffcddd530ce6b821313a55a', '531.4F');
+INSERT INTO "public"."obra_autor" VALUES ('ed4518f5dd79dfe71c93738816d642d5', '531.4F');
+INSERT INTO "public"."obra_autor" VALUES ('62b9aef3390384c34a495744df95e8dc', '77788');
+INSERT INTO "public"."obra_autor" VALUES ('ebc308f979e135f40483eec4b35feea1', '77788');
+INSERT INTO "public"."obra_autor" VALUES ('0b757be795f46a5c37c52e7932e8effc', '589AF');
+INSERT INTO "public"."obra_autor" VALUES ('62b9aef3390384c34a495744df95e8dc', '589AF');
+INSERT INTO "public"."obra_autor" VALUES ('90455afe8bf918c581be908c174a0d30', '589AF');
+INSERT INTO "public"."obra_autor" VALUES ('22c715b94d62279d68322ab7b6f369e1', '544FF');
+INSERT INTO "public"."obra_autor" VALUES ('6bff12cb3b31c3ff69252b390748b18c', '544FF');
+INSERT INTO "public"."obra_autor" VALUES ('6bff12cb3b31c3ff69252b390748b18c', '545AA');
 
-create table if not exists obra_autor
-(
-	hashcode varchar(255) not null
-		constraint hashcode
-			references autor,
-	cota varchar(255) not null
-		constraint cota
-			references obra,
-	constraint obra_autor_key
-		primary key (cota, hashcode)
+-- ----------------------------
+-- Table structure for registroobra
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."registroobra";
+CREATE TABLE "public"."registroobra" (
+  "cota" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
+  "user_id" int4 NOT NULL,
+  "dataregisto" timestamp(6) NOT NULL,
+  "observacao" varchar(255) COLLATE "pg_catalog"."default",
+  "formaaquisicao" int4 NOT NULL
 )
 ;
 
-alter table obra_autor owner to postgres
-;
-
-create table if not exists revista
-(
-	cota varchar(255) not null
-		constraint revista_key
-			primary key
-		constraint cota
-			references obra,
-	instituicao varchar(255)
+-- ----------------------------
+-- Table structure for revista
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."revista";
+CREATE TABLE "public"."revista" (
+  "cota" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
+  "instituicao" varchar(255) COLLATE "pg_catalog"."default"
 )
 ;
 
-alter table revista owner to postgres
-;
+-- ----------------------------
+-- Records of revista
+-- ----------------------------
+INSERT INTO "public"."revista" VALUES ('77788', 'rtrrrrrrrrrrrr');
+INSERT INTO "public"."revista" VALUES ('589AF', 'Unilurio');
 
-create table if not exists "user"
-(
-	user_id integer not null
-		constraint user_pkey
-			primary key,
-	active integer,
-	email varchar(255),
-	last_name varchar(255),
-	name varchar(255),
-	password varchar(255)
+-- ----------------------------
+-- Table structure for role
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."role";
+CREATE TABLE "public"."role" (
+  "role_id" int4 NOT NULL,
+  "role" varchar(255) COLLATE "pg_catalog"."default",
+  "qtdmaxobras" int4 DEFAULT 0
 )
 ;
 
-alter table "user" owner to postgres
-;
+-- ----------------------------
+-- Records of role
+-- ----------------------------
+INSERT INTO "public"."role" VALUES (3, 'teacher', 4);
+INSERT INTO "public"."role" VALUES (1, 'ADMIN', 0);
+INSERT INTO "public"."role" VALUES (2, 'student', 6);
 
-create table if not exists emprestimo
-(
-	user_id integer not null
-		constraint user_id
-			references "user",
-	cota varchar(255) not null
-		constraint cota
-			references obra,
-	dataentrada timestamp not null,
-	estadopedido integer
-		constraint idestadopedido
-			references estadopedido,
-	dataaprovacao date,
-	datadevolucao date,
-	quantidade integer,
-	comentario varchar(5000),
-	estadodevolucao integer
-		constraint idestadodevolucao
-			references estadodevolucao,
-	estadorenovacao bigint
-		constraint idestadorenovacao
-			references estadorenovacao,
-	datarenovacao date,
-	datadevolucaorenovacao date,
-	constraint emprestimo_embeddepk
-		primary key (user_id, cota, dataentrada)
+-- ----------------------------
+-- Table structure for roleitem
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."roleitem";
+CREATE TABLE "public"."roleitem" (
+  "item" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
+  "idrole" int4 NOT NULL
 )
 ;
 
-alter table emprestimo owner to postgres
-;
-
-create table if not exists user_role
-(
-	user_id integer not null
-		constraint fk859n2jvi8ivhui0rl0esws6o
-			references "user",
-	role_id integer not null
-		constraint fka68196081fvovjhkek5m97n3y
-			references role,
-	constraint user_role_pkey
-		primary key (user_id, role_id)
+-- ----------------------------
+-- Table structure for tipoobra
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."tipoobra";
+CREATE TABLE "public"."tipoobra" (
+  "idtipo" int4 NOT NULL DEFAULT nextval('tipoobra_idtipo_seq'::regclass),
+  "descricao" varchar(255) COLLATE "pg_catalog"."default"
 )
 ;
 
-alter table user_role owner to postgres
-;
+-- ----------------------------
+-- Records of tipoobra
+-- ----------------------------
+INSERT INTO "public"."tipoobra" VALUES (1, 'Livro');
+INSERT INTO "public"."tipoobra" VALUES (2, 'Revista');
+INSERT INTO "public"."tipoobra" VALUES (3, 'CD');
 
-create table if not exists formaaquisicao
-(
-	formaaquisicao integer not null
-		constraint formaaquisicao_pkey
-			primary key,
-	descricao varchar(255)
+-- ----------------------------
+-- Table structure for user
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."user";
+CREATE TABLE "public"."user" (
+  "user_id" int4 NOT NULL,
+  "active" int4,
+  "email" varchar(255) COLLATE "pg_catalog"."default",
+  "last_name" varchar(255) COLLATE "pg_catalog"."default",
+  "name" varchar(255) COLLATE "pg_catalog"."default",
+  "password" varchar(255) COLLATE "pg_catalog"."default"
 )
 ;
 
-alter table formaaquisicao owner to postgres
-;
+-- ----------------------------
+-- Records of user
+-- ----------------------------
+INSERT INTO "public"."user" VALUES (1, 1, 'admin@admin', 'admin', 'admin', '21232f297a57a5a743894a0e4a801fc3');
+INSERT INTO "public"."user" VALUES (2, 1, 'fonseca@fonseca', 'fonseca', 'fonseca', 'e653d3954be6576488c5ce7a599869de');
+INSERT INTO "public"."user" VALUES (3, 1, 'student@unilurio.ac.mz', 'student', 'student', '289ffeb2a745ccf51ca89a297f47e382');
+INSERT INTO "public"."user" VALUES (4, 1, 'teacher@unilurio.ac.mz', 'teacher', 'teacher', '289ffeb2a745ccf51ca89a297f47e382');
 
-create table if not exists registroobra
-(
-	cota varchar(255) not null
-		constraint "Cota"
-			references obra
-				on update cascade on delete cascade,
-	user_id integer not null
-		constraint iduser
-			references "user",
-	dataregisto timestamp not null,
-	observacao varchar(255),
-	formaaquisicao integer not null
-		constraint fkb046d1f59a0d88fe
-			references formaaquisicao,
-	constraint registroobra_pk
-		primary key (cota, dataregisto)
+-- ----------------------------
+-- Table structure for user_role
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."user_role";
+CREATE TABLE "public"."user_role" (
+  "user_id" int4 NOT NULL,
+  "role_id" int4 NOT NULL
 )
 ;
 
-alter table registroobra owner to postgres
-;
+-- ----------------------------
+-- Records of user_role
+-- ----------------------------
+INSERT INTO "public"."user_role" VALUES (1, 1);
+INSERT INTO "public"."user_role" VALUES (2, 2);
+INSERT INTO "public"."user_role" VALUES (4, 3);
+INSERT INTO "public"."user_role" VALUES (3, 2);
 
+-- ----------------------------
+-- Alter sequences owned by
+-- ----------------------------
+ALTER SEQUENCE "public"."areacientifica_idarea_seq"
+OWNED BY "public"."areacientifica"."idarea";
+SELECT setval('"public"."areacientifica_idarea_seq"', 2, false);
+ALTER SEQUENCE "public"."estadodevolucao_idestadodevolucao_seq"
+OWNED BY "public"."estadodevolucao"."idestadodevolucao";
+SELECT setval('"public"."estadodevolucao_idestadodevolucao_seq"', 2, false);
+ALTER SEQUENCE "public"."estadopedido_idestadopedido_seq"
+OWNED BY "public"."estadopedido"."idestadopedido";
+SELECT setval('"public"."estadopedido_idestadopedido_seq"', 2, false);
+ALTER SEQUENCE "public"."estadorenovacao_idestadorenovacao_seq"
+OWNED BY "public"."estadorenovacao"."idestadorenovacao";
+SELECT setval('"public"."estadorenovacao_idestadorenovacao_seq"', 2, false);
+ALTER SEQUENCE "public"."formaaquisicao_formaaquisicao_seq"
+OWNED BY "public"."formaaquisicao"."formaaquisicao";
+SELECT setval('"public"."formaaquisicao_formaaquisicao_seq"', 3, true);
+ALTER SEQUENCE "public"."formatocd_idformato_seq"
+OWNED BY "public"."formatocd"."idformato";
+SELECT setval('"public"."formatocd_idformato_seq"', 2, false);
+SELECT setval('"public"."hibernate_sequence"', 2, false);
+ALTER SEQUENCE "public"."idioma_ididioma_seq"
+OWNED BY "public"."idioma"."ididioma";
+SELECT setval('"public"."idioma_ididioma_seq"', 2, false);
+ALTER SEQUENCE "public"."tipoobra_idtipo_seq"
+OWNED BY "public"."tipoobra"."idtipo";
+SELECT setval('"public"."tipoobra_idtipo_seq"', 2, false);
+
+-- ----------------------------
+-- Primary Key structure for table areacientifica
+-- ----------------------------
+ALTER TABLE "public"."areacientifica" ADD CONSTRAINT "areacientifica_pkey" PRIMARY KEY ("idarea");
+
+-- ----------------------------
+-- Primary Key structure for table autor
+-- ----------------------------
+ALTER TABLE "public"."autor" ADD CONSTRAINT "autor_pk" PRIMARY KEY ("hashcode");
+
+-- ----------------------------
+-- Primary Key structure for table cd
+-- ----------------------------
+ALTER TABLE "public"."cd" ADD CONSTRAINT "cd_key" PRIMARY KEY ("cota");
+
+-- ----------------------------
+-- Primary Key structure for table emprestimo
+-- ----------------------------
+ALTER TABLE "public"."emprestimo" ADD CONSTRAINT "emprestimo_embeddepk" PRIMARY KEY ("user_id", "cota", "dataentrada");
+
+-- ----------------------------
+-- Primary Key structure for table estadodevolucao
+-- ----------------------------
+ALTER TABLE "public"."estadodevolucao" ADD CONSTRAINT "estadodevolucao_pkey" PRIMARY KEY ("idestadodevolucao");
+
+-- ----------------------------
+-- Primary Key structure for table estadopedido
+-- ----------------------------
+ALTER TABLE "public"."estadopedido" ADD CONSTRAINT "estadopedido_pkey" PRIMARY KEY ("idestadopedido");
+
+-- ----------------------------
+-- Primary Key structure for table estadorenovacao
+-- ----------------------------
+ALTER TABLE "public"."estadorenovacao" ADD CONSTRAINT "estadorenovacao_pkey" PRIMARY KEY ("idestadorenovacao");
+
+-- ----------------------------
+-- Primary Key structure for table formaaquisicao
+-- ----------------------------
+ALTER TABLE "public"."formaaquisicao" ADD CONSTRAINT "formaaquisicao_pkey" PRIMARY KEY ("formaaquisicao");
+
+-- ----------------------------
+-- Primary Key structure for table formatocd
+-- ----------------------------
+ALTER TABLE "public"."formatocd" ADD CONSTRAINT "formatocd_pkey" PRIMARY KEY ("idformato");
+
+-- ----------------------------
+-- Primary Key structure for table idioma
+-- ----------------------------
+ALTER TABLE "public"."idioma" ADD CONSTRAINT "idioma_pkey" PRIMARY KEY ("ididioma");
+
+-- ----------------------------
+-- Primary Key structure for table item
+-- ----------------------------
+ALTER TABLE "public"."item" ADD CONSTRAINT "item_pkey" PRIMARY KEY ("item_id");
+
+-- ----------------------------
+-- Primary Key structure for table item_role
+-- ----------------------------
+ALTER TABLE "public"."item_role" ADD CONSTRAINT "item_role_pkey" PRIMARY KEY ("item_id", "role_id");
+
+-- ----------------------------
+-- Primary Key structure for table livro
+-- ----------------------------
+ALTER TABLE "public"."livro" ADD CONSTRAINT "livro_key" PRIMARY KEY ("cota");
+
+-- ----------------------------
+-- Primary Key structure for table livrocd
+-- ----------------------------
+ALTER TABLE "public"."livrocd" ADD CONSTRAINT "livrocd_pkey" PRIMARY KEY ("cota");
+
+-- ----------------------------
+-- Primary Key structure for table obra
+-- ----------------------------
+ALTER TABLE "public"."obra" ADD CONSTRAINT "obra_key" PRIMARY KEY ("cota");
+
+-- ----------------------------
+-- Primary Key structure for table obra_autor
+-- ----------------------------
+ALTER TABLE "public"."obra_autor" ADD CONSTRAINT "obra_autor_key" PRIMARY KEY ("cota", "hashcode");
+
+-- ----------------------------
+-- Primary Key structure for table registroobra
+-- ----------------------------
+ALTER TABLE "public"."registroobra" ADD CONSTRAINT "registroobra_pk" PRIMARY KEY ("cota", "dataregisto");
+
+-- ----------------------------
+-- Primary Key structure for table revista
+-- ----------------------------
+ALTER TABLE "public"."revista" ADD CONSTRAINT "revista_key" PRIMARY KEY ("cota");
+
+-- ----------------------------
+-- Primary Key structure for table role
+-- ----------------------------
+ALTER TABLE "public"."role" ADD CONSTRAINT "role_pkey" PRIMARY KEY ("role_id");
+
+-- ----------------------------
+-- Primary Key structure for table roleitem
+-- ----------------------------
+ALTER TABLE "public"."roleitem" ADD CONSTRAINT "roleitem_pkey" PRIMARY KEY ("item", "idrole");
+
+-- ----------------------------
+-- Primary Key structure for table tipoobra
+-- ----------------------------
+ALTER TABLE "public"."tipoobra" ADD CONSTRAINT "tipoobra_pkey" PRIMARY KEY ("idtipo");
+
+-- ----------------------------
+-- Primary Key structure for table user
+-- ----------------------------
+ALTER TABLE "public"."user" ADD CONSTRAINT "user_pkey" PRIMARY KEY ("user_id");
+
+-- ----------------------------
+-- Primary Key structure for table user_role
+-- ----------------------------
+ALTER TABLE "public"."user_role" ADD CONSTRAINT "user_role_pkey" PRIMARY KEY ("user_id", "role_id");
+
+-- ----------------------------
+-- Foreign Keys structure for table cd
+-- ----------------------------
+ALTER TABLE "public"."cd" ADD CONSTRAINT "idcd" FOREIGN KEY ("cota") REFERENCES "public"."obra" ("cota") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- ----------------------------
+-- Foreign Keys structure for table emprestimo
+-- ----------------------------
+ALTER TABLE "public"."emprestimo" ADD CONSTRAINT "cota" FOREIGN KEY ("cota") REFERENCES "public"."obra" ("cota") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "public"."emprestimo" ADD CONSTRAINT "idestadodevolucao" FOREIGN KEY ("estadodevolucao") REFERENCES "public"."estadodevolucao" ("idestadodevolucao") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "public"."emprestimo" ADD CONSTRAINT "idestadopedido" FOREIGN KEY ("estadopedido") REFERENCES "public"."estadopedido" ("idestadopedido") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "public"."emprestimo" ADD CONSTRAINT "idestadorenovacao" FOREIGN KEY ("estadorenovacao") REFERENCES "public"."estadorenovacao" ("idestadorenovacao") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "public"."emprestimo" ADD CONSTRAINT "user_id" FOREIGN KEY ("user_id") REFERENCES "public"."user" ("user_id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- ----------------------------
+-- Foreign Keys structure for table item_role
+-- ----------------------------
+ALTER TABLE "public"."item_role" ADD CONSTRAINT "item_role_item_id_fkey" FOREIGN KEY ("item_id") REFERENCES "public"."item" ("item_id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "public"."item_role" ADD CONSTRAINT "item_role_role_id_fkey" FOREIGN KEY ("role_id") REFERENCES "public"."role" ("role_id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- ----------------------------
+-- Foreign Keys structure for table livro
+-- ----------------------------
+ALTER TABLE "public"."livro" ADD CONSTRAINT "cota" FOREIGN KEY ("cota") REFERENCES "public"."obra" ("cota") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- ----------------------------
+-- Foreign Keys structure for table livrocd
+-- ----------------------------
+ALTER TABLE "public"."livrocd" ADD CONSTRAINT "fkb022d77f183e4c5" FOREIGN KEY ("cota") REFERENCES "public"."obra" ("cota") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- ----------------------------
+-- Foreign Keys structure for table obra
+-- ----------------------------
+ALTER TABLE "public"."obra" ADD CONSTRAINT "idarea" FOREIGN KEY ("idarea") REFERENCES "public"."areacientifica" ("idarea") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "public"."obra" ADD CONSTRAINT "ididioma" FOREIGN KEY ("ididioma") REFERENCES "public"."idioma" ("ididioma") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "public"."obra" ADD CONSTRAINT "idtipo" FOREIGN KEY ("idtipo") REFERENCES "public"."tipoobra" ("idtipo") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- ----------------------------
+-- Foreign Keys structure for table obra_autor
+-- ----------------------------
+ALTER TABLE "public"."obra_autor" ADD CONSTRAINT "cota" FOREIGN KEY ("cota") REFERENCES "public"."obra" ("cota") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "public"."obra_autor" ADD CONSTRAINT "hashcode" FOREIGN KEY ("hashcode") REFERENCES "public"."autor" ("hashcode") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- ----------------------------
+-- Foreign Keys structure for table registroobra
+-- ----------------------------
+ALTER TABLE "public"."registroobra" ADD CONSTRAINT "Cota" FOREIGN KEY ("cota") REFERENCES "public"."obra" ("cota") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "public"."registroobra" ADD CONSTRAINT "formaaquisicao" FOREIGN KEY ("formaaquisicao") REFERENCES "public"."formaaquisicao" ("formaaquisicao") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "public"."registroobra" ADD CONSTRAINT "iduser" FOREIGN KEY ("user_id") REFERENCES "public"."user" ("user_id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- ----------------------------
+-- Foreign Keys structure for table revista
+-- ----------------------------
+ALTER TABLE "public"."revista" ADD CONSTRAINT "cota" FOREIGN KEY ("cota") REFERENCES "public"."obra" ("cota") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- ----------------------------
+-- Foreign Keys structure for table user_role
+-- ----------------------------
+ALTER TABLE "public"."user_role" ADD CONSTRAINT "fk859n2jvi8ivhui0rl0esws6o" FOREIGN KEY ("user_id") REFERENCES "public"."user" ("user_id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "public"."user_role" ADD CONSTRAINT "fka68196081fvovjhkek5m97n3y" FOREIGN KEY ("role_id") REFERENCES "public"."role" ("role_id") ON DELETE NO ACTION ON UPDATE NO ACTION;

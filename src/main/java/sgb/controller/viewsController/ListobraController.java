@@ -4,6 +4,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.*;
@@ -203,8 +204,10 @@ public class ListobraController extends SelectorComposer<Component>
     @Listen("onEditarObra = #obraListBox")
     public void doEditar(ForwardEvent event)
     {
-        Clients.showNotification("Editar Obra",null,null,null,5000);
+//        Clients.showNotification("Editar Obra",null,null,null,5000);
 //        Executions.getCurrent().sendRedirect("views/addObra.zul");
+        Window window =(Window) Executions.createComponents("/views/UpdateObra.zul", null, null);
+        window.doModal();
     }
 
 
