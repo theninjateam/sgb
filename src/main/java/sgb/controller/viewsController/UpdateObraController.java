@@ -46,9 +46,9 @@ import java.util.Set;
 public class UpdateObraController extends SelectorComposer<Component> {
 
     private CRUDService crudService = (CRUDService) SpringUtil.getBean("CRUDService");
-    private Users user;
+    private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;
     private  ListModelList<FormaAquisicao> formaAquisicaoModel;
-    private RegistroObra registroObra = new RegistroObra();
+
 
     @Wire
     private Intbox quantidade;
@@ -78,6 +78,7 @@ public class UpdateObraController extends SelectorComposer<Component> {
 
         obra = (Obra) session.getAttribute ("obraToEdite");
         //alert( obra.getTitulo());
+
     }
 
 
@@ -87,8 +88,49 @@ public class UpdateObraController extends SelectorComposer<Component> {
     }
     @Listen("onClick= #updateObra")
     public void updateObra () throws NoSuchAlgorithmException {
-        Clients.showNotification("Modal Update",null,null,null,5000);
+
+        RegistroObra registroObra = new RegistroObra();
+
+        Set<RegistroObra> registroObras = new HashSet<>();
+        Set<RegistroObra> novoRegistros = new HashSet<>();
+
+        /*
+            *Por algum motivo nao consigo manipular a lista de registos vindo da base de dados
+            * a solucao encontrada eh fazer um copia da lista para uma nova lista em seguida adcionar o
+            * novo registro
+            * a solucao pode afetar a perfomace da aplicacao futuramente (Deve-se encontar uma forma de )
+            * Emerson Cardoso
+        */
+
+        for(RegistroObra regist:registroObras){
+            novoRegistros.add(regist);
+        }
+
+        registroObras = obra.getRegistroObras();
+
+        FormaAquisicao formaaquisicao = formaaquisicaoBox.getSelectedItem().getValue();
+        RegistroObraPK registroObraPK = new RegistroObraPK();
+
+
+        registroObraPK.setObra(obra);
+        registroObraPK.setDataRegisto(Calendar.getInstance());
+
+        registroObra.setRegistroObraPK(registroObraPK);
+        registroObra.setFormaAquisicao(formaaquisicao);
+        registroObra.setObra(obra);
+        registroObra.setUser(user);
+        registroObra.setObservacao(descricao.getValue());
+        registroObra.setQuantidade(quantidade.getValue());
+
+        novoRegistros.add(registroObra);
+
+        obra.setQuantidade(obra.getQuantidade()+quantidade.getValue());
+        obra.setRegistroObras(novoRegistros);
+
+
+        crudService.update(obra);
         modalUpdate.detach(); // close modal
+        Clients.showNotification("Dados da obra atualizados ",null,null,null,5000);
     }
 
 

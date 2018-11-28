@@ -24,6 +24,10 @@ public class RegistroObra
     @Column( name = "observacao")
     private String observacao;
 
+    @Basic
+    @Column(name = "quantidade")
+    private Integer quantidade;
+
 
     @ManyToOne
     @JoinColumn (name ="cota", insertable = false, updatable = false)
@@ -71,5 +75,13 @@ public class RegistroObra
     }
     public void setObra(Obra obra) {
         this.obra = obra;
+    }
+
+    public Integer getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(Integer quantidade) {
+        this.quantidade = quantidade;
     }
 }
