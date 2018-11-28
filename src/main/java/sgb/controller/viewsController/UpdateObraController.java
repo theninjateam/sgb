@@ -77,7 +77,7 @@ public class UpdateObraController extends SelectorComposer<Component> {
         formaaquisicaoBox.setModel(formaAquisicaoModel);
 
         obra = (Obra) session.getAttribute ("obraToEdite");
-        alert( obra.getTitulo());
+        //alert( obra.getTitulo());
     }
 
 
