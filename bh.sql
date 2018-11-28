@@ -12,7 +12,7 @@
  Target Server Version : 100005
  File Encoding         : 65001
 
- Date: 28/11/2018 22:08:33
+ Date: 28/11/2018 23:21:23
 */
 
 
@@ -373,11 +373,11 @@ CREATE TABLE "public"."obra" (
 -- ----------------------------
 -- Records of obra
 -- ----------------------------
-INSERT INTO "public"."obra" VALUES ('531.4F', 1223, 'Introducao Fisica', 1, 'Pemba', 1, 4, 1, 'digitalLibrary/pdf/isbd-cons_2007-en.pdf', 'digitalLibrary/cover/fisica.jpg', 2001);
-INSERT INTO "public"."obra" VALUES ('589AF', 78988, 'Introducao a Geografia', 1, 'teste', 1, 20, 2, NULL, 'digitalLibrary/cover/geografia.jpg', 2018);
 INSERT INTO "public"."obra" VALUES ('77788', 555, 'Introducao a Quimica', 5, 'Maputo', 1, 4, 2, 'digitalLibrary/pdf/isbd-cons_2007-en.pdf', 'digitalLibrary/cover/quimica.jpg', 788);
 INSERT INTO "public"."obra" VALUES ('544FF', 7887, 'Introducao a Matematica', 1, 'Pemba', 1, 8, 1, NULL, 'digitalLibrary/cover/Introducao-a-Matematica.jpg', 2018);
 INSERT INTO "public"."obra" VALUES ('545AA', 785, 'Introducao a Estatistica', 1, 'Maputo', 1, 2, 2, NULL, 'digitalLibrary/cover/Introducao-a-Estatistica-Enfoque-Informatico-com-o-Pacote-Estatistico-SPSS-275390.jpg', 2017);
+INSERT INTO "public"."obra" VALUES ('531.4F', 1223, 'Introducao Fisica', 1, 'Pemba', 1, 30, 1, 'digitalLibrary/pdf/isbd-cons_2007-en.pdf', 'digitalLibrary/cover/fisica.jpg', 2001);
+INSERT INTO "public"."obra" VALUES ('589AF', 78988, 'Introducao a Geografia', 1, 'teste', 1, 120, 2, NULL, 'digitalLibrary/cover/geografia.jpg', 2018);
 
 -- ----------------------------
 -- Table structure for obra_autor
@@ -412,9 +412,17 @@ CREATE TABLE "public"."registroobra" (
   "user_id" int4 NOT NULL,
   "dataregisto" timestamp(6) NOT NULL,
   "observacao" varchar(255) COLLATE "pg_catalog"."default",
-  "formaaquisicao" int4 NOT NULL
+  "formaaquisicao" int4 NOT NULL,
+  "quantidade" int4
 )
 ;
+
+-- ----------------------------
+-- Records of registroobra
+-- ----------------------------
+INSERT INTO "public"."registroobra" VALUES ('589AF', 1, '2018-11-28 22:47:44.415', 'hhhhh', 1, 5);
+INSERT INTO "public"."registroobra" VALUES ('589AF', 1, '2018-11-28 22:48:33.629', 'ddddd', 2, 5);
+INSERT INTO "public"."registroobra" VALUES ('589AF', 2, '2018-11-28 23:10:36.472', 'rrr', 1, 100);
 
 -- ----------------------------
 -- Table structure for revista
