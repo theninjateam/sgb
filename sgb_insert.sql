@@ -56,10 +56,10 @@ INSERT INTO public.obra_autor (hashcode, cota) VALUES ('ebc308f979e135f40483eec4
 INSERT INTO public.obra_autor (hashcode, cota) VALUES ('8f26e54c201a6f5ffdc79100f2126faf', 'ww23');
 INSERT INTO public.obra_autor (hashcode, cota) VALUES ('1bbda9b94de9eafe906b75b30834a8b0', 'ww23');
 
-INSERT INTO public.registroobra (cota, iduser, dataregisto) VALUES ('WW2', 1, '2018-11-05');
-INSERT INTO public.registroobra (cota, iduser, dataregisto) VALUES ('eee2', 1, '2018-11-05');
-INSERT INTO public.registroobra (cota, iduser, dataregisto) VALUES ('77788', 1, '2018-11-05');
-INSERT INTO public.registroobra (cota, iduser, dataregisto) VALUES ('ww23', 2, '2018-11-08');
+INSERT INTO public.registroobra (cota, user_id, dataregisto) VALUES ('WW2', 1, '2018-11-05');
+INSERT INTO public.registroobra (cota, user_id, dataregisto) VALUES ('eee2', 1, '2018-11-05');
+INSERT INTO public.registroobra (cota, user_id, dataregisto) VALUES ('77788', 1, '2018-11-05');
+INSERT INTO public.registroobra (cota, user_id, dataregisto) VALUES ('ww23', 2, '2018-11-08');
 INSERT INTO public.revista (cota, instituicao) VALUES ('WW2', 'WWWWWWWWWWWWWWWWWWWW');
 INSERT INTO public.revista (cota, instituicao) VALUES ('eee2', 'ddddddd');
 INSERT INTO public.revista (cota, instituicao) VALUES ('77788', 'rtrrrrrrrrrrrr');

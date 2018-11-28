@@ -12,7 +12,7 @@ import java.util.PriorityQueue;
 
 
 @Entity
-@Table(name="obra")
+@Table(name="obra", schema = "public")
 public class Obra {
     private String cota;
     private Integer registro;
@@ -23,14 +23,14 @@ public class Obra {
     private String pathcapa;
     private Integer anoPublicacao;
     private TipoObra tipoobra;
-    private Set<Autor> autores = new HashSet<>();;
+    private Set<Autor> autores = new HashSet<>();
     private Idioma idioma;
     private Livro livro;
     private Cd cd;
     private Revista revista;
     private LivroCd livroCd;
-    private RegistroObra registroObra;
     private AreaCientifica areacientifica;
+    private Set<RegistroObra> registroObras = new HashSet<>();
 
     @Id
     @Column(name = "cota")
@@ -108,7 +108,6 @@ public class Obra {
     public Integer getAnoPublicacao() {
         return anoPublicacao;
     }
-
     public void setAnoPublicacao(Integer anoPublicacao) {
         this.anoPublicacao = anoPublicacao;
     }
@@ -119,7 +118,6 @@ public class Obra {
     public Idioma getIdioma() {
         return idioma;
     }
-
     public void setIdioma(Idioma idioma) {
         this.idioma = idioma;
     }
@@ -159,8 +157,6 @@ public class Obra {
     @OneToOne(fetch = FetchType.LAZY,
             cascade =  CascadeType.ALL,
             mappedBy = "obra")
-
-
     public Livro getLivro() {
         return livro;
     }
@@ -205,16 +201,11 @@ public class Obra {
         this.livroCd = livroCd;
     }
 
-    @OneToOne(fetch = FetchType.LAZY,
-            cascade =  CascadeType.ALL,
-            mappedBy = "obra")
+    @OneToMany(mappedBy = "obra", fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    public Set<RegistroObra> getRegistroObras() { return registroObras; }
 
-    public RegistroObra getRegistroObra() {
-        return registroObra;
-    }
-
-    public void setRegistroObra(RegistroObra registroObra) {
-        this.registroObra = registroObra;
+    public void setRegistroObras(Set<RegistroObra> registroObras) {
+        this.registroObras = registroObras;
     }
 
     public PriorityQueue<Emprestimo> generateDomiciliarQueue(EmprestimoControllerSingleton eCSingleton)

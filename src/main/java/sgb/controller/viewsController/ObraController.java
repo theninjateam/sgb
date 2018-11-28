@@ -230,10 +230,16 @@ public class ObraController extends SelectorComposer<Component> {
         obra.setPathpdf(relativePathPDF);
         obra.setIdioma(idiomaListBox.getSelectedItem().getValue());
 
-        registroObra.setIduser(user.getId());
-        registroObra.setCota(obra.getCota());
-        registroObra.setDataRegisto(Calendar.getInstance());
+        RegistroObraPK registroObraPK = new RegistroObraPK();
+
+        registroObraPK.setObra(obra);
+        registroObraPK.setDataRegisto(Calendar.getInstance());
+        FormaAquisicao formaAquisicao =  crudService.get(FormaAquisicao.class, 1);
+
+        registroObra.setRegistroObraPK(registroObraPK);
+        registroObra.setFormaAquisicao(formaAquisicao);
         registroObra.setObra(obra);
+        registroObra.setUser(user);
 
         if (tipoObra.getDescricao().toLowerCase().equals("livro")) {
 
@@ -283,11 +289,15 @@ public class ObraController extends SelectorComposer<Component> {
             for(Autor autor: authorListModel) // esta linha devera sair
                 autores.add(autor);
 
-            obra.setRegistroObra(registroObra);
-            obra.setAutores(autores);
+           // obra.setRegistroObra(registroObra);
+            Set<RegistroObra> registroObras = new HashSet<>();
+            registroObras.add(registroObra);
 
+            obra.setAutores(autores);
+            obra.setRegistroObras(registroObras);
           //   deve existir transacoes
             crudService.Save(obra);
+            //crudService.Save(registroObra);
 
             if(fullPathPDF != null)
                 Files.copy(new File(fullPathPDF), mediaPDF.getStreamData());

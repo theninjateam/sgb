@@ -88,25 +88,6 @@ public class ListobraController extends SelectorComposer<Component>
         obraListBox.setModel(obraListModel);
         cestaListBox.setModel(cestaListModel);
         this.qtdObrasNaCesta.setValue("0");
-
-
-        for ( Obra o : obraListModel)
-        {
-            PriorityQueue<Emprestimo> domiciliarQueue = o.generateDomiciliarQueue(emprestimoControllerSingleton);
-
-            if (!domiciliarQueue.isEmpty())
-            {
-                System.out.println("==================================================================================");
-
-                while (!domiciliarQueue.isEmpty())
-                {
-
-                    System.out.println(domiciliarQueue.remove().toString());
-                }
-
-                break;
-            }
-        }
     }
 
 
