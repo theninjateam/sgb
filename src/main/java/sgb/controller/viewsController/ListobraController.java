@@ -206,6 +206,14 @@ public class ListobraController extends SelectorComposer<Component>
     {
 //        Clients.showNotification("Editar Obra",null,null,null,5000);
 //        Executions.getCurrent().sendRedirect("views/addObra.zul");
+
+        Button btn = (Button)event.getOrigin().getTarget();
+        Listitem litem =  (Listitem) getListitem(btn);
+        Obra obra = (Obra) litem.getValue();
+        obra = crudService.get(Obra.class, obra.getCota());
+
+        session.setAttribute("obraToEdite", obra);
+
         Window window =(Window) Executions.createComponents("/views/UpdateObra.zul", null, null);
         window.doModal();
     }

@@ -62,17 +62,22 @@ public class UpdateObraController extends SelectorComposer<Component> {
     @Wire
     private Window modalUpdate;
 
+    private Session session;
 
-
+    private Obra obra;
 
 
     @Override
     public void doAfterCompose(Component comp) throws Exception {
         super.doAfterCompose(comp);
 
+        session = Sessions.getCurrent();
+
         formaAquisicaoModel = new ListModelList<FormaAquisicao>(getFormaAquisicaoModel());
         formaaquisicaoBox.setModel(formaAquisicaoModel);
 
+        obra = (Obra) session.getAttribute ("obraToEdite");
+        alert( obra.getTitulo());
     }
 
 
