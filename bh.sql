@@ -168,7 +168,8 @@ create table if not exists obra
 			references tipoobra,
 	pathpdf varchar(255),
 	pathcapa varchar(255),
-	anopublicacao integer
+	anopublicacao integer,
+	domiciliarqueue bytea
 )
 ;
 
@@ -304,24 +305,6 @@ create table if not exists emprestimo
 alter table emprestimo owner to postgres
 ;
 
-create table if not exists registroobra
-(
-	cota varchar(255) not null
-		constraint "Registro_de_Obra_pkey"
-			primary key
-		constraint "Cota"
-			references obra
-				on update cascade on delete cascade,
-	iduser integer not null
-		constraint iduser
-			references "user",
-	dataregisto date not null
-)
-;
-
-alter table registroobra owner to postgres
-;
-
 create table if not exists user_role
 (
 	user_id integer not null
@@ -336,5 +319,39 @@ create table if not exists user_role
 ;
 
 alter table user_role owner to postgres
+;
+
+create table if not exists formaaquisicao
+(
+	formaaquisicao integer not null
+		constraint formaaquisicao_pkey
+			primary key,
+	descricao varchar(255)
+)
+;
+
+alter table formaaquisicao owner to postgres
+;
+
+create table if not exists registroobra
+(
+	cota varchar(255) not null
+		constraint "Cota"
+			references obra
+				on update cascade on delete cascade,
+	user_id integer not null
+		constraint iduser
+			references "user",
+	dataregisto timestamp not null,
+	observacao varchar(255),
+	formaaquisicao integer not null
+		constraint fkb046d1f59a0d88fe
+			references formaaquisicao,
+	constraint registroobra_pk
+		primary key (cota, dataregisto)
+)
+;
+
+alter table registroobra owner to postgres
 ;
 
