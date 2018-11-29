@@ -201,12 +201,9 @@ public class ListobraController extends SelectorComposer<Component>
 
     }
 
-    @Listen("onEditarObra = #obraListBox")
+    @Listen("onAdicionarExemplares = #obraListBox")
     public void doEditar(ForwardEvent event)
     {
-//        Clients.showNotification("Editar Obra",null,null,null,5000);
-//        Executions.getCurrent().sendRedirect("views/addObra.zul");
-
         Button btn = (Button)event.getOrigin().getTarget();
         Listitem litem =  (Listitem) getListitem(btn);
         Obra obra = (Obra) litem.getValue();
@@ -217,7 +214,6 @@ public class ListobraController extends SelectorComposer<Component>
         Window window =(Window) Executions.createComponents("/views/UpdateObra.zul", null, null);
         window.doModal();
     }
-
 
     @Listen("onAdicionarNaCesta = #obraListBox")
     @Transactional
