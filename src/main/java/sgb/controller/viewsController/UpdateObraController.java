@@ -134,5 +134,11 @@ public class UpdateObraController extends SelectorComposer<Component> {
     }
 
 
+    @Listen("onClick= #exit")
+    public void exit ()
+    {
+        session.removeAttribute ("obraToEdite");
+        modalUpdate.detach();
+    }
 
 }
