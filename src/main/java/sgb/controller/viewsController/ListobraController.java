@@ -94,7 +94,6 @@ public class ListobraController extends SelectorComposer<Component>
 
     public ListModelList<Obra> getObraListModel() {
         List<Obra> listaobra = crudService.getAll(Obra.class);
-
         return new ListModelList<Obra>(listaobra);
     }
 
@@ -151,22 +150,34 @@ public class ListobraController extends SelectorComposer<Component>
     {
 
         Button btn = (Button)event.getOrigin().getTarget();
-        Listitem litem = (Listitem) getListitem(btn);
+        Listitem litem =  (Listitem) getListitem(btn);
         Obra obra = (Obra) litem.getValue();
-        Messagebox.show("Tem certeza que deseja eliminar a obra ?", "deletar obra",
-                Messagebox.YES + Messagebox.NO, Messagebox.QUESTION,
-                new EventListener<Event>() {
-                    @Override
-                    public void onEvent(Event event) throws Exception {
-                        if (Messagebox.ON_YES.equals(event.getName())) {
-                            obraListModel.remove(obra);
+        obra = crudService.get(Obra.class, obra.getCota());
+
+        session.setAttribute("obraToEdite", obra);
+
+        Window window =(Window) Executions.createComponents("/views/modalEliminarExemplar.zul", null, null);
+        window.doModal();
+
+
+//        Button btn = (Button)event.getOrigin().getTarget();
+//        Listitem litem = (Listitem) getListitem(btn);
+//        Obra obra = (Obra) litem.getValue();
+//        Messagebox.show("Tem certeza que deseja eliminar a obra ?", "deletar obra",
+//                Messagebox.YES + Messagebox.NO, Messagebox.QUESTION,
+//                new EventListener<Event>() {
+//                    @Override
+//                    public void onEvent(Event event) throws Exception {
+//                        if (Messagebox.ON_YES.equals(event.getName())) {
+//                            obraListModel.remove(obra);
+////                            obra.setAutores(null);
 //                            obra.setAutores(null);
-                            obra.setAutores(null);
-                            crudService.delete(obra);
-                            Clients.showNotification("Obra eliminado com sucesso",null,null,null,5000);
-                        }
-                    }
-                });
+//                            crudService.delete(obra);
+//                            Clients.showNotification("Obra eliminado com sucesso",null,null,null,5000);
+//                        }
+//                    }
+//                });
+
     }
 
     @Listen("onDetalheObra = #obraListBox")
@@ -204,8 +215,6 @@ public class ListobraController extends SelectorComposer<Component>
     @Listen("onEditarObra = #obraListBox")
     public void doEditar(ForwardEvent event)
     {
-//        Clients.showNotification("Editar Obra",null,null,null,5000);
-//        Executions.getCurrent().sendRedirect("views/addObra.zul");
 
         Button btn = (Button)event.getOrigin().getTarget();
         Listitem litem =  (Listitem) getListitem(btn);

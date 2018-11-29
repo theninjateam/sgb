@@ -31,6 +31,8 @@ public class Obra {
     private LivroCd livroCd;
     private AreaCientifica areacientifica;
     private Set<RegistroObra> registroObras = new HashSet<>();
+    private Set<ObraEliminadas> obraEliminadas = new HashSet<>();
+
 
     @Id
     @Column(name = "cota")
@@ -206,6 +208,17 @@ public class Obra {
 
     public void setRegistroObras(Set<RegistroObra> registroObras) {
         this.registroObras = registroObras;
+    }
+
+
+
+    @OneToMany(mappedBy = "obra", fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    public Set<ObraEliminadas> getObraEliminadas() {
+        return obraEliminadas;
+    }
+
+    public void setObraEliminadas(Set<ObraEliminadas> obraEliminadas) {
+        this.obraEliminadas = obraEliminadas;
     }
 
     public PriorityQueue<Emprestimo> generateDomiciliarQueue(EmprestimoControllerSingleton eCSingleton)

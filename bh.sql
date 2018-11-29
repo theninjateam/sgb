@@ -12,7 +12,7 @@
  Target Server Version : 100005
  File Encoding         : 65001
 
- Date: 28/11/2018 23:21:23
+ Date: 29/11/2018 17:48:23
 */
 
 
@@ -193,7 +193,6 @@ INSERT INTO "public"."emprestimo" VALUES (3, '77788', '2018-11-23 00:00:00', 3, 
 INSERT INTO "public"."emprestimo" VALUES (3, '589AF', '2018-11-23 00:00:00', 1, '2018-11-25', '2018-11-25', 1, 'c', 1, 2, NULL, NULL);
 INSERT INTO "public"."emprestimo" VALUES (3, '531.4F', '2018-11-23 00:00:00', 3, '2018-11-25', '2018-11-25', 1, 'd', 1, 2, NULL, NULL);
 INSERT INTO "public"."emprestimo" VALUES (2, '531.4F', '2018-11-24 19:57:58.518', 1, NULL, NULL, 1, 'f', 1, 1, NULL, NULL);
-INSERT INTO "public"."emprestimo" VALUES (2, '589AF', '2018-11-24 19:57:58.545', 1, NULL, NULL, 2, 'g', 1, 1, NULL, NULL);
 INSERT INTO "public"."emprestimo" VALUES (2, '545AA', '2018-11-24 19:57:58.606', 1, NULL, NULL, 1, 'h', 1, 1, NULL, NULL);
 INSERT INTO "public"."emprestimo" VALUES (2, '544FF', '2018-11-24 19:57:58.661', 1, NULL, NULL, 2, 'i', 1, 1, NULL, NULL);
 INSERT INTO "public"."emprestimo" VALUES (3, '544FF', '2018-11-23 00:00:00', 1, '2018-11-23', '2018-11-23', 1, 'b', 1, 1, NULL, NULL);
@@ -402,6 +401,19 @@ INSERT INTO "public"."obra_autor" VALUES ('90455afe8bf918c581be908c174a0d30', '5
 INSERT INTO "public"."obra_autor" VALUES ('22c715b94d62279d68322ab7b6f369e1', '544FF');
 INSERT INTO "public"."obra_autor" VALUES ('6bff12cb3b31c3ff69252b390748b18c', '544FF');
 INSERT INTO "public"."obra_autor" VALUES ('6bff12cb3b31c3ff69252b390748b18c', '545AA');
+
+-- ----------------------------
+-- Table structure for obraeliminadas
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."obraeliminadas";
+CREATE TABLE "public"."obraeliminadas" (
+  "cota" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
+  "user_id" int4 NOT NULL,
+  "dataregisto" timestamp(6) NOT NULL,
+  "descricao" varchar(5000) COLLATE "pg_catalog"."default",
+  "quantidade" int4
+)
+;
 
 -- ----------------------------
 -- Table structure for registroobra
@@ -635,6 +647,11 @@ ALTER TABLE "public"."obra" ADD CONSTRAINT "obra_key" PRIMARY KEY ("cota");
 ALTER TABLE "public"."obra_autor" ADD CONSTRAINT "obra_autor_key" PRIMARY KEY ("cota", "hashcode");
 
 -- ----------------------------
+-- Primary Key structure for table obraeliminadas
+-- ----------------------------
+ALTER TABLE "public"."obraeliminadas" ADD CONSTRAINT "obraeliminadas_pkey" PRIMARY KEY ("cota", "dataregisto");
+
+-- ----------------------------
 -- Primary Key structure for table registroobra
 -- ----------------------------
 ALTER TABLE "public"."registroobra" ADD CONSTRAINT "registroobra_pk" PRIMARY KEY ("cota", "dataregisto");
@@ -711,6 +728,12 @@ ALTER TABLE "public"."obra" ADD CONSTRAINT "idtipo" FOREIGN KEY ("idtipo") REFER
 -- ----------------------------
 ALTER TABLE "public"."obra_autor" ADD CONSTRAINT "cota" FOREIGN KEY ("cota") REFERENCES "public"."obra" ("cota") ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE "public"."obra_autor" ADD CONSTRAINT "hashcode" FOREIGN KEY ("hashcode") REFERENCES "public"."autor" ("hashcode") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- ----------------------------
+-- Foreign Keys structure for table obraeliminadas
+-- ----------------------------
+ALTER TABLE "public"."obraeliminadas" ADD CONSTRAINT "Cota" FOREIGN KEY ("cota") REFERENCES "public"."obra" ("cota") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "public"."obraeliminadas" ADD CONSTRAINT "iduser" FOREIGN KEY ("user_id") REFERENCES "public"."user" ("user_id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- ----------------------------
 -- Foreign Keys structure for table registroobra
