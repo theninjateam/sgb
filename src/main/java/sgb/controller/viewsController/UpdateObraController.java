@@ -77,8 +77,6 @@ public class UpdateObraController extends SelectorComposer<Component> {
         formaaquisicaoBox.setModel(formaAquisicaoModel);
 
         obra = (Obra) session.getAttribute ("obraToEdite");
-        //alert( obra.getTitulo());
-
     }
 
 
@@ -86,6 +84,7 @@ public class UpdateObraController extends SelectorComposer<Component> {
         List<FormaAquisicao> formaaquisicao = crudService.getAll(FormaAquisicao.class);
         return new ListModelList<FormaAquisicao>(formaaquisicao);
     }
+
     @Listen("onClick= #updateObra")
     public void updateObra () throws NoSuchAlgorithmException {
 
@@ -130,9 +129,16 @@ public class UpdateObraController extends SelectorComposer<Component> {
 
         crudService.update(obra);
         modalUpdate.detach(); // close modal
+        session.removeAttribute ("obraToEdite");
         Clients.showNotification("Dados da obra atualizados ",null,null,null,5000);
     }
 
 
+    @Listen("onClick= #exit")
+    public void exit ()
+    {
+        session.removeAttribute ("obraToEdite");
+        modalUpdate.detach();
+    }
 
 }

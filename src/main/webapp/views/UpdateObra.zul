@@ -1,36 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zk>
+
     <window id="modalUpdate" apply="sgb.controller.viewsController.UpdateObraController"
             border="none" closable="true"
-            position="center,center" action="show: slideDown;hide: slideUp" width="460px">
+            position="center,center" action="show: slideDown;hide: slideUp" width="100%" height="100%">
         <vlayout>
 
 
             <grid>
-                <columns sizable="true">
-                    <column width="100%" hflex="1"/>
-                    <column/>
-                </columns>
                 <rows>
-
                     <row>
-                            <hlayout sclass="second-layout">
-                                <div sclass="description-area" height="100%">
-
+                        <div sclass="w3-row" style="white-space: normal;  line-height: 1.25;  none;">
+                            <div sclass="w3-col w3-white w3-center w3-padding-16">
                                     <span sclass="input-group-addon">Forma de Aquisicao
                                     </span>
                                 </div>
 
-                                <div sclass="description-area" height="100%">
+                                <div sclass="w3-col w3-white w3-center w3-padding-16">
 
-
-                                    <listbox width="100%" id="formaaquisicaoBox"
+                                    <listbox
+                                              width="100%" id="formaaquisicaoBox"
                                              emptyMessage="Nenhum Tipo de Obra Encotrado"
                                              model="${$composer.formaAquisicaoModel}"
                                              mold="select">
 
                                         <listhead>
-                                            <listheader label="tipo de obra"/>
+                                            <listheader label="tipo de obra" style="background-color: lightgray; border-style: none; text-align: center;"/>
                                         </listhead>
                                         <template name="model">
                                             <listitem>
@@ -41,44 +36,50 @@
                                     </listbox>
                                 </div>
 
-                            </hlayout>
+                            </div>
                     </row>
 
                     <row>
 
-                            <hlayout vflex="1" hflex="1" sclass="second-layout">
+                            <div sclass="w3-row" style="white-space: normal;  line-height: 1.25;  none;">
                                 <div sclass="description-area" height="100%">
                                     <span sclass="input-group-addon">Descricao</span>
                                 </div>
 
                                 <div sclass="description-area" height="100%">
-                                    <textbox sclass="form-control" id="descricao"
-                                             disabled="false" value="" hflex="1"
+                                    <textbox sclass="w3-left w3-white w3-card-4  w3-padding-16 w3-border" id="descricao"
+                                             disabled="false" mold="default" hflex="1"
                                              constraint=" no Empty: Preenche o campo!"/>
                                     <label id="cota_duplicated_key"
                                            visible="false"></label>
                                 </div>
-                            </hlayout>
+                            </div>
                     </row>
                     <row>
-                        <hlayout vflex="1" hflex="1" sclass="second-layout">
+                        <div sclass="w3-row" style="white-space: normal;  line-height: 1.25;  none;">
                             <div sclass="description-area" height="100%">
                                 <span sclass="input-group-addon">Quantidade
                                 </span>
                             </div>
 
                             <div sclass="description-area" height="100%">
-                                <intbox sclass="form-control"
+                                <intbox sclass="w3-left w3-white w3-card-4  w3-padding-16 w3-border"
                                         id="quantidade" disabled="false"
                                         hflex="1"
                                         constraint=" no Empty: Preenche o campo!"/>
                             </div>
-                        </hlayout>
+                        </div>
                     </row>
-                    <row align="center">
-                        <hlayout vflex="1" hflex="1" sclass="second-layout">
-                            <button label="Atualizar" id="updateObra"/>
-                        </hlayout>
+                    <row style="background-color: white;"  align="center">
+                        <div sclass="w3-row" style="white-space: normal;  line-height: 1.25;  none;">
+                            <button label="Atualizar" id="updateObra" sclass="w3-btn w3-light-gray "
+                                mold="os"/>
+
+                            <div sclass="w3-row w3-padding-16" style="white-space: normal;  line-height: 1.25;  none;">
+                                <button label="Fechar" id="exit" sclass="w3-btn w3-light-gray "
+                                        mold="os"/>
+                            </div>
+                        </div>
                     </row>
 
                 </rows>

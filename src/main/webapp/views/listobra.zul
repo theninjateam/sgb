@@ -79,7 +79,7 @@
                                                     label="Eliminar" forward="onClick=obraListBox.onEliminarObra"
                                                     mold="os"/>
                                             <button sclass="w3-bar-item w3-btn w3-light-gray w3-col "
-                                                    label="Editar" forward="onClick=obraListBox.onEditarObra"
+                                                    label="Adicionar exemplares" forward="onClick=obraListBox.onAdicionarExemplares"
                                                     mold="os" />
                                             <button sclass="w3-bar-item w3-btn w3-light-gray w3-col "
                                                     label="Detalhe" forward="onClick=obraListBox.onDetalheObra"
@@ -113,7 +113,7 @@
                                                             label="Eliminar" forward="onClick=obraListBox.onEliminarObra"
                                                             mold="os"/>
                                                     <button sclass="w3-btn w3-light-gray"
-                                                            label="Editar" forward="onClick=obraListBox.onEditarObra"
+                                                            label="Adicionar exemplares" forward="onClick=obraListBox.onAdicionarExemplares"
                                                             mold="os" />
                                                     <button sclass=" w3-btn w3-light-gray"
                                                             label="Detalhe" forward="onClick=obraListBox.onDetalheObra"
@@ -277,7 +277,7 @@
                                                     label="Eliminar" forward="onClick=obraListBox.onEliminarObra"
                                                     mold="os"/>
                                             <button sclass="w3-bar-item w3-btn w3-light-gray w3-col "
-                                                    label="Editar" forward="onClick=obraListBox.onEditarObra"
+                                                    label="Adicionar exemplares" forward="onClick=obraListBox.onAdicionarExemplares"
                                                     mold="os" />
                                         </div>
 
@@ -360,7 +360,7 @@
                                                             label="Eliminar" forward="onClick=obraListBox.onEliminarObra"
                                                             mold="os"/>
                                                     <button sclass="w3-btn w3-light-gray"
-                                                            label="Editar" forward="onClick=obraListBox.onEditarObra"
+                                                            label="Adicionar exemplares" forward="onClick=obraListBox.onAdicionarExemplares"
                                                             mold="os" />
                                                 </div>
 
