@@ -2,14 +2,14 @@
 <zk>
     <window id="modalEliminar" apply="sgb.controller.viewsController.ElliminarObraController"
             border="none" closable="true"
-            position="center,center" action="show: slideDown;hide: slideUp" width="460px">
+            position="center,center" action="show: slideDown;hide: slideUp" width="100%" height="100%">
 
             <grid  style="border-style: none;">
                 <columns style=" background-color: white;  border-style: none;">
                     <column style=" background-color: white;  border-style: none;" width="100%" >
                         <vlayout   style="text-align: center;">
                             <listbox    style=" text-align: left;"  id="eliminarListBox"
-                                        emptyMessage="Cesta vazia">
+                                        emptyMessage="Lista vazia">
                                 <listhead >
                                     <listheader hflex="1" style="background-color: lightgray; border-style: none; text-align: center;" width="100%" height="100%" label="Cesta de livros"/>
                                 </listhead>

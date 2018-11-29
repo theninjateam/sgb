@@ -6,6 +6,8 @@ public class Item
 {
     private Obra obra;
     private int quantidade;
+    private boolean isLineUp;
+    private boolean isHomeRequisition;
 
     public Obra getObra() {
         return this.obra;
@@ -21,5 +23,21 @@ public class Item
 
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
+    }
+
+    public boolean getIsLineUp() {
+        return isLineUp;
+    }
+
+    public void setLineUp(boolean lineUp) {
+        isLineUp = lineUp;
+    }
+
+    public boolean getIsHomeRequisition() {
+        return isHomeRequisition;
+    }
+
+    public void setHomeRequisition(boolean homeRequisition) {
+        isHomeRequisition = homeRequisition;
     }
 }

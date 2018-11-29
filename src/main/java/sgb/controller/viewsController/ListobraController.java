@@ -442,9 +442,12 @@ public class ListobraController extends SelectorComposer<Component>
 
         if (!obraExists)
         {
+
             item = new Item();
             item.setObra(obra);
             item.setQuantidade(1);
+            item.setHomeRequisition(canDoHomeRequisition(obra));
+            item.setLineUp(canLineUp(obra,1));
             cestaListModel.add(item);
         }
         else
@@ -589,5 +592,27 @@ public class ListobraController extends SelectorComposer<Component>
             }
         }
         return 0;
+    }
+
+
+    public boolean canDoHomeRequisition(Obra obra)
+    {
+        int qtdMin = 2; // must come from DB
+        int qtd =  this.emprestimoControllerSingleton.getRequisicoes(obra, 1).getSize();
+        qtd += this.emprestimoControllerSingleton.getRequisicoes(obra, 3).getSize();
+        qtd += crudService.get(Obra.class, obra.getCota()).getQuantidade();
+
+        return qtd > qtdMin ? true : false;
+    }
+
+    public boolean canLineUp(Obra obra, int qtd)
+    {
+        int qtdMin = 2; // must come from DB
+        int qtdDis = crudService.get(Obra.class, obra.getCota()).getQuantidade();
+
+        if (canDoHomeRequisition(obra))
+            return  qtdDis - qtd < qtdMin ? true : false;
+        else
+            return  qtdDis  - qtd < 0 ? true : false;
     }
 }

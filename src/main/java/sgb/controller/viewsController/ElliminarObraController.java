@@ -51,6 +51,8 @@ public class ElliminarObraController extends SelectorComposer<Component> {
 
     private Obra obra;
 
+    private int qtdMax;
+
 
     @Override
     public void doAfterCompose(Component comp) throws Exception {
@@ -69,25 +71,35 @@ public class ElliminarObraController extends SelectorComposer<Component> {
         eliminarListModel.add(item);
         eliminarListBox.setModel(eliminarListModel);
 
+        this.qtdMax = obra.getQuantidade();
     }
 
     @Listen("onReduzirQtd = #eliminarListBox")
-    public void doReduzirQtd(ForwardEvent event) {
+    public void doReduzirQtd(ForwardEvent event)
+    {
         Button btn = (Button) event.getOrigin().getTarget();
         Listitem litem = (Listitem) getListitem(btn);
         Item item = (Item) litem.getValue();
-        item.setQuantidade(item.getQuantidade() - 1);
-        Clients.showNotification("successful",null,null,null,5000);
 
+        if (item.getQuantidade()  > 1)
+        {
+            item.setQuantidade(item.getQuantidade() - 1);
+            eliminarListModel.remove(0);
+            eliminarListModel.add(0, item);
+        }
     }
     @Listen("onAumentarQtd = #eliminarListBox")
     public void doAumentarQtd(ForwardEvent event) {
         Button btn = (Button) event.getOrigin().getTarget();
         Listitem litem = (Listitem) getListitem(btn);
         Item item = (Item) litem.getValue();
-        item.setQuantidade(item.getQuantidade() + 1);
-        Clients.showNotification("successful",null,null,null,5000);
 
+        if (item.getQuantidade()  < this.qtdMax)
+        {
+            item.setQuantidade(item.getQuantidade() + 1);
+            eliminarListModel.remove(0);
+            eliminarListModel.add(0, item);
+        }
     }
 
     public Component getListitem (Button btn)

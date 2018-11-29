@@ -160,6 +160,15 @@
                                                    style="white-space: normal;"/>
                                         </div>
 
+                                        <div  sclass="w3-container w3-center">
+                                            <label if="${each.isHomeRequisition}" sclass="w3-tiny w3-white" value="(Leitura domiciliar, "/>
+                                            <label if="${!each.isHomeRequisition}" sclass="w3-tiny w3-white" value="(Leitura interna, "/>
+
+                                            <label if="${each.isLineUp}" sclass="w3-tiny w3-white" value="Reserva)"/>
+                                            <label if="${!each.isLineUp}" sclass="w3-tiny w3-white" value="Requisição)"/>
+
+                                        </div>
+
                                         <button label="Remover da cesta" forward="onClick=cestaListBox.onRemoverDaCesta"
                                             mold="os"  sclass="w3-bar-item w3-btn w3-light-gray w3-col" />
 
