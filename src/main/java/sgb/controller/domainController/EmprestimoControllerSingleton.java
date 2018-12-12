@@ -115,7 +115,7 @@ public class EmprestimoControllerSingleton
         // begin transaction
         for (Item item : cestaListModel)
         {
-            int idEstadoPedido = item.getIsLineUp() ? 4 : 1; //see estapedido table
+            int idEstadoPedido = item.getIsLineUp() ? 4 : 1;
 
             emprestimo = new Emprestimo();
             emprestimoPK = new EmprestimoPK();
@@ -158,7 +158,7 @@ public class EmprestimoControllerSingleton
         //end transation
      }
 
-    /* make data consistence before save on database*/
+    /* make data consistente before save on database*/
     public void validate(ListModelList<Item> cestaListModel)
     {
         for (int i = 0; i < cestaListModel.size(); i++)
