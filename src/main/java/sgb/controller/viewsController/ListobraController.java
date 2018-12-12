@@ -258,63 +258,9 @@ public class ListobraController extends SelectorComposer<Component>
             return;
         }
 
-        List<Emprestimo> emprestimos = crudService.findByJPQuery("SELECT e FROM Emprestimo e WHERE e.emprestimoPK.user.id = "+
-                user.getId()+" and e.estadoDevolucao.idestadodevolucao = 1", null);
-
-        // begin transaction
-        for (Item item : cestaListModel)
-        {
-            boolean exists = false;
-
-            emprestimo = new Emprestimo();
-            emprestimoPK = new EmprestimoPK();
-            estadoDevolucao = crudService.get(EstadoDevolucao.class, 1);
-            estadoPedido= crudService.get(EstadoPedido.class, 1);
-            estadoRenovacao = crudService.get(EstadoRenovacao.class,1);
-
-            emprestimoPK.setObra(item.getObra());
-            emprestimoPK.setUser(user);
-            emprestimoPK.setDataentrada(Calendar.getInstance());
-
-            emprestimo.setEstadoDevolucao(estadoDevolucao);
-            emprestimo.setEstadoPedido(estadoPedido);
-            emprestimo.setEmprestimoPK(emprestimoPK);
-            emprestimo.setComentario("--");
-            emprestimo.setDataaprovacao(null);
-            emprestimo.setDatadevolucao(null);
-            emprestimo.setQuantidade(item.getQuantidade());
-            emprestimo.setEstadoRenovacao(estadoRenovacao);
-            emprestimo.setDatarenovacao(null);
-            emprestimo.setDatadevolucaorenovacao(null);
-
-
-            try
-            {
-                for (Emprestimo e: emprestimos)
-                {
-                    if (e.getEmprestimoPK().getObra().getCota().
-                        equals(emprestimoPK.getObra().getCota())
-                        && e.getEmprestimoPK().getUser().getId() == emprestimoPK.getUser().getId())
-                    {
-                        e.setQuantidade(e.getQuantidade() + emprestimo.getQuantidade());
-                        crudService.update(e);
-                        exists = true;
-                        break;
-                    }
-                }
-
-                if (!exists) { crudService.Save(emprestimo); }
-            }
-            catch (Exception ex)
-            {
-                ex.printStackTrace();
-            }
-
-        }
-
-        cestaListModel.removeAll(cestaListModel);
-        this.qtdObrasNaCesta.setValue(""+getQtdObrasNaCesta());
-        //ende transation
+        this.emprestimoControllerSingleton.requisitar(this.cestaListModel, this.user);
+        this.cestaListModel.removeAll(cestaListModel);
+        this.qtdObrasNaCesta.setValue("0");
 
         Clients.showNotification("successful",null,null,null,5000);
     }
@@ -446,8 +392,8 @@ public class ListobraController extends SelectorComposer<Component>
             item = new Item();
             item.setObra(obra);
             item.setQuantidade(1);
-            item.setHomeRequisition(canDoHomeRequisition(obra));
-            item.setLineUp(canLineUp(obra,1));
+            item.setHomeRequisition(this.emprestimoControllerSingleton.canDoHomeRequisition(obra));
+            item.setLineUp(this.emprestimoControllerSingleton.canLineUp(obra,1));
             cestaListModel.add(item);
         }
         else
@@ -592,27 +538,5 @@ public class ListobraController extends SelectorComposer<Component>
             }
         }
         return 0;
-    }
-
-
-    public boolean canDoHomeRequisition(Obra obra)
-    {
-        int qtdMin = 2; // must come from DB
-        int qtd =  this.emprestimoControllerSingleton.getRequisicoes(obra, 1).getSize();
-        qtd += this.emprestimoControllerSingleton.getRequisicoes(obra, 3).getSize();
-        qtd += crudService.get(Obra.class, obra.getCota()).getQuantidade();
-
-        return qtd > qtdMin ? true : false;
-    }
-
-    public boolean canLineUp(Obra obra, int qtd)
-    {
-        int qtdMin = 2; // must come from DB
-        int qtdDis = crudService.get(Obra.class, obra.getCota()).getQuantidade();
-
-        if (canDoHomeRequisition(obra))
-            return  qtdDis - qtd < qtdMin ? true : false;
-        else
-            return  qtdDis  - qtd < 0 ? true : false;
     }
 }

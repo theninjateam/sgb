@@ -182,13 +182,14 @@
                                                 <label value="(Quantidade)" sclass="w3-tiny"/>
                                             </vlayout>
 
-                                            <div  sclass="w3-col w3-white w3-center">
-                                                <button  sclass="w3-btn w3-light-gray "
-                                                     label="-" forward="onClick=cestaListBox.onReduzirQtd" mold="os"/>
-                                                <button  sclass="w3-btn w3-light-gray"
-                                                     label="+" forward="onClick=cestaListBox.onAumentarQtd" mold="os"/>
+                                            <!-- for multiple exemplares-->
+                                            <!--<div  sclass="w3-col w3-white w3-center">-->
+                                                <!--<button  sclass="w3-btn w3-light-gray "-->
+                                                     <!--label="-" forward="onClick=cestaListBox.onReduzirQtd" mold="os"/>-->
+                                                <!--<button  sclass="w3-btn w3-light-gray"-->
+                                                     <!--label="+" forward="onClick=cestaListBox.onAumentarQtd" mold="os"/>-->
 
-                                            </div>
+                                            <!--</div>-->
                                         </div>
                                     </div>
 
@@ -216,12 +217,13 @@
                                                     </div>
                                                     <div sclass="w3-row w3-left">
                                                         <hlayout>
-                                                            <div  sclass="w3-col w3-white w3-center">
-                                                                <button  sclass="w3-btn w3-light-gray "
-                                                                         label="-" forward="onClick=cestaListBox.onReduzirQtd" mold="os"/>
-                                                                <button  sclass="w3-btn w3-light-gray"
-                                                                         label="+" forward="onClick=cestaListBox.onAumentarQtd" mold="os"/>
-                                                            </div>
+                                                          <!-- for multiple exemplares -->
+                                                            <!--<div  sclass="w3-col w3-white w3-center">-->
+                                                                <!--<button  sclass="w3-btn w3-light-gray "-->
+                                                                         <!--label="-" forward="onClick=cestaListBox.onReduzirQtd" mold="os"/>-->
+                                                                <!--<button  sclass="w3-btn w3-light-gray"-->
+                                                                         <!--label="+" forward="onClick=cestaListBox.onAumentarQtd" mold="os"/>-->
+                                                            <!--</div>-->
                                                             <vlayout  style="text-align: center;">
                                                                 <label  value="${each.quantidade}"
                                                                         style="font-size: x-large; font-weight: bold;"/>
