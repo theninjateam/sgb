@@ -64,4 +64,5 @@ INSERT INTO public.revista (cota, instituicao) VALUES ('WW2', 'WWWWWWWWWWWWWWWWW
 INSERT INTO public.revista (cota, instituicao) VALUES ('eee2', 'ddddddd');
 INSERT INTO public.revista (cota, instituicao) VALUES ('77788', 'rtrrrrrrrrrrrr');
 
-
+INSERT INTO public.config (nome, descricao, valor) VALUES ('QMDE', '"QUANTIDADE MINIMA DE EXEMPLARES" QUE DEVEM FICAR NA BIBLIOTECA', '2');
+INSERT INTO public.config (nome, descricao, valor) VALUES ('TM', '"TEMPO MAXIMO". EM MINUTOS QUE UM EXEMPLAR FICA A DISPONIBILIDADE DE UM UTENTE, APOS A REQUISICAO', '60');

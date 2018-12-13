@@ -30,6 +30,7 @@ public class EmprestimoControllerSingleton
     private EstadoPedido estadoPedido;
     private EstadoDevolucao estadoDevolucao;
     private EstadoRenovacao estadoRenovacao;
+    private Config config;
 
     private EmprestimoControllerSingleton(){}
     private EmprestimoControllerSingleton(CRUDService crudService) { this.crudService = crudService; }
@@ -175,7 +176,9 @@ public class EmprestimoControllerSingleton
 
     public boolean canDoHomeRequisition(Obra obra)
     {
-        int qtdMin = 2; // must come from DB
+
+        config  = this.crudService.get(Config.class, "QMDE");
+        int qtdMin = Integer.parseInt(config.getValor());
         int qtd =  this.getRequisicoes(obra, 1).getSize();
         qtd += this.getRequisicoes(obra, 3).getSize();
         qtd += crudService.get(Obra.class, obra.getCota()).getQuantidade();
@@ -185,7 +188,8 @@ public class EmprestimoControllerSingleton
 
     public boolean canLineUp(Obra obra, int qtd)
     {
-        int qtdMin = 2; // must come from DB
+        config  = this.crudService.get(Config.class, "QMDE");
+        int qtdMin = Integer.parseInt(config.getValor());
         int qtdDis = crudService.get(Obra.class, obra.getCota()).getQuantidade();
 
         if (canDoHomeRequisition(obra))
