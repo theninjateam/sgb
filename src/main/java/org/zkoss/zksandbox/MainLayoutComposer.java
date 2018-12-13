@@ -30,6 +30,7 @@ import org.zkoss.zk.ui.event.*;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zk.ui.util.GenericForwardComposer;
 import org.zkoss.zul.*;
+import sgb.service.TimeOutService;
 
 import javax.servlet.ServletRequest;
 import java.util.LinkedList;
@@ -285,10 +286,8 @@ public class MainLayoutComposer extends GenericForwardComposer<Borderlayout> imp
 		super.doAfterCompose(comp);
 		Events.postEvent("onMainCreate", comp, null);
 
-//		String s ="";
-//
-//		Window w = (Window) xcontents.getFellow("listObra");
-
-//		alert(xcontents.getSrc());
+		TimeOutService timeOutService = new TimeOutService();
+		timeOutService.setName("timeOutService");
+		timeOutService.start();
 	}
 }
