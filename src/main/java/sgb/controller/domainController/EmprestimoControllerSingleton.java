@@ -1,5 +1,7 @@
 package sgb.controller.domainController;
 
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.ListModelList;
 import sgb.domain.*;
@@ -107,40 +109,17 @@ public class EmprestimoControllerSingleton
         return new ListModelList<Emprestimo>(list);
     }
 
-    /*several user can not acess that method at the same time*/
+    /*that method must be a transaction*/
     public synchronized void requisitar(ListModelList<Item> cestaListModel, Users user)
     {
-        validate(cestaListModel);
-
-        // begin transaction
-        for (Item item : cestaListModel)
+        try
         {
-            int idEstadoPedido = item.getIsLineUp() ? 4 : 1;
+            validate(cestaListModel);
 
-            emprestimo = new Emprestimo();
-            emprestimoPK = new EmprestimoPK();
-
-            estadoDevolucao = crudService.get(EstadoDevolucao.class, 1);
-            estadoPedido = crudService.get(EstadoPedido.class, idEstadoPedido);
-            estadoRenovacao = crudService.get(EstadoRenovacao.class,1);
-
-            emprestimoPK.setObra(item.getObra());
-            emprestimoPK.setUser(user);
-            emprestimoPK.setDataentrada(Calendar.getInstance());
-
-            emprestimo.setEstadoDevolucao(estadoDevolucao);
-            emprestimo.setEstadoPedido(estadoPedido);
-            emprestimo.setEmprestimoPK(emprestimoPK);
-            emprestimo.setComentario("--");
-            emprestimo.setDataaprovacao(null);
-            emprestimo.setDatadevolucao(null);
-            emprestimo.setQuantidade(item.getQuantidade());
-            emprestimo.setEstadoRenovacao(estadoRenovacao);
-            emprestimo.setDatarenovacao(null);
-            emprestimo.setDatadevolucaorenovacao(null);
-
-            try
+            for (Item item : cestaListModel)
             {
+                setEmprestimo(item, user);
+
                 if (!item.getIsLineUp())
                 {
                     Obra obra = crudService.get(Obra.class, item.getObra().getCota());
@@ -148,17 +127,42 @@ public class EmprestimoControllerSingleton
                     this.crudService.update(obra);
                 }
 
-                crudService.Save(emprestimo);
+                crudService.Save(this.emprestimo);
             }
-            catch (Exception ex)
-            {
-                ex.printStackTrace();
-            }
+
         }
-        //end transation
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+    }
+
+     public void setEmprestimo(Item item, Users user)
+     {
+         int idEstadoPedido = item.getIsLineUp() ? 4 : 1;
+         this.emprestimo = new Emprestimo();
+         this.emprestimoPK = new EmprestimoPK();
+
+         this.estadoDevolucao = crudService.get(EstadoDevolucao.class, 1);
+         this.estadoPedido = crudService.get(EstadoPedido.class, idEstadoPedido);
+         this.estadoRenovacao = crudService.get(EstadoRenovacao.class,1);
+
+         this.emprestimoPK.setObra(item.getObra());
+         this.emprestimoPK.setUser(user);
+         this.emprestimoPK.setDataentrada(Calendar.getInstance());
+
+         this.emprestimo.setEstadoDevolucao(estadoDevolucao);
+         this.emprestimo.setEstadoPedido(estadoPedido);
+         this.emprestimo.setEmprestimoPK(emprestimoPK);
+         this.emprestimo.setComentario("--");
+         this.emprestimo.setDataaprovacao(null);
+         this.emprestimo.setDatadevolucao(null);
+         this.emprestimo.setQuantidade(item.getQuantidade());
+         this.emprestimo.setEstadoRenovacao(estadoRenovacao);
+         this.emprestimo.setDatarenovacao(null);
+         this.emprestimo.setDatadevolucaorenovacao(null);
      }
 
-    /* make data consistente before save on database*/
     public void validate(ListModelList<Item> cestaListModel)
     {
         for (int i = 0; i < cestaListModel.size(); i++)
