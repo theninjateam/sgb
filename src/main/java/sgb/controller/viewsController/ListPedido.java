@@ -30,7 +30,8 @@ public class ListPedido extends SelectorComposer<Component> {
     private ListModelList<Emprestimo> pedidoListModel;
     private ListModel<EstadoPedido> estadopedidoModel;
     private Boolean isNormalUser = true;
-    private EmprestimoControllerSingleton emprestimoControllerSingleton = EmprestimoControllerSingleton.getInstance(crudService);
+    private EmprestimoControllerSingleton emprestimoControllerSingleton = (EmprestimoControllerSingleton)
+            SpringUtil.getBean("emprestimoControllerSingleton");
 
     @Wire
     private Listbox pedidoListBox;

@@ -10,35 +10,37 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
+import sgb.controller.domainController.EmprestimoRuleSingleton;
 import sgb.service.CRUDService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"file:src/main/webapp/WEB-INF/applicationContext.xml"})
-public class ConfigTest
+
+public class EmprestimoRuleSingletonTest
 {
     @Autowired
     private ApplicationContext context;
     private CRUDService crudService;
+    private EmprestimoRuleSingleton eRSingleton;
 
     @Before
     public void before() throws Exception
     {
         this.crudService = (CRUDService) context.getBean("CRUDService");
+        this.eRSingleton = (EmprestimoRuleSingleton) context.getBean("emprestimoRuleSingleton");
     }
 
     @Test
     @Transactional
     public void getQuantidadeMinimaDeExemplares() throws Exception
     {
-        Config config = this.crudService.get(Config.class, "QMDE");
-        assertThat(Integer.parseInt(config.getValor()) ).isEqualTo(2);
+        assertThat(eRSingleton.MINIMUM_NUMBER_OF_COPIES).isEqualTo(2);
     }
 
     @Test
     @Transactional
     public void getTempoMaximo() throws Exception
     {
-        Config config = this.crudService.get(Config.class, "TM");
-        assertThat(Integer.parseInt(config.getValor())).isEqualTo(60);
+      //  assertThat(Integer.parseInt(config.getValor())).isEqualTo(60);
     }
 }

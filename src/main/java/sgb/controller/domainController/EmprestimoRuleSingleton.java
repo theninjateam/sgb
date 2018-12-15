@@ -1,5 +1,10 @@
 package sgb.controller.domainController;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.zkoss.zkplus.spring.SpringUtil;
+import sgb.domain.Config;
 import sgb.service.CRUDService;
 
 /**
@@ -11,32 +16,20 @@ import sgb.service.CRUDService;
 
 public class EmprestimoRuleSingleton
 {
-    private static EmprestimoRuleSingleton instace = null;
-    private CRUDService crudService;
+    private CRUDService CRUDService;
 
-    private EmprestimoRuleSingleton(){}
-    private EmprestimoRuleSingleton(CRUDService crudService)
+    public final int MINIMUM_NUMBER_OF_COPIES;
+
+    public EmprestimoRuleSingleton(CRUDService crudService)
     {
-        this.crudService = crudService;
+        this.CRUDService = crudService;
+
+        MINIMUM_NUMBER_OF_COPIES = Integer.parseInt(getConfigValue("MINIMUM_NUMBER_OF_COPIES")) ;
     }
 
-
-    public EmprestimoRuleSingleton getInstace(CRUDService crudService)
+    public String getConfigValue(String id)
     {
-        if (instace == null)
-        {
-            synchronized (EmprestimoRuleSingleton.class)
-            {
-                if ( instace == null)
-                {
-                    instace = new EmprestimoRuleSingleton(crudService);
-                }
-            }
-        }
-
-        return instace;
+        return this.CRUDService.get(Config.class, id).getValor();
     }
-
-
 
 }

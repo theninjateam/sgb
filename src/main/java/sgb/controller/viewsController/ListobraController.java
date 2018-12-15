@@ -1,5 +1,6 @@
 package sgb.controller.viewsController;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,7 +40,8 @@ public class ListobraController extends SelectorComposer<Component>
     private ListModelList<Obra> obraListModel;
     private ListModelList<Item> cestaListModel = new ListModelList<Item>();
     private ListModelList<Obra> detalheobra;
-    private EmprestimoControllerSingleton emprestimoControllerSingleton =  EmprestimoControllerSingleton.getInstance(crudService);
+    private EmprestimoControllerSingleton emprestimoControllerSingleton = (EmprestimoControllerSingleton)
+            SpringUtil.getBean("emprestimoControllerSingleton");
 
     @Wire
     private Button buttonPesquisar;
@@ -396,10 +398,10 @@ public class ListobraController extends SelectorComposer<Component>
             item.setLineUp(this.emprestimoControllerSingleton.canLineUp(obra,1));
             cestaListModel.add(item);
         }
-        else
-        {
-            aumentarQtd(item);
-        }
+//       else
+//        {
+//            aumentarQtd(item);
+//        }
 
         this.qtdObrasNaCesta.setValue(""+getQtdObrasNaCesta());
 

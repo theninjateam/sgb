@@ -2,6 +2,7 @@ package sgb.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import sgb.controller.domainController.EmprestimoControllerSingleton;
 import sgb.service.CRUDService;
@@ -20,7 +22,7 @@ import java.util.PriorityQueue;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"file:src/main/webapp/WEB-INF/applicationContext.xml"})
 
-public class ObraTest
+public class EmprestimoControllerSingletonTest
 {
     private String queue[] = new String[4];
 
@@ -37,13 +39,15 @@ public class ObraTest
         System.out.println("Setting it up!");
 
         this.crudService = (CRUDService) context.getBean("CRUDService");
-        this.eCSingleton = EmprestimoControllerSingleton.getInstance(crudService);
+        this.eCSingleton = (EmprestimoControllerSingleton) context.getBean("emprestimoControllerSingleton");
+
         List<Emprestimo> listem = crudService.getAll(Emprestimo.class);
 
         for (Emprestimo e: listem)
         {
             this.crudService.delete(e);
         }
+
 
         EmprestimoPK emprestimoPK = new EmprestimoPK();
         Emprestimo emprestimo = new Emprestimo();
@@ -119,18 +123,17 @@ public class ObraTest
 
     @Test
     @Transactional
-    public void generateDomiciliarQueue() throws Exception
+    public void generateDomiciliarQueueFor() throws Exception
     {
         StringBuilder actualBuilder = new StringBuilder();
         StringBuilder espectedBuilder = new StringBuilder();
         Obra o = this.crudService.get(Obra.class, "eee2");
-        PriorityQueue<Emprestimo> pq = new PriorityQueue<>(o.generateDomiciliarQueue(this.eCSingleton));
+        PriorityQueue<Emprestimo> pq = this.eCSingleton.generateDomiciliarQueueFor(o);
 
         while (!pq.isEmpty())
         {
             Emprestimo e = pq.remove();
             espectedBuilder.append(e.getEmprestimoPK().toString()+"\n");
-            this.crudService.delete(e);
         }
 
         actualBuilder.append(queue[0]+"\n");
@@ -139,7 +142,6 @@ public class ObraTest
         actualBuilder.append(queue[3]+"\n");
 
        assertThat(actualBuilder.toString()).isEqualTo(espectedBuilder.toString());
-       assertThat(o.generateDomiciliarQueue(this.eCSingleton).isEmpty()).isEqualTo(true);
        System.out.println(espectedBuilder.toString());
     }
 }

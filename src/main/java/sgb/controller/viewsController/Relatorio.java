@@ -1,5 +1,6 @@
 package sgb.controller.viewsController;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.zkoss.zk.ui.Component;
@@ -29,8 +30,8 @@ public class Relatorio extends SelectorComposer<Component> {
     private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;
 //    private ListModelList<Emprestimo> relatorioListModel;
     private Boolean isNormalUser = true;
-    private EmprestimoControllerSingleton emprestimoControllerSingleton = EmprestimoControllerSingleton.getInstance(crudService);
-
+    private EmprestimoControllerSingleton emprestimoControllerSingleton = (EmprestimoControllerSingleton)
+            SpringUtil.getBean("emprestimoControllerSingleton");
     @Wire
     private Listbox relatorioListBox;
 
