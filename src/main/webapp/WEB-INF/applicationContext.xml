@@ -61,6 +61,11 @@
         <constructor-arg index="1" ref="emprestimoRuleSingleton"/>
     </bean>
 
+    <bean id="timeOutService" scope="singleton" class="sgb.service.TimeOutService" >
+        <constructor-arg index="0" ref="CRUDService"/>
+        <constructor-arg index="1" ref="emprestimoControllerSingleton"/>
+    </bean>
+
 
     <context:annotation-config />
     <context:component-scan base-package="sgb"/>

@@ -286,8 +286,8 @@ public class MainLayoutComposer extends GenericForwardComposer<Borderlayout> imp
 		super.doAfterCompose(comp);
 		Events.postEvent("onMainCreate", comp, null);
 
-		TimeOutService timeOutService = new TimeOutService();
-		timeOutService.setName("timeOutService");
-		timeOutService.start();
+		//TimeOutService timeOutService = new TimeOutService();
+//		timeOutService.setName("timeOutService");
+//		timeOutService.start();
 	}
 }

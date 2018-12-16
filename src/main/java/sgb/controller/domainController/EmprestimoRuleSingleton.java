@@ -19,12 +19,30 @@ public class EmprestimoRuleSingleton
     private CRUDService CRUDService;
 
     public final int MINIMUM_NUMBER_OF_COPIES;
+    public final int MAXIMUM_TIME;
+    public final int ENTRY_TIME_ON_SATURDAY;
+    public final int EXIT_TIME_ON_SATURDAY;
+    public final int ENTRY_TIME_ON_WEEKDAYS;
+    public final int EXIT_TIME_ON_WEEKDAYS;
+
+
 
     public EmprestimoRuleSingleton(CRUDService crudService)
     {
         this.CRUDService = crudService;
 
-        MINIMUM_NUMBER_OF_COPIES = Integer.parseInt(getConfigValue("MINIMUM_NUMBER_OF_COPIES")) ;
+        MINIMUM_NUMBER_OF_COPIES = Integer.parseInt(getConfigValue("MINIMUM_NUMBER_OF_COPIES"));
+
+        MAXIMUM_TIME = Integer.parseInt(getConfigValue("MAXIMUM_TIME"));
+
+        ENTRY_TIME_ON_SATURDAY = Integer.parseInt(getConfigValue("ENTRY_TIME_ON_SATURDAY"));
+
+        EXIT_TIME_ON_SATURDAY = Integer.parseInt(getConfigValue("EXIT_TIME_ON_SATURDAY"));
+
+        ENTRY_TIME_ON_WEEKDAYS = Integer.parseInt(getConfigValue("ENTRY_TIME_ON_WEEKDAYS"));
+
+        EXIT_TIME_ON_WEEKDAYS = Integer.parseInt(getConfigValue("EXIT_TIME_ON_WEEKDAYS"));
+
     }
 
     public String getConfigValue(String id)

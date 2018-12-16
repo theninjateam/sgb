@@ -34,7 +34,7 @@ public class EmprestimoControllerSingleton
     private EstadoRenovacao estadoRenovacao;
     private Config config;
     private CRUDService CRUDService;
-    private EmprestimoRuleSingleton eRSingleton;
+    public EmprestimoRuleSingleton eRSingleton;
 
     public  EmprestimoControllerSingleton(CRUDService crudService, EmprestimoRuleSingleton eRSingleton)
     {

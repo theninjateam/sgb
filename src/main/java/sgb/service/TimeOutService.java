@@ -10,13 +10,15 @@ import java.util.Calendar;
 
 public class TimeOutService extends Thread
 {
-    private CRUDService crudService = (CRUDService) SpringUtil.getBean("CRUDService");
-    private EmprestimoControllerSingleton emprestimoControllerSingleton = (EmprestimoControllerSingleton)
-            SpringUtil.getBean("emprestimoControllerSingleton");
-
+    private CRUDService crudService;
+    private EmprestimoControllerSingleton eCSingleton;
     private int minuto = 1;
 
-    public TimeOutService() {}
+    public TimeOutService(CRUDService crudService, EmprestimoControllerSingleton eCSingleton)
+    {
+        this.crudService = crudService;
+        this.eCSingleton = eCSingleton;
+    }
 
     public void run()
     {
@@ -24,9 +26,12 @@ public class TimeOutService extends Thread
         {
             try
             {
-                for (Emprestimo e: emprestimoControllerSingleton.getRequisicoes(1))
+                for (Emprestimo e: eCSingleton.getRequisicoes(1))
                 {
+                    if (isTimeOut(e.getEmprestimoPK().getDataentrada(), Calendar.getInstance()))
+                    {
 
+                    }
                 }
 
                 Thread.sleep(minuto * 60 * 1000);
@@ -38,17 +43,19 @@ public class TimeOutService extends Thread
         }
     }
 
-    public boolean isTimeOut(Calendar calendar)
+    public boolean isTimeOut(Calendar entryDate, Calendar currentDate)
     {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(entryDate.getTime());
         boolean isTimeOut = false;
 
-        if (isWeekend(calendar))
+        if (isWeekend(calendar) && isMonDay())
         {
-
         }
-        else
+        else if (!isWeekend(calendar))
         {
-
+            isTimeOut = currentDate.compareTo(getLiftingTimeout(calendar)) > 0
+                    || currentDate.get(Calendar.HOUR) >= eCSingleton.eRSingleton.EXIT_TIME_ON_WEEKDAYS ? true : false;
         }
 
         return isTimeOut;
@@ -65,4 +72,24 @@ public class TimeOutService extends Thread
             return false;
     }
 
+    public boolean isMonDay()
+    {
+        Calendar calendar = Calendar.getInstance();
+
+        return (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY) ? true : false;
+    }
+
+
+    public Calendar getLiftingTimeout(Calendar c)
+    {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(c.getTime());
+
+        if (!isWeekend(c))
+        {
+            calendar.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE) + eCSingleton.eRSingleton.MAXIMUM_TIME);
+        }
+        
+        return calendar;
+    }
 }
