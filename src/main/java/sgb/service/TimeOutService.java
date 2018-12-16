@@ -8,6 +8,10 @@ import sgb.domain.Emprestimo;
 import java.lang.Thread;
 import java.util.Calendar;
 
+/**
+ * @author Fonseca, bfonseca@unilurio.ac.mz
+ */
+
 public class TimeOutService extends Thread
 {
     private CRUDService crudService;

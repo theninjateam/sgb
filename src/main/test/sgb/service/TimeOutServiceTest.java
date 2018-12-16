@@ -19,14 +19,17 @@ import java.util.Calendar;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"file:src/main/webapp/WEB-INF/applicationContext.xml"})
 
+/**
+ * @author Fonseca, bfonseca@unilurio.ac.mz
+ */
+
 public class TimeOutServiceTest
 {
-
-
     @Autowired
     private ApplicationContext context;
     private CRUDService crudService;
     private TimeOutService timeOutService;
+
     @Before
     @Transactional
     public void before() throws Exception

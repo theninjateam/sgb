@@ -8,7 +8,7 @@ import sgb.domain.Config;
 import sgb.service.CRUDService;
 
 /**
- * @author Fonseca
+ * @author Fonseca, bfonseca@unilurio.ac.mz
  *
  *@Description: We use Singleton because there are several classes that use methods present in
  * this class to verify business rule, so we decide that, the instace of that class can be shared.
@@ -24,7 +24,6 @@ public class EmprestimoRuleSingleton
     public final int EXIT_TIME_ON_SATURDAY;
     public final int ENTRY_TIME_ON_WEEKDAYS;
     public final int EXIT_TIME_ON_WEEKDAYS;
-
 
 
     public EmprestimoRuleSingleton(CRUDService crudService)
