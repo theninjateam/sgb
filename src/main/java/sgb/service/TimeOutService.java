@@ -49,27 +49,28 @@ public class TimeOutService extends Thread
         calendar.setTime(entryDate.getTime());
         boolean isTimeOut = false;
 
-        if (isWeekend(calendar))
+        if (currentDate.compareTo(getLiftingTimeout(calendar)) > 0)
         {
-        }
-        else if (!isWeekend(calendar))
-        {
-            isTimeOut = currentDate.compareTo(getLiftingTimeout(calendar)) > 0
-                    || currentDate.get(Calendar.HOUR) >= eCSingleton.eRSingleton.EXIT_TIME_ON_WEEKDAYS ? true : false;
+            isTimeOut = true;
         }
 
         return isTimeOut;
     }
 
-
     public boolean isWeekend(Calendar c)
     {
         if (c.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY)
-          return true;
-        else if(c.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY)
+        {
             return true;
+        }
+        else if(c.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY)
+        {
+            return true;
+        }
         else
+        {
             return false;
+        }
     }
 
     public Calendar getLiftingTimeout(Calendar c)
@@ -99,7 +100,9 @@ public class TimeOutService extends Thread
 
         calendar.set(Calendar.MINUTE, 00);
 
-        calendar.set(Calendar.HOUR,eCSingleton.eRSingleton.ENTRY_TIME_ON_WEEKDAYS + 1);
+        calendar.set(Calendar.HOUR, eCSingleton.eRSingleton.ENTRY_TIME_ON_WEEKDAYS);
+
+        incrementNMinutes(calendar, eCSingleton.eRSingleton.MAXIMUM_TIME);
     }
 
     public boolean isSaturDay(Calendar c)
@@ -112,13 +115,8 @@ public class TimeOutService extends Thread
         calendar.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE) + minutes);
     }
 
-    public void incremetNHour(Calendar calendar, int hour)
-    {
-        calendar.set(Calendar.HOUR, calendar.get(Calendar.HOUR) + hour);
-    }
-
     public void incrementNDays(Calendar calendar, int days)
     {
-        calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + 1);
+        calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + days);
     }
 }
