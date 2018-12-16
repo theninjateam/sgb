@@ -79,9 +79,46 @@ public class TimeOutService extends Thread
 
         if (!isWeekend(c))
         {
-            calendar.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE) + eCSingleton.eRSingleton.MAXIMUM_TIME);
+            incrementNMinutes(calendar, eCSingleton.eRSingleton.MAXIMUM_TIME);
+        }
+        else if(isWeekend(c))
+        {
+            setLiftingTimeoutForWeekendRequests(calendar);
         }
         
         return calendar;
+    }
+
+    public void setLiftingTimeoutForWeekendRequests(Calendar calendar)
+    {
+        incrementNDays(calendar, isSaturDay(calendar) ? 2 : 1);
+
+        calendar.set(Calendar.MILLISECOND, 00);
+
+        calendar.set(Calendar.SECOND, 00);
+
+        calendar.set(Calendar.MINUTE, 00);
+
+        calendar.set(Calendar.HOUR,eCSingleton.eRSingleton.ENTRY_TIME_ON_WEEKDAYS + 1);
+    }
+
+    public boolean isSaturDay(Calendar c)
+    {
+        return (c.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) ? true : false;
+    }
+
+    public void incrementNMinutes(Calendar calendar, int minutes)
+    {
+        calendar.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE) + minutes);
+    }
+
+    public void incremetNHour(Calendar calendar, int hour)
+    {
+        calendar.set(Calendar.HOUR, calendar.get(Calendar.HOUR) + hour);
+    }
+
+    public void incrementNDays(Calendar calendar, int days)
+    {
+        calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + 1);
     }
 }
