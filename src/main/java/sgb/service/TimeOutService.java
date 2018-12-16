@@ -49,7 +49,7 @@ public class TimeOutService extends Thread
         calendar.setTime(entryDate.getTime());
         boolean isTimeOut = false;
 
-        if (isWeekend(calendar) && isMonDay())
+        if (isWeekend(calendar))
         {
         }
         else if (!isWeekend(calendar))
@@ -71,14 +71,6 @@ public class TimeOutService extends Thread
         else
             return false;
     }
-
-    public boolean isMonDay()
-    {
-        Calendar calendar = Calendar.getInstance();
-
-        return (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY) ? true : false;
-    }
-
 
     public Calendar getLiftingTimeout(Calendar c)
     {
