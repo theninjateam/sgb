@@ -260,7 +260,11 @@ public class ListobraController extends SelectorComposer<Component>
             return;
         }
 
-        this.emprestimoControllerSingleton.requisitar(this.cestaListModel, this.user);
+        for (Item item : cestaListModel)
+        {
+            this.emprestimoControllerSingleton.requisitar(item, this.user);
+        }
+
         this.cestaListModel.removeAll(cestaListModel);
         this.qtdObrasNaCesta.setValue("0");
 

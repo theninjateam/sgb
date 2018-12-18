@@ -13,6 +13,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.PriorityQueue;
+import java.util.concurrent.Semaphore;
 
 
 /**
@@ -26,6 +27,7 @@ import java.util.PriorityQueue;
 public class EmprestimoControllerSingleton
 {
     private HashMap<String, Object> parameters;
+    public HashMap<String, Semaphore> resources = new HashMap<String, Semaphore>();
     private StringBuilder query;
     private EmprestimoPK emprestimoPK;
     private Emprestimo emprestimo;
@@ -101,27 +103,19 @@ public class EmprestimoControllerSingleton
         return new ListModelList<Emprestimo>(list);
     }
 
-    /*that method must be a transaction*/
-    public synchronized void requisitar(ListModelList<Item> cestaListModel, Users user)
+    public synchronized void enterInCriticalRegion(Item item)
     {
         try
         {
-            validate(cestaListModel);
-
-            for (Item item : cestaListModel)
+            if (this.resources.get(item.getObra().getCota()) == null)
             {
-                setEmprestimo(item, user);
-
-                if (!item.getIsLineUp())
-                {
-                    Obra obra = this.CRUDService.get(Obra.class, item.getObra().getCota());
-                    obra.setQuantidade(obra.getQuantidade() - item.getQuantidade());
-                    this.CRUDService.update(obra);
-                }
-
-                this.CRUDService.Save(this.emprestimo);
+                this.resources.put(item.getObra().getCota(), new Semaphore(1));
+                this.resources.get(item.getObra().getCota()).acquire();
             }
-
+            else
+            {
+                this.resources.get(item.getObra().getCota()).acquire();
+            }
         }
         catch (Exception ex)
         {
@@ -129,7 +123,49 @@ public class EmprestimoControllerSingleton
         }
     }
 
-     public void setEmprestimo(Item item, Users user)
+    public void leaveInCriticalRegion(Item item)
+    {
+        try
+        {
+            this.resources.get(item.getObra().getCota()).release();
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+    }
+
+    public void requisitar(Item item, Users user)
+    {
+        try
+        {
+            this.enterInCriticalRegion(item);
+            validate(item);
+            setEmprestimo(item, user);
+
+            if (!item.getIsLineUp())
+            {
+                Obra obra = this.CRUDService.get(Obra.class, item.getObra().getCota());
+                obra.setQuantidade(obra.getQuantidade() - item.getQuantidade());
+                this.CRUDService.update(obra);
+
+                this.leaveInCriticalRegion(item);
+            }
+            this.CRUDService.Save(this.emprestimo);
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+    }
+
+    public void validate(Item item)
+    {
+        item.setHomeRequisition(canDoHomeRequisition(item.getObra()));
+        item.setLineUp(canLineUp(item.getObra(),1));
+    }
+
+    public void setEmprestimo(Item item, Users user)
      {
          int idEstadoPedido = item.getIsLineUp() ? 4 : 1;
          this.emprestimo = new Emprestimo();
@@ -155,20 +191,9 @@ public class EmprestimoControllerSingleton
          this.emprestimo.setDatadevolucaorenovacao(null);
      }
 
-    public void validate(ListModelList<Item> cestaListModel)
-    {
-        for (int i = 0; i < cestaListModel.size(); i++)
-        {
-            Item item = cestaListModel.get(i);
-            item.setHomeRequisition(canDoHomeRequisition(item.getObra()));
-            item.setLineUp(canLineUp(item.getObra(),1));
-        }
-    }
-
     public boolean canDoHomeRequisition(Obra obra)
     {
-
-        int qtdMin = eRSingleton.MINIMUM_NUMBER_OF_COPIES;
+        int qtdMin = this.eRSingleton.MINIMUM_NUMBER_OF_COPIES;
         int qtd =  this.getRequisicoes(obra, 1).getSize();
         qtd += this.getRequisicoes(obra, 3).getSize();
         qtd += this.CRUDService.get(Obra.class, obra.getCota()).getQuantidade();
@@ -178,7 +203,7 @@ public class EmprestimoControllerSingleton
 
     public boolean canLineUp(Obra obra, int qtd)
     {
-        int qtdMin = eRSingleton.MINIMUM_NUMBER_OF_COPIES;
+        int qtdMin = this.eRSingleton.MINIMUM_NUMBER_OF_COPIES;
         int qtdDis = this.CRUDService.get(Obra.class, obra.getCota()).getQuantidade();
 
         if (canDoHomeRequisition(obra))
