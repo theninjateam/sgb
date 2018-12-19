@@ -276,38 +276,6 @@ create table "user"
 alter table "user" owner to postgres
 ;
 
-create table emprestimo
-(
-	user_id integer not null
-		constraint user_id
-			references "user",
-	cota varchar(255) not null
-		constraint cota
-			references obra,
-	dataentrada timestamp not null,
-	estadopedido integer
-		constraint idestadopedido
-			references estadopedido,
-	dataaprovacao date,
-	datadevolucao date,
-	quantidade integer,
-	comentario varchar(5000),
-	estadodevolucao integer
-		constraint idestadodevolucao
-			references estadodevolucao,
-	estadorenovacao bigint
-		constraint idestadorenovacao
-			references estadorenovacao,
-	datarenovacao date,
-	datadevolucaorenovacao date,
-	constraint emprestimo_embeddepk
-		primary key (user_id, cota, dataentrada)
-)
-;
-
-alter table emprestimo owner to postgres
-;
-
 create table user_role
 (
 	user_id integer not null
@@ -390,4 +358,55 @@ create table config
 
 alter table config owner to postgres
 ;
+
+create table tiporequisicao
+(
+	idtiporequisicao integer not null
+		constraint tiporequisicao_pkey
+			primary key,
+	descricao varchar(128) not null
+)
+;
+
+comment on table tiporequisicao is 'especifica os tipos de requisicoes disponiveis'
+;
+
+alter table tiporequisicao owner to postgres
+;
+
+create table emprestimo
+(
+	user_id integer not null
+		constraint user_id
+			references "user",
+	cota varchar(255) not null
+		constraint cota
+			references obra,
+	dataentrada timestamp not null,
+	estadopedido integer
+		constraint idestadopedido
+			references estadopedido,
+	dataaprovacao date,
+	datadevolucao date,
+	quantidade integer,
+	comentario varchar(5000),
+	estadodevolucao integer
+		constraint idestadodevolucao
+			references estadodevolucao,
+	estadorenovacao bigint
+		constraint idestadorenovacao
+			references estadorenovacao,
+	datarenovacao date,
+	datadevolucaorenovacao date,
+	idtiporequisicao integer not null
+		constraint emprestimo_tiporequisicao_idtiporequisicao_fk
+			references tiporequisicao,
+	constraint emprestimo_embeddepk
+		primary key (user_id, cota, dataentrada)
+)
+;
+
+alter table emprestimo owner to postgres
+;
+
 

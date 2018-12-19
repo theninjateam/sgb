@@ -19,6 +19,10 @@ public class Emprestimo  implements Comparable<Emprestimo>{
     private Calendar datadevolucaorenovacao;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "idtipoRequisicao", nullable = false)
+    private TipoRequisicao tipoRequisicao;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "estadopedido", nullable = false)
     private EstadoPedido estadoPedido;
 
@@ -125,6 +129,10 @@ public class Emprestimo  implements Comparable<Emprestimo>{
         this.estadoRenovacao = estadoRenovacao;
     }
 
+
+    public TipoRequisicao getTipoRequisicao() { return tipoRequisicao; }
+
+    public void setTipoRequisicao(TipoRequisicao tipoRequisicao) { this.tipoRequisicao = tipoRequisicao; }
 
     @Override
     public int compareTo(Emprestimo emprestimo)

@@ -1,3 +1,6 @@
+INSERT INTO public.tiporequisicao (idtiporequisicao, descricao) VALUES (1, 'requisicao dominciliar');
+INSERT INTO public.tiporequisicao (idtiporequisicao, descricao) VALUES (2, 'requisicao inter
+
 INSERT INTO public."user" (user_id, active, email, last_name, name, password) VALUES (1, 1, 'admin@admin', 'admin', 'admin', '21232f297a57a5a743894a0e4a801fc3');
 INSERT INTO public."user" (user_id, active, email, last_name, name, password) VALUES (2, 1, 'fonseca@fonseca', 'fonseca', 'fonseca', 'e653d3954be6576488c5ce7a599869de');
 

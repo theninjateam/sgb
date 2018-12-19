@@ -25,7 +25,6 @@ public class EmprestimoRuleSingleton
     public final int ENTRY_TIME_ON_WEEKDAYS;
     public final int EXIT_TIME_ON_WEEKDAYS;
 
-
     public EmprestimoRuleSingleton(CRUDService crudService)
     {
         this.CRUDService = crudService;
