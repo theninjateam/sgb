@@ -44,12 +44,5 @@ public class EmprestimoPK implements Serializable {
         this.user = user;
     }
 
-    @Override
-    public String toString() {
-        return "EmprestimoPK{" +
-                "obra=" + obra.getCota() +
-                ", user=" + user.getId() +
-                ", dataentrada=" + dataentrada.getTime().toString() +
-                '}';
-    }
+
 }

@@ -120,6 +120,8 @@ public class ListPedido extends SelectorComposer<Component> {
             emp.setEstadoPedido(estadoPedido);
             emp.setDataaprovacao(Calendar.getInstance());
             emp.setDatadevolucao(Calendar.getInstance());
+
+            // Reduzir quantidade 
             pedidoListModel.remove(emp);
             crudService.update(emp);
             Clients.showNotification("Pedido aprovado com sucesso ", null, null, null, 5000);

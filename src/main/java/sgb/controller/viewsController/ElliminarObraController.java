@@ -53,6 +53,10 @@ public class ElliminarObraController extends SelectorComposer<Component> {
 
     private int qtdMax;
 
+    @Wire
+    private Textbox descricao;
+
+
 
     @Override
     public void doAfterCompose(Component comp) throws Exception {
@@ -72,6 +76,62 @@ public class ElliminarObraController extends SelectorComposer<Component> {
         eliminarListBox.setModel(eliminarListModel);
 
         this.qtdMax = obra.getQuantidade();
+    }
+
+    @Listen("onExit= #eliminarListBox")
+    public void exit ()
+    {
+        session.removeAttribute ("obraToEdite");
+        modalEliminar.detach();
+    }
+
+    @Listen("onReduzir= #eliminarListBox")
+    public void reduzir (ForwardEvent event)
+    {
+
+
+
+        Button btn = (Button) event.getOrigin().getTarget();
+        Listitem litem = (Listitem) getListitem(btn);
+        Item item = (Item) litem.getValue();
+
+        if(obra.getQuantidade()==item.getQuantidade()) {
+
+            Clients.showNotification("Nada a  apagar", null, null, null, 5000);
+            session.removeAttribute("obraToEdite");
+            modalEliminar.detach();
+
+        } else {
+
+            obra.setQuantidade(item.getQuantidade());
+
+            Set<ObraEliminadas> listobraEliminadas = new HashSet<>();
+            listobraEliminadas = obra.getObraEliminadas();
+
+            ObraEliminadas obraEliminada = new ObraEliminadas();
+            ObraEliminadasPK obraEliminadaPK = new ObraEliminadasPK();
+
+            obraEliminadaPK.setObra(obra);
+            obraEliminadaPK.setDataRegisto(Calendar.getInstance());
+
+            obraEliminada.setObraEliminadasPK(obraEliminadaPK);
+            obraEliminada.setObra(obra);
+            obraEliminada.setQuantidade(item.getQuantidade());
+            obraEliminada.setDescricao(descricao.getValue());
+            obraEliminada.setUser(user);
+
+            listobraEliminadas.add(obraEliminada);
+
+            obra.setObraEliminadas(listobraEliminadas);
+
+
+            crudService.update(obra);
+            Clients.showNotification("ola mundo", null, null, null, 5000);
+
+            session.removeAttribute("obraToEdite");
+            modalEliminar.detach();
+
+        }
     }
 
     @Listen("onReduzirQtd = #eliminarListBox")

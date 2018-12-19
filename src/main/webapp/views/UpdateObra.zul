@@ -3,7 +3,7 @@
 
     <window id="modalUpdate" apply="sgb.controller.viewsController.UpdateObraController"
             border="none" closable="true"
-            position="center,center" action="show: slideDown;hide: slideUp" width="100%" height="100%">
+            position="center,center" action="show: slideDown;hide: slideUp" width="460px">
         <vlayout>
 
 

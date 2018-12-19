@@ -2,7 +2,7 @@
 <zk>
     <window id="modalEliminar" apply="sgb.controller.viewsController.ElliminarObraController"
             border="none" closable="true"
-            position="center,center" action="show: slideDown;hide: slideUp" width="100%" height="100%">
+            position="center,center" action="show: slideDown;hide: slideUp" width="460px">
 
             <grid  style="border-style: none;">
                 <columns style=" background-color: white;  border-style: none;">
@@ -69,6 +69,11 @@
                                                     </div>
                                                 </hlayout>
                                             </div>
+                                            <div align="center">
+                                                <button     label="Reduzir"  forward="onClick=eliminarListBox.onReduzir" mold="os"  sclass="w3-btn w3-black"/>
+                                                <button label="Fechar" forward="onClick=eliminarListBox.onExit" sclass="w3-btn w3-light-gray "
+                                                        mold="os"/>
+                                            </div>
                                         </listcell>
                                     </listitem>
                                 </template>
@@ -77,7 +82,6 @@
                                     <listfooter  height="100%" width="100%" style="padding: 15px 32px; background-color: lightgray; border-style: none;"/>
                                 </listfoot>
                             </listbox>
-                            <button     label="Reduzir" mold="os"  sclass="w3-btn w3-black"/>
                         </vlayout>
                     </column>
                 </columns>

@@ -149,10 +149,7 @@ public class Emprestimo  implements Comparable<Emprestimo>{
                 Objects.equals(estadoRenovacao, that.estadoRenovacao);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(emprestimoPK, dataaprovacao, datadevolucao, quantidade, comentario, datarenovacao, datadevolucaorenovacao, estadoPedido, estadoDevolucao, estadoRenovacao);
-    }
+
 
     @Override
     public String toString() {

@@ -166,7 +166,6 @@
 
                                             <label if="${each.isLineUp}" sclass="w3-tiny w3-white" value="Reserva)"/>
                                             <label if="${!each.isLineUp}" sclass="w3-tiny w3-white" value="Requisição)"/>
-
                                         </div>
 
                                         <button label="Remover da cesta" forward="onClick=cestaListBox.onRemoverDaCesta"

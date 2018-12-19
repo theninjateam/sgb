@@ -212,7 +212,7 @@ public class Obra {
 
 
 
-    @OneToMany(mappedBy = "obra", fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "obra", fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
     public Set<ObraEliminadas> getObraEliminadas() {
         return obraEliminadas;
     }
