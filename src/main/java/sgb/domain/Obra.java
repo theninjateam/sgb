@@ -1,5 +1,7 @@
 package sgb.domain;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.zkoss.zkplus.spring.SpringUtil;
 import sgb.controller.domainController.EmprestimoControllerSingleton;
 import sgb.service.CRUDService;
@@ -32,7 +34,6 @@ public class Obra {
     private AreaCientifica areacientifica;
     private Set<RegistroObra> registroObras = new HashSet<>();
     private Set<ObraEliminadas> obraEliminadas = new HashSet<>();
-
 
     @Id
     @Column(name = "cota")
@@ -219,17 +220,5 @@ public class Obra {
 
     public void setObraEliminadas(Set<ObraEliminadas> obraEliminadas) {
         this.obraEliminadas = obraEliminadas;
-    }
-
-    public PriorityQueue<Emprestimo> generateDomiciliarQueue(EmprestimoControllerSingleton eCSingleton)
-    {
-        PriorityQueue<Emprestimo> domiciliarQueue = new PriorityQueue<>();
-
-        for (Emprestimo e: eCSingleton.getRequisicoes(this, 4))
-        {
-            domiciliarQueue.add(e);
-        }
-
-        return domiciliarQueue;
     }
 }

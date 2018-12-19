@@ -28,7 +28,7 @@ public class ObraControllerTest
     @Test
     public void saveData()
     {
-        DesktopAgent desktop = Zats.newClient().connect("/views/addObra.zul");
+    //    DesktopAgent desktop = Zats.newClient().connect("/views/addObra.zul");
 //
 //        ComponentAgent authorListBox = desktop.query("listbox[id='authorListBox']");
 //        ComponentAgent autor = desktop.query("textbox[id='autor']");

@@ -42,14 +42,30 @@
         <!-- Enable Hibernate's automatic session context management -->
     </bean>
 
+    <tx:annotation-driven transaction-manager="transactionManager" />
+
     <bean id="transactionManager"
           class="org.springframework.orm.hibernate4.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
 
+
     <bean id="CRUDService" class="sgb.service.CRUDServiceImpl" />
 
-    <tx:annotation-driven transaction-manager="transactionManager" />
+    <bean id="emprestimoRuleSingleton" scope="singleton" class="sgb.controller.domainController.EmprestimoRuleSingleton" >
+        <constructor-arg index="0" ref="CRUDService"/>
+    </bean>
+
+    <bean id="emprestimoControllerSingleton" scope="singleton" class="sgb.controller.domainController.EmprestimoControllerSingleton" >
+        <constructor-arg index="0" ref="CRUDService"/>
+        <constructor-arg index="1" ref="emprestimoRuleSingleton"/>
+    </bean>
+
+    <bean id="timeOutService" scope="singleton" class="sgb.service.TimeOutService" >
+        <constructor-arg index="0" ref="CRUDService"/>
+        <constructor-arg index="1" ref="emprestimoControllerSingleton"/>
+    </bean>
+
 
     <context:annotation-config />
     <context:component-scan base-package="sgb"/>

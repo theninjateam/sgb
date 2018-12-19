@@ -70,7 +70,17 @@ public class CRUDDaoImpl implements CRUDDao {
 //        Login.setTenantId("fecn2");
 //        SessionBuilder sb=  sessionFactory.withOptions().tenantIdentifier("fecn1");
 //        return  sb.openSession();//.getCurrentSession();
-        return sessionFactory.getCurrentSession();
+        Session session;
+
+        try
+        {
+            session = sessionFactory.getCurrentSession();
+        } catch (HibernateException e)
+        {
+            session = sessionFactory.openSession();
+        }
+
+        return session;
     }
 
     protected final Session getSession(String tenant) {
