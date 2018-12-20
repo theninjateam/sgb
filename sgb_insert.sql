@@ -29,10 +29,13 @@ INSERT INTO public.autor (hashcode, nome) VALUES ('1bbda9b94de9eafe906b75b30834a
 
 INSERT INTO public.estadodevolucao (idestadodevolucao, descricao) VALUES (2, 'nao devolvido');
 INSERT INTO public.estadodevolucao (idestadodevolucao, descricao) VALUES (3, 'devolvido');
-INSERT INTO public.estadodevolucao (idestadodevolucao, descricao) VALUES (1, 'Indeterminado');
-INSERT INTO public.estadopedido (idestadopedido, descricao) VALUES (1, 'pendente');
-INSERT INTO public.estadopedido (idestadopedido, descricao) VALUES (2, 'rejeitado');
-INSERT INTO public.estadopedido (idestadopedido, descricao) VALUES (3, 'aceite');
+INSERT INTO public.estadodevolucao (idestadodevolucao, descricao) VALUES (1, 'Indeterminado');' ||
+
+INSERT INTO public.estadopedido (idestadopedido, descricao) VALUES (1, 'PENDING');
+INSERT INTO public.estadopedido (idestadopedido, descricao) VALUES (3, 'ACCEPTED');
+INSERT INTO public.estadopedido (idestadopedido, descricao) VALUES (5, 'CANCELED');
+INSERT INTO public.estadopedido (idestadopedido, descricao) VALUES (2, 'REJECTED');
+INSERT INTO public.estadopedido (idestadopedido, descricao) VALUES (4, 'IN_QUEUE');
 
 INSERT INTO public.formatocd (idformato, descricao) VALUES (1, 'Audio');
 INSERT INTO public.formatocd (idformato, descricao) VALUES (2, 'Texto');
