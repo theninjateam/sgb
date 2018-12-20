@@ -46,37 +46,58 @@ public class TimeOutServiceTest
         int maximumTime = timeOutService.geteCSingleton().eRSingleton.MAXIMUM_TIME;
 
         //weekday
-        Calendar entryDate = getCalendar(2018, Calendar.DECEMBER , 21, 10 ,8, Calendar.AM);
-        Calendar current = getCalendar(2018, Calendar.DECEMBER , 21, 10 ,maximumTime - 8, Calendar.AM);
+        Calendar entryDate = getCalendar(2018, Calendar.DECEMBER , 21, 10 ,8);
+        Calendar current = getCalendar(2018, Calendar.DECEMBER , 21, 10 ,maximumTime - 8);
 
         assertThat(timeOutService.isTimeOut(entryDate, current)).isEqualTo(false);
 
-        current = getCalendar(2018, Calendar.DECEMBER , 21, 10 ,maximumTime + 8 + 1, Calendar.AM);
+        current = getCalendar(2018, Calendar.DECEMBER , 21, 10 ,maximumTime + 8 + 1);
+
+        assertThat(timeOutService.isTimeOut(entryDate, current)).isEqualTo(true);
+
+        //weekdays after exit time
+        entryDate = getCalendar(2018, Calendar.DECEMBER , 20, 22 ,8);
+        current = getCalendar(2018, Calendar.DECEMBER , 20, 23 , 8);
+
+        assertThat(timeOutService.isTimeOut(entryDate, current)).isEqualTo(false);
+
+        current = getCalendar(2018, Calendar.DECEMBER , 21, 8 ,1);
+
+        assertThat(timeOutService.isTimeOut(entryDate, current)).isEqualTo(true);
+
+        //friday after exit time
+        entryDate = getCalendar(2018, Calendar.DECEMBER , 21, 22 ,8);
+        current = getCalendar(2018, Calendar.DECEMBER , 22, 8 , 8);
+
+        assertThat(timeOutService.isTimeOut(entryDate, current)).isEqualTo(false);
+
+        current = getCalendar(2018, Calendar.DECEMBER , 22,
+                timeOutService.geteCSingleton().eRSingleton.ENTRY_TIME_ON_SATURDAY ,maximumTime + 1);
 
         assertThat(timeOutService.isTimeOut(entryDate, current)).isEqualTo(true);
 
         //Saturday
-        entryDate = getCalendar(2018, Calendar.DECEMBER , 22, 10 ,8, Calendar.PM);
+        entryDate = getCalendar(2018, Calendar.DECEMBER , 22, 10 ,8);
         //sunday
-        current = getCalendar(2018, Calendar.DECEMBER , 23, 10 ,maximumTime + 8 + 1, Calendar.AM);
+        current = getCalendar(2018, Calendar.DECEMBER , 23, 10 ,maximumTime + 8 + 1);
 
         assertThat(timeOutService.isTimeOut(entryDate, current)).isEqualTo(false);
 
         //monday
-        current = getCalendar(2018, Calendar.DECEMBER , 24, 10 ,maximumTime + 8 + 1, Calendar.AM);
+        current = getCalendar(2018, Calendar.DECEMBER , 24, 10 ,maximumTime + 8 + 1);
 
         assertThat(timeOutService.isTimeOut(entryDate, current)).isEqualTo(true);
 
 
         //Sunday
-        entryDate = getCalendar(2018, Calendar.DECEMBER , 23, 10 ,8, Calendar.PM);
+        entryDate = getCalendar(2018, Calendar.DECEMBER , 23, 10 ,8);
         //monday
-        current = getCalendar(2018, Calendar.DECEMBER , 24, 4 ,maximumTime + 8 + 1, Calendar.AM);
+        current = getCalendar(2018, Calendar.DECEMBER , 24, 4 ,maximumTime + 8 + 1);
 
         assertThat(timeOutService.isTimeOut(entryDate, current)).isEqualTo(false);
 
         //monday
-        current = getCalendar(2018, Calendar.DECEMBER , 24, 7 ,maximumTime + 1, Calendar.AM);
+        current = getCalendar(2018, Calendar.DECEMBER , 24, 7 ,maximumTime + 1);
 
         assertThat(timeOutService.isTimeOut(entryDate, current)).isEqualTo(true);
 
@@ -87,7 +108,7 @@ public class TimeOutServiceTest
 
     }
 
-    public Calendar getCalendar(int year, int month, int date, int hours ,int minutes, int am_pm)
+    public Calendar getCalendar(int year, int month, int date, int hours ,int minutes)
     {
         Calendar calendar = Calendar.getInstance();
 
@@ -96,8 +117,6 @@ public class TimeOutServiceTest
         calendar.set(Calendar.MONTH, month);
 
         calendar.set(Calendar.DAY_OF_MONTH, date);
-
-        calendar.set(Calendar.AM_PM, am_pm);
 
         calendar.set(Calendar.HOUR_OF_DAY, hours);
 
