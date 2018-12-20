@@ -31,11 +31,14 @@ public class EmprestimoControllerSingleton
     private StringBuilder query;
     private CRUDService CRUDService;
     public EmprestimoRuleSingleton eRSingleton;
+    private EstadoPedidoSingleton ePSingleton;
 
-    public  EmprestimoControllerSingleton(CRUDService crudService, EmprestimoRuleSingleton eRSingleton)
+    public  EmprestimoControllerSingleton(CRUDService crudService, EmprestimoRuleSingleton eRSingleton,
+                                          EstadoPedidoSingleton ePSingleton)
     {
         this.CRUDService = crudService;
         this.eRSingleton = eRSingleton;
+        this.ePSingleton = ePSingleton;
     }
 
     public ListModelList<Emprestimo> getRequisicoes(Users user, int idEstadoPedido)
@@ -95,6 +98,27 @@ public class EmprestimoControllerSingleton
         List<Emprestimo> list = this.CRUDService.findByJPQuery(query.toString(), parameters);
 
         return new ListModelList<Emprestimo>(list);
+    }
+
+    public Emprestimo getRequest(EmprestimoPK emprestimoPK)
+    {
+        parameters = new HashMap<String, Object>(3);
+        query = new StringBuilder();
+
+        parameters.put("user_id", emprestimoPK.getUser().getId());
+        parameters.put("cota", emprestimoPK.getObra().getCota());
+        parameters.put("dataentrada", emprestimoPK.getDataentrada());
+
+
+        query.append("SELECT e FROM Emprestimo e WHERE e.emprestimoPK.user.id = :user_id and ");
+        query.append("e.emprestimoPK.obra.cota = :cota and e.emprestimoPK.dataentrada = :dataentrada");
+
+        return this.CRUDService.findEntByJPQueryT(query.toString(), parameters);
+    }
+
+    public void saveEmprestimo(Emprestimo emprestimo)
+    {
+        this.CRUDService.Save(emprestimo);
     }
 
     public synchronized void enterInCriticalRegion(Item item)
@@ -163,7 +187,7 @@ public class EmprestimoControllerSingleton
             item.setHomeRequisition(canDoHomeRequisition(item.getObra()));
         }
 
-        item.setLineUp(canLineUp(item.getObra(),item.getQuantidade()));
+        item.setLineUp(canLineUp(item.getObra(), item.getQuantidade()));
     }
 
     public Emprestimo getEmprestimo(Item item, Users user)
@@ -257,5 +281,38 @@ public class EmprestimoControllerSingleton
         }
 
         return domiciliarQueue;
+    }
+
+    //must be a transaction
+    public void cancelEmprestimo(Emprestimo e)
+    {
+        Item item = new Item();
+
+        try
+        {
+            Emprestimo emprestimo = getRequest(e.getEmprestimoPK());
+            EstadoPedido estadoPedido = this.ePSingleton.getEstadoPedido(ePSingleton.CANCELED);
+
+            emprestimo.setEstadoPedido(estadoPedido);
+            emprestimo.setComentario("Pedido Cancelado Pelo Sistema, excedeu o limite maximo de levantamenteo");
+
+            item.setObra(e.getEmprestimoPK().getObra());
+            item.setQuantidade(e.getQuantidade());
+
+            this.enterInCriticalRegion(item);
+
+            Obra obra = this.CRUDService.get(Obra.class, item.getObra().getCota());
+            obra.setQuantidade(obra.getQuantidade() + item.getQuantidade());
+            this.CRUDService.update(obra);
+
+            this.leaveInCriticalRegion(item);
+
+            this.CRUDService.update(emprestimo);
+        }
+        catch (Exception ex)
+        {
+            this.leaveInCriticalRegion(item);
+            ex.printStackTrace();
+        }
     }
 }

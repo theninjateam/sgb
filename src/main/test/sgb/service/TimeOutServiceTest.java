@@ -43,50 +43,70 @@ public class TimeOutServiceTest
     @Transactional
     public void isTimeOutTest() throws Exception
     {
-        Config config =  this.crudService.get(Config.class, "MAXIMUM_TIME");
-        config.setValor("1");
+        int maximumTime = timeOutService.geteCSingleton().eRSingleton.MAXIMUM_TIME;
 
-        this.crudService.update(config);
+        //weekday
+        Calendar entryDate = getCalendar(2018, Calendar.DECEMBER , 21, 10 ,8, Calendar.AM);
+        Calendar current = getCalendar(2018, Calendar.DECEMBER , 21, 10 ,maximumTime - 8, Calendar.AM);
 
+        assertThat(timeOutService.isTimeOut(entryDate, current)).isEqualTo(false);
 
-        Calendar entryDate = Calendar.getInstance();
-        entryDate.set(Calendar.AM_PM, Calendar.AM);
-        entryDate.set(Calendar.DAY_OF_MONTH, 14);
-        entryDate.set(Calendar.HOUR_OF_DAY, 10);
-        entryDate.set(Calendar.MINUTE, 7);
-        entryDate.set(Calendar.SECOND, 24);
-        entryDate.set(Calendar.MILLISECOND, 2);
+        current = getCalendar(2018, Calendar.DECEMBER , 21, 10 ,maximumTime + 8 + 1, Calendar.AM);
 
+        assertThat(timeOutService.isTimeOut(entryDate, current)).isEqualTo(true);
 
-        Calendar current = Calendar.getInstance();
-        current.set(Calendar.AM_PM, Calendar.AM);
-        current.set(Calendar.DAY_OF_MONTH, 14);
-        current.set(Calendar.HOUR_OF_DAY, 10);
-        current.set(Calendar.MINUTE, 10);
-        current.set(Calendar.SECOND, 24);
-        current.set(Calendar.MILLISECOND, 2);
+        //Saturday
+        entryDate = getCalendar(2018, Calendar.DECEMBER , 22, 10 ,8, Calendar.PM);
+        //sunday
+        current = getCalendar(2018, Calendar.DECEMBER , 23, 10 ,maximumTime + 8 + 1, Calendar.AM);
 
-        Calendar liftingTimeout = this.timeOutService.getLiftingTimeout(entryDate);
+        assertThat(timeOutService.isTimeOut(entryDate, current)).isEqualTo(false);
+
+        //monday
+        current = getCalendar(2018, Calendar.DECEMBER , 24, 10 ,maximumTime + 8 + 1, Calendar.AM);
 
         assertThat(timeOutService.isTimeOut(entryDate, current)).isEqualTo(true);
 
 
-        System.out.println("entryDate: "+entryDate.getTime());
-        System.out.println("current: : "+current.getTime());
-        System.out.println("liftingTimeout: : "+liftingTimeout.getTime());
-
-        current.set(Calendar.MINUTE, 8);
-        current.set(Calendar.SECOND, 0);
-
-        liftingTimeout = this.timeOutService.getLiftingTimeout(entryDate);
-
-        System.out.println("------------------");
-        System.out.println("entryDate: "+entryDate.getTime());
-        System.out.println("current: : "+current.getTime());
-        System.out.println("liftingTimeout: : "+liftingTimeout.getTime());
+        //Sunday
+        entryDate = getCalendar(2018, Calendar.DECEMBER , 23, 10 ,8, Calendar.PM);
+        //monday
+        current = getCalendar(2018, Calendar.DECEMBER , 24, 4 ,maximumTime + 8 + 1, Calendar.AM);
 
         assertThat(timeOutService.isTimeOut(entryDate, current)).isEqualTo(false);
 
+        //monday
+        current = getCalendar(2018, Calendar.DECEMBER , 24, 7 ,maximumTime + 1, Calendar.AM);
+
+        assertThat(timeOutService.isTimeOut(entryDate, current)).isEqualTo(true);
+
+//        System.out.println("********************************** I ************************");
+//        System.out.println("entryDate: "+ entryDate.getTime());
+//        System.out.println("deadLine: "+ timeOutService.getLiftingTimeout(entryDate).getTime());
+//        System.out.println("currentDate: "+ current.getTime());
+
     }
 
+    public Calendar getCalendar(int year, int month, int date, int hours ,int minutes, int am_pm)
+    {
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.set(Calendar.YEAR, year);
+
+        calendar.set(Calendar.MONTH, month);
+
+        calendar.set(Calendar.DAY_OF_MONTH, date);
+
+        calendar.set(Calendar.AM_PM, am_pm);
+
+        calendar.set(Calendar.HOUR_OF_DAY, hours);
+
+        calendar.set(Calendar.MINUTE, minutes);
+
+        calendar.set(Calendar.SECOND, 00);
+
+        calendar.set(Calendar.MILLISECOND, 00);
+
+        return calendar;
+    }
 }

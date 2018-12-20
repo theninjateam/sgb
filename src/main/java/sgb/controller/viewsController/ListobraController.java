@@ -320,9 +320,7 @@ public class ListobraController extends SelectorComposer<Component>
             {
                 if (item.getCanBeRequested())
                 {
-                    System.out.println("aqui");
                     this.emprestimoControllerSingleton.requisitar(item, this.user);
-                    System.out.println("aqui2");
                 }
             }
 

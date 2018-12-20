@@ -3,7 +3,11 @@ package sgb.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.zkoss.zkplus.spring.SpringUtil;
 import sgb.controller.domainController.EmprestimoControllerSingleton;
+import sgb.controller.domainController.EstadoPedidoSingleton;
 import sgb.domain.Emprestimo;
+import sgb.domain.EstadoPedido;
+import sgb.domain.Item;
+import sgb.domain.Obra;
 
 import java.lang.Thread;
 import java.util.Calendar;
@@ -16,12 +20,15 @@ public class TimeOutService extends Thread
 {
     private CRUDService crudService;
     private EmprestimoControllerSingleton eCSingleton;
+    private EstadoPedidoSingleton ePSingleton;
     private int minuto = 1;
 
-    public TimeOutService(CRUDService crudService, EmprestimoControllerSingleton eCSingleton)
+    public TimeOutService(CRUDService crudService, EmprestimoControllerSingleton eCSingleton,
+                          EstadoPedidoSingleton ePSingleton)
     {
         this.crudService = crudService;
         this.eCSingleton = eCSingleton;
+        this.ePSingleton = ePSingleton;
     }
 
     public void run()
@@ -30,11 +37,11 @@ public class TimeOutService extends Thread
         {
             try
             {
-                for (Emprestimo e: eCSingleton.getRequisicoes(1))
+                for (Emprestimo e: eCSingleton.getRequisicoes(ePSingleton.PENDING))
                 {
                     if (isTimeOut(e.getEmprestimoPK().getDataentrada(), Calendar.getInstance()))
                     {
-
+                        eCSingleton.cancelEmprestimo(e);
                     }
                 }
 
@@ -43,9 +50,11 @@ public class TimeOutService extends Thread
             catch (Exception ex)
             {
                 ex.printStackTrace();
+
             }
         }
     }
+
 
     public boolean isTimeOut(Calendar entryDate, Calendar currentDate)
     {
@@ -104,6 +113,8 @@ public class TimeOutService extends Thread
 
         calendar.set(Calendar.MINUTE, 00);
 
+        calendar.set(Calendar.AM_PM, Calendar.AM);
+
         calendar.set(Calendar.HOUR, eCSingleton.eRSingleton.ENTRY_TIME_ON_WEEKDAYS);
 
         incrementNMinutes(calendar, eCSingleton.eRSingleton.MAXIMUM_TIME);
@@ -122,5 +133,21 @@ public class TimeOutService extends Thread
     public void incrementNDays(Calendar calendar, int days)
     {
         calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + days);
+    }
+
+    public CRUDService getCrudService() {
+        return crudService;
+    }
+
+    public void setCrudService(CRUDService crudService) {
+        this.crudService = crudService;
+    }
+
+    public EmprestimoControllerSingleton geteCSingleton() {
+        return eCSingleton;
+    }
+
+    public void seteCSingleton(EmprestimoControllerSingleton eCSingleton) {
+        this.eCSingleton = eCSingleton;
     }
 }

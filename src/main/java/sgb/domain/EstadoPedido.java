@@ -1,13 +1,15 @@
 package sgb.domain;
 
+import sgb.service.CRUDService;
+
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 @Table(name = "estadopedido", schema = "public")
 
-public class EstadoPedido {
-
+public class EstadoPedido
+{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "idestadopedido", nullable = false)
