@@ -2,6 +2,7 @@ package sgb.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.sun.org.apache.bcel.internal.generic.CALOAD;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,6 +24,8 @@ import java.util.Calendar;
  * @author Fonseca, bfonseca@unilurio.ac.mz
  */
 
+
+
 public class TimeOutServiceTest
 {
     @Autowired
@@ -41,82 +44,199 @@ public class TimeOutServiceTest
 
     @Test
     @Transactional
-    public void isTimeOutTest() throws Exception
+    public void verifyIfIsTimeOutMethodWorkProperllyForWeekdaysRequests() throws Exception
     {
         int maximumTime = timeOutService.geteCSingleton().eRSingleton.MAXIMUM_TIME;
 
-        //weekday
-        Calendar entryDate = getCalendar(2018, Calendar.DECEMBER , 21, 10 ,8);
-        Calendar current = getCalendar(2018, Calendar.DECEMBER , 21, 10 ,maximumTime - 8);
+        int entryTime = timeOutService.geteCSingleton().eRSingleton.ENTRY_TIME_ON_WEEKDAYS;
 
-        assertThat(timeOutService.isTimeOut(entryDate, current)).isEqualTo(false);
+        int exitTime = timeOutService.geteCSingleton().eRSingleton.EXIT_TIME_ON_WEEKDAYS;
 
-        current = getCalendar(2018, Calendar.DECEMBER , 21, 10 ,maximumTime + 8 + 1);
-
-        assertThat(timeOutService.isTimeOut(entryDate, current)).isEqualTo(true);
-
-        //weekdays after exit time
-        entryDate = getCalendar(2018, Calendar.DECEMBER , 20, 22 ,8);
-        current = getCalendar(2018, Calendar.DECEMBER , 20, 23 , 8);
-
-        assertThat(timeOutService.isTimeOut(entryDate, current)).isEqualTo(false);
-
-        current = getCalendar(2018, Calendar.DECEMBER , 21, 8 ,1);
-
-        assertThat(timeOutService.isTimeOut(entryDate, current)).isEqualTo(true);
-
-        //friday after exit time
-        entryDate = getCalendar(2018, Calendar.DECEMBER , 21, 22 ,8);
-        current = getCalendar(2018, Calendar.DECEMBER , 22, 8 , 8);
-
-        assertThat(timeOutService.isTimeOut(entryDate, current)).isEqualTo(false);
-
-        current = getCalendar(2018, Calendar.DECEMBER , 22,
-                timeOutService.geteCSingleton().eRSingleton.ENTRY_TIME_ON_SATURDAY ,maximumTime + 1);
-
-        assertThat(timeOutService.isTimeOut(entryDate, current)).isEqualTo(true);
-
-        //Saturday
-        entryDate = getCalendar(2018, Calendar.DECEMBER , 22, 10 ,8);
-        //sunday
-        current = getCalendar(2018, Calendar.DECEMBER , 23, 10 ,maximumTime + 8 + 1);
-
-        assertThat(timeOutService.isTimeOut(entryDate, current)).isEqualTo(false);
-
-        //monday
-        current = getCalendar(2018, Calendar.DECEMBER , 24, 10 ,maximumTime + 8 + 1);
-
-        assertThat(timeOutService.isTimeOut(entryDate, current)).isEqualTo(true);
+        int entryTimeOnSaturday = timeOutService.geteCSingleton().eRSingleton.ENTRY_TIME_ON_SATURDAY;
 
 
-        //Sunday
-        entryDate = getCalendar(2018, Calendar.DECEMBER , 23, 10 ,8);
-        //monday
-        current = getCalendar(2018, Calendar.DECEMBER , 24, 4 ,maximumTime + 8 + 1);
+        /***
+         *
+         * Request Before Entry Time
+         *
+         * */
 
-        assertThat(timeOutService.isTimeOut(entryDate, current)).isEqualTo(false);
+        Calendar requestDate = getCalendar(Calendar.MONDAY, entryTime - 1, 30);
 
-        //monday
-        current = getCalendar(2018, Calendar.DECEMBER , 24, 7 ,maximumTime + 1);
+        Calendar currentDate = getCalendar(Calendar.MONDAY, entryTime - 1, 40);
 
-        assertThat(timeOutService.isTimeOut(entryDate, current)).isEqualTo(true);
+        assertThat(timeOutService.isTimeOut(requestDate,currentDate)).isFalse();
 
-//        System.out.println("********************************** I ************************");
-//        System.out.println("entryDate: "+ entryDate.getTime());
-//        System.out.println("deadLine: "+ timeOutService.getLiftingTimeout(entryDate).getTime());
-//        System.out.println("currentDate: "+ current.getTime());
 
+        currentDate = getCalendar(Calendar.MONDAY, entryTime, maximumTime + 1);
+
+        assertThat(timeOutService.isTimeOut(requestDate, currentDate)).isTrue();
+
+
+        /***
+         *
+         * Request After Exit Time
+         *
+         * */
+
+        requestDate = getCalendar(Calendar.MONDAY, exitTime, 00);
+
+        currentDate = getCalendar(Calendar.MONDAY, exitTime + 2, maximumTime + 2);
+
+        assertThat(timeOutService.isTimeOut(requestDate,currentDate)).isFalse();
+
+
+        currentDate = getCalendar(Calendar.TUESDAY, entryTime, maximumTime + 1);
+
+        assertThat(timeOutService.isTimeOut(requestDate, currentDate)).isTrue();
+
+
+        /***
+         *
+         * Request After Exit Time on friday
+         *
+         * */
+
+        requestDate = getCalendar(Calendar.FRIDAY, exitTime, 00);
+
+        currentDate = getCalendar(Calendar.FRIDAY, exitTime + 2, maximumTime + 2);
+
+        assertThat(timeOutService.isTimeOut(requestDate,currentDate)).isFalse();
+
+
+        currentDate = getCalendar(Calendar.SATURDAY, entryTimeOnSaturday, maximumTime + 1);
+
+        assertThat(timeOutService.isTimeOut(requestDate, currentDate)).isTrue();
+
+        /***
+         *
+         * Request in work Time
+         *
+         * */
+
+        requestDate = getCalendar(Calendar.FRIDAY, entryTime, 20);
+
+        currentDate = getCalendar(Calendar.FRIDAY, entryTime, 20);
+
+        assertThat(timeOutService.isTimeOut(requestDate,currentDate)).isFalse();
+
+
+        currentDate = getCalendar(Calendar.FRIDAY, entryTime, 20 + maximumTime + 1);
+
+        assertThat(timeOutService.isTimeOut(requestDate, currentDate)).isTrue();
+
+
+        /***
+         *
+         * Request in work Time, N minutes to exit time
+         *
+         * */
+
+        requestDate = getCalendar(Calendar.FRIDAY, exitTime - 1, 20);
+
+        currentDate = getCalendar(Calendar.FRIDAY, exitTime - 1, 20);
+
+        assertThat(timeOutService.isTimeOut(requestDate,currentDate)).isFalse();
+
+
+        currentDate = getCalendar(Calendar.FRIDAY, exitTime -1, 20 + maximumTime + 1);
+
+        assertThat(timeOutService.isTimeOut(requestDate, currentDate)).isTrue();
     }
 
-    public Calendar getCalendar(int year, int month, int date, int hours ,int minutes)
+    @Test
+    @Transactional
+    public void verifyIfIsTimeOutMethodWorkProperllyForWeekendRequests() throws Exception
+    {
+        int maximumTime = timeOutService.geteCSingleton().eRSingleton.MAXIMUM_TIME;
+
+        int entryTime = timeOutService.geteCSingleton().eRSingleton.ENTRY_TIME_ON_WEEKDAYS;
+
+        int exitTime = timeOutService.geteCSingleton().eRSingleton.EXIT_TIME_ON_WEEKDAYS;
+
+        int entryTimeOnSaturday = timeOutService.geteCSingleton().eRSingleton.ENTRY_TIME_ON_SATURDAY;
+
+        int exitTimeOnSaturday = timeOutService.geteCSingleton().eRSingleton.EXIT_TIME_ON_SATURDAY;
+
+        /***
+         *
+         * Request Before Entry Time
+         *
+         * */
+
+        Calendar requestDate = getCalendar(Calendar.SATURDAY, entryTimeOnSaturday - 1, 30);
+
+        Calendar currentDate = getCalendar(Calendar.SATURDAY, entryTimeOnSaturday - 1, 40);
+
+        assertThat(timeOutService.isTimeOut(requestDate,currentDate)).isFalse();
+
+
+        currentDate = getCalendar(Calendar.SATURDAY, entryTimeOnSaturday, maximumTime + 1);
+
+        assertThat(timeOutService.isTimeOut(requestDate, currentDate)).isTrue();
+
+
+        /***
+         *
+         * Request After Exit Time
+         *
+         * */
+
+        requestDate = getCalendar(Calendar.SATURDAY, exitTimeOnSaturday, 00);
+
+        currentDate = getCalendar(Calendar.SUNDAY, exitTimeOnSaturday + 2, maximumTime + 2);
+
+        assertThat(timeOutService.isTimeOut(requestDate,currentDate)).isFalse();
+
+        currentDate = getCalendar(Calendar.SATURDAY, entryTime, maximumTime + 1);
+        timeOutService.incrementNDays(currentDate, 2); // monday
+
+        assertThat(timeOutService.isTimeOut(requestDate, currentDate)).isTrue();
+
+
+        /***
+         *
+         * Request in work Time
+         *
+         * */
+
+        requestDate = getCalendar(Calendar.SATURDAY, entryTimeOnSaturday, 20);
+
+        currentDate = getCalendar(Calendar.SATURDAY, entryTimeOnSaturday, 20);
+
+        assertThat(timeOutService.isTimeOut(requestDate,currentDate)).isFalse();
+
+
+        currentDate = getCalendar(Calendar.SATURDAY, entryTimeOnSaturday, 20 + maximumTime + 1);
+
+        assertThat(timeOutService.isTimeOut(requestDate, currentDate)).isTrue();
+
+
+        /***
+         *
+         * Request in work Time, N minutes to exit time
+         *
+         * */
+
+        requestDate = getCalendar(Calendar.SATURDAY, exitTimeOnSaturday - 1, 20);
+
+        currentDate = getCalendar(Calendar.SATURDAY, exitTimeOnSaturday - 1, 20);
+
+        assertThat(timeOutService.isTimeOut(requestDate,currentDate)).isFalse();
+
+
+        currentDate = getCalendar(Calendar.SATURDAY, exitTimeOnSaturday - 1, 20 + maximumTime + 1);
+
+        assertThat(timeOutService.isTimeOut(requestDate, currentDate)).isTrue();
+    }
+
+
+    public Calendar getCalendar(int dayOfWeek, int hours ,int minutes)
     {
         Calendar calendar = Calendar.getInstance();
 
-        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.DAY_OF_WEEK, dayOfWeek);
 
-        calendar.set(Calendar.MONTH, month);
-
-        calendar.set(Calendar.DAY_OF_MONTH, date);
 
         calendar.set(Calendar.HOUR_OF_DAY, hours);
 

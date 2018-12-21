@@ -127,7 +127,12 @@ public class TimeOutService extends Thread
         else if (calendar.get(Calendar.HOUR_OF_DAY) < this.eCSingleton.eRSingleton.ENTRY_TIME_ON_WEEKDAYS)
         {
             calendar.set(Calendar.HOUR_OF_DAY, this.eCSingleton.eRSingleton.ENTRY_TIME_ON_WEEKDAYS);
-            incrementNMinutes(calendar, this.eCSingleton.eRSingleton.MAXIMUM_TIME);
+
+            calendar.set(Calendar.SECOND, 00);
+
+            calendar.set(Calendar.MILLISECOND, 00);
+
+            calendar.set(Calendar.MINUTE, this.eCSingleton.eRSingleton.MAXIMUM_TIME);
         }
         else
         {
@@ -194,13 +199,6 @@ public class TimeOutService extends Thread
         calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + days);
     }
 
-    public CRUDService getCrudService() {
-        return crudService;
-    }
-
-    public void setCrudService(CRUDService crudService) {
-        this.crudService = crudService;
-    }
 
     public EmprestimoControllerSingleton geteCSingleton() {
         return eCSingleton;
