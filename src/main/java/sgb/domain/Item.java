@@ -8,6 +8,7 @@ public class Item
     private int quantidade;
     private boolean isLineUp;
     private boolean isHomeRequisition;
+    private boolean canBeRequested = true;
 
     public Obra getObra() {
         return this.obra;
@@ -39,5 +40,13 @@ public class Item
 
     public void setHomeRequisition(boolean homeRequisition) {
         isHomeRequisition = homeRequisition;
+    }
+
+    public boolean getCanBeRequested() {
+        return canBeRequested;
+    }
+
+    public void setCanBeRequested(boolean canBeRequested) {
+        this.canBeRequested = canBeRequested;
     }
 }

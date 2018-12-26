@@ -42,6 +42,7 @@ public class ListobraController extends SelectorComposer<Component>
     private ListModelList<Obra> detalheobra;
     private EmprestimoControllerSingleton emprestimoControllerSingleton = (EmprestimoControllerSingleton)
             SpringUtil.getBean("emprestimoControllerSingleton");
+    private boolean isHomeRequisition;
 
     @Wire
     private Button buttonPesquisar;
@@ -251,24 +252,87 @@ public class ListobraController extends SelectorComposer<Component>
         }
     }
 
+    @Listen("onLeituraDomiciliar = #cestaListBox")
+    public void doLeituraDomiciliar(ForwardEvent event)
+    {
+        try
+        {
+            Hlayout hlayoutLeituraDomiciliar = (Hlayout) event.getOrigin().getTarget();
+            Radio radioLeituraDomiciliar = (Radio) hlayoutLeituraDomiciliar.getFirstChild();
+            radioLeituraDomiciliar.setSelected(true);
+
+            Hlayout hlayoutLeituraInterna = (Hlayout) hlayoutLeituraDomiciliar.getParent().getLastChild();
+            Radio radioLeituraInterna = (Radio) hlayoutLeituraInterna.getFirstChild();
+            radioLeituraInterna.setSelected(false);
+
+            Button btn = (Button) hlayoutLeituraDomiciliar.getParent().getParent().getLastChild();
+            btn.setVisible(true);
+
+            this.isHomeRequisition = true;
+
+            updateCesta();
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+    }
+
+    @Listen("onLeituraInterna = #cestaListBox")
+    public void LeituraInterna(ForwardEvent event)
+    {
+        try
+        {
+            Hlayout hlayoutLeituraInterna = (Hlayout) event.getOrigin().getTarget();
+            Radio radioLeituraInterna = (Radio) hlayoutLeituraInterna.getFirstChild();
+            radioLeituraInterna.setSelected(true);
+
+            Hlayout hlayoutLeituraDomiciliar = (Hlayout) hlayoutLeituraInterna.getParent().getFirstChild();
+            Radio radioLeituraDomiciliar = (Radio) hlayoutLeituraDomiciliar.getFirstChild();
+            radioLeituraDomiciliar.setSelected(false);
+
+            Button btn = (Button) hlayoutLeituraDomiciliar.getParent().getParent().getLastChild();
+            btn.setVisible(true);
+
+            this.isHomeRequisition = false;
+
+            updateCesta();
+
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+    }
+
     @Listen("onRequisitarObra = #cestaListBox")
     public void doRequisitar(ForwardEvent event)
     {
-        if (cestaListModel.size() == 0)
+        try
         {
-            Clients.showNotification("A Cesta esta vazia",null,null,null,5000);
-            return;
-        }
+            if (cestaListModel.size() == 0)
+            {
+                Clients.showNotification("A Cesta esta vazia",null,null,null,5000);
+                return;
+            }
 
-        for (Item item : cestaListModel)
+            for (Item item : cestaListModel)
+            {
+                if (item.getCanBeRequested())
+                {
+                    this.emprestimoControllerSingleton.requisitar(item, this.user);
+                }
+            }
+
+            this.cestaListModel.removeAll(cestaListModel);
+            this.qtdObrasNaCesta.setValue("0");
+
+            Clients.showNotification("successful",null,null,null,5000);
+        }
+        catch (Exception ex)
         {
-            this.emprestimoControllerSingleton.requisitar(item, this.user);
+            ex.printStackTrace();
         }
-
-        this.cestaListModel.removeAll(cestaListModel);
-        this.qtdObrasNaCesta.setValue("0");
-
-        Clients.showNotification("successful",null,null,null,5000);
     }
 
     @Listen("onPesquisar = #textboxPesquisar")
@@ -342,7 +406,6 @@ public class ListobraController extends SelectorComposer<Component>
         this.qtdObrasNaCesta.setValue(""+getQtdObrasNaCesta());
     }
 
-
     @Listen("onRemoverDaCesta = #cestaListBox")
     public void doEliminarcesta(ForwardEvent event)
     {
@@ -372,12 +435,6 @@ public class ListobraController extends SelectorComposer<Component>
             Clients.showNotification("Voce so pode requisitar '"+ getQtdMaxObras()+"' obras no maximo",null,null,null,5000);
             return;
         }
-        else if ( getQtdExemplaresRequisitados(obra)+
-                getQtdExemplaresNaCesta(obra) + 1 > obra.getQuantidade() )
-        {
-            Clients.showNotification("So existem '"+ obra.getQuantidade() +"' exemplares dessa obra",null,null,null,5000);
-            return;
-        }
 
         boolean obraExists = false;
         Item item = new Item();
@@ -401,6 +458,7 @@ public class ListobraController extends SelectorComposer<Component>
             item.setHomeRequisition(this.emprestimoControllerSingleton.canDoHomeRequisition(obra));
             item.setLineUp(this.emprestimoControllerSingleton.canLineUp(obra,1));
             cestaListModel.add(item);
+            updateCesta();
         }
 //       else
 //        {
@@ -544,5 +602,35 @@ public class ListobraController extends SelectorComposer<Component>
             }
         }
         return 0;
+    }
+
+    public void updateCesta()
+    {
+
+        for(int i = 0; i <  cestaListModel.size(); i++)
+        {
+            if (this.isHomeRequisition)
+            {
+                Obra obra = cestaListModel.get(i).getObra();
+                cestaListModel.get(i).setHomeRequisition(this.emprestimoControllerSingleton.canDoHomeRequisition(obra));
+                cestaListModel.get(i).setLineUp(this.emprestimoControllerSingleton.canLineUp(obra,1));
+
+                if (!cestaListModel.get(i).getIsHomeRequisition())
+                {
+                    cestaListModel.get(i).setCanBeRequested(false);
+                }
+                else
+                {
+                    cestaListModel.get(i).setCanBeRequested(true);
+                }
+            }
+            else
+            {
+                cestaListModel.get(i).setCanBeRequested(true);
+                cestaListModel.get(i).setHomeRequisition(false);
+            }
+
+            cestaListModel.set(i, cestaListModel.get(i));
+        }
     }
 }

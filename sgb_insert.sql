@@ -1,3 +1,6 @@
+INSERT INTO public.tiporequisicao (idtiporequisicao, descricao) VALUES (1, 'requisicao dominciliar');
+INSERT INTO public.tiporequisicao (idtiporequisicao, descricao) VALUES (2, 'requisicao inter
+
 INSERT INTO public."user" (user_id, active, email, last_name, name, password) VALUES (1, 1, 'admin@admin', 'admin', 'admin', '21232f297a57a5a743894a0e4a801fc3');
 INSERT INTO public."user" (user_id, active, email, last_name, name, password) VALUES (2, 1, 'fonseca@fonseca', 'fonseca', 'fonseca', 'e653d3954be6576488c5ce7a599869de');
 
@@ -26,10 +29,13 @@ INSERT INTO public.autor (hashcode, nome) VALUES ('1bbda9b94de9eafe906b75b30834a
 
 INSERT INTO public.estadodevolucao (idestadodevolucao, descricao) VALUES (2, 'nao devolvido');
 INSERT INTO public.estadodevolucao (idestadodevolucao, descricao) VALUES (3, 'devolvido');
-INSERT INTO public.estadodevolucao (idestadodevolucao, descricao) VALUES (1, 'Indeterminado');
-INSERT INTO public.estadopedido (idestadopedido, descricao) VALUES (1, 'pendente');
-INSERT INTO public.estadopedido (idestadopedido, descricao) VALUES (2, 'rejeitado');
-INSERT INTO public.estadopedido (idestadopedido, descricao) VALUES (3, 'aceite');
+INSERT INTO public.estadodevolucao (idestadodevolucao, descricao) VALUES (1, 'Indeterminado');' ||
+
+INSERT INTO public.estadopedido (idestadopedido, descricao) VALUES (1, 'PENDING');
+INSERT INTO public.estadopedido (idestadopedido, descricao) VALUES (3, 'ACCEPTED');
+INSERT INTO public.estadopedido (idestadopedido, descricao) VALUES (5, 'CANCELED');
+INSERT INTO public.estadopedido (idestadopedido, descricao) VALUES (2, 'REJECTED');
+INSERT INTO public.estadopedido (idestadopedido, descricao) VALUES (4, 'IN_QUEUE');
 
 INSERT INTO public.formatocd (idformato, descricao) VALUES (1, 'Audio');
 INSERT INTO public.formatocd (idformato, descricao) VALUES (2, 'Texto');

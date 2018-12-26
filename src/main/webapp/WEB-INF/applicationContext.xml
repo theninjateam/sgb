@@ -59,13 +59,18 @@
     <bean id="emprestimoControllerSingleton" scope="singleton" class="sgb.controller.domainController.EmprestimoControllerSingleton" >
         <constructor-arg index="0" ref="CRUDService"/>
         <constructor-arg index="1" ref="emprestimoRuleSingleton"/>
+        <constructor-arg index="2" ref="estadoPedidoSingleton"/>
     </bean>
 
     <bean id="timeOutService" scope="singleton" class="sgb.service.TimeOutService" >
         <constructor-arg index="0" ref="CRUDService"/>
         <constructor-arg index="1" ref="emprestimoControllerSingleton"/>
+        <constructor-arg index="2" ref="estadoPedidoSingleton"/>
     </bean>
 
+    <bean id="estadoPedidoSingleton" scope="singleton" class="sgb.controller.domainController.EstadoPedidoSingleton" >
+        <constructor-arg index="0" ref="CRUDService"/>
+    </bean>
 
     <context:annotation-config />
     <context:component-scan base-package="sgb"/>

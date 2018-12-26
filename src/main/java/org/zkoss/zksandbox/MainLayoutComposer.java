@@ -29,6 +29,7 @@ import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.*;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zk.ui.util.GenericForwardComposer;
+import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.*;
 import sgb.service.TimeOutService;
 
@@ -286,8 +287,8 @@ public class MainLayoutComposer extends GenericForwardComposer<Borderlayout> imp
 		super.doAfterCompose(comp);
 		Events.postEvent("onMainCreate", comp, null);
 
-		//TimeOutService timeOutService = new TimeOutService();
-//		timeOutService.setName("timeOutService");
-//		timeOutService.start();
+		TimeOutService timeOutService = (TimeOutService) SpringUtil.getBean("timeOutService");
+		timeOutService.setName("timeOutService");
+		timeOutService.start();
 	}
 }

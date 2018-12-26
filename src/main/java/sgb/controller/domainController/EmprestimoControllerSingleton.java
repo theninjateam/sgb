@@ -29,19 +29,16 @@ public class EmprestimoControllerSingleton
     private HashMap<String, Object> parameters;
     public HashMap<String, Semaphore> resources = new HashMap<String, Semaphore>();
     private StringBuilder query;
-    private EmprestimoPK emprestimoPK;
-    private Emprestimo emprestimo;
-    private EstadoPedido estadoPedido;
-    private EstadoDevolucao estadoDevolucao;
-    private EstadoRenovacao estadoRenovacao;
-    private Config config;
     private CRUDService CRUDService;
     public EmprestimoRuleSingleton eRSingleton;
+    private EstadoPedidoSingleton ePSingleton;
 
-    public  EmprestimoControllerSingleton(CRUDService crudService, EmprestimoRuleSingleton eRSingleton)
+    public  EmprestimoControllerSingleton(CRUDService crudService, EmprestimoRuleSingleton eRSingleton,
+                                          EstadoPedidoSingleton ePSingleton)
     {
         this.CRUDService = crudService;
         this.eRSingleton = eRSingleton;
+        this.ePSingleton = ePSingleton;
     }
 
     public ListModelList<Emprestimo> getRequisicoes(Users user, int idEstadoPedido)
@@ -103,6 +100,27 @@ public class EmprestimoControllerSingleton
         return new ListModelList<Emprestimo>(list);
     }
 
+    public Emprestimo getRequest(EmprestimoPK emprestimoPK)
+    {
+        parameters = new HashMap<String, Object>(3);
+        query = new StringBuilder();
+
+        parameters.put("user_id", emprestimoPK.getUser().getId());
+        parameters.put("cota", emprestimoPK.getObra().getCota());
+        parameters.put("dataentrada", emprestimoPK.getDataentrada());
+
+
+        query.append("SELECT e FROM Emprestimo e WHERE e.emprestimoPK.user.id = :user_id and ");
+        query.append("e.emprestimoPK.obra.cota = :cota and e.emprestimoPK.dataentrada = :dataentrada");
+
+        return this.CRUDService.findEntByJPQueryT(query.toString(), parameters);
+    }
+
+    public void saveEmprestimo(Emprestimo emprestimo)
+    {
+        this.CRUDService.Save(emprestimo);
+    }
+
     public synchronized void enterInCriticalRegion(Item item)
     {
         try
@@ -140,67 +158,108 @@ public class EmprestimoControllerSingleton
         try
         {
             this.enterInCriticalRegion(item);
+
+
             validate(item);
-            setEmprestimo(item, user);
+            Emprestimo emprestimo = getEmprestimo(item, user);
 
             if (!item.getIsLineUp())
             {
                 Obra obra = this.CRUDService.get(Obra.class, item.getObra().getCota());
                 obra.setQuantidade(obra.getQuantidade() - item.getQuantidade());
                 this.CRUDService.update(obra);
-
-                this.leaveInCriticalRegion(item);
             }
-            this.CRUDService.Save(this.emprestimo);
+            this.CRUDService.Save(emprestimo);
+
+            this.leaveInCriticalRegion(item);
         }
         catch (Exception ex)
         {
+            this.leaveInCriticalRegion(item);
             ex.printStackTrace();
         }
     }
 
     public void validate(Item item)
     {
-        item.setHomeRequisition(canDoHomeRequisition(item.getObra()));
-        item.setLineUp(canLineUp(item.getObra(),1));
+        if (item.getIsHomeRequisition())
+        {
+            item.setHomeRequisition(canDoHomeRequisition(item.getObra()));
+        }
+
+        item.setLineUp(canLineUp(item.getObra(), item.getQuantidade()));
     }
 
-    public void setEmprestimo(Item item, Users user)
-     {
-         int idEstadoPedido = item.getIsLineUp() ? 4 : 1;
-         this.emprestimo = new Emprestimo();
-         this.emprestimoPK = new EmprestimoPK();
+    public Emprestimo getEmprestimo(Item item, Users user)
+    {
+        EmprestimoPK emprestimoPK = new EmprestimoPK();
+        Emprestimo emprestimo = new Emprestimo();
 
-         this.estadoDevolucao = this.CRUDService.get(EstadoDevolucao.class, 1);
-         this.estadoPedido = this.CRUDService.get(EstadoPedido.class, idEstadoPedido);
-         this.estadoRenovacao = this.CRUDService.get(EstadoRenovacao.class,1);
+        int idEstadoPedido = getIdEstadoPedido(item);
+        int idTipoRequisicao = getIdTipoPedido(item);
+        int idEstadoDevolucao = getIdEstadoDevolucao();
+        int idEstadoRenovacao = getIdEstadoRenovacao();
 
-         this.emprestimoPK.setObra(item.getObra());
-         this.emprestimoPK.setUser(user);
-         this.emprestimoPK.setDataentrada(Calendar.getInstance());
+        EstadoPedido estadoPedido = this.CRUDService.get(EstadoPedido.class, idEstadoPedido);
+        EstadoDevolucao estadoDevolucao = this.CRUDService.get(EstadoDevolucao.class, idEstadoDevolucao);
+        EstadoRenovacao estadoRenovacao = this.CRUDService.get(EstadoRenovacao.class, idEstadoRenovacao);
+        TipoRequisicao tipoRequisicao = this.CRUDService.get(TipoRequisicao.class, idTipoRequisicao);
 
-         this.emprestimo.setEstadoDevolucao(estadoDevolucao);
-         this.emprestimo.setEstadoPedido(estadoPedido);
-         this.emprestimo.setEmprestimoPK(emprestimoPK);
-         this.emprestimo.setComentario("--");
-         this.emprestimo.setDataaprovacao(null);
-         this.emprestimo.setDatadevolucao(null);
-         this.emprestimo.setQuantidade(item.getQuantidade());
-         this.emprestimo.setEstadoRenovacao(estadoRenovacao);
-         this.emprestimo.setDatarenovacao(null);
-         this.emprestimo.setDatadevolucaorenovacao(null);
+        emprestimoPK.setObra(item.getObra());
+        emprestimoPK.setUser(user);
+        emprestimoPK.setDataentrada(Calendar.getInstance());
+
+        emprestimo.setEstadoDevolucao(estadoDevolucao);
+        emprestimo.setEstadoPedido(estadoPedido);
+        emprestimo.setEmprestimoPK(emprestimoPK);
+        emprestimo.setComentario("--");
+        emprestimo.setDataaprovacao(null);
+        emprestimo.setDatadevolucao(null);
+        emprestimo.setQuantidade(item.getQuantidade());
+        emprestimo.setEstadoRenovacao(estadoRenovacao);
+        emprestimo.setDatarenovacao(null);
+        emprestimo.setDatadevolucaorenovacao(null);
+        emprestimo.setTipoRequisicao(tipoRequisicao);
+
+        return emprestimo;
      }
+
+     public int getIdEstadoPedido(Item item)
+     {
+         return item.getIsLineUp() ? 4 : 1;
+     }
+
+    public int getIdTipoPedido(Item item)
+    {
+        return item.getIsHomeRequisition() ? 1 : 2;
+    }
+
+    public int getIdEstadoDevolucao()
+    {
+        return 1;
+    }
+
+    public int getIdEstadoRenovacao()
+    {
+        return 1;
+    }
 
     public boolean canDoHomeRequisition(Obra obra)
     {
         int qtdMin = this.eRSingleton.MINIMUM_NUMBER_OF_COPIES;
-        int qtd =  this.getRequisicoes(obra, 1).getSize();
-        qtd += this.getRequisicoes(obra, 3).getSize();
-        qtd += this.CRUDService.get(Obra.class, obra.getCota()).getQuantidade();
+        int qtd = getAvailableNumberOfCopies(obra);
 
         return qtd > qtdMin ? true : false;
     }
 
+    public int getAvailableNumberOfCopies(Obra obra)
+    {
+        int qtd =  this.getRequisicoes(obra, 1).getSize();
+        qtd += this.getRequisicoes(obra, 3).getSize();
+        qtd += this.CRUDService.get(Obra.class, obra.getCota()).getQuantidade();
+
+        return qtd;
+    }
     public boolean canLineUp(Obra obra, int qtd)
     {
         int qtdMin = this.eRSingleton.MINIMUM_NUMBER_OF_COPIES;
@@ -222,5 +281,38 @@ public class EmprestimoControllerSingleton
         }
 
         return domiciliarQueue;
+    }
+
+    //must be a transaction
+    public void cancelEmprestimo(Emprestimo e)
+    {
+        Item item = new Item();
+
+        try
+        {
+            Emprestimo emprestimo = getRequest(e.getEmprestimoPK());
+            EstadoPedido estadoPedido = this.ePSingleton.getEstadoPedido(ePSingleton.CANCELED);
+
+            emprestimo.setEstadoPedido(estadoPedido);
+            emprestimo.setComentario("Pedido Cancelado Pelo Sistema, excedeu o limite maximo de levantamenteo");
+
+            item.setObra(e.getEmprestimoPK().getObra());
+            item.setQuantidade(e.getQuantidade());
+
+            this.enterInCriticalRegion(item);
+
+            Obra obra = this.CRUDService.get(Obra.class, item.getObra().getCota());
+            obra.setQuantidade(obra.getQuantidade() + item.getQuantidade());
+            this.CRUDService.update(obra);
+
+            this.leaveInCriticalRegion(item);
+
+            this.CRUDService.update(emprestimo);
+        }
+        catch (Exception ex)
+        {
+            this.leaveInCriticalRegion(item);
+            ex.printStackTrace();
+        }
     }
 }
