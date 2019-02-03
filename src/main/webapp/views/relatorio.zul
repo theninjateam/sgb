@@ -3,47 +3,196 @@
     <window id="listObra" apply="sgb.controller.viewsController.Relatorio"
             border="none" hflex="1" vflex="1" contentStyle="overflow:auto">
         <div style="padding:0px">
-            <tabbox>
-                <tabs>
-                    <tab label="${labels.obrainfo}"></tab>
-                </tabs>
-                <tabpanels>
-                    <tabpanel>
-                        <grid>
-                            <columns>
-                                <column/>
-                            </columns>
-                            <rows>
+            <grid>
+                <columns>
+                    <column/>
+                </columns>
+                <rows>
 
-                                <row>
-                                    <listbox width="100%" id="relatorioListBox"
-                                             emptyMessage="Nao tem nenhum pedido pendente">
-                                        <listhead>
-                                            <listheader width="20%" height="100%" label="Dados gerais"/>
-                                            <listheader width="20%" height="100%" label="Qtd"/>
-                                        </listhead>
-                                        <template name="model">
-                                            <listitem>
-                                                <listcell>
-                                                    <div>
-                                                        <label value="${each.descricao}"/>
-                                                    </div>
-                                                </listcell>
-                                                <listcell>
-                                                    <div>
-                                                        <label value="${each.qtd}"/>
-                                                    </div>
-                                                </listcell>
+                    <row>
+                        <listbox width="100%" id="emprestimo"
+                                 emptyMessage="Nao tem nenhum pedido pendente">
+                            <listhead>
+                                <listheader width="20%" height="100%" label="Dados gerais"/>
+                                <listheader width="20%" height="100%" label="Qtd"/>
+                            </listhead>
+                            <template name="model">
+                                <listitem>
+                                    <listcell>
+                                        <div>
+                                            <label value="${each.descricao}"/>
+                                        </div>
+                                    </listcell>
+                                    <listcell>
+                                        <div>
+                                            <label value="${each.qtd}"/>
+                                        </div>
+                                    </listcell>
 
-                                            </listitem>
-                                        </template>
-                                    </listbox>
-                                </row>
-                            </rows>
-                        </grid>
-                    </tabpanel>
-                </tabpanels>
-            </tabbox>
+                                </listitem>
+                            </template>
+                        </listbox>
+                    </row>
+
+                    <row>
+                        <listbox width="100%" id="obraeliminadas"
+                                 emptyMessage="Nao tem nenhum pedido pendente">
+                            <listhead>
+                                <listheader width="20%" height="100%" label="Data da Operacao"/>
+                                <listheader width="20%" height="100%" label="Bibliotecario"/>
+                                <listheader width="10%" height="100%" label="Cota"/>
+                                <listheader width="20%" height="100%" label="Titulo"/>
+                                <listheader width="5%" height="100%" label="Qtd"/>
+                                <listheader width="20%" height="100%" label="Motivos"/>
+                            </listhead>
+                            <template name="model">
+                                <listitem>
+                                    <listcell>
+                                        <div>
+                                            <zscript>
+
+                                                <![CDATA[
+                                                            import java.text.*;
+                                                            SimpleDateFormat  timeFormatter = new SimpleDateFormat("'('HH:mm:s')'");
+                                                            DateFormat  dateFormatter = new SimpleDateFormat();
+                                                            Locale MOZAMBIQUE = new Locale("pt","MZ");
+                                                            StringBuilder builder = new StringBuilder();
+
+                                                            dateFormatter = DateFormat.getDateInstance(DateFormat.FULL, MOZAMBIQUE);
+
+                                                            builder.append(dateFormatter.format(each.obraEliminadasPK.dataRegisto.getTime()));
+                                                            builder.append("\n");
+                                                            builder.append(timeFormatter.format(each.obraEliminadasPK.dataRegisto.getTime()));
+
+                                                            String date = builder.toString();
+                                                    ]]>
+                                            </zscript>
+                                            <label value="${date}"/>
+                                        </div>
+                                    </listcell>
+                                    <listcell>
+                                        <div>
+                                            <label value="${each.user.name}"/>
+                                        </div>
+                                    </listcell>
+
+                                    <listcell>
+                                        <div>
+                                            <label value="${each.obraEliminadasPK.obra.cota}"/>
+                                        </div>
+                                    </listcell>
+                                    <listcell>
+                                        <div>
+                                            <label value="${each.obraEliminadasPK.obra.titulo}"/>
+                                        </div>
+                                    </listcell>
+
+
+                                    <listcell>
+                                        <div>
+                                            <label value="${each.quantidade}"/>
+                                        </div>
+                                    </listcell>
+
+                                    <listcell>
+                                        <div>
+                                            <label value="${each.descricao}"/>
+                                        </div>
+                                    </listcell>
+
+                                </listitem>
+                            </template>
+                            <listfoot >
+                                <listfooter  height="100%"  width="100%" style="padding: 15px 32px; background-color: lightgray; border-style: none;">
+                                    Lista De Obras Elimindas
+                                </listfooter>
+                            </listfoot>
+
+                        </listbox>
+                    </row>
+
+                    <row>
+
+                        <listbox width="100%" id="obraregistadas"
+                                 emptyMessage="Nao tem nenhum pedido pendente">
+                            <listhead>
+                                <listheader width="20%" height="100%" label="Data da Operacao"/>
+                                <listheader width="20%" height="100%" label="Bibliotecario"/>
+                                <listheader width="10%" height="100%" label="Cota"/>
+                                <listheader width="20%" height="100%" label="Titulo"/>
+                                <listheader width="5%" height="100%" label="Qtd"/>
+                                <listheader width="20%" height="100%" label="Forma Aquisicao"/>
+                            </listhead>
+                            <template name="model">
+                                <listitem>
+                                    <listcell>
+                                        <div>
+                                    <zscript>
+
+                                    <![CDATA[
+                                    import java.text.*;
+                                    SimpleDateFormat  timeFormatter = new SimpleDateFormat("'('HH:mm:s')'");
+                                    DateFormat  dateFormatter = new SimpleDateFormat();
+                                    Locale MOZAMBIQUE = new Locale("pt","MZ");
+                                    StringBuilder builder = new StringBuilder();
+
+                                    dateFormatter = DateFormat.getDateInstance(DateFormat.FULL, MOZAMBIQUE);
+
+                                    builder.append(dateFormatter.format(each.registroObraPK.dataRegisto.getTime()));
+                                    builder.append("\n");
+                                    builder.append(timeFormatter.format(each.registroObraPK.dataRegisto.getTime()));
+
+                                    String date = builder.toString();
+                                    ]]>
+                                    </zscript>
+
+                                            <label value="${date}"/>
+                                        </div>
+                                    </listcell>
+                                    <listcell>
+                                        <div>
+                                            <label value="${each.user.name}"/>
+                                        </div>
+                                    </listcell>
+
+                                    <listcell>
+                                        <div>
+                                            <label value="${each.registroObraPK.obra.cota}"/>
+                                        </div>
+                                    </listcell>
+                                    <listcell>
+                                        <div>
+                                            <label value="${each.registroObraPK.obra.titulo}"/>
+                                        </div>
+                                    </listcell>
+
+
+                                    <listcell>
+                                        <div>
+                                            <label value="${each.quantidade}"/>
+                                        </div>
+                                    </listcell>
+
+                                    <listcell>
+                                        <div>
+                                            <label value="${each.formaAquisicao.descricao}"/>
+                                            <label value="${each.observacao}"/>
+                                        </div>
+                                    </listcell>
+
+                                </listitem>
+                            </template>
+                            <listfoot >
+                                <listfooter  height="100%"  width="100%" style="padding: 15px 32px; background-color: lightgray; border-style: none;">
+                                    Lista De Obras Registadas
+                                </listfooter>
+                            </listfoot>
+                        </listbox>
+                    </row>
+
+
+                </rows>
+            </grid>
         </div>
     </window>
 </zk>

@@ -14,14 +14,19 @@ import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.*;
 import sgb.controller.domainController.EmprestimoControllerSingleton;
-import sgb.domain.Emprestimo;
-import sgb.domain.EstadoPedido;
-import sgb.domain.Role;
-import sgb.domain.Users;
+import sgb.domain.*;
 import sgb.service.CRUDService;
+
+//import org.zkoss.zk.chart.Charts;
+//import org.zkoss.chart.model.CategoryModel;
+//import org.zkoss.chart.model.DefaultCategoryModel;
+import org.zkoss.zk.ui.select.SelectorComposer;
+import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zul.Window;
 
 import java.util.Calendar;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Set;
 
 public class Relatorio extends SelectorComposer<Component> {
@@ -33,45 +38,93 @@ public class Relatorio extends SelectorComposer<Component> {
     private EmprestimoControllerSingleton emprestimoControllerSingleton = (EmprestimoControllerSingleton)
             SpringUtil.getBean("emprestimoControllerSingleton");
     @Wire
-    private Listbox relatorioListBox;
+    private Listbox emprestimo;
 
-    class Geral{
-        String descricao;
-        Integer qtd;
+    @Wire
+    private Listbox entradaobra;
 
-        public String getDescricao() {
-            return descricao;
-        }
+    @Wire
+    private Listbox obraeliminadas;
 
-        public void setDescricao(String descricao) {
-            this.descricao = descricao;
-        }
+    @Wire
+    private Listbox obraregistadas;
 
-        public Integer getQtd() {
-            return qtd;
-        }
+    @Wire
+    Chart grafico;
 
-        public void setQtd(Integer qtd) {
-            this.qtd = qtd;
-        }
-    }
 
-    private ListModelList<Geral> relatorioListModel;
-
+    private ListModelList<Geral> emprestimoListModel;
+    private ListModelList<ObraEliminadas> obraEliminadasListModel;
+    private ListModelList<RegistroObra> obrasRegistadasListModel;
 
 
     @Override
     public void doAfterCompose(Component comp) throws Exception
     {
         super.doAfterCompose(comp);
-        relatorioListModel = new ListModelList<Geral>(getSomething());
-        relatorioListBox.setModel(relatorioListModel);
+        emprestimoListModel  = new ListModelList<Geral> ();
+
+        getEmprestimo();
+
+        emprestimo.setModel(emprestimoListModel);
+
+
+        obraEliminadasListModel =new ListModelList<ObraEliminadas>(getObraEliminadas());
+        obraeliminadas.setModel(obraEliminadasListModel);
+
+        obrasRegistadasListModel = new ListModelList<RegistroObra>(getObraRegistadas());
+        obraregistadas.setModel(obrasRegistadasListModel);
+
+
+
+    }
+    private ListModelList<ObraEliminadas> getObraEliminadas() {
+        List<ObraEliminadas> lista = crudService.getAll(ObraEliminadas.class);
+        return new ListModelList<ObraEliminadas>(lista);
+    }
+
+    private ListModelList<RegistroObra> getObraRegistadas() {
+        List<RegistroObra> lista = crudService.getAll(RegistroObra.class);
+        return new ListModelList<RegistroObra>(lista);
+    }
+
+
+
+    public void getEmprestimo() {
+
+        List<Emprestimo> aa = crudService.getAll(Emprestimo.class);
+
+        int emprealizados = aa.size();
+        int empaprovados = 0;
+        int empreprovados =0;
+
+        Geral emprealizado = new Geral();
+        Geral empaprovado= new Geral();
+        Geral empReprovado= new Geral();
+
+        for(Emprestimo emp: aa) {
+            if(emp.getEstadoPedido().getIdestadopedido()==3)
+                empaprovados ++;
+            if(emp.getEstadoPedido().getIdestadopedido()==2)
+                empreprovados ++;
+
+        }
+
+        emprealizado.setDescricao("Emprestimo Realizados ");
+        emprealizado.setQtd(emprealizados);
+
+        empaprovado.setDescricao("Emprestimo Aprovados");
+        empaprovado.setQtd(empaprovados);
+
+        empReprovado.setDescricao("Emprestimo Reprovados");
+        empReprovado.setQtd(empreprovados);
+
+        emprestimoListModel.add(emprealizado);
+        emprestimoListModel.add(empaprovado);
+        emprestimoListModel.add(empReprovado);
 
     }
 
-    public ListModelList<Geral> getSomething() {
-         return  new ListModelList<Geral>( crudService.findByJPQuery("SELECT e.comentario, e.quantidade FROM Emprestimo e ", null));
-    }
 
 
 }

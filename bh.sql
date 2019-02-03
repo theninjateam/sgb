@@ -12,7 +12,7 @@
  Target Server Version : 100005
  File Encoding         : 65001
 
- Date: 29/11/2018 17:48:23
+ Date: 03/02/2019 16:18:27
 */
 
 
@@ -57,17 +57,6 @@ CREATE SEQUENCE "public"."estadorenovacao_idestadorenovacao_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 9223372036854775807
-START 1
-CACHE 1;
-
--- ----------------------------
--- Sequence structure for formaaquisicao_formaaquisicao_seq
--- ----------------------------
-DROP SEQUENCE IF EXISTS "public"."formaaquisicao_formaaquisicao_seq";
-CREATE SEQUENCE "public"."formaaquisicao_formaaquisicao_seq"
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 2147483647
 START 1
 CACHE 1;
 
@@ -148,13 +137,15 @@ CREATE TABLE "public"."autor" (
 -- Records of autor
 -- ----------------------------
 INSERT INTO "public"."autor" VALUES ('8229a8b31ffcddd530ce6b821313a55a', 'Ricardo Daniel Fedeli');
+INSERT INTO "public"."autor" VALUES ('d1b547dcf8f6d14bbeb12619eff97819', 'Enrico Giulio Franco Polloni');
 INSERT INTO "public"."autor" VALUES ('ed4518f5dd79dfe71c93738816d642d5', 'Fernando Eduardo Peres');
-INSERT INTO "public"."autor" VALUES ('62b9aef3390384c34a495744df95e8dc', 'Joao Antonio');
-INSERT INTO "public"."autor" VALUES ('0b757be795f46a5c37c52e7932e8effc', 'Americo Jose');
 INSERT INTO "public"."autor" VALUES ('90455afe8bf918c581be908c174a0d30', 'Emerson Cardoso');
-INSERT INTO "public"."autor" VALUES ('ebc308f979e135f40483eec4b35feea1', 'Jason Martin');
-INSERT INTO "public"."autor" VALUES ('22c715b94d62279d68322ab7b6f369e1', 'Fernando Frances');
-INSERT INTO "public"."autor" VALUES ('6bff12cb3b31c3ff69252b390748b18c', 'Americo Antonio');
+INSERT INTO "public"."autor" VALUES ('4bbde07660e5eff90873642cfae9a8dd', 'SSSSSSSS');
+INSERT INTO "public"."autor" VALUES ('0b757be795f46a5c37c52e7932e8effc', 'Americo Jose');
+INSERT INTO "public"."autor" VALUES ('62b9aef3390384c34a495744df95e8dc', 'Joao Antonio');
+INSERT INTO "public"."autor" VALUES ('ebc308f979e135f40483eec4b35feea1', 'WSS');
+INSERT INTO "public"."autor" VALUES ('c6bc65d0f994ea20585b895298f9090c', 'emersondd ddd');
+INSERT INTO "public"."autor" VALUES ('7a739ded8071c43747c98df60e88c7d1', '45555dd fff');
 
 -- ----------------------------
 -- Table structure for cd
@@ -165,6 +156,27 @@ CREATE TABLE "public"."cd" (
   "descricao" varchar(255) COLLATE "pg_catalog"."default"
 )
 ;
+
+-- ----------------------------
+-- Table structure for config
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."config";
+CREATE TABLE "public"."config" (
+  "nome" varchar(128) COLLATE "pg_catalog"."default" NOT NULL,
+  "descricao" varchar(255) COLLATE "pg_catalog"."default",
+  "valor" varchar(128) COLLATE "pg_catalog"."default"
+)
+;
+
+-- ----------------------------
+-- Records of config
+-- ----------------------------
+INSERT INTO "public"."config" VALUES ('MAXIMUM_TIME', '"TEMPO MAXIMO". EM MINUTOS QUE UM EXEMPLAR FICA A DISPONIBILIDADE DE UM UTENTE, APOS A REQUISICAO', '60');
+INSERT INTO "public"."config" VALUES ('MINIMUM_NUMBER_OF_COPIES', '"QUANTIDADE MINIMA DE EXEMPLARES" QUE DEVEM FICAR NA BIBLIOTECA', '2');
+INSERT INTO "public"."config" VALUES ('ENTRY_TIME_ON_WEEKDAYS', 'HORARIO INICIAL DE FUNCIONAMENTO DOS SERVICOS BIBLIOTECARIO NOS DIAS DA SEMANA', '7');
+INSERT INTO "public"."config" VALUES ('ENTRY_TIME_ON_SATURDAY', 'HORARIO INICIAL DE FUNCIONAMENTO DOS SERVICOS BIBLIOTECARIO NOE SABADO', '9');
+INSERT INTO "public"."config" VALUES ('EXIT_TIME_ON_WEEKDAYS', 'HORARIO FINAL DE FUNCIONAMENTO DOS SERVICOS BIBLIOTECARIO NOS DIAS DA SEMANA', '17');
+INSERT INTO "public"."config" VALUES ('EXIT_TIME_ON_SATURDAY', 'HORARIO FINAL DE FUNCIONAMENTO DOS SERVICOS BIBLIOTECARIO NOE SABADO', '13');
 
 -- ----------------------------
 -- Table structure for emprestimo
@@ -182,20 +194,19 @@ CREATE TABLE "public"."emprestimo" (
   "estadodevolucao" int4,
   "estadorenovacao" int8,
   "datarenovacao" date,
-  "datadevolucaorenovacao" date
+  "datadevolucaorenovacao" date,
+  "idtiporequisicao" int4 NOT NULL
 )
 ;
 
 -- ----------------------------
 -- Records of emprestimo
 -- ----------------------------
-INSERT INTO "public"."emprestimo" VALUES (3, '77788', '2018-11-23 00:00:00', 3, '2018-11-23', '2018-11-23', 1, 'a', 1, 1, NULL, NULL);
-INSERT INTO "public"."emprestimo" VALUES (3, '589AF', '2018-11-23 00:00:00', 1, '2018-11-25', '2018-11-25', 1, 'c', 1, 2, NULL, NULL);
-INSERT INTO "public"."emprestimo" VALUES (3, '531.4F', '2018-11-23 00:00:00', 3, '2018-11-25', '2018-11-25', 1, 'd', 1, 2, NULL, NULL);
-INSERT INTO "public"."emprestimo" VALUES (2, '531.4F', '2018-11-24 19:57:58.518', 1, NULL, NULL, 1, 'f', 1, 1, NULL, NULL);
-INSERT INTO "public"."emprestimo" VALUES (2, '545AA', '2018-11-24 19:57:58.606', 1, NULL, NULL, 1, 'h', 1, 1, NULL, NULL);
-INSERT INTO "public"."emprestimo" VALUES (2, '544FF', '2018-11-24 19:57:58.661', 1, NULL, NULL, 2, 'i', 1, 1, NULL, NULL);
-INSERT INTO "public"."emprestimo" VALUES (3, '544FF', '2018-11-23 00:00:00', 1, '2018-11-23', '2018-11-23', 1, 'b', 1, 1, NULL, NULL);
+INSERT INTO "public"."emprestimo" VALUES (3, 'WW2', '2018-12-26 12:21:38.945', 5, NULL, NULL, 1, 'Pedido Cancelado Pelo Sistema, excedeu o limite maximo de levantamenteo', 1, NULL, NULL, NULL, 1);
+INSERT INTO "public"."emprestimo" VALUES (2, '544FF', '2018-12-26 12:25:14.634', 5, NULL, NULL, 1, 'Pedido Cancelado Pelo Sistema, excedeu o limite maximo de levantamenteo', 1, NULL, NULL, NULL, 1);
+INSERT INTO "public"."emprestimo" VALUES (3, 'WW2', '2018-12-26 12:17:46.228', 5, NULL, NULL, 1, 'Pedido Cancelado Pelo Sistema, excedeu o limite maximo de levantamenteo', 1, NULL, NULL, NULL, 1);
+INSERT INTO "public"."emprestimo" VALUES (2, 'WW2', '2018-12-26 12:26:21.673', 4, NULL, NULL, 1, 'wq', 1, NULL, NULL, NULL, 1);
+INSERT INTO "public"."emprestimo" VALUES (3, 'WW2', '2018-12-26 12:29:20.376', 4, NULL, NULL, 1, 'd', 1, NULL, NULL, NULL, 1);
 
 -- ----------------------------
 -- Table structure for estadodevolucao
@@ -227,9 +238,11 @@ CREATE TABLE "public"."estadopedido" (
 -- ----------------------------
 -- Records of estadopedido
 -- ----------------------------
-INSERT INTO "public"."estadopedido" VALUES (2, 'rejeitado');
-INSERT INTO "public"."estadopedido" VALUES (3, 'aceite');
-INSERT INTO "public"."estadopedido" VALUES (1, 'pendente');
+INSERT INTO "public"."estadopedido" VALUES (1, 'PENDING');
+INSERT INTO "public"."estadopedido" VALUES (3, 'ACCEPTED');
+INSERT INTO "public"."estadopedido" VALUES (5, 'CANCELED');
+INSERT INTO "public"."estadopedido" VALUES (2, 'REJECTED');
+INSERT INTO "public"."estadopedido" VALUES (4, 'IN_QUEUE');
 
 -- ----------------------------
 -- Table structure for estadorenovacao
@@ -242,19 +255,11 @@ CREATE TABLE "public"."estadorenovacao" (
 ;
 
 -- ----------------------------
--- Records of estadorenovacao
--- ----------------------------
-INSERT INTO "public"."estadorenovacao" VALUES (1, 'indeterminado');
-INSERT INTO "public"."estadorenovacao" VALUES (2, 'pendente');
-INSERT INTO "public"."estadorenovacao" VALUES (3, 'aceite');
-INSERT INTO "public"."estadorenovacao" VALUES (4, 'rejeitado');
-
--- ----------------------------
 -- Table structure for formaaquisicao
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."formaaquisicao";
 CREATE TABLE "public"."formaaquisicao" (
-  "formaaquisicao" int4 NOT NULL DEFAULT nextval('formaaquisicao_formaaquisicao_seq'::regclass),
+  "formaaquisicao" int4 NOT NULL,
   "descricao" varchar(255) COLLATE "pg_catalog"."default"
 )
 ;
@@ -365,18 +370,21 @@ CREATE TABLE "public"."obra" (
   "idtipo" int4,
   "pathpdf" varchar(255) COLLATE "pg_catalog"."default",
   "pathcapa" varchar(255) COLLATE "pg_catalog"."default",
-  "anopublicacao" int4
+  "anopublicacao" int4,
+  "domiciliarqueue" bytea
 )
 ;
 
 -- ----------------------------
 -- Records of obra
 -- ----------------------------
-INSERT INTO "public"."obra" VALUES ('77788', 555, 'Introducao a Quimica', 5, 'Maputo', 1, 4, 2, 'digitalLibrary/pdf/isbd-cons_2007-en.pdf', 'digitalLibrary/cover/quimica.jpg', 788);
-INSERT INTO "public"."obra" VALUES ('544FF', 7887, 'Introducao a Matematica', 1, 'Pemba', 1, 8, 1, NULL, 'digitalLibrary/cover/Introducao-a-Matematica.jpg', 2018);
-INSERT INTO "public"."obra" VALUES ('545AA', 785, 'Introducao a Estatistica', 1, 'Maputo', 1, 2, 2, NULL, 'digitalLibrary/cover/Introducao-a-Estatistica-Enfoque-Informatico-com-o-Pacote-Estatistico-SPSS-275390.jpg', 2017);
-INSERT INTO "public"."obra" VALUES ('531.4F', 1223, 'Introducao Fisica', 1, 'Pemba', 1, 30, 1, 'digitalLibrary/pdf/isbd-cons_2007-en.pdf', 'digitalLibrary/cover/fisica.jpg', 2001);
-INSERT INTO "public"."obra" VALUES ('589AF', 78988, 'Introducao a Geografia', 1, 'teste', 1, 120, 2, NULL, 'digitalLibrary/cover/geografia.jpg', 2018);
+INSERT INTO "public"."obra" VALUES ('545AA', 785, 'Introducao a Estatistica', 1, 'Maputo', 1, 2, 2, NULL, 'digitalLibrary/cover/Introducao-a-Estatistica-Enfoque-Informatico-com-o-Pacote-Estatistico-SPSS-275390.jpg', 2017, NULL);
+INSERT INTO "public"."obra" VALUES ('589AF', 78988, 'Introducao a Geografia', 1, 'teste', 1, 120, 2, NULL, 'digitalLibrary/cover/geografia.jpg', 2018, NULL);
+INSERT INTO "public"."obra" VALUES ('531.4F', 1223, 'Introducao Fisica', 1, 'Pemba', 1, 4, 1, '', 'digitalLibrary/cover/fisica.jpg', 2001, NULL);
+INSERT INTO "public"."obra" VALUES ('77788', 555, 'Introducao a Quimica', 5, 'Maputo', 1, 4, 2, 'digitalLibrary/pdf/isbd-cons_2007-en.pdf', 'digitalLibrary/cover/quimica.jpg', 788, NULL);
+INSERT INTO "public"."obra" VALUES ('eee2', 1234, 'Introducao a Matematica', 1, 'Beira', 1, 4, 2, 'digitalLibrary/pdf/4.pdf', 'digitalLibrary/cover/Introducao-a-Matematica.jpg', 1298, NULL);
+INSERT INTO "public"."obra" VALUES ('WW2', 7777, 'Introducao a Biologia', 1, 'Nampula', 2, 5, 2, '', 'digitalLibrary/cover/bg4.jpg', 44444, NULL);
+INSERT INTO "public"."obra" VALUES ('544FF', 7887, 'Introducao a Matematica', 1, 'Pemba', 1, 8, 1, NULL, 'digitalLibrary/cover/Introducao-a-Matematica.jpg', 2018, NULL);
 
 -- ----------------------------
 -- Table structure for obra_autor
@@ -393,27 +401,30 @@ CREATE TABLE "public"."obra_autor" (
 -- ----------------------------
 INSERT INTO "public"."obra_autor" VALUES ('8229a8b31ffcddd530ce6b821313a55a', '531.4F');
 INSERT INTO "public"."obra_autor" VALUES ('ed4518f5dd79dfe71c93738816d642d5', '531.4F');
+INSERT INTO "public"."obra_autor" VALUES ('90455afe8bf918c581be908c174a0d30', 'WW2');
+INSERT INTO "public"."obra_autor" VALUES ('4bbde07660e5eff90873642cfae9a8dd', 'eee2');
+INSERT INTO "public"."obra_autor" VALUES ('0b757be795f46a5c37c52e7932e8effc', 'eee2');
 INSERT INTO "public"."obra_autor" VALUES ('62b9aef3390384c34a495744df95e8dc', '77788');
+INSERT INTO "public"."obra_autor" VALUES ('ebc308f979e135f40483eec4b35feea1', 'WW2');
 INSERT INTO "public"."obra_autor" VALUES ('ebc308f979e135f40483eec4b35feea1', '77788');
-INSERT INTO "public"."obra_autor" VALUES ('0b757be795f46a5c37c52e7932e8effc', '589AF');
-INSERT INTO "public"."obra_autor" VALUES ('62b9aef3390384c34a495744df95e8dc', '589AF');
-INSERT INTO "public"."obra_autor" VALUES ('90455afe8bf918c581be908c174a0d30', '589AF');
-INSERT INTO "public"."obra_autor" VALUES ('22c715b94d62279d68322ab7b6f369e1', '544FF');
-INSERT INTO "public"."obra_autor" VALUES ('6bff12cb3b31c3ff69252b390748b18c', '544FF');
-INSERT INTO "public"."obra_autor" VALUES ('6bff12cb3b31c3ff69252b390748b18c', '545AA');
 
 -- ----------------------------
 -- Table structure for obraeliminadas
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."obraeliminadas";
 CREATE TABLE "public"."obraeliminadas" (
-  "cota" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
-  "user_id" int4 NOT NULL,
   "dataregisto" timestamp(6) NOT NULL,
-  "descricao" varchar(5000) COLLATE "pg_catalog"."default",
-  "quantidade" int4
+  "descricao" varchar(255) COLLATE "pg_catalog"."default",
+  "quantidade" int4,
+  "cota" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
+  "user_id" int4 NOT NULL
 )
 ;
+
+-- ----------------------------
+-- Records of obraeliminadas
+-- ----------------------------
+INSERT INTO "public"."obraeliminadas" VALUES ('2019-01-10 20:40:01.468', 'dddd', 8, '544FF', 3);
 
 -- ----------------------------
 -- Table structure for registroobra
@@ -432,9 +443,8 @@ CREATE TABLE "public"."registroobra" (
 -- ----------------------------
 -- Records of registroobra
 -- ----------------------------
-INSERT INTO "public"."registroobra" VALUES ('589AF', 1, '2018-11-28 22:47:44.415', 'hhhhh', 1, 5);
-INSERT INTO "public"."registroobra" VALUES ('589AF', 1, '2018-11-28 22:48:33.629', 'ddddd', 2, 5);
-INSERT INTO "public"."registroobra" VALUES ('589AF', 2, '2018-11-28 23:10:36.472', 'rrr', 1, 100);
+INSERT INTO "public"."registroobra" VALUES ('545AA', 1, '2019-01-10 18:10:23', 'Anadarko', 2, 85);
+INSERT INTO "public"."registroobra" VALUES ('77788', 3, '2019-01-31 18:11:26', 'Dois mil meticais', 1, 45);
 
 -- ----------------------------
 -- Table structure for revista
@@ -445,12 +455,6 @@ CREATE TABLE "public"."revista" (
   "instituicao" varchar(255) COLLATE "pg_catalog"."default"
 )
 ;
-
--- ----------------------------
--- Records of revista
--- ----------------------------
-INSERT INTO "public"."revista" VALUES ('77788', 'rtrrrrrrrrrrrr');
-INSERT INTO "public"."revista" VALUES ('589AF', 'Unilurio');
 
 -- ----------------------------
 -- Table structure for role
@@ -496,6 +500,23 @@ CREATE TABLE "public"."tipoobra" (
 INSERT INTO "public"."tipoobra" VALUES (1, 'Livro');
 INSERT INTO "public"."tipoobra" VALUES (2, 'Revista');
 INSERT INTO "public"."tipoobra" VALUES (3, 'CD');
+
+-- ----------------------------
+-- Table structure for tiporequisicao
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."tiporequisicao";
+CREATE TABLE "public"."tiporequisicao" (
+  "idtiporequisicao" int4 NOT NULL,
+  "descricao" varchar(128) COLLATE "pg_catalog"."default" NOT NULL
+)
+;
+COMMENT ON TABLE "public"."tiporequisicao" IS 'especifica os tipos de requisicoes disponiveis';
+
+-- ----------------------------
+-- Records of tiporequisicao
+-- ----------------------------
+INSERT INTO "public"."tiporequisicao" VALUES (1, 'requisicao dominciliar');
+INSERT INTO "public"."tiporequisicao" VALUES (2, 'requisicao ');
 
 -- ----------------------------
 -- Table structure for user
@@ -552,9 +573,6 @@ SELECT setval('"public"."estadopedido_idestadopedido_seq"', 2, false);
 ALTER SEQUENCE "public"."estadorenovacao_idestadorenovacao_seq"
 OWNED BY "public"."estadorenovacao"."idestadorenovacao";
 SELECT setval('"public"."estadorenovacao_idestadorenovacao_seq"', 2, false);
-ALTER SEQUENCE "public"."formaaquisicao_formaaquisicao_seq"
-OWNED BY "public"."formaaquisicao"."formaaquisicao";
-SELECT setval('"public"."formaaquisicao_formaaquisicao_seq"', 3, true);
 ALTER SEQUENCE "public"."formatocd_idformato_seq"
 OWNED BY "public"."formatocd"."idformato";
 SELECT setval('"public"."formatocd_idformato_seq"', 2, false);
@@ -580,6 +598,11 @@ ALTER TABLE "public"."autor" ADD CONSTRAINT "autor_pk" PRIMARY KEY ("hashcode");
 -- Primary Key structure for table cd
 -- ----------------------------
 ALTER TABLE "public"."cd" ADD CONSTRAINT "cd_key" PRIMARY KEY ("cota");
+
+-- ----------------------------
+-- Primary Key structure for table config
+-- ----------------------------
+ALTER TABLE "public"."config" ADD CONSTRAINT "config_pkey" PRIMARY KEY ("nome");
 
 -- ----------------------------
 -- Primary Key structure for table emprestimo
@@ -649,7 +672,7 @@ ALTER TABLE "public"."obra_autor" ADD CONSTRAINT "obra_autor_key" PRIMARY KEY ("
 -- ----------------------------
 -- Primary Key structure for table obraeliminadas
 -- ----------------------------
-ALTER TABLE "public"."obraeliminadas" ADD CONSTRAINT "obraeliminadas_pkey" PRIMARY KEY ("cota", "dataregisto");
+ALTER TABLE "public"."obraeliminadas" ADD CONSTRAINT "obraeliminadas_pkey" PRIMARY KEY ("dataregisto", "cota");
 
 -- ----------------------------
 -- Primary Key structure for table registroobra
@@ -677,6 +700,11 @@ ALTER TABLE "public"."roleitem" ADD CONSTRAINT "roleitem_pkey" PRIMARY KEY ("ite
 ALTER TABLE "public"."tipoobra" ADD CONSTRAINT "tipoobra_pkey" PRIMARY KEY ("idtipo");
 
 -- ----------------------------
+-- Primary Key structure for table tiporequisicao
+-- ----------------------------
+ALTER TABLE "public"."tiporequisicao" ADD CONSTRAINT "tiporequisicao_pkey" PRIMARY KEY ("idtiporequisicao");
+
+-- ----------------------------
 -- Primary Key structure for table user
 -- ----------------------------
 ALTER TABLE "public"."user" ADD CONSTRAINT "user_pkey" PRIMARY KEY ("user_id");
@@ -695,6 +723,7 @@ ALTER TABLE "public"."cd" ADD CONSTRAINT "idcd" FOREIGN KEY ("cota") REFERENCES 
 -- Foreign Keys structure for table emprestimo
 -- ----------------------------
 ALTER TABLE "public"."emprestimo" ADD CONSTRAINT "cota" FOREIGN KEY ("cota") REFERENCES "public"."obra" ("cota") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "public"."emprestimo" ADD CONSTRAINT "emprestimo_tiporequisicao_idtiporequisicao_fk" FOREIGN KEY ("idtiporequisicao") REFERENCES "public"."tiporequisicao" ("idtiporequisicao") ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE "public"."emprestimo" ADD CONSTRAINT "idestadodevolucao" FOREIGN KEY ("estadodevolucao") REFERENCES "public"."estadodevolucao" ("idestadodevolucao") ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE "public"."emprestimo" ADD CONSTRAINT "idestadopedido" FOREIGN KEY ("estadopedido") REFERENCES "public"."estadopedido" ("idestadopedido") ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE "public"."emprestimo" ADD CONSTRAINT "idestadorenovacao" FOREIGN KEY ("estadorenovacao") REFERENCES "public"."estadorenovacao" ("idestadorenovacao") ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -732,14 +761,14 @@ ALTER TABLE "public"."obra_autor" ADD CONSTRAINT "hashcode" FOREIGN KEY ("hashco
 -- ----------------------------
 -- Foreign Keys structure for table obraeliminadas
 -- ----------------------------
-ALTER TABLE "public"."obraeliminadas" ADD CONSTRAINT "Cota" FOREIGN KEY ("cota") REFERENCES "public"."obra" ("cota") ON DELETE CASCADE ON UPDATE CASCADE;
-ALTER TABLE "public"."obraeliminadas" ADD CONSTRAINT "iduser" FOREIGN KEY ("user_id") REFERENCES "public"."user" ("user_id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "public"."obraeliminadas" ADD CONSTRAINT "fkddb9eec730e86fad" FOREIGN KEY ("user_id") REFERENCES "public"."user" ("user_id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "public"."obraeliminadas" ADD CONSTRAINT "fkddb9eec7f183e4c5" FOREIGN KEY ("cota") REFERENCES "public"."obra" ("cota") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- ----------------------------
 -- Foreign Keys structure for table registroobra
 -- ----------------------------
 ALTER TABLE "public"."registroobra" ADD CONSTRAINT "Cota" FOREIGN KEY ("cota") REFERENCES "public"."obra" ("cota") ON DELETE CASCADE ON UPDATE CASCADE;
-ALTER TABLE "public"."registroobra" ADD CONSTRAINT "formaaquisicao" FOREIGN KEY ("formaaquisicao") REFERENCES "public"."formaaquisicao" ("formaaquisicao") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "public"."registroobra" ADD CONSTRAINT "fkb046d1f59a0d88fe" FOREIGN KEY ("formaaquisicao") REFERENCES "public"."formaaquisicao" ("formaaquisicao") ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE "public"."registroobra" ADD CONSTRAINT "iduser" FOREIGN KEY ("user_id") REFERENCES "public"."user" ("user_id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- ----------------------------

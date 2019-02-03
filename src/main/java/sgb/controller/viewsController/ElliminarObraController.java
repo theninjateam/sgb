@@ -95,13 +95,13 @@ public class ElliminarObraController extends SelectorComposer<Component> {
         Listitem litem = (Listitem) getListitem(btn);
         Item item = (Item) litem.getValue();
 
-        if(obra.getQuantidade()==item.getQuantidade()) {
-
-            Clients.showNotification("Nada a  apagar", null, null, null, 5000);
-            session.removeAttribute("obraToEdite");
-            modalEliminar.detach();
-
-        } else {
+//        if(obra.getQuantidade()==item.getQuantidade()) {
+//
+//            Clients.showNotification("Nada a  apagar", null, null, null, 5000);
+//            session.removeAttribute("obraToEdite");
+//            modalEliminar.detach();
+//
+//        } else {
 
             obra.setQuantidade(item.getQuantidade());
 
@@ -126,12 +126,12 @@ public class ElliminarObraController extends SelectorComposer<Component> {
 
 
             crudService.update(obra);
-            Clients.showNotification("ola mundo", null, null, null, 5000);
+//            Clients.showNotification("ola mundo", null, null, null, 5000);
 
             session.removeAttribute("obraToEdite");
             modalEliminar.detach();
 
-        }
+//        }
     }
 
     @Listen("onReduzirQtd = #eliminarListBox")
