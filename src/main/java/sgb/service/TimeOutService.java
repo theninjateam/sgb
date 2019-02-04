@@ -22,6 +22,7 @@ public class TimeOutService extends Thread
     private EmprestimoControllerSingleton eCSingleton;
     private EstadoPedidoSingleton ePSingleton;
     private int minuto = 1;
+    public boolean wasThreadStarted = false;
 
     public TimeOutService(CRUDService crudService, EmprestimoControllerSingleton eCSingleton,
                           EstadoPedidoSingleton ePSingleton)
@@ -206,5 +207,16 @@ public class TimeOutService extends Thread
 
     public void seteCSingleton(EmprestimoControllerSingleton eCSingleton) {
         this.eCSingleton = eCSingleton;
+    }
+
+    public synchronized void startThread(TimeOutService timeOutService)
+    {
+        if (!wasThreadStarted)
+        {
+            timeOutService.setName("timeOutService");
+            timeOutService.start();
+
+            wasThreadStarted = true;
+        }
     }
 }
