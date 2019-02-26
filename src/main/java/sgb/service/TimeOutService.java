@@ -137,14 +137,7 @@ public class TimeOutService extends Thread
         }
         else
         {
-            if (calendar.get(Calendar.HOUR_OF_DAY) ==  this.eCSingleton.eRSingleton.EXIT_TIME_ON_WEEKDAYS - 1)
-            {
-                incrementNMinutes(calendar, 60 - Calendar.getInstance().get(Calendar.MINUTE));
-            }
-            else
-            {
-                incrementNMinutes(calendar, eCSingleton.eRSingleton.MAXIMUM_TIME);
-            }
+            incrementNMinutes(calendar, eCSingleton.eRSingleton.MAXIMUM_TIME);
         }
     }
 
