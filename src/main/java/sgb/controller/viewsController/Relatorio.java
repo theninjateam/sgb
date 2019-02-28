@@ -37,20 +37,24 @@ public class Relatorio extends SelectorComposer<Component> {
     private Boolean isNormalUser = true;
     private EmprestimoControllerSingleton emprestimoControllerSingleton = (EmprestimoControllerSingleton)
             SpringUtil.getBean("emprestimoControllerSingleton");
-    @Wire
+
+
     private Listbox emprestimo;
 
-    @Wire
-    private Listbox entradaobra;
 
-    @Wire
     private Listbox obraeliminadas;
 
-    @Wire
+
     private Listbox obraregistadas;
 
     @Wire
-    Chart grafico;
+    private Include idInclRelatorioGeral;
+
+    @Wire
+    private Include idInclRegistroObras;
+
+    @Wire
+    private Include idInclObrasEliminadas;
 
 
     private ListModelList<Geral> emprestimoListModel;
@@ -62,18 +66,25 @@ public class Relatorio extends SelectorComposer<Component> {
     public void doAfterCompose(Component comp) throws Exception
     {
         super.doAfterCompose(comp);
+
+        idInclRegistroObras.setSrc("views/relatorioobrasregistadas.zul");
+        idInclObrasEliminadas.setSrc("views/relatorioobraseliminadas.zul");
+        idInclRelatorioGeral.setSrc("views/relatoriogeral.zul");
+
+        emprestimo = (Listbox)idInclRelatorioGeral.getFellow("emprestimo");
+        obraeliminadas = (Listbox)idInclObrasEliminadas.getFellow("obraeliminadas");
+        obraregistadas = (Listbox)idInclRegistroObras.getFellow("obraregistadas");
+
         emprestimoListModel  = new ListModelList<Geral> ();
-
         getEmprestimo();
-
         emprestimo.setModel(emprestimoListModel);
-
 
         obraEliminadasListModel =new ListModelList<ObraEliminadas>(getObraEliminadas());
         obraeliminadas.setModel(obraEliminadasListModel);
 
         obrasRegistadasListModel = new ListModelList<RegistroObra>(getObraRegistadas());
         obraregistadas.setModel(obrasRegistadasListModel);
+
 
 
 
