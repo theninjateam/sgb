@@ -1,13 +1,11 @@
 package sgb.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.zkoss.zkplus.spring.SpringUtil;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ContextRefreshedEvent;
 import sgb.controller.domainController.EmprestimoControllerSingleton;
 import sgb.controller.domainController.EstadoPedidoSingleton;
 import sgb.domain.Emprestimo;
-import sgb.domain.EstadoPedido;
-import sgb.domain.Item;
-import sgb.domain.Obra;
 
 import java.lang.Thread;
 import java.util.Calendar;
@@ -16,13 +14,12 @@ import java.util.Calendar;
  * @author Fonseca, bfonseca@unilurio.ac.mz
  */
 
-public class TimeOutService extends Thread
+public class TimeOutService extends Thread implements ApplicationListener<ContextRefreshedEvent>
 {
     private CRUDService crudService;
     private EmprestimoControllerSingleton eCSingleton;
     private EstadoPedidoSingleton ePSingleton;
     private int minuto = 1;
-    public boolean wasThreadStarted = false;
 
     public TimeOutService(CRUDService crudService, EmprestimoControllerSingleton eCSingleton,
                           EstadoPedidoSingleton ePSingleton)
@@ -187,22 +184,13 @@ public class TimeOutService extends Thread
     }
 
 
-    public EmprestimoControllerSingleton geteCSingleton() {
+    public EmprestimoControllerSingleton geteCSingleton()
+    {
         return eCSingleton;
     }
 
-    public void seteCSingleton(EmprestimoControllerSingleton eCSingleton) {
-        this.eCSingleton = eCSingleton;
-    }
-
-    public synchronized void startThread(TimeOutService timeOutService)
+    public void onApplicationEvent(final ContextRefreshedEvent event)
     {
-        if (!wasThreadStarted)
-        {
-            timeOutService.setName("timeOutService");
-            timeOutService.start();
-
-            wasThreadStarted = true;
-        }
+        this.start();
     }
 }

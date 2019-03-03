@@ -286,8 +286,5 @@ public class MainLayoutComposer extends GenericForwardComposer<Borderlayout> imp
 	public void doAfterCompose(Borderlayout comp) throws Exception {
 		super.doAfterCompose(comp);
 		Events.postEvent("onMainCreate", comp, null);
-
-		TimeOutService timeOutService = (TimeOutService) SpringUtil.getBean("timeOutService");
-		timeOutService.startThread(timeOutService);
 	}
 }

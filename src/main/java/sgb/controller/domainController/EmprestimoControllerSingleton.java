@@ -284,9 +284,13 @@ public class EmprestimoControllerSingleton
     }
 
     //must be a transaction
+    /*
+    * A Request as only on book.
+    * */
     public void cancelEmprestimo(Emprestimo e)
     {
         Item item = new Item();
+        PriorityQueue<Emprestimo> domiciliarQueue;
 
         try
         {
@@ -294,18 +298,27 @@ public class EmprestimoControllerSingleton
             EstadoPedido estadoPedido = this.ePSingleton.getEstadoPedido(ePSingleton.CANCELED);
 
             emprestimo.setEstadoPedido(estadoPedido);
-            emprestimo.setComentario("Pedido Cancelado Pelo Sistema, excedeu o limite maximo de levantamenteo");
+            emprestimo.setComentario("Pedido Cancelado Pelo Sistema, excedeu o limite maximo de levantamento");
 
             item.setObra(e.getEmprestimoPK().getObra());
             item.setQuantidade(e.getQuantidade());
 
-            this.enterInCriticalRegion(item);
+            domiciliarQueue = generateDomiciliarQueueFor(item.getObra());
 
-            Obra obra = this.CRUDService.get(Obra.class, item.getObra().getCota());
-            obra.setQuantidade(obra.getQuantidade() + item.getQuantidade());
-            this.CRUDService.update(obra);
+            if (domiciliarQueue.isEmpty())
+            {
+                this.enterInCriticalRegion(item);
 
-            this.leaveInCriticalRegion(item);
+                Obra obra = this.CRUDService.get(Obra.class, item.getObra().getCota());
+                obra.setQuantidade(obra.getQuantidade() + item.getQuantidade());
+                this.CRUDService.update(obra);
+
+                this.leaveInCriticalRegion(item);
+            }
+            else
+            {
+                this.CRUDService.Save(domiciliarQueue.peek());
+            }
 
             this.CRUDService.update(emprestimo);
         }
