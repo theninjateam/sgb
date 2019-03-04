@@ -290,7 +290,6 @@ public class EmprestimoControllerSingleton
     public void cancelEmprestimo(Emprestimo e)
     {
         Item item = new Item();
-        PriorityQueue<Emprestimo> domiciliarQueue;
 
         try
         {
@@ -303,22 +302,13 @@ public class EmprestimoControllerSingleton
             item.setObra(e.getEmprestimoPK().getObra());
             item.setQuantidade(e.getQuantidade());
 
-            domiciliarQueue = generateDomiciliarQueueFor(item.getObra());
+            this.enterInCriticalRegion(item);
 
-            if (domiciliarQueue.isEmpty())
-            {
-                this.enterInCriticalRegion(item);
+            Obra obra = this.CRUDService.get(Obra.class, item.getObra().getCota());
+            obra.setQuantidade(obra.getQuantidade() + item.getQuantidade());
+            this.CRUDService.update(obra);
 
-                Obra obra = this.CRUDService.get(Obra.class, item.getObra().getCota());
-                obra.setQuantidade(obra.getQuantidade() + item.getQuantidade());
-                this.CRUDService.update(obra);
-
-                this.leaveInCriticalRegion(item);
-            }
-            else
-            {
-                this.CRUDService.Save(domiciliarQueue.peek());
-            }
+            this.leaveInCriticalRegion(item);
 
             this.CRUDService.update(emprestimo);
         }
