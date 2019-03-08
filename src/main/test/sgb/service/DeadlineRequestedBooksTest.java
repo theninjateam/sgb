@@ -26,12 +26,12 @@ import java.util.Calendar;
 
 
 
-public class TimeOutServiceTest
+public class DeadlineRequestedBooksTest
 {
     @Autowired
     private ApplicationContext context;
     private CRUDService crudService;
-    private TimeOutService timeOutService;
+    private DeadlineRequestedBooks deadlineRequestedBooks;
 
     @Before
     @Transactional
@@ -39,25 +39,25 @@ public class TimeOutServiceTest
     {
         System.out.println("Setting it up!");
         this.crudService = (CRUDService) context.getBean("CRUDService");
-        this.timeOutService = (TimeOutService) context.getBean("timeOutService");
+        this.deadlineRequestedBooks = (DeadlineRequestedBooks) context.getBean("deadlineRequestedBooks");
     }
 
     @Test
     @Transactional
-    public void verifyIfIsTimeOutMethodWorkProperllyForWeekdaysRequests() throws Exception
+    public void ExceededDeadlineForWeekDaysTest() throws Exception
     {
-        int maximumTime = timeOutService.geteCSingleton().eRSingleton.MAXIMUM_TIME;
+        int maximumTime = deadlineRequestedBooks.configSingleton.MAXIMUM_TIME;
 
-        int entryTime = timeOutService.geteCSingleton().eRSingleton.ENTRY_TIME_ON_WEEKDAYS;
+        int entryTime = deadlineRequestedBooks.configSingleton.ENTRY_TIME_ON_WEEKDAYS;
 
-        int exitTime = timeOutService.geteCSingleton().eRSingleton.EXIT_TIME_ON_WEEKDAYS;
+        int exitTime = deadlineRequestedBooks.configSingleton.EXIT_TIME_ON_WEEKDAYS;
 
-        int entryTimeOnSaturday = timeOutService.geteCSingleton().eRSingleton.ENTRY_TIME_ON_SATURDAY;
+        int entryTimeOnSaturday = deadlineRequestedBooks.configSingleton.ENTRY_TIME_ON_SATURDAY;
 
 
         /***
          *
-         * Request Before Entry Time
+         * DeadlineRequestedBooks Before Entry Time
          *
          * */
 
@@ -65,17 +65,17 @@ public class TimeOutServiceTest
 
         Calendar currentDate = getCalendar(Calendar.MONDAY, entryTime - 1, 40);
 
-        assertThat(timeOutService.isTimeOut(requestDate,currentDate)).isFalse();
+        assertThat(deadlineRequestedBooks.exceededDeadline(requestDate, currentDate)).isFalse();
 
 
         currentDate = getCalendar(Calendar.MONDAY, entryTime, maximumTime + 1);
 
-        assertThat(timeOutService.isTimeOut(requestDate, currentDate)).isTrue();
+        assertThat(deadlineRequestedBooks.exceededDeadline(requestDate, currentDate)).isTrue();
 
 
         /***
          *
-         * Request After Exit Time
+         * DeadlineRequestedBooks After Exit Time
          *
          * */
 
@@ -83,17 +83,17 @@ public class TimeOutServiceTest
 
         currentDate = getCalendar(Calendar.MONDAY, exitTime + 2, maximumTime + 2);
 
-        assertThat(timeOutService.isTimeOut(requestDate,currentDate)).isFalse();
+        assertThat(deadlineRequestedBooks.exceededDeadline(requestDate, currentDate)).isFalse();
 
 
         currentDate = getCalendar(Calendar.TUESDAY, entryTime, maximumTime + 1);
 
-        assertThat(timeOutService.isTimeOut(requestDate, currentDate)).isTrue();
+        assertThat(deadlineRequestedBooks.exceededDeadline(requestDate, currentDate)).isTrue();
 
 
         /***
          *
-         * Request After Exit Time on friday
+         * DeadlineRequestedBooks After Exit Time on friday
          *
          * */
 
@@ -101,16 +101,16 @@ public class TimeOutServiceTest
 
         currentDate = getCalendar(Calendar.FRIDAY, exitTime + 2, maximumTime + 2);
 
-        assertThat(timeOutService.isTimeOut(requestDate,currentDate)).isFalse();
+        assertThat(deadlineRequestedBooks.exceededDeadline(requestDate, currentDate)).isFalse();
 
 
         currentDate = getCalendar(Calendar.SATURDAY, entryTimeOnSaturday, maximumTime + 1);
 
-        assertThat(timeOutService.isTimeOut(requestDate, currentDate)).isTrue();
+        assertThat(deadlineRequestedBooks.exceededDeadline(requestDate, currentDate)).isTrue();
 
         /***
          *
-         * Request in work Time
+         * DeadlineRequestedBooks in work Time
          *
          * */
 
@@ -118,17 +118,17 @@ public class TimeOutServiceTest
 
         currentDate = getCalendar(Calendar.FRIDAY, entryTime, 20);
 
-        assertThat(timeOutService.isTimeOut(requestDate,currentDate)).isFalse();
+        assertThat(deadlineRequestedBooks.exceededDeadline(requestDate, currentDate)).isFalse();
 
 
         currentDate = getCalendar(Calendar.FRIDAY, entryTime, 20 + maximumTime + 1);
 
-        assertThat(timeOutService.isTimeOut(requestDate, currentDate)).isTrue();
+        assertThat(deadlineRequestedBooks.exceededDeadline(requestDate, currentDate)).isTrue();
 
 
         /***
          *
-         * Request in work Time, N minutes to exit time
+         * DeadlineRequestedBooks in work Time, N minutes to exit time
          *
          * */
 
@@ -136,31 +136,31 @@ public class TimeOutServiceTest
 
         currentDate = getCalendar(Calendar.FRIDAY, exitTime - 1, 20);
 
-        assertThat(timeOutService.isTimeOut(requestDate,currentDate)).isFalse();
+        assertThat(deadlineRequestedBooks.exceededDeadline(requestDate, currentDate)).isFalse();
 
 
         currentDate = getCalendar(Calendar.FRIDAY, exitTime -1, 20 + maximumTime + 1);
 
-        assertThat(timeOutService.isTimeOut(requestDate, currentDate)).isTrue();
+        assertThat(deadlineRequestedBooks.exceededDeadline(requestDate, currentDate)).isTrue();
     }
 
     @Test
     @Transactional
-    public void verifyIfIsTimeOutMethodWorkProperllyForWeekendRequests() throws Exception
+    public void exceededDeadlineForWeekendTest() throws Exception
     {
-        int maximumTime = timeOutService.geteCSingleton().eRSingleton.MAXIMUM_TIME;
+        int maximumTime = deadlineRequestedBooks.configSingleton.MAXIMUM_TIME;
 
-        int entryTime = timeOutService.geteCSingleton().eRSingleton.ENTRY_TIME_ON_WEEKDAYS;
+        int entryTime = deadlineRequestedBooks.configSingleton.ENTRY_TIME_ON_WEEKDAYS;
 
-        int exitTime = timeOutService.geteCSingleton().eRSingleton.EXIT_TIME_ON_WEEKDAYS;
+        int exitTime = deadlineRequestedBooks.configSingleton.EXIT_TIME_ON_WEEKDAYS;
 
-        int entryTimeOnSaturday = timeOutService.geteCSingleton().eRSingleton.ENTRY_TIME_ON_SATURDAY;
+        int entryTimeOnSaturday = deadlineRequestedBooks.configSingleton.ENTRY_TIME_ON_SATURDAY;
 
-        int exitTimeOnSaturday = timeOutService.geteCSingleton().eRSingleton.EXIT_TIME_ON_SATURDAY;
+        int exitTimeOnSaturday = deadlineRequestedBooks.configSingleton.EXIT_TIME_ON_SATURDAY;
 
         /***
          *
-         * Request Before Entry Time
+         * DeadlineRequestedBooks Before Entry Time
          *
          * */
 
@@ -168,17 +168,17 @@ public class TimeOutServiceTest
 
         Calendar currentDate = getCalendar(Calendar.SATURDAY, entryTimeOnSaturday - 1, 40);
 
-        assertThat(timeOutService.isTimeOut(requestDate,currentDate)).isFalse();
+        assertThat(deadlineRequestedBooks.exceededDeadline(requestDate, currentDate)).isFalse();
 
 
         currentDate = getCalendar(Calendar.SATURDAY, entryTimeOnSaturday, maximumTime + 1);
 
-        assertThat(timeOutService.isTimeOut(requestDate, currentDate)).isTrue();
+        assertThat(deadlineRequestedBooks.exceededDeadline(requestDate, currentDate)).isTrue();
 
 
         /***
          *
-         * Request After Exit Time
+         * DeadlineRequestedBooks After Exit Time
          *
          * */
 
@@ -186,17 +186,17 @@ public class TimeOutServiceTest
 
         currentDate = getCalendar(Calendar.SUNDAY, exitTimeOnSaturday + 2, maximumTime + 2);
 
-        assertThat(timeOutService.isTimeOut(requestDate,currentDate)).isFalse();
+        assertThat(deadlineRequestedBooks.exceededDeadline(requestDate, currentDate)).isFalse();
 
         currentDate = getCalendar(Calendar.SATURDAY, entryTime, maximumTime + 1);
-        timeOutService.incrementNDays(currentDate, 2); // monday
+        deadlineRequestedBooks.incrementNDays(currentDate, 2); // monday
 
-        assertThat(timeOutService.isTimeOut(requestDate, currentDate)).isTrue();
+        assertThat(deadlineRequestedBooks.exceededDeadline(requestDate, currentDate)).isTrue();
 
 
         /***
          *
-         * Request in work Time
+         * DeadlineRequestedBooks in work Time
          *
          * */
 
@@ -204,17 +204,17 @@ public class TimeOutServiceTest
 
         currentDate = getCalendar(Calendar.SATURDAY, entryTimeOnSaturday, 20);
 
-        assertThat(timeOutService.isTimeOut(requestDate,currentDate)).isFalse();
+        assertThat(deadlineRequestedBooks.exceededDeadline(requestDate, currentDate)).isFalse();
 
 
         currentDate = getCalendar(Calendar.SATURDAY, entryTimeOnSaturday, 20 + maximumTime + 1);
 
-        assertThat(timeOutService.isTimeOut(requestDate, currentDate)).isTrue();
+        assertThat(deadlineRequestedBooks.exceededDeadline(requestDate, currentDate)).isTrue();
 
 
         /***
          *
-         * Request in work Time, N minutes to exit time
+         * DeadlineRequestedBooks in work Time, N minutes to exit time
          *
          * */
 
@@ -222,12 +222,12 @@ public class TimeOutServiceTest
 
         currentDate = getCalendar(Calendar.SATURDAY, exitTimeOnSaturday - 1, 20);
 
-        assertThat(timeOutService.isTimeOut(requestDate,currentDate)).isFalse();
+        assertThat(deadlineRequestedBooks.exceededDeadline(requestDate, currentDate)).isFalse();
 
 
         currentDate = getCalendar(Calendar.SATURDAY, exitTimeOnSaturday - 1, 20 + maximumTime + 1);
 
-        assertThat(timeOutService.isTimeOut(requestDate, currentDate)).isTrue();
+        assertThat(deadlineRequestedBooks.exceededDeadline(requestDate, currentDate)).isTrue();
     }
 
 

@@ -1,12 +1,7 @@
 package sgb.controller.domainController;
 
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-import org.zkoss.zk.ui.util.Clients;
-import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.ListModelList;
 import sgb.domain.*;
-import sgb.controller.domainController.EmprestimoRuleSingleton;
 import sgb.service.CRUDService;
 
 import java.util.Calendar;
@@ -30,10 +25,10 @@ public class EmprestimoControllerSingleton
     public HashMap<String, Semaphore> resources = new HashMap<String, Semaphore>();
     private StringBuilder query;
     private CRUDService CRUDService;
-    public EmprestimoRuleSingleton eRSingleton;
+    public ConfigSingleton eRSingleton;
     private EstadoPedidoSingleton ePSingleton;
 
-    public  EmprestimoControllerSingleton(CRUDService crudService, EmprestimoRuleSingleton eRSingleton,
+    public  EmprestimoControllerSingleton(CRUDService crudService, ConfigSingleton eRSingleton,
                                           EstadoPedidoSingleton ePSingleton)
     {
         this.CRUDService = crudService;
@@ -285,7 +280,7 @@ public class EmprestimoControllerSingleton
 
     //must be a transaction
     /*
-    * A Request as only on book.
+    * A DeadlineRequestedBooks as only on book.
     * */
     public void cancelEmprestimo(Emprestimo e)
     {

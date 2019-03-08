@@ -14,7 +14,7 @@ import sgb.service.CRUDService;
  * this class to verify business rule, so we decide that, the instace of that class can be shared.
  */
 
-public class EmprestimoRuleSingleton
+public class ConfigSingleton
 {
     private CRUDService CRUDService;
 
@@ -25,7 +25,7 @@ public class EmprestimoRuleSingleton
     public final int ENTRY_TIME_ON_WEEKDAYS;
     public final int EXIT_TIME_ON_WEEKDAYS;
 
-    public EmprestimoRuleSingleton(CRUDService crudService)
+    public ConfigSingleton(CRUDService crudService)
     {
         this.CRUDService = crudService;
 
