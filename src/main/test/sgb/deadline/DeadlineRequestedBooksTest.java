@@ -1,8 +1,7 @@
-package sgb.service;
+package sgb.deadline;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.sun.org.apache.bcel.internal.generic.CALOAD;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,8 +10,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
-import sgb.controller.domainController.EmprestimoControllerSingleton;
-import sgb.domain.Config;
+import sgb.deadline.DeadlineRequestedBooks;
 import sgb.service.CRUDService;
 
 import java.util.Calendar;
@@ -46,13 +44,13 @@ public class DeadlineRequestedBooksTest
     @Transactional
     public void ExceededDeadlineForWeekDaysTest() throws Exception
     {
-        int maximumTime = deadlineRequestedBooks.configSingleton.MAXIMUM_TIME;
+        int maximumTime = deadlineRequestedBooks.getConfigSingleton().MAXIMUM_TIME;
 
-        int entryTime = deadlineRequestedBooks.configSingleton.ENTRY_TIME_ON_WEEKDAYS;
+        int entryTime = deadlineRequestedBooks.getConfigSingleton().ENTRY_TIME_ON_WEEKDAYS;
 
-        int exitTime = deadlineRequestedBooks.configSingleton.EXIT_TIME_ON_WEEKDAYS;
+        int exitTime = deadlineRequestedBooks.getConfigSingleton().EXIT_TIME_ON_WEEKDAYS;
 
-        int entryTimeOnSaturday = deadlineRequestedBooks.configSingleton.ENTRY_TIME_ON_SATURDAY;
+        int entryTimeOnSaturday = deadlineRequestedBooks.getConfigSingleton().ENTRY_TIME_ON_SATURDAY;
 
 
         /***
@@ -148,15 +146,15 @@ public class DeadlineRequestedBooksTest
     @Transactional
     public void exceededDeadlineForWeekendTest() throws Exception
     {
-        int maximumTime = deadlineRequestedBooks.configSingleton.MAXIMUM_TIME;
+        int maximumTime = deadlineRequestedBooks.getConfigSingleton().MAXIMUM_TIME;
 
-        int entryTime = deadlineRequestedBooks.configSingleton.ENTRY_TIME_ON_WEEKDAYS;
+        int entryTime = deadlineRequestedBooks.getConfigSingleton().ENTRY_TIME_ON_WEEKDAYS;
 
-        int exitTime = deadlineRequestedBooks.configSingleton.EXIT_TIME_ON_WEEKDAYS;
+        int exitTime = deadlineRequestedBooks.getConfigSingleton().EXIT_TIME_ON_WEEKDAYS;
 
-        int entryTimeOnSaturday = deadlineRequestedBooks.configSingleton.ENTRY_TIME_ON_SATURDAY;
+        int entryTimeOnSaturday = deadlineRequestedBooks.getConfigSingleton().ENTRY_TIME_ON_SATURDAY;
 
-        int exitTimeOnSaturday = deadlineRequestedBooks.configSingleton.EXIT_TIME_ON_SATURDAY;
+        int exitTimeOnSaturday = deadlineRequestedBooks.getConfigSingleton().EXIT_TIME_ON_SATURDAY;
 
         /***
          *

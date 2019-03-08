@@ -1,4 +1,4 @@
-package sgb.service;
+package sgb.deadline;
 
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;

@@ -1,4 +1,4 @@
-package sgb.service;
+package sgb.deadline;
 
 import java.util.Calendar;
 

@@ -1,4 +1,4 @@
-package sgb.service;
+package sgb.deadline;
 
 import sgb.controller.domainController.ConfigSingleton;
 import java.util.Calendar;
@@ -101,5 +101,10 @@ public class DeadlineRequestedBooks extends Deadline
         }
         
         return calendar;
+    }
+
+    public ConfigSingleton getConfigSingleton()
+    {
+        return this.configSingleton;
     }
 }

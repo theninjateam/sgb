@@ -62,13 +62,13 @@
         <constructor-arg index="2" ref="estadoPedidoSingleton"/>
     </bean>
 
-    <bean id="deadlineMonitorRequestedBooks" scope="singleton" class="sgb.service.DeadlineMonitorRequestedBooks" >
+    <bean id="deadlineMonitorRequestedBooks" scope="singleton" class="sgb.deadline.DeadlineMonitorRequestedBooks" >
         <constructor-arg index="0" ref="deadlineRequestedBooks"/>
         <constructor-arg index="1" ref="emprestimoControllerSingleton"/>
         <constructor-arg index="2" ref="estadoPedidoSingleton"/>
     </bean>
 
-    <bean id="deadlineRequestedBooks" scope="singleton" class="sgb.service.DeadlineRequestedBooks" >
+    <bean id="deadlineRequestedBooks" scope="singleton" class="sgb.deadline.DeadlineRequestedBooks" >
         <constructor-arg index="0" ref="configSingleton"/>
     </bean>
 
