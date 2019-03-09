@@ -44,7 +44,7 @@ public class DeadlineRequestedBooksTest
     @Transactional
     public void ExceededDeadlineForWeekDaysTest() throws Exception
     {
-        int maximumTime = deadlineRequestedBooks.getConfigSingleton().MAXIMUM_TIME;
+        int maximumTime = deadlineRequestedBooks.getConfigSingleton().DEADLINE_REQUESTED_BOOKS;
 
         int entryTime = deadlineRequestedBooks.getConfigSingleton().ENTRY_TIME_ON_WEEKDAYS;
 
@@ -146,7 +146,7 @@ public class DeadlineRequestedBooksTest
     @Transactional
     public void exceededDeadlineForWeekendTest() throws Exception
     {
-        int maximumTime = deadlineRequestedBooks.getConfigSingleton().MAXIMUM_TIME;
+        int maximumTime = deadlineRequestedBooks.getConfigSingleton().DEADLINE_REQUESTED_BOOKS;
 
         int entryTime = deadlineRequestedBooks.getConfigSingleton().ENTRY_TIME_ON_WEEKDAYS;
 
@@ -187,7 +187,7 @@ public class DeadlineRequestedBooksTest
         assertThat(deadlineRequestedBooks.exceededDeadline(requestDate, currentDate)).isFalse();
 
         currentDate = getCalendar(Calendar.SATURDAY, entryTime, maximumTime + 1);
-        deadlineRequestedBooks.incrementNDays(currentDate, 2); // monday
+        deadlineRequestedBooks.goToNextWorkingDay(currentDate); // monday
 
         assertThat(deadlineRequestedBooks.exceededDeadline(requestDate, currentDate)).isTrue();
 

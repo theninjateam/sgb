@@ -24,14 +24,24 @@ public abstract class Deadline
         return (c.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) ? true : false;
     }
 
+    public boolean isSunDay(Calendar c)
+    {
+        return (c.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) ? true : false;
+    }
+
     public void incrementNMinutes(Calendar calendar, int minutes)
     {
         calendar.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE) + minutes);
     }
 
-    public void incrementNDays(Calendar calendar, int days)
+    public void goToNextWorkingDay(Calendar calendar)
     {
-        calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + days);
+        calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + 1);
+
+        if (isSunDay(calendar))
+        {
+            goToNextWorkingDay(calendar);
+        }
     }
 
 
