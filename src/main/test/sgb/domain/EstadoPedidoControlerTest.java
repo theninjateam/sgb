@@ -10,21 +10,21 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
-import sgb.controller.domainController.EstadoPedidoSingleton;
+import sgb.controller.domainController.EstadoPedidoControler;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"file:src/main/webapp/WEB-INF/applicationContext.xml"})
 
-public class EstadoPedidoSingletonTest
+public class EstadoPedidoControlerTest
 {
     @Autowired
     private ApplicationContext context;
-    private EstadoPedidoSingleton ePSingleton;
+    private EstadoPedidoControler ePSingleton;
 
     @Before
     public void before() throws Exception
     {
-        this.ePSingleton = (EstadoPedidoSingleton) this.context.getBean("estadoPedidoSingleton");
+        this.ePSingleton = (EstadoPedidoControler) this.context.getBean("estadoPedidoSingleton");
     }
 
     @Test

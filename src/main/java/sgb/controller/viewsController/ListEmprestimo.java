@@ -83,7 +83,7 @@ public class ListEmprestimo extends SelectorComposer<Component> {
     @Listen("onDevolver = #emprestimoListBox")
     public void doDevolver(ForwardEvent event)
     {
-        Clients.showNotification("Devolver Obra",null,null,null,5000);
+        Clients.showNotification("Devolver ObraConcurrenceControl",null,null,null,5000);
     }
 
     @Listen("onDetalheEmprestimo = #emprestimoListBox")

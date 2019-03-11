@@ -1,0 +1,230 @@
+package sgb.request;
+
+import org.zkoss.zul.ListModelList;
+import sgb.concurrence.ObraConcurrenceControl;
+import sgb.controller.domainController.ConfigControler;
+import sgb.controller.domainController.EstadoPedidoControler;
+import sgb.domain.*;
+import sgb.service.CRUDService;
+
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+
+public class Request
+{
+    private StringBuilder query;
+    private HashMap<String, Object> parameters;
+
+    private CRUDService crudService;
+    private ConfigControler configControler;
+    private EstadoPedidoControler estadoPedidoControler;
+    private ObraConcurrenceControl obraConcurrenceControl;
+    
+    public Request(CRUDService crudService, ConfigControler configControler,
+                   EstadoPedidoControler estadoPedidoControler,
+                   ObraConcurrenceControl obraConcurrenceControl)
+    {
+        this.configControler = configControler;
+        this.crudService = crudService;
+        this.estadoPedidoControler = estadoPedidoControler;
+        this.obraConcurrenceControl = obraConcurrenceControl;
+    }
+
+    public void requestObra(Item item, Users user)
+    {
+        try
+        {
+            this.obraConcurrenceControl.enterInCriticalRegion(item.getObra());
+
+            validate(item);
+
+            Emprestimo emprestimo = getEmprestimo(item, user);
+
+            if (!item.getIsLineUp())
+            {
+                Obra obra = this.crudService.get(Obra.class, item.getObra().getCota());
+                obra.setQuantidade(obra.getQuantidade() - item.getQuantidade());
+                this.crudService.update(obra);
+            }
+
+            this.crudService.Save(emprestimo);
+            this.obraConcurrenceControl.leaveInCriticalRegion(item.getObra());
+        }
+        catch (Exception ex)
+        {
+            this.obraConcurrenceControl.leaveInCriticalRegion(item.getObra());
+            ex.printStackTrace();
+        }
+    }
+
+    public void validate(Item item)
+    {
+        if (item.getIsHomeRequisition())
+            item.setHomeRequisition(canDoHomeRequisition(item.getObra()));
+
+        item.setLineUp(canLineUp(item.getObra(), item.getQuantidade()));
+    }
+
+    public boolean canDoHomeRequisition(Obra obra)
+    {
+        int qtdMin = this.configControler.MINIMUM_NUMBER_OF_COPIES;
+        int qtd = getAvailableNumberOfCopies(obra);
+
+        return qtd > qtdMin ? true : false;
+    }
+
+    public boolean canLineUp(Obra obra, int qtd)
+    {
+        int qtdMin = this.configControler.MINIMUM_NUMBER_OF_COPIES;
+        int qtdDis = this.crudService.get(Obra.class, obra.getCota()).getQuantidade();
+
+        if (canDoHomeRequisition(obra))
+            return  qtdDis - qtd < qtdMin ? true : false;
+        else
+            return  qtdDis  - qtd < 0 ? true : false;
+    }
+
+    public int getAvailableNumberOfCopies(Obra obra)
+    {
+        int qtd =  this.getRequisicoes(obra, 1).getSize();
+        qtd += this.getRequisicoes(obra, this.estadoPedidoControler.ACCEPTED).getSize();
+        qtd += this.crudService.get(Obra.class, obra.getCota()).getQuantidade();
+
+        return qtd;
+    }
+
+    public void cancelRequest(Emprestimo e)
+    {
+        Item item = new Item();
+
+        item.setObra(e.getEmprestimoPK().getObra());
+        item.setQuantidade(e.getQuantidade());
+
+        try
+        {
+            Emprestimo emprestimo = getRequest(e.getEmprestimoPK());
+            EstadoPedido estadoPedido = this.crudService.get(EstadoPedido.class, this.estadoPedidoControler.CANCELED);
+
+            emprestimo.setEstadoPedido(estadoPedido);
+            emprestimo.setComentario("Pedido Cancelado Pelo Sistema, excedeu o deadline");
+            this.obraConcurrenceControl.enterInCriticalRegion(item.getObra());
+
+            Obra obra = this.crudService.get(Obra.class, item.getObra().getCota());
+            obra.setQuantidade(obra.getQuantidade() + item.getQuantidade());
+            this.crudService.update(obra);
+
+            this.obraConcurrenceControl.leaveInCriticalRegion(item.getObra());
+            this.crudService.update(emprestimo);
+        }
+        catch (Exception ex)
+        {
+            this.obraConcurrenceControl.leaveInCriticalRegion(item.getObra());
+            ex.printStackTrace();
+        }
+    }
+
+    public Emprestimo getEmprestimo(Item item, Users user)
+    {
+        EmprestimoPK emprestimoPK = new EmprestimoPK();
+        Emprestimo emprestimo = new Emprestimo();
+
+        EstadoPedido estadoPedido = null;
+        EstadoDevolucao estadoDevolucao = null;
+        EstadoRenovacao estadoRenovacao = null;
+        TipoRequisicao tipoRequisicao =  null;
+
+        emprestimoPK.setObra(item.getObra());
+        emprestimoPK.setUser(user);
+        emprestimoPK.setDataentrada(Calendar.getInstance());
+
+        emprestimo.setEstadoDevolucao(estadoDevolucao);
+        emprestimo.setEstadoPedido(estadoPedido);
+        emprestimo.setEmprestimoPK(emprestimoPK);
+        emprestimo.setComentario("--");
+        emprestimo.setDataaprovacao(null);
+        emprestimo.setDatadevolucao(null);
+        emprestimo.setQuantidade(item.getQuantidade());
+        emprestimo.setEstadoRenovacao(estadoRenovacao);
+        emprestimo.setDatarenovacao(null);
+        emprestimo.setDatadevolucaorenovacao(null);
+        emprestimo.setTipoRequisicao(tipoRequisicao);
+
+        return emprestimo;
+    }
+
+    public ListModelList<Emprestimo> getRequisicoes(Users user, int idEstadoPedido)
+    {
+        parameters = new HashMap<String, Object>(2);
+        query = new StringBuilder();
+
+        parameters.put("idEstadoPedido", idEstadoPedido);
+        parameters.put("userId", user.getId());
+
+        query.append("SELECT e FROM Emprestimo e WHERE e.estadoPedido.idestadopedido = :idEstadoPedido and ");
+        query.append("e.emprestimoPK.user.id = :userId");
+
+        List<Emprestimo> list = this.crudService.findByJPQuery(query.toString(), parameters);
+
+        return new ListModelList<Emprestimo>(list);
+    }
+
+    public ListModelList<Emprestimo> getAllRequisicoes(Users user)
+    {
+        parameters = new HashMap<String, Object>(1);
+        query = new StringBuilder();
+
+        parameters.put("userId", user.getId());
+        query.append("SELECT e FROM Emprestimo e WHERE e.emprestimoPK.user.id = :userId");
+
+        List<Emprestimo> list = this.crudService.findByJPQuery(query.toString(), parameters);
+
+        return new ListModelList<Emprestimo>(list);
+    }
+
+    public ListModelList<Emprestimo> getRequisicoes(int idEstadoPedido)
+    {
+        parameters = new HashMap<String, Object>(1);
+        query = new StringBuilder();
+
+        parameters.put("idEstadoPedido", idEstadoPedido);
+
+        query.append("SELECT e FROM Emprestimo e WHERE e.estadoPedido.idestadopedido = :idEstadoPedido");
+
+        List<Emprestimo> list = this.crudService.findByJPQuery(query.toString(), parameters);
+
+        return new ListModelList<Emprestimo>(list);
+    }
+
+    public ListModelList<Emprestimo> getRequisicoes(Obra obra, int idEstadoPedido)
+    {
+        parameters = new HashMap<String, Object>(2);
+        query = new StringBuilder();
+
+        parameters.put("idEstadoPedido", idEstadoPedido);
+        parameters.put("cota", obra.getCota());
+
+        query.append("SELECT e FROM Emprestimo e WHERE e.estadoPedido.idestadopedido = :idEstadoPedido and ");
+        query.append("e.emprestimoPK.obra.cota = :cota");
+
+        List<Emprestimo> list = this.crudService.findByJPQuery(query.toString(), parameters);
+
+        return new ListModelList<Emprestimo>(list);
+    }
+
+    public Emprestimo getRequest(EmprestimoPK emprestimoPK)
+    {
+        parameters = new HashMap<String, Object>(3);
+        query = new StringBuilder();
+
+        parameters.put("user_id", emprestimoPK.getUser().getId());
+        parameters.put("cota", emprestimoPK.getObra().getCota());
+        parameters.put("dataentrada", emprestimoPK.getDataentrada());
+
+
+        query.append("SELECT e FROM Emprestimo e WHERE e.emprestimoPK.user.id = :user_id and ");
+        query.append("e.emprestimoPK.obra.cota = :cota and e.emprestimoPK.dataentrada = :dataentrada");
+
+        return this.crudService.findEntByJPQueryT(query.toString(), parameters);
+    }
+}

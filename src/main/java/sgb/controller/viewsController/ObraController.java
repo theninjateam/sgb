@@ -316,7 +316,7 @@ public class ObraController extends SelectorComposer<Component> {
 
                 if(dive.getMostSpecificCause().toString().contains("duplicate key value"))
                 {
-                    Clients.showNotification("Ops: Parece que ja existe uma Obra com numero de cota '"+cota.getValue()+"'",null,null,null,5000);
+                    Clients.showNotification("Ops: Parece que ja existe uma ObraConcurrenceControl com numero de cota '"+cota.getValue()+"'",null,null,null,5000);
                 }
             }
             e.printStackTrace();

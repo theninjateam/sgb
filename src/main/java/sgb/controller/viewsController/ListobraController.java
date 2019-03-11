@@ -16,6 +16,7 @@ import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.*;
 import sgb.domain.*;
+import sgb.request.Request;
 import sgb.service.CRUDService;
 import sgb.controller.domainController.*;
 
@@ -30,6 +31,9 @@ import java.util.PriorityQueue;
 public class ListobraController extends SelectorComposer<Component>
 {
     private CRUDService crudService = (CRUDService) SpringUtil.getBean("CRUDService");
+    private Request request = (Request) SpringUtil.getBean("request");
+    private EstadoPedidoControler ePController = (EstadoPedidoControler) SpringUtil.getBean("estadoPedidoControler");
+
     private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;
     private Session session;
     private EmprestimoPK emprestimoPK;
@@ -40,8 +44,6 @@ public class ListobraController extends SelectorComposer<Component>
     private ListModelList<Obra> obraListModel;
     private ListModelList<Item> cestaListModel = new ListModelList<Item>();
     private ListModelList<Obra> detalheobra;
-    private EmprestimoControllerSingleton emprestimoControllerSingleton = (EmprestimoControllerSingleton)
-            SpringUtil.getBean("emprestimoControllerSingleton");
     private boolean isHomeRequisition;
 
     @Wire
@@ -165,7 +167,7 @@ public class ListobraController extends SelectorComposer<Component>
 
 //        Button btn = (Button)event.getOrigin().getTarget();
 //        Listitem litem = (Listitem) getListitem(btn);
-//        Obra obra = (Obra) litem.getValue();
+//        ObraConcurrenceControl obra = (ObraConcurrenceControl) litem.getValue();
 //        Messagebox.show("Tem certeza que deseja eliminar a obra ?", "deletar obra",
 //                Messagebox.YES + Messagebox.NO, Messagebox.QUESTION,
 //                new EventListener<Event>() {
@@ -176,7 +178,7 @@ public class ListobraController extends SelectorComposer<Component>
 ////                            obra.setAutores(null);
 //                            obra.setAutores(null);
 //                            crudService.delete(obra);
-//                            Clients.showNotification("Obra eliminado com sucesso",null,null,null,5000);
+//                            Clients.showNotification("ObraConcurrenceControl eliminado com sucesso",null,null,null,5000);
 //                        }
 //                    }
 //                });
@@ -186,7 +188,7 @@ public class ListobraController extends SelectorComposer<Component>
     @Listen("onDetalheObra = #obraListBox")
     public void doDetalhe(ForwardEvent event)
     {
-//        Clients.showNotification("Detalhes Obra");
+//        Clients.showNotification("Detalhes ObraConcurrenceControl");
         detalheobra = new ListModelList<>();
         gridListObra.setVisible(false);
         buttonPesquisar.setVisible(false);
@@ -320,7 +322,7 @@ public class ListobraController extends SelectorComposer<Component>
             {
                 if (item.getCanBeRequested())
                 {
-                    this.emprestimoControllerSingleton.requisitar(item, this.user);
+                    this.request.requestObra(item, this.user);
                 }
             }
 
@@ -455,8 +457,8 @@ public class ListobraController extends SelectorComposer<Component>
             item = new Item();
             item.setObra(obra);
             item.setQuantidade(1);
-            item.setHomeRequisition(this.emprestimoControllerSingleton.canDoHomeRequisition(obra));
-            item.setLineUp(this.emprestimoControllerSingleton.canLineUp(obra,1));
+            item.setHomeRequisition(this.request.canDoHomeRequisition(obra));
+            item.setLineUp(this.request.canLineUp(obra,1));
             cestaListModel.add(item);
             updateCesta();
         }
@@ -542,7 +544,7 @@ public class ListobraController extends SelectorComposer<Component>
     public  boolean temObrasPorDevolver()
     {
         List<Emprestimo> emprestimos = crudService.findByJPQuery("SELECT e FROM Emprestimo e WHERE e.emprestimoPK.user.id = "+
-                user.getId()+" and e.estadoDevolucao.idestadodevolucao = 2", null);
+                user.getId()+" and e.estadoDevolucao.idestadodevolucao = 2", null); // isso deve mudar
 
         return emprestimos.size() > 0 ?  true : false;
     }
@@ -612,8 +614,8 @@ public class ListobraController extends SelectorComposer<Component>
             if (this.isHomeRequisition)
             {
                 Obra obra = cestaListModel.get(i).getObra();
-                cestaListModel.get(i).setHomeRequisition(this.emprestimoControllerSingleton.canDoHomeRequisition(obra));
-                cestaListModel.get(i).setLineUp(this.emprestimoControllerSingleton.canLineUp(obra,1));
+                cestaListModel.get(i).setHomeRequisition(this.request.canDoHomeRequisition(obra));
+                cestaListModel.get(i).setLineUp(this.request.canLineUp(obra,1));
 
                 if (!cestaListModel.get(i).getIsHomeRequisition())
                 {

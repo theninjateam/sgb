@@ -49,12 +49,12 @@
 
                                     <listcell>
                                         <div>
-                                            <label value="${each.registroObraPK.obra.cota}"/>
+                                            <label value="${each.registroObraPK.obraConcurrenceController.cota}"/>
                                         </div>
                                     </listcell>
                                     <listcell>
                                         <div>
-                                            <label value="${each.registroObraPK.obra.titulo}"/>
+                                            <label value="${each.registroObraPK.obraConcurrenceController.titulo}"/>
                                         </div>
                                     </listcell>
 

@@ -1,15 +1,16 @@
 package sgb.deadline;
 
-import sgb.controller.domainController.ConfigSingleton;
+import sgb.controller.domainController.ConfigControler;
+
 import java.util.Calendar;
 
 public class DeadlineRequestedBooks extends Deadline
 {
-    private ConfigSingleton configSingleton;
+    private ConfigControler configControler;
     
-    public DeadlineRequestedBooks(ConfigSingleton configSingleton)
+    public DeadlineRequestedBooks(ConfigControler configControler)
     {
-        this.configSingleton = configSingleton;
+        this.configControler = configControler;
     }
 
 
@@ -31,7 +32,7 @@ public class DeadlineRequestedBooks extends Deadline
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(requestDate.getTime());
 
-        if (calendar.get(calendar.HOUR_OF_DAY) >= this.configSingleton.EXIT_TIME_ON_WEEKDAYS)
+        if (calendar.get(calendar.HOUR_OF_DAY) >= this.configControler.EXIT_TIME_ON_WEEKDAYS)
         {
             calendar.set(Calendar.MINUTE, 00);
 
@@ -39,26 +40,26 @@ public class DeadlineRequestedBooks extends Deadline
             {
                 this.goToNextWorkingDay(calendar);
 
-                calendar.set(Calendar.HOUR_OF_DAY, this.configSingleton.ENTRY_TIME_ON_SATURDAY);
+                calendar.set(Calendar.HOUR_OF_DAY, this.configControler.ENTRY_TIME_ON_SATURDAY);
             }
             else
             {
                 this.goToNextWorkingDay(calendar);
-                calendar.set(Calendar.HOUR_OF_DAY, this.configSingleton.ENTRY_TIME_ON_WEEKDAYS);
+                calendar.set(Calendar.HOUR_OF_DAY, this.configControler.ENTRY_TIME_ON_WEEKDAYS);
             }
 
-            incrementNMinutes(calendar, this.configSingleton.DEADLINE_REQUESTED_BOOKS);
+            incrementNMinutes(calendar, this.configControler.DEADLINE_REQUESTED_BOOKS);
         }
-        else if (calendar.get(Calendar.HOUR_OF_DAY) < this.configSingleton.ENTRY_TIME_ON_WEEKDAYS)
+        else if (calendar.get(Calendar.HOUR_OF_DAY) < this.configControler.ENTRY_TIME_ON_WEEKDAYS)
         {
-            calendar.set(Calendar.HOUR_OF_DAY, this.configSingleton.ENTRY_TIME_ON_WEEKDAYS);
+            calendar.set(Calendar.HOUR_OF_DAY, this.configControler.ENTRY_TIME_ON_WEEKDAYS);
             calendar.set(Calendar.SECOND, 00);
             calendar.set(Calendar.MILLISECOND, 00);
-            calendar.set(Calendar.MINUTE, this.configSingleton.DEADLINE_REQUESTED_BOOKS);
+            calendar.set(Calendar.MINUTE, this.configControler.DEADLINE_REQUESTED_BOOKS);
         }
         else
         {
-            incrementNMinutes(calendar, this.configSingleton.DEADLINE_REQUESTED_BOOKS);
+            incrementNMinutes(calendar, this.configControler.DEADLINE_REQUESTED_BOOKS);
         }
 
         return calendar;
@@ -69,16 +70,16 @@ public class DeadlineRequestedBooks extends Deadline
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(requestDate.getTime());
         
-        if (this.isSaturDay(calendar) && calendar.get(Calendar.HOUR_OF_DAY) < this.configSingleton.ENTRY_TIME_ON_SATURDAY)
+        if (this.isSaturDay(calendar) && calendar.get(Calendar.HOUR_OF_DAY) < this.configControler.ENTRY_TIME_ON_SATURDAY)
         {
             calendar.set(Calendar.MINUTE, 00);
-            calendar.set(Calendar.HOUR_OF_DAY, this.configSingleton.ENTRY_TIME_ON_SATURDAY);
+            calendar.set(Calendar.HOUR_OF_DAY, this.configControler.ENTRY_TIME_ON_SATURDAY);
             
-            this.incrementNMinutes(calendar, this.configSingleton.DEADLINE_REQUESTED_BOOKS);
+            this.incrementNMinutes(calendar, this.configControler.DEADLINE_REQUESTED_BOOKS);
         }
-        else if (this.isSaturDay(calendar) && calendar.get(Calendar.HOUR_OF_DAY) < this.configSingleton.EXIT_TIME_ON_SATURDAY)
+        else if (this.isSaturDay(calendar) && calendar.get(Calendar.HOUR_OF_DAY) < this.configControler.EXIT_TIME_ON_SATURDAY)
         {
-            this.incrementNMinutes(calendar, this.configSingleton.DEADLINE_REQUESTED_BOOKS);
+            this.incrementNMinutes(calendar, this.configControler.DEADLINE_REQUESTED_BOOKS);
         }
         else
         {
@@ -87,16 +88,16 @@ public class DeadlineRequestedBooks extends Deadline
             calendar.set(Calendar.MILLISECOND, 00);
             calendar.set(Calendar.SECOND, 00);
             calendar.set(Calendar.MINUTE, 00);
-            calendar.set(Calendar.HOUR_OF_DAY, this.configSingleton.ENTRY_TIME_ON_WEEKDAYS);
+            calendar.set(Calendar.HOUR_OF_DAY, this.configControler.ENTRY_TIME_ON_WEEKDAYS);
 
-            this.incrementNMinutes(calendar, this.configSingleton.DEADLINE_REQUESTED_BOOKS);
+            this.incrementNMinutes(calendar, this.configControler.DEADLINE_REQUESTED_BOOKS);
         }
         
         return calendar;
     }
 
-    public ConfigSingleton getConfigSingleton()
+    public ConfigControler getConfigControler()
     {
-        return this.configSingleton;
+        return this.configControler;
     }
 }

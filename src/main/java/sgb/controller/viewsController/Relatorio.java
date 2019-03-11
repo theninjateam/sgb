@@ -1,33 +1,20 @@
 package sgb.controller.viewsController;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.zkoss.zk.ui.Component;
-import org.zkoss.zk.ui.event.Event;
-import org.zkoss.zk.ui.event.EventListener;
-import org.zkoss.zk.ui.event.ForwardEvent;
 import org.zkoss.zk.ui.select.SelectorComposer;
-import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
-import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.*;
-import sgb.controller.domainController.EmprestimoControllerSingleton;
 import sgb.domain.*;
 import sgb.service.CRUDService;
 
 //import org.zkoss.zk.chart.Charts;
 //import org.zkoss.chart.model.CategoryModel;
 //import org.zkoss.chart.model.DefaultCategoryModel;
-import org.zkoss.zk.ui.select.SelectorComposer;
-import org.zkoss.zk.ui.select.annotation.Wire;
-import org.zkoss.zul.Window;
 
-import java.util.Calendar;
-import java.util.Hashtable;
 import java.util.List;
-import java.util.Set;
 
 public class Relatorio extends SelectorComposer<Component> {
 
@@ -35,9 +22,6 @@ public class Relatorio extends SelectorComposer<Component> {
     private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;
 //    private ListModelList<Emprestimo> relatorioListModel;
     private Boolean isNormalUser = true;
-    private EmprestimoControllerSingleton emprestimoControllerSingleton = (EmprestimoControllerSingleton)
-            SpringUtil.getBean("emprestimoControllerSingleton");
-
 
     private Listbox emprestimo;
 

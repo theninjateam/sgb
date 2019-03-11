@@ -1,16 +1,16 @@
 package sgb.deadline;
 
-import sgb.controller.domainController.ConfigSingleton;
+import sgb.controller.domainController.ConfigControler;
 
 import java.util.Calendar;
 
 public class DeadlineReservedBooks extends Deadline
 {
-    private ConfigSingleton configSingleton;
+    private ConfigControler configControler;
 
-    public DeadlineReservedBooks(ConfigSingleton configSingleton)
+    public DeadlineReservedBooks(ConfigControler configControler)
     {
-        this.configSingleton = configSingleton;
+        this.configControler = configControler;
     }
 
 

@@ -1,16 +1,8 @@
 package sgb.domain;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
-import org.zkoss.zkplus.spring.SpringUtil;
-import sgb.controller.domainController.EmprestimoControllerSingleton;
-import sgb.service.CRUDService;
-
 import javax.persistence.*;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
-import java.util.PriorityQueue;
 
 
 @Entity

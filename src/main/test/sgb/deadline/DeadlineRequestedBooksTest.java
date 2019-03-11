@@ -10,7 +10,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
-import sgb.deadline.DeadlineRequestedBooks;
 import sgb.service.CRUDService;
 
 import java.util.Calendar;
@@ -28,7 +27,6 @@ public class DeadlineRequestedBooksTest
 {
     @Autowired
     private ApplicationContext context;
-    private CRUDService crudService;
     private DeadlineRequestedBooks deadlineRequestedBooks;
 
     @Before
@@ -36,7 +34,6 @@ public class DeadlineRequestedBooksTest
     public void before() throws Exception
     {
         System.out.println("Setting it up!");
-        this.crudService = (CRUDService) context.getBean("CRUDService");
         this.deadlineRequestedBooks = (DeadlineRequestedBooks) context.getBean("deadlineRequestedBooks");
     }
 
@@ -44,13 +41,13 @@ public class DeadlineRequestedBooksTest
     @Transactional
     public void ExceededDeadlineForWeekDaysTest() throws Exception
     {
-        int maximumTime = deadlineRequestedBooks.getConfigSingleton().DEADLINE_REQUESTED_BOOKS;
+        int maximumTime = deadlineRequestedBooks.getConfigControler().DEADLINE_REQUESTED_BOOKS;
 
-        int entryTime = deadlineRequestedBooks.getConfigSingleton().ENTRY_TIME_ON_WEEKDAYS;
+        int entryTime = deadlineRequestedBooks.getConfigControler().ENTRY_TIME_ON_WEEKDAYS;
 
-        int exitTime = deadlineRequestedBooks.getConfigSingleton().EXIT_TIME_ON_WEEKDAYS;
+        int exitTime = deadlineRequestedBooks.getConfigControler().EXIT_TIME_ON_WEEKDAYS;
 
-        int entryTimeOnSaturday = deadlineRequestedBooks.getConfigSingleton().ENTRY_TIME_ON_SATURDAY;
+        int entryTimeOnSaturday = deadlineRequestedBooks.getConfigControler().ENTRY_TIME_ON_SATURDAY;
 
 
         /***
@@ -146,15 +143,15 @@ public class DeadlineRequestedBooksTest
     @Transactional
     public void exceededDeadlineForWeekendTest() throws Exception
     {
-        int maximumTime = deadlineRequestedBooks.getConfigSingleton().DEADLINE_REQUESTED_BOOKS;
+        int maximumTime = deadlineRequestedBooks.getConfigControler().DEADLINE_REQUESTED_BOOKS;
 
-        int entryTime = deadlineRequestedBooks.getConfigSingleton().ENTRY_TIME_ON_WEEKDAYS;
+        int entryTime = deadlineRequestedBooks.getConfigControler().ENTRY_TIME_ON_WEEKDAYS;
 
-        int exitTime = deadlineRequestedBooks.getConfigSingleton().EXIT_TIME_ON_WEEKDAYS;
+        int exitTime = deadlineRequestedBooks.getConfigControler().EXIT_TIME_ON_WEEKDAYS;
 
-        int entryTimeOnSaturday = deadlineRequestedBooks.getConfigSingleton().ENTRY_TIME_ON_SATURDAY;
+        int entryTimeOnSaturday = deadlineRequestedBooks.getConfigControler().ENTRY_TIME_ON_SATURDAY;
 
-        int exitTimeOnSaturday = deadlineRequestedBooks.getConfigSingleton().EXIT_TIME_ON_SATURDAY;
+        int exitTimeOnSaturday = deadlineRequestedBooks.getConfigControler().EXIT_TIME_ON_SATURDAY;
 
         /***
          *

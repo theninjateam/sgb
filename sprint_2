@@ -1,4 +1,4 @@
-1.    Permitir anexar ficheiros em PDF no cadastro de uma obra; feito
+1.    Permitir anexar ficheiros em PDF no cadastro de uma obraConcurrenceController; feito
 
 2.    Registar se um livro vier acompanhado de um CD; FEITO
 
@@ -10,4 +10,4 @@
 
 6.    Adicionar campo volume de um livro; FEITO
 
-7.    Identificar campos obrigatórios para salvar uma obra; feito 
+7.    Identificar campos obrigatórios para salvar uma obraConcurrenceController; feito

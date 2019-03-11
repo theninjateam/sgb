@@ -50,7 +50,7 @@
                                             <listcell style="border-bottom: 2px double black;">
                                                 <div>
                                                     <image sclass="img"
-                                                           src="${each.emprestimoPK.obra.pathcapa}"/>
+                                                           src="${each.emprestimoPK.obraConcurrenceController.pathcapa}"/>
                                                 </div>
                                             </listcell>
                                             <listcell style="border-bottom: 2px double black;">
@@ -58,30 +58,30 @@
 
                                                     <div>
                                                         <div>
-                                                            <label style=" color:blue; font-size: medium; font-weight: bold;" value="${each.emprestimoPK.obra.tipoobra.descricao}"/>
+                                                            <label style=" color:blue; font-size: medium; font-weight: bold;" value="${each.emprestimoPK.obraConcurrenceController.tipoobra.descricao}"/>
                                                         </div>
                                                         <div>
                                                             <label style=" font-size: small; font-weight: bold;" value="Titulo:"/>
-                                                            <label value="${each.emprestimoPK.obra.titulo}"/>
+                                                            <label value="${each.emprestimoPK.obraConcurrenceController.titulo}"/>
                                                         </div>
 
                                                         <div>
                                                             <label style=" font-size: small; font-weight: bold;" value="Cota:"/>
-                                                            <label value="${each.emprestimoPK.obra.cota}"/>
+                                                            <label value="${each.emprestimoPK.obraConcurrenceController.cota}"/>
                                                         </div>
                                                         <div>
                                                             <label style=" font-size: small; font-weight: bold;"  value="Autores :"/>
-                                                            <label forEach="${each.emprestimoPK.obra.autores}"
+                                                            <label forEach="${each.emprestimoPK.obraConcurrenceController.autores}"
                                                                    value="${each.nome} e "/>
                                                         </div>
                                                         <div>
                                                             <label style=" font-size: small; font-weight: bold;"  value="Idioma :"/>
-                                                            <label value="${each.emprestimoPK.obra.idioma.descricao}"/>
+                                                            <label value="${each.emprestimoPK.obraConcurrenceController.idioma.descricao}"/>
                                                         </div>
 
                                                         <div>
                                                             <label style=" font-size: small; font-weight: bold;" value="Local Publicacao :"/>
-                                                            <label value="${each.emprestimoPK.obra.localpublicacao}"/>
+                                                            <label value="${each.emprestimoPK.obraConcurrenceController.localpublicacao}"/>
                                                         </div>
 
                                                         <div>

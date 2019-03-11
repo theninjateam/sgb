@@ -7,7 +7,7 @@ import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
-import sgb.controller.domainController.EmprestimoControllerSingleton;
+import sgb.controller.domainController.EstadoPedidoControler;
 import sgb.domain.Emprestimo;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +17,7 @@ import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.*;
 import sgb.domain.*;
+import sgb.request.Request;
 import sgb.service.CRUDService;
 
 import java.util.*;
@@ -30,8 +31,8 @@ public class ListPedido extends SelectorComposer<Component> {
     private ListModelList<Emprestimo> pedidoListModel;
     private ListModel<EstadoPedido> estadopedidoModel;
     private Boolean isNormalUser = true;
-    private EmprestimoControllerSingleton emprestimoControllerSingleton = (EmprestimoControllerSingleton)
-            SpringUtil.getBean("emprestimoControllerSingleton");
+    private Request request = (Request) SpringUtil.getBean("request");
+    private EstadoPedidoControler ePController = (EstadoPedidoControler) SpringUtil.getBean("estadoPedidoControler");
 
     @Wire
     private Listbox pedidoListBox;
@@ -56,12 +57,12 @@ public class ListPedido extends SelectorComposer<Component> {
     }
 
     public void ComposeUserAdmin(){
-        pedidoListModel = new ListModelList<Emprestimo>(emprestimoControllerSingleton.getRequisicoes(1));
+        pedidoListModel = new ListModelList<Emprestimo>(request.getRequisicoes(ePController.PENDING));
         pedidoListBox.setModel(pedidoListModel);
     }
 
     public void ComposeUserNormal() {
-        pedidoListModel = new ListModelList<Emprestimo>(emprestimoControllerSingleton.getRequisicoes(this.user, 1));
+        pedidoListModel = new ListModelList<Emprestimo>(request.getRequisicoes(this.user, ePController.PENDING));
         pedidoListBox.setModel(pedidoListModel);
     }
 

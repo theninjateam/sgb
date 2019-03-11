@@ -25,7 +25,7 @@
                                              mold="select">
 
                                         <listhead>
-                                            <listheader label="tipo de obra" style="background-color: lightgray; border-style: none; text-align: center;"/>
+                                            <listheader label="tipo de obraConcurrenceController" style="background-color: lightgray; border-style: none; text-align: center;"/>
                                         </listhead>
                                         <template name="model">
                                             <listitem>
