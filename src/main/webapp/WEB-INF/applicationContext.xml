@@ -86,7 +86,7 @@
     </bean>
 
     <bean id="queue"  class="sgb.request.Queue" >
-        <constructor-arg index="0" ref="request"/>
+        <constructor-arg index="0" ref="CRUDService"/>
         <constructor-arg index="1" ref="estadoPedidoControler"/>
     </bean>
 

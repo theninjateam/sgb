@@ -4,17 +4,22 @@ import sgb.controller.domainController.EstadoPedidoControler;
 import sgb.domain.Emprestimo;
 import sgb.domain.EstadoPedido;
 import sgb.domain.Obra;
+import sgb.service.CRUDService;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.PriorityQueue;
 
 public class Queue
 {
-    private Request request;
+    private StringBuilder query;
+    private HashMap<String, Object> parameters;
+    private CRUDService crudService;
     private EstadoPedidoControler estadoPedidoControler;
 
-    public Queue(Request request, EstadoPedidoControler estadoPedidoControler)
+    public Queue(CRUDService crudService, EstadoPedidoControler estadoPedidoControler)
     {
-        this.request = request;
+        this.crudService = crudService;
         this.estadoPedidoControler = estadoPedidoControler;
     }
 
@@ -22,9 +27,25 @@ public class Queue
     {
         PriorityQueue<Emprestimo> queue = new PriorityQueue<>();
 
-        for (Emprestimo e: this.request.getRequisicoes(obra, this.estadoPedidoControler.IN_QUEUE))
+        for (Emprestimo e: this.getInQueueRequest(obra))
+        {
             queue.add(e);
+        }
 
         return queue;
+    }
+
+    public List<Emprestimo> getInQueueRequest(Obra obra)
+    {
+        parameters = new HashMap<String, Object>(2);
+        query = new StringBuilder();
+
+        parameters.put("idEstadoPedido", this.estadoPedidoControler.IN_QUEUE);
+        parameters.put("cota", obra.getCota());
+
+        query.append("SELECT e FROM Emprestimo e WHERE e.estadoPedido.idestadopedido = :idEstadoPedido and ");
+        query.append("e.emprestimoPK.obra.cota = :cota");
+
+        return this.crudService.findByJPQuery(query.toString(), parameters);
     }
 }

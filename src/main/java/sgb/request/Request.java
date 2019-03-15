@@ -22,7 +22,8 @@ public class Request
     private ObraConcurrenceControl obraConcurrenceControl;
     private Queue queue;
     
-    public Request(CRUDService crudService, ConfigControler configControler,
+    public Request(CRUDService crudService,
+                   ConfigControler configControler,
                    EstadoPedidoControler estadoPedidoControler,
                    ObraConcurrenceControl obraConcurrenceControl,
                    Queue queue)
