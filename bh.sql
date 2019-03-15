@@ -178,6 +178,8 @@ INSERT INTO public.config (nome, descricao, valor) VALUES ('EXIT_TIME_ON_WEEKDAY
 INSERT INTO public.config (nome, descricao, valor) VALUES ('EXIT_TIME_ON_SATURDAY', 'HORARIO FINAL DE FUNCIONAMENTO DOS SERVICOS BIBLIOTECARIO NOE SABADO', '13');
 INSERT INTO public.config (nome, descricao, valor) VALUES ('DEADLINE_REQUESTED_BOOKS', 'tempo maximo em minuto, que uma obra requesitada por um utente, permanece disponivel para o levatamento.', '60');
 INSERT INTO public.config (nome, descricao, valor) VALUES ('DEADLINE_RESERVED_BOOKS', 'tempo maximo em dias, que uma obra reservada por um utente, permanece disponivel para o levatamento.', '2');
+INSERT INTO public.config (nome, descricao, valor) VALUES ('DEADLINE_STUDENT_BORROWED_BOOKS', 'tempo maximo em dias, que uma obra emprestada permanece na posse de um estudante', '3');
+INSERT INTO public.config (nome, descricao, valor) VALUES ('DEADLINE_TEACHER_BORROWED_BOOKS', 'tempo maximo em dias, que uma obra emprestada permanece na posse de um docente', '7');
 -- ----------------------------
 -- Table structure for emprestimo
 -- ----------------------------

@@ -26,6 +26,8 @@ public class ConfigControler
     public final int ENTRY_TIME_ON_WEEKDAYS;
     public final int EXIT_TIME_ON_WEEKDAYS;
     public final int DEADLINE_RESERVED_BOOKS;
+    public final int DEADLINE_STUDENT_BORROWED_BOOKS;
+    public final int DEADLINE_TEACHER_BORROWED_BOOKS;
 
     public ConfigControler(CRUDService crudService)
     {
@@ -37,6 +39,8 @@ public class ConfigControler
         ENTRY_TIME_ON_WEEKDAYS = Integer.parseInt(getConfigValue("ENTRY_TIME_ON_WEEKDAYS"));
         EXIT_TIME_ON_WEEKDAYS = Integer.parseInt(getConfigValue("EXIT_TIME_ON_WEEKDAYS"));
         DEADLINE_RESERVED_BOOKS = Integer.parseInt(getConfigValue("DEADLINE_RESERVED_BOOKS"));
+        DEADLINE_STUDENT_BORROWED_BOOKS = Integer.parseInt(getConfigValue("DEADLINE_STUDENT_BORROWED_BOOKS"));
+        DEADLINE_TEACHER_BORROWED_BOOKS = Integer.parseInt(getConfigValue("DEADLINE_TEACHER_BORROWED_BOOKS"));
     }
 
     public String getConfigValue(String id)

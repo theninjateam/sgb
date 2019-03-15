@@ -20,15 +20,18 @@ public class Request
     private ConfigControler configControler;
     private EstadoPedidoControler estadoPedidoControler;
     private ObraConcurrenceControl obraConcurrenceControl;
+    private Queue queue;
     
     public Request(CRUDService crudService, ConfigControler configControler,
                    EstadoPedidoControler estadoPedidoControler,
-                   ObraConcurrenceControl obraConcurrenceControl)
+                   ObraConcurrenceControl obraConcurrenceControl,
+                   Queue queue)
     {
         this.configControler = configControler;
         this.crudService = crudService;
         this.estadoPedidoControler = estadoPedidoControler;
         this.obraConcurrenceControl = obraConcurrenceControl;
+        this.queue = queue;
     }
 
     public void requestObra(Item item, Users user)
@@ -96,31 +99,73 @@ public class Request
 
     public void cancelRequest(Emprestimo e)
     {
-        Item item = new Item();
-
-        item.setObra(e.getEmprestimoPK().getObra());
-        item.setQuantidade(e.getQuantidade());
-
         try
         {
+            boolean wasReserved = false;
             Emprestimo emprestimo = getRequest(e.getEmprestimoPK());
             EstadoPedido estadoPedido = this.crudService.get(EstadoPedido.class, this.estadoPedidoControler.CANCELED);
-
             emprestimo.setEstadoPedido(estadoPedido);
-            emprestimo.setComentario("Pedido Cancelado Pelo Sistema, excedeu o deadline");
-            this.obraConcurrenceControl.enterInCriticalRegion(item.getObra());
+            emprestimo.setComentario("Cancelado Pelo Sistema, excedeu o deadline");
 
-            Obra obra = this.crudService.get(Obra.class, item.getObra().getCota());
-            obra.setQuantidade(obra.getQuantidade() + item.getQuantidade());
-            this.crudService.update(obra);
+            if (!this.queue.getQueue(e.getEmprestimoPK().getObra()).isEmpty())
+            {
+                Emprestimo emp = this.queue.getQueue(e.getEmprestimoPK().getObra()).remove();
+                wasReserved = reserve(emp, e.getQuantidade());
+            }
 
-            this.obraConcurrenceControl.leaveInCriticalRegion(item.getObra());
+            if (!wasReserved)
+            {
+                this.obraConcurrenceControl.enterInCriticalRegion(e.getEmprestimoPK().getObra());
+                Obra obra = this.crudService.get(Obra.class, e.getEmprestimoPK().getObra().getCota());
+                obra.setQuantidade(obra.getQuantidade() + e.getQuantidade());
+                this.crudService.update(obra);
+                this.obraConcurrenceControl.leaveInCriticalRegion(e.getEmprestimoPK().getObra());
+            }
+
             this.crudService.update(emprestimo);
         }
         catch (Exception ex)
         {
-            this.obraConcurrenceControl.leaveInCriticalRegion(item.getObra());
+            this.obraConcurrenceControl.leaveInCriticalRegion(e.getEmprestimoPK().getObra());
             ex.printStackTrace();
+        }
+    }
+
+    public boolean reserve(Emprestimo e, int qtdObras)
+    {
+        try
+        {
+            if (qtdObras > e.getQuantidade())
+            {
+                qtdObras = qtdObras - e.getQuantidade();
+            }
+            else if (qtdObras < e.getQuantidade())
+            {
+                e.setQuantidade(qtdObras);
+            }
+
+            e.setEstadoPedido(this.crudService.get(EstadoPedido.class, this.estadoPedidoControler.PENDING_AFTER_BEING_IN_QUEUE));
+            e.getEmprestimoPK().setDataentrada(Calendar.getInstance());
+
+            this.obraConcurrenceControl.enterInCriticalRegion(e.getEmprestimoPK().getObra());
+
+            if (qtdObras > 0)
+            {
+                Obra obra = this.crudService.get(Obra.class, e.getEmprestimoPK().getObra().getCota());
+                obra.setQuantidade(obra.getQuantidade() + qtdObras);
+                this.crudService.update(obra);
+            }
+
+            this.obraConcurrenceControl.leaveInCriticalRegion(e.getEmprestimoPK().getObra());
+            this.crudService.update(e);
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            this.obraConcurrenceControl.leaveInCriticalRegion(e.getEmprestimoPK().getObra());
+            ex.printStackTrace();
+            return false;
         }
     }
 

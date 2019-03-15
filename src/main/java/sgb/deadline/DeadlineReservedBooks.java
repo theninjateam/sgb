@@ -15,32 +15,16 @@ public class DeadlineReservedBooks extends Deadline
 
 
     @Override
-    public Calendar getDeadline(Calendar requestDate)
+    public Calendar getDeadline(Calendar reservationtDate)
     {
-        if (isWeekend(requestDate))
-        {
-            return calculateDeadlineForWeekendReservations(requestDate);
-        }
-        else
-        {
-            return calculateDeadlineForWeekdaysReservations(requestDate);
-        }
-    }
+        Calendar deadline = Calendar.getInstance();
+        deadline.setTime(reservationtDate.getTime());
 
-    public Calendar calculateDeadlineForWeekdaysReservations(Calendar requestDate)
-    {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(requestDate.getTime());
+        deadline.set(Calendar.DATE, reservationtDate.get(Calendar.DATE) + this.configControler.DEADLINE_RESERVED_BOOKS);
 
-        return calendar;
-    }
+        if (isSunDay(deadline))
+            goToNextWorkingDay(deadline);
 
-    public Calendar calculateDeadlineForWeekendReservations(Calendar requestDate)
-    {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(requestDate.getTime());
-
-
-        return calendar;
+        return deadline;
     }
 }

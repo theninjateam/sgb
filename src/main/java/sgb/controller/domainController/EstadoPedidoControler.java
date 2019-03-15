@@ -13,6 +13,7 @@ public class EstadoPedidoControler
     public final int IN_QUEUE;
     public final int ACCEPTED;
     public final int CANCELED;
+    public final int PENDING_AFTER_BEING_IN_QUEUE;
 
     public EstadoPedidoControler(CRUDService crudService)
     {
@@ -22,6 +23,7 @@ public class EstadoPedidoControler
         IN_QUEUE = getValue("IN_QUEUE");
         ACCEPTED = getValue("ACCEPTED");
         CANCELED = getValue("CANCELED");
+        PENDING_AFTER_BEING_IN_QUEUE = getValue("PENDING_AFTER_BEING_IN_QUEUE");
     }
 
     public int getValue(String description)

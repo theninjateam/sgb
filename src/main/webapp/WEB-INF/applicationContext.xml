@@ -67,6 +67,10 @@
         <constructor-arg index="0" ref="configControler"/>
     </bean>
 
+    <bean id="deadlineReservedBooks"  class="sgb.deadline.DeadlineReservedBooks" >
+        <constructor-arg index="0" ref="configControler"/>
+    </bean>
+
     <bean id="estadoPedidoControler"  class="sgb.controller.domainController.EstadoPedidoControler" >
         <constructor-arg index="0" ref="CRUDService"/>
     </bean>
@@ -78,6 +82,7 @@
         <constructor-arg index="1" ref="configControler"/>
         <constructor-arg index="2" ref="estadoPedidoControler"/>
         <constructor-arg index="3" ref="obraConcurrenceControl"/>
+        <constructor-arg index="4" ref="queue"/>
     </bean>
 
     <bean id="queue"  class="sgb.request.Queue" >
