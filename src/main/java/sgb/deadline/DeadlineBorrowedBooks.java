@@ -13,7 +13,6 @@ public class DeadlineBorrowedBooks extends Deadline
         this.configControler = configControler;
     }
 
-
     public Calendar getDeadline(Calendar borrowDate, boolean isStudent)
     {
         this.isStudent = isStudent;
