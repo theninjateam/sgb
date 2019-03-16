@@ -225,9 +225,9 @@ public class Request
 
         parameters.put("idEstadoPedido", idEstadoPedido);
 
-        query.append("SELECT e FROM Emprestimo e WHERE e.estadoPedido.idestadopedido = :idEstadoPedido ");
+        query.append("SELECT e FROM Emprestimo e WHERE e.estadoPedido.idestadopedido = :idEstadoPedido");
 
-        return this.crudService.findEntByJPQueryT(query.toString(), parameters);
+        return this.crudService.findByJPQuery(query.toString(), parameters);
     }
 
     public Emprestimo getRequest(EmprestimoPK emprestimoPK)

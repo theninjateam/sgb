@@ -8,6 +8,7 @@ import sgb.request.Request;
 
 import java.lang.Thread;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * @author Fonseca, bfonseca@unilurio.ac.mz
@@ -35,14 +36,19 @@ public class DeadlineMonitorRequestedBooks extends Thread implements Application
         {
             try
             {
-                for (Emprestimo e: request.getRequest(ePControler.PENDING))
-                {
-                    boolean  exceededDeadline =
-                            this.dRBooks.exceededDeadline(e.getEmprestimoPK().getDataentrada(), Calendar.getInstance());
+                List<Emprestimo> requests = request.getRequest(ePControler.PENDING);
 
-                    if (exceededDeadline)
+                if (requests != null)
+                {
+                    for (Emprestimo e: requests)
                     {
-                        request.cancel(e);
+                        boolean  exceededDeadline =
+                                this.dRBooks.exceededDeadline(e.getEmprestimoPK().getDataentrada(), Calendar.getInstance());
+
+                        if (exceededDeadline)
+                        {
+                            request.cancel(e);
+                        }
                     }
                 }
 
