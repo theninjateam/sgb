@@ -63,6 +63,12 @@
         <constructor-arg index="2" ref="estadoPedidoControler"/>
     </bean>
 
+    <bean id="deadlineMonitorReserveddBooks"  class="sgb.deadline.DeadlineMonitorReserveddBooks" >
+        <constructor-arg index="0" ref="deadlineReservedBooks"/>
+        <constructor-arg index="1" ref="request"/>
+        <constructor-arg index="2" ref="estadoPedidoControler"/>
+    </bean>
+
     <bean id="deadlineRequestedBooks"  class="sgb.deadline.DeadlineRequestedBooks" >
         <constructor-arg index="0" ref="configControler"/>
     </bean>

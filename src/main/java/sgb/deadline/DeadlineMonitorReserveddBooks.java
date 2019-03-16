@@ -6,22 +6,21 @@ import sgb.controller.domainController.EstadoPedidoControler;
 import sgb.domain.Emprestimo;
 import sgb.request.Request;
 
-import java.lang.Thread;
 import java.util.Calendar;
 
 /**
  * @author Fonseca, bfonseca@unilurio.ac.mz
  */
 
-public class DeadlineMonitorRequestedBooks extends Thread implements ApplicationListener<ContextRefreshedEvent>
+public class DeadlineMonitorReserveddBooks extends Thread implements ApplicationListener<ContextRefreshedEvent>
 {
-    private DeadlineRequestedBooks dRBooks;
+    private DeadlineReservedBooks dRBooks;
     private Request request;
     private EstadoPedidoControler ePControler;
 
     private int minuto = 1;
 
-    public DeadlineMonitorRequestedBooks(DeadlineRequestedBooks dRBooks,
+    public DeadlineMonitorReserveddBooks(DeadlineReservedBooks dRBooks,
                                          Request request, EstadoPedidoControler ePControler)
     {
         this.dRBooks = dRBooks;
@@ -35,7 +34,7 @@ public class DeadlineMonitorRequestedBooks extends Thread implements Application
         {
             try
             {
-                for (Emprestimo e: request.getRequest(ePControler.PENDING))
+                for (Emprestimo e: request.getRequest(ePControler.PENDING_AFTER_BEING_IN_QUEUE))
                 {
                     boolean  exceededDeadline =
                             this.dRBooks.exceededDeadline(e.getEmprestimoPK().getDataentrada(), Calendar.getInstance());

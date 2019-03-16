@@ -13,14 +13,13 @@ public class DeadlineReservedBooks extends Deadline
         this.configControler = configControler;
     }
 
-
     @Override
-    public Calendar getDeadline(Calendar reserveDate)
+    public Calendar getDeadline(Calendar reservationDate)
     {
         Calendar deadline = Calendar.getInstance();
-        deadline.setTime(reserveDate.getTime());
+        deadline.setTime(reservationDate.getTime());
 
-        deadline.set(Calendar.DATE, reserveDate.get(Calendar.DATE) + this.configControler.DEADLINE_RESERVED_BOOKS);
+        deadline.set(Calendar.DATE, reservationDate.get(Calendar.DATE) + this.configControler.DEADLINE_RESERVED_BOOKS);
 
         if (isSunDay(deadline))
             goToNextWorkingDay(deadline);

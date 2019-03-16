@@ -35,12 +35,11 @@ public class Request
         this.queue = queue;
     }
 
-    public void requestObra(Item item, Users user)
+    public void request(Item item, Users user)
     {
         try
         {
             this.obraConcurrenceControl.enterInCriticalRegion(item.getObra());
-
             validate(item);
 
             Emprestimo emprestimo = getEmprestimo(item, user);
@@ -65,7 +64,9 @@ public class Request
     public void validate(Item item)
     {
         if (item.getIsHomeRequisition())
+        {
             item.setHomeRequisition(canDoHomeRequisition(item.getObra()));
+        }
 
         item.setLineUp(canLineUp(item.getObra(), item.getQuantidade()));
     }
@@ -84,25 +85,29 @@ public class Request
         int qtdDis = this.crudService.get(Obra.class, obra.getCota()).getQuantidade();
 
         if (canDoHomeRequisition(obra))
+        {
             return  qtdDis - qtd < qtdMin ? true : false;
+        }
         else
+        {
             return  qtdDis  - qtd < 0 ? true : false;
+        }
     }
 
     public int getAvailableNumberOfCopies(Obra obra)
     {
-        int qtd =  this.getRequisicoes(obra, 1).getSize();
-        qtd += this.getRequisicoes(obra, this.estadoPedidoControler.ACCEPTED).getSize();
+        int qtd =  this.getRequest(obra, this.estadoPedidoControler.PENDING).size();
+        qtd += this.getRequest(obra, this.estadoPedidoControler.ACCEPTED).size();
         qtd += this.crudService.get(Obra.class, obra.getCota()).getQuantidade();
 
         return qtd;
     }
 
-    public void cancelRequest(Emprestimo e)
+    public void cancel(Emprestimo e)
     {
+        boolean wasReserved = false;
         try
         {
-            boolean wasReserved = false;
             Emprestimo emprestimo = getRequest(e.getEmprestimoPK());
             EstadoPedido estadoPedido = this.crudService.get(EstadoPedido.class, this.estadoPedidoControler.CANCELED);
             emprestimo.setEstadoPedido(estadoPedido);
@@ -199,50 +204,7 @@ public class Request
         return emprestimo;
     }
 
-    public ListModelList<Emprestimo> getRequisicoes(Users user, int idEstadoPedido)
-    {
-        parameters = new HashMap<String, Object>(2);
-        query = new StringBuilder();
-
-        parameters.put("idEstadoPedido", idEstadoPedido);
-        parameters.put("userId", user.getId());
-
-        query.append("SELECT e FROM Emprestimo e WHERE e.estadoPedido.idestadopedido = :idEstadoPedido and ");
-        query.append("e.emprestimoPK.user.id = :userId");
-
-        List<Emprestimo> list = this.crudService.findByJPQuery(query.toString(), parameters);
-
-        return new ListModelList<Emprestimo>(list);
-    }
-
-    public ListModelList<Emprestimo> getAllRequisicoes(Users user)
-    {
-        parameters = new HashMap<String, Object>(1);
-        query = new StringBuilder();
-
-        parameters.put("userId", user.getId());
-        query.append("SELECT e FROM Emprestimo e WHERE e.emprestimoPK.user.id = :userId");
-
-        List<Emprestimo> list = this.crudService.findByJPQuery(query.toString(), parameters);
-
-        return new ListModelList<Emprestimo>(list);
-    }
-
-    public ListModelList<Emprestimo> getRequisicoes(int idEstadoPedido)
-    {
-        parameters = new HashMap<String, Object>(1);
-        query = new StringBuilder();
-
-        parameters.put("idEstadoPedido", idEstadoPedido);
-
-        query.append("SELECT e FROM Emprestimo e WHERE e.estadoPedido.idestadopedido = :idEstadoPedido");
-
-        List<Emprestimo> list = this.crudService.findByJPQuery(query.toString(), parameters);
-
-        return new ListModelList<Emprestimo>(list);
-    }
-
-    public ListModelList<Emprestimo> getRequisicoes(Obra obra, int idEstadoPedido)
+    public List<Emprestimo> getRequest(Obra obra, int idEstadoPedido)
     {
         parameters = new HashMap<String, Object>(2);
         query = new StringBuilder();
@@ -253,9 +215,19 @@ public class Request
         query.append("SELECT e FROM Emprestimo e WHERE e.estadoPedido.idestadopedido = :idEstadoPedido and ");
         query.append("e.emprestimoPK.obra.cota = :cota");
 
-        List<Emprestimo> list = this.crudService.findByJPQuery(query.toString(), parameters);
+        return this.crudService.findByJPQuery(query.toString(), parameters);
+    }
 
-        return new ListModelList<Emprestimo>(list);
+    public List<Emprestimo> getRequest(int idEstadoPedido)
+    {
+        parameters = new HashMap<String, Object>(1);
+        query = new StringBuilder();
+
+        parameters.put("idEstadoPedido", idEstadoPedido);
+
+        query.append("SELECT e FROM Emprestimo e WHERE e.estadoPedido.idestadopedido = :idEstadoPedido ");
+
+        return this.crudService.findEntByJPQueryT(query.toString(), parameters);
     }
 
     public Emprestimo getRequest(EmprestimoPK emprestimoPK)
