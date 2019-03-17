@@ -55,7 +55,6 @@ public class Emprestimo  implements Comparable<Emprestimo>{
         this.dataaprovacao = dataaprovacao;
     }
 
-
     @Basic
     @Column(name = "datadevolucao", nullable = true)
     public Calendar getDatadevolucao() {
@@ -131,32 +130,4 @@ public class Emprestimo  implements Comparable<Emprestimo>{
                 compareTo(emprestimo.getEmprestimoPK().getDataentradapedido());
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Emprestimo that = (Emprestimo) o;
-        return quantidade == that.quantidade &&
-                Objects.equals(emprestimoPK, that.emprestimoPK) &&
-                Objects.equals(dataaprovacao, that.dataaprovacao) &&
-                Objects.equals(datadevolucao, that.datadevolucao) &&
-                Objects.equals(comentario, that.comentario) &&
-                Objects.equals(estadoPedido, that.estadoPedido) &&
-                Objects.equals(estadoDevolucao, that.estadoDevolucao) &&
-                Objects.equals(estadoRenovacao, that.estadoRenovacao);
-    }
-
-    @Override
-    public String toString() {
-        return "Emprestimo{" +
-                "emprestimoPK=" + emprestimoPK.toString() +
-                ", dataaprovacao=" + dataaprovacao +
-                ", datadevolucao=" + datadevolucao +
-                ", quantidade=" + quantidade +
-                ", comentario='" + comentario + '\'' +
-                ", estadoPedido=" + estadoPedido +
-                ", estadoDevolucao=" + estadoDevolucao +
-                ", estadoRenovacao=" + estadoRenovacao +
-                '}';
-    }
 }

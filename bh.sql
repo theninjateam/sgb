@@ -12,7 +12,7 @@
  Target Server Version : 100005
  File Encoding         : 65001
 
- Date: 03/02/2019 16:18:27
+ Date: 17/03/2019 14:21:10
 */
 
 
@@ -171,23 +171,26 @@ CREATE TABLE "public"."config" (
 -- ----------------------------
 -- Records of config
 -- ----------------------------
-INSERT INTO public.config (nome, descricao, valor) VALUES ('MINIMUM_NUMBER_OF_COPIES', '"QUANTIDADE MINIMA DE EXEMPLARES" QUE DEVEM FICAR NA BIBLIOTECA', '2');
-INSERT INTO public.config (nome, descricao, valor) VALUES ('ENTRY_TIME_ON_WEEKDAYS', 'HORARIO INICIAL DE FUNCIONAMENTO DOS SERVICOS BIBLIOTECARIO NOS DIAS DA SEMANA', '7');
-INSERT INTO public.config (nome, descricao, valor) VALUES ('ENTRY_TIME_ON_SATURDAY', 'HORARIO INICIAL DE FUNCIONAMENTO DOS SERVICOS BIBLIOTECARIO NOE SABADO', '9');
-INSERT INTO public.config (nome, descricao, valor) VALUES ('EXIT_TIME_ON_WEEKDAYS', 'HORARIO FINAL DE FUNCIONAMENTO DOS SERVICOS BIBLIOTECARIO NOS DIAS DA SEMANA', '17');
-INSERT INTO public.config (nome, descricao, valor) VALUES ('EXIT_TIME_ON_SATURDAY', 'HORARIO FINAL DE FUNCIONAMENTO DOS SERVICOS BIBLIOTECARIO NOE SABADO', '13');
-INSERT INTO public.config (nome, descricao, valor) VALUES ('DEADLINE_REQUESTED_BOOKS', 'tempo maximo em minuto, que uma obra requesitada por um utente, permanece disponivel para o levatamento.', '60');
-INSERT INTO public.config (nome, descricao, valor) VALUES ('DEADLINE_RESERVED_BOOKS', 'tempo maximo em dias, que uma obra reservada por um utente, permanece disponivel para o levatamento.', '2');
-INSERT INTO public.config (nome, descricao, valor) VALUES ('DEADLINE_STUDENT_BORROWED_BOOKS', 'tempo maximo em dias, que uma obra emprestada permanece na posse de um estudante', '3');
-INSERT INTO public.config (nome, descricao, valor) VALUES ('DEADLINE_TEACHER_BORROWED_BOOKS', 'tempo maximo em dias, que uma obra emprestada permanece na posse de um docente', '7');
+INSERT INTO "public"."config" VALUES ('MAXIMUM_TIME', '"TEMPO MAXIMO". EM MINUTOS QUE UM EXEMPLAR FICA A DISPONIBILIDADE DE UM UTENTE, APOS A REQUISICAO', '60');
+INSERT INTO "public"."config" VALUES ('MINIMUM_NUMBER_OF_COPIES', '"QUANTIDADE MINIMA DE EXEMPLARES" QUE DEVEM FICAR NA BIBLIOTECA', '2');
+INSERT INTO "public"."config" VALUES ('ENTRY_TIME_ON_WEEKDAYS', 'HORARIO INICIAL DE FUNCIONAMENTO DOS SERVICOS BIBLIOTECARIO NOS DIAS DA SEMANA', '7');
+INSERT INTO "public"."config" VALUES ('ENTRY_TIME_ON_SATURDAY', 'HORARIO INICIAL DE FUNCIONAMENTO DOS SERVICOS BIBLIOTECARIO NOE SABADO', '9');
+INSERT INTO "public"."config" VALUES ('EXIT_TIME_ON_WEEKDAYS', 'HORARIO FINAL DE FUNCIONAMENTO DOS SERVICOS BIBLIOTECARIO NOS DIAS DA SEMANA', '17');
+INSERT INTO "public"."config" VALUES ('EXIT_TIME_ON_SATURDAY', 'HORARIO FINAL DE FUNCIONAMENTO DOS SERVICOS BIBLIOTECARIO NOE SABADO', '13');
+INSERT INTO "public"."config" VALUES ('DAILY_RATE_FINE', 'TAXA DIARIA DA MULTA PARA ATRASO DE EVOLUCAO DE LIVRO', '25');
+INSERT INTO "public"."config" VALUES ('DEADLINE_REQUESTED_BOOKS', 'tempo maximo em minuto, que uma obra requesitada por um utente, permanece disponivel para o levatamento.', '60');
+INSERT INTO "public"."config" VALUES ('DEADLINE_RESERVED_BOOKS', 'tempo maximo em dias, que uma obra reservada por um utente, permanece disponivel para o levatamento.', '2');
+INSERT INTO "public"."config" VALUES ('DEADLINE_STUDENT_BORROWED_BOOKS', 'tempo maximo em dias, que uma obra emprestada permanece na posse de um estudante', '3');
+INSERT INTO "public"."config" VALUES ('DEADLINE_TEACHER_BORROWED_BOOKS', 'tempo maximo em dias, que uma obra emprestada permanece na posse de um docente', '7');
+
 -- ----------------------------
 -- Table structure for emprestimo
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."emprestimo";
 CREATE TABLE "public"."emprestimo" (
-  "user_id" int4 NOT NULL,
+  "utente" int4 NOT NULL,
   "cota" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
-  "dataentrada" timestamp(6) NOT NULL,
+  "dataentradapedido" timestamp(6) NOT NULL,
   "estadopedido" int4,
   "dataaprovacao" date,
   "datadevolucao" date,
@@ -195,20 +198,34 @@ CREATE TABLE "public"."emprestimo" (
   "comentario" varchar(5000) COLLATE "pg_catalog"."default",
   "estadodevolucao" int4,
   "estadorenovacao" int8,
-  "datarenovacao" date,
-  "datadevolucaorenovacao" date,
-  "idtiporequisicao" int4 NOT NULL
+  "idtiporequisicao" int4 NOT NULL,
+  "bibliotecario" int8
 )
 ;
 
 -- ----------------------------
 -- Records of emprestimo
 -- ----------------------------
-INSERT INTO "public"."emprestimo" VALUES (3, 'WW2', '2018-12-26 12:21:38.945', 5, NULL, NULL, 1, 'Pedido Cancelado Pelo Sistema, excedeu o limite maximo de levantamenteo', 1, NULL, NULL, NULL, 1);
-INSERT INTO "public"."emprestimo" VALUES (2, '544FF', '2018-12-26 12:25:14.634', 5, NULL, NULL, 1, 'Pedido Cancelado Pelo Sistema, excedeu o limite maximo de levantamenteo', 1, NULL, NULL, NULL, 1);
-INSERT INTO "public"."emprestimo" VALUES (3, 'WW2', '2018-12-26 12:17:46.228', 5, NULL, NULL, 1, 'Pedido Cancelado Pelo Sistema, excedeu o limite maximo de levantamenteo', 1, NULL, NULL, NULL, 1);
-INSERT INTO "public"."emprestimo" VALUES (2, 'WW2', '2018-12-26 12:26:21.673', 4, NULL, NULL, 1, 'wq', 1, NULL, NULL, NULL, 1);
-INSERT INTO "public"."emprestimo" VALUES (3, 'WW2', '2018-12-26 12:29:20.376', 4, NULL, NULL, 1, 'd', 1, NULL, NULL, NULL, 1);
+INSERT INTO "public"."emprestimo" VALUES (3, 'WW2', '2018-12-26 12:17:46.228', 3, '2019-01-23', '2019-01-27', 1, 'Pedido Cancelado Pelo Sistema, excedeu o limite maximo de levantamenteo', 1, 2, 1, NULL);
+INSERT INTO "public"."emprestimo" VALUES (2, 'WW2', '2018-12-26 12:26:21.673', 3, '2019-01-01', '2019-01-04', 1, 'wq', 1, 2, 1, NULL);
+INSERT INTO "public"."emprestimo" VALUES (3, 'WW2', '2018-12-26 12:29:20.376', 3, '2018-12-31', '2019-01-03', 1, 'Pedido Cancelado Pelo Sistema, excedeu o limite maximo de levantamenteo', 1, 2, 1, NULL);
+INSERT INTO "public"."emprestimo" VALUES (2, '544FF', '2018-12-26 12:25:14.634', 3, '2019-02-03', '2019-01-04', 1, 'Pedido Cancelado Pelo Sistema, excedeu o limite maximo de levantamenteo', 1, 2, 1, NULL);
+INSERT INTO "public"."emprestimo" VALUES (3, 'WW2', '2018-12-26 12:21:38.945', 3, '2010-11-26', '2010-11-30', 1, 'Pedido Cancelado Pelo Sistema, excedeu o limite maximo de levantamenteo', 1, 2, 1, NULL);
+
+-- ----------------------------
+-- Table structure for estadod
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."estadod";
+CREATE TABLE "public"."estadod" (
+  "id" int4 NOT NULL,
+  "dddd" varchar(255) COLLATE "pg_catalog"."default"
+)
+;
+
+-- ----------------------------
+-- Records of estadod
+-- ----------------------------
+INSERT INTO "public"."estadod" VALUES (1, 'ffffff');
 
 -- ----------------------------
 -- Table structure for estadodevolucao
@@ -228,6 +245,24 @@ INSERT INTO "public"."estadodevolucao" VALUES (3, 'devolvido');
 INSERT INTO "public"."estadodevolucao" VALUES (1, 'Indeterminado');
 
 -- ----------------------------
+-- Table structure for estadomulta
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."estadomulta";
+CREATE TABLE "public"."estadomulta" (
+  "idestadomulta" int4 NOT NULL,
+  "descricao" varchar(255) COLLATE "pg_catalog"."default"
+)
+;
+
+-- ----------------------------
+-- Records of estadomulta
+-- ----------------------------
+INSERT INTO "public"."estadomulta" VALUES (1, 'Indeferido');
+INSERT INTO "public"."estadomulta" VALUES (2, 'Paga');
+INSERT INTO "public"."estadomulta" VALUES (3, 'Nao Paga');
+INSERT INTO "public"."estadomulta" VALUES (4, 'Revogada');
+
+-- ----------------------------
 -- Table structure for estadopedido
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."estadopedido";
@@ -245,6 +280,7 @@ INSERT INTO "public"."estadopedido" VALUES (3, 'ACCEPTED');
 INSERT INTO "public"."estadopedido" VALUES (5, 'CANCELED');
 INSERT INTO "public"."estadopedido" VALUES (2, 'REJECTED');
 INSERT INTO "public"."estadopedido" VALUES (4, 'IN_QUEUE');
+INSERT INTO "public"."estadopedido" VALUES (6, 'PENDING_AFTER_BEING_IN_QUEUE');
 
 -- ----------------------------
 -- Table structure for estadorenovacao
@@ -255,6 +291,12 @@ CREATE TABLE "public"."estadorenovacao" (
   "descricao" varchar(255) COLLATE "pg_catalog"."default"
 )
 ;
+
+-- ----------------------------
+-- Records of estadorenovacao
+-- ----------------------------
+INSERT INTO "public"."estadorenovacao" VALUES (1, 'Renovado');
+INSERT INTO "public"."estadorenovacao" VALUES (2, 'Indeferido');
 
 -- ----------------------------
 -- Table structure for formaaquisicao
@@ -271,6 +313,7 @@ CREATE TABLE "public"."formaaquisicao" (
 -- ----------------------------
 INSERT INTO "public"."formaaquisicao" VALUES (1, 'Compra');
 INSERT INTO "public"."formaaquisicao" VALUES (2, 'Doacao');
+INSERT INTO "public"."formaaquisicao" VALUES (3, 'Permuta');
 
 -- ----------------------------
 -- Table structure for formatocd
@@ -358,10 +401,28 @@ CREATE TABLE "public"."livrocd" (
 ;
 
 -- ----------------------------
--- Table structure for obraConcurrenceController
+-- Table structure for multa
 -- ----------------------------
-DROP TABLE IF EXISTS "public"."obraConcurrenceController";
-CREATE TABLE "public"."obraConcurrenceController" (
+DROP TABLE IF EXISTS "public"."multa";
+CREATE TABLE "public"."multa" (
+  "dataemissao" timestamp(0) NOT NULL,
+  "cota" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
+  "utente" int4 NOT NULL,
+  "diasatraso" int4,
+  "valorpago" float4,
+  "bibliotecario" int4,
+  "dataemprestimo" timestamp(6),
+  "idestadomulta" int4,
+  "dataentradapedido" timestamp(6) NOT NULL,
+  "taxadiaria" float4
+)
+;
+
+-- ----------------------------
+-- Table structure for obra
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."obra";
+CREATE TABLE "public"."obra" (
   "cota" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
   "registro" int4,
   "titulo" varchar(255) COLLATE "pg_catalog"."default",
@@ -378,15 +439,15 @@ CREATE TABLE "public"."obraConcurrenceController" (
 ;
 
 -- ----------------------------
--- Records of obraConcurrenceController
+-- Records of obra
 -- ----------------------------
-INSERT INTO "public"."obraConcurrenceController" VALUES ('545AA', 785, 'Introducao a Estatistica', 1, 'Maputo', 1, 2, 2, NULL, 'digitalLibrary/cover/Introducao-a-Estatistica-Enfoque-Informatico-com-o-Pacote-Estatistico-SPSS-275390.jpg', 2017, NULL);
-INSERT INTO "public"."obraConcurrenceController" VALUES ('589AF', 78988, 'Introducao a Geografia', 1, 'teste', 1, 120, 2, NULL, 'digitalLibrary/cover/geografia.jpg', 2018, NULL);
-INSERT INTO "public"."obraConcurrenceController" VALUES ('531.4F', 1223, 'Introducao Fisica', 1, 'Pemba', 1, 4, 1, '', 'digitalLibrary/cover/fisica.jpg', 2001, NULL);
-INSERT INTO "public"."obraConcurrenceController" VALUES ('77788', 555, 'Introducao a Quimica', 5, 'Maputo', 1, 4, 2, 'digitalLibrary/pdf/isbd-cons_2007-en.pdf', 'digitalLibrary/cover/quimica.jpg', 788, NULL);
-INSERT INTO "public"."obraConcurrenceController" VALUES ('eee2', 1234, 'Introducao a Matematica', 1, 'Beira', 1, 4, 2, 'digitalLibrary/pdf/4.pdf', 'digitalLibrary/cover/Introducao-a-Matematica.jpg', 1298, NULL);
-INSERT INTO "public"."obraConcurrenceController" VALUES ('WW2', 7777, 'Introducao a Biologia', 1, 'Nampula', 2, 5, 2, '', 'digitalLibrary/cover/bg4.jpg', 44444, NULL);
-INSERT INTO "public"."obraConcurrenceController" VALUES ('544FF', 7887, 'Introducao a Matematica', 1, 'Pemba', 1, 8, 1, NULL, 'digitalLibrary/cover/Introducao-a-Matematica.jpg', 2018, NULL);
+INSERT INTO "public"."obra" VALUES ('545AA', 785, 'Introducao a Estatistica', 1, 'Maputo', 1, 2, 2, NULL, 'digitalLibrary/cover/Introducao-a-Estatistica-Enfoque-Informatico-com-o-Pacote-Estatistico-SPSS-275390.jpg', 2017, NULL);
+INSERT INTO "public"."obra" VALUES ('589AF', 78988, 'Introducao a Geografia', 1, 'teste', 1, 120, 2, NULL, 'digitalLibrary/cover/geografia.jpg', 2018, NULL);
+INSERT INTO "public"."obra" VALUES ('531.4F', 1223, 'Introducao Fisica', 1, 'Pemba', 1, 4, 1, '', 'digitalLibrary/cover/fisica.jpg', 2001, NULL);
+INSERT INTO "public"."obra" VALUES ('77788', 555, 'Introducao a Quimica', 5, 'Maputo', 1, 4, 2, 'digitalLibrary/pdf/isbd-cons_2007-en.pdf', 'digitalLibrary/cover/quimica.jpg', 788, NULL);
+INSERT INTO "public"."obra" VALUES ('eee2', 1234, 'Introducao a Matematica', 1, 'Beira', 1, 4, 2, 'digitalLibrary/pdf/4.pdf', 'digitalLibrary/cover/Introducao-a-Matematica.jpg', 1298, NULL);
+INSERT INTO "public"."obra" VALUES ('544FF', 7887, 'Introducao a Matematica', 1, 'Pemba', 1, 8, 1, NULL, 'digitalLibrary/cover/Introducao-a-Matematica.jpg', 2018, NULL);
+INSERT INTO "public"."obra" VALUES ('WW2', 7777, 'Introducao a Biologia', 1, 'Nampula', 2, 7, 2, '', 'digitalLibrary/cover/bg4.jpg', 44444, NULL);
 
 -- ----------------------------
 -- Table structure for obra_autor
@@ -571,10 +632,10 @@ OWNED BY "public"."estadodevolucao"."idestadodevolucao";
 SELECT setval('"public"."estadodevolucao_idestadodevolucao_seq"', 2, false);
 ALTER SEQUENCE "public"."estadopedido_idestadopedido_seq"
 OWNED BY "public"."estadopedido"."idestadopedido";
-SELECT setval('"public"."estadopedido_idestadopedido_seq"', 2, false);
+SELECT setval('"public"."estadopedido_idestadopedido_seq"', 2, true);
 ALTER SEQUENCE "public"."estadorenovacao_idestadorenovacao_seq"
 OWNED BY "public"."estadorenovacao"."idestadorenovacao";
-SELECT setval('"public"."estadorenovacao_idestadorenovacao_seq"', 2, false);
+SELECT setval('"public"."estadorenovacao_idestadorenovacao_seq"', 2, true);
 ALTER SEQUENCE "public"."formatocd_idformato_seq"
 OWNED BY "public"."formatocd"."idformato";
 SELECT setval('"public"."formatocd_idformato_seq"', 2, false);
@@ -609,12 +670,22 @@ ALTER TABLE "public"."config" ADD CONSTRAINT "config_pkey" PRIMARY KEY ("nome");
 -- ----------------------------
 -- Primary Key structure for table emprestimo
 -- ----------------------------
-ALTER TABLE "public"."emprestimo" ADD CONSTRAINT "emprestimo_embeddepk" PRIMARY KEY ("user_id", "cota", "dataentrada");
+ALTER TABLE "public"."emprestimo" ADD CONSTRAINT "emprestimo_embeddepk" PRIMARY KEY ("utente", "cota", "dataentradapedido");
+
+-- ----------------------------
+-- Primary Key structure for table estadod
+-- ----------------------------
+ALTER TABLE "public"."estadod" ADD CONSTRAINT "estadod_pkey" PRIMARY KEY ("id");
 
 -- ----------------------------
 -- Primary Key structure for table estadodevolucao
 -- ----------------------------
 ALTER TABLE "public"."estadodevolucao" ADD CONSTRAINT "estadodevolucao_pkey" PRIMARY KEY ("idestadodevolucao");
+
+-- ----------------------------
+-- Primary Key structure for table estadomulta
+-- ----------------------------
+ALTER TABLE "public"."estadomulta" ADD CONSTRAINT "estadomulta_pkey" PRIMARY KEY ("idestadomulta");
 
 -- ----------------------------
 -- Primary Key structure for table estadopedido
@@ -662,9 +733,14 @@ ALTER TABLE "public"."livro" ADD CONSTRAINT "livro_key" PRIMARY KEY ("cota");
 ALTER TABLE "public"."livrocd" ADD CONSTRAINT "livrocd_pkey" PRIMARY KEY ("cota");
 
 -- ----------------------------
--- Primary Key structure for table obraConcurrenceController
+-- Primary Key structure for table multa
 -- ----------------------------
-ALTER TABLE "public"."obraConcurrenceController" ADD CONSTRAINT "obra_key" PRIMARY KEY ("cota");
+ALTER TABLE "public"."multa" ADD CONSTRAINT "multa_pkey" PRIMARY KEY ("cota", "utente", "dataentradapedido");
+
+-- ----------------------------
+-- Primary Key structure for table obra
+-- ----------------------------
+ALTER TABLE "public"."obra" ADD CONSTRAINT "obra_key" PRIMARY KEY ("cota");
 
 -- ----------------------------
 -- Primary Key structure for table obra_autor
@@ -719,17 +795,18 @@ ALTER TABLE "public"."user_role" ADD CONSTRAINT "user_role_pkey" PRIMARY KEY ("u
 -- ----------------------------
 -- Foreign Keys structure for table cd
 -- ----------------------------
-ALTER TABLE "public"."cd" ADD CONSTRAINT "idcd" FOREIGN KEY ("cota") REFERENCES "public"."obraConcurrenceController" ("cota") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "public"."cd" ADD CONSTRAINT "idcd" FOREIGN KEY ("cota") REFERENCES "public"."obra" ("cota") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- ----------------------------
 -- Foreign Keys structure for table emprestimo
 -- ----------------------------
-ALTER TABLE "public"."emprestimo" ADD CONSTRAINT "cota" FOREIGN KEY ("cota") REFERENCES "public"."obraConcurrenceController" ("cota") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "public"."emprestimo" ADD CONSTRAINT "bibliotecario" FOREIGN KEY ("bibliotecario") REFERENCES "public"."user" ("user_id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "public"."emprestimo" ADD CONSTRAINT "cota" FOREIGN KEY ("cota") REFERENCES "public"."obra" ("cota") ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE "public"."emprestimo" ADD CONSTRAINT "emprestimo_tiporequisicao_idtiporequisicao_fk" FOREIGN KEY ("idtiporequisicao") REFERENCES "public"."tiporequisicao" ("idtiporequisicao") ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE "public"."emprestimo" ADD CONSTRAINT "idestadodevolucao" FOREIGN KEY ("estadodevolucao") REFERENCES "public"."estadodevolucao" ("idestadodevolucao") ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE "public"."emprestimo" ADD CONSTRAINT "idestadopedido" FOREIGN KEY ("estadopedido") REFERENCES "public"."estadopedido" ("idestadopedido") ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE "public"."emprestimo" ADD CONSTRAINT "idestadorenovacao" FOREIGN KEY ("estadorenovacao") REFERENCES "public"."estadorenovacao" ("idestadorenovacao") ON DELETE NO ACTION ON UPDATE NO ACTION;
-ALTER TABLE "public"."emprestimo" ADD CONSTRAINT "user_id" FOREIGN KEY ("user_id") REFERENCES "public"."user" ("user_id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "public"."emprestimo" ADD CONSTRAINT "utente" FOREIGN KEY ("utente") REFERENCES "public"."user" ("user_id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- ----------------------------
 -- Foreign Keys structure for table item_role
@@ -740,43 +817,51 @@ ALTER TABLE "public"."item_role" ADD CONSTRAINT "item_role_role_id_fkey" FOREIGN
 -- ----------------------------
 -- Foreign Keys structure for table livro
 -- ----------------------------
-ALTER TABLE "public"."livro" ADD CONSTRAINT "cota" FOREIGN KEY ("cota") REFERENCES "public"."obraConcurrenceController" ("cota") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "public"."livro" ADD CONSTRAINT "cota" FOREIGN KEY ("cota") REFERENCES "public"."obra" ("cota") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- ----------------------------
 -- Foreign Keys structure for table livrocd
 -- ----------------------------
-ALTER TABLE "public"."livrocd" ADD CONSTRAINT "fkb022d77f183e4c5" FOREIGN KEY ("cota") REFERENCES "public"."obraConcurrenceController" ("cota") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "public"."livrocd" ADD CONSTRAINT "fkb022d77f183e4c5" FOREIGN KEY ("cota") REFERENCES "public"."obra" ("cota") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- ----------------------------
--- Foreign Keys structure for table obraConcurrenceController
+-- Foreign Keys structure for table multa
 -- ----------------------------
-ALTER TABLE "public"."obraConcurrenceController" ADD CONSTRAINT "idarea" FOREIGN KEY ("idarea") REFERENCES "public"."areacientifica" ("idarea") ON DELETE NO ACTION ON UPDATE NO ACTION;
-ALTER TABLE "public"."obraConcurrenceController" ADD CONSTRAINT "ididioma" FOREIGN KEY ("ididioma") REFERENCES "public"."idioma" ("ididioma") ON DELETE NO ACTION ON UPDATE NO ACTION;
-ALTER TABLE "public"."obraConcurrenceController" ADD CONSTRAINT "idtipo" FOREIGN KEY ("idtipo") REFERENCES "public"."tipoobra" ("idtipo") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "public"."multa" ADD CONSTRAINT "bibliotecario" FOREIGN KEY ("bibliotecario") REFERENCES "public"."user" ("user_id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "public"."multa" ADD CONSTRAINT "cota" FOREIGN KEY ("cota") REFERENCES "public"."obra" ("cota") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "public"."multa" ADD CONSTRAINT "fk636d5319b43d611" FOREIGN KEY ("idestadomulta") REFERENCES "public"."estadomulta" ("idestadomulta") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "public"."multa" ADD CONSTRAINT "utente" FOREIGN KEY ("utente") REFERENCES "public"."user" ("user_id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- ----------------------------
+-- Foreign Keys structure for table obra
+-- ----------------------------
+ALTER TABLE "public"."obra" ADD CONSTRAINT "idarea" FOREIGN KEY ("idarea") REFERENCES "public"."areacientifica" ("idarea") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "public"."obra" ADD CONSTRAINT "ididioma" FOREIGN KEY ("ididioma") REFERENCES "public"."idioma" ("ididioma") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "public"."obra" ADD CONSTRAINT "idtipo" FOREIGN KEY ("idtipo") REFERENCES "public"."tipoobra" ("idtipo") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- ----------------------------
 -- Foreign Keys structure for table obra_autor
 -- ----------------------------
-ALTER TABLE "public"."obra_autor" ADD CONSTRAINT "cota" FOREIGN KEY ("cota") REFERENCES "public"."obraConcurrenceController" ("cota") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "public"."obra_autor" ADD CONSTRAINT "cota" FOREIGN KEY ("cota") REFERENCES "public"."obra" ("cota") ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE "public"."obra_autor" ADD CONSTRAINT "hashcode" FOREIGN KEY ("hashcode") REFERENCES "public"."autor" ("hashcode") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- ----------------------------
 -- Foreign Keys structure for table obraeliminadas
 -- ----------------------------
 ALTER TABLE "public"."obraeliminadas" ADD CONSTRAINT "fkddb9eec730e86fad" FOREIGN KEY ("user_id") REFERENCES "public"."user" ("user_id") ON DELETE NO ACTION ON UPDATE NO ACTION;
-ALTER TABLE "public"."obraeliminadas" ADD CONSTRAINT "fkddb9eec7f183e4c5" FOREIGN KEY ("cota") REFERENCES "public"."obraConcurrenceController" ("cota") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "public"."obraeliminadas" ADD CONSTRAINT "fkddb9eec7f183e4c5" FOREIGN KEY ("cota") REFERENCES "public"."obra" ("cota") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- ----------------------------
 -- Foreign Keys structure for table registroobra
 -- ----------------------------
-ALTER TABLE "public"."registroobra" ADD CONSTRAINT "Cota" FOREIGN KEY ("cota") REFERENCES "public"."obraConcurrenceController" ("cota") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "public"."registroobra" ADD CONSTRAINT "Cota" FOREIGN KEY ("cota") REFERENCES "public"."obra" ("cota") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "public"."registroobra" ADD CONSTRAINT "fkb046d1f59a0d88fe" FOREIGN KEY ("formaaquisicao") REFERENCES "public"."formaaquisicao" ("formaaquisicao") ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE "public"."registroobra" ADD CONSTRAINT "iduser" FOREIGN KEY ("user_id") REFERENCES "public"."user" ("user_id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- ----------------------------
 -- Foreign Keys structure for table revista
 -- ----------------------------
-ALTER TABLE "public"."revista" ADD CONSTRAINT "cota" FOREIGN KEY ("cota") REFERENCES "public"."obraConcurrenceController" ("cota") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "public"."revista" ADD CONSTRAINT "cota" FOREIGN KEY ("cota") REFERENCES "public"."obra" ("cota") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- ----------------------------
 -- Foreign Keys structure for table user_role

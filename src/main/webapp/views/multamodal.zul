@@ -28,38 +28,46 @@
                                                 <div sclass="w3-container w3-rest w3-display-container w3-white w3-left  w3-card-4 w3-padding-16"
                                                      style="width: 80%; position: relative;">
                                                     <label sclass="w3-col w3-xlarge w3-left" value="${each.multaPK.obra.titulo}"
-                                                           style=" line-height: 1.4em;"/>
+                                                           style=" line-height: 1.4em; font-size: large; font-weight: bold; padding: 2px 2px 2px 2px; font-size: 15px;"
+                                                    />
                                                     <div sclass="w3-left" style="display: grid;">
                                                         <div sclass="w3-left">
                                                             <label sclass="w3-medium" value="Por:"/>
-                                                            <label sclass="w3-mediu " forEach="${each.multaPK.obra.autores}"  value="${each.nome}. "/>
+                                                            <label sclass="w3-mediu " forEach="${each.multaPK.obra.autores}"  value="${each.nome}. "
+                                                                   style="font-size: large; font-weight: bold; padding: 2px 2px 2px 2px; font-size: 12px;"/>
                                                         </div>
 
 
-                                                        <!--<div sclass="w3-left">-->
-                                                            <!--<label sclass="w3-medium" value="Data do emprestimo:"/>-->
-                                                            <!--<label sclass="w3-mediu "  value="${$composer.dataConvert(each.dataemprestimo)}" />-->
-                                                        <!--</div>-->
-                                                        <!--<div sclass="w3-left">-->
-                                                            <!--<label sclass="w3-medium" value="Data prevista de devolucao:"/>-->
-                                                            <!--<label sclass="w3-mediu " value="${$composer.dataPrevistaDevolucao(each.multaPK)}"/>-->
-                                                        <!--</div>-->
-                                                        <!--<div sclass="w3-left">-->
-                                                            <!--<label sclass="w3-medium" value="Data da devolucao:"/>-->
-                                                            <!--<label sclass="w3-mediu " value="${$composer.dataConvert(each.dataemissao)}"/>-->
-                                                        <!--</div>-->
-                                                        <!--<div sclass="w3-left">-->
-                                                            <!--<label sclass="w3-medium" value="Dias em atraso:"/>-->
-                                                            <!--<label sclass="w3-mediu " value="${each.diasatraso}" />-->
-                                                        <!--</div>-->
-                                                        <!--<div sclass="w3-left">-->
-                                                            <!--<label sclass="w3-medium" value="Taxa diaria de atraso:"/>-->
-                                                            <!--<label sclass="w3-mediu " value="${each.taxadiaria} MTs"/>-->
-                                                        <!--</div>-->
-                                                        <!--<div sclass="w3-left">-->
-                                                            <!--<label sclass="w3-medium" value="Valor a pagar:"/>-->
-                                                            <!--<label sclass="w3-mediu " value="${each.valorpago} MTs"/>-->
-                                                        <!--</div>-->
+                                                        <div sclass="w3-left">
+                                                            <label sclass="w3-medium" value="Data do emprestimo:"/>
+                                                            <label sclass="w3-mediu "  value="${$composer.dataConvert(each.dataemprestimo)}"
+                                                                   style="font-size: large; font-weight: bold; padding: 2px 2px 2px 2px; font-size: 12px;"/>
+                                                        </div>
+                                                        <div sclass="w3-left">
+                                                            <label sclass="w3-medium" value="Data da Devolucao:"/>
+                                                            <label sclass="w3-mediu " value="${$composer.dataPrevistaDevolucao(each.multaPK)}"
+                                                                   style="font-size: large; font-weight: bold; padding: 2px 2px 2px 2px; font-size: 12px;"/>
+                                                        </div>
+                                                        <div sclass="w3-left">
+                                                            <label sclass="w3-medium" value="Data da Actual:"/>
+                                                            <label sclass="w3-mediu " value="${$composer.dataConvert(each.dataemissao)}"
+                                                                   style="font-size: large; font-weight: bold; padding: 2px 2px 2px 2px; font-size: 12px;"/>
+                                                        </div>
+                                                        <div sclass="w3-left">
+                                                            <label sclass="w3-medium" value="Dias em atraso:"/>
+                                                            <label sclass="w3-mediu " value="${each.diasatraso}"
+                                                                   style="font-size: large; font-weight: bold; padding: 2px 2px 2px 2px; font-size: 12px;"/>
+                                                        </div>
+                                                        <div sclass="w3-left">
+                                                            <label sclass="w3-medium" value="Taxa diaria de atraso:"/>
+                                                            <label sclass="w3-mediu " value="${each.taxadiaria} MTs"
+                                                                   style="font-size: large; font-weight: bold; padding: 2px 2px 2px 2px; font-size: 12px;"/>
+                                                        </div>
+                                                        <div sclass="w3-left">
+                                                            <label sclass="w3-medium" value="Valor a pagar:"/>
+                                                            <label sclass="w3-mediu " value="${each.valorpago} MTs"
+                                                                   style="font-size: large; font-weight: bold; padding: 2px 2px 2px 2px; font-size: 12px;"/>
+                                                        </div>
 
                                                     </div>
                                                 </div>
