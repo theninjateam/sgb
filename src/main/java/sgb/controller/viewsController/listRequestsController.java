@@ -63,7 +63,7 @@ public class listRequestsController extends SelectorComposer<Component> {
         List<Requisicao> listarequisicao = new ArrayList<>();
 
         for(Emprestimo e: listammprestimos){
-                Users u = e.getEmprestimoPK().getUser();
+                Users u = e.getEmprestimoPK().getUtente();
 
                 if(hashMap.containsKey(u)){
 

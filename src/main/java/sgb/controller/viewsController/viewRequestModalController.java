@@ -75,8 +75,8 @@ public class viewRequestModalController extends SelectorComposer<Component> {
         List<Emprestimo> lista = new ArrayList<>();
 
         for(Emprestimo e : r.getPedidos()) {
-            List<Emprestimo> le = crudService.findByJPQuery("SELECT e FROM Emprestimo e WHERE e.emprestimoPK.user.id = " +
-                    e.getEmprestimoPK().getUser().getId() +" and e.emprestimoPK.obra.cota = '"+e.getEmprestimoPK().getObra().getCota()+"'", null);
+            List<Emprestimo> le = crudService.findByJPQuery("SELECT e FROM Emprestimo e WHERE e.emprestimoPK.utente.id = " +
+                    e.getEmprestimoPK().getUtente().getId() +" and e.emprestimoPK.obra.cota = '"+e.getEmprestimoPK().getObra().getCota()+"'", null);
 
             for (Emprestimo emp : le)
                 lista.add(emp);

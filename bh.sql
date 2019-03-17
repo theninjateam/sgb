@@ -275,13 +275,12 @@ CREATE TABLE "public"."estadopedido" (
 -- ----------------------------
 -- Records of estadopedido
 -- ----------------------------
-INSERT INTO "public"."estadopedido" VALUES (1, 'PENDING');
 INSERT INTO "public"."estadopedido" VALUES (3, 'ACCEPTED');
 INSERT INTO "public"."estadopedido" VALUES (5, 'CANCELED');
 INSERT INTO "public"."estadopedido" VALUES (2, 'REJECTED');
-INSERT INTO "public"."estadopedido" VALUES (4, 'IN_QUEUE');
-INSERT INTO "public"."estadopedido" VALUES (6, 'PENDING_AFTER_BEING_IN_QUEUE');
-
+INSERT INTO public.estadopedido (idestadopedido, descricao) VALUES (4, 'ON_WAINTING_QUEUE');
+INSERT INTO public.estadopedido (idestadopedido, descricao) VALUES (6, 'PENDING_BOOKING');
+INSERT INTO public.estadopedido (idestadopedido, descricao) VALUES (1, 'PENDING_MINI_BOOKING');
 -- ----------------------------
 -- Table structure for estadorenovacao
 -- ----------------------------

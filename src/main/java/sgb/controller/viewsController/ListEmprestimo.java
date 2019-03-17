@@ -14,6 +14,7 @@ import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.*;
 //import sgb.controller.domainController.EmprestimoControllerSingleton;
+import sgb.controller.domainController.EmprestimoController;
 import sgb.controller.domainController.EstadoPedidoControler;
 import sgb.domain.*;
 import sgb.request.Request;
@@ -35,6 +36,8 @@ public class ListEmprestimo extends SelectorComposer<Component> {
     private Session session;
     private Request request = (Request) SpringUtil.getBean("request");
     private EstadoPedidoControler ePController = (EstadoPedidoControler) SpringUtil.getBean("estadoPedidoControler");
+    private EmprestimoController eController = (EmprestimoController) SpringUtil.getBean("emprestimoController");
+
 
     private Boolean isNormalUser = true;
     private EstadoRenovacao estadoRenovacao;
@@ -68,12 +71,12 @@ public class ListEmprestimo extends SelectorComposer<Component> {
     }
 
     public void ComposeUserAdmin(){
-        emprestimoListModel = new ListModelList<Emprestimo>(request.getRequest(ePController.ACCEPTED));
+        emprestimoListModel = new ListModelList<Emprestimo>(eController.getRequest(ePController.ACCEPTED));
         emprestimoListBox.setModel(emprestimoListModel);
     }
 
     public void ComposeUserNormal() {
-        emprestimoListModel = new ListModelList<Emprestimo>(request.getRequest(this.user, ePController.ACCEPTED));
+        emprestimoListModel = new ListModelList<Emprestimo>(eController.getRequest(this.user, ePController.ACCEPTED));
         emprestimoListBox.setModel(emprestimoListModel);
     }
 
