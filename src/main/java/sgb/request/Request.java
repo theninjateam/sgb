@@ -3,6 +3,7 @@ package sgb.request;
 import org.zkoss.zul.ListModelList;
 import sgb.concurrence.ObraConcurrenceControl;
 import sgb.controller.domainController.ConfigControler;
+import sgb.controller.domainController.EmprestimoController;
 import sgb.controller.domainController.EstadoPedidoControler;
 import sgb.domain.*;
 import sgb.service.CRUDService;
@@ -13,26 +14,26 @@ import java.util.List;
 
 public class Request
 {
-    private StringBuilder query;
-    private HashMap<String, Object> parameters;
-
     private CRUDService crudService;
     private ConfigControler configControler;
     private EstadoPedidoControler estadoPedidoControler;
     private ObraConcurrenceControl obraConcurrenceControl;
     private Queue queue;
+    private EmprestimoController eController;
     
     public Request(CRUDService crudService,
                    ConfigControler configControler,
                    EstadoPedidoControler estadoPedidoControler,
                    ObraConcurrenceControl obraConcurrenceControl,
-                   Queue queue)
+                   Queue queue,
+                   EmprestimoController eController)
     {
         this.configControler = configControler;
         this.crudService = crudService;
         this.estadoPedidoControler = estadoPedidoControler;
         this.obraConcurrenceControl = obraConcurrenceControl;
         this.queue = queue;
+        this.eController = eController;
     }
 
     public void request(Item item, Users user)
@@ -96,8 +97,9 @@ public class Request
 
     public int getAvailableNumberOfCopies(Obra obra)
     {
-        int qtd =  this.getRequest(obra, this.estadoPedidoControler.PENDING).size();
-        qtd += this.getRequest(obra, this.estadoPedidoControler.ACCEPTED).size();
+        int qtd =  this.eController.getRequest(obra, this.estadoPedidoControler.PENDING_MINI_BOOKING).size();
+        qtd += this.eController.getRequest(obra, this.estadoPedidoControler.ACCEPTED).size();
+        qtd += this.eController.getRequest(obra, this.estadoPedidoControler.PENDING_BOOKING).size();
         qtd += this.crudService.get(Obra.class, obra.getCota()).getQuantidade();
 
         return qtd;
@@ -105,10 +107,18 @@ public class Request
 
     public void cancel(Emprestimo e)
     {
+        int idEstadoPedido = e.getEstadoPedido().getIdestadopedido();
+
         boolean wasReserved = false;
         try
         {
-            Emprestimo emprestimo = getRequest(e.getEmprestimoPK());
+            if (idEstadoPedido != this.estadoPedidoControler.PENDING_BOOKING
+                    || idEstadoPedido != this.estadoPedidoControler.PENDING_MINI_BOOKING)
+            {
+                throw new Exception("this methode can only cancel PENDING_BOOKING and PENDING_MINI_BOOKING");
+            }
+
+            Emprestimo emprestimo = this.eController.getRequest(e.getEmprestimoPK());
             EstadoPedido estadoPedido = this.crudService.get(EstadoPedido.class, this.estadoPedidoControler.CANCELED);
             emprestimo.setEstadoPedido(estadoPedido);
             emprestimo.setComentario("Cancelado Pelo Sistema, excedeu o deadline");
@@ -150,7 +160,7 @@ public class Request
                 e.setQuantidade(qtdObras);
             }
 
-            e.setEstadoPedido(this.crudService.get(EstadoPedido.class, this.estadoPedidoControler.PENDING_AFTER_BEING_IN_QUEUE));
+            e.setEstadoPedido(this.crudService.get(EstadoPedido.class, this.estadoPedidoControler.PENDING_BOOKING));
             e.getEmprestimoPK().setDataentrada(Calendar.getInstance());
 
             this.obraConcurrenceControl.enterInCriticalRegion(e.getEmprestimoPK().getObra());
@@ -202,47 +212,5 @@ public class Request
         emprestimo.setTipoRequisicao(tipoRequisicao);
 
         return emprestimo;
-    }
-
-    public List<Emprestimo> getRequest(Obra obra, int idEstadoPedido)
-    {
-        parameters = new HashMap<String, Object>(2);
-        query = new StringBuilder();
-
-        parameters.put("idEstadoPedido", idEstadoPedido);
-        parameters.put("cota", obra.getCota());
-
-        query.append("SELECT e FROM Emprestimo e WHERE e.estadoPedido.idestadopedido = :idEstadoPedido and ");
-        query.append("e.emprestimoPK.obra.cota = :cota");
-
-        return this.crudService.findByJPQuery(query.toString(), parameters);
-    }
-
-    public List<Emprestimo> getRequest(int idEstadoPedido)
-    {
-        parameters = new HashMap<String, Object>(1);
-        query = new StringBuilder();
-
-        parameters.put("idEstadoPedido", idEstadoPedido);
-
-        query.append("SELECT e FROM Emprestimo e WHERE e.estadoPedido.idestadopedido = :idEstadoPedido");
-
-        return this.crudService.findByJPQuery(query.toString(), parameters);
-    }
-
-    public Emprestimo getRequest(EmprestimoPK emprestimoPK)
-    {
-        parameters = new HashMap<String, Object>(3);
-        query = new StringBuilder();
-
-        parameters.put("user_id", emprestimoPK.getUser().getId());
-        parameters.put("cota", emprestimoPK.getObra().getCota());
-        parameters.put("dataentrada", emprestimoPK.getDataentrada());
-
-
-        query.append("SELECT e FROM Emprestimo e WHERE e.emprestimoPK.user.id = :user_id and ");
-        query.append("e.emprestimoPK.obra.cota = :cota and e.emprestimoPK.dataentrada = :dataentrada");
-
-        return this.crudService.findEntByJPQueryT(query.toString(), parameters);
     }
 }

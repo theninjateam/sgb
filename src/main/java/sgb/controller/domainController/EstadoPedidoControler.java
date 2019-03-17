@@ -8,22 +8,23 @@ public class EstadoPedidoControler
     private CRUDService CRUDService;
     private HashMap<String, Object> parameters;
     private StringBuilder query;
-    public final int PENDING;
+
+    public final int PENDING_BOOKING;
+    public final int PENDING_MINI_BOOKING;
     public final int REJECTED;
-    public final int IN_QUEUE;
+    public final int ON_WAINTING_QUEUE;
     public final int ACCEPTED;
     public final int CANCELED;
-    public final int PENDING_AFTER_BEING_IN_QUEUE;
 
     public EstadoPedidoControler(CRUDService crudService)
     {
         this.CRUDService = crudService;
-        PENDING = getValue("PENDING");
+        PENDING_BOOKING = getValue("PENDING_BOOKING");
+        PENDING_MINI_BOOKING = getValue("PENDING_MINI_BOOKING");
         REJECTED = getValue("REJECTED");
-        IN_QUEUE = getValue("IN_QUEUE");
+        ON_WAINTING_QUEUE = getValue("ON_WAINTING_QUEUE");
         ACCEPTED = getValue("ACCEPTED");
         CANCELED = getValue("CANCELED");
-        PENDING_AFTER_BEING_IN_QUEUE = getValue("PENDING_AFTER_BEING_IN_QUEUE");
     }
 
     public int getValue(String description)

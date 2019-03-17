@@ -7,6 +7,7 @@ import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
+import sgb.controller.domainController.EmprestimoController;
 import sgb.controller.domainController.EstadoPedidoControler;
 import sgb.domain.Emprestimo;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -33,6 +34,7 @@ public class ListPedido extends SelectorComposer<Component> {
     private Boolean isNormalUser = true;
     private Request request = (Request) SpringUtil.getBean("request");
     private EstadoPedidoControler ePController = (EstadoPedidoControler) SpringUtil.getBean("estadoPedidoControler");
+    private EmprestimoController eController = (EmprestimoController) SpringUtil.getBean("emprestimoController");
 
     @Wire
     private Listbox pedidoListBox;
@@ -57,12 +59,21 @@ public class ListPedido extends SelectorComposer<Component> {
     }
 
     public void ComposeUserAdmin(){
-        pedidoListModel = new ListModelList<Emprestimo>(request.getRequisicoes(ePController.PENDING));
+
+        List<Emprestimo> pedidos = eController.getRequest(ePController.PENDING_MINI_BOOKING);
+        pedidos.addAll(eController.getRequest(ePController.PENDING_BOOKING));
+
+        pedidoListModel = new ListModelList<Emprestimo>(pedidos);
+
         pedidoListBox.setModel(pedidoListModel);
     }
 
     public void ComposeUserNormal() {
-        pedidoListModel = new ListModelList<Emprestimo>(request.getRequisicoes(this.user, ePController.PENDING));
+
+        List<Emprestimo> pedidos = eController.getRequest(this.user, ePController.PENDING_MINI_BOOKING);
+        pedidos.addAll(eController.getRequest(this.user, ePController.PENDING_BOOKING));
+
+        pedidoListModel = new ListModelList<Emprestimo>(pedidos);
         pedidoListBox.setModel(pedidoListModel);
     }
 

@@ -53,27 +53,35 @@
 
     <bean id="CRUDService" class="sgb.service.CRUDServiceImpl" />
 
+    <!-- @Bania Fonseca have added those beans-->
+
     <bean id="configControler"  class="sgb.controller.domainController.ConfigControler" >
         <constructor-arg index="0" ref="CRUDService"/>
     </bean>
 
-    <bean id="deadlineMonitorRequestedBooks"  class="sgb.deadline.DeadlineMonitorRequestedBooks" >
-        <constructor-arg index="0" ref="deadlineRequestedBooks"/>
-        <constructor-arg index="1" ref="request"/>
-        <constructor-arg index="2" ref="estadoPedidoControler"/>
+    <bean id="emprestimoController"  class="sgb.controller.domainController.EmprestimoController" >
+        <constructor-arg index="0" ref="CRUDService"/>
     </bean>
 
-    <bean id="deadlineMonitorReserveddBooks"  class="sgb.deadline.DeadlineMonitorReserveddBooks" >
-        <constructor-arg index="0" ref="deadlineReservedBooks"/>
+    <bean id="miniBookingDeadlineController"  class="sgb.deadline.MiniBookingDeadlineController" >
+        <constructor-arg index="0" ref="miniBookingDeadline"/>
         <constructor-arg index="1" ref="request"/>
         <constructor-arg index="2" ref="estadoPedidoControler"/>
+        <constructor-arg index="3" ref="emprestimoController"/>
     </bean>
 
-    <bean id="deadlineRequestedBooks"  class="sgb.deadline.DeadlineRequestedBooks" >
+    <bean id="bookingDeadlineController"  class="sgb.deadline.BookingDeadlineController" >
+        <constructor-arg index="0" ref="bookingDeadline"/>
+        <constructor-arg index="1" ref="request"/>
+        <constructor-arg index="2" ref="estadoPedidoControler"/>
+        <constructor-arg index="3" ref="emprestimoController"/>
+    </bean>
+
+    <bean id="miniBookingDeadline"  class="sgb.deadline.MiniBookingDeadline" >
         <constructor-arg index="0" ref="configControler"/>
     </bean>
 
-    <bean id="deadlineReservedBooks"  class="sgb.deadline.DeadlineReservedBooks" >
+    <bean id="bookingDeadline"  class="sgb.deadline.BookingDeadline" >
         <constructor-arg index="0" ref="configControler"/>
     </bean>
 
@@ -89,6 +97,7 @@
         <constructor-arg index="2" ref="estadoPedidoControler"/>
         <constructor-arg index="3" ref="obraConcurrenceControl"/>
         <constructor-arg index="4" ref="queue"/>
+        <constructor-arg index="5" ref="emprestimoController"/>
     </bean>
 
     <bean id="queue"  class="sgb.request.Queue" >

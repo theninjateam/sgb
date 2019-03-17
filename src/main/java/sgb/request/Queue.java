@@ -27,7 +27,7 @@ public class Queue
     {
         PriorityQueue<Emprestimo> queue = new PriorityQueue<>();
 
-        for (Emprestimo e: this.getInQueueRequest(obra))
+        for (Emprestimo e: this.getOnWaitingQueueRequest(obra))
         {
             queue.add(e);
         }
@@ -35,12 +35,12 @@ public class Queue
         return queue;
     }
 
-    public List<Emprestimo> getInQueueRequest(Obra obra)
+    public List<Emprestimo> getOnWaitingQueueRequest(Obra obra)
     {
         parameters = new HashMap<String, Object>(2);
         query = new StringBuilder();
 
-        parameters.put("idEstadoPedido", this.estadoPedidoControler.IN_QUEUE);
+        parameters.put("idEstadoPedido", this.estadoPedidoControler.ON_WAINTING_QUEUE);
         parameters.put("cota", obra.getCota());
 
         query.append("SELECT e FROM Emprestimo e WHERE e.estadoPedido.idestadopedido = :idEstadoPedido and ");

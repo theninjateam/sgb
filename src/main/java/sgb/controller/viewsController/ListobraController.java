@@ -32,6 +32,7 @@ public class ListobraController extends SelectorComposer<Component>
 {
     private CRUDService crudService = (CRUDService) SpringUtil.getBean("CRUDService");
     private Request request = (Request) SpringUtil.getBean("request");
+
     private EstadoPedidoControler ePController = (EstadoPedidoControler) SpringUtil.getBean("estadoPedidoControler");
 
     private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;
@@ -322,7 +323,7 @@ public class ListobraController extends SelectorComposer<Component>
             {
                 if (item.getCanBeRequested())
                 {
-                    this.request.requestObra(item, this.user);
+                    this.request.request(item, this.user);
                 }
             }
 

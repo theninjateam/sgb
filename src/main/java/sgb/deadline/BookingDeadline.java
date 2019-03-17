@@ -4,11 +4,11 @@ import sgb.controller.domainController.ConfigControler;
 
 import java.util.Calendar;
 
-public class DeadlineReservedBooks extends Deadline
+public class BookingDeadline extends Deadline
 {
     private ConfigControler configControler;
 
-    public DeadlineReservedBooks(ConfigControler configControler)
+    public BookingDeadline(ConfigControler configControler)
     {
         this.configControler = configControler;
     }

@@ -177,12 +177,12 @@
 
                                     <listcell>
                                         <div>
-                                            <label value="${each.obraEliminadasPK.obraConcurrenceController.cota}"/>
+                                            <label value="${each.obraEliminadasPK.obra.cota}"/>
                                         </div>
                                     </listcell>
                                     <listcell>
                                         <div>
-                                            <label value="${each.obraEliminadasPK.obraConcurrenceController.titulo}"/>
+                                            <label value="${each.obraEliminadasPK.obra.titulo}"/>
                                         </div>
                                     </listcell>
 
@@ -256,12 +256,12 @@
 
                                     <listcell>
                                         <div>
-                                            <label value="${each.registroObraPK.obraConcurrenceController.cota}"/>
+                                            <label value="${each.registroObraPK.obra.cota}"/>
                                         </div>
                                     </listcell>
                                     <listcell>
                                         <div>
-                                            <label value="${each.registroObraPK.obraConcurrenceController.titulo}"/>
+                                            <label value="${each.registroObraPK.obra.titulo}"/>
                                         </div>
                                     </listcell>
 

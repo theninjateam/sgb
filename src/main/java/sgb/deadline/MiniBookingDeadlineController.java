@@ -2,6 +2,7 @@ package sgb.deadline;
 
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+import sgb.controller.domainController.EmprestimoController;
 import sgb.controller.domainController.EstadoPedidoControler;
 import sgb.domain.Emprestimo;
 import sgb.request.Request;
@@ -14,20 +15,24 @@ import java.util.List;
  * @author Fonseca, bfonseca@unilurio.ac.mz
  */
 
-public class DeadlineMonitorRequestedBooks extends Thread implements ApplicationListener<ContextRefreshedEvent>
+public class MiniBookingDeadlineController extends Thread implements ApplicationListener<ContextRefreshedEvent>
 {
-    private DeadlineRequestedBooks dRBooks;
+    private MiniBookingDeadline mBDeadline;
     private Request request;
     private EstadoPedidoControler ePControler;
+    private EmprestimoController eController;
 
     private int minuto = 1;
 
-    public DeadlineMonitorRequestedBooks(DeadlineRequestedBooks dRBooks,
-                                         Request request, EstadoPedidoControler ePControler)
+    public MiniBookingDeadlineController(MiniBookingDeadline mBDeadline,
+                                         Request request,
+                                         EstadoPedidoControler ePControler,
+                                         EmprestimoController eController)
     {
-        this.dRBooks = dRBooks;
+        this.mBDeadline = mBDeadline;
         this.request = request;
         this.ePControler = ePControler;
+        this.eController = eController;
     }
 
     public void run()
@@ -36,14 +41,14 @@ public class DeadlineMonitorRequestedBooks extends Thread implements Application
         {
             try
             {
-                List<Emprestimo> requests = request.getRequest(ePControler.PENDING);
+                List<Emprestimo> pendigMiniBooking = this.eController.getRequest(ePControler.PENDING_MINI_BOOKING);
 
-                if (requests != null)
+                if (pendigMiniBooking != null)
                 {
-                    for (Emprestimo e: requests)
+                    for (Emprestimo e: pendigMiniBooking)
                     {
                         boolean  exceededDeadline =
-                                this.dRBooks.exceededDeadline(e.getEmprestimoPK().getDataentrada(), Calendar.getInstance());
+                                this.mBDeadline.exceededDeadline(e.getEmprestimoPK().getDataentrada(), Calendar.getInstance());
 
                         if (exceededDeadline)
                         {

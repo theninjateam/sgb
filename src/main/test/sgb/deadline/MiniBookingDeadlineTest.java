@@ -10,7 +10,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
-import sgb.service.CRUDService;
 
 import java.util.Calendar;
 
@@ -23,36 +22,36 @@ import java.util.Calendar;
 
 
 
-public class DeadlineRequestedBooksTest
+public class MiniBookingDeadlineTest
 {
     @Autowired
     private ApplicationContext context;
-    private DeadlineRequestedBooks deadlineRequestedBooks;
+    private MiniBookingDeadline miniBookingDeadline;
 
     @Before
     @Transactional
     public void before() throws Exception
     {
         System.out.println("Setting it up!");
-        this.deadlineRequestedBooks = (DeadlineRequestedBooks) context.getBean("deadlineRequestedBooks");
+        this.miniBookingDeadline = (MiniBookingDeadline) context.getBean("deadlineRequestedBooks");
     }
 
     @Test
     @Transactional
     public void ExceededDeadlineForWeekDaysTest() throws Exception
     {
-        int maximumTime = deadlineRequestedBooks.getConfigControler().DEADLINE_REQUESTED_BOOKS;
+        int maximumTime = miniBookingDeadline.getConfigControler().DEADLINE_REQUESTED_BOOKS;
 
-        int entryTime = deadlineRequestedBooks.getConfigControler().ENTRY_TIME_ON_WEEKDAYS;
+        int entryTime = miniBookingDeadline.getConfigControler().ENTRY_TIME_ON_WEEKDAYS;
 
-        int exitTime = deadlineRequestedBooks.getConfigControler().EXIT_TIME_ON_WEEKDAYS;
+        int exitTime = miniBookingDeadline.getConfigControler().EXIT_TIME_ON_WEEKDAYS;
 
-        int entryTimeOnSaturday = deadlineRequestedBooks.getConfigControler().ENTRY_TIME_ON_SATURDAY;
+        int entryTimeOnSaturday = miniBookingDeadline.getConfigControler().ENTRY_TIME_ON_SATURDAY;
 
 
         /***
          *
-         * DeadlineRequestedBooks Before Entry Time
+         * MiniBookingDeadline Before Entry Time
          *
          * */
 
@@ -60,17 +59,17 @@ public class DeadlineRequestedBooksTest
 
         Calendar currentDate = getCalendar(Calendar.MONDAY, entryTime - 1, 40);
 
-        assertThat(deadlineRequestedBooks.exceededDeadline(requestDate, currentDate)).isFalse();
+        assertThat(miniBookingDeadline.exceededDeadline(requestDate, currentDate)).isFalse();
 
 
         currentDate = getCalendar(Calendar.MONDAY, entryTime, maximumTime + 1);
 
-        assertThat(deadlineRequestedBooks.exceededDeadline(requestDate, currentDate)).isTrue();
+        assertThat(miniBookingDeadline.exceededDeadline(requestDate, currentDate)).isTrue();
 
 
         /***
          *
-         * DeadlineRequestedBooks After Exit Time
+         * MiniBookingDeadline After Exit Time
          *
          * */
 
@@ -78,17 +77,17 @@ public class DeadlineRequestedBooksTest
 
         currentDate = getCalendar(Calendar.MONDAY, exitTime + 2, maximumTime + 2);
 
-        assertThat(deadlineRequestedBooks.exceededDeadline(requestDate, currentDate)).isFalse();
+        assertThat(miniBookingDeadline.exceededDeadline(requestDate, currentDate)).isFalse();
 
 
         currentDate = getCalendar(Calendar.TUESDAY, entryTime, maximumTime + 1);
 
-        assertThat(deadlineRequestedBooks.exceededDeadline(requestDate, currentDate)).isTrue();
+        assertThat(miniBookingDeadline.exceededDeadline(requestDate, currentDate)).isTrue();
 
 
         /***
          *
-         * DeadlineRequestedBooks After Exit Time on friday
+         * MiniBookingDeadline After Exit Time on friday
          *
          * */
 
@@ -96,16 +95,16 @@ public class DeadlineRequestedBooksTest
 
         currentDate = getCalendar(Calendar.FRIDAY, exitTime + 2, maximumTime + 2);
 
-        assertThat(deadlineRequestedBooks.exceededDeadline(requestDate, currentDate)).isFalse();
+        assertThat(miniBookingDeadline.exceededDeadline(requestDate, currentDate)).isFalse();
 
 
         currentDate = getCalendar(Calendar.SATURDAY, entryTimeOnSaturday, maximumTime + 1);
 
-        assertThat(deadlineRequestedBooks.exceededDeadline(requestDate, currentDate)).isTrue();
+        assertThat(miniBookingDeadline.exceededDeadline(requestDate, currentDate)).isTrue();
 
         /***
          *
-         * DeadlineRequestedBooks in work Time
+         * MiniBookingDeadline in work Time
          *
          * */
 
@@ -113,17 +112,17 @@ public class DeadlineRequestedBooksTest
 
         currentDate = getCalendar(Calendar.FRIDAY, entryTime, 20);
 
-        assertThat(deadlineRequestedBooks.exceededDeadline(requestDate, currentDate)).isFalse();
+        assertThat(miniBookingDeadline.exceededDeadline(requestDate, currentDate)).isFalse();
 
 
         currentDate = getCalendar(Calendar.FRIDAY, entryTime, 20 + maximumTime + 1);
 
-        assertThat(deadlineRequestedBooks.exceededDeadline(requestDate, currentDate)).isTrue();
+        assertThat(miniBookingDeadline.exceededDeadline(requestDate, currentDate)).isTrue();
 
 
         /***
          *
-         * DeadlineRequestedBooks in work Time, N minutes to exit time
+         * MiniBookingDeadline in work Time, N minutes to exit time
          *
          * */
 
@@ -131,31 +130,31 @@ public class DeadlineRequestedBooksTest
 
         currentDate = getCalendar(Calendar.FRIDAY, exitTime - 1, 20);
 
-        assertThat(deadlineRequestedBooks.exceededDeadline(requestDate, currentDate)).isFalse();
+        assertThat(miniBookingDeadline.exceededDeadline(requestDate, currentDate)).isFalse();
 
 
         currentDate = getCalendar(Calendar.FRIDAY, exitTime -1, 20 + maximumTime + 1);
 
-        assertThat(deadlineRequestedBooks.exceededDeadline(requestDate, currentDate)).isTrue();
+        assertThat(miniBookingDeadline.exceededDeadline(requestDate, currentDate)).isTrue();
     }
 
     @Test
     @Transactional
     public void exceededDeadlineForWeekendTest() throws Exception
     {
-        int maximumTime = deadlineRequestedBooks.getConfigControler().DEADLINE_REQUESTED_BOOKS;
+        int maximumTime = miniBookingDeadline.getConfigControler().DEADLINE_REQUESTED_BOOKS;
 
-        int entryTime = deadlineRequestedBooks.getConfigControler().ENTRY_TIME_ON_WEEKDAYS;
+        int entryTime = miniBookingDeadline.getConfigControler().ENTRY_TIME_ON_WEEKDAYS;
 
-        int exitTime = deadlineRequestedBooks.getConfigControler().EXIT_TIME_ON_WEEKDAYS;
+        int exitTime = miniBookingDeadline.getConfigControler().EXIT_TIME_ON_WEEKDAYS;
 
-        int entryTimeOnSaturday = deadlineRequestedBooks.getConfigControler().ENTRY_TIME_ON_SATURDAY;
+        int entryTimeOnSaturday = miniBookingDeadline.getConfigControler().ENTRY_TIME_ON_SATURDAY;
 
-        int exitTimeOnSaturday = deadlineRequestedBooks.getConfigControler().EXIT_TIME_ON_SATURDAY;
+        int exitTimeOnSaturday = miniBookingDeadline.getConfigControler().EXIT_TIME_ON_SATURDAY;
 
         /***
          *
-         * DeadlineRequestedBooks Before Entry Time
+         * MiniBookingDeadline Before Entry Time
          *
          * */
 
@@ -163,17 +162,17 @@ public class DeadlineRequestedBooksTest
 
         Calendar currentDate = getCalendar(Calendar.SATURDAY, entryTimeOnSaturday - 1, 40);
 
-        assertThat(deadlineRequestedBooks.exceededDeadline(requestDate, currentDate)).isFalse();
+        assertThat(miniBookingDeadline.exceededDeadline(requestDate, currentDate)).isFalse();
 
 
         currentDate = getCalendar(Calendar.SATURDAY, entryTimeOnSaturday, maximumTime + 1);
 
-        assertThat(deadlineRequestedBooks.exceededDeadline(requestDate, currentDate)).isTrue();
+        assertThat(miniBookingDeadline.exceededDeadline(requestDate, currentDate)).isTrue();
 
 
         /***
          *
-         * DeadlineRequestedBooks After Exit Time
+         * MiniBookingDeadline After Exit Time
          *
          * */
 
@@ -181,17 +180,17 @@ public class DeadlineRequestedBooksTest
 
         currentDate = getCalendar(Calendar.SUNDAY, exitTimeOnSaturday + 2, maximumTime + 2);
 
-        assertThat(deadlineRequestedBooks.exceededDeadline(requestDate, currentDate)).isFalse();
+        assertThat(miniBookingDeadline.exceededDeadline(requestDate, currentDate)).isFalse();
 
         currentDate = getCalendar(Calendar.SATURDAY, entryTime, maximumTime + 1);
-        deadlineRequestedBooks.goToNextWorkingDay(currentDate); // monday
+        miniBookingDeadline.goToNextWorkingDay(currentDate); // monday
 
-        assertThat(deadlineRequestedBooks.exceededDeadline(requestDate, currentDate)).isTrue();
+        assertThat(miniBookingDeadline.exceededDeadline(requestDate, currentDate)).isTrue();
 
 
         /***
          *
-         * DeadlineRequestedBooks in work Time
+         * MiniBookingDeadline in work Time
          *
          * */
 
@@ -199,17 +198,17 @@ public class DeadlineRequestedBooksTest
 
         currentDate = getCalendar(Calendar.SATURDAY, entryTimeOnSaturday, 20);
 
-        assertThat(deadlineRequestedBooks.exceededDeadline(requestDate, currentDate)).isFalse();
+        assertThat(miniBookingDeadline.exceededDeadline(requestDate, currentDate)).isFalse();
 
 
         currentDate = getCalendar(Calendar.SATURDAY, entryTimeOnSaturday, 20 + maximumTime + 1);
 
-        assertThat(deadlineRequestedBooks.exceededDeadline(requestDate, currentDate)).isTrue();
+        assertThat(miniBookingDeadline.exceededDeadline(requestDate, currentDate)).isTrue();
 
 
         /***
          *
-         * DeadlineRequestedBooks in work Time, N minutes to exit time
+         * MiniBookingDeadline in work Time, N minutes to exit time
          *
          * */
 
@@ -217,12 +216,12 @@ public class DeadlineRequestedBooksTest
 
         currentDate = getCalendar(Calendar.SATURDAY, exitTimeOnSaturday - 1, 20);
 
-        assertThat(deadlineRequestedBooks.exceededDeadline(requestDate, currentDate)).isFalse();
+        assertThat(miniBookingDeadline.exceededDeadline(requestDate, currentDate)).isFalse();
 
 
         currentDate = getCalendar(Calendar.SATURDAY, exitTimeOnSaturday - 1, 20 + maximumTime + 1);
 
-        assertThat(deadlineRequestedBooks.exceededDeadline(requestDate, currentDate)).isTrue();
+        assertThat(miniBookingDeadline.exceededDeadline(requestDate, currentDate)).isTrue();
     }
 
 
