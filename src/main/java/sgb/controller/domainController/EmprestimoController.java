@@ -40,10 +40,10 @@ public class EmprestimoController
         query = new StringBuilder();
 
         parameters.put("idEstadoPedido", idEstadoPedido);
-        parameters.put("user_id", user.getId());
+        parameters.put("userId", user.getId());
 
         query.append("SELECT e FROM Emprestimo e WHERE e.estadoPedido.idestadopedido = :idEstadoPedido and ");
-        query.append("e.emprestimoPK.user.id = :user_id");
+        query.append("e.emprestimoPK.utente.id = :userId");
 
         return this.crudService.findByJPQuery(query.toString(), parameters);
     }
@@ -65,9 +65,9 @@ public class EmprestimoController
         parameters = new HashMap<String, Object>(3);
         query = new StringBuilder();
 
-        parameters.put("user_id", emprestimoPK.getUser().getId());
+        parameters.put("user_id", emprestimoPK.getUtente().getId());
         parameters.put("cota", emprestimoPK.getObra().getCota());
-        parameters.put("dataentrada", emprestimoPK.getDataentrada());
+        parameters.put("dataentrada", emprestimoPK.getDataentradapedido());
 
 
         query.append("SELECT e FROM Emprestimo e WHERE e.emprestimoPK.user.id = :user_id and ");

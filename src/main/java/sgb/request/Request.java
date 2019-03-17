@@ -1,22 +1,22 @@
 package sgb.request;
 
-import org.zkoss.zul.ListModelList;
 import sgb.concurrence.ObraConcurrenceControl;
 import sgb.controller.domainController.ConfigControler;
 import sgb.controller.domainController.EmprestimoController;
+import sgb.controller.domainController.EstadoDevolucaoControler;
 import sgb.controller.domainController.EstadoPedidoControler;
 import sgb.domain.*;
 import sgb.service.CRUDService;
 
+import java.time.Duration;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
 
 public class Request
 {
     private CRUDService crudService;
     private ConfigControler configControler;
     private EstadoPedidoControler estadoPedidoControler;
+    private EstadoDevolucaoControler estadoDevolucaoControler;
     private ObraConcurrenceControl obraConcurrenceControl;
     private Queue queue;
     private EmprestimoController eController;
@@ -147,6 +147,67 @@ public class Request
         }
     }
 
+    // deve sair daqui esse metodo
+    public void multar (Emprestimo e) {
+        Emprestimo emprestimo = this.eController.getRequest(e.getEmprestimoPK());
+        EstadoDevolucao estadoDevolucao = this.crudService.get(EstadoDevolucao.class, this.estadoDevolucaoControler.NOT_RETURNED);
+
+        if(emprestimo.getEstadoDevolucao().equals(estadoDevolucao)) {
+            /*
+            *  Gera a multa e atualiza a tabela emprestimo com estado de devolucao NOT_RETURNED
+            */
+            emprestimo.setEstadoDevolucao(estadoDevolucao);
+
+            Multa multa =new Multa();
+            multa.setMultaPK(emprestimo.getEmprestimoPK());
+
+            EstadoMulta estadoMulta = crudService.get(EstadoMulta.class,2);
+
+            multa.setDataemissao(Calendar.getInstance());
+            multa.setDataemprestimo(emprestimo.getDataaprovacao());
+            multa.setEstadoMulta(estadoMulta);
+
+            int diaatraso = -1 * (int) Duration.between(Calendar.getInstance().toInstant(), emprestimo.getDatadevolucao().toInstant()).toDays();
+
+            multa.setDiasatraso(diaatraso );
+
+            Float taxaD = Float.parseFloat(crudService.get(Config.class,"DAILY_RATE_FINE").getValor());
+            multa.setTaxadiaria(taxaD);
+
+            multa.setValorpago((diaatraso*taxaD));
+            this.obraConcurrenceControl.enterInCriticalRegion(e.getEmprestimoPK().getObra());
+            crudService.Save(multa);
+            crudService.update(emprestimo);
+            this.obraConcurrenceControl.leaveInCriticalRegion(e.getEmprestimoPK().getObra());
+
+
+        }
+         else
+        {
+            /*
+            *atualiza a multa nos campos de dias de atraso e total a pagar
+            */
+            Multa multa =new Multa();
+            multa = crudService.get(Multa.class,emprestimo.getEmprestimoPK());
+
+            int diaatraso = -1 * (int) Duration.between(Calendar.getInstance().toInstant(), emprestimo.getDatadevolucao().toInstant()).toDays();
+
+            multa.setDiasatraso(diaatraso );
+
+            Float taxaD = Float.parseFloat(crudService.get(Config.class,"DAILY_RATE_FINE").getValor());
+            multa.setTaxadiaria(taxaD);
+
+            multa.setValorpago((diaatraso*taxaD));
+            this.obraConcurrenceControl.enterInCriticalRegion(e.getEmprestimoPK().getObra());
+            crudService.update(multa);
+            this.obraConcurrenceControl.leaveInCriticalRegion(e.getEmprestimoPK().getObra());
+
+        }
+
+
+
+    }
+
     public boolean reserve(Emprestimo e, int qtdObras)
     {
         try
@@ -160,8 +221,8 @@ public class Request
                 e.setQuantidade(qtdObras);
             }
 
-            e.setEstadoPedido(this.crudService.get(EstadoPedido.class, this.estadoPedidoControler.PENDING_BOOKING));
-            e.getEmprestimoPK().setDataentrada(Calendar.getInstance());
+             e.setEstadoPedido(this.crudService.get(EstadoPedido.class, this.estadoPedidoControler.PENDING_BOOKING));
+            e.getEmprestimoPK().setDataentradapedido(Calendar.getInstance());
 
             this.obraConcurrenceControl.enterInCriticalRegion(e.getEmprestimoPK().getObra());
 
@@ -196,8 +257,8 @@ public class Request
         TipoRequisicao tipoRequisicao =  null;
 
         emprestimoPK.setObra(item.getObra());
-        emprestimoPK.setUser(user);
-        emprestimoPK.setDataentrada(Calendar.getInstance());
+        emprestimoPK.setUtente(user);
+        emprestimoPK.setDataentradapedido(Calendar.getInstance());
 
         emprestimo.setEstadoDevolucao(estadoDevolucao);
         emprestimo.setEstadoPedido(estadoPedido);
@@ -207,8 +268,6 @@ public class Request
         emprestimo.setDatadevolucao(null);
         emprestimo.setQuantidade(item.getQuantidade());
         emprestimo.setEstadoRenovacao(estadoRenovacao);
-        emprestimo.setDatarenovacao(null);
-        emprestimo.setDatadevolucaorenovacao(null);
         emprestimo.setTipoRequisicao(tipoRequisicao);
 
         return emprestimo;

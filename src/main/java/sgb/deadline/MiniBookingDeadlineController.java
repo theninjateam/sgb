@@ -48,7 +48,8 @@ public class MiniBookingDeadlineController extends Thread implements Application
                     for (Emprestimo e: pendigMiniBooking)
                     {
                         boolean  exceededDeadline =
-                                this.mBDeadline.exceededDeadline(e.getEmprestimoPK().getDataentrada(), Calendar.getInstance());
+                                this.mBDeadline.exceededDeadline(e.getEmprestimoPK().getDataentradapedido(), Calendar.getInstance());
+                                this.mBDeadline.exceededDeadline(e.getEmprestimoPK().getDataentradapedido(), Calendar.getInstance());
 
                         if (exceededDeadline)
                         {

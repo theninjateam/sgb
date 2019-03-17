@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk>
+    <window id="multaModal" apply="sgb.controller.viewsController.MultaController"
+            border="none" closable="true"
+            position="center,center" action="show: slideDown;hide: slideUp" width="460px">
+
+            <grid  style="border-style: none;">
+                <columns style=" background-color: white;  border-style: none;">
+                    <column style=" background-color: white;  border-style: none;" width="100%" >
+                        <vlayout   style="text-align: center;">
+                            <listbox    style=" text-align: left;"  id="multaListBox"
+                                        emptyMessage="Lista vazia">
+                                <listhead >
+                                    <listheader hflex="1" style="background-color: lightgray; border-style: none; text-align: center;" width="100%" height="100%" label="Multa"/>
+                                </listhead>
+                                <template name="model">
+                                    <listitem  style="background-color: white; border-style: none;">
+                                        <listcell style="background-color: white; border-style: none;
+                                                    border-bottom: 0.1em double rgb(0, 0, 0, 0.4);">
+
+                                            <div  sclass="w3-container w3-hide-small w3-hide-medium w3-padding-16"  style="white-space: normal;">
+
+                                                <div align="center">
+                                                    <image src="${each.multaPK.obra.pathcapa}"  sclass="w3-card-4 "
+                                                           style="width: 100%; height:208px; width:145px;"/>
+                                                </div>
+
+                                                <div sclass="w3-container w3-rest w3-display-container w3-white w3-left  w3-card-4 w3-padding-16"
+                                                     style="width: 80%; position: relative;">
+                                                    <label sclass="w3-col w3-xlarge w3-left" value="${each.multaPK.obra.titulo}"
+                                                           style=" line-height: 1.4em; font-size: large; font-weight: bold; padding: 2px 2px 2px 2px; font-size: 15px;"
+                                                    />
+                                                    <div sclass="w3-left" style="display: grid;">
+                                                        <div sclass="w3-left">
+                                                            <label sclass="w3-medium" value="Por:"/>
+                                                            <label sclass="w3-mediu " forEach="${each.multaPK.obra.autores}"  value="${each.nome}. "
+                                                                   style="font-size: large; font-weight: bold; padding: 2px 2px 2px 2px; font-size: 12px;"/>
+                                                        </div>
+
+
+                                                        <div sclass="w3-left">
+                                                            <label sclass="w3-medium" value="Data do emprestimo:"/>
+                                                            <label sclass="w3-mediu "  value="${$composer.dataConvert(each.dataemprestimo)}"
+                                                                   style="font-size: large; font-weight: bold; padding: 2px 2px 2px 2px; font-size: 12px;"/>
+                                                        </div>
+                                                        <div sclass="w3-left">
+                                                            <label sclass="w3-medium" value="Data da Devolucao:"/>
+                                                            <label sclass="w3-mediu " value="${$composer.dataPrevistaDevolucao(each.multaPK)}"
+                                                                   style="font-size: large; font-weight: bold; padding: 2px 2px 2px 2px; font-size: 12px;"/>
+                                                        </div>
+                                                        <div sclass="w3-left">
+                                                            <label sclass="w3-medium" value="Data da Actual:"/>
+                                                            <label sclass="w3-mediu " value="${$composer.dataConvert(each.dataemissao)}"
+                                                                   style="font-size: large; font-weight: bold; padding: 2px 2px 2px 2px; font-size: 12px;"/>
+                                                        </div>
+                                                        <div sclass="w3-left">
+                                                            <label sclass="w3-medium" value="Dias em atraso:"/>
+                                                            <label sclass="w3-mediu " value="${each.diasatraso}"
+                                                                   style="font-size: large; font-weight: bold; padding: 2px 2px 2px 2px; font-size: 12px;"/>
+                                                        </div>
+                                                        <div sclass="w3-left">
+                                                            <label sclass="w3-medium" value="Taxa diaria de atraso:"/>
+                                                            <label sclass="w3-mediu " value="${each.taxadiaria} MTs"
+                                                                   style="font-size: large; font-weight: bold; padding: 2px 2px 2px 2px; font-size: 12px;"/>
+                                                        </div>
+                                                        <div sclass="w3-left">
+                                                            <label sclass="w3-medium" value="Valor a pagar:"/>
+                                                            <label sclass="w3-mediu " value="${each.valorpago} MTs"
+                                                                   style="font-size: large; font-weight: bold; padding: 2px 2px 2px 2px; font-size: 12px;"/>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div align="center">
+                                                <button     label="Revogar"  forward="onClick=multaListBox.onRevogar" mold="os"  sclass="w3-btn w3-black"/>
+                                                <button     label="Devolver"  forward="onClick=multaListBox.onDevolver" mold="os"  sclass="w3-btn w3-black"/>
+                                                <button     label="Pagar"  forward="onClick=multaListBox.onPagar" mold="os"  sclass="w3-btn w3-black"/>
+                                                <button label="Fechar" forward="onClick=multaListBox.onExit" sclass="w3-btn w3-light-gray " mold="os"/>
+                                            </div>
+                                        </listcell>
+                                    </listitem>
+                                </template>
+
+                                <listfoot >
+                                    <listfooter  height="100%" width="100%" style="padding: 15px 32px; background-color: lightgray; border-style: none;"/>
+                                </listfoot>
+                            </listbox>
+                        </vlayout>
+                    </column>
+                </columns>
+            </grid>
+    </window>
+</zk>
