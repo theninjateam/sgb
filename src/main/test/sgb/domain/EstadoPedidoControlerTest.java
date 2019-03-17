@@ -10,37 +10,33 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
-import sgb.controller.domainController.EmprestimoRuleSingleton;
-import sgb.service.CRUDService;
+import sgb.controller.domainController.EstadoPedidoControler;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"file:src/main/webapp/WEB-INF/applicationContext.xml"})
 
-public class EmprestimoRuleSingletonTest
+public class EstadoPedidoControlerTest
 {
     @Autowired
     private ApplicationContext context;
-    private CRUDService crudService;
-    private EmprestimoRuleSingleton eRSingleton;
+    private EstadoPedidoControler ePSingleton;
 
     @Before
     public void before() throws Exception
     {
-        this.crudService = (CRUDService) context.getBean("CRUDService");
-        this.eRSingleton = (EmprestimoRuleSingleton) context.getBean("emprestimoRuleSingleton");
+        this.ePSingleton = (EstadoPedidoControler) this.context.getBean("estadoPedidoSingleton");
     }
 
     @Test
     @Transactional
-    public void getQuantidadeMinimaDeExemplares() throws Exception
+    public void getValueTest()
     {
-        assertThat(eRSingleton.MINIMUM_NUMBER_OF_COPIES).isEqualTo(2);
+        assertThat(1).isEqualTo(this.ePSingleton.PENDING);
+        assertThat(2).isEqualTo(this.ePSingleton.REJECTED);
+        assertThat(3).isEqualTo(this.ePSingleton.ACCEPTED);
+        assertThat(4).isEqualTo(this.ePSingleton.IN_QUEUE);
+        assertThat(5).isEqualTo(this.ePSingleton.CANCELED);
     }
 
-    @Test
-    @Transactional
-    public void getTempoMaximo() throws Exception
-    {
-      //  assertThat(Integer.parseInt(config.getValor())).isEqualTo(60);
-    }
+
 }

@@ -15,8 +15,6 @@ public class Emprestimo  implements Comparable<Emprestimo>{
     private Calendar datadevolucao;
     private int quantidade;
     private String comentario;
-    private Calendar datarenovacao;
-    private Calendar datadevolucaorenovacao;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "idtipoRequisicao", nullable = false)
@@ -33,6 +31,10 @@ public class Emprestimo  implements Comparable<Emprestimo>{
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name="estadorenovacao", nullable = false)
     private EstadoRenovacao estadoRenovacao;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "bibliotecario", nullable = false)
+    private Users bibliotecario;
 
 
     public EmprestimoPK getEmprestimoPK() {
@@ -53,26 +55,6 @@ public class Emprestimo  implements Comparable<Emprestimo>{
         this.dataaprovacao = dataaprovacao;
     }
 
-
-    @Basic
-    @Column(name = "datarenovacao", nullable = true)
-    public Calendar getDatarenovacao() {
-        return datarenovacao;
-    }
-
-    public void setDatarenovacao(Calendar datarenovacao) {
-        this.datarenovacao = datarenovacao;
-    }
-
-    @Basic
-    @Column(name = "datadevolucaorenovacao", nullable = true)
-    public Calendar getDatadevolucaorenovacao() {
-        return datadevolucaorenovacao;
-    }
-
-    public void setDatadevolucaorenovacao(Calendar datadevolucaorenovacao) {
-        this.datadevolucaorenovacao = datadevolucaorenovacao;
-    }
 
     @Basic
     @Column(name = "datadevolucao", nullable = true)
@@ -134,11 +116,19 @@ public class Emprestimo  implements Comparable<Emprestimo>{
 
     public void setTipoRequisicao(TipoRequisicao tipoRequisicao) { this.tipoRequisicao = tipoRequisicao; }
 
+    public Users getBibliotecario() {
+        return bibliotecario;
+    }
+
+    public void setBibliotecario(Users bibliotecario) {
+        this.bibliotecario = bibliotecario;
+    }
+
     @Override
     public int compareTo(Emprestimo emprestimo)
     {
-        return this.getEmprestimoPK().getDataentrada().
-                compareTo(emprestimo.getEmprestimoPK().getDataentrada());
+        return this.getEmprestimoPK().getDataentradapedido().
+                compareTo(emprestimo.getEmprestimoPK().getDataentradapedido());
     }
 
     @Override
@@ -151,14 +141,10 @@ public class Emprestimo  implements Comparable<Emprestimo>{
                 Objects.equals(dataaprovacao, that.dataaprovacao) &&
                 Objects.equals(datadevolucao, that.datadevolucao) &&
                 Objects.equals(comentario, that.comentario) &&
-                Objects.equals(datarenovacao, that.datarenovacao) &&
-                Objects.equals(datadevolucaorenovacao, that.datadevolucaorenovacao) &&
                 Objects.equals(estadoPedido, that.estadoPedido) &&
                 Objects.equals(estadoDevolucao, that.estadoDevolucao) &&
                 Objects.equals(estadoRenovacao, that.estadoRenovacao);
     }
-
-
 
     @Override
     public String toString() {
@@ -168,8 +154,6 @@ public class Emprestimo  implements Comparable<Emprestimo>{
                 ", datadevolucao=" + datadevolucao +
                 ", quantidade=" + quantidade +
                 ", comentario='" + comentario + '\'' +
-                ", datarenovacao=" + datarenovacao +
-                ", datadevolucaorenovacao=" + datadevolucaorenovacao +
                 ", estadoPedido=" + estadoPedido +
                 ", estadoDevolucao=" + estadoDevolucao +
                 ", estadoRenovacao=" + estadoRenovacao +

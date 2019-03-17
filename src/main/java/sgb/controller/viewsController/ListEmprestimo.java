@@ -13,8 +13,10 @@ import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.*;
-import sgb.controller.domainController.EmprestimoControllerSingleton;
+//import sgb.controller.domainController.EmprestimoControllerSingleton;
+import sgb.controller.domainController.EstadoPedidoControler;
 import sgb.domain.*;
+import sgb.request.Request;
 import sgb.service.CRUDService;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
@@ -30,15 +32,14 @@ public class ListEmprestimo extends SelectorComposer<Component> {
     private CRUDService crudService = (CRUDService) SpringUtil.getBean("CRUDService");
     private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;
     private ListModelList<Emprestimo> emprestimoListModel;
-//    private ListModel<EstadoPedido> estadopedidoModel;
     private Session session;
-
-    private EmprestimoControllerSingleton emprestimoControllerSingleton = (EmprestimoControllerSingleton)
-            SpringUtil.getBean("emprestimoControllerSingleton");
-
+    private Request request = (Request) SpringUtil.getBean("request");
+    private EstadoPedidoControler ePController = (EstadoPedidoControler) SpringUtil.getBean("estadoPedidoControler");
 
     private Boolean isNormalUser = true;
     private EstadoRenovacao estadoRenovacao;
+
+
     @Wire
     private Listbox emprestimoListBox;
 
@@ -67,12 +68,12 @@ public class ListEmprestimo extends SelectorComposer<Component> {
     }
 
     public void ComposeUserAdmin(){
-        emprestimoListModel = new ListModelList<Emprestimo>(emprestimoControllerSingleton.getRequisicoes(3));
+        emprestimoListModel = new ListModelList<Emprestimo>(request.getRequest(ePController.ACCEPTED));
         emprestimoListBox.setModel(emprestimoListModel);
     }
 
     public void ComposeUserNormal() {
-        emprestimoListModel = new ListModelList<Emprestimo>(emprestimoControllerSingleton.getRequisicoes(this.user, 3));
+        emprestimoListModel = new ListModelList<Emprestimo>(request.getRequest(this.user, ePController.ACCEPTED));
         emprestimoListBox.setModel(emprestimoListModel);
     }
 
@@ -116,16 +117,12 @@ public class ListEmprestimo extends SelectorComposer<Component> {
     }
 
     public void multar (Emprestimo emprestimo) {
-        MultaPK multaPK =new MultaPK();
         Multa multa = new Multa();
         EstadoMulta estadoMulta = crudService.get(EstadoMulta.class,2);
 
-        multaPK.setObra(emprestimo.getEmprestimoPK().getObra());
-        multaPK.setUser(emprestimo.getEmprestimoPK().getUser());
-        multaPK.setDataentradapedido(emprestimo.getEmprestimoPK().getDataentrada());
 
         multa.setDataemissao(Calendar.getInstance());
-        multa.setMultaPK(multaPK);
+        multa.setMultaPK(emprestimo.getEmprestimoPK());
         multa.setDataemprestimo(emprestimo.getDataaprovacao());
         multa.setEstadoMulta(estadoMulta);
 

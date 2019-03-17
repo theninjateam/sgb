@@ -50,29 +50,52 @@
     </bean>
 
 
+
     <bean id="CRUDService" class="sgb.service.CRUDServiceImpl" />
 
-    <bean id="emprestimoRuleSingleton" scope="singleton" class="sgb.controller.domainController.EmprestimoRuleSingleton" >
+    <bean id="configControler"  class="sgb.controller.domainController.ConfigControler" >
         <constructor-arg index="0" ref="CRUDService"/>
     </bean>
 
-    <bean id="emprestimoControllerSingleton" scope="singleton" class="sgb.controller.domainController.EmprestimoControllerSingleton" >
-        <constructor-arg index="0" ref="CRUDService"/>
-        <constructor-arg index="1" ref="emprestimoRuleSingleton"/>
-        <constructor-arg index="2" ref="estadoPedidoSingleton"/>
+    <bean id="deadlineMonitorRequestedBooks"  class="sgb.deadline.DeadlineMonitorRequestedBooks" >
+        <constructor-arg index="0" ref="deadlineRequestedBooks"/>
+        <constructor-arg index="1" ref="request"/>
+        <constructor-arg index="2" ref="estadoPedidoControler"/>
     </bean>
 
-    <bean id="timeOutService" scope="singleton" class="sgb.service.TimeOutService" >
-        <constructor-arg index="0" ref="CRUDService"/>
-        <constructor-arg index="1" ref="emprestimoControllerSingleton"/>
-        <constructor-arg index="2" ref="estadoPedidoSingleton"/>
+    <bean id="deadlineMonitorReserveddBooks"  class="sgb.deadline.DeadlineMonitorReserveddBooks" >
+        <constructor-arg index="0" ref="deadlineReservedBooks"/>
+        <constructor-arg index="1" ref="request"/>
+        <constructor-arg index="2" ref="estadoPedidoControler"/>
     </bean>
 
-    <bean id="estadoPedidoSingleton" scope="singleton" class="sgb.controller.domainController.EstadoPedidoSingleton" >
+    <bean id="deadlineRequestedBooks"  class="sgb.deadline.DeadlineRequestedBooks" >
+        <constructor-arg index="0" ref="configControler"/>
+    </bean>
+
+    <bean id="deadlineReservedBooks"  class="sgb.deadline.DeadlineReservedBooks" >
+        <constructor-arg index="0" ref="configControler"/>
+    </bean>
+
+    <bean id="estadoPedidoControler"  class="sgb.controller.domainController.EstadoPedidoControler" >
         <constructor-arg index="0" ref="CRUDService"/>
+    </bean>
+
+    <bean id="obraConcurrenceControl"  scope="singleton" class="sgb.concurrence.ObraConcurrenceControl" />
+
+    <bean id="request" class="sgb.request.Request" >
+        <constructor-arg index="0" ref="CRUDService"/>
+        <constructor-arg index="1" ref="configControler"/>
+        <constructor-arg index="2" ref="estadoPedidoControler"/>
+        <constructor-arg index="3" ref="obraConcurrenceControl"/>
+        <constructor-arg index="4" ref="queue"/>
+    </bean>
+
+    <bean id="queue"  class="sgb.request.Queue" >
+        <constructor-arg index="0" ref="CRUDService"/>
+        <constructor-arg index="1" ref="estadoPedidoControler"/>
     </bean>
 
     <context:annotation-config />
     <context:component-scan base-package="sgb"/>
-
 </beans>

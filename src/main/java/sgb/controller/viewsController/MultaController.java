@@ -18,8 +18,6 @@ import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.*;
-import sgb.controller.domainController.EmprestimoControllerSingleton;
-import sgb.controller.domainController.EstadoPedidoSingleton;
 import sgb.domain.*;
 import sgb.service.CRUDService;
 
@@ -38,11 +36,6 @@ public class MultaController extends SelectorComposer<Component> {
 
     private CRUDService crudService = (CRUDService) SpringUtil.getBean("CRUDService");
     private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    private EmprestimoControllerSingleton emprestimoControllerSingleton = (EmprestimoControllerSingleton)
-            SpringUtil.getBean("emprestimoControllerSingleton");
-    private EmprestimoControllerSingleton eCSingleton;
-    private EstadoPedidoSingleton ePSingleton;
-    private EstadoPedido estadoPedido;
 
 
     private  ListModelList<Multa> multaListModel;
@@ -70,13 +63,10 @@ public class MultaController extends SelectorComposer<Component> {
         session = Sessions.getCurrent();
 
         multa = (Multa) session.getAttribute ("Multaa");
-        EmprestimoPK emprestimopk= new EmprestimoPK();
         Calendar dataP;
-        emprestimopk.setDataentrada(multa.getMultaPK().getDataentradapedido());
-        emprestimopk.setObra(multa.getMultaPK().getObra());
-        emprestimopk.setUser(multa.getMultaPK().getUser());
 
-        emprestimo = crudService.get(Emprestimo.class,emprestimopk);
+
+        emprestimo = crudService.get(Emprestimo.class,multa.getMultaPK());
 
 
 //        obra = multa.getMultaPK().getObra();
@@ -89,20 +79,11 @@ public class MultaController extends SelectorComposer<Component> {
 
     }
 
-    public String dataPrevistaDevolucao(MultaPK multapk) {
-        EmprestimoPK emprestimopk= new EmprestimoPK();
+    public String dataPrevistaDevolucao(EmprestimoPK multapk) {
+
         Calendar dataP;
-        emprestimopk.setDataentrada(multapk.getDataentradapedido());
-        emprestimopk.setObra(multapk.getObra());
-        emprestimopk.setUser(multapk.getUser());
-
-         emprestimo = crudService.get(Emprestimo.class,emprestimopk);
-
-        if(emprestimo.getEstadoRenovacao().getIdestadorenovacao()==1) {
-            dataP = emprestimo.getDatadevolucaorenovacao();
-        } else {
-            dataP = emprestimo.getDatadevolucao();
-        }
+        emprestimo = crudService.get(Emprestimo.class,multapk);
+        dataP = emprestimo.getDatadevolucao();
         return dataConvert(dataP);
     }
 

@@ -51,7 +51,7 @@
                                                                                      mold="select">
 
                                                                                 <listhead>
-                                                                                    <listheader label="tipo de obra"/>
+                                                                                    <listheader label="tipo de obraConcurrenceController"/>
                                                                                 </listhead>
                                                                                 <template name="model">
                                                                                     <listitem>

@@ -51,23 +51,23 @@
                                                 </listcell>
                                                 <listcell>
                                                     <div>
-                                                        <image width="100%" height="100%"  src="${each.emprestimoPK.obra.pathcapa}"/>
+                                                        <image width="100%" height="100%"  src="${each.emprestimoPK.obraConcurrenceController.pathcapa}"/>
                                                     </div>
                                                 </listcell>
                                                 <listcell>
                                                     <hlayout>
                                                         <div>
                                                             <div>
-                                                                <label value="${each.emprestimoPK.obra.titulo}"
+                                                                <label value="${each.emprestimoPK.obraConcurrenceController.titulo}"
                                                                        style="font-size: large; font-weight: bold; padding: 2px 2px 2px 2px; font-size: 15px;"/>
                                                             </div>
                                                             <div>
                                                                 <label value="Por :"/>
-                                                                <label forEach="${each.emprestimoPK.obra.autores}"  value="${each.nome} ,"/>
+                                                                <label forEach="${each.emprestimoPK.obraConcurrenceController.autores}"  value="${each.nome} ,"/>
                                                             </div>
                                                             <div>
                                                                 <label value="Tipo:"/>
-                                                                <label value="(${each.emprestimoPK.obra.tipoobra.descricao})"/>
+                                                                <label value="(${each.emprestimoPK.obraConcurrenceController.tipoobra.descricao})"/>
                                                             </div>
                                                         </div>
                                                     </hlayout>

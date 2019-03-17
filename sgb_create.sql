@@ -151,7 +151,7 @@ create table tipoobra
 alter table tipoobra owner to postgres
 ;
 
-create table obra
+create table obraConcurrenceController
 (
 	cota varchar(255) not null
 		constraint obra_key
@@ -176,7 +176,7 @@ create table obra
 )
 ;
 
-alter table obra owner to postgres
+alter table obraConcurrenceController owner to postgres
 ;
 
 create table cd
@@ -185,7 +185,7 @@ create table cd
 		constraint cd_key
 			primary key
 		constraint idcd
-			references obra,
+			references obraConcurrenceController,
 	descricao varchar(255)
 )
 ;
@@ -199,7 +199,7 @@ create table livro
 		constraint livro_key
 			primary key
 		constraint cota
-			references obra,
+			references obraConcurrenceController,
 	isbn varchar(255),
 	editora varchar(255),
 	edicao integer,
@@ -217,7 +217,7 @@ create table livrocd
 		constraint livrocd_pkey
 			primary key
 		constraint fkb022d77f183e4c5
-			references obra,
+			references obraConcurrenceController,
 	codigobarra varchar(255),
 	descricaocd varchar(255),
 	edicao varchar(255),
@@ -237,7 +237,7 @@ create table obra_autor
 			references autor,
 	cota varchar(255) not null
 		constraint cota
-			references obra,
+			references obraConcurrenceController,
 	constraint obra_autor_key
 		primary key (cota, hashcode)
 )
@@ -252,7 +252,7 @@ create table revista
 		constraint revista_key
 			primary key
 		constraint cota
-			references obra,
+			references obraConcurrenceController,
 	instituicao varchar(255)
 )
 ;
@@ -308,7 +308,7 @@ create table registroobra
 (
 	cota varchar(255) not null
 		constraint "Cota"
-			references obra
+			references obraConcurrenceController
 				on update cascade on delete cascade,
 	user_id integer not null
 		constraint iduser
@@ -334,7 +334,7 @@ create table obraeliminadas
 	quantidade integer,
 	cota varchar(255) not null
 		constraint fkddb9eec7f183e4c5
-			references obra,
+			references obraConcurrenceController,
 	user_id integer not null
 		constraint fkddb9eec730e86fad
 			references "user",
@@ -381,7 +381,7 @@ create table emprestimo
 			references "user",
 	cota varchar(255) not null
 		constraint cota
-			references obra,
+			references obraConcurrenceController,
 	dataentrada timestamp not null,
 	estadopedido integer
 		constraint idestadopedido

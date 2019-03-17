@@ -8,7 +8,7 @@ import java.util.Calendar;
 @Table(name = "multa", schema = "public")
 public class Multa {
     @EmbeddedId
-    private MultaPK multaPK;
+    private EmprestimoPK multaPK;
     private Integer diasatraso;
     private Float valorpago;
     private Calendar dataemprestimo;
@@ -34,11 +34,11 @@ public class Multa {
         this.bibliotecario = bibliotecario;
     }
 
-    public MultaPK getMultaPK() {
+    public EmprestimoPK getMultaPK() {
         return multaPK;
     }
 
-    public void setMultaPK(MultaPK multaPK) {
+    public void setMultaPK(EmprestimoPK multaPK) {
         this.multaPK = multaPK;
     }
 

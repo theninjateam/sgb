@@ -7,7 +7,7 @@ import org.junit.Test;
 import org.zkoss.zats.mimic.DesktopAgent;
 import org.zkoss.zats.mimic.Zats;
 
-public class ObraControllerTest
+public class ObraConcurrenceControllerControlTest
 {
     @BeforeClass
     public static void init()

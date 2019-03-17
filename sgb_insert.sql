@@ -46,11 +46,11 @@ INSERT INTO public.idioma (ididioma, descricao) VALUES (1, 'Portugues');
 INSERT INTO public.idioma (ididioma, descricao) VALUES (2, 'Ingles');
 INSERT INTO public.idioma (ididioma, descricao) VALUES (3, 'Espanhol');
 
-INSERT INTO public.obra (cota, registro, titulo, idarea, localpublicacao, ididioma, quantidade, idtipo, pathpdf, pathcapa, anopublicacao) VALUES ('WW2', 7777, 'Introducao a Biologia', 1, 'Nampula', 2, 4, 2, '', 'digitalLibrary/cover/bg4.jpg', 44444);
-INSERT INTO public.obra (cota, registro, titulo, idarea, localpublicacao, ididioma, quantidade, idtipo, pathpdf, pathcapa, anopublicacao) VALUES ('77788', 555, 'Introducao a Quimica', 5, 'Maputo', 1, 4, 2, 'digitalLibrary/pdf/isbd-cons_2007-en.pdf', 'digitalLibrary/cover/bg.png', 788);
-INSERT INTO public.obra (cota, registro, titulo, idarea, localpublicacao, ididioma, quantidade, idtipo, pathpdf, pathcapa, anopublicacao) VALUES ('ww23', 11, '11', 5, 'teste', null, 0, 1, null, null, 2015);
-INSERT INTO public.obra (cota, registro, titulo, idarea, localpublicacao, ididioma, quantidade, idtipo, pathpdf, pathcapa, anopublicacao) VALUES ('531.4F', 1223, 'Introducao Fisica', 1, 'Pemba', 1, 4, 1, '', 'digitalLibrary/cover/bg4.jpg', 2001);
-INSERT INTO public.obra (cota, registro, titulo, idarea, localpublicacao, ididioma, quantidade, idtipo, pathpdf, pathcapa, anopublicacao) VALUES ('eee2', 1234, 'Introducao a Matematica', 1, 'Beira', 1, 4, 2, 'digitalLibrary/pdf/4.pdf', 'digitalLibrary/cover/bg4.jpg', 1298);
+INSERT INTO public.obraConcurrenceController (cota, registro, titulo, idarea, localpublicacao, ididioma, quantidade, idtipo, pathpdf, pathcapa, anopublicacao) VALUES ('WW2', 7777, 'Introducao a Biologia', 1, 'Nampula', 2, 4, 2, '', 'digitalLibrary/cover/bg4.jpg', 44444);
+INSERT INTO public.obraConcurrenceController (cota, registro, titulo, idarea, localpublicacao, ididioma, quantidade, idtipo, pathpdf, pathcapa, anopublicacao) VALUES ('77788', 555, 'Introducao a Quimica', 5, 'Maputo', 1, 4, 2, 'digitalLibrary/pdf/isbd-cons_2007-en.pdf', 'digitalLibrary/cover/bg.png', 788);
+INSERT INTO public.obraConcurrenceController (cota, registro, titulo, idarea, localpublicacao, ididioma, quantidade, idtipo, pathpdf, pathcapa, anopublicacao) VALUES ('ww23', 11, '11', 5, 'teste', null, 0, 1, null, null, 2015);
+INSERT INTO public.obraConcurrenceController (cota, registro, titulo, idarea, localpublicacao, ididioma, quantidade, idtipo, pathpdf, pathcapa, anopublicacao) VALUES ('531.4F', 1223, 'Introducao Fisica', 1, 'Pemba', 1, 4, 1, '', 'digitalLibrary/cover/bg4.jpg', 2001);
+INSERT INTO public.obraConcurrenceController (cota, registro, titulo, idarea, localpublicacao, ididioma, quantidade, idtipo, pathpdf, pathcapa, anopublicacao) VALUES ('eee2', 1234, 'Introducao a Matematica', 1, 'Beira', 1, 4, 2, 'digitalLibrary/pdf/4.pdf', 'digitalLibrary/cover/bg4.jpg', 1298);
 INSERT INTO public.obra_autor (hashcode, cota) VALUES ('8229a8b31ffcddd530ce6b821313a55a', '531.4F');
 INSERT INTO public.obra_autor (hashcode, cota) VALUES ('ed4518f5dd79dfe71c93738816d642d5', '531.4F');
 INSERT INTO public.obra_autor (hashcode, cota) VALUES ('90455afe8bf918c581be908c174a0d30', 'WW2');
