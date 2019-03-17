@@ -39,9 +39,9 @@
 
                                                         dateFormatter = DateFormat.getDateInstance(DateFormat.FULL, MOZAMBIQUE);
 
-                                                        builder.append(dateFormatter.format(each.emprestimoPK.dataentrada.getTime()));
+                                                        builder.append(dateFormatter.format(each.emprestimoPK.dataentradapedido.getTime()));
                                                         builder.append("\n");
-                                                        builder.append(timeFormatter.format(each.emprestimoPK.dataentrada.getTime()));
+                                                        builder.append(timeFormatter.format(each.emprestimoPK.dataentradapedido.getTime()));
 
                                                         String dataEntrada = builder.toString();
                                                     ]]>

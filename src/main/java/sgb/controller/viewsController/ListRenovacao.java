@@ -71,7 +71,7 @@ public class ListRenovacao extends SelectorComposer<Component> {
         renovacaoListBox.setModel(renovacaoListModel);
     }
     public ListModelList<Emprestimo> getUserEmprestimoListModel() {
-        List<Emprestimo> lista = crudService.findByJPQuery("SELECT e FROM Emprestimo e WHERE e.estadoRenovacao.idestadorenovacao=2 and e.estadoPedido.idestadopedido=3 and e.emprestimoPK.user.id = " +
+        List<Emprestimo> lista = crudService.findByJPQuery("SELECT e FROM Emprestimo e WHERE e.estadoRenovacao.idestadorenovacao=2 and e.estadoPedido.idestadopedido=3 and e.emprestimoPK.utente.id = " +
                 user.getId(),null);
         return new ListModelList<Emprestimo>(lista);
     }
