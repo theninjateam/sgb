@@ -43,7 +43,7 @@ public class DeadlineMonitorRequestedBooks extends Thread implements Application
                     for (Emprestimo e: requests)
                     {
                         boolean  exceededDeadline =
-                                this.dRBooks.exceededDeadline(e.getEmprestimoPK().getDataentrada(), Calendar.getInstance());
+                                this.dRBooks.exceededDeadline(e.getEmprestimoPK().getDataentradapedido(), Calendar.getInstance());
 
                         if (exceededDeadline)
                         {
