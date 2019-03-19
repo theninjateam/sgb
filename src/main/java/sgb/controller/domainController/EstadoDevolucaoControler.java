@@ -21,7 +21,7 @@ public class EstadoDevolucaoControler
         this.CRUDService = crudService;
         UNDETERMINED = getValue("UNDETERMINED");
         RETURNED = getValue("RETURNED");
-        NOT_RETURNED = getValue(" NOT_RETURNED");
+        NOT_RETURNED = getValue("NOT_RETURNED");
 
     }
 
@@ -34,10 +34,5 @@ public class EstadoDevolucaoControler
         query.append("SELECT e FROM EstadoDevolucao e WHERE e.descricao = :description");
 
         return  ((EstadoDevolucao) this.CRUDService.findEntByJPQueryT(query.toString(), parameters)).getIdestadodevolucao();
-    }
-
-    public EstadoDevolucao getEstadoDevolucao(int idEstadoDevolucao)
-    {
-        return this.CRUDService.get(EstadoDevolucao.class,idEstadoDevolucao);
     }
 }
