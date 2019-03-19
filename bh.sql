@@ -240,10 +240,9 @@ CREATE TABLE "public"."estadodevolucao" (
 -- ----------------------------
 -- Records of estadodevolucao
 -- ----------------------------
-INSERT INTO "public"."estadodevolucao" VALUES (2, 'nao devolvido');
-INSERT INTO "public"."estadodevolucao" VALUES (3, 'devolvido');
-INSERT INTO "public"."estadodevolucao" VALUES (1, 'Indeterminado');
-
+INSERT INTO public.estadodevolucao (idestadodevolucao, descricao) VALUES (1, 'UNDETERMINED');
+INSERT INTO public.estadodevolucao (idestadodevolucao, descricao) VALUES (3, 'RETURNED');
+INSERT INTO public.estadodevolucao (idestadodevolucao, descricao) VALUES (2, 'NOT_RETURNED');
 -- ----------------------------
 -- Table structure for estadomulta
 -- ----------------------------
@@ -257,11 +256,10 @@ CREATE TABLE "public"."estadomulta" (
 -- ----------------------------
 -- Records of estadomulta
 -- ----------------------------
-INSERT INTO "public"."estadomulta" VALUES (1, 'Indeferido');
-INSERT INTO "public"."estadomulta" VALUES (2, 'Paga');
-INSERT INTO "public"."estadomulta" VALUES (3, 'Nao Paga');
-INSERT INTO "public"."estadomulta" VALUES (4, 'Revogada');
-
+INSERT INTO public.estadomulta (idestadomulta, descricao) VALUES (1, 'Indeferido');
+INSERT INTO public.estadomulta (idestadomulta, descricao) VALUES (3, 'NOT_PAID');
+INSERT INTO public.estadomulta (idestadomulta, descricao) VALUES (2, 'PAID');
+INSERT INTO public.estadomulta (idestadomulta, descricao) VALUES (4, 'REVOKED');
 -- ----------------------------
 -- Table structure for estadopedido
 -- ----------------------------
