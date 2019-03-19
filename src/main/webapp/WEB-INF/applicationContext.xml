@@ -89,6 +89,14 @@
         <constructor-arg index="0" ref="CRUDService"/>
     </bean>
 
+    <bean id="estadoMultaControler"  class="sgb.controller.domainController.EstadoMultaControler" >
+        <constructor-arg index="0" ref="CRUDService"/>
+    </bean>
+
+    <bean id="estadoDevolucaoControler"  class="sgb.controller.domainController.EstadoDevolucaoControler" >
+        <constructor-arg index="0" ref="CRUDService"/>
+    </bean>
+
     <bean id="obraConcurrenceControl"  scope="singleton" class="sgb.concurrence.ObraConcurrenceControl" />
 
     <bean id="request" class="sgb.request.Request" >
@@ -103,6 +111,14 @@
     <bean id="queue"  class="sgb.request.Queue" >
         <constructor-arg index="0" ref="CRUDService"/>
         <constructor-arg index="1" ref="estadoPedidoControler"/>
+    </bean>
+
+    <bean id="borrowedBooksDeadline"  class="sgb.deadline.BorrowedBooksDeadline" >
+        <constructor-arg index="0" ref="configControler"/>
+        <constructor-arg index="1" ref="emprestimoController"/>
+        <constructor-arg index="2" ref="estadoMultaControler"/>
+        <constructor-arg index="3" ref="CRUDService"/>
+        <constructor-arg index="4" ref="estadoDevolucaoControler"/>
     </bean>
 
     <context:annotation-config />

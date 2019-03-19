@@ -1,7 +1,11 @@
 package sgb.deadline;
 
 import sgb.controller.domainController.ConfigControler;
+import sgb.controller.domainController.EmprestimoController;
+import sgb.controller.domainController.EstadoDevolucaoControler;
+import sgb.controller.domainController.EstadoMultaControler;
 import sgb.domain.*;
+import sgb.service.CRUDService;
 
 import java.time.Duration;
 import java.util.Calendar;
@@ -10,9 +14,22 @@ public class BorrowedBooksDeadline extends Deadline
 {
     private ConfigControler configControler;
     private boolean isStudent;
-    public BorrowedBooksDeadline(ConfigControler configControler)
+    private EmprestimoController eController;
+    private EstadoMultaControler eMController;
+    private CRUDService crudService;
+    private EstadoDevolucaoControler eDController;
+
+    public BorrowedBooksDeadline(ConfigControler configControler,
+                                 EmprestimoController eController,
+                                 EstadoMultaControler eMController,
+                                 CRUDService crudService,
+                                 EstadoDevolucaoControler eDController)
     {
         this.configControler = configControler;
+        this.eController = eController;
+        this.eMController = eMController;
+        this.crudService = crudService;
+        this.eDController = eDController;
     }
 
     public Calendar getDeadline(Calendar borrowDate, boolean isStudent)
@@ -46,59 +63,26 @@ public class BorrowedBooksDeadline extends Deadline
 
     public void multar (Emprestimo e)
     {
+        Multa multa = new Multa();
         Emprestimo emprestimo = this.eController.getRequest(e.getEmprestimoPK());
-        EstadoDevolucao estadoDevolucao = this.crudService.get(EstadoDevolucao.class, this.estadoDevolucaoControler.NOT_RETURNED);
+        EstadoDevolucao estadoDevolucao = this.crudService.get(EstadoDevolucao.class, this.eDController.NOT_RETURNED);
+        EstadoMulta estadoMulta = crudService.get(EstadoMulta.class,this.eMController.NOT_PAID);
+        int diaatraso = Math.abs (
+                (int) Duration.between(Calendar.getInstance().toInstant(), emprestimo.getDatadevolucao().toInstant()).toDays());
 
-        if(emprestimo.getEstadoDevolucao().equals(estadoDevolucao)) {
-            /*
-             *  Gera a multa e atualiza a tabela emprestimo com estado de devolucao NOT_RETURNED
-             */
-            emprestimo.setEstadoDevolucao(estadoDevolucao);
+        emprestimo.setEstadoDevolucao(estadoDevolucao);
 
-            Multa multa = new Multa();
-            multa.setMultaPK(emprestimo.getEmprestimoPK());
+        multa.setMultaPK(emprestimo.getEmprestimoPK());
+        multa.setDataemissao(Calendar.getInstance());
+        multa.setDataemprestimo(emprestimo.getDataaprovacao());
+        multa.setEstadoMulta(estadoMulta);
+        multa.setDiasatraso(diaatraso);
 
-            EstadoMulta estadoMulta = crudService.get(EstadoMulta.class,2);
+        float taxaD = this.configControler.DAILY_RATE_FINE;
+        multa.setTaxadiaria(taxaD);
+        multa.setValorpago((diaatraso*taxaD));
 
-            multa.setDataemissao(Calendar.getInstance());
-            multa.setDataemprestimo(emprestimo.getDataaprovacao());
-            multa.setEstadoMulta(estadoMulta);
-
-            int diaatraso = -1 * (int) Duration.between(Calendar.getInstance().toInstant(), emprestimo.getDatadevolucao().toInstant()).toDays();
-
-            multa.setDiasatraso(diaatraso );
-
-            Float taxaD = Float.parseFloat(crudService.get(Config.class,"DAILY_RATE_FINE").getValor());
-            multa.setTaxadiaria(taxaD);
-
-            multa.setValorpago((diaatraso*taxaD));
-            this.obraConcurrenceControl.enterInCriticalRegion(e.getEmprestimoPK().getObra());
-            crudService.Save(multa);
-            crudService.update(emprestimo);
-            this.obraConcurrenceControl.leaveInCriticalRegion(e.getEmprestimoPK().getObra());
-
-
-        }
-        else
-        {
-            /*
-             *atualiza a multa nos campos de dias de atraso e total a pagar
-             */
-            Multa multa =new Multa();
-            multa = crudService.get(Multa.class,emprestimo.getEmprestimoPK());
-
-            int diaatraso = -1 * (int) Duration.between(Calendar.getInstance().toInstant(), emprestimo.getDatadevolucao().toInstant()).toDays();
-
-            multa.setDiasatraso(diaatraso );
-
-            Float taxaD = Float.parseFloat(crudService.get(Config.class,"DAILY_RATE_FINE").getValor());
-            multa.setTaxadiaria(taxaD);
-
-            multa.setValorpago((diaatraso*taxaD));
-            this.obraConcurrenceControl.enterInCriticalRegion(e.getEmprestimoPK().getObra());
-            crudService.update(multa);
-            this.obraConcurrenceControl.leaveInCriticalRegion(e.getEmprestimoPK().getObra());
-
-        }
+        crudService.Save(multa);
+        crudService.update(emprestimo);
     }
 }
