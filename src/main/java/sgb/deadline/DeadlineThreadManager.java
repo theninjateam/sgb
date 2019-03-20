@@ -17,9 +17,9 @@ public class DeadlineThreadManager extends Thread implements ApplicationListener
     private MiniBookingDeadlineController mBDController;
     private ConfigControler configControler;
 
-    private final AtomicBoolean running = new AtomicBoolean(false);
-    private final AtomicBoolean wasThreadsStarted = new AtomicBoolean(false);
-    private final AtomicBoolean isServerStarting  = new AtomicBoolean(true);
+    private final AtomicBoolean running = new AtomicBoolean();
+    private final AtomicBoolean wasThreadsStarted = new AtomicBoolean();
+    private final AtomicBoolean isServerStarting  = new AtomicBoolean();
 
     public DeadlineThreadManager(BookingDeadlineController bDController,
                                  BorrowedBooksDeadlineController bBDController,
@@ -131,11 +131,11 @@ public class DeadlineThreadManager extends Thread implements ApplicationListener
 
     public void onApplicationEvent(final ContextRefreshedEvent event)
     {
-        this.setName("DeadLine Thread Manager");
         this.isServerStarting.set(true);
+        this.wasThreadsStarted.set(false);
         this.running.set(true);
-        this.start();
 
-        System.out.println("Starting DeadLine Thread Manager ...");
+        this.setName("DeadLine Thread Manager");
+        this.start();
     }
 }
