@@ -69,7 +69,7 @@ public class DeadlineThreadManager extends Thread implements ApplicationListener
             {
                 canStartDaemons = true;
             }
-            else if ((today.get(Calendar.HOUR_OF_DAY) < configControler.ENTRY_TIME_ON_SATURDAY -3) )
+            else if ((today.get(Calendar.HOUR_OF_DAY) < configControler.ENTRY_TIME_ON_SATURDAY -1) )
             {
                 canStartDaemons = true;
             }
@@ -81,7 +81,7 @@ public class DeadlineThreadManager extends Thread implements ApplicationListener
             {
                 canStartDaemons = true;
             }
-            else  if ((today.get(Calendar.HOUR_OF_DAY) < configControler.ENTRY_TIME_ON_WEEKDAYS - 3))
+            else  if ((today.get(Calendar.HOUR_OF_DAY) < configControler.ENTRY_TIME_ON_WEEKDAYS - 1))
             {
                 canStartDaemons = true;
             }
