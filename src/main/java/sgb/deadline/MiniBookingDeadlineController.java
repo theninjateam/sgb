@@ -10,17 +10,19 @@ import sgb.request.Request;
 import java.lang.Thread;
 import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * @author Fonseca, bfonseca@unilurio.ac.mz
  */
 
-public class MiniBookingDeadlineController extends Thread implements ApplicationListener<ContextRefreshedEvent>
+public class MiniBookingDeadlineController extends Thread
 {
     private MiniBookingDeadline mBDeadline;
     private Request request;
     private EstadoPedidoControler ePControler;
     private EmprestimoController eController;
+    private final AtomicBoolean running = new AtomicBoolean(false);
 
     private int minuto = 1;
 
@@ -37,7 +39,7 @@ public class MiniBookingDeadlineController extends Thread implements Application
 
     public void run()
     {
-        while(true)
+        while(running.get())
         {
             try
             {
@@ -49,7 +51,6 @@ public class MiniBookingDeadlineController extends Thread implements Application
                     {
                         boolean  exceededDeadline =
                                 this.mBDeadline.exceededDeadline(e.getEmprestimoPK().getDataentradapedido(), Calendar.getInstance());
-                        this.mBDeadline.exceededDeadline(e.getEmprestimoPK().getDataentradapedido(), Calendar.getInstance());
 
                         if (exceededDeadline)
                         {
@@ -58,7 +59,7 @@ public class MiniBookingDeadlineController extends Thread implements Application
                     }
                 }
 
-                Thread.sleep(minuto * 60 * 1000);
+                this.sleep(minuto * 60 * 1000);
             }
             catch (Exception ex)
             {
@@ -67,8 +68,8 @@ public class MiniBookingDeadlineController extends Thread implements Application
         }
     }
 
-    public void onApplicationEvent(final ContextRefreshedEvent event)
+    public AtomicBoolean getRunning()
     {
-        this.start();
+        return running;
     }
 }

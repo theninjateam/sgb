@@ -121,6 +121,20 @@
         <constructor-arg index="4" ref="estadoDevolucaoControler"/>
     </bean>
 
+    <bean id="borrowedBooksDeadlineController"  class="sgb.deadline.BorrowedBooksDeadlineController" >
+        <constructor-arg index="0" ref="borrowedBooksDeadline"/>
+        <constructor-arg index="1" ref="request"/>
+        <constructor-arg index="2" ref="estadoPedidoControler"/>
+        <constructor-arg index="3" ref="emprestimoController"/>
+    </bean>
+
+    <bean id="deadlineThreadManager"  class="sgb.deadline.DeadlineThreadManager" >
+        <constructor-arg index="0" ref="bookingDeadlineController"/>
+        <constructor-arg index="1" ref="borrowedBooksDeadlineController"/>
+        <constructor-arg index="2" ref="miniBookingDeadlineController"/>
+        <constructor-arg index="3" ref="configControler"/>
+    </bean>
+
     <context:annotation-config />
     <context:component-scan base-package="sgb"/>
 </beans>

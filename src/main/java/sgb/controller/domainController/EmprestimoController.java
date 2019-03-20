@@ -70,8 +70,8 @@ public class EmprestimoController
         parameters.put("dataentrada", emprestimoPK.getDataentradapedido());
 
 
-        query.append("SELECT e FROM Emprestimo e WHERE e.emprestimoPK.user.id = :user_id and ");
-        query.append("e.emprestimoPK.obra.cota = :cota and e.emprestimoPK.dataentrada = :dataentrada");
+        query.append("SELECT e FROM Emprestimo e WHERE e.emprestimoPK.utente.id = :user_id and ");
+        query.append("e.emprestimoPK.obra.cota = :cota and e.emprestimoPK.dataentradapedido = :dataentrada");
 
         return this.crudService.findEntByJPQueryT(query.toString(), parameters);
     }

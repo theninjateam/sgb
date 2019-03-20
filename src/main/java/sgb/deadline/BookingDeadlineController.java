@@ -14,14 +14,12 @@ import java.util.List;
  * @author Fonseca, bfonseca@unilurio.ac.mz
  */
 
-public class BookingDeadlineController extends Thread implements ApplicationListener<ContextRefreshedEvent>
+public class BookingDeadlineController extends Thread
 {
     private BookingDeadline bDeadline;
     private Request request;
     private EstadoPedidoControler ePControler;
     private EmprestimoController eController;
-
-    private int minuto = 1;
 
     public BookingDeadlineController(BookingDeadline bDeadline,
                                      Request request,
@@ -36,38 +34,27 @@ public class BookingDeadlineController extends Thread implements ApplicationList
 
     public void run()
     {
-        while(true)
+        try
         {
-            try
+            List<Emprestimo> pendingBooking = this.eController.getRequest(ePControler.PENDING_BOOKING);
+
+            if (pendingBooking != null)
             {
-                List<Emprestimo> reserves = this.eController.getRequest(ePControler.PENDING_BOOKING);
-
-                if (reserves != null)
+                for (Emprestimo e: pendingBooking)
                 {
-                    for (Emprestimo e: reserves)
-                    {
-                        boolean  exceededDeadline =
-                                this.bDeadline.exceededDeadline(e.getEmprestimoPK().getDataentradapedido(), Calendar.getInstance());
-                        this.bDeadline.exceededDeadline(e.getEmprestimoPK().getDataentradapedido(), Calendar.getInstance());
+                    boolean  exceededDeadline =
+                            this.bDeadline.exceededDeadline(e.getEmprestimoPK().getDataentradapedido(), Calendar.getInstance());
 
-                        if (exceededDeadline)
-                        {
-                            request.cancel(e);
-                        }
+                    if (exceededDeadline)
+                    {
+                        request.cancel(e);
                     }
                 }
-
-                Thread.sleep(minuto * 60 * 1000);
-            }
-            catch (Exception ex)
-            {
-                ex.printStackTrace();
             }
         }
-    }
-
-    public void onApplicationEvent(final ContextRefreshedEvent event)
-    {
-        this.start();
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
     }
 }
