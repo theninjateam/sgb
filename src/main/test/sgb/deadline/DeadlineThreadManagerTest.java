@@ -1,5 +1,6 @@
 package sgb.deadline;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,6 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 import sgb.controller.domainController.ConfigControler;
+import sgb.domain.Config;
 import sgb.domain.Emprestimo;
 import sgb.service.CRUDService;
 
@@ -40,9 +42,15 @@ public class DeadlineThreadManagerTest
         this.deadlineThreadManager = (DeadlineThreadManager) context.getBean("deadlineThreadManager");
         this.configControler = (ConfigControler) context.getBean("configControler");
         this.crudService = (CRUDService) context.getBean("CRUDService");
-}
+
+        Config config = this.crudService.get(Config.class, "SYS_DEBUGING");
+        config.setValor("1");
+        this.crudService.update(config);
+
+    }
 
     @Test
+    @Transactional
     public void startThreadsOnSundayAndSaturdayTest()
     {
         Calendar date = Calendar.getInstance();
@@ -107,4 +115,16 @@ public class DeadlineThreadManagerTest
 
         assertThat(this.deadlineThreadManager.getWasThreadsStarted().get()).isTrue();
     }
+
+    @After
+    @Transactional
+    public void after() throws Exception
+    {
+        System.out.println("down !");
+
+        Config config = this.crudService.get(Config.class, "SYS_DEBUGING");
+        config.setValor("0");
+        this.crudService.update(config);
+    }
+
 }
