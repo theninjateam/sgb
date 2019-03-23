@@ -37,6 +37,7 @@ public class BookingDeadlineTest
         System.out.println("Setting it up!");
         this.bookingDeadline = (BookingDeadline) context.getBean("deadlineReservedBooks");
         this.configControler = (ConfigControler) context.getBean("configControler");
+
     }
 
     @Test

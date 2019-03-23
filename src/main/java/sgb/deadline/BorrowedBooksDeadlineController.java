@@ -9,6 +9,7 @@ import sgb.request.Request;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * @author Fonseca, bfonseca@unilurio.ac.mz
@@ -20,6 +21,7 @@ public class BorrowedBooksDeadlineController extends Thread
     private Request request;
     private EstadoPedidoControler ePControler;
     private EmprestimoController eController;
+    private final AtomicBoolean running = new AtomicBoolean(false);
 
     public BorrowedBooksDeadlineController(BorrowedBooksDeadline bBDeadline,
                                            Request request,
@@ -34,11 +36,13 @@ public class BorrowedBooksDeadlineController extends Thread
 
     public void run()
     {
-        try
+        if (this.running.get() && this.request.getConfigControler().SYS_DEBUGING == 0)
         {
-            List<Emprestimo> borrowedBooks = this.eController.getRequest(ePControler.ACCEPTED);
+            try
+            {
+                List<Emprestimo> borrowedBooks = this.eController.getRequest(ePControler.ACCEPTED);
 
-            if (borrowedBooks != null)
+                if (borrowedBooks != null)
                 {
                     for (Emprestimo e: borrowedBooks)
                     {
@@ -56,5 +60,10 @@ public class BorrowedBooksDeadlineController extends Thread
             {
                 ex.printStackTrace();
             }
+        }
+    }
+    public AtomicBoolean getRunning()
+    {
+        return running;
     }
 }

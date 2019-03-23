@@ -68,7 +68,7 @@ public class DeadlineThreadManager extends Thread implements ApplicationListener
             {
                 canStartThreads = true;
             }
-            else if ((today.get(Calendar.HOUR_OF_DAY) < configControler.ENTRY_TIME_ON_SATURDAY -1) )
+            else if ((today.get(Calendar.HOUR_OF_DAY) < configControler.ENTRY_TIME_ON_SATURDAY) )
             {
                 canStartThreads = true;
             }
@@ -80,7 +80,7 @@ public class DeadlineThreadManager extends Thread implements ApplicationListener
             {
                 canStartThreads = true;
             }
-            else  if ((today.get(Calendar.HOUR_OF_DAY) < configControler.ENTRY_TIME_ON_WEEKDAYS - 1))
+            else  if ((today.get(Calendar.HOUR_OF_DAY) < configControler.ENTRY_TIME_ON_WEEKDAYS))
             {
                 canStartThreads = true;
             }
@@ -93,11 +93,12 @@ public class DeadlineThreadManager extends Thread implements ApplicationListener
             this.mBDController.run();
 
             this.bDController.setName("Booking Deadline Controller - Thread");
+            this.bDController.getRunning().set(true);
             this.bDController.run();
 
             this.bBDController.setName("Borrowed Books Deadline Controller - Thread");
             this.bBDController.run();
-
+            this.bBDController.getRunning().set(true);
             this.wasThreadsStarted.set(true);
         }
     }
@@ -119,10 +120,9 @@ public class DeadlineThreadManager extends Thread implements ApplicationListener
 
         if (canEndThreads)
         {
-            if (this.mBDController.isAlive())
-            {
-                this.mBDController.getRunning().set(false);
-            }
+            this.mBDController.getRunning().set(false);
+            this.bBDController.getRunning().set(false);
+            this.bDController.getRunning().set(false);
 
             this.wasThreadsStarted.set(false);
         }

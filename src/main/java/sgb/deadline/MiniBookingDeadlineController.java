@@ -39,7 +39,7 @@ public class MiniBookingDeadlineController extends Thread
 
     public void run()
     {
-        while(running.get())
+        while(running.get() && this.request.getConfigControler().SYS_DEBUGING == 0)
         {
             try
             {
@@ -67,7 +67,6 @@ public class MiniBookingDeadlineController extends Thread
             }
         }
     }
-
     public AtomicBoolean getRunning()
     {
         return running;

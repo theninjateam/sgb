@@ -9,6 +9,7 @@ import sgb.request.Request;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * @author Fonseca, bfonseca@unilurio.ac.mz
@@ -20,6 +21,7 @@ public class BookingDeadlineController extends Thread
     private Request request;
     private EstadoPedidoControler ePControler;
     private EmprestimoController eController;
+    private final AtomicBoolean running = new AtomicBoolean(false);
 
     public BookingDeadlineController(BookingDeadline bDeadline,
                                      Request request,
@@ -34,27 +36,37 @@ public class BookingDeadlineController extends Thread
 
     public void run()
     {
-        try
+
+
+        if (this.running.get() && this.request.getConfigControler().SYS_DEBUGING == 0)
         {
-            List<Emprestimo> pendingBooking = this.eController.getRequest(ePControler.PENDING_BOOKING);
-
-            if (pendingBooking != null)
+            try
             {
-                for (Emprestimo e: pendingBooking)
-                {
-                    boolean  exceededDeadline =
-                            this.bDeadline.exceededDeadline(e.getEmprestimoPK().getDataentradapedido(), Calendar.getInstance());
+                List<Emprestimo> pendingBooking = this.eController.getRequest(ePControler.PENDING_BOOKING);
 
-                    if (exceededDeadline)
+                if (pendingBooking != null)
+                {
+                    for (Emprestimo e: pendingBooking)
                     {
-                        request.cancel(e);
+                        boolean  exceededDeadline =
+                                this.bDeadline.exceededDeadline(e.getEmprestimoPK().getDataentradapedido(), Calendar.getInstance());
+
+                        if (exceededDeadline)
+                        {
+                            request.cancel(e);
+                        }
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                ex.printStackTrace();
+            }
         }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-        }
+    }
+
+    public AtomicBoolean getRunning()
+    {
+        return running;
     }
 }
