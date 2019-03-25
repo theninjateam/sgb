@@ -29,7 +29,6 @@ public class ConfigControler
     public final int DEADLINE_STUDENT_BORROWED_BOOKS;
     public final int DEADLINE_TEACHER_BORROWED_BOOKS;
     public final int DAILY_RATE_FINE;
-    public final int SYS_DEBUGING;
 
     public ConfigControler(CRUDService crudService)
     {
@@ -44,7 +43,6 @@ public class ConfigControler
         DEADLINE_STUDENT_BORROWED_BOOKS = Integer.parseInt(getConfigValue("DEADLINE_STUDENT_BORROWED_BOOKS"));
         DEADLINE_TEACHER_BORROWED_BOOKS = Integer.parseInt(getConfigValue("DEADLINE_TEACHER_BORROWED_BOOKS"));
         DAILY_RATE_FINE = Integer.parseInt(getConfigValue("DAILY_RATE_FINE"));
-        SYS_DEBUGING = Integer.parseInt(getConfigValue("SYS_DEBUGING"));
     }
 
     public String getConfigValue(String id)

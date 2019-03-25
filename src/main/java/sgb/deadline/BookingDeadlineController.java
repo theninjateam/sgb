@@ -38,7 +38,7 @@ public class BookingDeadlineController extends Thread
     {
 
 
-        if (this.running.get() && this.request.getConfigControler().SYS_DEBUGING == 0)
+        if (this.running.get())
         {
             try
             {

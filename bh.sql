@@ -182,7 +182,7 @@ INSERT INTO "public"."config" VALUES ('DEADLINE_REQUESTED_BOOKS', 'tempo maximo 
 INSERT INTO "public"."config" VALUES ('DEADLINE_RESERVED_BOOKS', 'tempo maximo em dias, que uma obra reservada por um utente, permanece disponivel para o levatamento.', '2');
 INSERT INTO "public"."config" VALUES ('DEADLINE_STUDENT_BORROWED_BOOKS', 'tempo maximo em dias, que uma obra emprestada permanece na posse de um estudante', '3');
 INSERT INTO "public"."config" VALUES ('DEADLINE_TEACHER_BORROWED_BOOKS', 'tempo maximo em dias, que uma obra emprestada permanece na posse de um docente', '7');
-INSERT INTO public.config (nome, descricao, valor) VALUES ('SYS_DEBUGING', 'endica em que ambiente o sistema esta funcionando, 1 - (ambiente de teste), 0 -(ambiente de producao)', '1');
+
 -- ----------------------------
 -- Table structure for emprestimo
 -- ----------------------------

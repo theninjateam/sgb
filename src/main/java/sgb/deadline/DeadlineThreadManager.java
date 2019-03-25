@@ -88,17 +88,15 @@ public class DeadlineThreadManager extends Thread implements ApplicationListener
 
         if (canStartThreads)
         {
-            this.mBDController.setName("Mini Booking Deadline Controller - Thread");
             this.mBDController.getRunning().set(true);
-            this.mBDController.run();
+            new Thread(mBDController).start();
 
-            this.bDController.setName("Booking Deadline Controller - Thread");
             this.bDController.getRunning().set(true);
-            this.bDController.run();
+            new Thread(bDController).start();
 
-            this.bBDController.setName("Borrowed Books Deadline Controller - Thread");
-            this.bBDController.run();
             this.bBDController.getRunning().set(true);
+            new Thread(bBDController).start();
+
             this.wasThreadsStarted.set(true);
         }
     }

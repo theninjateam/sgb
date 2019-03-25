@@ -5,6 +5,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import sgb.controller.domainController.EmprestimoController;
 import sgb.controller.domainController.EstadoPedidoControler;
 import sgb.domain.Emprestimo;
+import sgb.fine.Fine;
 import sgb.request.Request;
 
 import java.util.Calendar;
@@ -18,25 +19,25 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class BorrowedBooksDeadlineController extends Thread
 {
     private BorrowedBooksDeadline bBDeadline;
-    private Request request;
+    private Fine fine;
     private EstadoPedidoControler ePControler;
     private EmprestimoController eController;
     private final AtomicBoolean running = new AtomicBoolean(false);
 
     public BorrowedBooksDeadlineController(BorrowedBooksDeadline bBDeadline,
-                                           Request request,
+                                           Fine fine,
                                            EstadoPedidoControler ePControler,
                                            EmprestimoController eController)
     {
         this.bBDeadline = bBDeadline;
-        this.request = request;
+        this.fine = fine;
         this.ePControler = ePControler;
         this.eController = eController;
     }
 
     public void run()
     {
-        if (this.running.get() && this.request.getConfigControler().SYS_DEBUGING == 0)
+        if (this.running.get())
         {
             try
             {
@@ -46,12 +47,13 @@ public class BorrowedBooksDeadlineController extends Thread
                 {
                     for (Emprestimo e: borrowedBooks)
                     {
-                        boolean  exceededDeadline =
-                                this.bBDeadline.exceededDeadline(e.getEmprestimoPK().getDataentradapedido(), Calendar.getInstance());
+                        Calendar deadline = this.bBDeadline.getDeadline(e);
+
+                        boolean  exceededDeadline = this.bBDeadline.exceededDeadline(deadline, Calendar.getInstance());
 
                         if (exceededDeadline)
                         {
-                            this.bBDeadline.multar(e);
+                            this.fine.fine(e);
                         }
                     }
                 }

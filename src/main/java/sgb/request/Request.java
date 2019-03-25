@@ -211,9 +211,4 @@ public class Request
 
         return emprestimo;
     }
-
-    public ConfigControler getConfigControler()
-    {
-        return configControler;
-    }
 }

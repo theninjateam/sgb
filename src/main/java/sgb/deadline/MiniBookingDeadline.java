@@ -14,7 +14,6 @@ public class MiniBookingDeadline extends Deadline
     }
 
 
-    @Override
     public Calendar getDeadline(Calendar requestDate)
     {
         if (isWeekend(requestDate))
