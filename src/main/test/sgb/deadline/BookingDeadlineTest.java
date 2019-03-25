@@ -28,7 +28,6 @@ public class BookingDeadlineTest
     @Autowired
     private ApplicationContext context;
     private BookingDeadline bookingDeadline;
-    private ConfigControler configControler;
 
     @Before
     @Transactional
@@ -36,63 +35,46 @@ public class BookingDeadlineTest
     {
         System.out.println("Setting it up!");
         this.bookingDeadline = (BookingDeadline) context.getBean("bookingDeadline");
-        this.configControler = (ConfigControler) context.getBean("configControler");
-
     }
 
     @Test
     @Transactional
     public void ExcededDeadlineTest() throws Exception
     {
-        Calendar reserverdDate;
-        Calendar currentDate;
-        Calendar deadline;
+        Calendar currentDate = Calendar.getInstance();
+        Calendar reserverdDate = Calendar.getInstance();
+        reserverdDate.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
+        Calendar deadline = bookingDeadline.getDeadline(reserverdDate);
 
         /**
          * BookingDeadline on friday
          **/
 
-        reserverdDate = Calendar.getInstance();
-        currentDate = Calendar.getInstance();
-
-        reserverdDate.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
-        deadline = bookingDeadline.getDeadline(reserverdDate);
         currentDate.setTime(deadline.getTime());
-
         assertThat(bookingDeadline.exceededDeadline(deadline, currentDate)).isFalse();
-
         currentDate.set(Calendar.DATE, deadline.get(Calendar.DATE) + 1);
-
         assertThat(bookingDeadline.exceededDeadline(deadline, currentDate)).isTrue();
 
         /**
          * BookingDeadline on monday
          **/
-
-        reserverdDate = Calendar.getInstance();
         reserverdDate.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         deadline = bookingDeadline.getDeadline(reserverdDate);
         currentDate.setTime(deadline.getTime());
 
         assertThat(bookingDeadline.exceededDeadline(deadline, currentDate)).isFalse();
-
         currentDate.set(Calendar.DATE, deadline.get(Calendar.DATE) +1);
-
         assertThat(bookingDeadline.exceededDeadline(deadline, currentDate)).isTrue();
 
         /**
          * BookingDeadline on saturday
          * */
-
-        reserverdDate = Calendar.getInstance();
         reserverdDate.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
         deadline = bookingDeadline.getDeadline(reserverdDate);
         currentDate.setTime(deadline.getTime());
 
         assertThat(bookingDeadline.exceededDeadline(deadline, currentDate)).isFalse();
-
         currentDate.set(Calendar.DATE, deadline.get(Calendar.DATE) +1);
-
         assertThat(bookingDeadline.exceededDeadline(deadline, currentDate)).isTrue();
     }
 }
