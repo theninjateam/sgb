@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zk>
-    <window id="listObra" apply="sgb.controller.viewsController.ListEmprestimo"
+    <window id="listObra" apply="sgb.controller.viewsController.ListMulta"
             border="none" hflex="1" vflex="1" contentStyle="overflow:auto">
         <div style="padding:0px">
             <tabbox>
@@ -15,13 +15,13 @@
                             </columns>
                             <rows>
                             <row>
-                            <listbox width="100%" id="emprestimoListBox" emptyMessage="Nao tem nenhum pedido pendente" >
+                            <listbox width="100%" id="multaListBox" emptyMessage="Nao tem nenhum pedido pendente" >
                                         <listhead>
                                             <listheader width="15%" height="100%" label="Data"/>
                                             <listheader width="15%" height="100%" label="Capa"/>
                                             <listheader width="50%" height="100%" label="Detalhes do Emprestimo"/>
                                             <!--<listheader width="20%" height="100%" label="Utente"/>-->
-                                            <listheader width="5%" height="100%" label="Qtd"/>
+                                            <!--<listheader width="5%" height="100%" label="Qtd"/>-->
                                             <listheader width="40%" height="100%" label="Operacoes"/>
                                         </listhead>
                                         <template name="model">
@@ -39,65 +39,55 @@
 
                                                             dateFormatter = DateFormat.getDateInstance(DateFormat.FULL, MOZAMBIQUE);
 
-                                                            builder.append(dateFormatter.format(each.dataaprovacao.getTime()));
+                                                            builder.append(dateFormatter.format(each.dataemissao.getTime()));
                                                             builder.append("\n");
-                                                            builder.append(timeFormatter.format(each.dataaprovacao.getTime()));
+                                                            builder.append(timeFormatter.format(each.dataemissao.getTime()));
 
-                                                            String dataAprovacao = builder.toString();
+                                                            String dataemissao = builder.toString();
                                                     ]]>
                                                         </zscript>
-                                                        <label value="${dataAprovacao}"/>
+                                                        <label value="${dataemissao}"/>
                                                     </div>
                                                 </listcell>
                                                 <listcell>
                                                     <div>
-                                                        <image width="100%" height="100%"  src="${each.emprestimoPK.obra.pathcapa}"/>
+                                                        <image width="100%" height="100%"  src="${each.multaPK.obra.pathcapa}"/>
                                                     </div>
                                                 </listcell>
                                                 <listcell>
                                                     <hlayout>
                                                         <div>
                                                             <div>
-                                                                <label value="${each.emprestimoPK.obra.titulo}"
+                                                                <label value="${each.multaPK.obra.titulo}"
                                                                        style="font-size: large; font-weight: bold; padding: 2px 2px 2px 2px; font-size: 15px;"/>
                                                             </div>
                                                             <div>
                                                                 <label value="Por :"/>
-                                                                <label forEach="${each.emprestimoPK.obra.autores}"  value="${each.nome} ,"/>
+                                                                <label forEach="${each.multaPK.obra.autores}"  value="${each.nome} ,"/>
                                                             </div>
                                                             <div>
                                                                 <label value="Tipo:"/>
-                                                                <label value="(${each.emprestimoPK.obra.tipoobra.descricao})"/>
+                                                                <label value="(${each.multaPK.obra.tipoobra.descricao})"/>
                                                             </div>
                                                             <div>
                                                                 <label value="Utente:"/>
-                                                                <label value="${each.emprestimoPK.utente.name} ${each.emprestimoPK.utente.lastName}"/>
-                                                                <label forEach="${each.emprestimoPK.utente.roles}"  value="(${each.role} ,)"/>
+                                                                <label value="${each.multaPK.utente.name} ${each.multaPK.utente.lastName}"/>
+                                                                <label forEach="${each.multaPK.utente.roles}"  value="(${each.role} ,)"/>
                                                             </div>
                                                         </div>
                                                     </hlayout>
                                                 </listcell>
                                                 <!--<listcell>-->
                                                     <!--<div>-->
-                                                        <!--<label value="${each.emprestimoPK.utente.name} ${each.emprestimoPK.utente.lastName}"/>-->
+                                                        <!--<label value="${each.multaPK.utente.name} ${each.multaPK.utente.lastName}"/>-->
                                                         <!--<separator/>-->
-                                                        <!--<label forEach="${each.emprestimoPK.utente.roles}"  value="(${each.role} ,)"/>-->
+                                                        <!--<label forEach="${each.multaPK.utente.roles}"  value="(${each.role} ,)"/>-->
                                                     <!--</div>-->
                                                 <!--</listcell>-->
+
                                                 <listcell>
                                                     <div>
-                                                        <label value="${each.quantidade}"/>
-                                                    </div>
-                                                </listcell>
-                                                <listcell>
-                                                    <div>
-                                                        <!--<button label="Notificar Utente" forward="onClick=emprestimoListBox.onNotificarUtente"-->
-                                                                <!--mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold"/>-->
-                                                        <button if="${!$composer.isNormalUser ()}" label="Devolver" forward="onClick=emprestimoListBox.onDevolver"
-                                                                mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold"/>
-                                                        <button label="Detalhe" forward="onClick=emprestimoListBox.onDetalheEmprestimo"
-                                                                mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold"/>
-                                                        <button label="Renovar" forward="onClick=emprestimoListBox.onRenovarEmprestimo"
+                                                        <button label="Detalhes" forward="onClick=multaListBox.onDetalhesMulta"
                                                                 mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold"/>
                                                     </div>
                                                 </listcell>

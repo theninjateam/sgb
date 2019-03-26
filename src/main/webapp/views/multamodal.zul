@@ -11,7 +11,7 @@
                             <listbox    style=" text-align: left;"  id="multaListBox"
                                         emptyMessage="Lista vazia">
                                 <listhead >
-                                    <listheader hflex="1" style="background-color: lightgray; border-style: none; text-align: center;" width="100%" height="100%" label="Multa"/>
+                                    <listheader id="header"  hflex="1" style="background-color: lightgray; border-style: none; text-align: center;" width="100%" height="100%" label="Multa"/>
                                 </listhead>
                                 <template name="model">
                                     <listitem  style="background-color: white; border-style: none;">
@@ -32,11 +32,16 @@
                                                     />
                                                     <div sclass="w3-left" style="display: grid;">
                                                         <div sclass="w3-left">
+                                                            <label sclass="w3-medium" value="Utente:"/>
+                                                            <label sclass="w3-mediu " value="${each.multaPK.utente.name} ${each.multaPK.utente.lastName}"
+                                                                   style="font-size: large; font-weight: bold; padding: 2px 2px 2px 2px; font-size: 12px;"/>
+                                                        </div>
+
+                                                        <div sclass="w3-left">
                                                             <label sclass="w3-medium" value="Por:"/>
                                                             <label sclass="w3-mediu " forEach="${each.multaPK.obra.autores}"  value="${each.nome}. "
                                                                    style="font-size: large; font-weight: bold; padding: 2px 2px 2px 2px; font-size: 12px;"/>
                                                         </div>
-
 
                                                         <div sclass="w3-left">
                                                             <label sclass="w3-medium" value="Data do emprestimo:"/>
@@ -74,9 +79,9 @@
                                             </div>
 
                                             <div align="center">
-                                                <button     label="Revogar"  forward="onClick=multaListBox.onRevogar" mold="os"  sclass="w3-btn w3-black"/>
-                                                <button     label="Devolver"  forward="onClick=multaListBox.onDevolver" mold="os"  sclass="w3-btn w3-black"/>
-                                                <button     label="Pagar"  forward="onClick=multaListBox.onPagar" mold="os"  sclass="w3-btn w3-black"/>
+                                                <button if="${!$composer.isNormalUser ()}"  label="Revogar"  forward="onClick=multaListBox.onRevogar" mold="os"  sclass="w3-btn w3-black"/>
+                                                <button if="${!$composer.isNormalUser ()}"  label="Devolver"  forward="onClick=multaListBox.onDevolver" mold="os"  sclass="w3-btn w3-black"/>
+                                                <button if="${!$composer.isNormalUser ()}"  label="Pagar"  forward="onClick=multaListBox.onPagar" mold="os"  sclass="w3-btn w3-black"/>
                                                 <button label="Fechar" forward="onClick=multaListBox.onExit" sclass="w3-btn w3-light-gray " mold="os"/>
                                             </div>
                                         </listcell>

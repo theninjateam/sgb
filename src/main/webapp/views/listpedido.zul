@@ -21,7 +21,7 @@
                                         <listhead>
                                             <listheader width="20%" height="100%" label="Data"/>
                                             <listheader width="20%" height="100%" label="Capa"/>
-                                            <listheader width="60%" height="100%" label="Obra Requisitada"/>
+                                            <listheader width="60%" height="100%" label="Detalhes do Pedido"/>
                                             <listheader width="5%" height="100%" label="Qtd"/>
                                             <listheader width="60%" height="100%" label="Operacoes"/>
                                         </listhead>
@@ -72,6 +72,11 @@
                                                                 <label value="Tipo:"/>
                                                                 <label value="(${each.emprestimoPK.obra.tipoobra.descricao})"/>
                                                             </div>
+                                                            <div>
+                                                                <label value="Utente:"/>
+                                                                <label value="${each.emprestimoPK.utente.name} ${each.emprestimoPK.utente.lastName}"/>
+                                                                <label forEach="${each.emprestimoPK.utente.roles}"  value="(${each.role} ,)"/>
+                                                            </div>
                                                         </div>
                                                     </hlayout>
                                                 </listcell>
@@ -87,9 +92,9 @@
                                                                 mold="os" sclass="btn"
                                                                 style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold"/>
                                                         <!-- Devem estar disponivel so para administrador-->
-                                                        <button  label="Aprovar" forward="onClick=pedidoListBox.onAprovarEmprestimo"
+                                                        <button if="${!$composer.isNormalUser ()}"  label="Aprovar" forward="onClick=pedidoListBox.onAprovarEmprestimo"
                                                         mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold"/>
-                                                        <button  label="Reprovar" forward="onClick=pedidoListBox.onReprovarEmprestimo"
+                                                        <button if="${!$composer.isNormalUser ()}"  label="Reprovar" forward="onClick=pedidoListBox.onReprovarEmprestimo"
                                                         mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold"/>
                                                     </div>
                                                 </listcell>

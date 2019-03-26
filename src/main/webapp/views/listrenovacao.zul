@@ -71,6 +71,10 @@
                                                                 <label value="Tipo:"/>
                                                                 <label value="(${each.emprestimoPK.obra.tipoobra.descricao})"/>
                                                             </div>
+                                                            <div>
+                                                                <label value="Utente:"/>
+                                                                <label value="${each.emprestimoPK.utente.name} ${each.emprestimoPK.utente.lastName}"/>
+                                                            </div>
                                                         </div>
                                                     </hlayout>
                                                 </listcell>

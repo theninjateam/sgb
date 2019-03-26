@@ -8,11 +8,11 @@ import java.util.Objects;
 @Embeddable
 public class EmprestimoPK implements Serializable {
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="cota")
     private Obra obra;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="utente")
     private Users utente;
 

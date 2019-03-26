@@ -9,6 +9,7 @@ import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import sgb.controller.domainController.EmprestimoController;
 import sgb.controller.domainController.EstadoPedidoControler;
+import sgb.deadline.BorrowedBooksDeadline;
 import sgb.domain.Emprestimo;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,7 +29,9 @@ import java.util.Calendar;
 public class ListPedido extends SelectorComposer<Component> {
 
     private CRUDService crudService = (CRUDService) SpringUtil.getBean("CRUDService");
-    private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;
+    private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    private boolean isStudent = false;
+    private BorrowedBooksDeadline bBDeadline = (BorrowedBooksDeadline) SpringUtil.getBean("borrowedBooksDeadline");
     private ListModelList<Emprestimo> pedidoListModel;
     private ListModel<EstadoPedido> estadopedidoModel;
     private Boolean isNormalUser = true;
@@ -44,12 +47,9 @@ public class ListPedido extends SelectorComposer<Component> {
     public void doAfterCompose(Component comp) throws Exception
     {
         super.doAfterCompose(comp);
-        Set<Role> userrole =user.getRoles();
 
-        for(Role role : userrole) {
-            if(role.getRole().equals("ADMIN"))
-                isNormalUser = false;
-        }
+        isNormalUser = isNormalUser();
+
         if (isNormalUser) {
             ComposeUserNormal();
         }
@@ -75,6 +75,19 @@ public class ListPedido extends SelectorComposer<Component> {
 
         pedidoListBox.setModel(pedidoListModel);
     }
+
+    public boolean isNormalUser () {
+        Boolean a = true;
+
+        Set<Role> userrole =user.getRoles();
+
+        for(Role role : userrole) {
+            if(role.getRole().equals("ADMIN"))
+                a = false;
+        }
+        return a;
+    }
+
 
     @Listen("onEliminarEmprestimo = #pedidoListBox")
     public void doEliminar(ForwardEvent event)
@@ -131,9 +144,17 @@ public class ListPedido extends SelectorComposer<Component> {
             EstadoPedido estadoPedido = crudService.get(EstadoPedido.class, 3);
             emp.setEstadoPedido(estadoPedido);
             emp.setDataaprovacao(Calendar.getInstance());
-            emp.setDatadevolucao(Calendar.getInstance());
+            emp.setBibliotecario(user); //
 
-            // Reduzir quantidade 
+            Set<Role> roles = emp.getEmprestimoPK().getUtente().getRoles();
+
+            for(Role role: roles) {
+                if(role.getRole().equals("student"))
+                    isStudent= true;
+                else
+                    isStudent = false;
+            }
+            emp.setDatadevolucao(bBDeadline.getDeadline(Calendar.getInstance(),isStudent)); // Calcula data de devolucao
             pedidoListModel.remove(emp);
             crudService.update(emp);
             Clients.showNotification("Pedido aprovado com sucesso ", null, null, null, 5000);

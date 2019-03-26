@@ -24,7 +24,7 @@ public class Emprestimo  implements Comparable<Emprestimo>{
     @JoinColumn(name = "estadopedido", nullable = false)
     private EstadoPedido estadoPedido;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "estadodevolucao", nullable = false)
     private EstadoDevolucao estadoDevolucao;
 

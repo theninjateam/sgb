@@ -14,8 +14,7 @@ import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.*;
 //import sgb.controller.domainController.EmprestimoControllerSingleton;
-import sgb.controller.domainController.EmprestimoController;
-import sgb.controller.domainController.EstadoPedidoControler;
+import sgb.controller.domainController.*;
 import sgb.domain.*;
 import sgb.request.Request;
 import sgb.service.CRUDService;
@@ -34,9 +33,13 @@ public class ListEmprestimo extends SelectorComposer<Component> {
     private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;
     private ListModelList<Emprestimo> emprestimoListModel;
     private Session session;
+    private Multa multa;
     private Request request = (Request) SpringUtil.getBean("request");
     private EstadoPedidoControler ePController = (EstadoPedidoControler) SpringUtil.getBean("estadoPedidoControler");
     private EmprestimoController eController = (EmprestimoController) SpringUtil.getBean("emprestimoController");
+    private EstadoDevolucaoControler eDController = (EstadoDevolucaoControler) SpringUtil.getBean("estadoDevolucaoControler");
+    private ConfigControler configControler =(ConfigControler) SpringUtil.getBean("configControler");
+    private EstadoMultaControler eMController = (EstadoMultaControler) SpringUtil.getBean("estadoMultaControler");
 
 
     private Boolean isNormalUser = true;
@@ -55,12 +58,8 @@ public class ListEmprestimo extends SelectorComposer<Component> {
         super.doAfterCompose(comp);
         session = Sessions.getCurrent();
 
-        Set<Role> userrole =user.getRoles();
+        isNormalUser = isNormalUser();
 
-        for(Role role : userrole) {
-            if(role.getRole().equals("ADMIN"))
-                isNormalUser = false;
-        }
         if (isNormalUser) {
             ComposeUserNormal();
         }
@@ -89,57 +88,83 @@ public class ListEmprestimo extends SelectorComposer<Component> {
     @Listen("onDevolver = #emprestimoListBox")
     public void doDevolver(ForwardEvent event)
     {
-//        Clients.showNotification("Devolver Obra",null,null,null,5000);
-        Button btn = (Button) event.getOrigin().getTarget();
-        Listitem litem = (Listitem) btn.getParent().getParent().getParent();
-        Emprestimo emp = (Emprestimo) litem.getValue();
+        if(isNormalUser) {
+            Clients.showNotification("Precisa ser Bibliotecario para executar essa acao ", null, null, null, 5000);
+        } else {
+            Button btn = (Button) event.getOrigin().getTarget();
+            Listitem litem = (Listitem) btn.getParent().getParent().getParent();
+            Emprestimo emp = (Emprestimo) litem.getValue();
 
-        multar(emp);
-        Window window =(Window) Executions.createComponents("/views/multamodal.zul", null, null);
-        window.setClosable(true);
-        window.doModal();
+
+
+            if (emp.getEstadoDevolucao().getDescricao().equals("NOT_RETURNED")) {
+
+                multa = crudService.get(Multa.class,emp.getEmprestimoPK());
+
+                session.setAttribute("Multa", multa);
+                Window window = (Window) Executions.createComponents("/views/multamodal.zul", null, null);
+                window.setClosable(true);
+                window.doModal();
+            } else {
+                EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, eDController.RETURNED);
+                emp.setEstadoDevolucao(estadoDevolucao);
+                emp.setComentario("");
+                emprestimoListModel.remove(emp);
+                crudService.update(emp);
+
+                Clients.showNotification("Obra devolvida a tempo", null, null, null, 5000);
+
+            }
+        }
 
     }
 
     @Listen("onDetalheEmprestimo = #emprestimoListBox")
     public void doDetalhes(ForwardEvent event)
     {
-        Clients.showNotification("Detalhes do Emprestimo",null,null,null,5000);
+        Button btn = (Button) event.getOrigin().getTarget();
+        Listitem litem = (Listitem) btn.getParent().getParent().getParent();
+        Emprestimo emp = (Emprestimo) litem.getValue();
+        session.setAttribute("EmprestimoMultado", emp);
+
+        Boolean isForDetails = true;
+
+        session.setAttribute("ForDetais", isForDetails);
+        Window window =(Window) Executions.createComponents("/views/multamodal.zul", null, null);
+        window.setClosable(true);
+        window.doModal();
     }
 
     @Listen("onRenovarEmprestimo = #emprestimoListBox")
     public void doRenovar(ForwardEvent event)
     {
-        Button btn = (Button) event.getOrigin().getTarget();
-        Listitem litem = (Listitem) btn.getParent().getParent().getParent();
-        Emprestimo emp = (Emprestimo) litem.getValue();
-        estadoRenovacao = crudService.get(EstadoRenovacao.class,2);
-        emp.setEstadoRenovacao(estadoRenovacao);
-        crudService.update(emp);
-        Clients.showNotification("Renovacao do Emprestimo",null,null,null,5000);
+        if(isNormalUser) {
+            /*
+            * Metodo a ser descutido
+            * Ideia 1 : O usuario submete o pedido de renovacao e o sistema aprova;
+            * Ideia 2 : O usuario vai ter com o bibliotecario e esse acede o pedido e renova;
+            */
+            Button btn = (Button) event.getOrigin().getTarget();
+            Listitem litem = (Listitem) btn.getParent().getParent().getParent();
+            Emprestimo emp = (Emprestimo) litem.getValue();
+            estadoRenovacao = crudService.get(EstadoRenovacao.class, 2);
+            emp.setEstadoRenovacao(estadoRenovacao);
+            crudService.update(emp);
+            Clients.showNotification("Renovacao do Emprestimo", null, null, null, 5000);
+        } else {
+            Clients.showNotification("Precisa ser Utente para executar essa acao ", null, null, null, 5000);
+        }
     }
+    public boolean isNormalUser () {
+        Boolean a = true;
 
-    public void multar (Emprestimo emprestimo) {
-        Multa multa = new Multa();
-        EstadoMulta estadoMulta = crudService.get(EstadoMulta.class,2);
+        Set<Role> userrole =user.getRoles();
 
-
-        multa.setDataemissao(Calendar.getInstance());
-        multa.setMultaPK(emprestimo.getEmprestimoPK());
-        multa.setDataemprestimo(emprestimo.getDataaprovacao());
-        multa.setEstadoMulta(estadoMulta);
-
-        int diaatraso = -1 * (int)Duration.between(Calendar.getInstance().toInstant(), emprestimo.getDatadevolucao().toInstant()).toDays();
-
-        multa.setDiasatraso(diaatraso );
-
-        Float taxaD = Float.parseFloat(crudService.get(Config.class,"DAILY_RATE_FINE").getValor());
-        multa.setTaxadiaria(taxaD);
-
-        multa.setValorpago((diaatraso*taxaD));
-
-        session.setAttribute("Multaa", multa);
-
+        for(Role role : userrole) {
+            if(role.getRole().equals("ADMIN"))
+                a = false;
+        }
+        return a;
     }
 
 
