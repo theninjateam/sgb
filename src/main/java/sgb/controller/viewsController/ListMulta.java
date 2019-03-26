@@ -13,9 +13,7 @@ import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.*;
-import sgb.controller.domainController.EmprestimoController;
-import sgb.controller.domainController.EstadoDevolucaoControler;
-import sgb.controller.domainController.EstadoPedidoControler;
+import sgb.controller.domainController.*;
 import sgb.domain.*;
 import sgb.request.Request;
 import sgb.service.CRUDService;
@@ -34,6 +32,8 @@ public class ListMulta extends SelectorComposer<Component> {
     private EstadoPedidoControler ePController = (EstadoPedidoControler) SpringUtil.getBean("estadoPedidoControler");
     private EmprestimoController eController = (EmprestimoController) SpringUtil.getBean("emprestimoController");
     private EstadoDevolucaoControler eDController = (EstadoDevolucaoControler) SpringUtil.getBean("estadoDevolucaoControler");
+    private MultaController mController = (MultaController) SpringUtil.getBean("multaController");
+    private EstadoMultaControler eMController = (EstadoMultaControler) SpringUtil.getBean("estadoMultaControler");
 
     private Boolean isNormalUser = true;
 
@@ -65,12 +65,12 @@ public class ListMulta extends SelectorComposer<Component> {
     }
 
     public void ComposeUserAdmin(){
-        multaListModel = new ListModelList<Multa>(crudService.getAll(Multa.class));
+//        multaListModel = new ListModelList<Multa>(mController.getFine(eMController.NOT_PAID));
         multaListBox.setModel(multaListModel);
     }
 
     public void ComposeUserNormal() {
-        multaListModel = new ListModelList<Multa>(crudService.getAll(Multa.class));
+//        multaListModel = new ListModelList<Multa>(mController.getFine(user,eMController.NOT_PAID));
         multaListBox.setModel(multaListModel);
     }
 

@@ -23,6 +23,7 @@ import sgb.controller.domainController.*;
 import java.util.Calendar;
 import java.util.List;
 import java.util.PriorityQueue;
+import java.util.Set;
 
 /**
  * @author Fonseca, Emerson
@@ -90,6 +91,8 @@ public class ListobraController extends SelectorComposer<Component>
         super.doAfterCompose(comp);
         session = Sessions.getCurrent();
 
+        boolean c= isNormalUser();
+
         obraListModel = getObraListModel();
         cestaListModel = getCestaListModel();
         obraListBox.setModel(obraListModel);
@@ -97,6 +100,17 @@ public class ListobraController extends SelectorComposer<Component>
         this.qtdObrasNaCesta.setValue("0");
     }
 
+    public boolean isNormalUser () {
+        Boolean a = true;
+
+        Set<Role> userrole =user.getRoles();
+
+        for(Role role : userrole) {
+            if(role.getRole().equals("ADMIN"))
+                a = false;
+        }
+        return a;
+    }
 
     public ListModelList<Obra> getObraListModel() {
         List<Obra> listaobra = crudService.getAll(Obra.class);

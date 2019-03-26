@@ -23,6 +23,7 @@ import sgb.controller.domainController.EmprestimoController;
 import sgb.controller.domainController.EstadoDevolucaoControler;
 import sgb.controller.domainController.EstadoMultaControler;
 import sgb.domain.*;
+import sgb.fine.Fine;
 import sgb.service.CRUDService;
 
 import java.text.DateFormat;
@@ -37,10 +38,11 @@ import java.util.Set;
  * @author Fonseca, Emerson, Matimbe
  */
 
-public class MultaController extends SelectorComposer<Component> {
+public class MultaModalController extends SelectorComposer<Component> {
 
     private CRUDService crudService = (CRUDService) SpringUtil.getBean("CRUDService");
     private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    private Fine fine = (Fine) SpringUtil.getBean("fine");
 
 
     private  ListModelList<Multa> multaListModel;
@@ -88,6 +90,8 @@ public class MultaController extends SelectorComposer<Component> {
         isForDetails = (Boolean) session.getAttribute("ForDetais");
 
         multa = (Multa) session.getAttribute("multa");
+
+        multa.setValorpago(fine.getAmoutToPay(multa.getMultaPK()));
 
 
         if (isForDetails) {
@@ -170,16 +174,13 @@ public class MultaController extends SelectorComposer<Component> {
         if(isNormalUser) {
             Clients.showNotification("Precisa ser Bibliotecario para executar essa acao ", null, null, null, 5000);
         } else {
-            EstadoMulta estadoMulta = crudService.get(EstadoMulta.class, eMController.PAID);
-            EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, eDController.RETURNED);
-            multa.setBibliotecario(user);
-            multa.setEstadoMulta(estadoMulta);
 
+            EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, eDController.RETURNED);
             emprestimo.setEstadoDevolucao(estadoDevolucao);
             emprestimo.setComentario("");
-
-            crudService.update(multa);
             crudService.update(emprestimo);
+
+            fine.pay(multa.getMultaPK());
 
             exit();
             Clients.showNotification("Multa paga", null, null, null, 5000);
@@ -193,16 +194,13 @@ public class MultaController extends SelectorComposer<Component> {
         if(isNormalUser) {
             Clients.showNotification("Precisa ser Bibliotecario para executar essa acao ", null, null, null, 5000);
         } else {
-            EstadoMulta estadoMulta = crudService.get(EstadoMulta.class, eMController.REVOKED);
-            EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, eDController.RETURNED);
 
-            multa.setBibliotecario(user);
-            multa.setEstadoMulta(estadoMulta);
+            EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, eDController.RETURNED);
             emprestimo.setEstadoDevolucao(estadoDevolucao);
             emprestimo.setComentario("");
-
-            crudService.update(multa);
             crudService.update(emprestimo);
+
+            fine.pay(multa.getMultaPK());
 
             exit();
             Clients.showNotification("Multa Revogada", null, null, null, 5000);

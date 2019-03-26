@@ -75,10 +75,10 @@
                                                  mold="os" sclass="w3-bar-item w3-btn w3-light-gray w3-col"/>
 
                                         <div sclass="w3-row" visible="false">
-                                            <button sclass="w3-bar-item w3-btn w3-light-gray w3-col"
+                                            <button if="${!$composer.isNormalUser ()}" sclass="w3-bar-item w3-btn w3-light-gray w3-col"
                                                     label="Eliminar" forward="onClick=obraListBox.onEliminarObra"
                                                     mold="os"/>
-                                            <button sclass="w3-bar-item w3-btn w3-light-gray w3-col "
+                                            <button if="${!$composer.isNormalUser ()}" sclass="w3-bar-item w3-btn w3-light-gray w3-col "
                                                     label="Adicionar exemplares" forward="onClick=obraListBox.onAdicionarExemplares"
                                                     mold="os" />
                                             <button sclass="w3-bar-item w3-btn w3-light-gray w3-col "
@@ -109,10 +109,10 @@
                                                              mold="os" sclass="w3-btn w3-light-gray"/>
                                                 </div>
                                                 <div>
-                                                    <button sclass="w3-btn w3-light-gray"
+                                                    <button if="${!$composer.isNormalUser ()}" sclass="w3-btn w3-light-gray"
                                                             label="Eliminar" forward="onClick=obraListBox.onEliminarObra"
                                                             mold="os"/>
-                                                    <button sclass="w3-btn w3-light-gray"
+                                                    <button if="${!$composer.isNormalUser ()}" sclass="w3-btn w3-light-gray"
                                                             label="Adicionar exemplares" forward="onClick=obraListBox.onAdicionarExemplares"
                                                             mold="os" />
                                                     <button sclass=" w3-btn w3-light-gray"
@@ -295,10 +295,10 @@
                                                  mold="os" sclass="w3-bar-item w3-btn w3-light-gray w3-col"/>
 
                                         <div sclass="w3-row" visible="false">
-                                            <button sclass="w3-bar-item w3-btn w3-light-gray w3-col"
+                                            <button if="${!$composer.isNormalUser ()}" sclass="w3-bar-item w3-btn w3-light-gray w3-col"
                                                     label="Eliminar" forward="onClick=obraListBox.onEliminarObra"
                                                     mold="os"/>
-                                            <button sclass="w3-bar-item w3-btn w3-light-gray w3-col "
+                                            <button if="${!$composer.isNormalUser ()}" sclass="w3-bar-item w3-btn w3-light-gray w3-col "
                                                     label="Adicionar exemplares" forward="onClick=obraListBox.onAdicionarExemplares"
                                                     mold="os" />
                                         </div>
@@ -378,10 +378,10 @@
                                                              mold="os" sclass="w3-btn w3-light-gray"/>
                                                 </div>
                                                 <div>
-                                                    <button sclass="w3-btn w3-light-gray"
+                                                    <button if="${!$composer.isNormalUser ()}" sclass="w3-btn w3-light-gray"
                                                             label="Eliminar" forward="onClick=obraListBox.onEliminarObra"
                                                             mold="os"/>
-                                                    <button sclass="w3-btn w3-light-gray"
+                                                    <button if="${!$composer.isNormalUser ()}" sclass="w3-btn w3-light-gray"
                                                             label="Adicionar exemplares" forward="onClick=obraListBox.onAdicionarExemplares"
                                                             mold="os" />
                                                 </div>

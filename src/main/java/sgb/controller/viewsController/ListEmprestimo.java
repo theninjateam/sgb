@@ -143,6 +143,8 @@ public class ListEmprestimo extends SelectorComposer<Component> {
             * Metodo a ser descutido
             * Ideia 1 : O usuario submete o pedido de renovacao e o sistema aprova;
             * Ideia 2 : O usuario vai ter com o bibliotecario e esse acede o pedido e renova;
+            * Necessidade de um Metodo que verifica se existe alguem a espera daquele livro para desabilitar o
+            * Botao
             */
             Button btn = (Button) event.getOrigin().getTarget();
             Listitem litem = (Listitem) btn.getParent().getParent().getParent();

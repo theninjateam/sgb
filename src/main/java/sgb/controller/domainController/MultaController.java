@@ -32,4 +32,32 @@ public class MultaController
 
         return this.crudService.findEntByJPQueryT(query.toString(), parameters);
     }
+
+    public List<Multa> getFine(Users user , int idEstadoMulta)
+    {
+        parameters = new HashMap<String, Object>(3);
+        query = new StringBuilder();
+
+        parameters.put("user_id", user.getId());
+        parameters.put("idEstadoMulta", idEstadoMulta);
+
+
+        query.append("SELECT m FROM Multa m WHERE m.estadoMulta.idestadomulta = :idEstadoMulta");
+        query.append("m.emprestimoPK.utente.id = :user_id");
+
+        return this.crudService.findEntByJPQueryT(query.toString(), parameters);
+    }
+
+    public List<Multa> getFine(int idEstadoMulta)
+    {
+        parameters = new HashMap<String, Object>(3);
+        query = new StringBuilder();
+
+        parameters.put("idEstadoMulta", idEstadoMulta);
+
+        query.append("SELECT m FROM Multa m WHERE m.estadoMulta.idestadomulta = :idEstadoMulta");
+
+        return this.crudService.findEntByJPQueryT(query.toString(), parameters);
+    }
+
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zk>
-    <window id="multaModal" apply="sgb.controller.viewsController.MultaController"
+    <window id="multaModal" apply="sgb.controller.viewsController.MultaModalController"
             border="none" closable="true"
             position="center,center" action="show: slideDown;hide: slideUp" width="460px">
 
