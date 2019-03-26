@@ -112,12 +112,6 @@ public class Request
         boolean wasReserved = false;
         try
         {
-            if (idEstadoPedido != this.estadoPedidoControler.PENDING_BOOKING
-                    || idEstadoPedido != this.estadoPedidoControler.PENDING_MINI_BOOKING)
-            {
-                throw new Exception("this methode can only cancel PENDING_BOOKING and PENDING_MINI_BOOKING");
-            }
-
             Emprestimo emprestimo = this.eController.getRequest(e.getEmprestimoPK());
             EstadoPedido estadoPedido = this.crudService.get(EstadoPedido.class, this.estadoPedidoControler.CANCELED);
             emprestimo.setEstadoPedido(estadoPedido);
@@ -131,18 +125,25 @@ public class Request
 
             if (!wasReserved)
             {
-                this.obraConcurrenceControl.enterInCriticalRegion(e.getEmprestimoPK().getObra());
-                Obra obra = this.crudService.get(Obra.class, e.getEmprestimoPK().getObra().getCota());
-                obra.setQuantidade(obra.getQuantidade() + e.getQuantidade());
-                this.crudService.update(obra);
-                this.obraConcurrenceControl.leaveInCriticalRegion(e.getEmprestimoPK().getObra());
+                try
+                {
+                    this.obraConcurrenceControl.enterInCriticalRegion(e.getEmprestimoPK().getObra());
+                    Obra obra = this.crudService.get(Obra.class, e.getEmprestimoPK().getObra().getCota());
+                    obra.setQuantidade(obra.getQuantidade() + e.getQuantidade());
+                    this.crudService.update(obra);
+                    this.obraConcurrenceControl.leaveInCriticalRegion(e.getEmprestimoPK().getObra());
+                }
+                catch (Exception ex)
+                {
+                    ex.printStackTrace();
+                    this.obraConcurrenceControl.leaveInCriticalRegion(e.getEmprestimoPK().getObra());
+                }
             }
 
             this.crudService.update(emprestimo);
         }
         catch (Exception ex)
         {
-            this.obraConcurrenceControl.leaveInCriticalRegion(e.getEmprestimoPK().getObra());
             ex.printStackTrace();
         }
     }
