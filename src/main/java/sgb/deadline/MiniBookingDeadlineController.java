@@ -16,7 +16,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @author Fonseca, bfonseca@unilurio.ac.mz
  */
 
-public class MiniBookingDeadlineController extends Thread
+public class MiniBookingDeadlineController implements Runnable
 {
     private MiniBookingDeadline mBDeadline;
     private Request request;
@@ -49,8 +49,9 @@ public class MiniBookingDeadlineController extends Thread
                 {
                     for (Emprestimo e: pendigMiniBooking)
                     {
-                        boolean  exceededDeadline =
-                                this.mBDeadline.exceededDeadline(e.getEmprestimoPK().getDataentradapedido(), Calendar.getInstance());
+                        Calendar deadline = this.mBDeadline.getDeadline(e.getDataaprovacao());
+
+                        boolean  exceededDeadline = this.mBDeadline.exceededDeadline(deadline, Calendar.getInstance());
 
                         if (exceededDeadline)
                         {
@@ -59,7 +60,7 @@ public class MiniBookingDeadlineController extends Thread
                     }
                 }
 
-                this.sleep(minuto * 60 * 1000);
+                Thread.sleep(minuto * 60 * 1000);
             }
             catch (Exception ex)
             {

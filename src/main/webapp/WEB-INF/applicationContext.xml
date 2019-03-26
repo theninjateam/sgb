@@ -63,6 +63,11 @@
         <constructor-arg index="0" ref="CRUDService"/>
     </bean>
 
+
+    <bean id="multaController"  class="sgb.controller.domainController.MultaController" >
+        <constructor-arg index="0" ref="CRUDService"/>
+    </bean>
+
     <bean id="miniBookingDeadlineController"  class="sgb.deadline.MiniBookingDeadlineController" >
         <constructor-arg index="0" ref="miniBookingDeadline"/>
         <constructor-arg index="1" ref="request"/>
@@ -86,6 +91,10 @@
     </bean>
 
     <bean id="estadoPedidoControler"  class="sgb.controller.domainController.EstadoPedidoControler" >
+        <constructor-arg index="0" ref="CRUDService"/>
+    </bean>
+
+    <bean id="roleController"  class="sgb.controller.domainController.RoleController" >
         <constructor-arg index="0" ref="CRUDService"/>
     </bean>
 
@@ -115,15 +124,21 @@
 
     <bean id="borrowedBooksDeadline"  class="sgb.deadline.BorrowedBooksDeadline" >
         <constructor-arg index="0" ref="configControler"/>
-        <constructor-arg index="1" ref="emprestimoController"/>
+        <constructor-arg index="1" ref="roleController"/>
+    </bean>
+
+    <bean id="fine"  class="sgb.fine.Fine" >
+        <constructor-arg index="0" ref="configControler"/>
+        <constructor-arg index="1" ref="multaController"/>
         <constructor-arg index="2" ref="estadoMultaControler"/>
         <constructor-arg index="3" ref="CRUDService"/>
         <constructor-arg index="4" ref="estadoDevolucaoControler"/>
+        <constructor-arg index="5" ref="emprestimoController"/>
     </bean>
 
     <bean id="borrowedBooksDeadlineController"  class="sgb.deadline.BorrowedBooksDeadlineController" >
         <constructor-arg index="0" ref="borrowedBooksDeadline"/>
-        <constructor-arg index="1" ref="request"/>
+        <constructor-arg index="1" ref="fine"/>
         <constructor-arg index="2" ref="estadoPedidoControler"/>
         <constructor-arg index="3" ref="emprestimoController"/>
     </bean>

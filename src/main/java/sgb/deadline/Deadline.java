@@ -4,20 +4,17 @@ import java.util.Calendar;
 
 public abstract class Deadline
 {
-    public abstract Calendar getDeadline(Calendar requestDate);
-
-    public boolean exceededDeadline(Calendar previousDate, Calendar currentDate)
+    public boolean exceededDeadline(Calendar deadline, Calendar currentDate)
     {
         boolean  exceededDeadline = false;
 
-        if (currentDate.compareTo(getDeadline(previousDate)) > 0)
+        if (currentDate.compareTo(deadline) > 0)
         {
             exceededDeadline = true;
         }
 
         return  exceededDeadline;
     }
-
 
     public boolean isSaturDay(Calendar c)
     {

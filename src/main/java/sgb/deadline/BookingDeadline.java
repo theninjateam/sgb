@@ -13,7 +13,6 @@ public class BookingDeadline extends Deadline
         this.configControler = configControler;
     }
 
-    @Override
     public Calendar getDeadline(Calendar reservationDate)
     {
         Calendar deadline = Calendar.getInstance();

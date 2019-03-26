@@ -9,17 +9,17 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class DeadlineThreadManager extends Thread implements ApplicationListener<ContextRefreshedEvent>
 {
-    int minuto = 1;
-    Calendar today = Calendar.getInstance();
+    private int minuto = 1;
+    private Calendar today;
 
     private BookingDeadlineController bDController;
     private BorrowedBooksDeadlineController bBDController;
     private MiniBookingDeadlineController mBDController;
     private ConfigControler configControler;
 
-    private final AtomicBoolean running = new AtomicBoolean();
-    private final AtomicBoolean wasThreadsStarted = new AtomicBoolean();
-    private final AtomicBoolean isServerStarting  = new AtomicBoolean();
+    private final AtomicBoolean running = new AtomicBoolean(false);
+    private final AtomicBoolean wasThreadsStarted = new AtomicBoolean(false);
+    private final AtomicBoolean isServerStarting  = new AtomicBoolean(false);
 
     public DeadlineThreadManager(BookingDeadlineController bDController,
                                  BorrowedBooksDeadlineController bBDController,
@@ -49,7 +49,6 @@ public class DeadlineThreadManager extends Thread implements ApplicationListener
                 }
 
                 this.isServerStarting.set(false);
-                this.sleep(minuto * 60 * 1000);
             }
             catch (Exception ex)
             {
@@ -60,18 +59,18 @@ public class DeadlineThreadManager extends Thread implements ApplicationListener
 
     public void startThreads()
     {
-        boolean canStartDaemons = false;
+        boolean canStartThreads = false;
 
         if (this.today.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY)
         {
             if (this.today.get(Calendar.HOUR_OF_DAY) < configControler.EXIT_TIME_ON_SATURDAY &&
                     this.isServerStarting.get())
             {
-                canStartDaemons = true;
+                canStartThreads = true;
             }
-            else if ((today.get(Calendar.HOUR_OF_DAY) < configControler.ENTRY_TIME_ON_SATURDAY -1) )
+            else if ((today.get(Calendar.HOUR_OF_DAY) < configControler.ENTRY_TIME_ON_SATURDAY) )
             {
-                canStartDaemons = true;
+                canStartThreads = true;
             }
         }
         else if (this.today.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY)
@@ -79,25 +78,24 @@ public class DeadlineThreadManager extends Thread implements ApplicationListener
             if (this.today.get(Calendar.HOUR_OF_DAY) < configControler.EXIT_TIME_ON_WEEKDAYS &&
                     this.isServerStarting.get())
             {
-                canStartDaemons = true;
+                canStartThreads = true;
             }
-            else  if ((today.get(Calendar.HOUR_OF_DAY) < configControler.ENTRY_TIME_ON_WEEKDAYS - 1))
+            else  if ((today.get(Calendar.HOUR_OF_DAY) < configControler.ENTRY_TIME_ON_WEEKDAYS))
             {
-                canStartDaemons = true;
+                canStartThreads = true;
             }
         }
 
-        if (canStartDaemons)
+        if (canStartThreads)
         {
-            this.mBDController.setName("Mini Booking Deadline Controller - Daemon");
             this.mBDController.getRunning().set(true);
-            this.mBDController.run();
+            new Thread(mBDController).start();
 
-            this.bDController.setName("Booking Deadline Controller - Daemon");
-            this.bDController.run();
+            this.bDController.getRunning().set(true);
+            new Thread(bDController).start();
 
-            this.bBDController.setName("Borrowed Books Deadline Controller - Daemon");
-            this.bBDController.run();
+            this.bBDController.getRunning().set(true);
+            new Thread(bBDController).start();
 
             this.wasThreadsStarted.set(true);
         }
@@ -105,25 +103,24 @@ public class DeadlineThreadManager extends Thread implements ApplicationListener
 
     public void endThreads()
     {
-        boolean canEndDaemons = false;
+        boolean canEndThreads = false;
 
         if ((this.today.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) &&
                 this.today.get(Calendar.HOUR_OF_DAY) > configControler.EXIT_TIME_ON_SATURDAY)
         {
-            canEndDaemons = true;
+            canEndThreads = true;
         }
         else if ((this.today.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) &&
                 this.today.get(Calendar.HOUR_OF_DAY) > configControler.EXIT_TIME_ON_WEEKDAYS)
         {
-            canEndDaemons = true;
+            canEndThreads = true;
         }
 
-        if (canEndDaemons)
+        if (canEndThreads)
         {
-            if (this.mBDController.isAlive())
-            {
-                this.mBDController.getRunning().set(false);
-            }
+            this.mBDController.getRunning().set(false);
+            this.bBDController.getRunning().set(false);
+            this.bDController.getRunning().set(false);
 
             this.wasThreadsStarted.set(false);
         }
@@ -131,11 +128,32 @@ public class DeadlineThreadManager extends Thread implements ApplicationListener
 
     public void onApplicationEvent(final ContextRefreshedEvent event)
     {
+        this.today = Calendar.getInstance();
         this.isServerStarting.set(true);
         this.wasThreadsStarted.set(false);
         this.running.set(true);
 
         this.setName("DeadLine Thread Manager");
         this.start();
+    }
+
+    public Calendar getToday() {
+        return today;
+    }
+
+    public void setToday(Calendar today) {
+        this.today = today;
+    }
+
+    public AtomicBoolean getRunning() {
+        return running;
+    }
+
+    public AtomicBoolean getWasThreadsStarted() {
+        return wasThreadsStarted;
+    }
+
+    public AtomicBoolean getIsServerStarting() {
+        return isServerStarting;
     }
 }
