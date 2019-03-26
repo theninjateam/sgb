@@ -106,7 +106,9 @@
         <constructor-arg index="0" ref="CRUDService"/>
     </bean>
 
-    <bean id="obraConcurrenceControl"  scope="singleton" class="sgb.concurrence.ObraConcurrenceControl" />
+    <bean id="obraConcurrenceControl"  scope="singleton" class="sgb.concurrence.ObraConcurrenceControl" >
+        <constructor-arg index="0" ref="CRUDService"/>
+    </bean>
 
     <bean id="request" class="sgb.request.Request" >
         <constructor-arg index="0" ref="CRUDService"/>
