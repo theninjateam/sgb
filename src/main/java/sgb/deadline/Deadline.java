@@ -2,7 +2,7 @@ package sgb.deadline;
 
 import java.util.Calendar;
 
-public abstract class Deadline
+public class Deadline
 {
     public boolean exceededDeadline(Calendar deadline, Calendar currentDate)
     {

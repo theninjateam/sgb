@@ -9,6 +9,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 import sgb.controller.domainController.ConfigControler;
+import sgb.domain.Emprestimo;
+import sgb.service.CRUDService;
 
 import java.util.Calendar;
 
@@ -28,18 +30,22 @@ public class BookingDeadlineTest
     @Autowired
     private ApplicationContext context;
     private BookingDeadline bookingDeadline;
+    private CRUDService crudService;
+    private ConfigControler configControler;
+    private Emprestimo emprestimo;
 
     @Before
     @Transactional
     public void before() throws Exception
     {
         System.out.println("Setting it up!");
+
         this.bookingDeadline = (BookingDeadline) context.getBean("bookingDeadline");
     }
 
     @Test
     @Transactional
-    public void ExcededDeadlineTest() throws Exception
+    public void getDeadlineTest() throws Exception
     {
         Calendar currentDate = Calendar.getInstance();
         Calendar reserverdDate = Calendar.getInstance();

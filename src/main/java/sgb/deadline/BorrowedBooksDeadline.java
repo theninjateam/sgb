@@ -2,9 +2,6 @@ package sgb.deadline;
 
 import sgb.controller.domainController.*;
 import sgb.domain.*;
-import sgb.service.CRUDService;
-
-import java.time.Duration;
 import java.util.Calendar;
 
 public class BorrowedBooksDeadline extends Deadline

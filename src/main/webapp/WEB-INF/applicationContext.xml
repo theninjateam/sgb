@@ -33,7 +33,7 @@
             <props>
             <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQL82Dialect</prop>
             <prop key="hibernate.hbm2ddl.auto">update</prop>
-            <prop key="hibernate.show_sql">true</prop>
+            <prop key="hibernate.show_sql">false</prop>
             <prop key="hibernate.format_sql">true</prop>
             <prop key="hibernate.use_sql_comments">true</prop>
             <prop key="hibernate.zeroDateTimeBehavior">convertToNull</prop>
@@ -66,6 +66,9 @@
     <bean id="multaController"  class="sgb.controller.domainController.MultaController" >
         <constructor-arg index="0" ref="CRUDService"/>
     </bean>
+
+
+    <bean id="deadline"  class="sgb.deadline.Deadline"/>
 
     <bean id="miniBookingDeadlineController"  class="sgb.deadline.MiniBookingDeadlineController" >
         <constructor-arg index="0" ref="miniBookingDeadline"/>
