@@ -48,6 +48,8 @@ public class BookingDeadlineController extends Thread
                 {
                     for (Emprestimo e: pendingBooking)
                     {
+                        if (e.getDataaprovacao() == null) { continue;}
+
                         Calendar deadline = this.bDeadline.getDeadline(e.getDataaprovacao());
 
                         boolean  exceededDeadline = this.bDeadline.exceededDeadline(deadline, Calendar.getInstance());

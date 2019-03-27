@@ -41,6 +41,7 @@ public class MiniBookingDeadlineController implements Runnable
     {
         while(running.get())
         {
+            System.out.println("MiniBookingDeadlineController...");
             try
             {
                 List<Emprestimo> pendigMiniBooking = this.eController.getRequest(ePControler.PENDING_MINI_BOOKING);
@@ -49,7 +50,7 @@ public class MiniBookingDeadlineController implements Runnable
                 {
                     for (Emprestimo e: pendigMiniBooking)
                     {
-                        Calendar deadline = this.mBDeadline.getDeadline(e.getDataaprovacao());
+                        Calendar deadline = this.mBDeadline.getDeadline(e.getEmprestimoPK().getDataentradapedido());
 
                         boolean  exceededDeadline = this.mBDeadline.exceededDeadline(deadline, Calendar.getInstance());
 

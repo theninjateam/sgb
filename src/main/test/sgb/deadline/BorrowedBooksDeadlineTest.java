@@ -59,7 +59,8 @@ public class BorrowedBooksDeadlineTest
 
         for (Emprestimo e: es)
         {
-            if (e.getEmprestimoPK().getUtente().getRoles().contains(rStudent))
+            if (e.getEmprestimoPK().getUtente().getRoles().contains(rStudent)
+                && e.getDataaprovacao() != null)
             {
                 eStudent = e;
                 break;
@@ -68,7 +69,8 @@ public class BorrowedBooksDeadlineTest
 
         for (Emprestimo e: es)
         {
-            if (e.getEmprestimoPK().getUtente().getRoles().contains(rTeacher))
+            if (e.getEmprestimoPK().getUtente().getRoles().contains(rTeacher)
+                    && e.getDataaprovacao() != null)
             {
                 eTeacher = e;
                 break;

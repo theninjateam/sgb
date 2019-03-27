@@ -52,6 +52,8 @@ public class BorrowedBooksDeadlineController extends Thread
                 {
                     for (Emprestimo e: borrowedBooks)
                     {
+                        if (e.getDataaprovacao() == null) { continue;}
+
                         Calendar deadline = this.bBDeadline.getDeadline(e);
 
                         boolean  exceededDeadline = this.bBDeadline.exceededDeadline(deadline, Calendar.getInstance());

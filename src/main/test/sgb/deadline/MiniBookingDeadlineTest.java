@@ -10,6 +10,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
+import sgb.controller.domainController.ConfigControler;
 
 import java.util.Calendar;
 
@@ -27,218 +28,142 @@ public class MiniBookingDeadlineTest
     @Autowired
     private ApplicationContext context;
     private MiniBookingDeadline miniBookingDeadline;
+    private ConfigControler configControler;
+
 
     @Before
     @Transactional
     public void before() throws Exception
     {
         System.out.println("Setting it up!");
-        this.miniBookingDeadline = (MiniBookingDeadline) context.getBean("deadlineRequestedBooks");
+
+        this.miniBookingDeadline = (MiniBookingDeadline) context.getBean("miniBookingDeadline");
+        this.configControler = (ConfigControler) context.getBean("configControler");
+
     }
 
     @Test
     @Transactional
-    public void ExceededDeadlineForWeekDaysTest() throws Exception
+    public void getDeadlineTest() throws Exception
     {
-        int maximumTime = miniBookingDeadline.getConfigControler().DEADLINE_REQUESTED_BOOKS;
+        Calendar miniBookingTime;
+        Calendar actualDeadline = Calendar.getInstance();
+        Calendar expectedDeadline = Calendar.getInstance();
 
-        int entryTime = miniBookingDeadline.getConfigControler().ENTRY_TIME_ON_WEEKDAYS;
+        /*******************************************
+        * miniBooking on monday
+        * ***************************************/
 
-        int exitTime = miniBookingDeadline.getConfigControler().EXIT_TIME_ON_WEEKDAYS;
+        /*
+        * miniBooking before entry time
+        * */
 
-        int entryTimeOnSaturday = miniBookingDeadline.getConfigControler().ENTRY_TIME_ON_SATURDAY;
+        miniBookingTime = this.getMiniBooking(Calendar.MONDAY, this.configControler.ENTRY_TIME_ON_WEEKDAYS -1);
+        actualDeadline = this.miniBookingDeadline.getDeadline(miniBookingTime);
 
+        expectedDeadline.setTime(miniBookingTime.getTime());
+        expectedDeadline.set(Calendar.HOUR_OF_DAY, this.configControler.ENTRY_TIME_ON_WEEKDAYS);
+        expectedDeadline.set(Calendar.MINUTE, this.configControler.DEADLINE_REQUESTED_BOOKS);
 
-        /***
-         *
-         * MiniBookingDeadline Before Entry Time
-         *
+        assertThat(actualDeadline).isEqualByComparingTo(expectedDeadline);
+
+        /*
+         * miniBooking after exit time
          * */
 
-        Calendar requestDate = getCalendar(Calendar.MONDAY, entryTime - 1, 30);
+        miniBookingTime = this.getMiniBooking(Calendar.MONDAY, this.configControler.EXIT_TIME_ON_WEEKDAYS + 1);
+        actualDeadline = this.miniBookingDeadline.getDeadline(miniBookingTime);
 
-        Calendar currentDate = getCalendar(Calendar.MONDAY, entryTime - 1, 40);
+        expectedDeadline = this.getMiniBooking(Calendar.TUESDAY, this.configControler.ENTRY_TIME_ON_WEEKDAYS + 1);
 
-        assertThat(miniBookingDeadline.exceededDeadline(requestDate, currentDate)).isFalse();
+        assertThat(actualDeadline).isEqualByComparingTo(expectedDeadline);
 
-
-        currentDate = getCalendar(Calendar.MONDAY, entryTime, maximumTime + 1);
-
-        assertThat(miniBookingDeadline.exceededDeadline(requestDate, currentDate)).isTrue();
-
-
-        /***
-         *
-         * MiniBookingDeadline After Exit Time
-         *
+        /*
+         * miniBooking on working time
          * */
 
-        requestDate = getCalendar(Calendar.MONDAY, exitTime, 00);
+        miniBookingTime = this.getMiniBooking(Calendar.MONDAY, this.configControler.ENTRY_TIME_ON_WEEKDAYS + 1);
+        actualDeadline = this.miniBookingDeadline.getDeadline(miniBookingTime);
 
-        currentDate = getCalendar(Calendar.MONDAY, exitTime + 2, maximumTime + 2);
+        expectedDeadline.setTime(miniBookingTime.getTime());
+        expectedDeadline.set(Calendar.MINUTE, this.configControler.DEADLINE_REQUESTED_BOOKS);
 
-        assertThat(miniBookingDeadline.exceededDeadline(requestDate, currentDate)).isFalse();
-
-
-        currentDate = getCalendar(Calendar.TUESDAY, entryTime, maximumTime + 1);
-
-        assertThat(miniBookingDeadline.exceededDeadline(requestDate, currentDate)).isTrue();
+        assertThat(actualDeadline).isEqualByComparingTo(expectedDeadline);
 
 
-        /***
-         *
-         * MiniBookingDeadline After Exit Time on friday
-         *
+        /*******************************************
+         * miniBooking on friday after exit time
+         * ***************************************/
+
+        miniBookingTime = this.getMiniBooking(Calendar.FRIDAY, this.configControler.EXIT_TIME_ON_WEEKDAYS + 1);
+        actualDeadline = this.miniBookingDeadline.getDeadline(miniBookingTime);
+
+        expectedDeadline = this.getMiniBooking(Calendar.SATURDAY, this.configControler.ENTRY_TIME_ON_SATURDAY + 1);
+
+        assertThat(actualDeadline).isEqualByComparingTo(expectedDeadline);
+
+
+        /*******************************************
+         * miniBooking on Saturday
+         * ***************************************/
+
+        /*
+         * miniBooking before entry time
          * */
 
-        requestDate = getCalendar(Calendar.FRIDAY, exitTime, 00);
+        miniBookingTime = this.getMiniBooking(Calendar.SATURDAY, this.configControler.ENTRY_TIME_ON_SATURDAY -1);
+        actualDeadline = this.miniBookingDeadline.getDeadline(miniBookingTime);
 
-        currentDate = getCalendar(Calendar.FRIDAY, exitTime + 2, maximumTime + 2);
+        expectedDeadline.setTime(miniBookingTime.getTime());
+        expectedDeadline.set(Calendar.HOUR_OF_DAY, this.configControler.ENTRY_TIME_ON_SATURDAY);
+        expectedDeadline.set(Calendar.MINUTE, this.configControler.DEADLINE_REQUESTED_BOOKS);
 
-        assertThat(miniBookingDeadline.exceededDeadline(requestDate, currentDate)).isFalse();
+        assertThat(actualDeadline).isEqualByComparingTo(expectedDeadline);
 
-
-        currentDate = getCalendar(Calendar.SATURDAY, entryTimeOnSaturday, maximumTime + 1);
-
-        assertThat(miniBookingDeadline.exceededDeadline(requestDate, currentDate)).isTrue();
-
-        /***
-         *
-         * MiniBookingDeadline in work Time
-         *
+        /*
+         * miniBooking on after exit time
          * */
 
-        requestDate = getCalendar(Calendar.FRIDAY, entryTime, 20);
+        miniBookingTime = this.getMiniBooking(Calendar.SATURDAY, this.configControler.EXIT_TIME_ON_SATURDAY + 1);
+        actualDeadline = this.miniBookingDeadline.getDeadline(miniBookingTime);
 
-        currentDate = getCalendar(Calendar.FRIDAY, entryTime, 20);
+        expectedDeadline.setTime(miniBookingTime.getTime());
 
-        assertThat(miniBookingDeadline.exceededDeadline(requestDate, currentDate)).isFalse();
+        while (true)
+        {
+            expectedDeadline.set(Calendar.DATE, expectedDeadline.get(Calendar.DATE) + 1);
+            if ( expectedDeadline.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY) { break; }
+        }
 
+        expectedDeadline.set(Calendar.HOUR_OF_DAY, this.configControler.ENTRY_TIME_ON_WEEKDAYS);
+        expectedDeadline.set(Calendar.MINUTE, this.configControler.DEADLINE_REQUESTED_BOOKS);
 
-        currentDate = getCalendar(Calendar.FRIDAY, entryTime, 20 + maximumTime + 1);
+        assertThat(actualDeadline).isEqualByComparingTo(expectedDeadline);
 
-        assertThat(miniBookingDeadline.exceededDeadline(requestDate, currentDate)).isTrue();
-
-
-        /***
-         *
-         * MiniBookingDeadline in work Time, N minutes to exit time
-         *
+        /*
+         * miniBooking on working time
          * */
 
-        requestDate = getCalendar(Calendar.FRIDAY, exitTime - 1, 20);
+        miniBookingTime = this.getMiniBooking(Calendar.SATURDAY, this.configControler.ENTRY_TIME_ON_SATURDAY+ 1);
+        actualDeadline = this.miniBookingDeadline.getDeadline(miniBookingTime);
 
-        currentDate = getCalendar(Calendar.FRIDAY, exitTime - 1, 20);
+        expectedDeadline.setTime(miniBookingTime.getTime());
+        expectedDeadline.set(Calendar.MINUTE, this.configControler.DEADLINE_REQUESTED_BOOKS);
 
-        assertThat(miniBookingDeadline.exceededDeadline(requestDate, currentDate)).isFalse();
+        assertThat(actualDeadline).isEqualByComparingTo(expectedDeadline);
 
-
-        currentDate = getCalendar(Calendar.FRIDAY, exitTime -1, 20 + maximumTime + 1);
-
-        assertThat(miniBookingDeadline.exceededDeadline(requestDate, currentDate)).isTrue();
     }
 
-    @Test
-    @Transactional
-    public void exceededDeadlineForWeekendTest() throws Exception
+    public Calendar getMiniBooking(int day, int hour)
     {
-        int maximumTime = miniBookingDeadline.getConfigControler().DEADLINE_REQUESTED_BOOKS;
+        Calendar calendar  = Calendar.getInstance();
 
-        int entryTime = miniBookingDeadline.getConfigControler().ENTRY_TIME_ON_WEEKDAYS;
+        calendar.set(Calendar.DAY_OF_WEEK, day);
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
 
-        int exitTime = miniBookingDeadline.getConfigControler().EXIT_TIME_ON_WEEKDAYS;
-
-        int entryTimeOnSaturday = miniBookingDeadline.getConfigControler().ENTRY_TIME_ON_SATURDAY;
-
-        int exitTimeOnSaturday = miniBookingDeadline.getConfigControler().EXIT_TIME_ON_SATURDAY;
-
-        /***
-         *
-         * MiniBookingDeadline Before Entry Time
-         *
-         * */
-
-        Calendar requestDate = getCalendar(Calendar.SATURDAY, entryTimeOnSaturday - 1, 30);
-
-        Calendar currentDate = getCalendar(Calendar.SATURDAY, entryTimeOnSaturday - 1, 40);
-
-        assertThat(miniBookingDeadline.exceededDeadline(requestDate, currentDate)).isFalse();
-
-
-        currentDate = getCalendar(Calendar.SATURDAY, entryTimeOnSaturday, maximumTime + 1);
-
-        assertThat(miniBookingDeadline.exceededDeadline(requestDate, currentDate)).isTrue();
-
-
-        /***
-         *
-         * MiniBookingDeadline After Exit Time
-         *
-         * */
-
-        requestDate = getCalendar(Calendar.SATURDAY, exitTimeOnSaturday, 00);
-
-        currentDate = getCalendar(Calendar.SUNDAY, exitTimeOnSaturday + 2, maximumTime + 2);
-
-        assertThat(miniBookingDeadline.exceededDeadline(requestDate, currentDate)).isFalse();
-
-        currentDate = getCalendar(Calendar.SATURDAY, entryTime, maximumTime + 1);
-        miniBookingDeadline.goToNextWorkingDay(currentDate); // monday
-
-        assertThat(miniBookingDeadline.exceededDeadline(requestDate, currentDate)).isTrue();
-
-
-        /***
-         *
-         * MiniBookingDeadline in work Time
-         *
-         * */
-
-        requestDate = getCalendar(Calendar.SATURDAY, entryTimeOnSaturday, 20);
-
-        currentDate = getCalendar(Calendar.SATURDAY, entryTimeOnSaturday, 20);
-
-        assertThat(miniBookingDeadline.exceededDeadline(requestDate, currentDate)).isFalse();
-
-
-        currentDate = getCalendar(Calendar.SATURDAY, entryTimeOnSaturday, 20 + maximumTime + 1);
-
-        assertThat(miniBookingDeadline.exceededDeadline(requestDate, currentDate)).isTrue();
-
-
-        /***
-         *
-         * MiniBookingDeadline in work Time, N minutes to exit time
-         *
-         * */
-
-        requestDate = getCalendar(Calendar.SATURDAY, exitTimeOnSaturday - 1, 20);
-
-        currentDate = getCalendar(Calendar.SATURDAY, exitTimeOnSaturday - 1, 20);
-
-        assertThat(miniBookingDeadline.exceededDeadline(requestDate, currentDate)).isFalse();
-
-
-        currentDate = getCalendar(Calendar.SATURDAY, exitTimeOnSaturday - 1, 20 + maximumTime + 1);
-
-        assertThat(miniBookingDeadline.exceededDeadline(requestDate, currentDate)).isTrue();
-    }
-
-
-    public Calendar getCalendar(int dayOfWeek, int hours ,int minutes)
-    {
-        Calendar calendar = Calendar.getInstance();
-
-        calendar.set(Calendar.DAY_OF_WEEK, dayOfWeek);
-
-
-        calendar.set(Calendar.HOUR_OF_DAY, hours);
-
-        calendar.set(Calendar.MINUTE, minutes);
-
-        calendar.set(Calendar.SECOND, 00);
-
-        calendar.set(Calendar.MILLISECOND, 00);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
 
         return calendar;
     }

@@ -15,7 +15,6 @@
  Date: 27/03/2019 20:51:20
 */
 
-
 -- ----------------------------
 -- Sequence structure for areacientifica_idarea_seq
 -- ----------------------------
