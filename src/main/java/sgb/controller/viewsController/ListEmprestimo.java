@@ -70,12 +70,12 @@ public class ListEmprestimo extends SelectorComposer<Component> {
     }
 
     public void ComposeUserAdmin(){
-        emprestimoListModel = new ListModelList<Emprestimo>(eController.getRequest(ePController.ACCEPTED));
+        emprestimoListModel = new ListModelList<Emprestimo>(eController.getRequest(ePController.ACCEPTED,eDController.NOT_RETURNED));
         emprestimoListBox.setModel(emprestimoListModel);
     }
 
     public void ComposeUserNormal() {
-        emprestimoListModel = new ListModelList<Emprestimo>(eController.getRequest(this.user, ePController.ACCEPTED));
+        emprestimoListModel = new ListModelList<Emprestimo>(eController.getRequest(this.user, ePController.ACCEPTED,eDController.NOT_RETURNED));
         emprestimoListBox.setModel(emprestimoListModel);
     }
 

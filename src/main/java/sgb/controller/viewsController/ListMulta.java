@@ -14,10 +14,14 @@ import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.*;
 import sgb.controller.domainController.*;
-import sgb.domain.*;
+import sgb.domain.Multa;
+import sgb.domain.Role;
+import sgb.domain.Users;
 import sgb.request.Request;
 import sgb.service.CRUDService;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 
 //import sgb.controller.domainController.EmprestimoControllerSingleton;
@@ -36,7 +40,8 @@ public class ListMulta extends SelectorComposer<Component> {
     private EstadoMultaControler eMController = (EstadoMultaControler) SpringUtil.getBean("estadoMultaControler");
 
     private Boolean isNormalUser = true;
-
+    private StringBuilder query;
+    private HashMap<String, Object> parameters;
 
 
     @Wire
@@ -65,21 +70,19 @@ public class ListMulta extends SelectorComposer<Component> {
     }
 
     public void ComposeUserAdmin(){
-//        multaListModel = new ListModelList<Multa>(mController.getFine(eMController.NOT_PAID));
+        multaListModel = new ListModelList<Multa>(mController.getFine(eMController.NOT_PAID));
         multaListBox.setModel(multaListModel);
     }
 
     public void ComposeUserNormal() {
-//        multaListModel = new ListModelList<Multa>(mController.getFine(user,eMController.NOT_PAID));
+        multaListModel = new ListModelList<Multa>(mController.getFine(user, eMController.NOT_PAID));
         multaListBox.setModel(multaListModel);
     }
 
     @Listen("onDetalhesMulta = #multaListBox")
-    public void doRenovar(ForwardEvent event)
+    public void doDelahes(ForwardEvent event)
     {
-        if(isNormalUser) {
-            Clients.showNotification("Precisa ser Bibliotecario para executar essa acao ", null, null, null, 5000);
-        } else {
+
             Button btn = (Button) event.getOrigin().getTarget();
             Listitem litem = (Listitem) btn.getParent().getParent().getParent();
             Multa multa = (Multa) litem.getValue();
@@ -90,7 +93,7 @@ public class ListMulta extends SelectorComposer<Component> {
             Window window =(Window) Executions.createComponents("/views/multamodal.zul", null, null);
             window.setClosable(true);
             window.doModal();
-        }
     }
+
 
 }

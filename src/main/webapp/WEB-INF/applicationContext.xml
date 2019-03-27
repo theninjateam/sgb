@@ -63,7 +63,6 @@
         <constructor-arg index="0" ref="CRUDService"/>
     </bean>
 
-
     <bean id="multaController"  class="sgb.controller.domainController.MultaController" >
         <constructor-arg index="0" ref="CRUDService"/>
     </bean>
@@ -136,6 +135,7 @@
         <constructor-arg index="3" ref="CRUDService"/>
         <constructor-arg index="4" ref="estadoDevolucaoControler"/>
         <constructor-arg index="5" ref="emprestimoController"/>
+        <constructor-arg index="6" ref="borrowedBooksDeadline"/>
     </bean>
 
     <bean id="borrowedBooksDeadlineController"  class="sgb.deadline.BorrowedBooksDeadlineController" >

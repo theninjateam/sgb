@@ -48,6 +48,36 @@ public class EmprestimoController
         return this.crudService.findByJPQuery(query.toString(), parameters);
     }
 
+    public List<Emprestimo> getRequest(Users user, int idEstadoPedido, int idEstadoDevolucao)
+    {
+        parameters = new HashMap<String, Object>(2);
+        query = new StringBuilder();
+
+        parameters.put("idEstadoPedido", idEstadoPedido);
+        parameters.put("userId", user.getId());
+        parameters.put("idEstadoDevolucao",idEstadoDevolucao);
+
+        query.append("SELECT e FROM Emprestimo e WHERE e.estadoPedido.idestadopedido = :idEstadoPedido and ");
+        query.append("e.estadoDevolucao.idestadodevolucao = :idEstadoDevolucao and");
+        query.append("e.emprestimoPK.utente.id = :userId");
+
+        return this.crudService.findByJPQuery(query.toString(), parameters);
+    }
+
+    public List<Emprestimo> getRequest(int idEstadoPedido, int idEstadoDevolucao)
+    {
+        parameters = new HashMap<String, Object>(2);
+        query = new StringBuilder();
+
+        parameters.put("idEstadoPedido", idEstadoPedido);
+        parameters.put("idEstadoDevolucao",idEstadoDevolucao);
+
+        query.append("SELECT e FROM Emprestimo e WHERE e.estadoPedido.idestadopedido = :idEstadoPedido and ");
+        query.append("e.estadoDevolucao.idestadodevolucao = :idEstadoDevolucao");
+
+        return this.crudService.findByJPQuery(query.toString(), parameters);
+    }
+
     public List<Emprestimo> getRequest(int idEstadoPedido)
     {
         parameters = new HashMap<String, Object>(1);

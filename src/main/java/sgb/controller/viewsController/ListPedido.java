@@ -8,6 +8,7 @@ import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import sgb.controller.domainController.EmprestimoController;
+import sgb.controller.domainController.EstadoDevolucaoControler;
 import sgb.controller.domainController.EstadoPedidoControler;
 import sgb.deadline.BorrowedBooksDeadline;
 import sgb.domain.Emprestimo;
@@ -38,6 +39,9 @@ public class ListPedido extends SelectorComposer<Component> {
     private Request request = (Request) SpringUtil.getBean("request");
     private EstadoPedidoControler ePController = (EstadoPedidoControler) SpringUtil.getBean("estadoPedidoControler");
     private EmprestimoController eController = (EmprestimoController) SpringUtil.getBean("emprestimoController");
+    private EstadoDevolucaoControler eDController = (EstadoDevolucaoControler) SpringUtil.getBean("estadoDevolucaoControler");
+
+
 
     @Wire
     private Listbox pedidoListBox;
@@ -141,10 +145,12 @@ public class ListPedido extends SelectorComposer<Component> {
             Button btn = (Button) event.getOrigin().getTarget();
             Listitem litem = (Listitem) btn.getParent().getParent().getParent();
             Emprestimo emp = (Emprestimo) litem.getValue();
-            EstadoPedido estadoPedido = crudService.get(EstadoPedido.class, 3);
+            EstadoPedido estadoPedido = crudService.get(EstadoPedido.class,ePController.ACCEPTED);
+            EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class,eDController.NOT_RETURNED);
             emp.setEstadoPedido(estadoPedido);
             emp.setDataaprovacao(Calendar.getInstance());
             emp.setBibliotecario(user); //
+            emp.setEstadoDevolucao(estadoDevolucao);
 
             Set<Role> roles = emp.getEmprestimoPK().getUtente().getRoles();
 
@@ -154,7 +160,7 @@ public class ListPedido extends SelectorComposer<Component> {
                 else
                     isStudent = false;
             }
-            emp.setDatadevolucao(bBDeadline.getDeadline(Calendar.getInstance(),isStudent)); // Calcula data de devolucao
+            emp.setDatadevolucao(bBDeadline.getDeadline(emp)); // Calcula data de devolucao
             pedidoListModel.remove(emp);
             crudService.update(emp);
             Clients.showNotification("Pedido aprovado com sucesso ", null, null, null, 5000);

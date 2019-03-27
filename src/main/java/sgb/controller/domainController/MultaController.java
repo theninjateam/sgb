@@ -27,37 +27,38 @@ public class MultaController
         parameters.put("dataentrada", emprestimoPK.getDataentradapedido());
 
 
-        query.append("SELECT m FROM Multa m WHERE m.emprestimoPK.utente.id = :user_id and ");
-        query.append("m.emprestimoPK.obra.cota = :cota and m.emprestimoPK.dataentradapedido = :dataentrada");
+        query.append("SELECT m FROM Multa m WHERE m.multaPK.utente.id = :user_id and ");
+        query.append("m.multaPK.obra.cota = :cota and m.multaPK.dataentradapedido = :dataentrada");
 
         return this.crudService.findEntByJPQueryT(query.toString(), parameters);
     }
 
+
     public List<Multa> getFine(Users user , int idEstadoMulta)
     {
-        parameters = new HashMap<String, Object>(3);
+        parameters = new HashMap<String, Object>(2);
         query = new StringBuilder();
 
         parameters.put("user_id", user.getId());
         parameters.put("idEstadoMulta", idEstadoMulta);
 
 
-        query.append("SELECT m FROM Multa m WHERE m.estadoMulta.idestadomulta = :idEstadoMulta");
-        query.append("m.emprestimoPK.utente.id = :user_id");
+        query.append("SELECT m FROM Multa m WHERE m.multaPK.utente.id = :user_id and ");
+        query.append("m.estadoMulta.idestadomulta = :idEstadoMulta");
 
-        return this.crudService.findEntByJPQueryT(query.toString(), parameters);
+        return this.crudService.findByJPQuery(query.toString(), parameters);
     }
 
     public List<Multa> getFine(int idEstadoMulta)
     {
-        parameters = new HashMap<String, Object>(3);
+        parameters = new HashMap<String, Object>(1);
         query = new StringBuilder();
 
         parameters.put("idEstadoMulta", idEstadoMulta);
 
         query.append("SELECT m FROM Multa m WHERE m.estadoMulta.idestadomulta = :idEstadoMulta");
 
-        return this.crudService.findEntByJPQueryT(query.toString(), parameters);
+        return this.crudService.findByJPQuery(query.toString(), parameters);
     }
 
 }

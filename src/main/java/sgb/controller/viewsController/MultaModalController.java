@@ -93,7 +93,6 @@ public class MultaModalController extends SelectorComposer<Component> {
 
         multa.setValorpago(fine.getAmoutToPay(multa.getMultaPK()));
 
-
         if (isForDetails) {
             /*
             * Elabora uma multa falsa so para apresentar como detalhes do emprestimo
