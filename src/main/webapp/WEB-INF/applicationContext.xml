@@ -92,6 +92,10 @@
         <constructor-arg index="0" ref="configControler"/>
     </bean>
 
+    <bean id ="tiporequisicao" class="sgb.controller.domainController.TipoRequisicaoControler">
+        <constructor-arg index="0" ref="CRUDService"/>
+    </bean>
+
     <bean id="estadoPedidoControler"  class="sgb.controller.domainController.EstadoPedidoControler" >
         <constructor-arg index="0" ref="CRUDService"/>
     </bean>

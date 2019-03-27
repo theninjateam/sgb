@@ -1,10 +1,7 @@
 package sgb.request;
 
 import sgb.concurrence.ObraConcurrenceControl;
-import sgb.controller.domainController.ConfigControler;
-import sgb.controller.domainController.EmprestimoController;
-import sgb.controller.domainController.EstadoDevolucaoControler;
-import sgb.controller.domainController.EstadoPedidoControler;
+import sgb.controller.domainController.*;
 import sgb.domain.*;
 import sgb.service.CRUDService;
 
@@ -18,6 +15,7 @@ public class Request
     private EstadoPedidoControler estadoPedidoControler;
     private EstadoDevolucaoControler estadoDevolucaoControler;
     private ObraConcurrenceControl obraConcurrenceControl;
+    private TipoRequisicaoControler tipoRequisicaoControler;
     private Queue queue;
     private EmprestimoController eController;
     
@@ -191,10 +189,17 @@ public class Request
         EmprestimoPK emprestimoPK = new EmprestimoPK();
         Emprestimo emprestimo = new Emprestimo();
 
-        EstadoPedido estadoPedido = null;
-        EstadoDevolucao estadoDevolucao = null;
+        EstadoPedido estadoPedido = crudService.get(EstadoPedido.class,estadoPedidoControler.PENDING_MINI_BOOKING);
+        EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, estadoDevolucaoControler.UNDETERMINED);
         EstadoRenovacao estadoRenovacao = null;
-        TipoRequisicao tipoRequisicao =  null;
+
+        TipoRequisicao tipoRequisicao = crudService.get(TipoRequisicao.class,tipoRequisicaoControler.INTERNAL_REQUISITION);
+
+        if (item.getIsHomeRequisition()) {
+            tipoRequisicao = crudService.get(TipoRequisicao.class, tipoRequisicaoControler.HOME_REQUISITION);
+        }
+        emprestimo.setTipoRequisicao(tipoRequisicao);
+
 
         emprestimoPK.setObra(item.getObra());
         emprestimoPK.setUtente(user);
