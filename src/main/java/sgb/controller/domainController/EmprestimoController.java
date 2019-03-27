@@ -90,6 +90,18 @@ public class EmprestimoController
         return this.crudService.findByJPQuery(query.toString(), parameters);
     }
 
+    public List<Emprestimo> getBorrowedBooks(int idEstadoDevolucao)
+    {
+        parameters = new HashMap<String, Object>(1);
+        query = new StringBuilder();
+
+        parameters.put("idEstadoDevolucao", idEstadoDevolucao);
+
+        query.append("SELECT e FROM Emprestimo e WHERE e.estadoDevolucao.idestadodevolucao = :idEstadoDevolucao");
+
+        return this.crudService.findByJPQuery(query.toString(), parameters);
+    }
+
     public Emprestimo getRequest(EmprestimoPK emprestimoPK)
     {
         parameters = new HashMap<String, Object>(3);

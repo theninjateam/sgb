@@ -46,7 +46,7 @@ public class BorrowedBooksDeadlineController extends Thread
         {
             try
             {
-                List<Emprestimo> borrowedBooks = this.eController.getRequest(eDController.RETURNED);
+                List<Emprestimo> borrowedBooks = this.eController.getBorrowedBooks(eDController.RETURNED);
 
                 if (borrowedBooks != null)
                 {
