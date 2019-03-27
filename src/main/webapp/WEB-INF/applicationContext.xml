@@ -143,6 +143,7 @@
         <constructor-arg index="1" ref="fine"/>
         <constructor-arg index="2" ref="estadoPedidoControler"/>
         <constructor-arg index="3" ref="emprestimoController"/>
+        <constructor-arg index="4" ref="estadoDevolucaoControler"/>
     </bean>
 
     <bean id="deadlineThreadManager"  class="sgb.deadline.DeadlineThreadManager" >

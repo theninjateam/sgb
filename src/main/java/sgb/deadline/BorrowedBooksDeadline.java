@@ -30,7 +30,6 @@ public class BorrowedBooksDeadline extends Deadline
         {
             role = r;
         }
-
         if (role.getRoleId() == this.rController.STUDENT)
         {
             deadline.set(Calendar.DATE, borrowDate.get(Calendar.DATE) +

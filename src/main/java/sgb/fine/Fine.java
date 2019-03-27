@@ -102,5 +102,4 @@ public class Fine
 
         this.crudService.update(multa);
     }
-
 }

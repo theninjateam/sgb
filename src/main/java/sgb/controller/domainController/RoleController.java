@@ -4,7 +4,6 @@ import sgb.domain.*;
 import sgb.service.CRUDService;
 
 import java.util.HashMap;
-import java.util.List;
 
 public class RoleController
 {
@@ -19,20 +18,40 @@ public class RoleController
     public RoleController(CRUDService crudService)
     {
         this.crudService = crudService;
-        STUDENT = getRoleId("student");
-        TEACHER = getRoleId("teacher");
-        ADMIN = getRoleId("ADMIN");
 
+        STUDENT = getRoleId("STUDENT");
+        TEACHER = getRoleId("TEACHER");
+        ADMIN = getRoleId("ADMIN");
     }
 
-    public int getRoleId(String role)
+    public int getRoleId(String roleName)
     {
+        Role role;
         parameters = new HashMap<String, Object>(1);
         query = new StringBuilder();
 
-        parameters.put("role", role);
+        parameters.put("role", roleName);
         query.append("SELECT r FROM Role r WHERE r.role = :role");
 
-        return ((Role) this.crudService.findEntByJPQueryT(query.toString(), parameters)).getRoleId();
+        role =  ((Role) this.crudService.findEntByJPQueryT(query.toString(), parameters));
+
+        if (role == null)
+        {
+            try
+            {
+                StringBuilder builder = new StringBuilder();
+                builder.append("There is no role called: \""+ roleName+"\"");
+                builder.append(" - verifiy if you are calling atributes that exists on database\n");
+
+                throw new Exception(builder.toString());
+            }
+            catch (Exception ex)
+            {
+                ex.printStackTrace();
+                System.exit(-1);
+            }
+        }
+
+        return role.getRoleId();
     }
 }

@@ -3,8 +3,10 @@ package sgb.deadline;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import sgb.controller.domainController.EmprestimoController;
+import sgb.controller.domainController.EstadoDevolucaoControler;
 import sgb.controller.domainController.EstadoPedidoControler;
 import sgb.domain.Emprestimo;
+import sgb.domain.EstadoDevolucao;
 import sgb.fine.Fine;
 import sgb.request.Request;
 
@@ -21,17 +23,20 @@ public class BorrowedBooksDeadlineController extends Thread
     private BorrowedBooksDeadline bBDeadline;
     private Fine fine;
     private EstadoPedidoControler ePControler;
+    private EstadoDevolucaoControler eDController;
     private EmprestimoController eController;
     private final AtomicBoolean running = new AtomicBoolean(false);
 
     public BorrowedBooksDeadlineController(BorrowedBooksDeadline bBDeadline,
                                            Fine fine,
                                            EstadoPedidoControler ePControler,
-                                           EmprestimoController eController)
+                                           EmprestimoController eController,
+                                           EstadoDevolucaoControler eDController)
     {
         this.bBDeadline = bBDeadline;
         this.fine = fine;
         this.ePControler = ePControler;
+        this.eDController = eDController;
         this.eController = eController;
     }
 
@@ -41,7 +46,7 @@ public class BorrowedBooksDeadlineController extends Thread
         {
             try
             {
-                List<Emprestimo> borrowedBooks = this.eController.getRequest(ePControler.ACCEPTED);
+                List<Emprestimo> borrowedBooks = this.eController.getRequest(eDController.RETURNED);
 
                 if (borrowedBooks != null)
                 {
