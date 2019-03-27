@@ -16,6 +16,7 @@ import org.zkoss.zul.*;
 //import sgb.controller.domainController.EmprestimoControllerSingleton;
 import sgb.controller.domainController.*;
 import sgb.domain.*;
+import sgb.fine.Fine;
 import sgb.request.Request;
 import sgb.service.CRUDService;
 import org.zkoss.zk.ui.Session;
@@ -40,6 +41,8 @@ public class ListEmprestimo extends SelectorComposer<Component> {
     private EstadoDevolucaoControler eDController = (EstadoDevolucaoControler) SpringUtil.getBean("estadoDevolucaoControler");
     private ConfigControler configControler =(ConfigControler) SpringUtil.getBean("configControler");
     private EstadoMultaControler eMController = (EstadoMultaControler) SpringUtil.getBean("estadoMultaControler");
+    private Fine fine = (Fine) SpringUtil.getBean("fine");
+
 
 
     private Boolean isNormalUser = true;
@@ -95,9 +98,7 @@ public class ListEmprestimo extends SelectorComposer<Component> {
             Listitem litem = (Listitem) btn.getParent().getParent().getParent();
             Emprestimo emp = (Emprestimo) litem.getValue();
 
-
-
-            if (emp.getEstadoDevolucao().getDescricao().equals("NOT_RETURNED")) {
+            if (fine.wasFinedBefore(emp.getEmprestimoPK())) {
 
                 multa = crudService.get(Multa.class,emp.getEmprestimoPK());
 

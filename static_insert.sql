@@ -72,9 +72,9 @@ INSERT INTO "public"."idioma" VALUES (3, 'Espanhol');
 -- ----------------------------
 -- Records of role
 -- ----------------------------
-INSERT INTO "public"."role" VALUES (3, 'teacher', 4);
+INSERT INTO "public"."role" VALUES (3, 'TEACHER', 4);
 INSERT INTO "public"."role" VALUES (1, 'ADMIN', 0);
-INSERT INTO "public"."role" VALUES (2, 'student', 6);
+INSERT INTO "public"."role" VALUES (2, 'STUDENT', 6);
 
 -- ----------------------------
 -- Records of tipoobra
@@ -102,5 +102,6 @@ INSERT INTO "public"."user_role" VALUES (3, 2);
 -- ----------------------------
 -- Records of tiporequisicao
 -- ----------------------------
-INSERT INTO "public"."tiporequisicao" VALUES (1, 'requisicao dominciliar');
-INSERT INTO "public"."tiporequisicao" VALUES (2, 'requisicao ');
+INSERT INTO "public"."tiporequisicao" VALUES (1, 'HOME_REQUISITION');
+INSERT INTO "public"."tiporequisicao" VALUES (2, 'INTERNAL_REQUISITION');
+

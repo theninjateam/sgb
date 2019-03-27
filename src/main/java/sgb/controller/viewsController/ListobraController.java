@@ -37,6 +37,8 @@ public class ListobraController extends SelectorComposer<Component>
     private EstadoPedidoControler ePController = (EstadoPedidoControler) SpringUtil.getBean("estadoPedidoControler");
 
     private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;
+    private EmprestimoController eController = (EmprestimoController) SpringUtil.getBean("emprestimoController");
+    private EstadoDevolucaoControler eDController = (EstadoDevolucaoControler) SpringUtil.getBean("estadoDevolucaoControler");
     private Session session;
     private EmprestimoPK emprestimoPK;
     private Emprestimo emprestimo;
@@ -558,8 +560,11 @@ public class ListobraController extends SelectorComposer<Component>
 
     public  boolean temObrasPorDevolver()
     {
-        List<Emprestimo> emprestimos = crudService.findByJPQuery("SELECT e FROM Emprestimo e WHERE e.emprestimoPK.user.id = "+
+        List<Emprestimo> emprestimos = eController.getBorrowedBooks(user,eDController.NOT_RETURNED);
+        /*
+                crudService.findByJPQuery("SELECT e FROM Emprestimo e WHERE e.emprestimoPK.utente.id = "+
                 user.getId()+" and e.estadoDevolucao.idestadodevolucao = 2", null); // isso deve mudar
+        */
 
         return emprestimos.size() > 0 ?  true : false;
     }
@@ -568,8 +573,11 @@ public class ListobraController extends SelectorComposer<Component>
     {
         int qtd = 0;
 
-        List<Emprestimo> emprestimos = crudService.findByJPQuery("SELECT e FROM Emprestimo e WHERE e.emprestimoPK.user.id = "+
+        List<Emprestimo> emprestimos = eController.getBorrowedBooks(user,eDController.UNDETERMINED);
+        /*
+                crudService.findByJPQuery("SELECT e FROM Emprestimo e WHERE e.emprestimoPK.utente.id = "+
                 user.getId()+" and e.estadoDevolucao.idestadodevolucao = 1", null);
+        */
 
         for (Emprestimo e: emprestimos)
             qtd += e.getQuantidade();
@@ -581,8 +589,12 @@ public class ListobraController extends SelectorComposer<Component>
     {
         int qtd = 0;
 
-        List<Emprestimo> emprestimos = crudService.findByJPQuery("SELECT e FROM Emprestimo e WHERE e.emprestimoPK.user.id = "+
+        List<Emprestimo> emprestimos = eController.getRequest(user,obra,eDController.UNDETERMINED);
+
+        /*
+                crudService.findByJPQuery("SELECT e FROM Emprestimo e WHERE e.emprestimoPK.utente.id = "+
                 user.getId()+" and e.estadoDevolucao.idestadodevolucao = 1 and e.emprestimoPK.obra.cota = '"+obra.getCota() +"'", null);
+        */
 
         for (Emprestimo e: emprestimos)
             qtd += e.getQuantidade();

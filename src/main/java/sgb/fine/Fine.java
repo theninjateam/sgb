@@ -47,7 +47,7 @@ public class Fine
         Emprestimo emprestimo = this.eController.getRequest(e.getEmprestimoPK());
         EstadoDevolucao estadoDevolucao = this.crudService.get(EstadoDevolucao.class, this.eDController.NOT_RETURNED);
         EstadoMulta estadoMulta = crudService.get(EstadoMulta.class,this.eMController.NOT_PAID);
-        emprestimo.setDatadevolucao(bBDeadline.getDeadline(emprestimo));
+//        emprestimo.setDatadevolucao(bBDeadline.getDeadline(emprestimo));
 
         int diaatraso = Math.abs (
                 (int) Duration.between(Calendar.getInstance().toInstant(), emprestimo.getDatadevolucao().toInstant()).toDays());
