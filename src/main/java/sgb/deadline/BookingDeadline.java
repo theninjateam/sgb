@@ -19,9 +19,7 @@ public class BookingDeadline extends Deadline
         deadline.setTime(reservationDate.getTime());
 
         deadline.set(Calendar.DATE, reservationDate.get(Calendar.DATE) + this.configControler.DEADLINE_RESERVED_BOOKS);
-
-        if (isSunDay(deadline))
-            goToNextWorkingDay(deadline);
+        goToNextWorkingDay(deadline);
 
         return deadline;
     }

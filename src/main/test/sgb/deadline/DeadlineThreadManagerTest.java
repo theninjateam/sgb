@@ -10,12 +10,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 import sgb.controller.domainController.ConfigControler;
-import sgb.domain.Config;
-import sgb.domain.Emprestimo;
-import sgb.service.CRUDService;
 
 import java.util.Calendar;
-import java.util.HashMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -39,6 +35,7 @@ public class DeadlineThreadManagerTest
     {
         System.out.println("Setting it up!");
         this.deadlineThreadManager = (DeadlineThreadManager) context.getBean("deadlineThreadManager");
+        this.deadlineThreadManager.getRunning().set(false);
         this.configControler = (ConfigControler) context.getBean("configControler");
     }
 
@@ -86,7 +83,6 @@ public class DeadlineThreadManagerTest
         this.deadlineThreadManager.startThreads();
 
         assertThat(this.deadlineThreadManager.getWasThreadsStarted().get()).isTrue();
-
 
         /**
          * SATURDAY on working time after server start*/
@@ -178,7 +174,6 @@ public class DeadlineThreadManagerTest
         /***************************************************************
          * Weekend
          ****************************************************************/
-
         /**
          * SATURDAY on working time and server is starting*/
         date.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
@@ -189,9 +184,22 @@ public class DeadlineThreadManagerTest
         this.deadlineThreadManager.setToday(date);
         this.deadlineThreadManager.startThreads();
 
-        assertThat(this.deadlineThreadManager.getWasThreadsStarted().get()).isTrue();
+        date.set(Calendar.HOUR_OF_DAY, configControler.EXIT_TIME_ON_SATURDAY + 1);
+        this.deadlineThreadManager.setToday(date);
+        this.deadlineThreadManager.endThreads();
 
+        assertThat(this.deadlineThreadManager.getWasThreadsStarted().get()).isFalse();
+
+        /**
+         * SATURDAY before server get started*/
         date.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+        date.set(Calendar.HOUR_OF_DAY, configControler.ENTRY_TIME_ON_SATURDAY - 1);
+
+        this.deadlineThreadManager.getWasThreadsStarted().set(false);
+        this.deadlineThreadManager.getIsServerStarting().set(false);
+        this.deadlineThreadManager.setToday(date);
+        this.deadlineThreadManager.startThreads();
+
         date.set(Calendar.HOUR_OF_DAY, configControler.EXIT_TIME_ON_SATURDAY + 1);
         this.deadlineThreadManager.setToday(date);
         this.deadlineThreadManager.endThreads();
@@ -213,9 +221,6 @@ public class DeadlineThreadManagerTest
         this.deadlineThreadManager.setToday(date);
         this.deadlineThreadManager.startThreads();
 
-        assertThat(this.deadlineThreadManager.getWasThreadsStarted().get()).isTrue();
-
-        date.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         date.set(Calendar.HOUR_OF_DAY, configControler.EXIT_TIME_ON_WEEKDAYS + 1);
         this.deadlineThreadManager.setToday(date);
         this.deadlineThreadManager.endThreads();
@@ -229,5 +234,4 @@ public class DeadlineThreadManagerTest
     {
         System.out.println("down !");
     }
-
 }

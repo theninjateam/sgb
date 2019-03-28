@@ -38,8 +38,7 @@ public class BorrowedBooksDeadline extends Deadline
                     this.configControler.DEADLINE_TEACHER_BORROWED_BOOKS);
         }
 
-        if (isSunDay(deadline))
-            goToNextWorkingDay(deadline);
+        goToNextWorkingDay(deadline);
 
         return deadline;
     }

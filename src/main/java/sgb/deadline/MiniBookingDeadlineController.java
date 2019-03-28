@@ -42,32 +42,40 @@ public class MiniBookingDeadlineController implements Runnable
         while(running.get())
         {
             System.out.println("MiniBookingDeadlineController...");
+
             try
             {
-                List<Emprestimo> pendigMiniBooking = this.eController.getRequest(ePControler.PENDING_MINI_BOOKING);
-
-                if (pendigMiniBooking != null)
-                {
-                    for (Emprestimo e: pendigMiniBooking)
-                    {
-                        Calendar deadline = this.mBDeadline.getDeadline(e.getEmprestimoPK().getDataentradapedido());
-
-                        boolean  exceededDeadline = this.mBDeadline.exceededDeadline(deadline, Calendar.getInstance());
-
-                        if (exceededDeadline)
-                        {
-                            request.cancel(e);
-                        }
-                    }
-                }
-
-                Thread.sleep(minuto * 60 * 1000);
+                this.process(this.eController.getRequest(ePControler.PENDING_MINI_BOOKING), Calendar.getInstance());
+                Thread.sleep(minuto*60*1000);
             }
             catch (Exception ex)
             {
                 ex.printStackTrace();
             }
         }
+    }
+
+    public boolean process(List<Emprestimo> pendigMiniBooking, Calendar now)
+    {
+        boolean thereIsCanceledRequest = false;
+
+        if (pendigMiniBooking != null)
+        {
+            for (Emprestimo e: pendigMiniBooking)
+            {
+                Calendar deadline = this.mBDeadline.getDeadline(e.getEmprestimoPK().getDataentradapedido());
+
+                boolean  exceededDeadline = this.mBDeadline.exceededDeadline(deadline, now);
+
+                if (exceededDeadline)
+                {
+                    thereIsCanceledRequest = true;
+                    request.cancel(e);
+                }
+            }
+        }
+
+        return thereIsCanceledRequest;
     }
 
     public AtomicBoolean getRunning()

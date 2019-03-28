@@ -33,28 +33,21 @@ public class Deadline
 
     public void goToNextWorkingDay(Calendar calendar)
     {
-        calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + 1);
-
         if (isSunDay(calendar))
         {
+            calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + 1);
             goToNextWorkingDay(calendar);
+        }
+        else
+        {
+            return;
         }
     }
 
 
     public boolean isWeekend(Calendar c)
     {
-        if (c.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY)
-        {
-            return true;
-        }
-        else if(c.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return c.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY
+                || c.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY ? true : false;
     }
 }
