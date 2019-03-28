@@ -38,7 +38,6 @@ public class MiniBookingDeadline extends Deadline
             if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY)
             {
                 this.goToNextWorkingDay(calendar);
-
                 calendar.set(Calendar.HOUR_OF_DAY, this.configControler.ENTRY_TIME_ON_SATURDAY);
             }
             else
@@ -93,10 +92,5 @@ public class MiniBookingDeadline extends Deadline
         }
         
         return calendar;
-    }
-
-    public ConfigControler getConfigControler()
-    {
-        return this.configControler;
     }
 }

@@ -159,8 +159,8 @@ public class Request
                 e.setQuantidade(qtdObras);
             }
 
-             e.setEstadoPedido(this.crudService.get(EstadoPedido.class, this.estadoPedidoControler.PENDING_BOOKING));
-            e.getEmprestimoPK().setDataentradapedido(Calendar.getInstance());
+            e.setEstadoPedido(this.crudService.get(EstadoPedido.class, this.estadoPedidoControler.PENDING_BOOKING));
+            e.setDataaprovacao(Calendar.getInstance());
 
             this.obraConcurrenceControl.enterInCriticalRegion(e.getEmprestimoPK().getObra());
 

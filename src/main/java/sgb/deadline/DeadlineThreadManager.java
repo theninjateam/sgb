@@ -128,6 +128,8 @@ public class DeadlineThreadManager extends Thread implements ApplicationListener
 
     public void onApplicationEvent(final ContextRefreshedEvent event)
     {
+        System.out.println("Initializing Threads ...");
+
         this.today = Calendar.getInstance();
         this.isServerStarting.set(true);
         this.wasThreadsStarted.set(false);

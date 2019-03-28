@@ -9,6 +9,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 import sgb.controller.domainController.ConfigControler;
+import sgb.domain.Emprestimo;
+import sgb.service.CRUDService;
 
 import java.util.Calendar;
 
@@ -21,60 +23,74 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Fonseca, bfonseca@unilurio.ac.mz
  */
 
-
-
 public class BookingDeadlineTest
 {
     @Autowired
     private ApplicationContext context;
     private BookingDeadline bookingDeadline;
+    private CRUDService crudService;
+    private ConfigControler configControler;
+    private Emprestimo emprestimo;
 
     @Before
     @Transactional
     public void before() throws Exception
     {
         System.out.println("Setting it up!");
+
+        this.configControler = (ConfigControler) context.getBean("configControler");
         this.bookingDeadline = (BookingDeadline) context.getBean("bookingDeadline");
+        this.crudService = (CRUDService) context.getBean("CRUDService");
+
+        for (Emprestimo e: this.crudService.getAll(Emprestimo.class))
+        {
+            if (e.getDataaprovacao() != null)
+            {
+                emprestimo = e;
+                break;
+            }
+        }
     }
 
     @Test
     @Transactional
-    public void ExcededDeadlineTest() throws Exception
+    public void getDeadlineTest() throws Exception
     {
-        Calendar currentDate = Calendar.getInstance();
-        Calendar reserverdDate = Calendar.getInstance();
-        reserverdDate.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
-        Calendar deadline = bookingDeadline.getDeadline(reserverdDate);
+        Calendar actualDeadline = Calendar.getInstance();
+        Calendar expectedDeadline = Calendar.getInstance();
 
-        /**
-         * BookingDeadline on friday
-         **/
+        /*
+        * Booking made on weekdays
+        * */
 
-        currentDate.setTime(deadline.getTime());
-        assertThat(bookingDeadline.exceededDeadline(deadline, currentDate)).isFalse();
-        currentDate.set(Calendar.DATE, deadline.get(Calendar.DATE) + 1);
-        assertThat(bookingDeadline.exceededDeadline(deadline, currentDate)).isTrue();
+        emprestimo.getDataaprovacao().set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
+        actualDeadline = this.bookingDeadline.getDeadline(emprestimo.getDataaprovacao());
 
-        /**
-         * BookingDeadline on monday
-         **/
-        reserverdDate.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-        deadline = bookingDeadline.getDeadline(reserverdDate);
-        currentDate.setTime(deadline.getTime());
+        expectedDeadline.setTime(emprestimo.getDataaprovacao().getTime());
+        expectedDeadline.set(Calendar.DATE, expectedDeadline.get(Calendar.DATE) + this.configControler.DEADLINE_RESERVED_BOOKS);
 
-        assertThat(bookingDeadline.exceededDeadline(deadline, currentDate)).isFalse();
-        currentDate.set(Calendar.DATE, deadline.get(Calendar.DATE) +1);
-        assertThat(bookingDeadline.exceededDeadline(deadline, currentDate)).isTrue();
+        if (this.bookingDeadline.isSunDay(expectedDeadline))
+        {
+            this.bookingDeadline.goToNextWorkingDay(expectedDeadline);
+        }
 
-        /**
-         * BookingDeadline on saturday
+        assertThat(actualDeadline).isEqualByComparingTo(expectedDeadline);
+
+        /*
+         * Booking made on weekend
          * */
-        reserverdDate.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
-        deadline = bookingDeadline.getDeadline(reserverdDate);
-        currentDate.setTime(deadline.getTime());
 
-        assertThat(bookingDeadline.exceededDeadline(deadline, currentDate)).isFalse();
-        currentDate.set(Calendar.DATE, deadline.get(Calendar.DATE) +1);
-        assertThat(bookingDeadline.exceededDeadline(deadline, currentDate)).isTrue();
+        emprestimo.getDataaprovacao().set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+        actualDeadline = this.bookingDeadline.getDeadline(emprestimo.getDataaprovacao());
+
+        expectedDeadline.setTime(emprestimo.getDataaprovacao().getTime());
+        expectedDeadline.set(Calendar.DATE, expectedDeadline.get(Calendar.DATE) + this.configControler.DEADLINE_RESERVED_BOOKS);
+
+        if (this.bookingDeadline.isSunDay(expectedDeadline))
+        {
+            this.bookingDeadline.goToNextWorkingDay(expectedDeadline);
+        }
+
+        assertThat(actualDeadline).isEqualByComparingTo(expectedDeadline);
     }
 }
