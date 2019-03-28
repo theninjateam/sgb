@@ -74,14 +74,16 @@ public class BorrowedBooksDeadlineControllerTest
         List<Emprestimo> es = this.crudService.getAll(Emprestimo.class);
         emprestimos = new ArrayList<Emprestimo>();
 
+
+        EstadoDevolucao estadoDevolucao = this.crudService.get(EstadoDevolucao.class, this.estadoDevolucaoControler.NOT_RETURNED);
+
         for (Emprestimo e: es)
         {
             if (e.getEmprestimoPK().getUtente().getRoles().contains(rStudent)
                     && e.getDataaprovacao() != null)
             {
                 eStudent = e;
-                eStudent.getEstadoDevolucao().setIdestadodevolucao(this.estadoDevolucaoControler.NOT_RETURNED);
-                eStudent.setQuantidade(0);
+                eStudent.setEstadoDevolucao(estadoDevolucao);
                 break;
             }
         }
@@ -92,15 +94,16 @@ public class BorrowedBooksDeadlineControllerTest
                     && e.getDataaprovacao() != null)
             {
                 eTeacher = e;
-                eTeacher.getEstadoDevolucao().setIdestadodevolucao(this.estadoDevolucaoControler.NOT_RETURNED);
+                eTeacher.setEstadoDevolucao(estadoDevolucao);
                 eTeacher.setQuantidade(0);
                 break;
             }
         }
 
         eStudent.setDataaprovacao(dataAprovacao);
+        eStudent.setDatadevolucao(this.borrowedBooksDeadline.getDeadline(eStudent));
         eTeacher.setDataaprovacao(dataAprovacao);
-
+        eTeacher.setDatadevolucao(this.borrowedBooksDeadline.getDeadline(eTeacher));
 
         emprestimos.add(eStudent);
         emprestimos.add(eTeacher);

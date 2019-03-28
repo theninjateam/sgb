@@ -53,15 +53,15 @@
     100%
   </span>
   <span class="absValue">
-    (4/ 4)
+    (3/ 3)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    92.3%
+    100%
   </span>
   <span class="absValue">
-    (24/ 26)
+    (20/ 20)
   </span>
 </td>
 </tr>
@@ -95,74 +95,56 @@
 <i>21</i>&nbsp;    private Request request;
 <i>22</i>&nbsp;    private EstadoPedidoControler ePControler;
 <i>23</i>&nbsp;    private EmprestimoController eController;
-<b class="fc"><i>24</i>&nbsp;    private final AtomicBoolean running = new AtomicBoolean(false);</b>
-<i>25</i>&nbsp;
-<i>26</i>&nbsp;    public BookingDeadlineController(BookingDeadline bDeadline,
-<i>27</i>&nbsp;                                     Request request,
-<i>28</i>&nbsp;                                     EstadoPedidoControler ePControler,
-<i>29</i>&nbsp;                                     EmprestimoController eController)
-<b class="fc"><i>30</i>&nbsp;    {</b>
-<b class="fc"><i>31</i>&nbsp;        this.bDeadline = bDeadline;</b>
-<b class="fc"><i>32</i>&nbsp;        this.request = request;</b>
-<b class="fc"><i>33</i>&nbsp;        this.ePControler = ePControler;</b>
-<b class="fc"><i>34</i>&nbsp;        this.eController = eController;</b>
-<b class="fc"><i>35</i>&nbsp;    }</b>
-<i>36</i>&nbsp;
-<i>37</i>&nbsp;    public void run()
-<i>38</i>&nbsp;    {
-<b class="fc"><i>39</i>&nbsp;        if (this.running.get())</b>
-<i>40</i>&nbsp;        {
-<b class="fc"><i>41</i>&nbsp;            System.out.println(&quot;BookingDeadlineController ...&quot;);</b>
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    public BookingDeadlineController(BookingDeadline bDeadline,
+<i>26</i>&nbsp;                                     Request request,
+<i>27</i>&nbsp;                                     EstadoPedidoControler ePControler,
+<i>28</i>&nbsp;                                     EmprestimoController eController)
+<b class="fc"><i>29</i>&nbsp;    {</b>
+<b class="fc"><i>30</i>&nbsp;        this.bDeadline = bDeadline;</b>
+<b class="fc"><i>31</i>&nbsp;        this.request = request;</b>
+<b class="fc"><i>32</i>&nbsp;        this.ePControler = ePControler;</b>
+<b class="fc"><i>33</i>&nbsp;        this.eController = eController;</b>
+<b class="fc"><i>34</i>&nbsp;    }</b>
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;    public void run()
+<i>37</i>&nbsp;    {
+<b class="fc"><i>38</i>&nbsp;        System.out.println(&quot;BookingDeadlineController ...&quot;);</b>
+<b class="fc"><i>39</i>&nbsp;        this.process(this.eController.getRequest(ePControler.PENDING_BOOKING), Calendar.getInstance());</b>
+<b class="fc"><i>40</i>&nbsp;    }</b>
+<i>41</i>&nbsp;
 <i>42</i>&nbsp;
-<i>43</i>&nbsp;            try
-<i>44</i>&nbsp;            {
-<b class="fc"><i>45</i>&nbsp;                this.process(this.eController.getRequest(ePControler.PENDING_BOOKING), Calendar.getInstance());</b>
-<i>46</i>&nbsp;            }
-<b class="nc"><i>47</i>&nbsp;            catch (Exception ex)</b>
-<i>48</i>&nbsp;            {
-<b class="nc"><i>49</i>&nbsp;                ex.printStackTrace();</b>
-<b class="fc"><i>50</i>&nbsp;            }</b>
-<i>51</i>&nbsp;        }
-<b class="fc"><i>52</i>&nbsp;    }</b>
-<i>53</i>&nbsp;
+<i>43</i>&nbsp;    public boolean process(List&lt;Emprestimo&gt; pendingBooking, Calendar now)
+<i>44</i>&nbsp;    {
+<b class="fc"><i>45</i>&nbsp;        boolean thereIsCanceledRequest = false;</b>
+<i>46</i>&nbsp;
+<b class="fc"><i>47</i>&nbsp;        if (pendingBooking != null)</b>
+<i>48</i>&nbsp;        {
+<b class="fc"><i>49</i>&nbsp;            for (Emprestimo e : pendingBooking)</b>
+<i>50</i>&nbsp;            {
+<b class="fc"><i>51</i>&nbsp;                if (e.getDataaprovacao() != null)</b>
+<i>52</i>&nbsp;                {
+<b class="fc"><i>53</i>&nbsp;                    Calendar deadline = this.bDeadline.getDeadline(e.getDataaprovacao());</b>
 <i>54</i>&nbsp;
-<i>55</i>&nbsp;    public boolean process(List&lt;Emprestimo&gt; pendingBooking, Calendar now)
-<i>56</i>&nbsp;    {
-<b class="fc"><i>57</i>&nbsp;        boolean thereIsCanceledRequest = false;</b>
-<i>58</i>&nbsp;
-<b class="fc"><i>59</i>&nbsp;        if (pendingBooking != null)</b>
-<i>60</i>&nbsp;        {
-<b class="fc"><i>61</i>&nbsp;            for (Emprestimo e : pendingBooking)</b>
-<i>62</i>&nbsp;            {
-<b class="fc"><i>63</i>&nbsp;                if (e.getDataaprovacao() != null)</b>
-<i>64</i>&nbsp;                {
-<b class="fc"><i>65</i>&nbsp;                    Calendar deadline = this.bDeadline.getDeadline(e.getDataaprovacao());</b>
-<i>66</i>&nbsp;
-<b class="fc"><i>67</i>&nbsp;                    boolean exceededDeadline = this.bDeadline.exceededDeadline(deadline, now);</b>
-<i>68</i>&nbsp;
-<b class="fc"><i>69</i>&nbsp;                    if (exceededDeadline)</b>
-<i>70</i>&nbsp;                    {
-<b class="fc"><i>71</i>&nbsp;                        thereIsCanceledRequest = true;</b>
-<b class="fc"><i>72</i>&nbsp;                        request.cancel(e);</b>
-<i>73</i>&nbsp;                    }
-<i>74</i>&nbsp;                }
-<b class="fc"><i>75</i>&nbsp;            }</b>
-<i>76</i>&nbsp;        }
-<i>77</i>&nbsp;
-<b class="fc"><i>78</i>&nbsp;        return thereIsCanceledRequest;</b>
-<i>79</i>&nbsp;    }
-<i>80</i>&nbsp;
-<i>81</i>&nbsp;    public AtomicBoolean getRunning()
-<i>82</i>&nbsp;    {
-<b class="fc"><i>83</i>&nbsp;        return running;</b>
-<i>84</i>&nbsp;    }
-<i>85</i>&nbsp;}
+<b class="fc"><i>55</i>&nbsp;                    boolean exceededDeadline = this.bDeadline.exceededDeadline(deadline, now);</b>
+<i>56</i>&nbsp;
+<b class="fc"><i>57</i>&nbsp;                    if (exceededDeadline)</b>
+<i>58</i>&nbsp;                    {
+<b class="fc"><i>59</i>&nbsp;                        thereIsCanceledRequest = true;</b>
+<b class="fc"><i>60</i>&nbsp;                        request.cancel(e);</b>
+<i>61</i>&nbsp;                    }
+<i>62</i>&nbsp;                }
+<b class="fc"><i>63</i>&nbsp;            }</b>
+<i>64</i>&nbsp;        }
+<b class="fc"><i>65</i>&nbsp;        return thereIsCanceledRequest;</b>
+<i>66</i>&nbsp;    }
+<i>67</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2019-03-28 20:52</div>
+    <div style="float:right;">generated on 2019-03-29 01:04</div>
 </div>
 </body>
 </html>

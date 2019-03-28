@@ -25,7 +25,6 @@ public class BorrowedBooksDeadlineController extends Thread
     private EstadoPedidoControler ePControler;
     private EstadoDevolucaoControler eDController;
     private EmprestimoController eController;
-    private final AtomicBoolean running = new AtomicBoolean(false);
 
     public BorrowedBooksDeadlineController(BorrowedBooksDeadline bBDeadline,
                                            Fine fine,
@@ -42,19 +41,8 @@ public class BorrowedBooksDeadlineController extends Thread
 
     public void run()
     {
-        if (this.running.get())
-        {
-            System.out.println("BorrowedBooksDeadlineController ...");
-
-            try
-            {
-                this.process(this.eController.getBorrowedBooks(eDController.NOT_RETURNED), Calendar.getInstance());
-            }
-            catch (Exception ex)
-            {
-                ex.printStackTrace();
-            }
-        }
+        System.out.println("BorrowedBooksDeadlineController ...");
+        this.process(this.eController.getBorrowedBooks(eDController.NOT_RETURNED), Calendar.getInstance());
     }
 
     public boolean process(List<Emprestimo> borrowedBooks, Calendar now)
@@ -74,20 +62,11 @@ public class BorrowedBooksDeadlineController extends Thread
                     if (exceededDeadline)
                     {
                         thereIsFinedBorrow = true;
-
-                        if (e.getQuantidade() > 0)
-                        {
-                            this.fine.fine(e);
-                        }
+                        this.fine.fine(e);
                     }
                 }
             }
         }
         return thereIsFinedBorrow;
-    }
-
-    public AtomicBoolean getRunning()
-    {
-        return running;
     }
 }

@@ -53,15 +53,15 @@
     100%
   </span>
   <span class="absValue">
-    (4/ 4)
+    (3/ 3)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    85.2%
+    100%
   </span>
   <span class="absValue">
-    (23/ 27)
+    (19/ 19)
   </span>
 </td>
 </tr>
@@ -76,93 +76,74 @@
 <i>2</i>&nbsp;
 <i>3</i>&nbsp;import org.springframework.context.ApplicationListener;
 <i>4</i>&nbsp;import org.springframework.context.event.ContextRefreshedEvent;
-<i>5</i>&nbsp;import sgb.controller.domainController.EmprestimoController;
-<i>6</i>&nbsp;import sgb.controller.domainController.EstadoPedidoControler;
-<i>7</i>&nbsp;import sgb.domain.Emprestimo;
-<i>8</i>&nbsp;import sgb.request.Request;
-<i>9</i>&nbsp;
-<i>10</i>&nbsp;import java.lang.Thread;
-<i>11</i>&nbsp;import java.util.Calendar;
-<i>12</i>&nbsp;import java.util.List;
-<i>13</i>&nbsp;import java.util.concurrent.atomic.AtomicBoolean;
-<i>14</i>&nbsp;
-<i>15</i>&nbsp;/**
-<i>16</i>&nbsp; * @author Fonseca, bfonseca@unilurio.ac.mz
-<i>17</i>&nbsp; */
-<i>18</i>&nbsp;
-<i>19</i>&nbsp;public class MiniBookingDeadlineController implements Runnable
-<i>20</i>&nbsp;{
-<i>21</i>&nbsp;    private MiniBookingDeadline mBDeadline;
-<i>22</i>&nbsp;    private Request request;
-<i>23</i>&nbsp;    private EstadoPedidoControler ePControler;
-<i>24</i>&nbsp;    private EmprestimoController eController;
-<b class="fc"><i>25</i>&nbsp;    private final AtomicBoolean running = new AtomicBoolean(false);</b>
+<i>5</i>&nbsp;import sgb.controller.domainController.ConfigControler;
+<i>6</i>&nbsp;import sgb.controller.domainController.EmprestimoController;
+<i>7</i>&nbsp;import sgb.controller.domainController.EstadoPedidoControler;
+<i>8</i>&nbsp;import sgb.domain.Emprestimo;
+<i>9</i>&nbsp;import sgb.request.Request;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;import java.lang.Thread;
+<i>12</i>&nbsp;import java.util.Calendar;
+<i>13</i>&nbsp;import java.util.List;
+<i>14</i>&nbsp;import java.util.concurrent.atomic.AtomicBoolean;
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;/**
+<i>17</i>&nbsp; * @author Fonseca, bfonseca@unilurio.ac.mz
+<i>18</i>&nbsp; */
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;public class MiniBookingDeadlineController implements Runnable
+<i>21</i>&nbsp;{
+<i>22</i>&nbsp;    private MiniBookingDeadline mBDeadline;
+<i>23</i>&nbsp;    private Request request;
+<i>24</i>&nbsp;    private EstadoPedidoControler ePControler;
+<i>25</i>&nbsp;    private EmprestimoController eController;
 <i>26</i>&nbsp;
-<b class="fc"><i>27</i>&nbsp;    private int minuto = 1;</b>
-<i>28</i>&nbsp;
-<i>29</i>&nbsp;    public MiniBookingDeadlineController(MiniBookingDeadline mBDeadline,
-<i>30</i>&nbsp;                                         Request request,
-<i>31</i>&nbsp;                                         EstadoPedidoControler ePControler,
-<i>32</i>&nbsp;                                         EmprestimoController eController)
-<b class="fc"><i>33</i>&nbsp;    {</b>
-<b class="fc"><i>34</i>&nbsp;        this.mBDeadline = mBDeadline;</b>
-<b class="fc"><i>35</i>&nbsp;        this.request = request;</b>
-<b class="fc"><i>36</i>&nbsp;        this.ePControler = ePControler;</b>
-<b class="fc"><i>37</i>&nbsp;        this.eController = eController;</b>
-<b class="fc"><i>38</i>&nbsp;    }</b>
-<i>39</i>&nbsp;
-<i>40</i>&nbsp;    public void run()
-<i>41</i>&nbsp;    {
-<b class="fc"><i>42</i>&nbsp;        while(running.get())</b>
-<i>43</i>&nbsp;        {
-<b class="fc"><i>44</i>&nbsp;            System.out.println(&quot;MiniBookingDeadlineController...&quot;);</b>
-<i>45</i>&nbsp;
-<i>46</i>&nbsp;            try
-<i>47</i>&nbsp;            {
-<b class="fc"><i>48</i>&nbsp;                this.process(this.eController.getRequest(ePControler.PENDING_MINI_BOOKING), Calendar.getInstance());</b>
-<b class="fc"><i>49</i>&nbsp;                Thread.sleep(minuto*60*1000);</b>
-<i>50</i>&nbsp;            }
-<b class="nc"><i>51</i>&nbsp;            catch (Exception ex)</b>
-<i>52</i>&nbsp;            {
-<b class="nc"><i>53</i>&nbsp;                ex.printStackTrace();</b>
-<b class="nc"><i>54</i>&nbsp;            }</b>
-<i>55</i>&nbsp;        }
-<b class="nc"><i>56</i>&nbsp;    }</b>
-<i>57</i>&nbsp;
-<i>58</i>&nbsp;    public boolean process(List&lt;Emprestimo&gt; pendigMiniBooking, Calendar now)
-<i>59</i>&nbsp;    {
-<b class="fc"><i>60</i>&nbsp;        boolean thereIsCanceledRequest = false;</b>
-<i>61</i>&nbsp;
-<b class="fc"><i>62</i>&nbsp;        if (pendigMiniBooking != null)</b>
-<i>63</i>&nbsp;        {
-<b class="fc"><i>64</i>&nbsp;            for (Emprestimo e: pendigMiniBooking)</b>
-<i>65</i>&nbsp;            {
-<b class="fc"><i>66</i>&nbsp;                Calendar deadline = this.mBDeadline.getDeadline(e.getEmprestimoPK().getDataentradapedido());</b>
-<i>67</i>&nbsp;
-<b class="fc"><i>68</i>&nbsp;                boolean  exceededDeadline = this.mBDeadline.exceededDeadline(deadline, now);</b>
-<i>69</i>&nbsp;
-<b class="fc"><i>70</i>&nbsp;                if (exceededDeadline)</b>
-<i>71</i>&nbsp;                {
-<b class="fc"><i>72</i>&nbsp;                    thereIsCanceledRequest = true;</b>
-<b class="fc"><i>73</i>&nbsp;                    request.cancel(e);</b>
-<i>74</i>&nbsp;                }
-<b class="fc"><i>75</i>&nbsp;            }</b>
-<i>76</i>&nbsp;        }
-<i>77</i>&nbsp;
-<b class="fc"><i>78</i>&nbsp;        return thereIsCanceledRequest;</b>
-<i>79</i>&nbsp;    }
-<i>80</i>&nbsp;
-<i>81</i>&nbsp;    public AtomicBoolean getRunning()
-<i>82</i>&nbsp;    {
-<b class="fc"><i>83</i>&nbsp;        return running;</b>
-<i>84</i>&nbsp;    }
-<i>85</i>&nbsp;}
+<i>27</i>&nbsp;    public MiniBookingDeadlineController(MiniBookingDeadline mBDeadline,
+<i>28</i>&nbsp;                                         Request request,
+<i>29</i>&nbsp;                                         EstadoPedidoControler ePControler,
+<i>30</i>&nbsp;                                         EmprestimoController eController)
+<b class="fc"><i>31</i>&nbsp;    {</b>
+<b class="fc"><i>32</i>&nbsp;        this.mBDeadline = mBDeadline;</b>
+<b class="fc"><i>33</i>&nbsp;        this.request = request;</b>
+<b class="fc"><i>34</i>&nbsp;        this.ePControler = ePControler;</b>
+<b class="fc"><i>35</i>&nbsp;        this.eController = eController;</b>
+<b class="fc"><i>36</i>&nbsp;    }</b>
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    public void run()
+<i>39</i>&nbsp;    {
+<b class="fc"><i>40</i>&nbsp;        System.out.println(&quot;MiniBookingDeadlineController...&quot;);</b>
+<b class="fc"><i>41</i>&nbsp;        this.process(this.eController.getRequest(ePControler.PENDING_MINI_BOOKING), Calendar.getInstance());</b>
+<b class="fc"><i>42</i>&nbsp;    }</b>
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;    public boolean process(List&lt;Emprestimo&gt; pendigMiniBooking, Calendar now)
+<i>45</i>&nbsp;    {
+<b class="fc"><i>46</i>&nbsp;        boolean thereIsCanceledRequest = false;</b>
+<i>47</i>&nbsp;
+<b class="fc"><i>48</i>&nbsp;        if (pendigMiniBooking != null)</b>
+<i>49</i>&nbsp;        {
+<b class="fc"><i>50</i>&nbsp;            for (Emprestimo e: pendigMiniBooking)</b>
+<i>51</i>&nbsp;            {
+<b class="fc"><i>52</i>&nbsp;                Calendar deadline = this.mBDeadline.getDeadline(e.getEmprestimoPK().getDataentradapedido());</b>
+<i>53</i>&nbsp;
+<b class="fc"><i>54</i>&nbsp;                boolean  exceededDeadline = this.mBDeadline.exceededDeadline(deadline, now);</b>
+<i>55</i>&nbsp;
+<b class="fc"><i>56</i>&nbsp;                if (exceededDeadline)</b>
+<i>57</i>&nbsp;                {
+<b class="fc"><i>58</i>&nbsp;                    thereIsCanceledRequest = true;</b>
+<b class="fc"><i>59</i>&nbsp;                    request.cancel(e);</b>
+<i>60</i>&nbsp;                }
+<b class="fc"><i>61</i>&nbsp;            }</b>
+<i>62</i>&nbsp;        }
+<i>63</i>&nbsp;
+<b class="fc"><i>64</i>&nbsp;        return thereIsCanceledRequest;</b>
+<i>65</i>&nbsp;    }
+<i>66</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2019-03-28 20:52</div>
+    <div style="float:right;">generated on 2019-03-29 01:04</div>
 </div>
 </body>
 </html>

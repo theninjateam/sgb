@@ -2,6 +2,7 @@ package sgb.deadline;
 
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+import sgb.controller.domainController.ConfigControler;
 import sgb.controller.domainController.EmprestimoController;
 import sgb.controller.domainController.EstadoPedidoControler;
 import sgb.domain.Emprestimo;
@@ -22,9 +23,6 @@ public class MiniBookingDeadlineController implements Runnable
     private Request request;
     private EstadoPedidoControler ePControler;
     private EmprestimoController eController;
-    private final AtomicBoolean running = new AtomicBoolean(false);
-
-    private int minuto = 1;
 
     public MiniBookingDeadlineController(MiniBookingDeadline mBDeadline,
                                          Request request,
@@ -39,20 +37,8 @@ public class MiniBookingDeadlineController implements Runnable
 
     public void run()
     {
-        while(running.get())
-        {
-            System.out.println("MiniBookingDeadlineController...");
-
-            try
-            {
-                this.process(this.eController.getRequest(ePControler.PENDING_MINI_BOOKING), Calendar.getInstance());
-                Thread.sleep(minuto*60*1000);
-            }
-            catch (Exception ex)
-            {
-                ex.printStackTrace();
-            }
-        }
+        System.out.println("MiniBookingDeadlineController...");
+        this.process(this.eController.getRequest(ePControler.PENDING_MINI_BOOKING), Calendar.getInstance());
     }
 
     public boolean process(List<Emprestimo> pendigMiniBooking, Calendar now)
@@ -76,10 +62,5 @@ public class MiniBookingDeadlineController implements Runnable
         }
 
         return thereIsCanceledRequest;
-    }
-
-    public AtomicBoolean getRunning()
-    {
-        return running;
     }
 }

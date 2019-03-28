@@ -35,13 +35,13 @@ public class DeadlineThreadManagerTest
     {
         System.out.println("Setting it up!");
         this.deadlineThreadManager = (DeadlineThreadManager) context.getBean("deadlineThreadManager");
-        this.deadlineThreadManager.getRunning().set(false);
+        this.deadlineThreadManager.running.set(false);
         this.configControler = (ConfigControler) context.getBean("configControler");
     }
 
     @Test
     @Transactional
-    public void startThreadsTest()
+    public void startMiniBookingDeadlineControllerTest()
     {
         Calendar date = Calendar.getInstance();
 
@@ -50,182 +50,364 @@ public class DeadlineThreadManagerTest
          ****************************************************************/
 
         /**
-         * SUNDAY*/
-        date.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+         * SATURDAY when server is starting before exit time*/
 
+        this.deadlineThreadManager.isServerStarting.set(true);
+        this.deadlineThreadManager.wasMiniBookingDeadlineControllerStarted.set(false);
 
-        this.deadlineThreadManager.getIsServerStarting().set(true);
-        this.deadlineThreadManager.getWasThreadsStarted().set(false);
-        this.deadlineThreadManager.setToday(date);
-        this.deadlineThreadManager.startThreads();
+        date.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+        date.set(Calendar.HOUR_OF_DAY, configControler.EXIT_TIME_ON_SATURDAY - 1);
 
-        assertThat(this.deadlineThreadManager.getWasThreadsStarted().get()).isFalse();
+        this.deadlineThreadManager.today =  date;
+        this.deadlineThreadManager.startMiniBookingDeadlineController();
+
+        assertThat(this.deadlineThreadManager.wasMiniBookingDeadlineControllerStarted.get()).isTrue();
 
         /**
-         * SATURDAY after exit  time*/
-        this.deadlineThreadManager.getWasThreadsStarted().set(false);
+         * SATURDAY when time is between [ENTRY_TIME_ON_SATURDAY - 2, EXIT_TIME_ON_SATURDAY)
+         * */
+
+        this.deadlineThreadManager.isServerStarting.set(false);
+        this.deadlineThreadManager.wasMiniBookingDeadlineControllerStarted.set(false);
+
         date.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
-        date.set(Calendar.HOUR_OF_DAY, configControler.EXIT_TIME_ON_SATURDAY + 1);
+        date.set(Calendar.HOUR_OF_DAY, configControler.ENTRY_TIME_ON_SATURDAY + 2);
 
-        this.deadlineThreadManager.setToday(date);
-        this.deadlineThreadManager.startThreads();
+        this.deadlineThreadManager.today =  date;
+        this.deadlineThreadManager.startMiniBookingDeadlineController();
 
-        assertThat(this.deadlineThreadManager.getWasThreadsStarted().get()).isFalse();
-
+        assertThat(this.deadlineThreadManager.wasMiniBookingDeadlineControllerStarted.get()).isTrue();
 
         /**
-         * SATURDAY before entry  time*/
+        * SATURDAY after exit time
+        * */
+
+        this.deadlineThreadManager.isServerStarting.set(false);
+        this.deadlineThreadManager.wasMiniBookingDeadlineControllerStarted.set(false);
+
         date.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
-        date.set(Calendar.HOUR_OF_DAY, configControler.ENTRY_TIME_ON_SATURDAY - 1);
+        date.set(Calendar.HOUR_OF_DAY, configControler.EXIT_TIME_ON_SATURDAY);
 
-        this.deadlineThreadManager.getWasThreadsStarted().set(false);
-        this.deadlineThreadManager.setToday(date);
-        this.deadlineThreadManager.startThreads();
+        this.deadlineThreadManager.today =  date;
+        this.deadlineThreadManager.startMiniBookingDeadlineController();
 
-        assertThat(this.deadlineThreadManager.getWasThreadsStarted().get()).isTrue();
-
-        /**
-         * SATURDAY on working time after server start*/
-        date.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
-        date.set(Calendar.HOUR_OF_DAY, configControler.ENTRY_TIME_ON_SATURDAY + 1);
-
-        this.deadlineThreadManager.getWasThreadsStarted().set(false);
-        this.deadlineThreadManager.getIsServerStarting().set(false);
-        this.deadlineThreadManager.setToday(date);
-        this.deadlineThreadManager.startThreads();
-
-        assertThat(this.deadlineThreadManager.getWasThreadsStarted().get()).isFalse();
-
-        /**
-         * SATURDAY on working time and server is starting*/
-        date.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
-        date.set(Calendar.HOUR_OF_DAY, configControler.ENTRY_TIME_ON_SATURDAY + 1);
-
-        this.deadlineThreadManager.getWasThreadsStarted().set(false);
-        this.deadlineThreadManager.getIsServerStarting().set(true);
-        this.deadlineThreadManager.setToday(date);
-        this.deadlineThreadManager.startThreads();
-
-        assertThat(this.deadlineThreadManager.getWasThreadsStarted().get()).isTrue();
+        assertThat(this.deadlineThreadManager.wasMiniBookingDeadlineControllerStarted.get()).isFalse();
 
         /***************************************************************
-         *Weekday
+         * Weekdays
          ****************************************************************/
 
-        /*
-         * MONDAY before working time*/
+        /**
+         * MONDAY when server is starting before exit time*/
+
+        this.deadlineThreadManager.isServerStarting.set(true);
+        this.deadlineThreadManager.wasMiniBookingDeadlineControllerStarted.set(false);
 
         date.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-        date.set(Calendar.HOUR_OF_DAY, configControler.ENTRY_TIME_ON_WEEKDAYS - 1);
+        date.set(Calendar.HOUR_OF_DAY, configControler.EXIT_TIME_ON_WEEKDAYS - 1);
 
-        this.deadlineThreadManager.getWasThreadsStarted().set(false);
-        this.deadlineThreadManager.getIsServerStarting().set(false);
-        this.deadlineThreadManager.setToday(date);
-        this.deadlineThreadManager.startThreads();
+        this.deadlineThreadManager.today =  date;
+        this.deadlineThreadManager.startMiniBookingDeadlineController();
 
-        assertThat(this.deadlineThreadManager.getWasThreadsStarted().get()).isTrue();
+        assertThat(this.deadlineThreadManager.wasMiniBookingDeadlineControllerStarted.get()).isTrue();
 
         /**
-         * MONDAY on working time and server is starting*/
+         * MONDAY when time is between [ENTRY_TIME_ON_WEEKDAYS - 2, EXIT_TIME_ON_WEEKDAYS )
+         * */
+
+        this.deadlineThreadManager.isServerStarting.set(false);
+        this.deadlineThreadManager.wasMiniBookingDeadlineControllerStarted.set(false);
 
         date.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-        date.set(Calendar.HOUR_OF_DAY, configControler.ENTRY_TIME_ON_WEEKDAYS + 1);
+        date.set(Calendar.HOUR_OF_DAY, configControler.ENTRY_TIME_ON_WEEKDAYS + 2);
 
-        this.deadlineThreadManager.getWasThreadsStarted().set(false);
-        this.deadlineThreadManager.getIsServerStarting().set(true);
-        this.deadlineThreadManager.setToday(date);
-        this.deadlineThreadManager.startThreads();
+        this.deadlineThreadManager.today =  date;
+        this.deadlineThreadManager.startMiniBookingDeadlineController();
 
-        assertThat(this.deadlineThreadManager.getWasThreadsStarted().get()).isTrue();
+        assertThat(this.deadlineThreadManager.wasMiniBookingDeadlineControllerStarted.get()).isTrue();
 
         /**
-         * MONDAY on working time and server  have been started before*/
+         * MONDAY after exit
+         * */
+
+        this.deadlineThreadManager.isServerStarting.set(false);
+        this.deadlineThreadManager.wasMiniBookingDeadlineControllerStarted.set(false);
 
         date.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-        date.set(Calendar.HOUR_OF_DAY, configControler.ENTRY_TIME_ON_WEEKDAYS + 1);
+        date.set(Calendar.HOUR_OF_DAY, configControler.EXIT_TIME_ON_WEEKDAYS);
 
-        this.deadlineThreadManager.getWasThreadsStarted().set(false);
-        this.deadlineThreadManager.getIsServerStarting().set(false);
-        this.deadlineThreadManager.setToday(date);
-        this.deadlineThreadManager.startThreads();
+        this.deadlineThreadManager.today =  date;
+        this.deadlineThreadManager.startMiniBookingDeadlineController();
 
-        assertThat(this.deadlineThreadManager.getWasThreadsStarted().get()).isFalse();
+        assertThat(this.deadlineThreadManager.wasMiniBookingDeadlineControllerStarted.get()).isFalse();
 
-        /**
-         * MONDAY after working time*/
-
-        date.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-        date.set(Calendar.HOUR_OF_DAY, configControler.EXIT_TIME_ON_WEEKDAYS + 1);
-
-        this.deadlineThreadManager.getWasThreadsStarted().set(false);
-        this.deadlineThreadManager.getIsServerStarting().set(false);
-        this.deadlineThreadManager.setToday(date);
-        this.deadlineThreadManager.startThreads();
-
-        assertThat(this.deadlineThreadManager.getWasThreadsStarted().get()).isFalse();
     }
 
     @Test
     @Transactional
-    public void endThreadsTest() throws Exception
+    public void startBookingDeadlineControllerTest()
     {
         Calendar date = Calendar.getInstance();
 
         /***************************************************************
          * Weekend
          ****************************************************************/
+
         /**
-         * SATURDAY on working time and server is starting*/
+         * SATURDAY when server is starting before exit time*/
+
+        this.deadlineThreadManager.isServerStarting.set(true);
+        this.deadlineThreadManager.wasBookingDeadlineControllerStarted.set(false);
+
         date.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
-        date.set(Calendar.HOUR_OF_DAY, configControler.ENTRY_TIME_ON_SATURDAY + 1);
+        date.set(Calendar.HOUR_OF_DAY, configControler.EXIT_TIME_ON_SATURDAY - 1);
 
-        this.deadlineThreadManager.getWasThreadsStarted().set(false);
-        this.deadlineThreadManager.getIsServerStarting().set(true);
-        this.deadlineThreadManager.setToday(date);
-        this.deadlineThreadManager.startThreads();
+        this.deadlineThreadManager.today =  date;
+        this.deadlineThreadManager.startBookingDeadlineController();
 
-        date.set(Calendar.HOUR_OF_DAY, configControler.EXIT_TIME_ON_SATURDAY + 1);
-        this.deadlineThreadManager.setToday(date);
-        this.deadlineThreadManager.endThreads();
-
-        assertThat(this.deadlineThreadManager.getWasThreadsStarted().get()).isFalse();
+        assertThat(this.deadlineThreadManager.wasBookingDeadlineControllerStarted.get()).isTrue();
 
         /**
-         * SATURDAY before server get started*/
+         * SATURDAY when time is between [ENTRY_TIME_ON_SATURDAY - 2, ENTRY_TIME_ON_SATURDAY)
+         * */
+
+        this.deadlineThreadManager.isServerStarting.set(false);
+        this.deadlineThreadManager.wasBookingDeadlineControllerStarted.set(false);
+
         date.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
         date.set(Calendar.HOUR_OF_DAY, configControler.ENTRY_TIME_ON_SATURDAY - 1);
 
-        this.deadlineThreadManager.getWasThreadsStarted().set(false);
-        this.deadlineThreadManager.getIsServerStarting().set(false);
-        this.deadlineThreadManager.setToday(date);
-        this.deadlineThreadManager.startThreads();
+        this.deadlineThreadManager.today =  date;
+        this.deadlineThreadManager.startBookingDeadlineController();
 
-        date.set(Calendar.HOUR_OF_DAY, configControler.EXIT_TIME_ON_SATURDAY + 1);
-        this.deadlineThreadManager.setToday(date);
-        this.deadlineThreadManager.endThreads();
+        assertThat(this.deadlineThreadManager.wasBookingDeadlineControllerStarted.get()).isTrue();
 
-        assertThat(this.deadlineThreadManager.getWasThreadsStarted().get()).isFalse();
+        /**
+         * SATURDAY after ENTRY_TIME_ON_SATURDAY
+         * */
+
+        this.deadlineThreadManager.isServerStarting.set(false);
+        this.deadlineThreadManager.wasBookingDeadlineControllerStarted.set(false);
+
+        date.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+        date.set(Calendar.HOUR_OF_DAY, configControler.ENTRY_TIME_ON_SATURDAY + 1);
+
+        this.deadlineThreadManager.today =  date;
+        this.deadlineThreadManager.startBookingDeadlineController();
+
+        assertThat(this.deadlineThreadManager.wasBookingDeadlineControllerStarted.get()).isFalse();
+
+        /**
+         * SATURDAY after exit time
+         * */
+
+        this.deadlineThreadManager.isServerStarting.set(false);
+        this.deadlineThreadManager.wasBookingDeadlineControllerStarted.set(false);
+
+        date.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+        date.set(Calendar.HOUR_OF_DAY, configControler.EXIT_TIME_ON_SATURDAY);
+
+        this.deadlineThreadManager.today =  date;
+        this.deadlineThreadManager.startBookingDeadlineController();
+
+        assertThat(this.deadlineThreadManager.wasMiniBookingDeadlineControllerStarted.get()).isFalse();
 
         /***************************************************************
-         *Weekday
+         * Weekdays
          ****************************************************************/
 
         /**
-         * MONDAY on working time and server is starting*/
+         * MONDAY when server is starting before exit time*/
+
+        this.deadlineThreadManager.isServerStarting.set(true);
+        this.deadlineThreadManager.wasBookingDeadlineControllerStarted.set(false);
+
+        date.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        date.set(Calendar.HOUR_OF_DAY, configControler.EXIT_TIME_ON_WEEKDAYS - 1);
+
+        this.deadlineThreadManager.today =  date;
+        this.deadlineThreadManager.startBookingDeadlineController();
+
+        assertThat(this.deadlineThreadManager.wasBookingDeadlineControllerStarted.get()).isTrue();
+
+        /**
+         * MONDAY when time is between [ENTRY_TIME_ON_WEEKDAYS - 2, ENTRY_TIME_ON_WEEKDAYS)
+         * */
+
+        this.deadlineThreadManager.isServerStarting.set(false);
+        this.deadlineThreadManager.wasBookingDeadlineControllerStarted.set(false);
+
+        date.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        date.set(Calendar.HOUR_OF_DAY, configControler.ENTRY_TIME_ON_WEEKDAYS - 1);
+
+        this.deadlineThreadManager.today =  date;
+        this.deadlineThreadManager.startBookingDeadlineController();
+
+        assertThat(this.deadlineThreadManager.wasBookingDeadlineControllerStarted.get()).isTrue();
+
+        /**
+         * MONDAY after ENTRY_TIME_ON_WEEKDAYS
+         * */
+
+        this.deadlineThreadManager.isServerStarting.set(false);
+        this.deadlineThreadManager.wasBookingDeadlineControllerStarted.set(false);
 
         date.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         date.set(Calendar.HOUR_OF_DAY, configControler.ENTRY_TIME_ON_WEEKDAYS + 1);
 
-        this.deadlineThreadManager.getWasThreadsStarted().set(false);
-        this.deadlineThreadManager.getIsServerStarting().set(true);
-        this.deadlineThreadManager.setToday(date);
-        this.deadlineThreadManager.startThreads();
+        this.deadlineThreadManager.today =  date;
+        this.deadlineThreadManager.startBookingDeadlineController();
 
-        date.set(Calendar.HOUR_OF_DAY, configControler.EXIT_TIME_ON_WEEKDAYS + 1);
-        this.deadlineThreadManager.setToday(date);
-        this.deadlineThreadManager.endThreads();
+        assertThat(this.deadlineThreadManager.wasBookingDeadlineControllerStarted.get()).isFalse();
 
-        assertThat(this.deadlineThreadManager.getWasThreadsStarted().get()).isFalse();
+        /**
+         * MONDAY after exit
+         * */
+
+        this.deadlineThreadManager.isServerStarting.set(false);
+        this.deadlineThreadManager.wasBookingDeadlineControllerStarted.set(false);
+
+        date.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        date.set(Calendar.HOUR_OF_DAY, configControler.EXIT_TIME_ON_WEEKDAYS);
+
+        this.deadlineThreadManager.today =  date;
+        this.deadlineThreadManager.startMiniBookingDeadlineController();
+
+        assertThat(this.deadlineThreadManager.wasBookingDeadlineControllerStarted.get()).isFalse();
+
+    }
+
+    @Test
+    @Transactional
+    public void startBorrowedBooksDeadlineControllerTest()
+    {
+        Calendar date = Calendar.getInstance();
+
+        /***************************************************************
+         * Weekend
+         ****************************************************************/
+
+        /**
+         * SATURDAY when server is starting before exit time*/
+
+        this.deadlineThreadManager.isServerStarting.set(true);
+        this.deadlineThreadManager.wasBorrowedBooksDeadlineControllerStarted.set(false);
+
+        date.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+        date.set(Calendar.HOUR_OF_DAY, configControler.EXIT_TIME_ON_SATURDAY - 1);
+
+        this.deadlineThreadManager.today =  date;
+        this.deadlineThreadManager.startBorrowedBooksDeadlineController();
+
+        assertThat(this.deadlineThreadManager.wasBorrowedBooksDeadlineControllerStarted.get()).isTrue();
+
+        /**
+         * SATURDAY when time is between [ENTRY_TIME_ON_SATURDAY - 2, ENTRY_TIME_ON_SATURDAY)
+         * */
+
+        this.deadlineThreadManager.isServerStarting.set(false);
+        this.deadlineThreadManager.wasBorrowedBooksDeadlineControllerStarted.set(false);
+
+        date.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+        date.set(Calendar.HOUR_OF_DAY, configControler.ENTRY_TIME_ON_SATURDAY - 1);
+
+        this.deadlineThreadManager.today =  date;
+        this.deadlineThreadManager.startBorrowedBooksDeadlineController();
+
+        assertThat(this.deadlineThreadManager.wasBorrowedBooksDeadlineControllerStarted.get()).isTrue();
+
+        /**
+         * SATURDAY after ENTRY_TIME_ON_SATURDAY
+         * */
+
+        this.deadlineThreadManager.isServerStarting.set(false);
+        this.deadlineThreadManager.wasBorrowedBooksDeadlineControllerStarted.set(false);
+
+        date.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+        date.set(Calendar.HOUR_OF_DAY, configControler.ENTRY_TIME_ON_SATURDAY + 1);
+
+        this.deadlineThreadManager.today =  date;
+        this.deadlineThreadManager.startBorrowedBooksDeadlineController();
+
+        assertThat(this.deadlineThreadManager.wasBorrowedBooksDeadlineControllerStarted.get()).isFalse();
+
+        /**
+         * SATURDAY after exit time
+         * */
+
+        this.deadlineThreadManager.isServerStarting.set(false);
+        this.deadlineThreadManager.wasBorrowedBooksDeadlineControllerStarted.set(false);
+
+        date.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+        date.set(Calendar.HOUR_OF_DAY, configControler.EXIT_TIME_ON_SATURDAY);
+
+        this.deadlineThreadManager.today =  date;
+        this.deadlineThreadManager.startBorrowedBooksDeadlineController();
+
+        assertThat(this.deadlineThreadManager.wasMiniBookingDeadlineControllerStarted.get()).isFalse();
+
+        /***************************************************************
+         * Weekdays
+         ****************************************************************/
+
+        /**
+         * MONDAY when server is starting before exit time*/
+
+        this.deadlineThreadManager.isServerStarting.set(true);
+        this.deadlineThreadManager.wasBorrowedBooksDeadlineControllerStarted.set(false);
+
+        date.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        date.set(Calendar.HOUR_OF_DAY, configControler.EXIT_TIME_ON_WEEKDAYS - 1);
+
+        this.deadlineThreadManager.today =  date;
+        this.deadlineThreadManager.startBorrowedBooksDeadlineController();
+
+        assertThat(this.deadlineThreadManager.wasBorrowedBooksDeadlineControllerStarted.get()).isTrue();
+
+        /**
+         * MONDAY when time is between [ENTRY_TIME_ON_WEEKDAYS - 2, ENTRY_TIME_ON_WEEKDAYS)
+         * */
+
+        this.deadlineThreadManager.isServerStarting.set(false);
+        this.deadlineThreadManager.wasBorrowedBooksDeadlineControllerStarted.set(false);
+
+        date.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        date.set(Calendar.HOUR_OF_DAY, configControler.ENTRY_TIME_ON_WEEKDAYS - 1);
+
+        this.deadlineThreadManager.today =  date;
+        this.deadlineThreadManager.startBorrowedBooksDeadlineController();
+
+        assertThat(this.deadlineThreadManager.wasBorrowedBooksDeadlineControllerStarted.get()).isTrue();
+
+        /**
+         * MONDAY after ENTRY_TIME_ON_WEEKDAYS
+         * */
+
+        this.deadlineThreadManager.isServerStarting.set(false);
+        this.deadlineThreadManager.wasBorrowedBooksDeadlineControllerStarted.set(false);
+
+        date.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        date.set(Calendar.HOUR_OF_DAY, configControler.ENTRY_TIME_ON_WEEKDAYS + 1);
+
+        this.deadlineThreadManager.today =  date;
+        this.deadlineThreadManager.startBorrowedBooksDeadlineController();
+
+        assertThat(this.deadlineThreadManager.wasBorrowedBooksDeadlineControllerStarted.get()).isFalse();
+
+        /**
+         * MONDAY after exit
+         * */
+
+        this.deadlineThreadManager.isServerStarting.set(false);
+        this.deadlineThreadManager.wasBorrowedBooksDeadlineControllerStarted.set(false);
+
+        date.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        date.set(Calendar.HOUR_OF_DAY, configControler.EXIT_TIME_ON_WEEKDAYS);
+
+        this.deadlineThreadManager.today =  date;
+        this.deadlineThreadManager.startMiniBookingDeadlineController();
+
+        assertThat(this.deadlineThreadManager.wasBorrowedBooksDeadlineControllerStarted.get()).isFalse();
     }
 
     @After
