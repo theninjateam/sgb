@@ -64,7 +64,7 @@ public class ListPedido extends SelectorComposer<Component> {
 
     public void ComposeUserAdmin(){
         List<Emprestimo> pedidos = eController.getRequest(ePController.PENDING_MINI_BOOKING);
-//        pedidos.addAll(eController.getRequest(ePController.PENDING_BOOKING));
+        pedidos.addAll(eController.getRequest(ePController.PENDING_BOOKING));
 
         pedidoListModel = new ListModelList<Emprestimo>(pedidos);
 
@@ -73,7 +73,7 @@ public class ListPedido extends SelectorComposer<Component> {
 
     public void ComposeUserNormal() {
         List<Emprestimo> pedidos = eController.getRequest(this.user, ePController.PENDING_MINI_BOOKING);
-//        pedidos.addAll(eController.getRequest(this.user, ePController.PENDING_BOOKING));
+        pedidos.addAll(eController.getRequest(this.user, ePController.PENDING_BOOKING));
         pedidoListModel = new ListModelList<Emprestimo>(pedidos);
 
         pedidoListBox.setModel(pedidoListModel);

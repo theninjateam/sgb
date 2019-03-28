@@ -39,6 +39,8 @@ public class ListobraController extends SelectorComposer<Component>
     private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;
     private EmprestimoController eController = (EmprestimoController) SpringUtil.getBean("emprestimoController");
     private EstadoDevolucaoControler eDController = (EstadoDevolucaoControler) SpringUtil.getBean("estadoDevolucaoControler");
+    private EstadoMultaControler eMController = (EstadoMultaControler) SpringUtil.getBean("estadoMultaControler");
+    private MultaController mController = (MultaController) SpringUtil.getBean("multaController");
     private Session session;
     private EmprestimoPK emprestimoPK;
     private Emprestimo emprestimo;
@@ -560,13 +562,20 @@ public class ListobraController extends SelectorComposer<Component>
 
     public  boolean temObrasPorDevolver()
     {
-        List<Emprestimo> emprestimos = eController.getBorrowedBooks(user,eDController.NOT_RETURNED);
         /*
+        * Todo usario que tiver um obra por devolver , tera uma multa aplicada
+        * Partindo desse principo sai esse metodo
+        */
+        List<Multa> multas = mController.getFine(user,eMController.NOT_PAID);
+
+        /*
+        List<Emprestimo> emprestimos = eController.getBorrowedBooks(user,eDController.NOT_RETURNED);
+
                 crudService.findByJPQuery("SELECT e FROM Emprestimo e WHERE e.emprestimoPK.utente.id = "+
                 user.getId()+" and e.estadoDevolucao.idestadodevolucao = 2", null); // isso deve mudar
         */
 
-        return emprestimos.size() > 0 ?  true : false;
+        return multas.size() > 0 ?  true : false;
     }
 
     public int getQtdObrasRequisitadas()
