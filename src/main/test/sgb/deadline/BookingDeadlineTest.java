@@ -68,11 +68,7 @@ public class BookingDeadlineTest
 
         expectedDeadline.setTime(emprestimo.getDataaprovacao().getTime());
         expectedDeadline.set(Calendar.DATE, expectedDeadline.get(Calendar.DATE) + this.configControler.DEADLINE_RESERVED_BOOKS);
-
-        if (this.bookingDeadline.isSunDay(expectedDeadline))
-        {
-            this.bookingDeadline.goToNextWorkingDay(expectedDeadline);
-        }
+        this.bookingDeadline.goToNextWorkingDay(expectedDeadline);
 
         assertThat(actualDeadline).isEqualByComparingTo(expectedDeadline);
 
@@ -85,11 +81,7 @@ public class BookingDeadlineTest
 
         expectedDeadline.setTime(emprestimo.getDataaprovacao().getTime());
         expectedDeadline.set(Calendar.DATE, expectedDeadline.get(Calendar.DATE) + this.configControler.DEADLINE_RESERVED_BOOKS);
-
-        if (this.bookingDeadline.isSunDay(expectedDeadline))
-        {
-            this.bookingDeadline.goToNextWorkingDay(expectedDeadline);
-        }
+        this.bookingDeadline.goToNextWorkingDay(expectedDeadline);
 
         assertThat(actualDeadline).isEqualByComparingTo(expectedDeadline);
     }

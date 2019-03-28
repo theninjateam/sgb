@@ -15,7 +15,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @author Fonseca, bfonseca@unilurio.ac.mz
  */
 
-public class BookingDeadlineController extends Thread
+public class BookingDeadlineController implements Runnable
 {
     private BookingDeadline bDeadline;
     private Request request;
@@ -36,36 +36,46 @@ public class BookingDeadlineController extends Thread
 
     public void run()
     {
-
-
         if (this.running.get())
         {
+            System.out.println("BookingDeadlineController ...");
+
             try
             {
-                List<Emprestimo> pendingBooking = this.eController.getRequest(ePControler.PENDING_BOOKING);
-
-                if (pendingBooking != null)
-                {
-                    for (Emprestimo e: pendingBooking)
-                    {
-                        if (e.getDataaprovacao() == null) { continue;}
-
-                        Calendar deadline = this.bDeadline.getDeadline(e.getDataaprovacao());
-
-                        boolean  exceededDeadline = this.bDeadline.exceededDeadline(deadline, Calendar.getInstance());
-
-                        if (exceededDeadline)
-                        {
-                            request.cancel(e);
-                        }
-                    }
-                }
+                this.process(this.eController.getRequest(ePControler.PENDING_BOOKING), Calendar.getInstance());
             }
             catch (Exception ex)
             {
                 ex.printStackTrace();
             }
         }
+    }
+
+
+    public boolean process(List<Emprestimo> pendingBooking, Calendar now)
+    {
+        boolean thereIsCanceledRequest = false;
+
+        if (pendingBooking != null)
+        {
+            for (Emprestimo e : pendingBooking)
+            {
+                if (e.getDataaprovacao() != null)
+                {
+                    Calendar deadline = this.bDeadline.getDeadline(e.getDataaprovacao());
+
+                    boolean exceededDeadline = this.bDeadline.exceededDeadline(deadline, now);
+
+                    if (exceededDeadline)
+                    {
+                        thereIsCanceledRequest = true;
+                        request.cancel(e);
+                    }
+                }
+            }
+        }
+
+        return thereIsCanceledRequest;
     }
 
     public AtomicBoolean getRunning()

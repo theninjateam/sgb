@@ -44,26 +44,11 @@ public class BorrowedBooksDeadlineController extends Thread
     {
         if (this.running.get())
         {
+            System.out.println("BorrowedBooksDeadlineController ...");
+
             try
             {
-                List<Emprestimo> borrowedBooks = this.eController.getBorrowedBooks(eDController.NOT_RETURNED);
-
-                if (borrowedBooks != null)
-                {
-                    for (Emprestimo e: borrowedBooks)
-                    {
-                        if (e.getDataaprovacao() == null) { continue;}
-
-                        Calendar deadline = this.bBDeadline.getDeadline(e);
-
-                        boolean  exceededDeadline = this.bBDeadline.exceededDeadline(deadline, Calendar.getInstance());
-
-                        if (exceededDeadline)
-                        {
-                            this.fine.fine(e);
-                        }
-                    }
-                }
+                this.process(this.eController.getBorrowedBooks(eDController.NOT_RETURNED), Calendar.getInstance());
             }
             catch (Exception ex)
             {
@@ -71,6 +56,36 @@ public class BorrowedBooksDeadlineController extends Thread
             }
         }
     }
+
+    public boolean process(List<Emprestimo> borrowedBooks, Calendar now)
+    {
+        boolean thereIsFinedBorrow = false;
+
+        if (borrowedBooks != null)
+        {
+            for (Emprestimo e: borrowedBooks)
+            {
+                if (e.getDataaprovacao() != null)
+                {
+                    Calendar deadline = this.bBDeadline.getDeadline(e);
+
+                    boolean  exceededDeadline = this.bBDeadline.exceededDeadline(deadline, now);
+
+                    if (exceededDeadline)
+                    {
+                        thereIsFinedBorrow = true;
+
+                        if (e.getQuantidade() > 0)
+                        {
+                            this.fine.fine(e);
+                        }
+                    }
+                }
+            }
+        }
+        return thereIsFinedBorrow;
+    }
+
     public AtomicBoolean getRunning()
     {
         return running;

@@ -99,10 +99,7 @@ public class BorrowedBooksDeadlineTest
         expetedDeadline.set(Calendar.DATE,
                 expetedDeadline.get(Calendar.DATE) + this.configControler.DEADLINE_STUDENT_BORROWED_BOOKS);
 
-        if (deadline.isSunDay(expetedDeadline))
-        {
-            deadline.goToNextWorkingDay(expetedDeadline);
-        }
+        deadline.goToNextWorkingDay(expetedDeadline);
 
         assertThat(actualDeadline).isEqualByComparingTo(expetedDeadline);
 
@@ -116,10 +113,7 @@ public class BorrowedBooksDeadlineTest
         expetedDeadline.set(Calendar.DATE,
                 expetedDeadline.get(Calendar.DATE) + this.configControler.DEADLINE_STUDENT_BORROWED_BOOKS);
 
-        if (deadline.isSunDay(expetedDeadline))
-        {
-            deadline.goToNextWorkingDay(expetedDeadline);
-        }
+        deadline.goToNextWorkingDay(expetedDeadline);
 
         assertThat(actualDeadline).isEqualByComparingTo(expetedDeadline);
 
@@ -137,10 +131,7 @@ public class BorrowedBooksDeadlineTest
         expetedDeadline.set(Calendar.DATE,
                 expetedDeadline.get(Calendar.DATE) + this.configControler.DEADLINE_TEACHER_BORROWED_BOOKS);
 
-        if (deadline.isSunDay(expetedDeadline))
-        {
-            deadline.goToNextWorkingDay(expetedDeadline);
-        }
+        deadline.goToNextWorkingDay(expetedDeadline);
 
         assertThat(actualDeadline).isEqualByComparingTo(expetedDeadline);
 
@@ -154,10 +145,7 @@ public class BorrowedBooksDeadlineTest
         expetedDeadline.set(Calendar.DATE,
                 expetedDeadline.get(Calendar.DATE) + this.configControler.DEADLINE_TEACHER_BORROWED_BOOKS);
 
-        if (deadline.isSunDay(expetedDeadline))
-        {
-            deadline.goToNextWorkingDay(expetedDeadline);
-        }
+        deadline.goToNextWorkingDay(expetedDeadline);
 
         assertThat(actualDeadline).isEqualByComparingTo(expetedDeadline);
     }

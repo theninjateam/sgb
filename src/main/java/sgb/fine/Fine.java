@@ -80,8 +80,7 @@ public class Fine
                 (int) Duration.between(Calendar.getInstance().toInstant(),
                         emprestimo.getDatadevolucao().toInstant()).toDays());
 
-
-            return (float) this.configControler.DAILY_RATE_FINE * days;
+        return (float) this.configControler.DAILY_RATE_FINE * days;
     }
 
     public void pay(EmprestimoPK emprestimoPK)

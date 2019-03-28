@@ -33,18 +33,24 @@ public class MiniBookingDeadline extends Deadline
 
         if (calendar.get(calendar.HOUR_OF_DAY) >= this.configControler.EXIT_TIME_ON_WEEKDAYS)
         {
-            calendar.set(Calendar.MINUTE, 00);
+
 
             if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY)
             {
+                calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + 1);
                 this.goToNextWorkingDay(calendar);
                 calendar.set(Calendar.HOUR_OF_DAY, this.configControler.ENTRY_TIME_ON_SATURDAY);
             }
             else
             {
+                calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + 1);
                 this.goToNextWorkingDay(calendar);
                 calendar.set(Calendar.HOUR_OF_DAY, this.configControler.ENTRY_TIME_ON_WEEKDAYS);
             }
+
+            calendar.set(Calendar.MINUTE, 00);
+            calendar.set(Calendar.SECOND, 00);
+            calendar.set(Calendar.MILLISECOND, 00);
 
             incrementNMinutes(calendar, this.configControler.DEADLINE_REQUESTED_BOOKS);
         }
@@ -71,6 +77,8 @@ public class MiniBookingDeadline extends Deadline
         if (this.isSaturDay(calendar) && calendar.get(Calendar.HOUR_OF_DAY) < this.configControler.ENTRY_TIME_ON_SATURDAY)
         {
             calendar.set(Calendar.MINUTE, 00);
+            calendar.set(Calendar.SECOND, 00);
+            calendar.set(Calendar.MILLISECOND, 00);
             calendar.set(Calendar.HOUR_OF_DAY, this.configControler.ENTRY_TIME_ON_SATURDAY);
             
             this.incrementNMinutes(calendar, this.configControler.DEADLINE_REQUESTED_BOOKS);
@@ -81,6 +89,8 @@ public class MiniBookingDeadline extends Deadline
         }
         else
         {
+            calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + 1);
+
             this.goToNextWorkingDay(calendar);
 
             calendar.set(Calendar.MILLISECOND, 00);

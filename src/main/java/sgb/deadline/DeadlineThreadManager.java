@@ -36,93 +36,84 @@ public class DeadlineThreadManager extends Thread implements ApplicationListener
     {
         while(this.running.get())
         {
-            try
-            {
-                if (!this.wasThreadsStarted.get())
-                {
-                    this.startThreads();
-                }
-
-                if (this.wasThreadsStarted.get())
-                {
-                    this.endThreads();
-                }
-
-                this.isServerStarting.set(false);
-            }
-            catch (Exception ex)
-            {
-                ex.printStackTrace();
-            }
+            this.startThreads();
+            this.endThreads();
+            this.isServerStarting.set(false);
         }
     }
 
     public void startThreads()
     {
-        boolean canStartThreads = false;
-
-        if (this.today.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY)
+        if (!this.wasThreadsStarted.get())
         {
-            if (this.today.get(Calendar.HOUR_OF_DAY) < configControler.EXIT_TIME_ON_SATURDAY &&
-                    this.isServerStarting.get())
-            {
-                canStartThreads = true;
-            }
-            else if ((today.get(Calendar.HOUR_OF_DAY) < configControler.ENTRY_TIME_ON_SATURDAY) )
-            {
-                canStartThreads = true;
-            }
-        }
-        else if (this.today.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY)
-        {
-            if (this.today.get(Calendar.HOUR_OF_DAY) < configControler.EXIT_TIME_ON_WEEKDAYS &&
-                    this.isServerStarting.get())
-            {
-                canStartThreads = true;
-            }
-            else  if ((today.get(Calendar.HOUR_OF_DAY) < configControler.ENTRY_TIME_ON_WEEKDAYS))
-            {
-                canStartThreads = true;
-            }
-        }
+            boolean canStartThreads = false;
 
-        if (canStartThreads)
-        {
-            this.mBDController.getRunning().set(true);
-            new Thread(mBDController).start();
+            if (this.today.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY)
+            {
+                if (this.today.get(Calendar.HOUR_OF_DAY) < configControler.EXIT_TIME_ON_SATURDAY &&
+                        this.isServerStarting.get())
+                {
+                    canStartThreads = true;
+                }
+                else if ((today.get(Calendar.HOUR_OF_DAY) < configControler.ENTRY_TIME_ON_SATURDAY) )
+                {
+                    canStartThreads = true;
+                }
+            }
+            else if (this.today.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY)
+            {
+                if (this.today.get(Calendar.HOUR_OF_DAY) < configControler.EXIT_TIME_ON_WEEKDAYS &&
+                        this.isServerStarting.get())
+                {
+                    canStartThreads = true;
+                }
+                else  if ((today.get(Calendar.HOUR_OF_DAY) < configControler.ENTRY_TIME_ON_WEEKDAYS))
+                {
+                    canStartThreads = true;
+                }
+            }
 
-            this.bDController.getRunning().set(true);
-            new Thread(bDController).start();
+            if (canStartThreads)
+            {
+                this.mBDController.getRunning().set(true);
+                new Thread(mBDController).start();
 
-            this.bBDController.getRunning().set(true);
-            new Thread(bBDController).start();
+                this.bDController.getRunning().set(true);
+                new Thread(bDController).start();
 
-            this.wasThreadsStarted.set(true);
+                this.bBDController.getRunning().set(true);
+                new Thread(bBDController).start();
+
+                this.wasThreadsStarted.set(true);
+            }
         }
     }
 
     public void endThreads()
     {
-        boolean canEndThreads = false;
-
-        if ((this.today.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) &&
-                this.today.get(Calendar.HOUR_OF_DAY) > configControler.EXIT_TIME_ON_SATURDAY)
+        if (this.wasThreadsStarted.get())
         {
-            canEndThreads = true;
-        }
-        else if ((this.today.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) &&
-                this.today.get(Calendar.HOUR_OF_DAY) > configControler.EXIT_TIME_ON_WEEKDAYS)
-        {
-            canEndThreads = true;
-        }
+            boolean canEndThreads = false;
 
-        if (canEndThreads)
-        {
-            this.mBDController.getRunning().set(false);
-            this.bBDController.getRunning().set(false);
-            this.bDController.getRunning().set(false);
+            if ((this.today.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) &&
+                    this.today.get(Calendar.HOUR_OF_DAY) > configControler.EXIT_TIME_ON_SATURDAY)
+            {
+                canEndThreads = true;
+            }
+            else if ((this.today.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) &&
+                    this.today.get(Calendar.HOUR_OF_DAY) > configControler.EXIT_TIME_ON_WEEKDAYS)
+            {
+                canEndThreads = true;
+            }
 
-            this.wasThreadsStarted.set(false);
+            if (canEndThreads)
+            {
+                this.mBDController.getRunning().set(false);
+                this.bBDController.getRunning().set(false);
+                this.bDController.getRunning().set(false);
+
+                this.wasThreadsStarted.set(false);
+            }
         }
     }
 
@@ -137,10 +128,6 @@ public class DeadlineThreadManager extends Thread implements ApplicationListener
 
         this.setName("DeadLine Thread Manager");
         this.start();
-    }
-
-    public Calendar getToday() {
-        return today;
     }
 
     public void setToday(Calendar today) {
