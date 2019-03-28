@@ -39,15 +39,15 @@
 
                                                             dateFormatter = DateFormat.getDateInstance(DateFormat.FULL, MOZAMBIQUE);
 
-                                                            builder.append(dateFormatter.format(each.dataaprovacao.getTime()));
+                                                            builder.append(dateFormatter.format(each.emprestimoPK.dataentradapedido.getTime()));
                                                             builder.append("\n");
-                                                            builder.append(timeFormatter.format(each.dataaprovacao.getTime()));
+                                                            builder.append(timeFormatter.format(each.emprestimoPK.dataentradapedido.getTime()));
 
-                                                            String dataAprovacao = builder.toString();
+                                                            String dataentradapedido = builder.toString();
                                                     ]]>
                                                     </zscript>
                                                     <div>
-                                                        <label value="${dataAprovacao}"/>
+                                                        <label value="${dataentradapedido}"/>
                                                     </div>
                                                 </listcell>
                                                 <listcell>
