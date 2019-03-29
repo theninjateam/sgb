@@ -61,7 +61,7 @@
     100%
   </span>
   <span class="absValue">
-    (19/ 19)
+    (22/ 22)
   </span>
 </td>
 </tr>
@@ -74,76 +74,77 @@
 
 <div class="sourceCode"><i>1</i>&nbsp;package sgb.deadline;
 <i>2</i>&nbsp;
-<i>3</i>&nbsp;import org.springframework.context.ApplicationListener;
-<i>4</i>&nbsp;import org.springframework.context.event.ContextRefreshedEvent;
-<i>5</i>&nbsp;import sgb.controller.domainController.ConfigControler;
-<i>6</i>&nbsp;import sgb.controller.domainController.EmprestimoController;
-<i>7</i>&nbsp;import sgb.controller.domainController.EstadoPedidoControler;
-<i>8</i>&nbsp;import sgb.domain.Emprestimo;
-<i>9</i>&nbsp;import sgb.request.Request;
-<i>10</i>&nbsp;
-<i>11</i>&nbsp;import java.lang.Thread;
-<i>12</i>&nbsp;import java.util.Calendar;
-<i>13</i>&nbsp;import java.util.List;
-<i>14</i>&nbsp;import java.util.concurrent.atomic.AtomicBoolean;
+<i>3</i>&nbsp;import sgb.concurrence.MiniBookingConcurrenceController;
+<i>4</i>&nbsp;import sgb.controller.domainController.EmprestimoController;
+<i>5</i>&nbsp;import sgb.controller.domainController.EstadoPedidoControler;
+<i>6</i>&nbsp;import sgb.domain.Emprestimo;
+<i>7</i>&nbsp;import sgb.request.Request;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;import java.util.Calendar;
+<i>10</i>&nbsp;import java.util.List;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;/**
+<i>13</i>&nbsp; * @author Fonseca, bfonseca@unilurio.ac.mz
+<i>14</i>&nbsp; */
 <i>15</i>&nbsp;
-<i>16</i>&nbsp;/**
-<i>17</i>&nbsp; * @author Fonseca, bfonseca@unilurio.ac.mz
-<i>18</i>&nbsp; */
-<i>19</i>&nbsp;
-<i>20</i>&nbsp;public class MiniBookingDeadlineController implements Runnable
-<i>21</i>&nbsp;{
-<i>22</i>&nbsp;    private MiniBookingDeadline mBDeadline;
-<i>23</i>&nbsp;    private Request request;
-<i>24</i>&nbsp;    private EstadoPedidoControler ePControler;
-<i>25</i>&nbsp;    private EmprestimoController eController;
-<i>26</i>&nbsp;
-<i>27</i>&nbsp;    public MiniBookingDeadlineController(MiniBookingDeadline mBDeadline,
-<i>28</i>&nbsp;                                         Request request,
-<i>29</i>&nbsp;                                         EstadoPedidoControler ePControler,
-<i>30</i>&nbsp;                                         EmprestimoController eController)
-<b class="fc"><i>31</i>&nbsp;    {</b>
-<b class="fc"><i>32</i>&nbsp;        this.mBDeadline = mBDeadline;</b>
-<b class="fc"><i>33</i>&nbsp;        this.request = request;</b>
-<b class="fc"><i>34</i>&nbsp;        this.ePControler = ePControler;</b>
-<b class="fc"><i>35</i>&nbsp;        this.eController = eController;</b>
-<b class="fc"><i>36</i>&nbsp;    }</b>
-<i>37</i>&nbsp;
-<i>38</i>&nbsp;    public void run()
-<i>39</i>&nbsp;    {
-<b class="fc"><i>40</i>&nbsp;        System.out.println(&quot;MiniBookingDeadlineController...&quot;);</b>
-<b class="fc"><i>41</i>&nbsp;        this.process(this.eController.getRequest(ePControler.PENDING_MINI_BOOKING), Calendar.getInstance());</b>
+<i>16</i>&nbsp;public class MiniBookingDeadlineController implements Runnable
+<i>17</i>&nbsp;{
+<i>18</i>&nbsp;    private MiniBookingDeadline mBDeadline;
+<i>19</i>&nbsp;    private Request request;
+<i>20</i>&nbsp;    private EstadoPedidoControler ePControler;
+<i>21</i>&nbsp;    private EmprestimoController eController;
+<i>22</i>&nbsp;    private MiniBookingConcurrenceController miniBookingConcurrenceController;
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    public MiniBookingDeadlineController (MiniBookingDeadline mBDeadline,
+<i>25</i>&nbsp;                                         Request request,
+<i>26</i>&nbsp;                                         EstadoPedidoControler ePControler,
+<i>27</i>&nbsp;                                         EmprestimoController eController,
+<i>28</i>&nbsp;                                          MiniBookingConcurrenceController miniBookingConcurrenceController)
+<b class="fc"><i>29</i>&nbsp;    {</b>
+<b class="fc"><i>30</i>&nbsp;        this.mBDeadline = mBDeadline;</b>
+<b class="fc"><i>31</i>&nbsp;        this.request = request;</b>
+<b class="fc"><i>32</i>&nbsp;        this.ePControler = ePControler;</b>
+<b class="fc"><i>33</i>&nbsp;        this.eController = eController;</b>
+<b class="fc"><i>34</i>&nbsp;        this.miniBookingConcurrenceController = miniBookingConcurrenceController;</b>
+<b class="fc"><i>35</i>&nbsp;    }</b>
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;    public  void run()
+<i>38</i>&nbsp;    {
+<b class="fc"><i>39</i>&nbsp;            this.miniBookingConcurrenceController.enterInCriticalRegion();</b>
+<b class="fc"><i>40</i>&nbsp;            this.process(this.eController.getRequest(ePControler.PENDING_MINI_BOOKING), Calendar.getInstance());</b>
+<b class="fc"><i>41</i>&nbsp;            this.miniBookingConcurrenceController.leaveInCriticalRegion();</b>
 <b class="fc"><i>42</i>&nbsp;    }</b>
 <i>43</i>&nbsp;
-<i>44</i>&nbsp;    public boolean process(List&lt;Emprestimo&gt; pendigMiniBooking, Calendar now)
+<i>44</i>&nbsp;    public  boolean  process(List&lt;Emprestimo&gt; pendigMiniBooking, Calendar now)
 <i>45</i>&nbsp;    {
-<b class="fc"><i>46</i>&nbsp;        boolean thereIsCanceledRequest = false;</b>
-<i>47</i>&nbsp;
-<b class="fc"><i>48</i>&nbsp;        if (pendigMiniBooking != null)</b>
-<i>49</i>&nbsp;        {
-<b class="fc"><i>50</i>&nbsp;            for (Emprestimo e: pendigMiniBooking)</b>
-<i>51</i>&nbsp;            {
-<b class="fc"><i>52</i>&nbsp;                Calendar deadline = this.mBDeadline.getDeadline(e.getEmprestimoPK().getDataentradapedido());</b>
-<i>53</i>&nbsp;
-<b class="fc"><i>54</i>&nbsp;                boolean  exceededDeadline = this.mBDeadline.exceededDeadline(deadline, now);</b>
-<i>55</i>&nbsp;
-<b class="fc"><i>56</i>&nbsp;                if (exceededDeadline)</b>
-<i>57</i>&nbsp;                {
-<b class="fc"><i>58</i>&nbsp;                    thereIsCanceledRequest = true;</b>
-<b class="fc"><i>59</i>&nbsp;                    request.cancel(e);</b>
-<i>60</i>&nbsp;                }
-<b class="fc"><i>61</i>&nbsp;            }</b>
-<i>62</i>&nbsp;        }
-<i>63</i>&nbsp;
-<b class="fc"><i>64</i>&nbsp;        return thereIsCanceledRequest;</b>
-<i>65</i>&nbsp;    }
-<i>66</i>&nbsp;}
+<b class="fc"><i>46</i>&nbsp;        System.out.println(&quot; Running MiniBookingDeadlineController ...&quot;);</b>
+<b class="fc"><i>47</i>&nbsp;        boolean thereIsCanceledRequest = false;</b>
+<i>48</i>&nbsp;
+<b class="fc"><i>49</i>&nbsp;        if (pendigMiniBooking != null)</b>
+<i>50</i>&nbsp;        {
+<b class="fc"><i>51</i>&nbsp;            for (Emprestimo e: pendigMiniBooking)</b>
+<i>52</i>&nbsp;            {
+<b class="fc"><i>53</i>&nbsp;                Calendar deadline = this.mBDeadline.getDeadline(e.getEmprestimoPK().getDataentradapedido());</b>
+<i>54</i>&nbsp;
+<b class="fc"><i>55</i>&nbsp;                boolean  exceededDeadline = this.mBDeadline.exceededDeadline(deadline, now);</b>
+<i>56</i>&nbsp;
+<b class="fc"><i>57</i>&nbsp;                if (exceededDeadline)</b>
+<i>58</i>&nbsp;                {
+<b class="fc"><i>59</i>&nbsp;                    thereIsCanceledRequest = true;</b>
+<b class="fc"><i>60</i>&nbsp;                    request.cancel(e);</b>
+<i>61</i>&nbsp;                }
+<b class="fc"><i>62</i>&nbsp;            }</b>
+<i>63</i>&nbsp;        }
+<i>64</i>&nbsp;
+<b class="fc"><i>65</i>&nbsp;        return thereIsCanceledRequest;</b>
+<i>66</i>&nbsp;    }
+<i>67</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2019-03-29 01:04</div>
+    <div style="float:right;">generated on 2019-03-29 13:39</div>
 </div>
 </body>
 </html>

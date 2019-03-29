@@ -75,6 +75,7 @@
         <constructor-arg index="1" ref="request"/>
         <constructor-arg index="2" ref="estadoPedidoControler"/>
         <constructor-arg index="3" ref="emprestimoController"/>
+        <constructor-arg index="4" ref="miniBookingConcurrenceController"/>
     </bean>
 
     <bean id="bookingDeadlineController"  class="sgb.deadline.BookingDeadlineController" >
@@ -115,6 +116,8 @@
     <bean id="obraConcurrenceControl"  scope="singleton" class="sgb.concurrence.ObraConcurrenceControl" >
         <constructor-arg index="0" ref="CRUDService"/>
     </bean>
+
+    <bean id="miniBookingConcurrenceController"  scope="singleton" class="sgb.concurrence.MiniBookingConcurrenceController" />
 
     <bean id="request" class="sgb.request.Request" >
         <constructor-arg index="0" ref="CRUDService"/>
@@ -158,6 +161,7 @@
         <constructor-arg index="1" ref="borrowedBooksDeadlineController"/>
         <constructor-arg index="2" ref="miniBookingDeadlineController"/>
         <constructor-arg index="3" ref="configControler"/>
+        <constructor-arg index="4" ref="miniBookingConcurrenceController"/>
     </bean>
 
     <context:annotation-config />

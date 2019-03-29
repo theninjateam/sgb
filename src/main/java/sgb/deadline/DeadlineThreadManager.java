@@ -2,6 +2,7 @@ package sgb.deadline;
 
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+import sgb.concurrence.MiniBookingConcurrenceController;
 import sgb.controller.domainController.ConfigControler;
 
 import java.util.Calendar;
@@ -13,8 +14,9 @@ public class DeadlineThreadManager extends Thread implements ApplicationListener
     private BorrowedBooksDeadlineController bBDController;
     private MiniBookingDeadlineController mBDController;
     private ConfigControler configControler;
+    private MiniBookingConcurrenceController miniBookingConcurrenceController;
 
-    private int minuto = 1;
+    private int delay = 1*60*1000;
 
     public Calendar today;
     public final AtomicBoolean running = new AtomicBoolean(false);
@@ -26,12 +28,14 @@ public class DeadlineThreadManager extends Thread implements ApplicationListener
     public DeadlineThreadManager(BookingDeadlineController bDController,
                                  BorrowedBooksDeadlineController bBDController,
                                  MiniBookingDeadlineController mBDController,
-                                 ConfigControler configControler)
+                                 ConfigControler configControler,
+                                 MiniBookingConcurrenceController miniBookingConcurrenceController)
     {
         this.bBDController = bBDController;
         this.bDController = bDController;
         this.mBDController = mBDController;
         this.configControler = configControler;
+        this.miniBookingConcurrenceController = miniBookingConcurrenceController;
     }
 
     public void run()
@@ -40,12 +44,16 @@ public class DeadlineThreadManager extends Thread implements ApplicationListener
         {
             this.startBookingDeadlineController();
             this.startBorrowedBooksDeadlineController();
+
+            this.miniBookingConcurrenceController.enterInCriticalRegion();
             this.startMiniBookingDeadlineController();
+            this.miniBookingConcurrenceController.leaveInCriticalRegion();
+
             this.isServerStarting.set(false);
 
             try
             {
-                Thread.sleep(minuto*60*1000);
+                Thread.sleep(delay);
             }
             catch (Exception ex)
             {

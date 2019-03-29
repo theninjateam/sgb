@@ -1,5 +1,6 @@
 package sgb.deadline;
 
+import sgb.concurrence.MiniBookingConcurrenceController;
 import sgb.controller.domainController.EmprestimoController;
 import sgb.controller.domainController.EstadoPedidoControler;
 import sgb.domain.Emprestimo;
@@ -18,31 +19,31 @@ public class MiniBookingDeadlineController implements Runnable
     private Request request;
     private EstadoPedidoControler ePControler;
     private EmprestimoController eController;
-    public static int runningNumer = 0;
+    private MiniBookingConcurrenceController miniBookingConcurrenceController;
 
     public MiniBookingDeadlineController (MiniBookingDeadline mBDeadline,
                                          Request request,
                                          EstadoPedidoControler ePControler,
-                                         EmprestimoController eController)
+                                         EmprestimoController eController,
+                                          MiniBookingConcurrenceController miniBookingConcurrenceController)
     {
         this.mBDeadline = mBDeadline;
         this.request = request;
         this.ePControler = ePControler;
         this.eController = eController;
+        this.miniBookingConcurrenceController = miniBookingConcurrenceController;
     }
 
     public  void run()
     {
+            this.miniBookingConcurrenceController.enterInCriticalRegion();
             this.process(this.eController.getRequest(ePControler.PENDING_MINI_BOOKING), Calendar.getInstance());
+            this.miniBookingConcurrenceController.leaveInCriticalRegion();
     }
 
     public  boolean  process(List<Emprestimo> pendigMiniBooking, Calendar now)
     {
-        StringBuilder builder = new StringBuilder();
-        builder.append("[ "+(++runningNumer)+" ]" + " Running MiniBookingDeadlineController ...");
-
-        System.out.println(builder.toString());
-
+        System.out.println(" Running MiniBookingDeadlineController ...");
         boolean thereIsCanceledRequest = false;
 
         if (pendigMiniBooking != null)
