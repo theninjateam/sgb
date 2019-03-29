@@ -164,6 +164,16 @@
         <constructor-arg index="4" ref="miniBookingConcurrenceController"/>
     </bean>
 
+    <bean id="areaCientificaController"  class="sgb.controller.domainController.AreaCientificaController" >
+        <constructor-arg index="0" ref="CRUDService"/>
+    </bean>
+
+    <bean id="obraController"  class="sgb.controller.domainController.ObraController" >
+        <constructor-arg index="0" ref="CRUDService"/>
+        <constructor-arg index="1" ref="areaCientificaController"/>
+    </bean>
+
+
     <context:annotation-config />
     <context:component-scan base-package="sgb"/>
 </beans>

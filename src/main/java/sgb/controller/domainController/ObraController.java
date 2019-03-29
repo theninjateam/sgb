@@ -1,13 +1,20 @@
 package sgb.controller.domainController;
 
-public class ObraContoller {
+import sgb.domain.*;
+import sgb.service.CRUDService;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+public class ObraController {
 
     private StringBuilder query;
     private HashMap<String, Object> parameters;
     private CRUDService crudService;
     private AreaCientificaController areaCientificaController;
 
-    public ObraContoller(CRUDService crudService, AreaCientificaController areaCientificaController)
+    public ObraController(CRUDService crudService, AreaCientificaController areaCientificaController)
 
     {
         this.crudService = crudService;

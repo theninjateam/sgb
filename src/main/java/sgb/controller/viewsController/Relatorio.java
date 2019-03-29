@@ -7,6 +7,7 @@ import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.*;
+import sgb.controller.domainController.ObraController;
 import sgb.domain.*;
 import sgb.service.CRUDService;
 
@@ -16,11 +17,14 @@ import sgb.service.CRUDService;
 
 import java.util.List;
 
+
 public class Relatorio extends SelectorComposer<Component> {
+
+    private ObraController obraController  = (ObraController) SpringUtil.getBean("obraController");;
 
     private CRUDService crudService = (CRUDService) SpringUtil.getBean("CRUDService");
     private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;
-//    private ListModelList<Emprestimo> relatorioListModel;
+    //    private ListModelList<Emprestimo> relatorioListModel;
     private Boolean isNormalUser = true;
 
     private Listbox emprestimo;
@@ -29,13 +33,15 @@ public class Relatorio extends SelectorComposer<Component> {
     private Listbox obraeliminadas;
 
 
-    private Listbox obraregistadas;
+    private Listbox obracategoria;
+
+    private Listbox obradescricao;
 
     @Wire
     private Include idInclRelatorioGeral;
 
     @Wire
-    private Include idInclRegistroObras;
+    private Include idInclRelatorioObras;
 
     @Wire
     private Include idInclObrasEliminadas;
@@ -43,7 +49,9 @@ public class Relatorio extends SelectorComposer<Component> {
 
     private ListModelList<Geral> emprestimoListModel;
     private ListModelList<ObraEliminadas> obraEliminadasListModel;
-    private ListModelList<RegistroObra> obrasRegistadasListModel;
+    private ListModelList<ObraCategoria> obraCategoriaListModel;
+
+
 
 
     @Override
@@ -51,13 +59,13 @@ public class Relatorio extends SelectorComposer<Component> {
     {
         super.doAfterCompose(comp);
 
-        idInclRegistroObras.setSrc("views/relatorioobrasregistadas.zul");
+        idInclRelatorioObras.setSrc("views/relatorioobras.zul");
         idInclObrasEliminadas.setSrc("views/relatorioobraseliminadas.zul");
         idInclRelatorioGeral.setSrc("views/relatoriogeral.zul");
 
         emprestimo = (Listbox)idInclRelatorioGeral.getFellow("emprestimo");
         obraeliminadas = (Listbox)idInclObrasEliminadas.getFellow("obraeliminadas");
-        obraregistadas = (Listbox)idInclRegistroObras.getFellow("obraregistadas");
+        obracategoria = (Listbox)idInclRelatorioObras.getFellow("obracategoria");
 
         emprestimoListModel  = new ListModelList<Geral> ();
         getEmprestimo();
@@ -66,22 +74,25 @@ public class Relatorio extends SelectorComposer<Component> {
         obraEliminadasListModel =new ListModelList<ObraEliminadas>(getObraEliminadas());
         obraeliminadas.setModel(obraEliminadasListModel);
 
-        obrasRegistadasListModel = new ListModelList<RegistroObra>(getObraRegistadas());
-        obraregistadas.setModel(obrasRegistadasListModel);
+        obraCategoriaListModel = new ListModelList<ObraCategoria>(obraController.getObrasCategorias());
+        obracategoria.setModel(obraCategoriaListModel);
 
 
 
 
     }
+
+
+
     private ListModelList<ObraEliminadas> getObraEliminadas() {
         List<ObraEliminadas> lista = crudService.getAll(ObraEliminadas.class);
         return new ListModelList<ObraEliminadas>(lista);
     }
-
-    private ListModelList<RegistroObra> getObraRegistadas() {
-        List<RegistroObra> lista = crudService.getAll(RegistroObra.class);
-        return new ListModelList<RegistroObra>(lista);
-    }
+//
+//    private ListModelList<RegistroObra> getObraRegistadas() {
+//        List<RegistroObra> lista = crudService.getAll(RegistroObra.class);
+//        return new ListModelList<RegistroObra>(lista);
+//    }
 
 
 
@@ -119,6 +130,5 @@ public class Relatorio extends SelectorComposer<Component> {
         emprestimoListModel.add(empReprovado);
 
     }
-
 
 }
