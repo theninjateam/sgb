@@ -58,7 +58,7 @@ public class EmprestimoController
         parameters.put("idEstadoDevolucao",idEstadoDevolucao);
 
         query.append("SELECT e FROM Emprestimo e WHERE e.estadoPedido.idestadopedido = :idEstadoPedido and ");
-        query.append("e.estadoDevolucao.idestadodevolucao = :idEstadoDevolucao and");
+        query.append("e.estadoDevolucao.idestadodevolucao = :idEstadoDevolucao and ");
         query.append("e.emprestimoPK.utente.id = :userId");
 
         return this.crudService.findByJPQuery(query.toString(), parameters);
@@ -74,7 +74,7 @@ public class EmprestimoController
         parameters.put("idEstadoDevolucao",idEstadoDevolucao);
 
         query.append("SELECT e FROM Emprestimo e WHERE e.emprestimoPK.utente.obra.cota= :cota and ");
-        query.append("e.estadoDevolucao.idestadodevolucao = :idEstadoDevolucao and");
+        query.append("e.estadoDevolucao.idestadodevolucao = :idEstadoDevolucao and ");
         query.append("e.emprestimoPK.utente.id = :userId");
 
         return this.crudService.findByJPQuery(query.toString(), parameters);

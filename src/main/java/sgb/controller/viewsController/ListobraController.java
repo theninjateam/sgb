@@ -582,7 +582,7 @@ public class ListobraController extends SelectorComposer<Component>
     {
         int qtd = 0;
 
-        List<Emprestimo> emprestimos = eController.getBorrowedBooks(user,eDController.UNDETERMINED);
+        List<Emprestimo> emprestimos = eController.getRequest(user,ePController.ACCEPTED,eDController.NOT_RETURNED);
         /*
                 crudService.findByJPQuery("SELECT e FROM Emprestimo e WHERE e.emprestimoPK.utente.id = "+
                 user.getId()+" and e.estadoDevolucao.idestadodevolucao = 1", null);

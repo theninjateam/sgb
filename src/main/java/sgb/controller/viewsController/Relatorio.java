@@ -71,7 +71,6 @@ public class Relatorio extends SelectorComposer<Component> {
 
 
 
-
     }
     private ListModelList<ObraEliminadas> getObraEliminadas() {
         List<ObraEliminadas> lista = crudService.getAll(ObraEliminadas.class);
