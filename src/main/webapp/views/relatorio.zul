@@ -13,7 +13,7 @@
            <tabbox>
                 <tabs>
                     <tab label="Relatorio geral"></tab>
-                    <tab label="Registro de Obras"></tab>
+                    <tab label="Relatorio de Obras"></tab>
                     <tab label="Obras Eliminadas"></tab>
 
 
@@ -25,7 +25,7 @@
                  </tabpanel>
 
                  <tabpanel>
-                        <include id="idInclRegistroObras"/>
+                        <include id="idInclRelatorioObras"/>
                  </tabpanel>
 
                  <tabpanel>

@@ -1,16 +1,13 @@
 package sgb.deadline;
 
-import org.springframework.context.ApplicationListener;
-import org.springframework.context.event.ContextRefreshedEvent;
+import sgb.concurrence.MiniBookingConcurrenceController;
 import sgb.controller.domainController.EmprestimoController;
 import sgb.controller.domainController.EstadoPedidoControler;
 import sgb.domain.Emprestimo;
 import sgb.request.Request;
 
-import java.lang.Thread;
 import java.util.Calendar;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * @author Fonseca, bfonseca@unilurio.ac.mz
@@ -22,41 +19,31 @@ public class MiniBookingDeadlineController implements Runnable
     private Request request;
     private EstadoPedidoControler ePControler;
     private EmprestimoController eController;
-    private final AtomicBoolean running = new AtomicBoolean(false);
+    private MiniBookingConcurrenceController miniBookingConcurrenceController;
 
-    private int minuto = 1;
-
-    public MiniBookingDeadlineController(MiniBookingDeadline mBDeadline,
+    public MiniBookingDeadlineController (MiniBookingDeadline mBDeadline,
                                          Request request,
                                          EstadoPedidoControler ePControler,
-                                         EmprestimoController eController)
+                                         EmprestimoController eController,
+                                          MiniBookingConcurrenceController miniBookingConcurrenceController)
     {
         this.mBDeadline = mBDeadline;
         this.request = request;
         this.ePControler = ePControler;
         this.eController = eController;
+        this.miniBookingConcurrenceController = miniBookingConcurrenceController;
     }
 
-    public void run()
+    public  void run()
     {
-        while(running.get())
-        {
-            System.out.println("MiniBookingDeadlineController...");
-
-            try
-            {
-                this.process(this.eController.getRequest(ePControler.PENDING_MINI_BOOKING), Calendar.getInstance());
-                Thread.sleep(minuto*60*1000);
-            }
-            catch (Exception ex)
-            {
-                ex.printStackTrace();
-            }
-        }
+            this.miniBookingConcurrenceController.enterInCriticalRegion();
+            this.process(this.eController.getRequest(ePControler.PENDING_MINI_BOOKING), Calendar.getInstance());
+            this.miniBookingConcurrenceController.leaveInCriticalRegion();
     }
 
-    public boolean process(List<Emprestimo> pendigMiniBooking, Calendar now)
+    public  boolean  process(List<Emprestimo> pendigMiniBooking, Calendar now)
     {
+        System.out.println(" Running MiniBookingDeadlineController ...");
         boolean thereIsCanceledRequest = false;
 
         if (pendigMiniBooking != null)
@@ -76,10 +63,5 @@ public class MiniBookingDeadlineController implements Runnable
         }
 
         return thereIsCanceledRequest;
-    }
-
-    public AtomicBoolean getRunning()
-    {
-        return running;
     }
 }

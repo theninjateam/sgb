@@ -70,11 +70,12 @@
 
     <bean id="deadline"  class="sgb.deadline.Deadline"/>
 
-    <bean id="miniBookingDeadlineController"  class="sgb.deadline.MiniBookingDeadlineController" >
+    <bean id="miniBookingDeadlineController" scope="singleton" class="sgb.deadline.MiniBookingDeadlineController" >
         <constructor-arg index="0" ref="miniBookingDeadline"/>
         <constructor-arg index="1" ref="request"/>
         <constructor-arg index="2" ref="estadoPedidoControler"/>
         <constructor-arg index="3" ref="emprestimoController"/>
+        <constructor-arg index="4" ref="miniBookingConcurrenceController"/>
     </bean>
 
     <bean id="bookingDeadlineController"  class="sgb.deadline.BookingDeadlineController" >
@@ -115,6 +116,8 @@
     <bean id="obraConcurrenceControl"  scope="singleton" class="sgb.concurrence.ObraConcurrenceControl" >
         <constructor-arg index="0" ref="CRUDService"/>
     </bean>
+
+    <bean id="miniBookingConcurrenceController"  scope="singleton" class="sgb.concurrence.MiniBookingConcurrenceController" />
 
     <bean id="request" class="sgb.request.Request" >
         <constructor-arg index="0" ref="CRUDService"/>
@@ -158,7 +161,18 @@
         <constructor-arg index="1" ref="borrowedBooksDeadlineController"/>
         <constructor-arg index="2" ref="miniBookingDeadlineController"/>
         <constructor-arg index="3" ref="configControler"/>
+        <constructor-arg index="4" ref="miniBookingConcurrenceController"/>
     </bean>
+
+    <bean id="areaCientificaController"  class="sgb.controller.domainController.AreaCientificaController" >
+        <constructor-arg index="0" ref="CRUDService"/>
+    </bean>
+
+    <bean id="obraController"  class="sgb.controller.domainController.ObraController" >
+        <constructor-arg index="0" ref="CRUDService"/>
+        <constructor-arg index="1" ref="areaCientificaController"/>
+    </bean>
+
 
     <context:annotation-config />
     <context:component-scan base-package="sgb"/>

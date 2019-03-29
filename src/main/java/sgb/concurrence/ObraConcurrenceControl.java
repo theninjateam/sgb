@@ -41,7 +41,7 @@ public class ObraConcurrenceControl implements ApplicationListener<ContextRefres
         }
     }
 
-    public void leaveInCriticalRegion(Obra obra)
+    public synchronized void leaveInCriticalRegion(Obra obra)
     {
         try
         {

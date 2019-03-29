@@ -21,7 +21,6 @@ public class BookingDeadlineController implements Runnable
     private Request request;
     private EstadoPedidoControler ePControler;
     private EmprestimoController eController;
-    private final AtomicBoolean running = new AtomicBoolean(false);
 
     public BookingDeadlineController(BookingDeadline bDeadline,
                                      Request request,
@@ -36,19 +35,8 @@ public class BookingDeadlineController implements Runnable
 
     public void run()
     {
-        if (this.running.get())
-        {
-            System.out.println("BookingDeadlineController ...");
-
-            try
-            {
-                this.process(this.eController.getRequest(ePControler.PENDING_BOOKING), Calendar.getInstance());
-            }
-            catch (Exception ex)
-            {
-                ex.printStackTrace();
-            }
-        }
+        System.out.println("BookingDeadlineController ...");
+        this.process(this.eController.getRequest(ePControler.PENDING_BOOKING), Calendar.getInstance());
     }
 
 
@@ -74,12 +62,6 @@ public class BookingDeadlineController implements Runnable
                 }
             }
         }
-
         return thereIsCanceledRequest;
-    }
-
-    public AtomicBoolean getRunning()
-    {
-        return running;
     }
 }
