@@ -15,6 +15,7 @@ public class DeadlineThreadManager extends Thread implements ApplicationListener
     private ConfigControler configControler;
 
     private int minuto = 1;
+
     public Calendar today;
     public final AtomicBoolean running = new AtomicBoolean(false);
     public final AtomicBoolean wasBookingDeadlineControllerStarted = new AtomicBoolean(false);
@@ -40,8 +41,17 @@ public class DeadlineThreadManager extends Thread implements ApplicationListener
             this.startBookingDeadlineController();
             this.startBorrowedBooksDeadlineController();
             this.startMiniBookingDeadlineController();
-
             this.isServerStarting.set(false);
+
+            try
+            {
+                Thread.sleep(minuto*60*1000);
+            }
+            catch (Exception ex)
+            {
+                ex.printStackTrace();
+            }
+
         }
     }
 

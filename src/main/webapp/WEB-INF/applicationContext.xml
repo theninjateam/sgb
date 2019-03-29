@@ -70,7 +70,7 @@
 
     <bean id="deadline"  class="sgb.deadline.Deadline"/>
 
-    <bean id="miniBookingDeadlineController"  class="sgb.deadline.MiniBookingDeadlineController" >
+    <bean id="miniBookingDeadlineController" scope="singleton" class="sgb.deadline.MiniBookingDeadlineController" >
         <constructor-arg index="0" ref="miniBookingDeadline"/>
         <constructor-arg index="1" ref="request"/>
         <constructor-arg index="2" ref="estadoPedidoControler"/>
