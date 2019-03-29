@@ -1,0 +1,134 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: CRUDService</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">sgb.service</a> ]
+</div>
+
+<h1>Coverage Summary for Class: CRUDService (sgb.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">CRUDService</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package sgb.service;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import org.hibernate.LockMode;
+<i>4</i>&nbsp;import org.hibernate.Transaction;
+<i>5</i>&nbsp;import sgb.dao.CRUDDao;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;import java.io.Serializable;
+<i>8</i>&nbsp;import java.util.List;
+<i>9</i>&nbsp;import java.util.Map;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;public interface CRUDService {
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;    &lt;T&gt; List&lt;T&gt; getAll(Class&lt;T&gt; klass);
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;    &lt;T&gt; List&lt;T&gt; getAllQuery(String s);
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;    &lt;T&gt; void Save(T klass);
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    &lt;T&gt; void Saves(T klass);
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    &lt;T&gt; void delete(T klass);
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    &lt;T&gt; void refresh(T klass);
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    &lt;T&gt; void deletes(T klass);
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    &lt;T&gt; void lock(T klass);
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    &lt;T&gt; void update(T klass);
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;    &lt;T&gt; void updates(T klass);
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    &lt;T&gt; int updateQuery(String query, Object... params);
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;    &lt;T&gt; int count(Class&lt;T&gt; klass);
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;    &lt;T&gt; Long countJPQuery(String hql, Map&lt;String, Object&gt; namedParams);
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;    &lt;T&gt; Float sumJPQuery(String hql, Map&lt;String, Object&gt; namedParams);
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;    &lt;T&gt; boolean exist(T klass);
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;    &lt;T&gt; LockMode bloqueado(T klass);
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    &lt;T&gt; Transaction getTransacao();
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;    &lt;T&gt; T GetUniqueEntityByNamedQuery(String query, Object... params);
+<i>48</i>&nbsp;
+<i>49</i>&nbsp;    &lt;T&gt; List&lt;T&gt; GetAllEntityByNamedQuery(String query, Object... params);
+<i>50</i>&nbsp;
+<i>51</i>&nbsp;    &lt;T&gt; List&lt;T&gt; findByQuery(String hql, Map&lt;String, Object&gt; entidade, Map&lt;String, Object&gt; namedParams);
+<i>52</i>&nbsp;
+<i>53</i>&nbsp;    &lt;T&gt; List&lt;T&gt; findByQueryFilter(String hql, Map&lt;String, Object&gt; entidade, Map&lt;String, Object&gt; namedParams, int f, int m);
+<i>54</i>&nbsp;
+<i>55</i>&nbsp;    &lt;T&gt; List&lt;T&gt; findByJPQuery(String hql, Map&lt;String, Object&gt; namedParams);
+<i>56</i>&nbsp;
+<i>57</i>&nbsp;    &lt;T&gt; T findEntByJPQuery(String hql, Map&lt;String, Object&gt; namedParams);
+<i>58</i>&nbsp;
+<i>59</i>&nbsp;    &lt;T&gt; T findEntByJPQueryT(String hql, Map&lt;String, Object&gt; namedParams);
+<i>60</i>&nbsp;
+<i>61</i>&nbsp;    &lt;T&gt; T findEntByJPQueryLock(String hql, Map&lt;String, Object&gt; namedParams);
+<i>62</i>&nbsp;
+<i>63</i>&nbsp;    &lt;T&gt; List&lt;T&gt; findByJPQueryFilter(String hql, Map&lt;String, Object&gt; namedParams, int f, int m);
+<i>64</i>&nbsp;
+<i>65</i>&nbsp;    &lt;T&gt; T load(Class&lt;T&gt; klass, Serializable id);
+<i>66</i>&nbsp;
+<i>67</i>&nbsp;    &lt;T&gt; T get(Class&lt;T&gt; klass, Serializable id);
+<i>68</i>&nbsp;
+<i>69</i>&nbsp;    &lt;T&gt; T loadLocked(Class&lt;T&gt; klass, Serializable id);
+<i>70</i>&nbsp;
+<i>71</i>&nbsp;    &lt;T&gt; T getLocked(Class&lt;T&gt; klass, Serializable id);
+<i>72</i>&nbsp;
+<i>73</i>&nbsp;    ////////////////////////////////////////tenant param///////////////////////////////////////////
+<i>74</i>&nbsp;
+<i>75</i>&nbsp;    &lt;T&gt; T findEntByJPQuerySes(String hql, Map&lt;String, Object&gt; namedParams, String tenant);
+<i>76</i>&nbsp;
+<i>77</i>&nbsp;    &lt;T&gt; T getSes(Class&lt;T&gt; klass, Serializable id, String tenant);
+<i>78</i>&nbsp;
+<i>79</i>&nbsp;    &lt;T&gt; void updateSes(T klass, String tenant);
+<i>80</i>&nbsp;
+<i>81</i>&nbsp;    &lt;T&gt; void SaveSes(T klass, String tenant);
+<i>82</i>&nbsp;
+<i>83</i>&nbsp;    &lt;T&gt; void refreshSes(T klass, String tenant);
+<i>84</i>&nbsp;
+<i>85</i>&nbsp;    &lt;T&gt; int updateQuerySes(String query, String tenant);
+<i>86</i>&nbsp;
+<i>87</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-03-29 22:00</div>
+</div>
+</body>
+</html>

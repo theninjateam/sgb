@@ -1,0 +1,119 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: TipoRequisicao</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">sgb.domain</a> ]
+</div>
+
+<h1>Coverage Summary for Class: TipoRequisicao (sgb.domain)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TipoRequisicao</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (7/ 7)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package sgb.domain;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;
+<i>4</i>&nbsp;import javax.persistence.*;
+<i>5</i>&nbsp;@Entity
+<i>6</i>&nbsp;@Table(name = &quot;tiporequisicao&quot;, schema = &quot;public&quot;)
+<i>7</i>&nbsp;
+<b class="fc"><i>8</i>&nbsp;public class TipoRequisicao</b>
+<i>9</i>&nbsp;{
+<i>10</i>&nbsp;    private int idTipoRequisicao;
+<i>11</i>&nbsp;    private String descricao;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;    @Id
+<i>15</i>&nbsp;    @Column(name = &quot;idtiporequisicao&quot;)
+<i>16</i>&nbsp;    public int getIdTipoRequisicao()
+<i>17</i>&nbsp;    {
+<b class="fc"><i>18</i>&nbsp;        return idTipoRequisicao;</b>
+<i>19</i>&nbsp;    }
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    public void setIdTipoRequisicao(int idTipoRequisicao)
+<i>22</i>&nbsp;    {
+<b class="fc"><i>23</i>&nbsp;        this.idTipoRequisicao = idTipoRequisicao;</b>
+<b class="fc"><i>24</i>&nbsp;    }</b>
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    @Basic
+<i>27</i>&nbsp;    @Column(name = &quot;descricao&quot;)
+<i>28</i>&nbsp;    public String getDescricao() {
+<b class="fc"><i>29</i>&nbsp;        return descricao;</b>
+<i>30</i>&nbsp;    }
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;    public void setDescricao(String descricao)
+<i>33</i>&nbsp;    {
+<b class="fc"><i>34</i>&nbsp;        this.descricao = descricao;</b>
+<b class="fc"><i>35</i>&nbsp;    }</b>
+<i>36</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-03-29 22:00</div>
+</div>
+</body>
+</html>

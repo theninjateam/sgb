@@ -1,0 +1,227 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: UpdateObraController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">sgb.controller.viewsController</a> ]
+</div>
+
+<h1>Coverage Summary for Class: UpdateObraController (sgb.controller.viewsController)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">UpdateObraController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 36)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;/*
+<i>2</i>&nbsp; * To change this license header, choose License Headers in Project Properties.
+<i>3</i>&nbsp; * To change this template file, choose Tools | Templates
+<i>4</i>&nbsp; * and open the template in the editor.
+<i>5</i>&nbsp; */
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;package sgb.controller.viewsController;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;import org.apache.commons.codec.digest.DigestUtils;
+<i>10</i>&nbsp;import org.springframework.dao.DataIntegrityViolationException;
+<i>11</i>&nbsp;import org.springframework.security.core.context.SecurityContextHolder;
+<i>12</i>&nbsp;import org.springframework.security.core.userdetails.UserDetails;
+<i>13</i>&nbsp;import org.zkoss.image.AImage;
+<i>14</i>&nbsp;import org.zkoss.io.Files;
+<i>15</i>&nbsp;import org.zkoss.lang.Strings;
+<i>16</i>&nbsp;import org.zkoss.util.media.Media;
+<i>17</i>&nbsp;import org.zkoss.zk.ui.Component;
+<i>18</i>&nbsp;import org.zkoss.zk.ui.Executions;
+<i>19</i>&nbsp;import org.zkoss.zk.ui.Session;
+<i>20</i>&nbsp;import org.zkoss.zk.ui.Sessions;
+<i>21</i>&nbsp;import org.zkoss.zk.ui.event.ForwardEvent;
+<i>22</i>&nbsp;import org.zkoss.zk.ui.event.UploadEvent;
+<i>23</i>&nbsp;import org.zkoss.zk.ui.select.SelectorComposer;
+<i>24</i>&nbsp;import org.zkoss.zk.ui.select.annotation.Listen;
+<i>25</i>&nbsp;import org.zkoss.zk.ui.select.annotation.Wire;
+<i>26</i>&nbsp;import org.zkoss.zk.ui.util.Clients;
+<i>27</i>&nbsp;import org.zkoss.zkplus.spring.SpringUtil;
+<i>28</i>&nbsp;import org.zkoss.zul.*;
+<i>29</i>&nbsp;import org.zkoss.zul.impl.InputElement;
+<i>30</i>&nbsp;import sgb.domain.*;
+<i>31</i>&nbsp;import sgb.service.CRUDService;
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;import java.io.File;
+<i>34</i>&nbsp;import java.io.IOException;
+<i>35</i>&nbsp;import java.security.NoSuchAlgorithmException;
+<i>36</i>&nbsp;import java.text.ParseException;
+<i>37</i>&nbsp;import java.util.Calendar;
+<i>38</i>&nbsp;import java.util.HashSet;
+<i>39</i>&nbsp;import java.util.List;
+<i>40</i>&nbsp;import java.util.Set;
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;/**
+<i>43</i>&nbsp; * @author Fonseca, Emerson, Matimbe
+<i>44</i>&nbsp; */
+<i>45</i>&nbsp;
+<b class="nc"><i>46</i>&nbsp;public class UpdateObraController extends SelectorComposer&lt;Component&gt; {</b>
+<i>47</i>&nbsp;
+<b class="nc"><i>48</i>&nbsp;    private CRUDService crudService = (CRUDService) SpringUtil.getBean(&quot;CRUDService&quot;);</b>
+<b class="nc"><i>49</i>&nbsp;    private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;</b>
+<i>50</i>&nbsp;    private  ListModelList&lt;FormaAquisicao&gt; formaAquisicaoModel;
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;
+<i>53</i>&nbsp;    @Wire
+<i>54</i>&nbsp;    private Intbox quantidade;
+<i>55</i>&nbsp;
+<i>56</i>&nbsp;    @Wire
+<i>57</i>&nbsp;    private Textbox descricao;
+<i>58</i>&nbsp;
+<i>59</i>&nbsp;    @Wire
+<i>60</i>&nbsp;    private Listbox formaaquisicaoBox;
+<i>61</i>&nbsp;
+<i>62</i>&nbsp;    @Wire
+<i>63</i>&nbsp;    private Window modalUpdate;
+<i>64</i>&nbsp;
+<i>65</i>&nbsp;    private Session session;
+<i>66</i>&nbsp;
+<i>67</i>&nbsp;    private Obra obra;
+<i>68</i>&nbsp;
+<i>69</i>&nbsp;
+<i>70</i>&nbsp;    @Override
+<i>71</i>&nbsp;    public void doAfterCompose(Component comp) throws Exception {
+<b class="nc"><i>72</i>&nbsp;        super.doAfterCompose(comp);</b>
+<i>73</i>&nbsp;
+<b class="nc"><i>74</i>&nbsp;        session = Sessions.getCurrent();</b>
+<i>75</i>&nbsp;
+<b class="nc"><i>76</i>&nbsp;        formaAquisicaoModel = new ListModelList&lt;FormaAquisicao&gt;(getFormaAquisicaoModel());</b>
+<b class="nc"><i>77</i>&nbsp;        formaaquisicaoBox.setModel(formaAquisicaoModel);</b>
+<i>78</i>&nbsp;
+<b class="nc"><i>79</i>&nbsp;        obra = (Obra) session.getAttribute (&quot;obraToEdite&quot;);</b>
+<i>80</i>&nbsp;    }
+<i>81</i>&nbsp;
+<i>82</i>&nbsp;
+<i>83</i>&nbsp;    public ListModelList&lt;FormaAquisicao&gt; getFormaAquisicaoModel () {
+<b class="nc"><i>84</i>&nbsp;        List&lt;FormaAquisicao&gt; formaaquisicao = crudService.getAll(FormaAquisicao.class);</b>
+<b class="nc"><i>85</i>&nbsp;        return new ListModelList&lt;FormaAquisicao&gt;(formaaquisicao);</b>
+<i>86</i>&nbsp;    }
+<i>87</i>&nbsp;
+<i>88</i>&nbsp;    @Listen(&quot;onClick= #updateObra&quot;)
+<i>89</i>&nbsp;    public void updateObra () throws NoSuchAlgorithmException {
+<i>90</i>&nbsp;
+<b class="nc"><i>91</i>&nbsp;        RegistroObra registroObra = new RegistroObra();</b>
+<i>92</i>&nbsp;
+<b class="nc"><i>93</i>&nbsp;        Set&lt;RegistroObra&gt; registroObras = new HashSet&lt;&gt;();</b>
+<b class="nc"><i>94</i>&nbsp;        Set&lt;RegistroObra&gt; novoRegistros = new HashSet&lt;&gt;();</b>
+<i>95</i>&nbsp;
+<i>96</i>&nbsp;        /*
+<i>97</i>&nbsp;            *Por algum motivo nao consigo manipular a lista de registos vindo da base de dados
+<i>98</i>&nbsp;            * a solucao encontrada eh fazer um copia da lista para uma nova lista em seguida adcionar o
+<i>99</i>&nbsp;            * novo registro
+<i>100</i>&nbsp;            * a solucao pode afetar a perfomace da aplicacao futuramente (Deve-se encontar uma forma de )
+<i>101</i>&nbsp;            * Emerson Cardoso
+<i>102</i>&nbsp;        */
+<i>103</i>&nbsp;
+<b class="nc"><i>104</i>&nbsp;        for(RegistroObra regist:registroObras){</b>
+<b class="nc"><i>105</i>&nbsp;            novoRegistros.add(regist);</b>
+<b class="nc"><i>106</i>&nbsp;        }</b>
+<i>107</i>&nbsp;
+<b class="nc"><i>108</i>&nbsp;        registroObras = obra.getRegistroObras();</b>
+<i>109</i>&nbsp;
+<b class="nc"><i>110</i>&nbsp;        FormaAquisicao formaaquisicao = formaaquisicaoBox.getSelectedItem().getValue();</b>
+<b class="nc"><i>111</i>&nbsp;        RegistroObraPK registroObraPK = new RegistroObraPK();</b>
+<i>112</i>&nbsp;
+<i>113</i>&nbsp;
+<b class="nc"><i>114</i>&nbsp;        registroObraPK.setObra(obra);</b>
+<b class="nc"><i>115</i>&nbsp;        registroObraPK.setDataRegisto(Calendar.getInstance());</b>
+<i>116</i>&nbsp;
+<b class="nc"><i>117</i>&nbsp;        registroObra.setRegistroObraPK(registroObraPK);</b>
+<b class="nc"><i>118</i>&nbsp;        registroObra.setFormaAquisicao(formaaquisicao);</b>
+<b class="nc"><i>119</i>&nbsp;        registroObra.setObra(obra);</b>
+<b class="nc"><i>120</i>&nbsp;        registroObra.setUser(user);</b>
+<b class="nc"><i>121</i>&nbsp;        registroObra.setObservacao(descricao.getValue());</b>
+<b class="nc"><i>122</i>&nbsp;        registroObra.setQuantidade(quantidade.getValue());</b>
+<i>123</i>&nbsp;
+<b class="nc"><i>124</i>&nbsp;        novoRegistros.add(registroObra);</b>
+<i>125</i>&nbsp;
+<b class="nc"><i>126</i>&nbsp;        obra.setQuantidade(obra.getQuantidade()+quantidade.getValue());</b>
+<b class="nc"><i>127</i>&nbsp;        obra.setRegistroObras(novoRegistros);</b>
+<i>128</i>&nbsp;
+<i>129</i>&nbsp;
+<b class="nc"><i>130</i>&nbsp;        crudService.update(obra);</b>
+<b class="nc"><i>131</i>&nbsp;        modalUpdate.detach(); // close modal</b>
+<b class="nc"><i>132</i>&nbsp;        session.removeAttribute (&quot;obraToEdite&quot;);</b>
+<b class="nc"><i>133</i>&nbsp;        Clients.showNotification(&quot;Dados da obra atualizados &quot;,null,null,null,5000);</b>
+<i>134</i>&nbsp;    }
+<i>135</i>&nbsp;
+<i>136</i>&nbsp;
+<i>137</i>&nbsp;    @Listen(&quot;onClick= #exit&quot;)
+<i>138</i>&nbsp;    public void exit ()
+<i>139</i>&nbsp;    {
+<b class="nc"><i>140</i>&nbsp;        session.removeAttribute (&quot;obraToEdite&quot;);</b>
+<b class="nc"><i>141</i>&nbsp;        modalUpdate.detach();</b>
+<i>142</i>&nbsp;    }
+<i>143</i>&nbsp;
+<i>144</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-03-29 22:00</div>
+</div>
+</body>
+</html>

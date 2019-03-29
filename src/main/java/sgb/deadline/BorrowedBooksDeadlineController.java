@@ -62,7 +62,7 @@ public class BorrowedBooksDeadlineController extends Thread
                     if (exceededDeadline)
                     {
                         thereIsFinedBorrow = true;
-                        this.fine.fine(e);
+                        this.fine.fine(e, now);
                     }
                 }
             }

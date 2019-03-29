@@ -1,0 +1,757 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ListobraController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">sgb.controller.viewsController</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ListobraController (sgb.controller.viewsController)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ListobraController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 34)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 240)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package sgb.controller.viewsController;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i>4</i>&nbsp;import org.springframework.security.core.context.SecurityContextHolder;
+<i>5</i>&nbsp;import org.springframework.security.core.userdetails.UserDetails;
+<i>6</i>&nbsp;import org.springframework.transaction.annotation.Transactional;
+<i>7</i>&nbsp;import org.zkoss.zk.ui.Component;
+<i>8</i>&nbsp;import org.zkoss.zk.ui.Executions;
+<i>9</i>&nbsp;import org.zkoss.zk.ui.Session;
+<i>10</i>&nbsp;import org.zkoss.zk.ui.Sessions;
+<i>11</i>&nbsp;import org.zkoss.zk.ui.event.*;
+<i>12</i>&nbsp;import org.zkoss.zk.ui.select.SelectorComposer;
+<i>13</i>&nbsp;import org.zkoss.zk.ui.select.annotation.Listen;
+<i>14</i>&nbsp;import org.zkoss.zk.ui.select.annotation.Wire;
+<i>15</i>&nbsp;import org.zkoss.zk.ui.util.Clients;
+<i>16</i>&nbsp;import org.zkoss.zkplus.spring.SpringUtil;
+<i>17</i>&nbsp;import org.zkoss.zul.*;
+<i>18</i>&nbsp;import sgb.domain.*;
+<i>19</i>&nbsp;import sgb.request.Request;
+<i>20</i>&nbsp;import sgb.service.CRUDService;
+<i>21</i>&nbsp;import sgb.controller.domainController.*;
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;import java.util.Calendar;
+<i>24</i>&nbsp;import java.util.List;
+<i>25</i>&nbsp;import java.util.PriorityQueue;
+<i>26</i>&nbsp;import java.util.Set;
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;/**
+<i>29</i>&nbsp; * @author Fonseca, Emerson
+<i>30</i>&nbsp; */
+<i>31</i>&nbsp;
+<b class="nc"><i>32</i>&nbsp;public class ListobraController extends SelectorComposer&lt;Component&gt;</b>
+<i>33</i>&nbsp;{
+<b class="nc"><i>34</i>&nbsp;    private CRUDService crudService = (CRUDService) SpringUtil.getBean(&quot;CRUDService&quot;);</b>
+<b class="nc"><i>35</i>&nbsp;    private Request request = (Request) SpringUtil.getBean(&quot;request&quot;);</b>
+<i>36</i>&nbsp;
+<b class="nc"><i>37</i>&nbsp;    private EstadoPedidoControler ePController = (EstadoPedidoControler) SpringUtil.getBean(&quot;estadoPedidoControler&quot;);</b>
+<i>38</i>&nbsp;
+<b class="nc"><i>39</i>&nbsp;    private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;</b>
+<b class="nc"><i>40</i>&nbsp;    private EmprestimoController eController = (EmprestimoController) SpringUtil.getBean(&quot;emprestimoController&quot;);</b>
+<b class="nc"><i>41</i>&nbsp;    private EstadoDevolucaoControler eDController = (EstadoDevolucaoControler) SpringUtil.getBean(&quot;estadoDevolucaoControler&quot;);</b>
+<b class="nc"><i>42</i>&nbsp;    private EstadoMultaControler eMController = (EstadoMultaControler) SpringUtil.getBean(&quot;estadoMultaControler&quot;);</b>
+<b class="nc"><i>43</i>&nbsp;    private MultaController mController = (MultaController) SpringUtil.getBean(&quot;multaController&quot;);</b>
+<i>44</i>&nbsp;    private Session session;
+<i>45</i>&nbsp;    private EmprestimoPK emprestimoPK;
+<i>46</i>&nbsp;    private Emprestimo emprestimo;
+<i>47</i>&nbsp;    private EstadoPedido estadoPedido;
+<i>48</i>&nbsp;    private EstadoDevolucao estadoDevolucao;
+<i>49</i>&nbsp;    private EstadoRenovacao estadoRenovacao;
+<i>50</i>&nbsp;    private ListModelList&lt;Obra&gt; obraListModel;
+<b class="nc"><i>51</i>&nbsp;    private ListModelList&lt;Item&gt; cestaListModel = new ListModelList&lt;Item&gt;();</b>
+<i>52</i>&nbsp;    private ListModelList&lt;Obra&gt; detalheobra;
+<i>53</i>&nbsp;    private boolean isHomeRequisition;
+<i>54</i>&nbsp;
+<i>55</i>&nbsp;    @Wire
+<i>56</i>&nbsp;    private Button buttonPesquisar;
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;    @Wire
+<i>59</i>&nbsp;    protected Grid  gridPesquisar;
+<i>60</i>&nbsp;
+<i>61</i>&nbsp;    @Wire
+<i>62</i>&nbsp;    private Grid gridListObra;
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;    @Wire
+<i>65</i>&nbsp;    private Button buttonVoltar;
+<i>66</i>&nbsp;    @Wire
+<i>67</i>&nbsp;    private Grid gridCesta;
+<i>68</i>&nbsp;
+<i>69</i>&nbsp;    @Wire
+<i>70</i>&nbsp;    private Div divCesta;
+<i>71</i>&nbsp;
+<i>72</i>&nbsp;    @Wire
+<i>73</i>&nbsp;    private Label qtdObrasNaCesta;
+<i>74</i>&nbsp;    @Wire
+<i>75</i>&nbsp;    private Textbox textboxPesquisar;
+<i>76</i>&nbsp;
+<i>77</i>&nbsp;    @Wire
+<i>78</i>&nbsp;    private Window listObra;
+<i>79</i>&nbsp;
+<i>80</i>&nbsp;    @Wire
+<i>81</i>&nbsp;    private Listbox obraListBox;
+<i>82</i>&nbsp;
+<i>83</i>&nbsp;    @Wire
+<i>84</i>&nbsp;    private Listbox cestaListBox;
+<i>85</i>&nbsp;
+<i>86</i>&nbsp;    @Wire
+<i>87</i>&nbsp;    private Grid griddetalhe;
+<i>88</i>&nbsp;
+<i>89</i>&nbsp;    @Wire
+<i>90</i>&nbsp;    private Listbox obraShow;
+<i>91</i>&nbsp;
+<i>92</i>&nbsp;    @Override
+<i>93</i>&nbsp;    public void doAfterCompose(Component comp) throws Exception
+<i>94</i>&nbsp;    {
+<b class="nc"><i>95</i>&nbsp;        super.doAfterCompose(comp);</b>
+<b class="nc"><i>96</i>&nbsp;        session = Sessions.getCurrent();</b>
+<i>97</i>&nbsp;
+<b class="nc"><i>98</i>&nbsp;        boolean c= isNormalUser();</b>
+<i>99</i>&nbsp;
+<b class="nc"><i>100</i>&nbsp;        obraListModel = getObraListModel();</b>
+<b class="nc"><i>101</i>&nbsp;        cestaListModel = getCestaListModel();</b>
+<b class="nc"><i>102</i>&nbsp;        obraListBox.setModel(obraListModel);</b>
+<b class="nc"><i>103</i>&nbsp;        cestaListBox.setModel(cestaListModel);</b>
+<b class="nc"><i>104</i>&nbsp;        this.qtdObrasNaCesta.setValue(&quot;0&quot;);</b>
+<i>105</i>&nbsp;    }
+<i>106</i>&nbsp;
+<i>107</i>&nbsp;    public boolean isNormalUser () {
+<b class="nc"><i>108</i>&nbsp;        Boolean a = true;</b>
+<i>109</i>&nbsp;
+<b class="nc"><i>110</i>&nbsp;        Set&lt;Role&gt; userrole =user.getRoles();</b>
+<i>111</i>&nbsp;
+<b class="nc"><i>112</i>&nbsp;        for(Role role : userrole) {</b>
+<b class="nc"><i>113</i>&nbsp;            if(role.getRole().equals(&quot;ADMIN&quot;))</b>
+<b class="nc"><i>114</i>&nbsp;                a = false;</b>
+<b class="nc"><i>115</i>&nbsp;        }</b>
+<b class="nc"><i>116</i>&nbsp;        return a;</b>
+<i>117</i>&nbsp;    }
+<i>118</i>&nbsp;
+<i>119</i>&nbsp;    public ListModelList&lt;Obra&gt; getObraListModel() {
+<b class="nc"><i>120</i>&nbsp;        List&lt;Obra&gt; listaobra = crudService.getAll(Obra.class);</b>
+<b class="nc"><i>121</i>&nbsp;        return new ListModelList&lt;Obra&gt;(listaobra);</b>
+<i>122</i>&nbsp;    }
+<i>123</i>&nbsp;
+<i>124</i>&nbsp;
+<i>125</i>&nbsp;
+<i>126</i>&nbsp;    @Listen(&quot;onPesquisar = #gridPesquisar&quot;)
+<i>127</i>&nbsp;    public void doPesquisa(ForwardEvent event)
+<i>128</i>&nbsp;    {
+<i>129</i>&nbsp;
+<i>130</i>&nbsp;    }
+<i>131</i>&nbsp;
+<i>132</i>&nbsp;    @Listen(&quot;onVoltar = #buttonVoltar&quot;)
+<i>133</i>&nbsp;    public void listarObras(ForwardEvent event)
+<i>134</i>&nbsp;    {
+<b class="nc"><i>135</i>&nbsp;        gridCesta.setVisible(false);</b>
+<b class="nc"><i>136</i>&nbsp;        griddetalhe.setVisible(false);</b>
+<b class="nc"><i>137</i>&nbsp;        gridListObra.setVisible(true);</b>
+<b class="nc"><i>138</i>&nbsp;        buttonPesquisar.setVisible(true);</b>
+<b class="nc"><i>139</i>&nbsp;        textboxPesquisar.setVisible(true);</b>
+<b class="nc"><i>140</i>&nbsp;        buttonVoltar.setVisible(false);</b>
+<i>141</i>&nbsp;    }
+<i>142</i>&nbsp;
+<i>143</i>&nbsp;    @Listen(&quot;onShowCestaListBox = #divCesta&quot;)
+<i>144</i>&nbsp;    public void showCestaListBox(ForwardEvent event)
+<i>145</i>&nbsp;    {
+<b class="nc"><i>146</i>&nbsp;        gridListObra.setVisible(false);</b>
+<b class="nc"><i>147</i>&nbsp;        buttonPesquisar.setVisible(false);</b>
+<b class="nc"><i>148</i>&nbsp;        textboxPesquisar.setVisible(false);</b>
+<b class="nc"><i>149</i>&nbsp;        griddetalhe.setVisible(false);</b>
+<b class="nc"><i>150</i>&nbsp;        gridCesta.setVisible(true);</b>
+<b class="nc"><i>151</i>&nbsp;        buttonVoltar.setVisible(true);</b>
+<i>152</i>&nbsp;    }
+<i>153</i>&nbsp;
+<i>154</i>&nbsp;    @Listen(&quot;onShowOperacoes = #obraListBox&quot;)
+<i>155</i>&nbsp;    public void doShowOperacoes(ForwardEvent event)
+<i>156</i>&nbsp;    {
+<b class="nc"><i>157</i>&nbsp;        Button btn = (Button)event.getOrigin().getTarget();</b>
+<b class="nc"><i>158</i>&nbsp;        Div div = (Div) btn.getNextSibling();</b>
+<i>159</i>&nbsp;
+<b class="nc"><i>160</i>&nbsp;        if (div.isVisible())</b>
+<i>161</i>&nbsp;        {
+<b class="nc"><i>162</i>&nbsp;            btn.setLabel(&quot;Outras operações&quot;);</b>
+<b class="nc"><i>163</i>&nbsp;            div.setVisible(false);</b>
+<i>164</i>&nbsp;        }
+<i>165</i>&nbsp;        else
+<i>166</i>&nbsp;        {
+<b class="nc"><i>167</i>&nbsp;            btn.setLabel(&quot;Ocultar operações&quot;);</b>
+<b class="nc"><i>168</i>&nbsp;            div.setVisible(true);</b>
+<i>169</i>&nbsp;        }
+<i>170</i>&nbsp;    }
+<i>171</i>&nbsp;
+<i>172</i>&nbsp;    @Listen(&quot;onEliminarObra = #obraListBox&quot;)
+<i>173</i>&nbsp;    public void doEliminar(ForwardEvent event)
+<i>174</i>&nbsp;    {
+<i>175</i>&nbsp;
+<b class="nc"><i>176</i>&nbsp;        Button btn = (Button)event.getOrigin().getTarget();</b>
+<b class="nc"><i>177</i>&nbsp;        Listitem litem =  (Listitem) getListitem(btn);</b>
+<b class="nc"><i>178</i>&nbsp;        Obra obra = (Obra) litem.getValue();</b>
+<b class="nc"><i>179</i>&nbsp;        obra = crudService.get(Obra.class, obra.getCota());</b>
+<i>180</i>&nbsp;
+<b class="nc"><i>181</i>&nbsp;        session.setAttribute(&quot;obraToEdite&quot;, obra);</b>
+<i>182</i>&nbsp;
+<b class="nc"><i>183</i>&nbsp;        Window window =(Window) Executions.createComponents(&quot;/views/modalEliminarExemplar.zul&quot;, null, null);</b>
+<b class="nc"><i>184</i>&nbsp;        window.doModal();</b>
+<i>185</i>&nbsp;
+<i>186</i>&nbsp;
+<i>187</i>&nbsp;//        Button btn = (Button)event.getOrigin().getTarget();
+<i>188</i>&nbsp;//        Listitem litem = (Listitem) getListitem(btn);
+<i>189</i>&nbsp;//        ObraConcurrenceControl obra = (ObraConcurrenceControl) litem.getValue();
+<i>190</i>&nbsp;//        Messagebox.show(&quot;Tem certeza que deseja eliminar a obra ?&quot;, &quot;deletar obra&quot;,
+<i>191</i>&nbsp;//                Messagebox.YES + Messagebox.NO, Messagebox.QUESTION,
+<i>192</i>&nbsp;//                new EventListener&lt;Event&gt;() {
+<i>193</i>&nbsp;//                    @Override
+<i>194</i>&nbsp;//                    public void onEvent(Event event) throws Exception {
+<i>195</i>&nbsp;//                        if (Messagebox.ON_YES.equals(event.getName())) {
+<i>196</i>&nbsp;//                            obraListModel.remove(obra);
+<i>197</i>&nbsp;////                            obra.setAutores(null);
+<i>198</i>&nbsp;//                            obra.setAutores(null);
+<i>199</i>&nbsp;//                            crudService.delete(obra);
+<i>200</i>&nbsp;//                            Clients.showNotification(&quot;ObraConcurrenceControl eliminado com sucesso&quot;,null,null,null,5000);
+<i>201</i>&nbsp;//                        }
+<i>202</i>&nbsp;//                    }
+<i>203</i>&nbsp;//                });
+<i>204</i>&nbsp;
+<i>205</i>&nbsp;    }
+<i>206</i>&nbsp;
+<i>207</i>&nbsp;    @Listen(&quot;onDetalheObra = #obraListBox&quot;)
+<i>208</i>&nbsp;    public void doDetalhe(ForwardEvent event)
+<i>209</i>&nbsp;    {
+<i>210</i>&nbsp;//        Clients.showNotification(&quot;Detalhes ObraConcurrenceControl&quot;);
+<b class="nc"><i>211</i>&nbsp;        detalheobra = new ListModelList&lt;&gt;();</b>
+<b class="nc"><i>212</i>&nbsp;        gridListObra.setVisible(false);</b>
+<b class="nc"><i>213</i>&nbsp;        buttonPesquisar.setVisible(false);</b>
+<b class="nc"><i>214</i>&nbsp;        textboxPesquisar.setVisible(false);</b>
+<b class="nc"><i>215</i>&nbsp;        buttonVoltar.setVisible(true);</b>
+<b class="nc"><i>216</i>&nbsp;        gridCesta.setVisible(false);</b>
+<i>217</i>&nbsp;//        divCesta.setVisible(false);
+<i>218</i>&nbsp;
+<b class="nc"><i>219</i>&nbsp;        Button btn = (Button)event.getOrigin().getTarget();</b>
+<b class="nc"><i>220</i>&nbsp;        Listitem litem = (Listitem) getListitem(btn);</b>
+<b class="nc"><i>221</i>&nbsp;        Obra obra = (Obra) litem.getValue();</b>
+<i>222</i>&nbsp;
+<b class="nc"><i>223</i>&nbsp;        for (Obra o : getObraListModel())</b>
+<i>224</i>&nbsp;        {
+<b class="nc"><i>225</i>&nbsp;            if (o.getCota().equals(obra.getCota()))</b>
+<i>226</i>&nbsp;            {
+<b class="nc"><i>227</i>&nbsp;                obra = o;</b>
+<b class="nc"><i>228</i>&nbsp;                break;</b>
+<i>229</i>&nbsp;            }
+<b class="nc"><i>230</i>&nbsp;        }</b>
+<i>231</i>&nbsp;
+<b class="nc"><i>232</i>&nbsp;        detalheobra.add(obra);</b>
+<b class="nc"><i>233</i>&nbsp;        detalheobra.addSelection(obra);</b>
+<b class="nc"><i>234</i>&nbsp;        obraShow.setModel(detalheobra);</b>
+<b class="nc"><i>235</i>&nbsp;        griddetalhe.setVisible(true);</b>
+<i>236</i>&nbsp;
+<i>237</i>&nbsp;    }
+<i>238</i>&nbsp;
+<i>239</i>&nbsp;    @Listen(&quot;onAdicionarExemplares = #obraListBox&quot;)
+<i>240</i>&nbsp;    public void doEditar(ForwardEvent event)
+<i>241</i>&nbsp;    {
+<b class="nc"><i>242</i>&nbsp;        Button btn = (Button)event.getOrigin().getTarget();</b>
+<b class="nc"><i>243</i>&nbsp;        Listitem litem =  (Listitem) getListitem(btn);</b>
+<b class="nc"><i>244</i>&nbsp;        Obra obra = (Obra) litem.getValue();</b>
+<b class="nc"><i>245</i>&nbsp;        obra = crudService.get(Obra.class, obra.getCota());</b>
+<i>246</i>&nbsp;
+<b class="nc"><i>247</i>&nbsp;        session.setAttribute(&quot;obraToEdite&quot;, obra);</b>
+<i>248</i>&nbsp;
+<b class="nc"><i>249</i>&nbsp;        Window window =(Window) Executions.createComponents(&quot;/views/UpdateObra.zul&quot;, null, null);</b>
+<b class="nc"><i>250</i>&nbsp;        window.doModal();</b>
+<i>251</i>&nbsp;    }
+<i>252</i>&nbsp;
+<i>253</i>&nbsp;    @Listen(&quot;onAdicionarNaCesta = #obraListBox&quot;)
+<i>254</i>&nbsp;    @Transactional
+<i>255</i>&nbsp;    public void doAdicionarNaCesta(ForwardEvent event)
+<i>256</i>&nbsp;    {
+<b class="nc"><i>257</i>&nbsp;        if (temObrasPorDevolver())</b>
+<i>258</i>&nbsp;        {
+<b class="nc"><i>259</i>&nbsp;            Clients.showNotification(&quot;Voce tem obras por devolver&quot;,null,null,null,5000);</b>
+<i>260</i>&nbsp;            return;
+<i>261</i>&nbsp;        }
+<i>262</i>&nbsp;
+<i>263</i>&nbsp;        try
+<i>264</i>&nbsp;        {
+<b class="nc"><i>265</i>&nbsp;            Button btn = (Button)event.getOrigin().getTarget();</b>
+<b class="nc"><i>266</i>&nbsp;            Listitem litem =  (Listitem) getListitem(btn);</b>
+<b class="nc"><i>267</i>&nbsp;            Obra obra = (Obra) litem.getValue();</b>
+<b class="nc"><i>268</i>&nbsp;            insertOncestaListModel(obra);</b>
+<i>269</i>&nbsp;        }
+<b class="nc"><i>270</i>&nbsp;        catch (Exception e)</b>
+<i>271</i>&nbsp;        {
+<b class="nc"><i>272</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>273</i>&nbsp;        }</b>
+<i>274</i>&nbsp;    }
+<i>275</i>&nbsp;
+<i>276</i>&nbsp;    @Listen(&quot;onLeituraDomiciliar = #cestaListBox&quot;)
+<i>277</i>&nbsp;    public void doLeituraDomiciliar(ForwardEvent event)
+<i>278</i>&nbsp;    {
+<i>279</i>&nbsp;        try
+<i>280</i>&nbsp;        {
+<b class="nc"><i>281</i>&nbsp;            Hlayout hlayoutLeituraDomiciliar = (Hlayout) event.getOrigin().getTarget();</b>
+<b class="nc"><i>282</i>&nbsp;            Radio radioLeituraDomiciliar = (Radio) hlayoutLeituraDomiciliar.getFirstChild();</b>
+<b class="nc"><i>283</i>&nbsp;            radioLeituraDomiciliar.setSelected(true);</b>
+<i>284</i>&nbsp;
+<b class="nc"><i>285</i>&nbsp;            Hlayout hlayoutLeituraInterna = (Hlayout) hlayoutLeituraDomiciliar.getParent().getLastChild();</b>
+<b class="nc"><i>286</i>&nbsp;            Radio radioLeituraInterna = (Radio) hlayoutLeituraInterna.getFirstChild();</b>
+<b class="nc"><i>287</i>&nbsp;            radioLeituraInterna.setSelected(false);</b>
+<i>288</i>&nbsp;
+<b class="nc"><i>289</i>&nbsp;            Button btn = (Button) hlayoutLeituraDomiciliar.getParent().getParent().getLastChild();</b>
+<b class="nc"><i>290</i>&nbsp;            btn.setVisible(true);</b>
+<i>291</i>&nbsp;
+<b class="nc"><i>292</i>&nbsp;            this.isHomeRequisition = true;</b>
+<i>293</i>&nbsp;
+<b class="nc"><i>294</i>&nbsp;            updateCesta();</b>
+<i>295</i>&nbsp;        }
+<b class="nc"><i>296</i>&nbsp;        catch (Exception ex)</b>
+<i>297</i>&nbsp;        {
+<b class="nc"><i>298</i>&nbsp;            ex.printStackTrace();</b>
+<b class="nc"><i>299</i>&nbsp;        }</b>
+<i>300</i>&nbsp;    }
+<i>301</i>&nbsp;
+<i>302</i>&nbsp;    @Listen(&quot;onLeituraInterna = #cestaListBox&quot;)
+<i>303</i>&nbsp;    public void LeituraInterna(ForwardEvent event)
+<i>304</i>&nbsp;    {
+<i>305</i>&nbsp;        try
+<i>306</i>&nbsp;        {
+<b class="nc"><i>307</i>&nbsp;            Hlayout hlayoutLeituraInterna = (Hlayout) event.getOrigin().getTarget();</b>
+<b class="nc"><i>308</i>&nbsp;            Radio radioLeituraInterna = (Radio) hlayoutLeituraInterna.getFirstChild();</b>
+<b class="nc"><i>309</i>&nbsp;            radioLeituraInterna.setSelected(true);</b>
+<i>310</i>&nbsp;
+<b class="nc"><i>311</i>&nbsp;            Hlayout hlayoutLeituraDomiciliar = (Hlayout) hlayoutLeituraInterna.getParent().getFirstChild();</b>
+<b class="nc"><i>312</i>&nbsp;            Radio radioLeituraDomiciliar = (Radio) hlayoutLeituraDomiciliar.getFirstChild();</b>
+<b class="nc"><i>313</i>&nbsp;            radioLeituraDomiciliar.setSelected(false);</b>
+<i>314</i>&nbsp;
+<b class="nc"><i>315</i>&nbsp;            Button btn = (Button) hlayoutLeituraDomiciliar.getParent().getParent().getLastChild();</b>
+<b class="nc"><i>316</i>&nbsp;            btn.setVisible(true);</b>
+<i>317</i>&nbsp;
+<b class="nc"><i>318</i>&nbsp;            this.isHomeRequisition = false;</b>
+<i>319</i>&nbsp;
+<b class="nc"><i>320</i>&nbsp;            updateCesta();</b>
+<i>321</i>&nbsp;
+<i>322</i>&nbsp;        }
+<b class="nc"><i>323</i>&nbsp;        catch (Exception ex)</b>
+<i>324</i>&nbsp;        {
+<b class="nc"><i>325</i>&nbsp;            ex.printStackTrace();</b>
+<b class="nc"><i>326</i>&nbsp;        }</b>
+<i>327</i>&nbsp;    }
+<i>328</i>&nbsp;
+<i>329</i>&nbsp;    @Listen(&quot;onRequisitarObra = #cestaListBox&quot;)
+<i>330</i>&nbsp;    public void doRequisitar(ForwardEvent event)
+<i>331</i>&nbsp;    {
+<i>332</i>&nbsp;        try
+<i>333</i>&nbsp;        {
+<b class="nc"><i>334</i>&nbsp;            if (cestaListModel.size() == 0)</b>
+<i>335</i>&nbsp;            {
+<b class="nc"><i>336</i>&nbsp;                Clients.showNotification(&quot;A Cesta esta vazia&quot;,null,null,null,5000);</b>
+<i>337</i>&nbsp;                return;
+<i>338</i>&nbsp;            }
+<i>339</i>&nbsp;
+<b class="nc"><i>340</i>&nbsp;            for (Item item : cestaListModel)</b>
+<i>341</i>&nbsp;            {
+<b class="nc"><i>342</i>&nbsp;                if (item.getCanBeRequested())</b>
+<i>343</i>&nbsp;                {
+<b class="nc"><i>344</i>&nbsp;                    this.request.request(item, this.user);</b>
+<i>345</i>&nbsp;                }
+<b class="nc"><i>346</i>&nbsp;            }</b>
+<i>347</i>&nbsp;
+<b class="nc"><i>348</i>&nbsp;            this.cestaListModel.removeAll(cestaListModel);</b>
+<b class="nc"><i>349</i>&nbsp;            this.qtdObrasNaCesta.setValue(&quot;0&quot;);</b>
+<i>350</i>&nbsp;
+<b class="nc"><i>351</i>&nbsp;            Clients.showNotification(&quot;successful&quot;,null,null,null,5000);</b>
+<i>352</i>&nbsp;        }
+<b class="nc"><i>353</i>&nbsp;        catch (Exception ex)</b>
+<i>354</i>&nbsp;        {
+<b class="nc"><i>355</i>&nbsp;            ex.printStackTrace();</b>
+<b class="nc"><i>356</i>&nbsp;        }</b>
+<i>357</i>&nbsp;    }
+<i>358</i>&nbsp;
+<i>359</i>&nbsp;    @Listen(&quot;onPesquisar = #textboxPesquisar&quot;)
+<i>360</i>&nbsp;    public void doAutoPesquisar(ForwardEvent event)
+<i>361</i>&nbsp;    {
+<b class="nc"><i>362</i>&nbsp;        pesquisar(textboxPesquisar.getValue());</b>
+<i>363</i>&nbsp;    }
+<i>364</i>&nbsp;
+<i>365</i>&nbsp;    @Listen(&quot;onPesquisar = #buttonPesquisar&quot;)
+<i>366</i>&nbsp;    public void doPesquisar(ForwardEvent event)
+<i>367</i>&nbsp;    {
+<b class="nc"><i>368</i>&nbsp;        pesquisar(textboxPesquisar.getValue());</b>
+<i>369</i>&nbsp;    }
+<i>370</i>&nbsp;
+<i>371</i>&nbsp;    public void pesquisar(String keys)
+<i>372</i>&nbsp;    {
+<b class="nc"><i>373</i>&nbsp;        if (textboxPesquisar.getValue().isEmpty())</b>
+<i>374</i>&nbsp;        {
+<b class="nc"><i>375</i>&nbsp;            obraListModel.removeAll(obraListModel);</b>
+<b class="nc"><i>376</i>&nbsp;            obraListModel.addAll(getObraListModel());</b>
+<i>377</i>&nbsp;        }
+<i>378</i>&nbsp;        else
+<i>379</i>&nbsp;        {
+<b class="nc"><i>380</i>&nbsp;            obraListModel.removeAll(obraListModel);</b>
+<i>381</i>&nbsp;
+<b class="nc"><i>382</i>&nbsp;            for (Obra obra: getObraListModel())</b>
+<i>383</i>&nbsp;            {
+<b class="nc"><i>384</i>&nbsp;                for ( String key: keys.split(&quot; &quot;))</b>
+<i>385</i>&nbsp;                {
+<b class="nc"><i>386</i>&nbsp;                    if( obra.getTitulo().toLowerCase().contains(key.toLowerCase()))</b>
+<i>387</i>&nbsp;                    {
+<b class="nc"><i>388</i>&nbsp;                        obraListModel.add(obra);</b>
+<b class="nc"><i>389</i>&nbsp;                        break;</b>
+<i>390</i>&nbsp;                    }
+<i>391</i>&nbsp;                }
+<b class="nc"><i>392</i>&nbsp;            }</b>
+<i>393</i>&nbsp;        }
+<i>394</i>&nbsp;    }
+<i>395</i>&nbsp;
+<i>396</i>&nbsp;    @Listen(&quot;onAumentarQtd = #cestaListBox&quot;)
+<i>397</i>&nbsp;    public void doAumentarQtd(ForwardEvent event)
+<i>398</i>&nbsp;    {
+<b class="nc"><i>399</i>&nbsp;        Button btn = (Button)event.getOrigin().getTarget();</b>
+<b class="nc"><i>400</i>&nbsp;        Listitem litem = (Listitem) getListitem(btn);;</b>
+<b class="nc"><i>401</i>&nbsp;        Item item = (Item) litem.getValue();</b>
+<b class="nc"><i>402</i>&nbsp;        aumentarQtd(item);</b>
+<i>403</i>&nbsp;
+<b class="nc"><i>404</i>&nbsp;        this.qtdObrasNaCesta.setValue(&quot;&quot;+getQtdObrasNaCesta());</b>
+<i>405</i>&nbsp;    }
+<i>406</i>&nbsp;
+<i>407</i>&nbsp;    @Listen(&quot;onReduzirQtd = #cestaListBox&quot;)
+<i>408</i>&nbsp;    public void doReduzirQtd(ForwardEvent event)
+<i>409</i>&nbsp;    {
+<b class="nc"><i>410</i>&nbsp;        Button btn = (Button)event.getOrigin().getTarget();</b>
+<b class="nc"><i>411</i>&nbsp;        Listitem litem = (Listitem) getListitem(btn);;</b>
+<b class="nc"><i>412</i>&nbsp;        Item item = (Item) litem.getValue();</b>
+<i>413</i>&nbsp;
+<b class="nc"><i>414</i>&nbsp;        if (item.getQuantidade() &gt; 1)</b>
+<b class="nc"><i>415</i>&nbsp;            item.setQuantidade(item.getQuantidade() - 1);</b>
+<i>416</i>&nbsp;
+<b class="nc"><i>417</i>&nbsp;        for (int i = 0; i &lt; cestaListModel.size(); i++)</b>
+<i>418</i>&nbsp;        {
+<b class="nc"><i>419</i>&nbsp;            if ( cestaListModel.get(i).getObra().getCota().equals(item.getObra().getCota()))</b>
+<i>420</i>&nbsp;            {
+<b class="nc"><i>421</i>&nbsp;                cestaListModel.remove(i);</b>
+<b class="nc"><i>422</i>&nbsp;                cestaListModel.add(i, item);</b>
+<b class="nc"><i>423</i>&nbsp;                break;</b>
+<i>424</i>&nbsp;            }
+<i>425</i>&nbsp;        }
+<i>426</i>&nbsp;
+<b class="nc"><i>427</i>&nbsp;        this.qtdObrasNaCesta.setValue(&quot;&quot;+getQtdObrasNaCesta());</b>
+<i>428</i>&nbsp;    }
+<i>429</i>&nbsp;
+<i>430</i>&nbsp;    @Listen(&quot;onRemoverDaCesta = #cestaListBox&quot;)
+<i>431</i>&nbsp;    public void doEliminarcesta(ForwardEvent event)
+<i>432</i>&nbsp;    {
+<b class="nc"><i>433</i>&nbsp;        Button btn = (Button)event.getOrigin().getTarget();</b>
+<b class="nc"><i>434</i>&nbsp;        Listitem litem = (Listitem) getListitem(btn);</b>
+<b class="nc"><i>435</i>&nbsp;        Item item = (Item) litem.getValue();</b>
+<i>436</i>&nbsp;
+<b class="nc"><i>437</i>&nbsp;        int pos = 0;</b>
+<i>438</i>&nbsp;
+<b class="nc"><i>439</i>&nbsp;        for (int i = 0; i &lt; cestaListModel.size(); i++ )</b>
+<i>440</i>&nbsp;        {
+<b class="nc"><i>441</i>&nbsp;            if (item.getObra().getCota().equals(cestaListModel.get(i).getObra().getCota()))</b>
+<b class="nc"><i>442</i>&nbsp;                break;</b>
+<i>443</i>&nbsp;
+<b class="nc"><i>444</i>&nbsp;            pos++;</b>
+<i>445</i>&nbsp;        }
+<i>446</i>&nbsp;
+<b class="nc"><i>447</i>&nbsp;        cestaListModel.remove(pos);</b>
+<i>448</i>&nbsp;
+<b class="nc"><i>449</i>&nbsp;        this.qtdObrasNaCesta.setValue(&quot;&quot;+getQtdObrasNaCesta());</b>
+<i>450</i>&nbsp;    }
+<i>451</i>&nbsp;
+<i>452</i>&nbsp;    public void insertOncestaListModel(Obra obra)
+<i>453</i>&nbsp;    {
+<b class="nc"><i>454</i>&nbsp;        if (getQtdObrasRestantes() == 0)</b>
+<i>455</i>&nbsp;        {
+<b class="nc"><i>456</i>&nbsp;            Clients.showNotification(&quot;Voce so pode requisitar &#39;&quot;+ getQtdMaxObras()+&quot;&#39; obras no maximo&quot;,null,null,null,5000);</b>
+<i>457</i>&nbsp;            return;
+<i>458</i>&nbsp;        }
+<i>459</i>&nbsp;
+<b class="nc"><i>460</i>&nbsp;        boolean obraExists = false;</b>
+<b class="nc"><i>461</i>&nbsp;        Item item = new Item();</b>
+<i>462</i>&nbsp;
+<b class="nc"><i>463</i>&nbsp;        for(int i = 0; i &lt;  cestaListModel.size(); i++)</b>
+<i>464</i>&nbsp;        {
+<b class="nc"><i>465</i>&nbsp;            if(obra.getCota().equals(cestaListModel.get(i).getObra().getCota()))</b>
+<i>466</i>&nbsp;            {
+<b class="nc"><i>467</i>&nbsp;                item = cestaListModel.get(i);</b>
+<b class="nc"><i>468</i>&nbsp;                obraExists = true;</b>
+<b class="nc"><i>469</i>&nbsp;                break;</b>
+<i>470</i>&nbsp;            }
+<i>471</i>&nbsp;        }
+<i>472</i>&nbsp;
+<b class="nc"><i>473</i>&nbsp;        if (!obraExists)</b>
+<i>474</i>&nbsp;        {
+<i>475</i>&nbsp;
+<b class="nc"><i>476</i>&nbsp;            item = new Item();</b>
+<b class="nc"><i>477</i>&nbsp;            item.setObra(obra);</b>
+<b class="nc"><i>478</i>&nbsp;            item.setQuantidade(1);</b>
+<b class="nc"><i>479</i>&nbsp;            item.setHomeRequisition(this.request.canDoHomeRequisition(obra));</b>
+<b class="nc"><i>480</i>&nbsp;            item.setLineUp(this.request.canLineUp(obra,1));</b>
+<b class="nc"><i>481</i>&nbsp;            cestaListModel.add(item);</b>
+<b class="nc"><i>482</i>&nbsp;            updateCesta();</b>
+<i>483</i>&nbsp;        }
+<i>484</i>&nbsp;//       else
+<i>485</i>&nbsp;//        {
+<i>486</i>&nbsp;//            aumentarQtd(item);
+<i>487</i>&nbsp;//        }
+<i>488</i>&nbsp;
+<b class="nc"><i>489</i>&nbsp;        this.qtdObrasNaCesta.setValue(&quot;&quot;+getQtdObrasNaCesta());</b>
+<i>490</i>&nbsp;
+<i>491</i>&nbsp;    }
+<i>492</i>&nbsp;
+<i>493</i>&nbsp;    public int getQtdObrasNaCesta()
+<i>494</i>&nbsp;    {
+<b class="nc"><i>495</i>&nbsp;        int qtdObrasNaCesta = 0;</b>
+<i>496</i>&nbsp;
+<b class="nc"><i>497</i>&nbsp;        for (Item item : cestaListModel)</b>
+<b class="nc"><i>498</i>&nbsp;            qtdObrasNaCesta += item.getQuantidade();</b>
+<i>499</i>&nbsp;
+<b class="nc"><i>500</i>&nbsp;        return qtdObrasNaCesta;</b>
+<i>501</i>&nbsp;    }
+<i>502</i>&nbsp;
+<i>503</i>&nbsp;    public int getQtdMaxObras()
+<i>504</i>&nbsp;    {
+<b class="nc"><i>505</i>&nbsp;        int qtdMaxObras  = 0;</b>
+<i>506</i>&nbsp;
+<b class="nc"><i>507</i>&nbsp;        for ( Role role: user.getRoles())</b>
+<b class="nc"><i>508</i>&nbsp;            qtdMaxObras = Math.max(qtdMaxObras, role.getQtdMaxObras());</b>
+<b class="nc"><i>509</i>&nbsp;        return qtdMaxObras;</b>
+<i>510</i>&nbsp;    }
+<i>511</i>&nbsp;
+<i>512</i>&nbsp;    /*
+<i>513</i>&nbsp;    * quantidade de obras que um utilizador ainda pode requisitar
+<i>514</i>&nbsp;    * */
+<i>515</i>&nbsp;    public int getQtdObrasRestantes()
+<i>516</i>&nbsp;    {
+<b class="nc"><i>517</i>&nbsp;        return getQtdMaxObras() - (getQtdObrasNaCesta()</b>
+<b class="nc"><i>518</i>&nbsp;                +(getQtdObrasRequisitadas()));</b>
+<i>519</i>&nbsp;    }
+<i>520</i>&nbsp;
+<i>521</i>&nbsp;    public void setObraListModel(ListModelList&lt;Obra&gt; obraListModel) {
+<b class="nc"><i>522</i>&nbsp;        this.obraListModel = obraListModel;</b>
+<i>523</i>&nbsp;    }
+<i>524</i>&nbsp;
+<i>525</i>&nbsp;    public ListModelList&lt;Item&gt; getCestaListModel()
+<i>526</i>&nbsp;    {
+<b class="nc"><i>527</i>&nbsp;        return this.cestaListModel;</b>
+<i>528</i>&nbsp;    }
+<i>529</i>&nbsp;
+<i>530</i>&nbsp;    public void setCestaListModel(ListModelList&lt;Item&gt; cestaListModel) {
+<b class="nc"><i>531</i>&nbsp;        this.cestaListModel = cestaListModel;</b>
+<i>532</i>&nbsp;    }
+<i>533</i>&nbsp;
+<i>534</i>&nbsp;    public void aumentarQtd(Item item)
+<i>535</i>&nbsp;    {
+<i>536</i>&nbsp;
+<b class="nc"><i>537</i>&nbsp;        if (getQtdObrasRestantes() == 0)</b>
+<i>538</i>&nbsp;        {
+<b class="nc"><i>539</i>&nbsp;            Clients.showNotification(&quot;Voce so pode requisitar &#39;&quot;+ getQtdMaxObras()+&quot;&#39; obras no maximo&quot;,null,null,null,5000);</b>
+<i>540</i>&nbsp;            return;
+<i>541</i>&nbsp;        }
+<b class="nc"><i>542</i>&nbsp;        else if (getQtdExemplaresRequisitados(item.getObra())</b>
+<b class="nc"><i>543</i>&nbsp;                + getQtdExemplaresNaCesta(item.getObra()) +  1 &gt; item.getObra().getQuantidade() )</b>
+<i>544</i>&nbsp;        {
+<b class="nc"><i>545</i>&nbsp;            Clients.showNotification(&quot;So existem &#39;&quot;+ item.getObra().getQuantidade() +&quot;&#39; exemplares dessa obra&quot;,null,null,null,5000);</b>
+<i>546</i>&nbsp;            return;
+<i>547</i>&nbsp;        }
+<i>548</i>&nbsp;
+<b class="nc"><i>549</i>&nbsp;        item.setQuantidade(item.getQuantidade() + 1);</b>
+<i>550</i>&nbsp;
+<b class="nc"><i>551</i>&nbsp;        for (int i = 0; i &lt; cestaListModel.size(); i++)</b>
+<i>552</i>&nbsp;        {
+<b class="nc"><i>553</i>&nbsp;            if ( cestaListModel.get(i).getObra().getCota().equals(item.getObra().getCota()))</b>
+<i>554</i>&nbsp;            {
+<b class="nc"><i>555</i>&nbsp;                cestaListModel.remove(i);</b>
+<b class="nc"><i>556</i>&nbsp;                cestaListModel.add(i, item);</b>
+<b class="nc"><i>557</i>&nbsp;                break;</b>
+<i>558</i>&nbsp;            }
+<i>559</i>&nbsp;        }
+<i>560</i>&nbsp;    }
+<i>561</i>&nbsp;
+<i>562</i>&nbsp;
+<i>563</i>&nbsp;    public  boolean temObrasPorDevolver()
+<i>564</i>&nbsp;    {
+<i>565</i>&nbsp;        /*
+<i>566</i>&nbsp;        * Todo usario que tiver um obra por devolver , tera uma multa aplicada
+<i>567</i>&nbsp;        * Partindo desse principo sai esse metodo
+<i>568</i>&nbsp;        */
+<b class="nc"><i>569</i>&nbsp;        List&lt;Multa&gt; multas = mController.getFine(user,eMController.NOT_PAID);</b>
+<i>570</i>&nbsp;
+<i>571</i>&nbsp;        /*
+<i>572</i>&nbsp;        List&lt;Emprestimo&gt; emprestimos = eController.getBorrowedBooks(user,eDController.NOT_RETURNED);
+<i>573</i>&nbsp;
+<i>574</i>&nbsp;                crudService.findByJPQuery(&quot;SELECT e FROM Emprestimo e WHERE e.emprestimoPK.utente.id = &quot;+
+<i>575</i>&nbsp;                user.getId()+&quot; and e.estadoDevolucao.idestadodevolucao = 2&quot;, null); // isso deve mudar
+<i>576</i>&nbsp;        */
+<i>577</i>&nbsp;
+<b class="nc"><i>578</i>&nbsp;        return multas.size() &gt; 0 ?  true : false;</b>
+<i>579</i>&nbsp;    }
+<i>580</i>&nbsp;
+<i>581</i>&nbsp;    public int getQtdObrasRequisitadas()
+<i>582</i>&nbsp;    {
+<b class="nc"><i>583</i>&nbsp;        int qtd = 0;</b>
+<i>584</i>&nbsp;
+<b class="nc"><i>585</i>&nbsp;        List&lt;Emprestimo&gt; emprestimos = eController.getBorrowedBooks(user,eDController.UNDETERMINED);</b>
+<i>586</i>&nbsp;        /*
+<i>587</i>&nbsp;                crudService.findByJPQuery(&quot;SELECT e FROM Emprestimo e WHERE e.emprestimoPK.utente.id = &quot;+
+<i>588</i>&nbsp;                user.getId()+&quot; and e.estadoDevolucao.idestadodevolucao = 1&quot;, null);
+<i>589</i>&nbsp;        */
+<i>590</i>&nbsp;
+<b class="nc"><i>591</i>&nbsp;        for (Emprestimo e: emprestimos)</b>
+<b class="nc"><i>592</i>&nbsp;            qtd += e.getQuantidade();</b>
+<i>593</i>&nbsp;
+<b class="nc"><i>594</i>&nbsp;        return qtd;</b>
+<i>595</i>&nbsp;    }
+<i>596</i>&nbsp;
+<i>597</i>&nbsp;    public int getQtdExemplaresRequisitados(Obra obra)
+<i>598</i>&nbsp;    {
+<b class="nc"><i>599</i>&nbsp;        int qtd = 0;</b>
+<i>600</i>&nbsp;
+<b class="nc"><i>601</i>&nbsp;        List&lt;Emprestimo&gt; emprestimos = eController.getRequest(user,obra,eDController.UNDETERMINED);</b>
+<i>602</i>&nbsp;
+<i>603</i>&nbsp;        /*
+<i>604</i>&nbsp;                crudService.findByJPQuery(&quot;SELECT e FROM Emprestimo e WHERE e.emprestimoPK.utente.id = &quot;+
+<i>605</i>&nbsp;                user.getId()+&quot; and e.estadoDevolucao.idestadodevolucao = 1 and e.emprestimoPK.obra.cota = &#39;&quot;+obra.getCota() +&quot;&#39;&quot;, null);
+<i>606</i>&nbsp;        */
+<i>607</i>&nbsp;
+<b class="nc"><i>608</i>&nbsp;        for (Emprestimo e: emprestimos)</b>
+<b class="nc"><i>609</i>&nbsp;            qtd += e.getQuantidade();</b>
+<i>610</i>&nbsp;
+<b class="nc"><i>611</i>&nbsp;        return qtd;</b>
+<i>612</i>&nbsp;    }
+<i>613</i>&nbsp;
+<i>614</i>&nbsp;    public Component getListitem (Button btn)
+<i>615</i>&nbsp;    {
+<b class="nc"><i>616</i>&nbsp;        Component component = btn.getParent();</b>
+<i>617</i>&nbsp;
+<i>618</i>&nbsp;        while(true)
+<i>619</i>&nbsp;        {
+<b class="nc"><i>620</i>&nbsp;            if ( component instanceof  Listitem)</b>
+<i>621</i>&nbsp;            {
+<b class="nc"><i>622</i>&nbsp;                return  component;</b>
+<i>623</i>&nbsp;            }
+<i>624</i>&nbsp;
+<b class="nc"><i>625</i>&nbsp;            if(component == null)</b>
+<b class="nc"><i>626</i>&nbsp;                return null;</b>
+<i>627</i>&nbsp;
+<b class="nc"><i>628</i>&nbsp;            component = component.getParent();</b>
+<i>629</i>&nbsp;        }
+<i>630</i>&nbsp;    }
+<i>631</i>&nbsp;
+<i>632</i>&nbsp;    public int getQtdExemplaresNaCesta(Obra obra)
+<i>633</i>&nbsp;    {
+<i>634</i>&nbsp;
+<b class="nc"><i>635</i>&nbsp;        for ( Item item: cestaListModel)</b>
+<i>636</i>&nbsp;        {
+<b class="nc"><i>637</i>&nbsp;            if (item.getObra().getCota().equals(obra.getCota()))</b>
+<i>638</i>&nbsp;            {
+<b class="nc"><i>639</i>&nbsp;                return item.getQuantidade();</b>
+<i>640</i>&nbsp;            }
+<b class="nc"><i>641</i>&nbsp;        }</b>
+<b class="nc"><i>642</i>&nbsp;        return 0;</b>
+<i>643</i>&nbsp;    }
+<i>644</i>&nbsp;
+<i>645</i>&nbsp;    public void updateCesta()
+<i>646</i>&nbsp;    {
+<i>647</i>&nbsp;
+<b class="nc"><i>648</i>&nbsp;        for(int i = 0; i &lt;  cestaListModel.size(); i++)</b>
+<i>649</i>&nbsp;        {
+<b class="nc"><i>650</i>&nbsp;            if (this.isHomeRequisition)</b>
+<i>651</i>&nbsp;            {
+<b class="nc"><i>652</i>&nbsp;                Obra obra = cestaListModel.get(i).getObra();</b>
+<b class="nc"><i>653</i>&nbsp;                cestaListModel.get(i).setHomeRequisition(this.request.canDoHomeRequisition(obra));</b>
+<b class="nc"><i>654</i>&nbsp;                cestaListModel.get(i).setLineUp(this.request.canLineUp(obra,1));</b>
+<i>655</i>&nbsp;
+<b class="nc"><i>656</i>&nbsp;                if (!cestaListModel.get(i).getIsHomeRequisition())</b>
+<i>657</i>&nbsp;                {
+<b class="nc"><i>658</i>&nbsp;                    cestaListModel.get(i).setCanBeRequested(false);</b>
+<i>659</i>&nbsp;                }
+<i>660</i>&nbsp;                else
+<i>661</i>&nbsp;                {
+<b class="nc"><i>662</i>&nbsp;                    cestaListModel.get(i).setCanBeRequested(true);</b>
+<i>663</i>&nbsp;                }
+<b class="nc"><i>664</i>&nbsp;            }</b>
+<i>665</i>&nbsp;            else
+<i>666</i>&nbsp;            {
+<b class="nc"><i>667</i>&nbsp;                cestaListModel.get(i).setCanBeRequested(true);</b>
+<b class="nc"><i>668</i>&nbsp;                cestaListModel.get(i).setHomeRequisition(false);</b>
+<i>669</i>&nbsp;            }
+<i>670</i>&nbsp;
+<b class="nc"><i>671</i>&nbsp;            cestaListModel.set(i, cestaListModel.get(i));</b>
+<i>672</i>&nbsp;        }
+<i>673</i>&nbsp;    }
+<i>674</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-03-29 22:00</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,184 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: listRequestsController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">sgb.controller.viewsController</a> ]
+</div>
+
+<h1>Coverage Summary for Class: listRequestsController (sgb.controller.viewsController)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">listRequestsController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 26)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;/*
+<i>2</i>&nbsp; * To change this license header, choose License Headers in Project Properties.
+<i>3</i>&nbsp; * To change this template file, choose Tools | Templates
+<i>4</i>&nbsp; * and open the template in the editor.
+<i>5</i>&nbsp; */
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;package sgb.controller.viewsController;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;import org.zkoss.zk.ui.Component;
+<i>10</i>&nbsp;import org.zkoss.zk.ui.Executions;
+<i>11</i>&nbsp;import org.zkoss.zk.ui.Session;
+<i>12</i>&nbsp;import org.zkoss.zk.ui.Sessions;
+<i>13</i>&nbsp;import org.zkoss.zk.ui.event.Event;
+<i>14</i>&nbsp;import org.zkoss.zk.ui.event.EventListener;
+<i>15</i>&nbsp;import org.zkoss.zk.ui.event.ForwardEvent;
+<i>16</i>&nbsp;import org.zkoss.zk.ui.event.OpenEvent;
+<i>17</i>&nbsp;import org.zkoss.zk.ui.select.SelectorComposer;
+<i>18</i>&nbsp;import org.zkoss.zk.ui.select.annotation.Listen;
+<i>19</i>&nbsp;import org.zkoss.zk.ui.select.annotation.Wire;
+<i>20</i>&nbsp;import org.zkoss.zk.ui.util.Clients;
+<i>21</i>&nbsp;import org.zkoss.zkplus.spring.SpringUtil;
+<i>22</i>&nbsp;import org.zkoss.zul.*;
+<i>23</i>&nbsp;import sgb.domain.*;
+<i>24</i>&nbsp;import sgb.service.CRUDService;
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;import java.util.ArrayList;
+<i>27</i>&nbsp;import java.util.HashMap;
+<i>28</i>&nbsp;import java.util.List;
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;/**
+<i>31</i>&nbsp; * @author Fonseca, Emerson, Matimbe
+<i>32</i>&nbsp; */
+<i>33</i>&nbsp;
+<b class="nc"><i>34</i>&nbsp;public class listRequestsController extends SelectorComposer&lt;Component&gt; {</b>
+<i>35</i>&nbsp;
+<b class="nc"><i>36</i>&nbsp;    private CRUDService crudService = (CRUDService) SpringUtil.getBean(&quot;CRUDService&quot;);</b>
+<i>37</i>&nbsp;//    private Users user;
+<i>38</i>&nbsp;    private Session session;
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;    private ListModelList&lt;Requisicao&gt; requestListModel;
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;    @Wire
+<i>44</i>&nbsp;    private Listbox requestListBox;
+<i>45</i>&nbsp;
+<i>46</i>&nbsp;    @Wire
+<i>47</i>&nbsp;    Window listObra;
+<i>48</i>&nbsp;
+<i>49</i>&nbsp;
+<i>50</i>&nbsp;    @Override
+<i>51</i>&nbsp;    public void doAfterCompose(Component comp) throws Exception {
+<b class="nc"><i>52</i>&nbsp;        super.doAfterCompose(comp);</b>
+<b class="nc"><i>53</i>&nbsp;        session = Sessions.getCurrent();</b>
+<i>54</i>&nbsp;
+<b class="nc"><i>55</i>&nbsp;        requestListModel = getrequestListModel();</b>
+<b class="nc"><i>56</i>&nbsp;        requestListBox.setModel(requestListModel);</b>
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;    }
+<i>59</i>&nbsp;
+<i>60</i>&nbsp;    public ListModelList&lt;Requisicao&gt; getrequestListModel() {
+<b class="nc"><i>61</i>&nbsp;        HashMap&lt;Users,List&lt;Emprestimo&gt;&gt; hashMap = new HashMap&lt;&gt;();</b>
+<b class="nc"><i>62</i>&nbsp;        List&lt;Emprestimo&gt; listammprestimos = crudService.findByJPQuery(&quot;SELECT e FROM Emprestimo e WHERE e.estadoPedido.idestadopedido=1&quot;,null);</b>
+<b class="nc"><i>63</i>&nbsp;        List&lt;Requisicao&gt; listarequisicao = new ArrayList&lt;&gt;();</b>
+<i>64</i>&nbsp;
+<b class="nc"><i>65</i>&nbsp;        for(Emprestimo e: listammprestimos){</b>
+<b class="nc"><i>66</i>&nbsp;                Users u = e.getEmprestimoPK().getUtente();</b>
+<i>67</i>&nbsp;
+<b class="nc"><i>68</i>&nbsp;                if(hashMap.containsKey(u)){</b>
+<i>69</i>&nbsp;
+<b class="nc"><i>70</i>&nbsp;                    hashMap.get(u).add(e);</b>
+<i>71</i>&nbsp;                }else{
+<b class="nc"><i>72</i>&nbsp;                    ArrayList&lt;Emprestimo&gt; list = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>73</i>&nbsp;                    list.add(e);</b>
+<b class="nc"><i>74</i>&nbsp;                    hashMap.put(u,list);</b>
+<i>75</i>&nbsp;                }
+<b class="nc"><i>76</i>&nbsp;        }</b>
+<i>77</i>&nbsp;
+<b class="nc"><i>78</i>&nbsp;        for(Users u : hashMap.keySet()) {</b>
+<b class="nc"><i>79</i>&nbsp;            Requisicao r = new Requisicao(u,hashMap.get(u));</b>
+<i>80</i>&nbsp;
+<b class="nc"><i>81</i>&nbsp;            listarequisicao.add(r);</b>
+<b class="nc"><i>82</i>&nbsp;        }</b>
+<i>83</i>&nbsp;
+<b class="nc"><i>84</i>&nbsp;        return new ListModelList&lt;Requisicao&gt;(listarequisicao);</b>
+<i>85</i>&nbsp;    }
+<i>86</i>&nbsp;
+<i>87</i>&nbsp;    @Listen(&quot;onSelect = #requestListBox&quot;)
+<i>88</i>&nbsp;    public void doVerificarRequisicao(Event e)
+<i>89</i>&nbsp;    {
+<i>90</i>&nbsp;
+<b class="nc"><i>91</i>&nbsp;        Requisicao r = (Requisicao) requestListBox.getSelectedItem().getValue();</b>
+<i>92</i>&nbsp;
+<i>93</i>&nbsp;
+<b class="nc"><i>94</i>&nbsp;        session.setAttribute(&quot;requisicoes&quot;, r );</b>
+<i>95</i>&nbsp;
+<b class="nc"><i>96</i>&nbsp;        Window window = (Window)Executions.createComponents(</b>
+<i>97</i>&nbsp;                &quot;views/viewRequestModal.zul&quot;, listObra, null);
+<b class="nc"><i>98</i>&nbsp;        window.doModal();</b>
+<i>99</i>&nbsp;    }
+<i>100</i>&nbsp;
+<i>101</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-03-29 22:00</div>
+</div>
+</body>
+</html>

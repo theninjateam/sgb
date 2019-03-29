@@ -1,0 +1,198 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: LivroCd</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">sgb.domain</a> ]
+</div>
+
+<h1>Coverage Summary for Class: LivroCd (sgb.domain)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LivroCd</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 19)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 36)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package sgb.domain;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import javax.persistence.*;
+<i>4</i>&nbsp;import java.util.Objects;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;@Entity
+<i>7</i>&nbsp;@Table(name = &quot;livrocd&quot;, schema = &quot;public&quot;)
+<b class="nc"><i>8</i>&nbsp;public class LivroCd {</b>
+<i>9</i>&nbsp;    private String cota;
+<i>10</i>&nbsp;    private String isbn;
+<i>11</i>&nbsp;    private String editora;
+<i>12</i>&nbsp;    private String edicao;
+<i>13</i>&nbsp;    private int volume;
+<i>14</i>&nbsp;    private String codigobarra;
+<i>15</i>&nbsp;    private String descricaocd;
+<i>16</i>&nbsp;    private Obra obra;
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    @Id
+<i>19</i>&nbsp;    @Column(name = &quot;cota&quot;)
+<i>20</i>&nbsp;    public String getCota() {
+<b class="nc"><i>21</i>&nbsp;        return cota;</b>
+<i>22</i>&nbsp;    }
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    public void setCota(String cota) {
+<b class="nc"><i>25</i>&nbsp;        this.cota = cota;</b>
+<b class="nc"><i>26</i>&nbsp;    }</b>
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    @Basic
+<i>29</i>&nbsp;    @Column(name = &quot;isbn&quot;)
+<i>30</i>&nbsp;    public String getIsbn() {
+<b class="nc"><i>31</i>&nbsp;        return isbn;</b>
+<i>32</i>&nbsp;    }
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;    public void setIsbn(String isbn) {
+<b class="nc"><i>35</i>&nbsp;        this.isbn = isbn;</b>
+<b class="nc"><i>36</i>&nbsp;    }</b>
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    @Basic
+<i>39</i>&nbsp;    @Column(name = &quot;editora&quot;)
+<i>40</i>&nbsp;    public String getEditora() {
+<b class="nc"><i>41</i>&nbsp;        return editora;</b>
+<i>42</i>&nbsp;    }
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;    public void setEditora(String editora) {
+<b class="nc"><i>45</i>&nbsp;        this.editora = editora;</b>
+<b class="nc"><i>46</i>&nbsp;    }</b>
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;    @Basic
+<i>49</i>&nbsp;    @Column(name = &quot;edicao&quot;)
+<i>50</i>&nbsp;    public String getEdicao() {
+<b class="nc"><i>51</i>&nbsp;        return edicao;</b>
+<i>52</i>&nbsp;    }
+<i>53</i>&nbsp;
+<i>54</i>&nbsp;    public void setEdicao(String edicao) {
+<b class="nc"><i>55</i>&nbsp;        this.edicao = edicao;</b>
+<b class="nc"><i>56</i>&nbsp;    }</b>
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;    @Basic
+<i>59</i>&nbsp;    @Column(name = &quot;volume&quot;)
+<i>60</i>&nbsp;    public int getVolume() {
+<b class="nc"><i>61</i>&nbsp;        return volume;</b>
+<i>62</i>&nbsp;    }
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;    public void setVolume(int volume) {
+<b class="nc"><i>65</i>&nbsp;        this.volume = volume;</b>
+<b class="nc"><i>66</i>&nbsp;    }</b>
+<i>67</i>&nbsp;
+<i>68</i>&nbsp;    @Basic
+<i>69</i>&nbsp;    @Column(name = &quot;codigobarra&quot;)
+<i>70</i>&nbsp;    public String getCodigobarra() {
+<b class="nc"><i>71</i>&nbsp;        return codigobarra;</b>
+<i>72</i>&nbsp;    }
+<i>73</i>&nbsp;
+<i>74</i>&nbsp;    public void setCodigobarra(String codigobarra) {
+<b class="nc"><i>75</i>&nbsp;        this.codigobarra = codigobarra;</b>
+<b class="nc"><i>76</i>&nbsp;    }</b>
+<i>77</i>&nbsp;
+<i>78</i>&nbsp;    @Basic
+<i>79</i>&nbsp;    @Column(name = &quot;descricaocd&quot;)
+<b class="nc"><i>80</i>&nbsp;    public String getDescricaocd() { return descricaocd; }</b>
+<i>81</i>&nbsp;
+<i>82</i>&nbsp;    public void setDescricaocd(String descricaocd) {
+<b class="nc"><i>83</i>&nbsp;        this.descricaocd = descricaocd;</b>
+<b class="nc"><i>84</i>&nbsp;    }</b>
+<i>85</i>&nbsp;
+<i>86</i>&nbsp;    @Override
+<i>87</i>&nbsp;    public boolean equals(Object o) {
+<b class="nc"><i>88</i>&nbsp;        if (this == o) return true;</b>
+<b class="nc"><i>89</i>&nbsp;        if (o == null || getClass() != o.getClass()) return false;</b>
+<b class="nc"><i>90</i>&nbsp;        LivroCd livro = (LivroCd) o;</b>
+<b class="nc"><i>91</i>&nbsp;        return Objects.equals(cota, livro.cota) &amp;&amp;</b>
+<b class="nc"><i>92</i>&nbsp;                Objects.equals(isbn, livro.isbn) &amp;&amp;</b>
+<b class="nc"><i>93</i>&nbsp;                Objects.equals(editora, livro.editora) &amp;&amp;</b>
+<b class="nc"><i>94</i>&nbsp;                Objects.equals(edicao, livro.edicao) &amp;&amp;</b>
+<b class="nc"><i>95</i>&nbsp;                Objects.equals(volume, livro.volume) &amp;&amp;</b>
+<b class="nc"><i>96</i>&nbsp;                Objects.equals(codigobarra, livro.codigobarra) &amp;&amp;</b>
+<b class="nc"><i>97</i>&nbsp;                Objects.equals(descricaocd, livro.descricaocd);</b>
+<i>98</i>&nbsp;    }
+<i>99</i>&nbsp;
+<i>100</i>&nbsp;    @Override
+<i>101</i>&nbsp;    public int hashCode() {
+<b class="nc"><i>102</i>&nbsp;        return Objects.hash(cota, isbn, editora, edicao,volume, codigobarra,descricaocd);</b>
+<i>103</i>&nbsp;    }
+<i>104</i>&nbsp;
+<i>105</i>&nbsp;    @OneToOne(fetch = FetchType.LAZY, optional = false)
+<i>106</i>&nbsp;    @JoinColumn(name = &quot;cota&quot;, nullable = false)
+<i>107</i>&nbsp;
+<i>108</i>&nbsp;    public Obra getObra() {
+<b class="nc"><i>109</i>&nbsp;        return obra;</b>
+<i>110</i>&nbsp;    }
+<i>111</i>&nbsp;
+<i>112</i>&nbsp;    public void setObra(Obra obra) {
+<b class="nc"><i>113</i>&nbsp;        this.obra = obra;</b>
+<b class="nc"><i>114</i>&nbsp;    }</b>
+<i>115</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-03-29 22:00</div>
+</div>
+</body>
+</html>

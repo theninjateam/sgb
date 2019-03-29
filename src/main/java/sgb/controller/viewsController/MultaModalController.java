@@ -91,7 +91,7 @@ public class MultaModalController extends SelectorComposer<Component> {
 
         multa = (Multa) session.getAttribute("multa");
 
-        multa.setValorpago(fine.getAmoutToPay(multa.getMultaPK()));
+        multa.setValorpago(fine.getAmoutToPay(multa.getMultaPK(), Calendar.getInstance()));
 
         if (isForDetails) {
             /*
@@ -179,7 +179,7 @@ public class MultaModalController extends SelectorComposer<Component> {
             emprestimo.setComentario("");
             crudService.update(emprestimo);
 
-            fine.pay(multa.getMultaPK());
+            fine.pay(multa.getMultaPK(), Calendar.getInstance());
 
             exit();
             Clients.showNotification("Multa paga", null, null, null, 5000);
@@ -199,7 +199,7 @@ public class MultaModalController extends SelectorComposer<Component> {
             emprestimo.setComentario("");
             crudService.update(emprestimo);
 
-            fine.pay(multa.getMultaPK());
+            fine.pay(multa.getMultaPK(), Calendar.getInstance());
 
             exit();
             Clients.showNotification("Multa Revogada", null, null, null, 5000);

@@ -1,0 +1,277 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ListPedido</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">sgb.controller.viewsController</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ListPedido (sgb.controller.viewsController)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ListPedido</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 69)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">ListPedido$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 5)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 74)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package sgb.controller.viewsController;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import org.zkoss.zk.ui.Component;
+<i>4</i>&nbsp;import org.zkoss.zk.ui.event.Event;
+<i>5</i>&nbsp;import org.zkoss.zk.ui.event.EventListener;
+<i>6</i>&nbsp;import org.zkoss.zk.ui.select.SelectorComposer;
+<i>7</i>&nbsp;import org.zkoss.zk.ui.select.annotation.Wire;
+<i>8</i>&nbsp;import org.zkoss.zul.ListModelList;
+<i>9</i>&nbsp;import org.zkoss.zul.Listbox;
+<i>10</i>&nbsp;import sgb.controller.domainController.EmprestimoController;
+<i>11</i>&nbsp;import sgb.controller.domainController.EstadoDevolucaoControler;
+<i>12</i>&nbsp;import sgb.controller.domainController.EstadoPedidoControler;
+<i>13</i>&nbsp;import sgb.deadline.BorrowedBooksDeadline;
+<i>14</i>&nbsp;import sgb.domain.Emprestimo;
+<i>15</i>&nbsp;import org.springframework.security.core.context.SecurityContextHolder;
+<i>16</i>&nbsp;import org.springframework.security.core.userdetails.UserDetails;
+<i>17</i>&nbsp;import org.zkoss.zk.ui.event.ForwardEvent;
+<i>18</i>&nbsp;import org.zkoss.zk.ui.select.annotation.Listen;
+<i>19</i>&nbsp;import org.zkoss.zk.ui.util.Clients;
+<i>20</i>&nbsp;import org.zkoss.zkplus.spring.SpringUtil;
+<i>21</i>&nbsp;import org.zkoss.zul.*;
+<i>22</i>&nbsp;import sgb.domain.*;
+<i>23</i>&nbsp;import sgb.request.Request;
+<i>24</i>&nbsp;import sgb.service.CRUDService;
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;import java.util.*;
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;import java.util.Calendar;
+<i>29</i>&nbsp;
+<b class="nc"><i>30</i>&nbsp;public class ListPedido extends SelectorComposer&lt;Component&gt; {</b>
+<i>31</i>&nbsp;
+<b class="nc"><i>32</i>&nbsp;    private CRUDService crudService = (CRUDService) SpringUtil.getBean(&quot;CRUDService&quot;);</b>
+<b class="nc"><i>33</i>&nbsp;    private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();</b>
+<b class="nc"><i>34</i>&nbsp;    private boolean isStudent = false;</b>
+<b class="nc"><i>35</i>&nbsp;    private BorrowedBooksDeadline bBDeadline = (BorrowedBooksDeadline) SpringUtil.getBean(&quot;borrowedBooksDeadline&quot;);</b>
+<i>36</i>&nbsp;    private ListModelList&lt;Emprestimo&gt; pedidoListModel;
+<i>37</i>&nbsp;    private ListModel&lt;EstadoPedido&gt; estadopedidoModel;
+<b class="nc"><i>38</i>&nbsp;    private Boolean isNormalUser = true;</b>
+<b class="nc"><i>39</i>&nbsp;    private Request request = (Request) SpringUtil.getBean(&quot;request&quot;);</b>
+<b class="nc"><i>40</i>&nbsp;    private EstadoPedidoControler ePController = (EstadoPedidoControler) SpringUtil.getBean(&quot;estadoPedidoControler&quot;);</b>
+<b class="nc"><i>41</i>&nbsp;    private EmprestimoController eController = (EmprestimoController) SpringUtil.getBean(&quot;emprestimoController&quot;);</b>
+<b class="nc"><i>42</i>&nbsp;    private EstadoDevolucaoControler eDController = (EstadoDevolucaoControler) SpringUtil.getBean(&quot;estadoDevolucaoControler&quot;);</b>
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;
+<i>46</i>&nbsp;    @Wire
+<i>47</i>&nbsp;    private Listbox pedidoListBox;
+<i>48</i>&nbsp;
+<i>49</i>&nbsp;
+<i>50</i>&nbsp;    @Override
+<i>51</i>&nbsp;    public void doAfterCompose(Component comp) throws Exception
+<i>52</i>&nbsp;    {
+<b class="nc"><i>53</i>&nbsp;        super.doAfterCompose(comp);</b>
+<i>54</i>&nbsp;
+<b class="nc"><i>55</i>&nbsp;        isNormalUser = isNormalUser();</b>
+<i>56</i>&nbsp;
+<b class="nc"><i>57</i>&nbsp;        if (isNormalUser) {</b>
+<b class="nc"><i>58</i>&nbsp;            ComposeUserNormal();</b>
+<i>59</i>&nbsp;        }
+<i>60</i>&nbsp;        else {
+<b class="nc"><i>61</i>&nbsp;           ComposeUserAdmin();</b>
+<i>62</i>&nbsp;        }
+<i>63</i>&nbsp;    }
+<i>64</i>&nbsp;
+<i>65</i>&nbsp;    public void ComposeUserAdmin(){
+<b class="nc"><i>66</i>&nbsp;        List&lt;Emprestimo&gt; pedidos = eController.getRequest(ePController.PENDING_MINI_BOOKING);</b>
+<b class="nc"><i>67</i>&nbsp;        pedidos.addAll(eController.getRequest(ePController.PENDING_BOOKING));</b>
+<i>68</i>&nbsp;
+<b class="nc"><i>69</i>&nbsp;        pedidoListModel = new ListModelList&lt;Emprestimo&gt;(pedidos);</b>
+<i>70</i>&nbsp;
+<b class="nc"><i>71</i>&nbsp;        pedidoListBox.setModel(pedidoListModel);</b>
+<i>72</i>&nbsp;    }
+<i>73</i>&nbsp;
+<i>74</i>&nbsp;    public void ComposeUserNormal() {
+<b class="nc"><i>75</i>&nbsp;        List&lt;Emprestimo&gt; pedidos = eController.getRequest(this.user, ePController.PENDING_MINI_BOOKING);</b>
+<b class="nc"><i>76</i>&nbsp;        pedidos.addAll(eController.getRequest(this.user, ePController.PENDING_BOOKING));</b>
+<b class="nc"><i>77</i>&nbsp;        pedidoListModel = new ListModelList&lt;Emprestimo&gt;(pedidos);</b>
+<i>78</i>&nbsp;
+<b class="nc"><i>79</i>&nbsp;        pedidoListBox.setModel(pedidoListModel);</b>
+<i>80</i>&nbsp;    }
+<i>81</i>&nbsp;
+<i>82</i>&nbsp;    public boolean isNormalUser () {
+<b class="nc"><i>83</i>&nbsp;        Boolean a = true;</b>
+<i>84</i>&nbsp;
+<b class="nc"><i>85</i>&nbsp;        Set&lt;Role&gt; userrole =user.getRoles();</b>
+<i>86</i>&nbsp;
+<b class="nc"><i>87</i>&nbsp;        for(Role role : userrole) {</b>
+<b class="nc"><i>88</i>&nbsp;            if(role.getRole().equals(&quot;ADMIN&quot;))</b>
+<b class="nc"><i>89</i>&nbsp;                a = false;</b>
+<b class="nc"><i>90</i>&nbsp;        }</b>
+<b class="nc"><i>91</i>&nbsp;        return a;</b>
+<i>92</i>&nbsp;    }
+<i>93</i>&nbsp;
+<i>94</i>&nbsp;
+<i>95</i>&nbsp;    @Listen(&quot;onEliminarEmprestimo = #pedidoListBox&quot;)
+<i>96</i>&nbsp;    public void doEliminar(ForwardEvent event)
+<i>97</i>&nbsp;    {
+<b class="nc"><i>98</i>&nbsp;        if (isNormalUser) {</b>
+<b class="nc"><i>99</i>&nbsp;            Button btn = (Button) event.getOrigin().getTarget();</b>
+<b class="nc"><i>100</i>&nbsp;            Listitem litem = (Listitem) btn.getParent().getParent().getParent();</b>
+<b class="nc"><i>101</i>&nbsp;            Emprestimo emp = (Emprestimo) litem.getValue();</b>
+<b class="nc"><i>102</i>&nbsp;            Messagebox.show(&quot;Tem certeza que deseja eliminar esse pedido ?&quot;, &quot;delete pedido&quot;,</b>
+<i>103</i>&nbsp;                    Messagebox.YES + Messagebox.NO, Messagebox.QUESTION,
+<b class="nc"><i>104</i>&nbsp;                    new EventListener&lt;Event&gt;() {</b>
+<i>105</i>&nbsp;                        @Override
+<i>106</i>&nbsp;                        public void onEvent(Event event) throws Exception {
+<b class="nc"><i>107</i>&nbsp;                            if (Messagebox.ON_YES.equals(event.getName())) {</b>
+<b class="nc"><i>108</i>&nbsp;                                pedidoListModel.remove(emp);</b>
+<b class="nc"><i>109</i>&nbsp;                                crudService.delete(emp);</b>
+<b class="nc"><i>110</i>&nbsp;                                Clients.showNotification(&quot;Pedido eliminado com sucesso&quot;, null, null, null, 5000);</b>
+<i>111</i>&nbsp;                            }
+<i>112</i>&nbsp;                        }
+<i>113</i>&nbsp;                    });
+<b class="nc"><i>114</i>&nbsp;        }else {</b>
+<b class="nc"><i>115</i>&nbsp;            Clients.showNotification(&quot;Precisa ser Utente para executar essa acao &quot;, null, null, null, 5000);</b>
+<i>116</i>&nbsp;        }
+<i>117</i>&nbsp;
+<i>118</i>&nbsp;    }
+<i>119</i>&nbsp;
+<i>120</i>&nbsp;    @Listen(&quot;onReprovarEmprestimo = #pedidoListBox&quot;)
+<i>121</i>&nbsp;    public void doReprovar(ForwardEvent event)
+<i>122</i>&nbsp;    {
+<b class="nc"><i>123</i>&nbsp;        if(isNormalUser) {</b>
+<b class="nc"><i>124</i>&nbsp;            Clients.showNotification(&quot;Precisa ser Bibliotecario para executar essa acao &quot;, null, null, null, 5000);</b>
+<i>125</i>&nbsp;        } else {
+<b class="nc"><i>126</i>&nbsp;            Button btn = (Button) event.getOrigin().getTarget();</b>
+<b class="nc"><i>127</i>&nbsp;            Listitem litem = (Listitem) btn.getParent().getParent().getParent();</b>
+<b class="nc"><i>128</i>&nbsp;            Emprestimo emp = (Emprestimo) litem.getValue();</b>
+<b class="nc"><i>129</i>&nbsp;            EstadoPedido estadoPedido = crudService.get(EstadoPedido.class, 2);</b>
+<b class="nc"><i>130</i>&nbsp;            emp.setEstadoPedido(estadoPedido);</b>
+<b class="nc"><i>131</i>&nbsp;            emp.setDataaprovacao(Calendar.getInstance());</b>
+<b class="nc"><i>132</i>&nbsp;            pedidoListModel.remove(emp);</b>
+<b class="nc"><i>133</i>&nbsp;            crudService.update(emp);</b>
+<b class="nc"><i>134</i>&nbsp;            Clients.showNotification(&quot;Pedido reprovado com sucesso &quot;, null, null, null, 5000);</b>
+<i>135</i>&nbsp;        }
+<i>136</i>&nbsp;    }
+<i>137</i>&nbsp;
+<i>138</i>&nbsp;    @Listen(&quot;onAprovarEmprestimo = #pedidoListBox&quot;)
+<i>139</i>&nbsp;    public void doAprovar(ForwardEvent event)
+<i>140</i>&nbsp;    {
+<b class="nc"><i>141</i>&nbsp;        if(isNormalUser) {</b>
+<b class="nc"><i>142</i>&nbsp;            Clients.showNotification(&quot;Precisa ser Bibliotecario para executar essa acao &quot;, null, null, null, 5000);</b>
+<i>143</i>&nbsp;        } else {
+<b class="nc"><i>144</i>&nbsp;            Button btn = (Button) event.getOrigin().getTarget();</b>
+<b class="nc"><i>145</i>&nbsp;            Listitem litem = (Listitem) btn.getParent().getParent().getParent();</b>
+<b class="nc"><i>146</i>&nbsp;            Emprestimo emp = (Emprestimo) litem.getValue();</b>
+<b class="nc"><i>147</i>&nbsp;            EstadoPedido estadoPedido = crudService.get(EstadoPedido.class,ePController.ACCEPTED);</b>
+<b class="nc"><i>148</i>&nbsp;            EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class,eDController.NOT_RETURNED);</b>
+<b class="nc"><i>149</i>&nbsp;            emp.setEstadoPedido(estadoPedido);</b>
+<b class="nc"><i>150</i>&nbsp;            emp.setDataaprovacao(Calendar.getInstance());</b>
+<b class="nc"><i>151</i>&nbsp;            emp.setBibliotecario(user); //</b>
+<b class="nc"><i>152</i>&nbsp;            emp.setEstadoDevolucao(estadoDevolucao);</b>
+<i>153</i>&nbsp;
+<b class="nc"><i>154</i>&nbsp;            Set&lt;Role&gt; roles = emp.getEmprestimoPK().getUtente().getRoles();</b>
+<i>155</i>&nbsp;
+<b class="nc"><i>156</i>&nbsp;            for(Role role: roles) {</b>
+<b class="nc"><i>157</i>&nbsp;                if(role.getRole().equals(&quot;student&quot;))</b>
+<b class="nc"><i>158</i>&nbsp;                    isStudent= true;</b>
+<i>159</i>&nbsp;                else
+<b class="nc"><i>160</i>&nbsp;                    isStudent = false;</b>
+<b class="nc"><i>161</i>&nbsp;            }</b>
+<b class="nc"><i>162</i>&nbsp;            emp.setDatadevolucao(bBDeadline.getDeadline(emp)); // Calcula data de devolucao</b>
+<b class="nc"><i>163</i>&nbsp;            pedidoListModel.remove(emp);</b>
+<b class="nc"><i>164</i>&nbsp;            crudService.update(emp);</b>
+<b class="nc"><i>165</i>&nbsp;            Clients.showNotification(&quot;Pedido aprovado com sucesso &quot;, null, null, null, 5000);</b>
+<i>166</i>&nbsp;        }
+<i>167</i>&nbsp;    }
+<i>168</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-03-29 22:00</div>
+</div>
+</body>
+</html>

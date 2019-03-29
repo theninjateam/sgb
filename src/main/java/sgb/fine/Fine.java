@@ -36,36 +36,38 @@ public class Fine
         this.bBDeadline = bBDeadline;
     }
 
-    public void fine(Emprestimo e)
+    public void fine(Emprestimo e, Calendar now)
     {
-        if (this.wasFinedBefore(e.getEmprestimoPK()))
+        if (!this.wasFinedBefore(e.getEmprestimoPK()))
         {
-            return;
+            Multa multa = new Multa();
+            Emprestimo emprestimo = this.eController.getRequest(e.getEmprestimoPK());
+            EstadoDevolucao estadoDevolucao = this.crudService.get(EstadoDevolucao.class, this.eDController.NOT_RETURNED);
+            EstadoMulta estadoMulta = crudService.get(EstadoMulta.class,this.eMController.NOT_PAID);
+
+            int diaatraso = getDelayDays(now, e.getDatadevolucao());
+
+            emprestimo.setEstadoDevolucao(estadoDevolucao);
+
+            multa.setMultaPK(emprestimo.getEmprestimoPK());
+            multa.setDataemissao(now);
+            multa.setDataemprestimo(emprestimo.getDataaprovacao());
+            multa.setEstadoMulta(estadoMulta);
+            multa.setDiasatraso(diaatraso);
+
+            float taxaD = this.configControler.DAILY_RATE_FINE;
+            multa.setTaxadiaria(taxaD);
+            multa.setValorpago((float) 0);
+
+            crudService.Save(multa);
+            crudService.update(emprestimo);
+
         }
+    }
 
-        Multa multa = new Multa();
-        Emprestimo emprestimo = this.eController.getRequest(e.getEmprestimoPK());
-        EstadoDevolucao estadoDevolucao = this.crudService.get(EstadoDevolucao.class, this.eDController.NOT_RETURNED);
-        EstadoMulta estadoMulta = crudService.get(EstadoMulta.class,this.eMController.NOT_PAID);
-//        emprestimo.setDatadevolucao(bBDeadline.getDeadline(emprestimo));
-
-        int diaatraso = Math.abs (
-                (int) Duration.between(Calendar.getInstance().toInstant(), emprestimo.getDatadevolucao().toInstant()).toDays());
-
-        emprestimo.setEstadoDevolucao(estadoDevolucao);
-
-        multa.setMultaPK(emprestimo.getEmprestimoPK());
-        multa.setDataemissao(Calendar.getInstance());
-        multa.setDataemprestimo(emprestimo.getDataaprovacao());
-        multa.setEstadoMulta(estadoMulta);
-        multa.setDiasatraso(diaatraso);
-
-        float taxaD = this.configControler.DAILY_RATE_FINE;
-        multa.setTaxadiaria(taxaD);
-        multa.setValorpago((float) 0);
-
-        crudService.Save(multa);
-        crudService.update(emprestimo);
+    public int getDelayDays(Calendar now, Calendar deadline)
+    {
+        return Math.abs ((int) Duration.between(now.toInstant(), deadline.toInstant()).toDays());
     }
 
     public boolean wasFinedBefore(EmprestimoPK emprestimoPK)
@@ -73,23 +75,20 @@ public class Fine
         return  this.mController.getFine(emprestimoPK) == null? false : true;
     }
 
-    public float getAmoutToPay(EmprestimoPK emprestimoPK)
+    public float getAmoutToPay(EmprestimoPK emprestimoPK, Calendar now)
     {
         Emprestimo emprestimo = this.eController.getRequest(emprestimoPK);
-        int days = Math.abs (
-                (int) Duration.between(Calendar.getInstance().toInstant(),
-                        emprestimo.getDatadevolucao().toInstant()).toDays());
+        int days = getDelayDays(now, emprestimo.getDatadevolucao());
 
         return (float) this.configControler.DAILY_RATE_FINE * days;
     }
 
-    public void pay(EmprestimoPK emprestimoPK)
+    public void pay(EmprestimoPK emprestimoPK, Calendar now)
     {
         EstadoMulta estadoMulta = crudService.get(EstadoMulta.class,this.eMController.PAID);
         Multa multa = this.mController.getFine(emprestimoPK);
         multa.setEstadoMulta(estadoMulta);
-        multa.setValorpago(getAmoutToPay(emprestimoPK));
-
+        multa.setValorpago(getAmoutToPay(emprestimoPK, now));
         this.crudService.update(multa);
     }
 
