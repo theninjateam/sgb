@@ -49,7 +49,7 @@ import java.util.Calendar;
  * @author Fonseca, Emerson, Matimbe
  */
 
-public class ObraController extends SelectorComposer<Component> {
+public class AddObraController extends SelectorComposer<Component> {
 
     private CRUDService crudService = (CRUDService) SpringUtil.getBean("CRUDService");
     private Users user;
