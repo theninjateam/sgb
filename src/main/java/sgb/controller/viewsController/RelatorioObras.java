@@ -4,10 +4,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.select.SelectorComposer;
+import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.*;
+import sgb.controller.domainController.AreaCientificaController;
 import sgb.controller.domainController.ObraController;
+import sgb.controller.domainController.ObraEliminadasController;
+import sgb.controller.domainController.RegistroObraController;
 import sgb.domain.*;
 import sgb.service.CRUDService;
 
@@ -15,42 +19,49 @@ import sgb.service.CRUDService;
 //import org.zkoss.chart.model.CategoryModel;
 //import org.zkoss.chart.model.DefaultCategoryModel;
 
+import java.util.Calendar;
 import java.util.List;
 
 
-public class Relatorio extends SelectorComposer<Component> {
+public class RelatorioObras extends SelectorComposer<Component> {
 
     private ObraController obraController  = (ObraController) SpringUtil.getBean("obraController");;
+    private RegistroObraController registroObraController  = (RegistroObraController) SpringUtil.getBean("registroObraController");;
+    private ObraEliminadasController obraEliminadasController  = (ObraEliminadasController) SpringUtil.getBean("obraEliminadasController");;
+    private AreaCientificaController areaCientificaController  = (AreaCientificaController) SpringUtil.getBean("areaCientificaController");;
 
-    private CRUDService crudService = (CRUDService) SpringUtil.getBean("CRUDService");
     private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;
-    //    private ListModelList<Emprestimo> relatorioListModel;
     private Boolean isNormalUser = true;
-
-    private Listbox emprestimo;
 
 
     private Listbox obraeliminadas;
-
-
     private Listbox obracategoria;
-
-    private Listbox obradescricao;
-
-    @Wire
-    private Include idInclRelatorioGeral;
+    private Listbox obrasregistadas;
+    private Label qtdd;
 
     @Wire
-    private Include idInclRelatorioObras;
+    private Datebox dataInicio;
+
+    @Wire
+    private Datebox dataFim;
+
+    @Wire
+    private Include idInclRelatorioObrasRegistadas;
+
+    @Wire
+    private Include idInclRelatorioObrasQuantidade;
 
     @Wire
     private Include idInclObrasEliminadas;
 
+    @Wire
+    private Listbox areaCientificaListBox;
 
-    private ListModelList<Geral> emprestimoListModel;
+
+    private ListModelList<RegistroObra> obrasregistadasListModel;
     private ListModelList<ObraEliminadas> obraEliminadasListModel;
     private ListModelList<ObraCategoria> obraCategoriaListModel;
-
+    private ListModelList<AreaCientifica> areaCientificaListModel;
 
 
 
@@ -59,75 +70,140 @@ public class Relatorio extends SelectorComposer<Component> {
     {
         super.doAfterCompose(comp);
 
-        idInclRelatorioObras.setSrc("views/relatorioobrasquantidade.zul");
+        idInclRelatorioObrasQuantidade.setSrc("views/relatorioobrasquantidade.zul");
         idInclObrasEliminadas.setSrc("views/relatorioobraseliminadas.zul");
-        idInclRelatorioGeral.setSrc("views/relatoriogeral.zul");
+        idInclRelatorioObrasRegistadas.setSrc("views/relatorioobrasregistadas.zul");
 
-        emprestimo = (Listbox)idInclRelatorioGeral.getFellow("emprestimo");
+        obrasregistadas = (Listbox)idInclRelatorioObrasRegistadas.getFellow("obrasregistadas");
         obraeliminadas = (Listbox)idInclObrasEliminadas.getFellow("obraeliminadas");
-        obracategoria = (Listbox)idInclRelatorioObras.getFellow("obracategoria");
+        obracategoria = (Listbox)idInclRelatorioObrasQuantidade.getFellow("obracategoria");
+        qtdd = (Label) idInclRelatorioObrasQuantidade.getFellow("qtdd");
+        
+        AreaCientifica a = new AreaCientifica();
+        a.setDescricao("Todas Areas"); a.setIdarea(0);
+        areaCientificaListModel = new ListModelList<AreaCientifica>(areaCientificaController.getAreaCientifica());
+        areaCientificaListModel.add(0,a);
+        areaCientificaListModel.addToSelection(a);
+        areaCientificaListBox.setModel(areaCientificaListModel);
 
-        emprestimoListModel  = new ListModelList<Geral> ();
-        getEmprestimo();
-        emprestimo.setModel(emprestimoListModel);
-
-        obraEliminadasListModel =new ListModelList<ObraEliminadas>(getObraEliminadas());
-        obraeliminadas.setModel(obraEliminadasListModel);
-
-        obraCategoriaListModel = new ListModelList<ObraCategoria>(obraController.getObrasCategorias());
-        obracategoria.setModel(obraCategoriaListModel);
-
-
-
+        setListModelsallData();
+        setListBoxsModels();
     }
 
+    @Listen("onSelect = #areaCientificaListBox")
+    public void change() {
 
+        AreaCientifica areaCientifica = areaCientificaListBox.getSelectedItem().getValue();
 
-    private ListModelList<ObraEliminadas> getObraEliminadas() {
-        List<ObraEliminadas> lista = crudService.getAll(ObraEliminadas.class);
-        return new ListModelList<ObraEliminadas>(lista);
-    }
-//
-//    private ListModelList<RegistroObra> getObraRegistadas() {
-//        List<RegistroObra> lista = crudService.getAll(RegistroObra.class);
-//        return new ListModelList<RegistroObra>(lista);
-//    }
-
-
-
-    public void getEmprestimo() {
-
-        List<Emprestimo> aa = crudService.getAll(Emprestimo.class);
-
-        int emprealizados = aa.size();
-        int empaprovados = 0;
-        int empreprovados =0;
-
-        Geral emprealizado = new Geral();
-        Geral empaprovado= new Geral();
-        Geral empReprovado= new Geral();
-
-        for(Emprestimo emp: aa) {
-            if(emp.getEstadoPedido().getIdestadopedido()==3)
-                empaprovados ++;
-            if(emp.getEstadoPedido().getIdestadopedido()==2)
-                empreprovados ++;
-
+        if(areaCientifica.getIdarea()!=0){
+            obraCategoriaListModel = new ListModelList<ObraCategoria>(obraController.getObrasCategorias(areaCientifica));
+            obrasregistadasListModel = new ListModelList<RegistroObra>(registroObraController.getObrasRegistadas());
+            obraEliminadasListModel =new ListModelList<ObraEliminadas>(obraEliminadasController.getObrasEliminadas());
+        } else {
+            setListModelsallData();
         }
 
-        emprealizado.setDescricao("Emprestimo Realizados ");
-        emprealizado.setQtd(emprealizados);
+        setListBoxsModels();
+    }
 
-        empaprovado.setDescricao("Emprestimo Aprovados");
-        empaprovado.setQtd(empaprovados);
 
-        empReprovado.setDescricao("Emprestimo Reprovados");
-        empReprovado.setQtd(empreprovados);
+    @Listen("onChange = #dataInicio")
+    public void dataChange() {
 
-        emprestimoListModel.add(emprealizado);
-        emprestimoListModel.add(empaprovado);
-        emprestimoListModel.add(empReprovado);
+        Calendar dataI = Calendar.getInstance();
+        dataI.setTime(dataInicio.getValue());
+
+        Calendar dataF = Calendar.getInstance();
+        dataF.setTime(dataFim.getValue());
+
+        AreaCientifica areaCientifica = areaCientificaListBox.getSelectedItem().getValue();
+        List<RegistroObra> registroObras = registroObraController.getObrasByDate(dataI,dataF);
+
+        if(areaCientifica.getIdarea()!=0){
+            obraCategoriaListModel = new ListModelList<ObraCategoria>(obraController.getObrasCategorias(registroObras,areaCientifica));
+            obrasregistadasListModel = new ListModelList<RegistroObra>(registroObraController.getObrasRegistadas());
+            obraEliminadasListModel =new ListModelList<ObraEliminadas>(obraEliminadasController.getObrasEliminadas());
+        } else {
+            setListModelsallData();
+        }
+
+        setListBoxsModels();
+//
+//
+//        AreaCientifica areaCientifica = areaCientificaListBox.getSelectedItem().getValue();
+//
+//        if(areaCientifica.getIdarea()!=0){
+//            obraCategoriaListModel = new ListModelList<ObraCategoria>(obraController.getObrasCategorias(areaCientifica));
+//            obrasregistadasListModel = new ListModelList<RegistroObra>(registroObraController.getObrasRegistadas());
+//            obraEliminadasListModel =new ListModelList<ObraEliminadas>(obraEliminadasController.getObrasEliminadas());
+//        } else {
+//            setListModelsallData();
+//        }
+//
+//        setListBoxsModels();
+    }
+
+    public void setListModelsallData(){
+
+            obraCategoriaListModel = new ListModelList<ObraCategoria>(obraController.getObrasCategorias(null));
+            obrasregistadasListModel = new ListModelList<RegistroObra>(registroObraController.getObrasRegistadas());
+            obraEliminadasListModel =new ListModelList<ObraEliminadas>(obraEliminadasController.getObrasEliminadas());
 
     }
+
+    public void setListBoxsModels(){
+
+        obracategoria.setModel(obraCategoriaListModel);
+        obrasregistadas.setModel(obrasregistadasListModel);
+        obraeliminadas.setModel(obraEliminadasListModel);
+        qtdd.setValue(""+getQtddTotalObra(obraCategoriaListModel));
+    }
+
+    public int getQtddTotalObra(ListModelList<ObraCategoria> obraCategoriaListModel){
+        int total=0;
+
+        for (ObraCategoria obraCategoria : obraCategoriaListModel) {
+            for(Obra o: obraCategoria.getObras())
+                total +=o.getQuantidade();
+        }
+
+        return total;
+    }
+
+//
+//    public void getEmprestimo() {
+//
+//        List<Emprestimo> aa = crudService.getAll(Emprestimo.class);
+//
+//        int emprealizados = aa.size();
+//        int empaprovados = 0;
+//        int empreprovados =0;
+//
+//        Geral emprealizado = new Geral();
+//        Geral empaprovado= new Geral();
+//        Geral empReprovado= new Geral();
+//
+//        for(Emprestimo emp: aa) {
+//            if(emp.getEstadoPedido().getIdestadopedido()==3)
+//                empaprovados ++;
+//            if(emp.getEstadoPedido().getIdestadopedido()==2)
+//                empreprovados ++;
+//
+//        }
+//
+//        emprealizado.setDescricao("Emprestimo Realizados ");
+//        emprealizado.setQtd(emprealizados);
+//
+//        empaprovado.setDescricao("Emprestimo Aprovados");
+//        empaprovado.setQtd(empaprovados);
+//
+//        empReprovado.setDescricao("Emprestimo Reprovados");
+//        empReprovado.setQtd(empreprovados);
+//
+//        emprestimoListModel.add(emprealizado);
+//        emprestimoListModel.add(empaprovado);
+//        emprestimoListModel.add(empReprovado);
+//
+//    }
 
 }

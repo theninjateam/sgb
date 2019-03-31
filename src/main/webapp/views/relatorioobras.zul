@@ -1,38 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zk>
-    <window id="listObra" apply="sgb.controller.viewsController.Relatorio"
+    <window id="listObra" apply="sgb.controller.viewsController.RelatorioObras"
             border="none" hflex="1" vflex="1" contentStyle="overflow:auto">
         <div style="padding:0px">
 
-           <span sclass="input-group-addon">  From: </span>
-           <datebox id="dataInicio" cols="12" format="medium" onCreate="self.value = new Date()" />
+            <toolbar id="tbt" height="30px" align="center">
 
-           <span sclass="input-group-addon">   to: </span>
-           <datebox id="dataFim" cols="12" format="medium" onCreate="self.value = new Date()" />
+                <div >
+                    <span sclass="input-group-addon">Area Cientifica: </span>
+                    <listbox width="10%" id="areaCientificaListBox"
+                     emptyMessage="Nenhuma Area Cientifica Encotrada"
+                     mold="select">
+                        <listhead>
+                            <listheader label="Area Cientifica"/>
+                        </listhead>
+                        <template name="model">
+                            <listitem>
+                                <listcell label="${each.descricao}">
+                                </listcell>
+                            </listitem>
+                        </template>
+                     </listbox>
+                    <span sclass="input-group-addon">  From: </span>
+                    <datebox id="dataInicio" cols="12" format="medium" onCreate="self.value = new Date()" />
 
-           <tabbox>
+                    <span sclass="input-group-addon">   to: </span>
+                    <datebox id="dataFim" cols="12" format="medium" onCreate="self.value = new Date()" />
+                </div>
+            </toolbar>
+
+            <tabbox>
                 <tabs>
-                    <tab label="Relatorio geral"></tab>
-                    <tab label="Relatorio de Obras"></tab>
+                    <tab label="Obras Quantidade"></tab>
+                    <tab label="Obras Registadas"></tab>
                     <tab label="Obras Eliminadas"></tab>
-
-
                 </tabs>
 
-             <tabpanels>
-                 <tabpanel>
-                        <include id="idInclRelatorioGeral"/>
-                 </tabpanel>
+                <tabpanels>
 
-                 <tabpanel>
-                        <include id="idInclRelatorioObras"/>
-                 </tabpanel>
+                    <tabpanel>
+                        <include id="idInclRelatorioObrasQuantidade"/>
+                    </tabpanel>
 
-                 <tabpanel>
+                    <tabpanel>
+                        <include id="idInclRelatorioObrasRegistadas"/>
+                    </tabpanel>
+
+                    <tabpanel>
                          <include id="idInclObrasEliminadas"/>
-                 </tabpanel>
-
-             </tabpanels>
+                    </tabpanel>
+                </tabpanels>
            </tabbox>
         </div>
     </window>

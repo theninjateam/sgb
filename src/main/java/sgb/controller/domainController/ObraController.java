@@ -31,30 +31,87 @@ public class ObraController {
     }
 
 
-    public List<Obra> getObras(int cat){
+    public List<Obra> getObras(AreaCientifica areaCientifica){
 
         parameters = new HashMap<String, Object>(1);
         query = new StringBuilder();
 
-        parameters.put("cat", cat);
+        parameters.put("area", areaCientifica.getIdarea());
 
-        query.append("SELECT o FROM Obra o WHERE o.areacientifica.idarea = :cat");
+        query.append("SELECT o FROM Obra o WHERE o.areacientifica.idarea = :area");
 
         return this.crudService.findByJPQuery(query.toString(),parameters);
 
     }
+//
+//    public List<Obra> getObra(Obra obra){
+//
+//        parameters = new HashMap<String, Object>(1);
+//        query = new StringBuilder();
+//
+//        parameters.put("cota", obra.getCota());
+//
+//        query.append("SELECT o. FROM Obra o WHERE o.cota = :cota");
+//
+//        return this.crudService.findByJPQuery(query.toString(),parameters);
+//
+//    }
 
-    public List<ObraCategoria> getObrasCategorias (){
+
+    public List<ObraCategoria> getObrasCategorias (AreaCientifica areaCientifica){
 
         List<ObraCategoria> obraCategorias = new ArrayList<>();
 
-        for(AreaCientifica a: areaCientificaController.getAreaCientifica()){
+        if(areaCientifica != null)
+            obraCategorias.add(new ObraCategoria(areaCientifica,getObras(areaCientifica)));
+        else {
+            for (AreaCientifica a : areaCientificaController.getAreaCientifica()) {
 
-            obraCategorias.add(new ObraCategoria(a,getObras(a.getIdarea())));
+                obraCategorias.add(new ObraCategoria(a, getObras(a)));
+            }
         }
 
         return obraCategorias;
     }
+
+    public List<ObraCategoria> getObrasCategorias (List<RegistroObra> registroObras, AreaCientifica areaCientifica){
+
+        List<ObraCategoria> obraCategorias = new ArrayList<>();
+        List<Obra> obraList = new ArrayList<>();
+
+        for (RegistroObra r : registroObras) {
+
+            obraList.add(r.getRegistroObraPK().getObra());
+        }
+
+        if(areaCientifica != null)
+            obraCategorias.add(new ObraCategoria(areaCientifica,getObraByArea(areaCientifica,obraList)));
+        else {
+            for (AreaCientifica a : areaCientificaController.getAreaCientifica()) {
+
+                obraCategorias.add(new ObraCategoria(a, getObraByArea(a,obraList)));
+            }
+        }
+
+        return obraCategorias;
+    }
+
+    public List<Obra> getObraByArea(AreaCientifica areaCientifica,List<Obra> obraList){
+
+        List<Obra> listObra = new ArrayList<>();
+
+        for (Obra o:obraList){
+
+            if (o.getAreacientifica().getIdarea()==areaCientifica.getIdarea()){
+
+                listObra.add(o);
+            }
+        }
+
+        return listObra;
+    }
+
+
 
 //    public List<Obra> getRequest(int categoria)
 //    {

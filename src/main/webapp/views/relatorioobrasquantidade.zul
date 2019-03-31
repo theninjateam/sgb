@@ -8,12 +8,8 @@
             <listbox width="100%" id="obracategoria"
                      emptyMessage="Nao tem nenhum pedido pendente">
                 <listhead>
-                    <listheader width="30%" height="100%" label="Area"/>
-                    <listheader width="70%" height="100%" label="Descricao da Obra (Quantidade)"/>
-                    <!--<listheader width="10%" height="100%" label="Quantidade"/>-->
-                    <!--<listheader width="20%" height="100%" label="Titulo"/>-->
-                    <!--<listheader width="5%" height="100%" label="Qtd"/>-->
-                    <!--<listheader width="20%" height="100%" label="Forma Aquisicao"/>-->
+                    <listheader width="25%" height="100%" label="Area"/>
+                    <listheader width="75%" height="100%" label="Descricao da Obra (Quantidade)"/>
                 </listhead>
                 <template name="model">
                     <listitem>
@@ -33,30 +29,18 @@
                                 <rows>
 
                                     <row forEach="${each.obras}">
-                                        <cell> <label   value="${each.titulo}. "/> </cell>
+                                        <cell>
+                                            <div>
+                                                <label value = "COTA:  "/>
+                                                <label   value="${each.cota}:  TITULO: ${each.titulo}. "/>
+                                                <label value=" DE  ${each.anoPublicacao} "/>
+                                            </div>
+                                        </cell>
                                         <cell> <label   value="${each.quantidade} "/> </cell>
 
                                     </row >
                                 </rows>
                             </grid>
-
-                            <!--<div>-->
-                                <!--<label value="${each.user.name}"/>-->
-                            <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                            <!--<listbox width="100%" id="obradescricao"-->
-                                     <!--&gt;-->
-                                <!--<listhead>-->
-                                    <!--<listheader width="70%" height="100%" />-->
-                                    <!--<listheader width="30%" height="100%" />-->
-                                <!--</listhead>-->
-                                <!--<template name="model">-->
-                                    <!--<listitem>-->
-                                        <!--<listcell>-->
-
-                                        <!--</listcell>-->
-                                    <!--</listitem>-->
-                                <!--</template>-->
-                            <!--</listbox>-->
                         </listcell>
                     </listitem>
                 </template>
@@ -64,6 +48,24 @@
                     <listfooter  height="100%"  width="100%" style="padding: 15px 32px; background-color: lightgray; border-style: none;">
                         Total
                     </listfooter>
+                    <listfooter  >
+                        <grid>
+                            <columns>
+                                <column width="80%" />
+                                <column width="20%"/>
+                            </columns>
+
+                            <rows>
+                                <row>
+                                    <cell> </cell>
+                                    <cell height="100%"  width="100%" style="padding: 15px 32px; background-color: lightgreen; border-style: none;">
+                                        <label id="qtdd" value = "" />
+                                    </cell>
+                                </row>
+                            </rows>
+                        </grid>
+                    </listfooter>
+
                 </listfoot>
             </listbox>
         </row>

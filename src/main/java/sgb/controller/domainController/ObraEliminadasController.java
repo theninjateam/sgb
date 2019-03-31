@@ -1,27 +1,27 @@
 package sgb.controller.domainController;
 
-import sgb.domain.*;
+import sgb.domain.ObraEliminadas;
 import sgb.service.CRUDService;
 
 import java.util.HashMap;
 import java.util.List;
 
-public class RegistroObraController
+public class ObraEliminadasController
 {
     private StringBuilder query;
     private HashMap<String, Object> parameters;
     private CRUDService crudService;
 
-    public RegistroObraController(CRUDService crudService)
+    public ObraEliminadasController(CRUDService crudService)
     {
         this.crudService = crudService;
     }
 
-    public List<RegistroObra> getObrasRegistadas()
+    public List<ObraEliminadas> getObrasEliminadas()
     {
         query = new StringBuilder();
 
-        query.append("SELECT r FROM RegistroObra r");
+        query.append("SELECT oe FROM ObraEliminadas oe");
 
         return this.crudService.findByJPQuery(query.toString(),null);
     }
