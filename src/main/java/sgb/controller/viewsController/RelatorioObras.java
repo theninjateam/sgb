@@ -59,7 +59,7 @@ public class Relatorio extends SelectorComposer<Component> {
     {
         super.doAfterCompose(comp);
 
-        idInclRelatorioObras.setSrc("views/relatorioobras.zul");
+        idInclRelatorioObras.setSrc("views/relatorioobrasquantidade.zul");
         idInclObrasEliminadas.setSrc("views/relatorioobraseliminadas.zul");
         idInclRelatorioGeral.setSrc("views/relatoriogeral.zul");
 

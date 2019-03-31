@@ -1,72 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk>
+    <window id="listObra" apply="sgb.controller.viewsController.Relatorio"
+            border="none" hflex="1" vflex="1" contentStyle="overflow:auto">
+        <div style="padding:0px">
 
-<grid>
-    <columns>
-        <column/>
-    </columns>
-    <rows>
-        <row>
-            <listbox width="100%" id="obracategoria"
-                     emptyMessage="Nao tem nenhum pedido pendente">
-                <listhead>
-                    <listheader width="30%" height="100%" label="Area"/>
-                    <listheader width="70%" height="100%" label="Descricao da Obra (Quantidade)"/>
-                    <!--<listheader width="10%" height="100%" label="Quantidade"/>-->
-                    <!--<listheader width="20%" height="100%" label="Titulo"/>-->
-                    <!--<listheader width="5%" height="100%" label="Qtd"/>-->
-                    <!--<listheader width="20%" height="100%" label="Forma Aquisicao"/>-->
-                </listhead>
-                <template name="model">
-                    <listitem>
-                        <listcell>
-                            <div>
-                                <label value="${each.areaCientifica.descricao}"/>
-                            </div>
-                        </listcell>
-                        <listcell>
+           <span sclass="input-group-addon">  From: </span>
+           <datebox id="dataInicio" cols="12" format="medium" onCreate="self.value = new Date()" />
 
-                            <grid>
-                                <columns>
-                                    <column width="80%" />
-                                    <column width="20%"/>
-                                </columns>
+           <span sclass="input-group-addon">   to: </span>
+           <datebox id="dataFim" cols="12" format="medium" onCreate="self.value = new Date()" />
 
-                                <rows>
+           <tabbox>
+                <tabs>
+                    <tab label="Relatorio geral"></tab>
+                    <tab label="Relatorio de Obras"></tab>
+                    <tab label="Obras Eliminadas"></tab>
 
-                                    <row forEach="${each.obras}">
-                                        <cell> <label   value="${each.titulo}. "/> </cell>
-                                        <cell> <label   value="${each.quantidade} "/> </cell>
 
-                                    </row >
-                                </rows>
-                            </grid>
+                </tabs>
 
-                            <!--<div>-->
-                                <!--<label value="${each.user.name}"/>-->
-                            <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                            <!--<listbox width="100%" id="obradescricao"-->
-                                     <!--&gt;-->
-                                <!--<listhead>-->
-                                    <!--<listheader width="70%" height="100%" />-->
-                                    <!--<listheader width="30%" height="100%" />-->
-                                <!--</listhead>-->
-                                <!--<template name="model">-->
-                                    <!--<listitem>-->
-                                        <!--<listcell>-->
+             <tabpanels>
+                 <tabpanel>
+                        <include id="idInclRelatorioGeral"/>
+                 </tabpanel>
 
-                                        <!--</listcell>-->
-                                    <!--</listitem>-->
-                                <!--</template>-->
-                            <!--</listbox>-->
-                        </listcell>
-                    </listitem>
-                </template>
-                <listfoot >
-                    <listfooter  height="100%"  width="100%" style="padding: 15px 32px; background-color: lightgray; border-style: none;">
-                        Total
-                    </listfooter>
-                </listfoot>
-            </listbox>
-        </row>
+                 <tabpanel>
+                        <include id="idInclRelatorioObras"/>
+                 </tabpanel>
 
-    </rows>
-</grid>
+                 <tabpanel>
+                         <include id="idInclObrasEliminadas"/>
+                 </tabpanel>
+
+             </tabpanels>
+           </tabbox>
+        </div>
+    </window>
+</zk>
