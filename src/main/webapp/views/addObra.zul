@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zk>
-    <window id="addObra" apply="sgb.controller.viewsController.ObraController"
+    <window id="addObra" apply="sgb.controller.viewsController.AddObraController"
             border="none" hflex="1" vflex="1" contentStyle="overflow:auto">
 
         <div style="padding:0px">
