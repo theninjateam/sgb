@@ -1,9 +1,11 @@
 package sgb.controller.viewsController;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.*;
@@ -14,11 +16,14 @@ import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.*;
 import sgb.domain.*;
+import sgb.request.Request;
 import sgb.service.CRUDService;
 import sgb.controller.domainController.*;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.PriorityQueue;
+import java.util.Set;
 
 /**
  * @author Fonseca, Emerson
@@ -27,7 +32,15 @@ import java.util.List;
 public class ListobraController extends SelectorComposer<Component>
 {
     private CRUDService crudService = (CRUDService) SpringUtil.getBean("CRUDService");
+    private Request request = (Request) SpringUtil.getBean("request");
+
+    private EstadoPedidoControler ePController = (EstadoPedidoControler) SpringUtil.getBean("estadoPedidoControler");
+
     private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;
+    private EmprestimoController eController = (EmprestimoController) SpringUtil.getBean("emprestimoController");
+    private EstadoDevolucaoControler eDController = (EstadoDevolucaoControler) SpringUtil.getBean("estadoDevolucaoControler");
+    private EstadoMultaControler eMController = (EstadoMultaControler) SpringUtil.getBean("estadoMultaControler");
+    private MultaController mController = (MultaController) SpringUtil.getBean("multaController");
     private Session session;
     private EmprestimoPK emprestimoPK;
     private Emprestimo emprestimo;
@@ -37,7 +50,7 @@ public class ListobraController extends SelectorComposer<Component>
     private ListModelList<Obra> obraListModel;
     private ListModelList<Item> cestaListModel = new ListModelList<Item>();
     private ListModelList<Obra> detalheobra;
-    private EmprestimoControllerSingleton emprestimoControllerSingleton =  EmprestimoControllerSingleton.getInstance(crudService);
+    private boolean isHomeRequisition;
 
     @Wire
     private Button buttonPesquisar;
@@ -82,6 +95,8 @@ public class ListobraController extends SelectorComposer<Component>
         super.doAfterCompose(comp);
         session = Sessions.getCurrent();
 
+        boolean c= isNormalUser();
+
         obraListModel = getObraListModel();
         cestaListModel = getCestaListModel();
         obraListBox.setModel(obraListModel);
@@ -89,10 +104,20 @@ public class ListobraController extends SelectorComposer<Component>
         this.qtdObrasNaCesta.setValue("0");
     }
 
+    public boolean isNormalUser () {
+        Boolean a = true;
+
+        Set<Role> userrole =user.getRoles();
+
+        for(Role role : userrole) {
+            if(role.getRole().equals("ADMIN"))
+                a = false;
+        }
+        return a;
+    }
 
     public ListModelList<Obra> getObraListModel() {
         List<Obra> listaobra = crudService.getAll(Obra.class);
-
         return new ListModelList<Obra>(listaobra);
     }
 
@@ -149,27 +174,40 @@ public class ListobraController extends SelectorComposer<Component>
     {
 
         Button btn = (Button)event.getOrigin().getTarget();
-        Listitem litem = (Listitem) getListitem(btn);
+        Listitem litem =  (Listitem) getListitem(btn);
         Obra obra = (Obra) litem.getValue();
-        Messagebox.show("Tem certeza que deseja eliminar a obra ?", "deletar obra",
-                Messagebox.YES + Messagebox.NO, Messagebox.QUESTION,
-                new EventListener<Event>() {
-                    @Override
-                    public void onEvent(Event event) throws Exception {
-                        if (Messagebox.ON_YES.equals(event.getName())) {
-                            obraListModel.remove(obra);
+        obra = crudService.get(Obra.class, obra.getCota());
+
+        session.setAttribute("obraToEdite", obra);
+
+        Window window =(Window) Executions.createComponents("/views/modalEliminarExemplar.zul", null, null);
+        window.doModal();
+
+
+//        Button btn = (Button)event.getOrigin().getTarget();
+//        Listitem litem = (Listitem) getListitem(btn);
+//        ObraConcurrenceControl obra = (ObraConcurrenceControl) litem.getValue();
+//        Messagebox.show("Tem certeza que deseja eliminar a obra ?", "deletar obra",
+//                Messagebox.YES + Messagebox.NO, Messagebox.QUESTION,
+//                new EventListener<Event>() {
+//                    @Override
+//                    public void onEvent(Event event) throws Exception {
+//                        if (Messagebox.ON_YES.equals(event.getName())) {
+//                            obraListModel.remove(obra);
+////                            obra.setAutores(null);
 //                            obra.setAutores(null);
-                            crudService.delete(obra);
-                            Clients.showNotification("Obra eliminado com sucesso",null,null,null,5000);
-                        }
-                    }
-                });
+//                            crudService.delete(obra);
+//                            Clients.showNotification("ObraConcurrenceControl eliminado com sucesso",null,null,null,5000);
+//                        }
+//                    }
+//                });
+
     }
 
     @Listen("onDetalheObra = #obraListBox")
     public void doDetalhe(ForwardEvent event)
     {
-//        Clients.showNotification("Detalhes Obra");
+//        Clients.showNotification("Detalhes ObraConcurrenceControl");
         detalheobra = new ListModelList<>();
         gridListObra.setVisible(false);
         buttonPesquisar.setVisible(false);
@@ -198,13 +236,19 @@ public class ListobraController extends SelectorComposer<Component>
 
     }
 
-    @Listen("onEditarObra = #obraListBox")
+    @Listen("onAdicionarExemplares = #obraListBox")
     public void doEditar(ForwardEvent event)
     {
-        Clients.showNotification("Editar Obra",null,null,null,5000);
-//        Executions.getCurrent().sendRedirect("views/addObra.zul");
-    }
+        Button btn = (Button)event.getOrigin().getTarget();
+        Listitem litem =  (Listitem) getListitem(btn);
+        Obra obra = (Obra) litem.getValue();
+        obra = crudService.get(Obra.class, obra.getCota());
 
+        session.setAttribute("obraToEdite", obra);
+
+        Window window =(Window) Executions.createComponents("/views/UpdateObra.zul", null, null);
+        window.doModal();
+    }
 
     @Listen("onAdicionarNaCesta = #obraListBox")
     @Transactional
@@ -229,74 +273,87 @@ public class ListobraController extends SelectorComposer<Component>
         }
     }
 
+    @Listen("onLeituraDomiciliar = #cestaListBox")
+    public void doLeituraDomiciliar(ForwardEvent event)
+    {
+        try
+        {
+            Hlayout hlayoutLeituraDomiciliar = (Hlayout) event.getOrigin().getTarget();
+            Radio radioLeituraDomiciliar = (Radio) hlayoutLeituraDomiciliar.getFirstChild();
+            radioLeituraDomiciliar.setSelected(true);
+
+            Hlayout hlayoutLeituraInterna = (Hlayout) hlayoutLeituraDomiciliar.getParent().getLastChild();
+            Radio radioLeituraInterna = (Radio) hlayoutLeituraInterna.getFirstChild();
+            radioLeituraInterna.setSelected(false);
+
+            Button btn = (Button) hlayoutLeituraDomiciliar.getParent().getParent().getLastChild();
+            btn.setVisible(true);
+
+            this.isHomeRequisition = true;
+
+            updateCesta();
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+    }
+
+    @Listen("onLeituraInterna = #cestaListBox")
+    public void LeituraInterna(ForwardEvent event)
+    {
+        try
+        {
+            Hlayout hlayoutLeituraInterna = (Hlayout) event.getOrigin().getTarget();
+            Radio radioLeituraInterna = (Radio) hlayoutLeituraInterna.getFirstChild();
+            radioLeituraInterna.setSelected(true);
+
+            Hlayout hlayoutLeituraDomiciliar = (Hlayout) hlayoutLeituraInterna.getParent().getFirstChild();
+            Radio radioLeituraDomiciliar = (Radio) hlayoutLeituraDomiciliar.getFirstChild();
+            radioLeituraDomiciliar.setSelected(false);
+
+            Button btn = (Button) hlayoutLeituraDomiciliar.getParent().getParent().getLastChild();
+            btn.setVisible(true);
+
+            this.isHomeRequisition = false;
+
+            updateCesta();
+
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+    }
+
     @Listen("onRequisitarObra = #cestaListBox")
     public void doRequisitar(ForwardEvent event)
     {
-        if (cestaListModel.size() == 0)
+        try
         {
-            Clients.showNotification("A Cesta esta vazia",null,null,null,5000);
-            return;
-        }
-
-        List<Emprestimo> emprestimos = crudService.findByJPQuery("SELECT e FROM Emprestimo e WHERE e.emprestimoPK.user.id = "+
-                user.getId()+" and e.estadoDevolucao.idestadodevolucao = 1", null);
-
-        // begin transaction
-        for (Item item : cestaListModel)
-        {
-            boolean exists = false;
-
-            emprestimo = new Emprestimo();
-            emprestimoPK = new EmprestimoPK();
-            estadoDevolucao = crudService.get(EstadoDevolucao.class, 1);
-            estadoPedido= crudService.get(EstadoPedido.class, 1);
-            estadoRenovacao = crudService.get(EstadoRenovacao.class,1);
-
-            emprestimoPK.setObra(item.getObra());
-            emprestimoPK.setUser(user);
-            emprestimoPK.setDataentrada(Calendar.getInstance());
-
-            emprestimo.setEstadoDevolucao(estadoDevolucao);
-            emprestimo.setEstadoPedido(estadoPedido);
-            emprestimo.setEmprestimoPK(emprestimoPK);
-            emprestimo.setComentario("--");
-            emprestimo.setDataaprovacao(null);
-            emprestimo.setDatadevolucao(null);
-            emprestimo.setQuantidade(item.getQuantidade());
-            emprestimo.setEstadoRenovacao(estadoRenovacao);
-            emprestimo.setDatarenovacao(null);
-            emprestimo.setDatadevolucaorenovacao(null);
-
-
-            try
+            if (cestaListModel.size() == 0)
             {
-                for (Emprestimo e: emprestimos)
+                Clients.showNotification("A Cesta esta vazia",null,null,null,5000);
+                return;
+            }
+
+            for (Item item : cestaListModel)
+            {
+                if (item.getCanBeRequested())
                 {
-                    if (e.getEmprestimoPK().getObra().getCota().
-                        equals(emprestimoPK.getObra().getCota())
-                        && e.getEmprestimoPK().getUser().getId() == emprestimoPK.getUser().getId())
-                    {
-                        e.setQuantidade(e.getQuantidade() + emprestimo.getQuantidade());
-                        crudService.update(e);
-                        exists = true;
-                        break;
-                    }
+                    this.request.request(item, this.user);
                 }
-
-                if (!exists) { crudService.Save(emprestimo); }
-            }
-            catch (Exception ex)
-            {
-                ex.printStackTrace();
             }
 
+            this.cestaListModel.removeAll(cestaListModel);
+            this.qtdObrasNaCesta.setValue("0");
+
+            Clients.showNotification("successful",null,null,null,5000);
         }
-
-        cestaListModel.removeAll(cestaListModel);
-        this.qtdObrasNaCesta.setValue(""+getQtdObrasNaCesta());
-        //ende transation
-
-        Clients.showNotification("successful",null,null,null,5000);
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
     }
 
     @Listen("onPesquisar = #textboxPesquisar")
@@ -370,7 +427,6 @@ public class ListobraController extends SelectorComposer<Component>
         this.qtdObrasNaCesta.setValue(""+getQtdObrasNaCesta());
     }
 
-
     @Listen("onRemoverDaCesta = #cestaListBox")
     public void doEliminarcesta(ForwardEvent event)
     {
@@ -400,12 +456,6 @@ public class ListobraController extends SelectorComposer<Component>
             Clients.showNotification("Voce so pode requisitar '"+ getQtdMaxObras()+"' obras no maximo",null,null,null,5000);
             return;
         }
-        else if ( getQtdExemplaresRequisitados(obra)+
-                getQtdExemplaresNaCesta(obra) + 1 > obra.getQuantidade() )
-        {
-            Clients.showNotification("So existem '"+ obra.getQuantidade() +"' exemplares dessa obra",null,null,null,5000);
-            return;
-        }
 
         boolean obraExists = false;
         Item item = new Item();
@@ -422,15 +472,19 @@ public class ListobraController extends SelectorComposer<Component>
 
         if (!obraExists)
         {
+
             item = new Item();
             item.setObra(obra);
             item.setQuantidade(1);
+            item.setHomeRequisition(this.request.canDoHomeRequisition(obra));
+            item.setLineUp(this.request.canLineUp(obra,1));
             cestaListModel.add(item);
+            updateCesta();
         }
-        else
-        {
-            aumentarQtd(item);
-        }
+//       else
+//        {
+//            aumentarQtd(item);
+//        }
 
         this.qtdObrasNaCesta.setValue(""+getQtdObrasNaCesta());
 
@@ -508,18 +562,31 @@ public class ListobraController extends SelectorComposer<Component>
 
     public  boolean temObrasPorDevolver()
     {
-        List<Emprestimo> emprestimos = crudService.findByJPQuery("SELECT e FROM Emprestimo e WHERE e.emprestimoPK.user.id = "+
-                user.getId()+" and e.estadoDevolucao.idestadodevolucao = 2", null);
+        /*
+        * Todo usario que tiver um obra por devolver , tera uma multa aplicada
+        * Partindo desse principo sai esse metodo
+        */
+        List<Multa> multas = mController.getFine(user,eMController.NOT_PAID);
 
-        return emprestimos.size() > 0 ?  true : false;
+        /*
+        List<Emprestimo> emprestimos = eController.getBorrowedBooks(user,eDController.NOT_RETURNED);
+
+                crudService.findByJPQuery("SELECT e FROM Emprestimo e WHERE e.emprestimoPK.utente.id = "+
+                user.getId()+" and e.estadoDevolucao.idestadodevolucao = 2", null); // isso deve mudar
+        */
+
+        return multas.size() > 0 ?  true : false;
     }
 
     public int getQtdObrasRequisitadas()
     {
         int qtd = 0;
 
-        List<Emprestimo> emprestimos = crudService.findByJPQuery("SELECT e FROM Emprestimo e WHERE e.emprestimoPK.user.id = "+
+        List<Emprestimo> emprestimos = eController.getRequest(user,ePController.ACCEPTED,eDController.NOT_RETURNED);
+        /*
+                crudService.findByJPQuery("SELECT e FROM Emprestimo e WHERE e.emprestimoPK.utente.id = "+
                 user.getId()+" and e.estadoDevolucao.idestadodevolucao = 1", null);
+        */
 
         for (Emprestimo e: emprestimos)
             qtd += e.getQuantidade();
@@ -531,8 +598,12 @@ public class ListobraController extends SelectorComposer<Component>
     {
         int qtd = 0;
 
-        List<Emprestimo> emprestimos = crudService.findByJPQuery("SELECT e FROM Emprestimo e WHERE e.emprestimoPK.user.id = "+
+        List<Emprestimo> emprestimos = eController.getRequest(user,obra,eDController.UNDETERMINED);
+
+        /*
+                crudService.findByJPQuery("SELECT e FROM Emprestimo e WHERE e.emprestimoPK.utente.id = "+
                 user.getId()+" and e.estadoDevolucao.idestadodevolucao = 1 and e.emprestimoPK.obra.cota = '"+obra.getCota() +"'", null);
+        */
 
         for (Emprestimo e: emprestimos)
             qtd += e.getQuantidade();
@@ -569,5 +640,35 @@ public class ListobraController extends SelectorComposer<Component>
             }
         }
         return 0;
+    }
+
+    public void updateCesta()
+    {
+
+        for(int i = 0; i <  cestaListModel.size(); i++)
+        {
+            if (this.isHomeRequisition)
+            {
+                Obra obra = cestaListModel.get(i).getObra();
+                cestaListModel.get(i).setHomeRequisition(this.request.canDoHomeRequisition(obra));
+                cestaListModel.get(i).setLineUp(this.request.canLineUp(obra,1));
+
+                if (!cestaListModel.get(i).getIsHomeRequisition())
+                {
+                    cestaListModel.get(i).setCanBeRequested(false);
+                }
+                else
+                {
+                    cestaListModel.get(i).setCanBeRequested(true);
+                }
+            }
+            else
+            {
+                cestaListModel.get(i).setCanBeRequested(true);
+                cestaListModel.get(i).setHomeRequisition(false);
+            }
+
+            cestaListModel.set(i, cestaListModel.get(i));
+        }
     }
 }

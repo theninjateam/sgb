@@ -1,0 +1,186 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Fine</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">sgb.fine</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Fine (sgb.fine)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Fine</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (7/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (43/ 43)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package sgb.fine;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import sgb.controller.domainController.*;
+<i>4</i>&nbsp;import sgb.deadline.BorrowedBooksDeadline;
+<i>5</i>&nbsp;import sgb.domain.*;
+<i>6</i>&nbsp;import sgb.service.CRUDService;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;import java.time.Duration;
+<i>9</i>&nbsp;import java.util.Calendar;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;public class Fine
+<i>12</i>&nbsp;{
+<i>13</i>&nbsp;    private MultaController mController;
+<i>14</i>&nbsp;    private EstadoMultaControler eMController;
+<i>15</i>&nbsp;    private CRUDService crudService;
+<i>16</i>&nbsp;    private EstadoDevolucaoControler eDController;
+<i>17</i>&nbsp;    private ConfigControler configControler;
+<i>18</i>&nbsp;    private EmprestimoController eController;
+<i>19</i>&nbsp;    private BorrowedBooksDeadline bBDeadline;
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    public Fine(ConfigControler configControler,
+<i>22</i>&nbsp;                MultaController mController,
+<i>23</i>&nbsp;                EstadoMultaControler eMController,
+<i>24</i>&nbsp;                CRUDService crudService,
+<i>25</i>&nbsp;                EstadoDevolucaoControler eDController,
+<i>26</i>&nbsp;                EmprestimoController eController,
+<i>27</i>&nbsp;                BorrowedBooksDeadline bBDeadline)
+<b class="fc"><i>28</i>&nbsp;    {</b>
+<i>29</i>&nbsp;
+<b class="fc"><i>30</i>&nbsp;        this.configControler = configControler;</b>
+<b class="fc"><i>31</i>&nbsp;        this.crudService = crudService;</b>
+<b class="fc"><i>32</i>&nbsp;        this.eController = eController;</b>
+<b class="fc"><i>33</i>&nbsp;        this.eMController = eMController;</b>
+<b class="fc"><i>34</i>&nbsp;        this.eDController = eDController;</b>
+<b class="fc"><i>35</i>&nbsp;        this.mController = mController;</b>
+<b class="fc"><i>36</i>&nbsp;        this.bBDeadline = bBDeadline;</b>
+<b class="fc"><i>37</i>&nbsp;    }</b>
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;    public void fine(Emprestimo e, Calendar now)
+<i>40</i>&nbsp;    {
+<b class="fc"><i>41</i>&nbsp;        if (!this.wasFinedBefore(e.getEmprestimoPK()))</b>
+<i>42</i>&nbsp;        {
+<b class="fc"><i>43</i>&nbsp;            Multa multa = new Multa();</b>
+<b class="fc"><i>44</i>&nbsp;            Emprestimo emprestimo = this.eController.getRequest(e.getEmprestimoPK());</b>
+<b class="fc"><i>45</i>&nbsp;            EstadoDevolucao estadoDevolucao = this.crudService.get(EstadoDevolucao.class, this.eDController.NOT_RETURNED);</b>
+<b class="fc"><i>46</i>&nbsp;            EstadoMulta estadoMulta = crudService.get(EstadoMulta.class,this.eMController.NOT_PAID);</b>
+<i>47</i>&nbsp;
+<b class="fc"><i>48</i>&nbsp;            int diaatraso = getDelayDays(now, e.getDatadevolucao());</b>
+<i>49</i>&nbsp;
+<b class="fc"><i>50</i>&nbsp;            emprestimo.setEstadoDevolucao(estadoDevolucao);</b>
+<i>51</i>&nbsp;
+<b class="fc"><i>52</i>&nbsp;            multa.setMultaPK(emprestimo.getEmprestimoPK());</b>
+<b class="fc"><i>53</i>&nbsp;            multa.setDataemissao(now);</b>
+<b class="fc"><i>54</i>&nbsp;            multa.setDataemprestimo(emprestimo.getDataaprovacao());</b>
+<b class="fc"><i>55</i>&nbsp;            multa.setEstadoMulta(estadoMulta);</b>
+<b class="fc"><i>56</i>&nbsp;            multa.setDiasatraso(diaatraso);</b>
+<i>57</i>&nbsp;
+<b class="fc"><i>58</i>&nbsp;            float taxaD = this.configControler.DAILY_RATE_FINE;</b>
+<b class="fc"><i>59</i>&nbsp;            multa.setTaxadiaria(taxaD);</b>
+<b class="fc"><i>60</i>&nbsp;            multa.setValorpago((float) 0);</b>
+<i>61</i>&nbsp;
+<b class="fc"><i>62</i>&nbsp;            crudService.Save(multa);</b>
+<b class="fc"><i>63</i>&nbsp;            crudService.update(emprestimo);</b>
+<i>64</i>&nbsp;
+<i>65</i>&nbsp;        }
+<b class="fc"><i>66</i>&nbsp;    }</b>
+<i>67</i>&nbsp;
+<i>68</i>&nbsp;    public int getDelayDays(Calendar now, Calendar deadline)
+<i>69</i>&nbsp;    {
+<b class="fc"><i>70</i>&nbsp;        return Math.abs ((int) Duration.between(now.toInstant(), deadline.toInstant()).toDays());</b>
+<i>71</i>&nbsp;    }
+<i>72</i>&nbsp;
+<i>73</i>&nbsp;    public boolean wasFinedBefore(EmprestimoPK emprestimoPK)
+<i>74</i>&nbsp;    {
+<b class="fc"><i>75</i>&nbsp;        return  this.mController.getFine(emprestimoPK) == null? false : true;</b>
+<i>76</i>&nbsp;    }
+<i>77</i>&nbsp;
+<i>78</i>&nbsp;    public float getAmoutToPay(EmprestimoPK emprestimoPK, Calendar now)
+<i>79</i>&nbsp;    {
+<b class="fc"><i>80</i>&nbsp;        Emprestimo emprestimo = this.eController.getRequest(emprestimoPK);</b>
+<b class="fc"><i>81</i>&nbsp;        int days = getDelayDays(now, emprestimo.getDatadevolucao());</b>
+<i>82</i>&nbsp;
+<b class="fc"><i>83</i>&nbsp;        return (float) this.configControler.DAILY_RATE_FINE * days;</b>
+<i>84</i>&nbsp;    }
+<i>85</i>&nbsp;
+<i>86</i>&nbsp;    public void pay(EmprestimoPK emprestimoPK, Calendar now)
+<i>87</i>&nbsp;    {
+<b class="fc"><i>88</i>&nbsp;        EstadoMulta estadoMulta = crudService.get(EstadoMulta.class,this.eMController.PAID);</b>
+<b class="fc"><i>89</i>&nbsp;        Multa multa = this.mController.getFine(emprestimoPK);</b>
+<b class="fc"><i>90</i>&nbsp;        multa.setEstadoMulta(estadoMulta);</b>
+<b class="fc"><i>91</i>&nbsp;        multa.setValorpago(getAmoutToPay(emprestimoPK, now));</b>
+<b class="fc"><i>92</i>&nbsp;        this.crudService.update(multa);</b>
+<b class="fc"><i>93</i>&nbsp;    }</b>
+<i>94</i>&nbsp;
+<i>95</i>&nbsp;    public void revoke(EmprestimoPK emprestimoPK)
+<i>96</i>&nbsp;    {
+<b class="fc"><i>97</i>&nbsp;        EstadoMulta estadoMulta = crudService.get(EstadoMulta.class,this.eMController.REVOKED);</b>
+<b class="fc"><i>98</i>&nbsp;        Multa multa = this.mController.getFine(emprestimoPK);</b>
+<b class="fc"><i>99</i>&nbsp;        multa.setEstadoMulta(estadoMulta);</b>
+<i>100</i>&nbsp;
+<b class="fc"><i>101</i>&nbsp;        this.crudService.update(multa);</b>
+<b class="fc"><i>102</i>&nbsp;    }</b>
+<i>103</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-03-29 22:00</div>
+</div>
+</body>
+</html>

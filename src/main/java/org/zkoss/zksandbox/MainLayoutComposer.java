@@ -22,7 +22,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkoss.web.fn.ServletFns;
 import org.zkoss.web.servlet.Servlets;
-import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.ComponentNotFoundException;
 import org.zkoss.zk.ui.Execution;
 import org.zkoss.zk.ui.Executions;
@@ -284,11 +283,5 @@ public class MainLayoutComposer extends GenericForwardComposer<Borderlayout> imp
 	public void doAfterCompose(Borderlayout comp) throws Exception {
 		super.doAfterCompose(comp);
 		Events.postEvent("onMainCreate", comp, null);
-
-//		String s ="";
-//
-//		Window w = (Window) xcontents.getFellow("listObra");
-
-//		alert(xcontents.getSrc());
 	}
 }

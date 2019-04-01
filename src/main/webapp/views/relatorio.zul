@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk>
+    <window id="listObra" apply="sgb.controller.viewsController.Relatorio"
+            border="none" hflex="1" vflex="1" contentStyle="overflow:auto">
+        <div style="padding:0px">
+
+           <span sclass="input-group-addon">  From: </span>
+           <datebox id="dataInicio" cols="12" format="medium" onCreate="self.value = new Date()" />
+
+           <span sclass="input-group-addon">   to: </span>
+           <datebox id="dataFim" cols="12" format="medium" onCreate="self.value = new Date()" />
+
+           <tabbox>
+                <tabs>
+                    <tab label="Relatorio geral"></tab>
+                    <tab label="Relatorio de Obras"></tab>
+                    <tab label="Obras Eliminadas"></tab>
+
+
+                </tabs>
+
+             <tabpanels>
+                 <tabpanel>
+                        <include id="idInclRelatorioGeral"/>
+                 </tabpanel>
+
+                 <tabpanel>
+                        <include id="idInclRelatorioObras"/>
+                 </tabpanel>
+
+                 <tabpanel>
+                         <include id="idInclObrasEliminadas"/>
+                 </tabpanel>
+
+             </tabpanels>
+           </tabbox>
+        </div>
+    </window>
+</zk>

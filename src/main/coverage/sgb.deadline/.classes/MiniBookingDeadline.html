@@ -1,0 +1,189 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: MiniBookingDeadline</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">sgb.deadline</a> ]
+</div>
+
+<h1>Coverage Summary for Class: MiniBookingDeadline (sgb.deadline)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MiniBookingDeadline</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (45/ 45)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package sgb.deadline;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import sgb.controller.domainController.ConfigControler;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;import java.util.Calendar;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;public class MiniBookingDeadline extends Deadline
+<i>8</i>&nbsp;{
+<i>9</i>&nbsp;    private ConfigControler configControler;
+<i>10</i>&nbsp;    
+<i>11</i>&nbsp;    public MiniBookingDeadline(ConfigControler configControler)
+<b class="fc"><i>12</i>&nbsp;    {</b>
+<b class="fc"><i>13</i>&nbsp;        this.configControler = configControler;</b>
+<b class="fc"><i>14</i>&nbsp;    }</b>
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;    public Calendar getDeadline(Calendar requestDate)
+<i>18</i>&nbsp;    {
+<b class="fc"><i>19</i>&nbsp;        if (isWeekend(requestDate))</b>
+<i>20</i>&nbsp;        {
+<b class="fc"><i>21</i>&nbsp;            return calculateDeadlineForWeekendRequest(requestDate);</b>
+<i>22</i>&nbsp;        }
+<i>23</i>&nbsp;        else
+<i>24</i>&nbsp;        {
+<b class="fc"><i>25</i>&nbsp;            return calculateDeadlineForWeekdaysRequest(requestDate);</b>
+<i>26</i>&nbsp;        }
+<i>27</i>&nbsp;    }
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    public Calendar calculateDeadlineForWeekdaysRequest(Calendar requestDate)
+<i>30</i>&nbsp;    {
+<b class="fc"><i>31</i>&nbsp;        Calendar calendar = Calendar.getInstance();</b>
+<b class="fc"><i>32</i>&nbsp;        calendar.setTime(requestDate.getTime());</b>
+<i>33</i>&nbsp;
+<b class="fc"><i>34</i>&nbsp;        if (calendar.get(calendar.HOUR_OF_DAY) &gt;= this.configControler.EXIT_TIME_ON_WEEKDAYS)</b>
+<i>35</i>&nbsp;        {
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;
+<b class="fc"><i>38</i>&nbsp;            if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY)</b>
+<i>39</i>&nbsp;            {
+<b class="fc"><i>40</i>&nbsp;                calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + 1);</b>
+<b class="fc"><i>41</i>&nbsp;                this.goToNextWorkingDay(calendar);</b>
+<b class="fc"><i>42</i>&nbsp;                calendar.set(Calendar.HOUR_OF_DAY, this.configControler.ENTRY_TIME_ON_SATURDAY);</b>
+<i>43</i>&nbsp;            }
+<i>44</i>&nbsp;            else
+<i>45</i>&nbsp;            {
+<b class="fc"><i>46</i>&nbsp;                calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + 1);</b>
+<b class="fc"><i>47</i>&nbsp;                this.goToNextWorkingDay(calendar);</b>
+<b class="fc"><i>48</i>&nbsp;                calendar.set(Calendar.HOUR_OF_DAY, this.configControler.ENTRY_TIME_ON_WEEKDAYS);</b>
+<i>49</i>&nbsp;            }
+<i>50</i>&nbsp;
+<b class="fc"><i>51</i>&nbsp;            calendar.set(Calendar.MINUTE, 00);</b>
+<b class="fc"><i>52</i>&nbsp;            calendar.set(Calendar.SECOND, 00);</b>
+<b class="fc"><i>53</i>&nbsp;            calendar.set(Calendar.MILLISECOND, 00);</b>
+<i>54</i>&nbsp;
+<b class="fc"><i>55</i>&nbsp;            incrementNMinutes(calendar, this.configControler.DEADLINE_REQUESTED_BOOKS);</b>
+<i>56</i>&nbsp;        }
+<b class="fc"><i>57</i>&nbsp;        else if (calendar.get(Calendar.HOUR_OF_DAY) &lt; this.configControler.ENTRY_TIME_ON_WEEKDAYS)</b>
+<i>58</i>&nbsp;        {
+<b class="fc"><i>59</i>&nbsp;            calendar.set(Calendar.HOUR_OF_DAY, this.configControler.ENTRY_TIME_ON_WEEKDAYS);</b>
+<b class="fc"><i>60</i>&nbsp;            calendar.set(Calendar.SECOND, 00);</b>
+<b class="fc"><i>61</i>&nbsp;            calendar.set(Calendar.MILLISECOND, 00);</b>
+<b class="fc"><i>62</i>&nbsp;            calendar.set(Calendar.MINUTE, this.configControler.DEADLINE_REQUESTED_BOOKS);</b>
+<i>63</i>&nbsp;        }
+<i>64</i>&nbsp;        else
+<i>65</i>&nbsp;        {
+<b class="fc"><i>66</i>&nbsp;            incrementNMinutes(calendar, this.configControler.DEADLINE_REQUESTED_BOOKS);</b>
+<i>67</i>&nbsp;        }
+<i>68</i>&nbsp;
+<b class="fc"><i>69</i>&nbsp;        return calendar;</b>
+<i>70</i>&nbsp;    }
+<i>71</i>&nbsp;
+<i>72</i>&nbsp;    public Calendar calculateDeadlineForWeekendRequest(Calendar requestDate)
+<i>73</i>&nbsp;    {
+<b class="fc"><i>74</i>&nbsp;        Calendar calendar = Calendar.getInstance();</b>
+<b class="fc"><i>75</i>&nbsp;        calendar.setTime(requestDate.getTime());</b>
+<i>76</i>&nbsp;        
+<b class="fc"><i>77</i>&nbsp;        if (this.isSaturDay(calendar) &amp;&amp; calendar.get(Calendar.HOUR_OF_DAY) &lt; this.configControler.ENTRY_TIME_ON_SATURDAY)</b>
+<i>78</i>&nbsp;        {
+<b class="fc"><i>79</i>&nbsp;            calendar.set(Calendar.MINUTE, 00);</b>
+<b class="fc"><i>80</i>&nbsp;            calendar.set(Calendar.SECOND, 00);</b>
+<b class="fc"><i>81</i>&nbsp;            calendar.set(Calendar.MILLISECOND, 00);</b>
+<b class="fc"><i>82</i>&nbsp;            calendar.set(Calendar.HOUR_OF_DAY, this.configControler.ENTRY_TIME_ON_SATURDAY);</b>
+<i>83</i>&nbsp;            
+<b class="fc"><i>84</i>&nbsp;            this.incrementNMinutes(calendar, this.configControler.DEADLINE_REQUESTED_BOOKS);</b>
+<i>85</i>&nbsp;        }
+<b class="fc"><i>86</i>&nbsp;        else if (this.isSaturDay(calendar) &amp;&amp; calendar.get(Calendar.HOUR_OF_DAY) &lt; this.configControler.EXIT_TIME_ON_SATURDAY)</b>
+<i>87</i>&nbsp;        {
+<b class="fc"><i>88</i>&nbsp;            this.incrementNMinutes(calendar, this.configControler.DEADLINE_REQUESTED_BOOKS);</b>
+<i>89</i>&nbsp;        }
+<i>90</i>&nbsp;        else
+<i>91</i>&nbsp;        {
+<b class="fc"><i>92</i>&nbsp;            calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + 1);</b>
+<i>93</i>&nbsp;
+<b class="fc"><i>94</i>&nbsp;            this.goToNextWorkingDay(calendar);</b>
+<i>95</i>&nbsp;
+<b class="fc"><i>96</i>&nbsp;            calendar.set(Calendar.MILLISECOND, 00);</b>
+<b class="fc"><i>97</i>&nbsp;            calendar.set(Calendar.SECOND, 00);</b>
+<b class="fc"><i>98</i>&nbsp;            calendar.set(Calendar.MINUTE, 00);</b>
+<b class="fc"><i>99</i>&nbsp;            calendar.set(Calendar.HOUR_OF_DAY, this.configControler.ENTRY_TIME_ON_WEEKDAYS);</b>
+<i>100</i>&nbsp;
+<b class="fc"><i>101</i>&nbsp;            this.incrementNMinutes(calendar, this.configControler.DEADLINE_REQUESTED_BOOKS);</b>
+<i>102</i>&nbsp;        }
+<i>103</i>&nbsp;        
+<b class="fc"><i>104</i>&nbsp;        return calendar;</b>
+<i>105</i>&nbsp;    }
+<i>106</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-03-29 22:00</div>
+</div>
+</body>
+</html>

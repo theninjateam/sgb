@@ -8,23 +8,23 @@ import java.util.Objects;
 @Embeddable
 public class EmprestimoPK implements Serializable {
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="cota")
     private Obra obra;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="user_id")
-    private Users user;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="utente")
+    private Users utente;
 
-    @Column(name = "dataentrada", nullable = true)
-    private Calendar dataentrada;
+    @Column(name = "dataentradapedido", nullable = true)
+    private Calendar dataentradapedido;
 
-    public Calendar getDataentrada() {
-        return dataentrada;
+    public Calendar getDataentradapedido() {
+        return this.dataentradapedido;
     }
 
-    public void setDataentrada(Calendar dataentrada) {
-        this.dataentrada = dataentrada;
+    public void setDataentradapedido(Calendar dataentradapedido) {
+        this.dataentradapedido = dataentradapedido;
     }
 
     public Obra getObra() {
@@ -35,12 +35,11 @@ public class EmprestimoPK implements Serializable {
         this.obra = obra;
     }
 
-
-    public Users getUser() {
-        return this.user;
+    public Users getUtente() {
+        return this.utente;
     }
 
-    public void setUser(Users user) {
-        this.user = user;
+    public void setUtente(Users utente) {
+        this.utente = utente;
     }
 }

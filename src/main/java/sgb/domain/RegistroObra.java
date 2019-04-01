@@ -6,64 +6,82 @@ import java.util.Calendar;
 import java.util.Objects;
 
 @Entity
-public class RegistroObra {
-    private String cota;
-    private int iduser;
-    private Calendar dataRegisto;
-    private Obra obra;
+@Table(name = "registroobra", schema = "public")
+public class RegistroObra
+{
+    @EmbeddedId
+    private RegistroObraPK registroObraPK;
 
-    @Id
-    @Column(name = "cota")
-    public String getCota() {
-        return cota;
-    }
-
-    public void setCota(String cota) {
-        this.cota = cota;
-    }
-
-    @Column(name = "iduser")
-    public int getIduser() {
-        return iduser;
-    }
-
-    public void setIduser(int iduser) {
-        this.iduser = iduser;
-    }
-
-    @Basic
-    @Column(name = "dataregisto")
-    public Calendar getDataRegisto() {
-        return dataRegisto;
-    }
-
-    public void setDataRegisto(Calendar dataregisto) {
-        this.dataRegisto = dataregisto;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        RegistroObra that = (RegistroObra) o;
-        return iduser == that.iduser &&
-                Objects.equals(cota, that.cota) &&
-                Objects.equals(dataRegisto, that.dataRegisto);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(cota, iduser, dataRegisto);
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "formaaquisicao", nullable = false)
+    private FormaAquisicao formaAquisicao;
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "cota")
+    @JoinColumn(name = "user_id", nullable = false)
+    private Users user;
+
+    @Basic
+    @Column( name = "observacao")
+    private String observacao;
+
+    @Basic
+    @Column(name = "quantidade")
+    private Integer quantidade;
+
+
+    @ManyToOne
+    @JoinColumn (name ="cota", insertable = false, updatable = false)
+    private Obra obra;
+
+    public RegistroObraPK getRegistroObraPK()
+    {
+        return registroObraPK;
+    }
+
+    public void setRegistroObraPK(RegistroObraPK registroObraPK)
+    {
+        this.registroObraPK = registroObraPK;
+    }
+
+    public FormaAquisicao getFormaAquisicao()
+    {
+        return formaAquisicao;
+    }
+
+    public void setFormaAquisicao(FormaAquisicao formaAquisicao)
+    {
+        this.formaAquisicao = formaAquisicao;
+    }
+
+    public String getObservacao()
+    {
+        return observacao;
+    }
+
+    public void setObservacao(String observacao)
+    {
+        this.observacao = observacao;
+    }
+
+    public Users getUser() {
+        return user;
+    }
+    public void setUser(Users user) {
+        this.user = user;
+    }
 
     public Obra getObra() {
         return obra;
     }
-
     public void setObra(Obra obra) {
         this.obra = obra;
+    }
+
+    public Integer getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(Integer quantidade) {
+        this.quantidade = quantidade;
     }
 }

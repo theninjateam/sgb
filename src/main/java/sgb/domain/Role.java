@@ -12,6 +12,7 @@ public class Role {
     private int roleId;
 
     @Column(name = "role")
+
     private String role;
 
 

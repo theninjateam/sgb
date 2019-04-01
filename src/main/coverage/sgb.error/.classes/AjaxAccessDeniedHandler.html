@@ -1,0 +1,105 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: AjaxAccessDeniedHandler</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">sgb.error</a> ]
+</div>
+
+<h1>Coverage Summary for Class: AjaxAccessDeniedHandler (sgb.error)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AjaxAccessDeniedHandler</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package sgb.error;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import org.zkoss.zk.ui.Page;
+<i>4</i>&nbsp;import org.zkoss.zk.ui.util.GenericInitiator;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;import java.util.Map;
+<i>7</i>&nbsp;
+<b class="nc"><i>8</i>&nbsp;public class AjaxAccessDeniedHandler extends GenericInitiator {</b>
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;    public void doInit(Page page, Map&lt;String, Object&gt; args) throws Exception {
+<i>11</i>&nbsp;        // when this initiator has been executed that means users encounter access denied problem.
+<i>12</i>&nbsp;//
+<i>13</i>&nbsp;//        Execution exec = Executions.getCurrent();
+<i>14</i>&nbsp;//
+<i>15</i>&nbsp;//        if (null == SecurityUtil.getUser()){ //unauthenticated user
+<i>16</i>&nbsp;//            exec.sendRedirect(&quot;/login.zul&quot;);
+<i>17</i>&nbsp;//        }else{
+<i>18</i>&nbsp;//            //display error&#39;s detail
+<i>19</i>&nbsp;//            Executions.createComponents(&quot;/WEB-INF/errors/displayAccessDeniedException.zul&quot;, null, args);
+<i>20</i>&nbsp;//        }
+<i>21</i>&nbsp;    }
+<i>22</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-03-29 22:00</div>
+</div>
+</body>
+</html>

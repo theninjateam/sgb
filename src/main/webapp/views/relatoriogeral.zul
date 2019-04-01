@@ -1,0 +1,35 @@
+
+            <grid>
+                <columns>
+                    <column/>
+                </columns>
+                <rows>
+
+                    <row>
+                        <listbox width="100%" id="emprestimo"
+                                 emptyMessage="Nao tem nenhum pedido pendente">
+                            <listhead>
+                                <listheader width="20%" height="100%" label="Dados gerais"/>
+                                <listheader width="20%" height="100%" label="Qtd"/>
+                            </listhead>
+                            <template name="model">
+                                <listitem>
+                                    <listcell>
+                                        <div>
+                                            <label value="${each.descricao}"/>
+                                        </div>
+                                    </listcell>
+                                    <listcell>
+                                        <div>
+                                            <label value="${each.qtd}"/>
+                                        </div>
+                                    </listcell>
+
+                                </listitem>
+                            </template>
+                        </listbox>
+                    </row>
+
+                </rows>
+            </grid>
+

@@ -1,0 +1,134 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Queue</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">sgb.request</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Queue (sgb.request)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Queue</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    33.3%
+  </span>
+  <span class="absValue">
+    (1/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    25%
+  </span>
+  <span class="absValue">
+    (4/ 16)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package sgb.request;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import sgb.controller.domainController.EstadoPedidoControler;
+<i>4</i>&nbsp;import sgb.domain.Emprestimo;
+<i>5</i>&nbsp;import sgb.domain.EstadoPedido;
+<i>6</i>&nbsp;import sgb.domain.Obra;
+<i>7</i>&nbsp;import sgb.service.CRUDService;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;import java.util.HashMap;
+<i>10</i>&nbsp;import java.util.List;
+<i>11</i>&nbsp;import java.util.PriorityQueue;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;public class Queue
+<i>14</i>&nbsp;{
+<i>15</i>&nbsp;    private StringBuilder query;
+<i>16</i>&nbsp;    private HashMap&lt;String, Object&gt; parameters;
+<i>17</i>&nbsp;    private CRUDService crudService;
+<i>18</i>&nbsp;    private EstadoPedidoControler estadoPedidoControler;
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    public Queue(CRUDService crudService, EstadoPedidoControler estadoPedidoControler)
+<b class="fc"><i>21</i>&nbsp;    {</b>
+<b class="fc"><i>22</i>&nbsp;        this.crudService = crudService;</b>
+<b class="fc"><i>23</i>&nbsp;        this.estadoPedidoControler = estadoPedidoControler;</b>
+<b class="fc"><i>24</i>&nbsp;    }</b>
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    public PriorityQueue&lt;Emprestimo&gt; getQueue(Obra obra)
+<i>27</i>&nbsp;    {
+<b class="nc"><i>28</i>&nbsp;        PriorityQueue&lt;Emprestimo&gt; queue = new PriorityQueue&lt;&gt;();</b>
+<i>29</i>&nbsp;
+<b class="nc"><i>30</i>&nbsp;        for (Emprestimo e: this.getOnWaitingQueueRequest(obra))</b>
+<i>31</i>&nbsp;        {
+<b class="nc"><i>32</i>&nbsp;            queue.add(e);</b>
+<b class="nc"><i>33</i>&nbsp;        }</b>
+<i>34</i>&nbsp;
+<b class="nc"><i>35</i>&nbsp;        return queue;</b>
+<i>36</i>&nbsp;    }
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    public List&lt;Emprestimo&gt; getOnWaitingQueueRequest(Obra obra)
+<i>39</i>&nbsp;    {
+<b class="nc"><i>40</i>&nbsp;        parameters = new HashMap&lt;String, Object&gt;(2);</b>
+<b class="nc"><i>41</i>&nbsp;        query = new StringBuilder();</b>
+<i>42</i>&nbsp;
+<b class="nc"><i>43</i>&nbsp;        parameters.put(&quot;idEstadoPedido&quot;, this.estadoPedidoControler.ON_WAINTING_QUEUE);</b>
+<b class="nc"><i>44</i>&nbsp;        parameters.put(&quot;cota&quot;, obra.getCota());</b>
+<i>45</i>&nbsp;
+<b class="nc"><i>46</i>&nbsp;        query.append(&quot;SELECT e FROM Emprestimo e WHERE e.estadoPedido.idestadopedido = :idEstadoPedido and &quot;);</b>
+<b class="nc"><i>47</i>&nbsp;        query.append(&quot;e.emprestimoPK.obra.cota = :cota&quot;);</b>
+<i>48</i>&nbsp;
+<b class="nc"><i>49</i>&nbsp;        return this.crudService.findByJPQuery(query.toString(), parameters);</b>
+<i>50</i>&nbsp;    }
+<i>51</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-03-29 22:00</div>
+</div>
+</body>
+</html>

@@ -2,11 +2,11 @@ package sgb.domain;
 
 import javax.persistence.*;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
+
 @Entity
-@Table(name="obra")
+@Table(name="obra", schema = "public")
 public class Obra {
     private String cota;
     private Integer registro;
@@ -17,14 +17,15 @@ public class Obra {
     private String pathcapa;
     private Integer anoPublicacao;
     private TipoObra tipoobra;
-    private Set<Autor> autores = new HashSet<>();;
+    private Set<Autor> autores = new HashSet<>();
     private Idioma idioma;
     private Livro livro;
     private Cd cd;
     private Revista revista;
     private LivroCd livroCd;
-    private RegistroObra registroObra;
     private AreaCientifica areacientifica;
+    private Set<RegistroObra> registroObras = new HashSet<>();
+    private Set<ObraEliminadas> obraEliminadas = new HashSet<>();
 
     @Id
     @Column(name = "cota")
@@ -102,38 +103,16 @@ public class Obra {
     public Integer getAnoPublicacao() {
         return anoPublicacao;
     }
-
     public void setAnoPublicacao(Integer anoPublicacao) {
         this.anoPublicacao = anoPublicacao;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Obra obra = (Obra) o;
-        return Objects.equals(cota, obra.cota) &&
-                Objects.equals(registro, obra.registro) &&
-                Objects.equals(titulo, obra.titulo) &&
-                Objects.equals(localpublicacao, obra.localpublicacao) &&
-                Objects.equals(quantidade, obra.quantidade) &&
-                Objects.equals(pathpdf, obra.pathpdf) &&
-                Objects.equals(pathcapa, obra.pathcapa) &&
-                Objects.equals(anoPublicacao, obra.anoPublicacao) &&
-                Objects.equals(autores, obra.autores);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(cota, registro, titulo, localpublicacao, quantidade, pathpdf, pathcapa, anoPublicacao);
-    }
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "ididioma", nullable = false)
     public Idioma getIdioma() {
         return idioma;
     }
-
     public void setIdioma(Idioma idioma) {
         this.idioma = idioma;
     }
@@ -158,7 +137,7 @@ public class Obra {
         this.areacientifica = areacientifica;
     }
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     @JoinTable(name="obra_autor",  joinColumns = @JoinColumn(name ="cota", nullable = false),
             inverseJoinColumns = @JoinColumn(name="hashcode", nullable = false))
     public Set<Autor> getAutores(){
@@ -173,8 +152,6 @@ public class Obra {
     @OneToOne(fetch = FetchType.LAZY,
             cascade =  CascadeType.ALL,
             mappedBy = "obra")
-
-
     public Livro getLivro() {
         return livro;
     }
@@ -219,15 +196,21 @@ public class Obra {
         this.livroCd = livroCd;
     }
 
-    @OneToOne(fetch = FetchType.LAZY,
-            cascade =  CascadeType.ALL,
-            mappedBy = "obra")
+    @OneToMany(mappedBy = "obra", fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    public Set<RegistroObra> getRegistroObras() { return registroObras; }
 
-    public RegistroObra getRegistroObra() {
-        return registroObra;
+    public void setRegistroObras(Set<RegistroObra> registroObras) {
+        this.registroObras = registroObras;
     }
 
-    public void setRegistroObra(RegistroObra registroObra) {
-        this.registroObra = registroObra;
+
+
+    @OneToMany(mappedBy = "obra", fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+    public Set<ObraEliminadas> getObraEliminadas() {
+        return obraEliminadas;
+    }
+
+    public void setObraEliminadas(Set<ObraEliminadas> obraEliminadas) {
+        this.obraEliminadas = obraEliminadas;
     }
 }

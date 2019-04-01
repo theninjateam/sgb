@@ -7,7 +7,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "emprestimo", schema = "public")
-public class Emprestimo {
+public class Emprestimo  implements Comparable<Emprestimo>{
 
     @EmbeddedId
     private EmprestimoPK emprestimoPK;
@@ -15,20 +15,26 @@ public class Emprestimo {
     private Calendar datadevolucao;
     private int quantidade;
     private String comentario;
-    private Calendar datarenovacao;
-    private Calendar datadevolucaorenovacao;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "idtipoRequisicao", nullable = false)
+    private TipoRequisicao tipoRequisicao;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "estadopedido", nullable = false)
     private EstadoPedido estadoPedido;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "estadodevolucao", nullable = false)
     private EstadoDevolucao estadoDevolucao;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name="estadorenovacao", nullable = false)
     private EstadoRenovacao estadoRenovacao;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "bibliotecario", nullable = false)
+    private Users bibliotecario;
 
 
     public EmprestimoPK getEmprestimoPK() {
@@ -47,27 +53,6 @@ public class Emprestimo {
 
     public void setDataaprovacao(Calendar dataaprovacao) {
         this.dataaprovacao = dataaprovacao;
-    }
-
-
-    @Basic
-    @Column(name = "datarenovacao", nullable = true)
-    public Calendar getDatarenovacao() {
-        return datarenovacao;
-    }
-
-    public void setDatarenovacao(Calendar datarenovacao) {
-        this.datarenovacao = datarenovacao;
-    }
-
-    @Basic
-    @Column(name = "datadevolucaorenovacao", nullable = true)
-    public Calendar getDatadevolucaorenovacao() {
-        return datadevolucaorenovacao;
-    }
-
-    public void setDatadevolucaorenovacao(Calendar datadevolucaorenovacao) {
-        this.datadevolucaorenovacao = datadevolucaorenovacao;
     }
 
     @Basic
@@ -124,4 +109,25 @@ public class Emprestimo {
     public void setEstadoRenovacao(EstadoRenovacao estadoRenovacao) {
         this.estadoRenovacao = estadoRenovacao;
     }
+
+
+    public TipoRequisicao getTipoRequisicao() { return tipoRequisicao; }
+
+    public void setTipoRequisicao(TipoRequisicao tipoRequisicao) { this.tipoRequisicao = tipoRequisicao; }
+
+    public Users getBibliotecario() {
+        return bibliotecario;
+    }
+
+    public void setBibliotecario(Users bibliotecario) {
+        this.bibliotecario = bibliotecario;
+    }
+
+    @Override
+    public int compareTo(Emprestimo emprestimo)
+    {
+        return this.getEmprestimoPK().getDataentradapedido().
+                compareTo(emprestimo.getEmprestimoPK().getDataentradapedido());
+    }
+
 }

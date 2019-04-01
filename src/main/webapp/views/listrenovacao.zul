@@ -39,9 +39,9 @@
 
                                                         dateFormatter = DateFormat.getDateInstance(DateFormat.FULL, MOZAMBIQUE);
 
-                                                        builder.append(dateFormatter.format(each.emprestimoPK.dataentrada.getTime()));
+                                                        builder.append(dateFormatter.format(each.emprestimoPK.dataentradapedido.getTime()));
                                                         builder.append("\n");
-                                                        builder.append(timeFormatter.format(each.emprestimoPK.dataentrada.getTime()));
+                                                        builder.append(timeFormatter.format(each.emprestimoPK.dataentradapedido.getTime()));
 
                                                         String dataEntrada = builder.toString();
                                                     ]]>
@@ -70,6 +70,10 @@
                                                             <div>
                                                                 <label value="Tipo:"/>
                                                                 <label value="(${each.emprestimoPK.obra.tipoobra.descricao})"/>
+                                                            </div>
+                                                            <div>
+                                                                <label value="Utente:"/>
+                                                                <label value="${each.emprestimoPK.utente.name} ${each.emprestimoPK.utente.lastName}"/>
                                                             </div>
                                                         </div>
                                                     </hlayout>

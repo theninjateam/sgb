@@ -19,8 +19,8 @@
                                         <listhead>
                                             <listheader width="15%" height="100%" label="Data"/>
                                             <listheader width="15%" height="100%" label="Capa"/>
-                                            <listheader width="50%" height="100%" label="Obra Requisitada"/>
-                                            <listheader width="20%" height="100%" label="Utente"/>
+                                            <listheader width="50%" height="100%" label="Detalhes do Emprestimo"/>
+                                            <!--<listheader width="20%" height="100%" label="Utente"/>-->
                                             <listheader width="5%" height="100%" label="Qtd"/>
                                             <listheader width="40%" height="100%" label="Operacoes"/>
                                         </listhead>
@@ -69,16 +69,21 @@
                                                                 <label value="Tipo:"/>
                                                                 <label value="(${each.emprestimoPK.obra.tipoobra.descricao})"/>
                                                             </div>
+                                                            <div>
+                                                                <label value="Utente:"/>
+                                                                <label value="${each.emprestimoPK.utente.name} ${each.emprestimoPK.utente.lastName}"/>
+                                                                <label forEach="${each.emprestimoPK.utente.roles}"  value="(${each.role} ,)"/>
+                                                            </div>
                                                         </div>
                                                     </hlayout>
                                                 </listcell>
-                                                <listcell>
-                                                    <div>
-                                                        <label value="${each.emprestimoPK.user.name} ${each.emprestimoPK.user.lastName}"/>
-                                                        <separator/>
-                                                        <label forEach="${each.emprestimoPK.user.roles}"  value="(${each.role} ,)"/>
-                                                    </div>
-                                                </listcell>
+                                                <!--<listcell>-->
+                                                    <!--<div>-->
+                                                        <!--<label value="${each.emprestimoPK.utente.name} ${each.emprestimoPK.utente.lastName}"/>-->
+                                                        <!--<separator/>-->
+                                                        <!--<label forEach="${each.emprestimoPK.utente.roles}"  value="(${each.role} ,)"/>-->
+                                                    <!--</div>-->
+                                                <!--</listcell>-->
                                                 <listcell>
                                                     <div>
                                                         <label value="${each.quantidade}"/>
@@ -86,13 +91,13 @@
                                                 </listcell>
                                                 <listcell>
                                                     <div>
-                                                        <button label="Notificar Utente" forward="onClick=emprestimoListBox.onNotificarUtente"
-                                                                mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold"/>
-                                                        <button label="Devolver" forward="onClick=emprestimoListBox.onDevolver"
+                                                        <!--<button label="Notificar Utente" forward="onClick=emprestimoListBox.onNotificarUtente"-->
+                                                                <!--mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold"/>-->
+                                                        <button if="${!$composer.isNormalUser ()}" label="Devolver" forward="onClick=emprestimoListBox.onDevolver"
                                                                 mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold"/>
                                                         <button label="Detalhe" forward="onClick=emprestimoListBox.onDetalheEmprestimo"
                                                                 mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold"/>
-                                                        <button label="Renovar" forward="onClick=emprestimoListBox.onRenovarEmprestimo"
+                                                        <button if="${!$composer.isNormalUser ()}" label="Renovar" forward="onClick=emprestimoListBox.onRenovarEmprestimo"
                                                                 mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold"/>
                                                     </div>
                                                 </listcell>

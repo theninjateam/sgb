@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk>
+
+    <window id="modalUpdate" apply="sgb.controller.viewsController.UpdateObraController"
+            border="none" closable="true"
+            position="center,center" action="show: slideDown;hide: slideUp" width="460px">
+        <vlayout>
+
+
+            <grid>
+                <rows>
+                    <row>
+                        <div sclass="w3-row" style="white-space: normal;  line-height: 1.25;  none;">
+                            <div sclass="w3-col w3-white w3-center w3-padding-16">
+                                    <span sclass="input-group-addon">Forma de Aquisicao
+                                    </span>
+                                </div>
+
+                                <div sclass="w3-col w3-white w3-center w3-padding-16">
+
+                                    <listbox
+                                              width="100%" id="formaaquisicaoBox"
+                                             emptyMessage="Nenhum Tipo de Obra Encotrado"
+                                             model="${$composer.formaAquisicaoModel}"
+                                             mold="select">
+
+                                        <listhead>
+                                            <listheader label="tipo de obra" style="background-color: lightgray; border-style: none; text-align: center;"/>
+                                        </listhead>
+                                        <template name="model">
+                                            <listitem>
+                                                <listcell
+                                                        label="${each.descricao}"></listcell>
+                                            </listitem>
+                                        </template>
+                                    </listbox>
+                                </div>
+
+                            </div>
+                    </row>
+
+                    <row>
+
+                            <div sclass="w3-row" style="white-space: normal;  line-height: 1.25;  none;">
+                                <div sclass="description-area" height="100%">
+                                    <span sclass="input-group-addon">Descricao</span>
+                                </div>
+
+                                <div sclass="description-area" height="100%">
+                                    <textbox sclass="w3-left w3-white w3-card-4  w3-padding-16 w3-border" id="descricao"
+                                             disabled="false" mold="default" hflex="1"
+                                             constraint=" no Empty: Preenche o campo!"/>
+                                    <label id="cota_duplicated_key"
+                                           visible="false"></label>
+                                </div>
+                            </div>
+                    </row>
+                    <row>
+                        <div sclass="w3-row" style="white-space: normal;  line-height: 1.25;  none;">
+                            <div sclass="description-area" height="100%">
+                                <span sclass="input-group-addon">Quantidade
+                                </span>
+                            </div>
+
+                            <div sclass="description-area" height="100%">
+                                <intbox sclass="w3-left w3-white w3-card-4  w3-padding-16 w3-border"
+                                        id="quantidade" disabled="false"
+                                        hflex="1"
+                                        constraint=" no Empty: Preenche o campo!"/>
+                            </div>
+                        </div>
+                    </row>
+                    <row style="background-color: white;"  align="center">
+                        <div sclass="w3-row" style="white-space: normal;  line-height: 1.25;  none;">
+                            <button label="Atualizar" id="updateObra" sclass="w3-btn w3-light-gray "
+                                mold="os"/>
+
+                            <div sclass="w3-row w3-padding-16" style="white-space: normal;  line-height: 1.25;  none;">
+                                <button label="Fechar" id="exit" sclass="w3-btn w3-light-gray "
+                                        mold="os"/>
+                            </div>
+                        </div>
+                    </row>
+
+                </rows>
+            </grid>
+        </vlayout>
+    </window>
+</zk>

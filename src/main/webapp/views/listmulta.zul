@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk>
+    <window id="listObra" apply="sgb.controller.viewsController.ListMulta"
+            border="none" hflex="1" vflex="1" contentStyle="overflow:auto">
+        <div style="padding:0px">
+            <tabbox>
+                <tabs>
+                    <tab label="${labels.obrainfo}"></tab>
+                </tabs>
+                <tabpanels>
+                    <tabpanel>
+                        <grid>
+                            <columns>
+                                <column/>
+                            </columns>
+                            <rows>
+                            <row>
+                            <listbox width="100%" id="multaListBox" emptyMessage="Nao tem nenhum pedido pendente" >
+                                        <listhead>
+                                            <listheader width="15%" height="100%" label="Data"/>
+                                            <listheader width="15%" height="100%" label="Capa"/>
+                                            <listheader width="50%" height="100%" label="Detalhes do Emprestimo"/>
+                                            <!--<listheader width="20%" height="100%" label="Utente"/>-->
+                                            <!--<listheader width="5%" height="100%" label="Qtd"/>-->
+                                            <listheader width="40%" height="100%" label="Operacoes"/>
+                                        </listhead>
+                                        <template name="model">
+                                            <listitem>
+                                                <listcell>
+                                                    <div>
+                                                        <zscript>
+
+                                                        <![CDATA[
+                                                            import java.text.*;
+                                                            SimpleDateFormat  timeFormatter = new SimpleDateFormat("'('HH:mm:s')'");
+                                                            DateFormat  dateFormatter = new SimpleDateFormat();
+                                                            Locale MOZAMBIQUE = new Locale("pt","MZ");
+                                                            StringBuilder builder = new StringBuilder();
+
+                                                            dateFormatter = DateFormat.getDateInstance(DateFormat.FULL, MOZAMBIQUE);
+
+                                                            builder.append(dateFormatter.format(each.dataemissao.getTime()));
+                                                            builder.append("\n");
+                                                            builder.append(timeFormatter.format(each.dataemissao.getTime()));
+
+                                                            String dataemissao = builder.toString();
+                                                    ]]>
+                                                        </zscript>
+                                                        <label value="${dataemissao}"/>
+                                                    </div>
+                                                </listcell>
+                                                <listcell>
+                                                    <div>
+                                                        <image width="100%" height="100%"  src="${each.multaPK.obra.pathcapa}"/>
+                                                    </div>
+                                                </listcell>
+                                                <listcell>
+                                                    <hlayout>
+                                                        <div>
+                                                            <div>
+                                                                <label value="${each.multaPK.obra.titulo}"
+                                                                       style="font-size: large; font-weight: bold; padding: 2px 2px 2px 2px; font-size: 15px;"/>
+                                                            </div>
+                                                            <div>
+                                                                <label value="Por :"/>
+                                                                <label forEach="${each.multaPK.obra.autores}"  value="${each.nome} ,"/>
+                                                            </div>
+                                                            <div>
+                                                                <label value="Tipo:"/>
+                                                                <label value="(${each.multaPK.obra.tipoobra.descricao})"/>
+                                                            </div>
+                                                            <div>
+                                                                <label value="Utente:"/>
+                                                                <label value="${each.multaPK.utente.name} ${each.multaPK.utente.lastName}"/>
+                                                                <label forEach="${each.multaPK.utente.roles}"  value="(${each.role} ,)"/>
+                                                            </div>
+                                                        </div>
+                                                    </hlayout>
+                                                </listcell>
+                                                <!--<listcell>-->
+                                                    <!--<div>-->
+                                                        <!--<label value="${each.multaPK.utente.name} ${each.multaPK.utente.lastName}"/>-->
+                                                        <!--<separator/>-->
+                                                        <!--<label forEach="${each.multaPK.utente.roles}"  value="(${each.role} ,)"/>-->
+                                                    <!--</div>-->
+                                                <!--</listcell>-->
+
+                                                <listcell>
+                                                    <div>
+                                                        <button label="Detalhes" forward="onClick=multaListBox.onDetalhesMulta"
+                                                                mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold"/>
+                                                    </div>
+                                                </listcell>
+                                            </listitem>
+                                        </template>
+                                    </listbox>
+                            </row>
+                            </rows>
+                        </grid>
+                    </tabpanel>
+                </tabpanels>
+            </tabbox>
+        </div>
+    </window>
+</zk>

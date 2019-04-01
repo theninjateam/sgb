@@ -11,12 +11,12 @@
                    http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 
 
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="org.postgresql.Driver" />
-        <property name="url" value="jdbc:postgresql://ec2-23-23-80-20.compute-1.amazonaws.com:5432/d5b0hk16j5hm0n?ssl=true&amp;sslfactory=org.postgresql.ssl.NonValidatingFactory"/>
-        <property name="username" value="faowvudjaqofvd" />
-        <property name="password" value="56679e6c26926f3c2424e5f2347bdd5a2a544b4cf9c0c86e66eed380196e0185" />
-    </bean>
+     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+         <property name="driverClassName" value="org.postgresql.Driver" />
+         <property name="url" value="jdbc:postgresql://ec2-23-23-80-20.compute-1.amazonaws.com:5432/d5b0hk16j5hm0n?ssl=true&amp;sslfactory=org.postgresql.ssl.NonValidatingFactory"/>
+         <property name="username" value="faowvudjaqofvd" />
+         <property name="password" value="56679e6c26926f3c2424e5f2347bdd5a2a544b4cf9c0c86e66eed380196e0185" />
+     </bean>
 
     <!--<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
         <!--<property name="driverClassName" value="org.postgresql.Driver" />-->
@@ -33,7 +33,7 @@
             <props>
             <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQL82Dialect</prop>
             <prop key="hibernate.hbm2ddl.auto">update</prop>
-            <prop key="hibernate.show_sql">true</prop>
+            <prop key="hibernate.show_sql">false</prop>
             <prop key="hibernate.format_sql">true</prop>
             <prop key="hibernate.use_sql_comments">true</prop>
             <prop key="hibernate.zeroDateTimeBehavior">convertToNull</prop>
@@ -42,16 +42,138 @@
         <!-- Enable Hibernate's automatic session context management -->
     </bean>
 
+    <tx:annotation-driven transaction-manager="transactionManager" />
+
     <bean id="transactionManager"
           class="org.springframework.orm.hibernate4.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
 
+
+
     <bean id="CRUDService" class="sgb.service.CRUDServiceImpl" />
 
-    <tx:annotation-driven transaction-manager="transactionManager" />
+    <!-- @Bania Fonseca have added those beans-->
+
+    <bean id="configControler"  class="sgb.controller.domainController.ConfigControler" >
+        <constructor-arg index="0" ref="CRUDService"/>
+    </bean>
+
+    <bean id="emprestimoController"  class="sgb.controller.domainController.EmprestimoController" >
+        <constructor-arg index="0" ref="CRUDService"/>
+    </bean>
+
+    <bean id="multaController"  class="sgb.controller.domainController.MultaController" >
+        <constructor-arg index="0" ref="CRUDService"/>
+    </bean>
+
+
+    <bean id="deadline"  class="sgb.deadline.Deadline"/>
+
+    <bean id="miniBookingDeadlineController" scope="singleton" class="sgb.deadline.MiniBookingDeadlineController" >
+        <constructor-arg index="0" ref="miniBookingDeadline"/>
+        <constructor-arg index="1" ref="request"/>
+        <constructor-arg index="2" ref="estadoPedidoControler"/>
+        <constructor-arg index="3" ref="emprestimoController"/>
+        <constructor-arg index="4" ref="miniBookingConcurrenceController"/>
+    </bean>
+
+    <bean id="bookingDeadlineController"  class="sgb.deadline.BookingDeadlineController" >
+        <constructor-arg index="0" ref="bookingDeadline"/>
+        <constructor-arg index="1" ref="request"/>
+        <constructor-arg index="2" ref="estadoPedidoControler"/>
+        <constructor-arg index="3" ref="emprestimoController"/>
+    </bean>
+
+    <bean id="miniBookingDeadline"  class="sgb.deadline.MiniBookingDeadline" >
+        <constructor-arg index="0" ref="configControler"/>
+    </bean>
+
+    <bean id="bookingDeadline"  class="sgb.deadline.BookingDeadline" >
+        <constructor-arg index="0" ref="configControler"/>
+    </bean>
+
+    <bean id ="tiporequisicao" class="sgb.controller.domainController.TipoRequisicaoControler">
+        <constructor-arg index="0" ref="CRUDService"/>
+    </bean>
+
+    <bean id="estadoPedidoControler"  class="sgb.controller.domainController.EstadoPedidoControler" >
+        <constructor-arg index="0" ref="CRUDService"/>
+    </bean>
+
+    <bean id="roleController"  class="sgb.controller.domainController.RoleController" >
+        <constructor-arg index="0" ref="CRUDService"/>
+    </bean>
+
+    <bean id="estadoMultaControler"  class="sgb.controller.domainController.EstadoMultaControler" >
+        <constructor-arg index="0" ref="CRUDService"/>
+    </bean>
+
+    <bean id="estadoDevolucaoControler"  class="sgb.controller.domainController.EstadoDevolucaoControler" >
+        <constructor-arg index="0" ref="CRUDService"/>
+    </bean>
+
+    <bean id="obraConcurrenceControl"  scope="singleton" class="sgb.concurrence.ObraConcurrenceControl" >
+        <constructor-arg index="0" ref="CRUDService"/>
+    </bean>
+
+    <bean id="miniBookingConcurrenceController"  scope="singleton" class="sgb.concurrence.MiniBookingConcurrenceController" />
+
+    <bean id="request" class="sgb.request.Request" >
+        <constructor-arg index="0" ref="CRUDService"/>
+        <constructor-arg index="1" ref="configControler"/>
+        <constructor-arg index="2" ref="estadoPedidoControler"/>
+        <constructor-arg index="3" ref="obraConcurrenceControl"/>
+        <constructor-arg index="4" ref="queue"/>
+        <constructor-arg index="5" ref="emprestimoController"/>
+    </bean>
+
+    <bean id="queue"  class="sgb.request.Queue" >
+        <constructor-arg index="0" ref="CRUDService"/>
+        <constructor-arg index="1" ref="estadoPedidoControler"/>
+    </bean>
+
+    <bean id="borrowedBooksDeadline"  class="sgb.deadline.BorrowedBooksDeadline" >
+        <constructor-arg index="0" ref="configControler"/>
+        <constructor-arg index="1" ref="roleController"/>
+    </bean>
+
+    <bean id="fine"  class="sgb.fine.Fine" >
+        <constructor-arg index="0" ref="configControler"/>
+        <constructor-arg index="1" ref="multaController"/>
+        <constructor-arg index="2" ref="estadoMultaControler"/>
+        <constructor-arg index="3" ref="CRUDService"/>
+        <constructor-arg index="4" ref="estadoDevolucaoControler"/>
+        <constructor-arg index="5" ref="emprestimoController"/>
+        <constructor-arg index="6" ref="borrowedBooksDeadline"/>
+    </bean>
+
+    <bean id="borrowedBooksDeadlineController"  class="sgb.deadline.BorrowedBooksDeadlineController" >
+        <constructor-arg index="0" ref="borrowedBooksDeadline"/>
+        <constructor-arg index="1" ref="fine"/>
+        <constructor-arg index="2" ref="estadoPedidoControler"/>
+        <constructor-arg index="3" ref="emprestimoController"/>
+        <constructor-arg index="4" ref="estadoDevolucaoControler"/>
+    </bean>
+
+    <bean id="deadlineThreadManager"  class="sgb.deadline.DeadlineThreadManager" >
+        <constructor-arg index="0" ref="bookingDeadlineController"/>
+        <constructor-arg index="1" ref="borrowedBooksDeadlineController"/>
+        <constructor-arg index="2" ref="miniBookingDeadlineController"/>
+        <constructor-arg index="3" ref="configControler"/>
+        <constructor-arg index="4" ref="miniBookingConcurrenceController"/>
+    </bean>
+
+    <bean id="areaCientificaController"  class="sgb.controller.domainController.AreaCientificaController" >
+        <constructor-arg index="0" ref="CRUDService"/>
+    </bean>
+
+    <bean id="obraController"  class="sgb.controller.domainController.ObraController" >
+        <constructor-arg index="0" ref="CRUDService"/>
+        <constructor-arg index="1" ref="areaCientificaController"/>
+    </bean>
+
 
     <context:annotation-config />
     <context:component-scan base-package="sgb"/>
-
 </beans>
