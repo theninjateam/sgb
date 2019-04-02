@@ -4,6 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
+import org.zkoss.bind.annotation.BindingParam;
+import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Session;
@@ -13,6 +16,7 @@ import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zk.ui.util.Template;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.*;
 import sgb.domain.*;
@@ -47,7 +51,7 @@ public class ListobraController extends SelectorComposer<Component>
     private EstadoPedido estadoPedido;
     private EstadoDevolucao estadoDevolucao;
     private EstadoRenovacao estadoRenovacao;
-    private ListModelList<Obra> obraListModel;
+    private ListModelList<Obra> obras;
     private ListModelList<Item> cestaListModel = new ListModelList<Item>();
     private ListModelList<Obra> detalheobra;
     private boolean isHomeRequisition;
@@ -62,6 +66,9 @@ public class ListobraController extends SelectorComposer<Component>
     private Grid gridListObra;
 
     @Wire
+    private Grid gridListObraMobile;
+
+    @Wire
     private Button buttonVoltar;
     @Wire
     private Grid gridCesta;
@@ -70,16 +77,11 @@ public class ListobraController extends SelectorComposer<Component>
     private Div divCesta;
 
     @Wire
-    private Label qtdObrasNaCesta;
-    @Wire
     private Textbox textboxPesquisar;
 
     @Wire
     private Window listObra;
-
-    @Wire
-    private Listbox obraListBox;
-
+    
     @Wire
     private Listbox cestaListBox;
 
@@ -95,13 +97,10 @@ public class ListobraController extends SelectorComposer<Component>
         super.doAfterCompose(comp);
         session = Sessions.getCurrent();
 
-        boolean c= isNormalUser();
+        boolean c = isNormalUser();
 
-        obraListModel = getObraListModel();
         cestaListModel = getCestaListModel();
-        obraListBox.setModel(obraListModel);
         cestaListBox.setModel(cestaListModel);
-        this.qtdObrasNaCesta.setValue("0");
     }
 
     public boolean isNormalUser () {
@@ -116,13 +115,7 @@ public class ListobraController extends SelectorComposer<Component>
         return a;
     }
 
-    public ListModelList<Obra> getObraListModel() {
-        List<Obra> listaobra = crudService.getAll(Obra.class);
-        return new ListModelList<Obra>(listaobra);
-    }
-
-
-
+    
     @Listen("onPesquisar = #gridPesquisar")
     public void doPesquisa(ForwardEvent event)
     {
@@ -135,6 +128,7 @@ public class ListobraController extends SelectorComposer<Component>
         gridCesta.setVisible(false);
         griddetalhe.setVisible(false);
         gridListObra.setVisible(true);
+        gridListObraMobile.setVisible(true);
         buttonPesquisar.setVisible(true);
         textboxPesquisar.setVisible(true);
         buttonVoltar.setVisible(false);
@@ -151,7 +145,7 @@ public class ListobraController extends SelectorComposer<Component>
         buttonVoltar.setVisible(true);
     }
 
-    @Listen("onShowOperacoes = #obraListBox")
+    @Listen("onShowOperacoes = #gridListObra")
     public void doShowOperacoes(ForwardEvent event)
     {
         Button btn = (Button)event.getOrigin().getTarget();
@@ -169,80 +163,42 @@ public class ListobraController extends SelectorComposer<Component>
         }
     }
 
-    @Listen("onEliminarObra = #obraListBox")
+    @Listen("onEliminarObra = #gridListObra")
     public void doEliminar(ForwardEvent event)
     {
-
-        Button btn = (Button)event.getOrigin().getTarget();
-        Listitem litem =  (Listitem) getListitem(btn);
-        Obra obra = (Obra) litem.getValue();
-        obra = crudService.get(Obra.class, obra.getCota());
+        String cota = (String) event.getData();
+        Obra obra = this.crudService.get(Obra.class, cota);
 
         session.setAttribute("obraToEdite", obra);
 
         Window window =(Window) Executions.createComponents("/views/modalEliminarExemplar.zul", null, null);
         window.doModal();
-
-
-//        Button btn = (Button)event.getOrigin().getTarget();
-//        Listitem litem = (Listitem) getListitem(btn);
-//        ObraConcurrenceControl obra = (ObraConcurrenceControl) litem.getValue();
-//        Messagebox.show("Tem certeza que deseja eliminar a obra ?", "deletar obra",
-//                Messagebox.YES + Messagebox.NO, Messagebox.QUESTION,
-//                new EventListener<Event>() {
-//                    @Override
-//                    public void onEvent(Event event) throws Exception {
-//                        if (Messagebox.ON_YES.equals(event.getName())) {
-//                            obraListModel.remove(obra);
-////                            obra.setAutores(null);
-//                            obra.setAutores(null);
-//                            crudService.delete(obra);
-//                            Clients.showNotification("ObraConcurrenceControl eliminado com sucesso",null,null,null,5000);
-//                        }
-//                    }
-//                });
-
     }
 
-    @Listen("onDetalheObra = #obraListBox")
+    @Listen("onDetalheObra = #gridListObra")
     public void doDetalhe(ForwardEvent event)
     {
-//        Clients.showNotification("Detalhes ObraConcurrenceControl");
         detalheobra = new ListModelList<>();
         gridListObra.setVisible(false);
+        gridListObraMobile.setVisible(false);
         buttonPesquisar.setVisible(false);
         textboxPesquisar.setVisible(false);
         buttonVoltar.setVisible(true);
         gridCesta.setVisible(false);
-//        divCesta.setVisible(false);
 
-        Button btn = (Button)event.getOrigin().getTarget();
-        Listitem litem = (Listitem) getListitem(btn);
-        Obra obra = (Obra) litem.getValue();
-
-        for (Obra o : getObraListModel())
-        {
-            if (o.getCota().equals(obra.getCota()))
-            {
-                obra = o;
-                break;
-            }
-        }
+        String cota = (String) event.getData();
+        Obra obra = this.crudService.get(Obra.class, cota);
 
         detalheobra.add(obra);
-        detalheobra.addSelection(obra);
         obraShow.setModel(detalheobra);
         griddetalhe.setVisible(true);
-
     }
 
-    @Listen("onAdicionarExemplares = #obraListBox")
+    @Listen("onAdicionarExemplares = #gridListObra")
     public void doEditar(ForwardEvent event)
     {
-        Button btn = (Button)event.getOrigin().getTarget();
-        Listitem litem =  (Listitem) getListitem(btn);
-        Obra obra = (Obra) litem.getValue();
-        obra = crudService.get(Obra.class, obra.getCota());
+        String cota = (String) event.getData();
+        Obra obra = this.crudService.get(Obra.class, cota);
 
         session.setAttribute("obraToEdite", obra);
 
@@ -250,29 +206,55 @@ public class ListobraController extends SelectorComposer<Component>
         window.doModal();
     }
 
-    @Listen("onAdicionarNaCesta = #obraListBox")
-    @Transactional
-    public void doAdicionarNaCesta(ForwardEvent event)
-    {
-        if (temObrasPorDevolver())
-        {
-            Clients.showNotification("Voce tem obras por devolver",null,null,null,5000);
-            return;
-        }
 
-        try
+    @Listen("onPesquisar = #textboxPesquisar")
+    public void doAutoPesquisar(ForwardEvent event)
+    {
+        pesquisar(textboxPesquisar.getValue());
+    }
+
+    @Listen("onPesquisar = #buttonPesquisar")
+    public void doPesquisar(ForwardEvent event)
+    {
+        pesquisar(textboxPesquisar.getValue());
+    }
+
+    public void pesquisar(String keys)
+    {
+        if (textboxPesquisar.getValue().isEmpty())
         {
-            Button btn = (Button)event.getOrigin().getTarget();
-            Listitem litem =  (Listitem) getListitem(btn);
-            Obra obra = (Obra) litem.getValue();
-            insertOncestaListModel(obra);
+            obras.removeAll(obras);
+            obras.addAll(getObras());
         }
-        catch (Exception e)
+        else
         {
-            e.printStackTrace();
+            obras.removeAll(obras);
+
+            for (Obra obra: getObras())
+            {
+                for ( String key: keys.split(" "))
+                {
+                    if( obra.getTitulo().toLowerCase().contains(key.toLowerCase()))
+                    {
+                        obras.add(obra);
+                        break;
+                    }
+                }
+            }
         }
     }
 
+    public ListModelList<Obra> getObras()
+    {
+        List<Obra> listaobra = crudService.getAll(Obra.class);
+        return new ListModelList<Obra>(listaobra);
+    }
+    
+
+    /****************************************
+    * Todos metodos abaixo devem sair
+    *************************************** */
+    
     @Listen("onLeituraDomiciliar = #cestaListBox")
     public void doLeituraDomiciliar(ForwardEvent event)
     {
@@ -329,124 +311,83 @@ public class ListobraController extends SelectorComposer<Component>
     @Listen("onRequisitarObra = #cestaListBox")
     public void doRequisitar(ForwardEvent event)
     {
-        try
-        {
-            if (cestaListModel.size() == 0)
-            {
-                Clients.showNotification("A Cesta esta vazia",null,null,null,5000);
-                return;
-            }
-
-            for (Item item : cestaListModel)
-            {
-                if (item.getCanBeRequested())
-                {
-                    this.request.request(item, this.user);
-                }
-            }
-
-            this.cestaListModel.removeAll(cestaListModel);
-            this.qtdObrasNaCesta.setValue("0");
-
-            Clients.showNotification("successful",null,null,null,5000);
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-        }
-    }
-
-    @Listen("onPesquisar = #textboxPesquisar")
-    public void doAutoPesquisar(ForwardEvent event)
-    {
-        pesquisar(textboxPesquisar.getValue());
-    }
-
-    @Listen("onPesquisar = #buttonPesquisar")
-    public void doPesquisar(ForwardEvent event)
-    {
-        pesquisar(textboxPesquisar.getValue());
-    }
-
-    public void pesquisar(String keys)
-    {
-        if (textboxPesquisar.getValue().isEmpty())
-        {
-            obraListModel.removeAll(obraListModel);
-            obraListModel.addAll(getObraListModel());
-        }
-        else
-        {
-            obraListModel.removeAll(obraListModel);
-
-            for (Obra obra: getObraListModel())
-            {
-                for ( String key: keys.split(" "))
-                {
-                    if( obra.getTitulo().toLowerCase().contains(key.toLowerCase()))
-                    {
-                        obraListModel.add(obra);
-                        break;
-                    }
-                }
-            }
-        }
+//        try
+//        {
+//            if (cestaListModel.size() == 0)
+//            {
+//                Clients.showNotification("A Cesta esta vazia",null,null,null,5000);
+//                return;
+//            }
+//
+//            for (Item item : cestaListModel)
+//            {
+//                if (item.getCanBeRequested())
+//                {
+//         //           this.request.request(item, this.user);
+//                }
+//            }
+//
+//            this.cestaListModel.removeAll(cestaListModel);
+//
+//            Clients.showNotification("successful",null,null,null,5000);
+//        }
+//        catch (Exception ex)
+//        {
+//            ex.printStackTrace();
+//        }
     }
 
     @Listen("onAumentarQtd = #cestaListBox")
     public void doAumentarQtd(ForwardEvent event)
     {
-        Button btn = (Button)event.getOrigin().getTarget();
-        Listitem litem = (Listitem) getListitem(btn);;
-        Item item = (Item) litem.getValue();
-        aumentarQtd(item);
-
-        this.qtdObrasNaCesta.setValue(""+getQtdObrasNaCesta());
+//        Button btn = (Button)event.getOrigin().getTarget();
+//        Listitem litem = (Listitem) getListitem(btn);;
+//        Item item = (Item) litem.getValue();
+//        aumentarQtd(item);
+//
+//        this.qtdObrasNaCesta.setValue(""+getQtdObrasNaCesta());
     }
 
     @Listen("onReduzirQtd = #cestaListBox")
     public void doReduzirQtd(ForwardEvent event)
     {
-        Button btn = (Button)event.getOrigin().getTarget();
-        Listitem litem = (Listitem) getListitem(btn);;
-        Item item = (Item) litem.getValue();
-
-        if (item.getQuantidade() > 1)
-            item.setQuantidade(item.getQuantidade() - 1);
-
-        for (int i = 0; i < cestaListModel.size(); i++)
-        {
-            if ( cestaListModel.get(i).getObra().getCota().equals(item.getObra().getCota()))
-            {
-                cestaListModel.remove(i);
-                cestaListModel.add(i, item);
-                break;
-            }
-        }
-
-        this.qtdObrasNaCesta.setValue(""+getQtdObrasNaCesta());
+//        Button btn = (Button)event.getOrigin().getTarget();
+//        Listitem litem = (Listitem) getListitem(btn);;
+//        Item item = (Item) litem.getValue();
+//
+//        if (item.getQuantidade() > 1)
+//            item.setQuantidade(item.getQuantidade() - 1);
+//
+//        for (int i = 0; i < cestaListModel.size(); i++)
+//        {
+//            if ( cestaListModel.get(i).getObra().getCota().equals(item.getObra().getCota()))
+//            {
+//                cestaListModel.remove(i);
+//                cestaListModel.add(i, item);
+//                break;
+//            }
+//        }
     }
 
     @Listen("onRemoverDaCesta = #cestaListBox")
     public void doEliminarcesta(ForwardEvent event)
     {
-        Button btn = (Button)event.getOrigin().getTarget();
-        Listitem litem = (Listitem) getListitem(btn);
-        Item item = (Item) litem.getValue();
-
-        int pos = 0;
-
-        for (int i = 0; i < cestaListModel.size(); i++ )
-        {
-            if (item.getObra().getCota().equals(cestaListModel.get(i).getObra().getCota()))
-                break;
-
-            pos++;
-        }
-
-        cestaListModel.remove(pos);
-
-        this.qtdObrasNaCesta.setValue(""+getQtdObrasNaCesta());
+//        Button btn = (Button)event.getOrigin().getTarget();
+//        Item item = (Item) litem.getValue();
+//
+//        int pos = 0;
+//
+//        for (int i = 0; i < cestaListModel.size(); i++ )
+//        {
+//            if (item.getObra().getCota().equals(cestaListModel.get(i).getObra().getCota()))
+//                break;
+//
+//            pos++;
+//        }
+//
+//        cestaListModel.remove(pos);
+//
+//        this.qtdObrasNaCesta.setValue(""+getQtdObrasNaCesta());
     }
 
     public void insertOncestaListModel(Obra obra)
@@ -486,8 +427,6 @@ public class ListobraController extends SelectorComposer<Component>
 //            aumentarQtd(item);
 //        }
 
-        this.qtdObrasNaCesta.setValue(""+getQtdObrasNaCesta());
-
     }
 
     public int getQtdObrasNaCesta()
@@ -518,8 +457,8 @@ public class ListobraController extends SelectorComposer<Component>
                 +(getQtdObrasRequisitadas()));
     }
 
-    public void setObraListModel(ListModelList<Obra> obraListModel) {
-        this.obraListModel = obraListModel;
+    public void setObraListModel(ListModelList<Obra> obras) {
+        this.obras = obras;
     }
 
     public ListModelList<Item> getCestaListModel()
@@ -611,24 +550,6 @@ public class ListobraController extends SelectorComposer<Component>
         return qtd;
     }
 
-    public Component getListitem (Button btn)
-    {
-        Component component = btn.getParent();
-
-        while(true)
-        {
-            if ( component instanceof  Listitem)
-            {
-                return  component;
-            }
-
-            if(component == null)
-                return null;
-
-            component = component.getParent();
-        }
-    }
-
     public int getQtdExemplaresNaCesta(Obra obra)
     {
 
@@ -653,18 +574,18 @@ public class ListobraController extends SelectorComposer<Component>
                 cestaListModel.get(i).setHomeRequisition(this.request.canDoHomeRequisition(obra));
                 cestaListModel.get(i).setLineUp(this.request.canLineUp(obra,1));
 
-                if (!cestaListModel.get(i).getIsHomeRequisition())
-                {
-                    cestaListModel.get(i).setCanBeRequested(false);
-                }
-                else
-                {
-                    cestaListModel.get(i).setCanBeRequested(true);
-                }
+//                if (!cestaListModel.get(i).getIsHomeRequisition())
+//                {
+//                    cestaListModel.get(i).setCanBeRequested(false);
+//                }
+//                else
+//                {
+//                    cestaListModel.get(i).setCanBeRequested(true);
+//                }
             }
             else
             {
-                cestaListModel.get(i).setCanBeRequested(true);
+               // cestaListModel.get(i).setCanBeRequested(true);
                 cestaListModel.get(i).setHomeRequisition(false);
             }
 

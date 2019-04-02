@@ -2,6 +2,8 @@ package sgb.controller.domainController;
 import sgb.domain.Config;
 import sgb.service.CRUDService;
 
+import javax.swing.plaf.PanelUI;
+
 /**
  *@author Fonseca, bfonseca@unilurio.ac.mz
  *@Description este singleton recupera dados da entidade Config
@@ -29,10 +31,13 @@ public class ConfigControler
     public final int DEADLINE_STUDENT_BORROWED_BOOKS;
     public final int DEADLINE_TEACHER_BORROWED_BOOKS;
     public final int DAILY_RATE_FINE;
+    public final int MAXIMUM_NUMBER_OF_COPIES;
+    public final int MAXIMUM_COPIES_PER_BOOK;
 
     public ConfigControler(CRUDService crudService)
     {
         this.CRUDService = crudService;
+
         MINIMUM_NUMBER_OF_COPIES = Integer.parseInt(getConfigValue("MINIMUM_NUMBER_OF_COPIES"));
         DEADLINE_REQUESTED_BOOKS = Integer.parseInt(getConfigValue("DEADLINE_REQUESTED_BOOKS"));
         ENTRY_TIME_ON_SATURDAY = Integer.parseInt(getConfigValue("ENTRY_TIME_ON_SATURDAY"));
@@ -43,6 +48,8 @@ public class ConfigControler
         DEADLINE_STUDENT_BORROWED_BOOKS = Integer.parseInt(getConfigValue("DEADLINE_STUDENT_BORROWED_BOOKS"));
         DEADLINE_TEACHER_BORROWED_BOOKS = Integer.parseInt(getConfigValue("DEADLINE_TEACHER_BORROWED_BOOKS"));
         DAILY_RATE_FINE = Integer.parseInt(getConfigValue("DAILY_RATE_FINE"));
+        MAXIMUM_NUMBER_OF_COPIES = Integer.parseInt(getConfigValue("MAXIMUM_NUMBER_OF_COPIES"));
+        MAXIMUM_COPIES_PER_BOOK = Integer.parseInt(getConfigValue("MAXIMUM_COPIES_PER_BOOK"));
     }
 
     public String getConfigValue(String id)
