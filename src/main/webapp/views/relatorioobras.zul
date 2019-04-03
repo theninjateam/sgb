@@ -22,7 +22,7 @@
                         </template>
                      </listbox>
                     <span sclass="input-group-addon">  From: </span>
-                    <datebox id="dataInicio" cols="12" format="medium" onCreate="self.value = new Date()" />
+                    <datebox id="dataInicio" cols="12" format="medium"  />
 
                     <span sclass="input-group-addon">   to: </span>
                     <datebox id="dataFim" cols="12" format="medium" onCreate="self.value = new Date()" />

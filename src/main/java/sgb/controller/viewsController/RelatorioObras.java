@@ -19,6 +19,7 @@ import sgb.service.CRUDService;
 //import org.zkoss.chart.model.CategoryModel;
 //import org.zkoss.chart.model.DefaultCategoryModel;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -86,6 +87,7 @@ public class RelatorioObras extends SelectorComposer<Component> {
         areaCientificaListModel.addToSelection(a);
         areaCientificaListBox.setModel(areaCientificaListModel);
 
+        dataInicio = null;
         setListModelsallData();
         setListBoxsModels();
     }
@@ -94,12 +96,17 @@ public class RelatorioObras extends SelectorComposer<Component> {
     public void change() {
 
         AreaCientifica areaCientifica = areaCientificaListBox.getSelectedItem().getValue();
+        List<RegistroObra> registroObras = registroObras = registroObraController.getObrasByDate(dataInicio.getValue(),dataFim.getValue(),areaCientifica);
 
         if(areaCientifica.getIdarea()!=0){
-            obraCategoriaListModel = new ListModelList<ObraCategoria>(obraController.getObrasCategorias(areaCientifica));
+            if(dataInicio.getValue()!=null)
+            obraCategoriaListModel = new ListModelList<ObraCategoria>(obraController.getObrasCategorias(registroObras,areaCientifica));
+            else
+                obraCategoriaListModel = new ListModelList<ObraCategoria>(obraController.getObrasCategorias(areaCientifica));
             obrasregistadasListModel = new ListModelList<RegistroObra>(registroObraController.getObrasRegistadas());
             obraEliminadasListModel =new ListModelList<ObraEliminadas>(obraEliminadasController.getObrasEliminadas());
         } else {
+            dataInicio = null;
             setListModelsallData();
         }
 
@@ -110,14 +117,9 @@ public class RelatorioObras extends SelectorComposer<Component> {
     @Listen("onChange = #dataInicio")
     public void dataChange() {
 
-        Calendar dataI = Calendar.getInstance();
-        dataI.setTime(dataInicio.getValue());
-
-        Calendar dataF = Calendar.getInstance();
-        dataF.setTime(dataFim.getValue());
 
         AreaCientifica areaCientifica = areaCientificaListBox.getSelectedItem().getValue();
-        List<RegistroObra> registroObras = registroObraController.getObrasByDate(dataI,dataF);
+        List<RegistroObra> registroObras = registroObraController.getObrasByDate(dataInicio.getValue(),dataFim.getValue(),areaCientifica);
 
         if(areaCientifica.getIdarea()!=0){
             obraCategoriaListModel = new ListModelList<ObraCategoria>(obraController.getObrasCategorias(registroObras,areaCientifica));
@@ -128,24 +130,20 @@ public class RelatorioObras extends SelectorComposer<Component> {
         }
 
         setListBoxsModels();
-//
-//
-//        AreaCientifica areaCientifica = areaCientificaListBox.getSelectedItem().getValue();
-//
-//        if(areaCientifica.getIdarea()!=0){
-//            obraCategoriaListModel = new ListModelList<ObraCategoria>(obraController.getObrasCategorias(areaCientifica));
-//            obrasregistadasListModel = new ListModelList<RegistroObra>(registroObraController.getObrasRegistadas());
-//            obraEliminadasListModel =new ListModelList<ObraEliminadas>(obraEliminadasController.getObrasEliminadas());
-//        } else {
-//            setListModelsallData();
-//        }
-//
-//        setListBoxsModels();
     }
 
     public void setListModelsallData(){
 
-            obraCategoriaListModel = new ListModelList<ObraCategoria>(obraController.getObrasCategorias(null));
+
+
+
+        if (dataInicio != null) {
+            //AreaCientifica areaCientifica = areaCientificaListBox.getSelectedItem().getValue();
+            List<RegistroObra> registroObras = registroObraController.getObrasByDate(dataInicio.getValue(), dataFim.getValue(), null);
+
+            obraCategoriaListModel = new ListModelList<ObraCategoria>(obraController.getObrasCategorias(registroObras, null));
+        }else
+            obraCategoriaListModel = new ListModelList<ObraCategoria>(obraController.getObrasCategorias( null));
             obrasregistadasListModel = new ListModelList<RegistroObra>(registroObraController.getObrasRegistadas());
             obraEliminadasListModel =new ListModelList<ObraEliminadas>(obraEliminadasController.getObrasEliminadas());
 

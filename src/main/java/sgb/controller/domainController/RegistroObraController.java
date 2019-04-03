@@ -28,18 +28,27 @@ public class RegistroObraController
         return this.crudService.findByJPQuery(query.toString(),null);
     }
 
-    public List<RegistroObra> getObrasByDate(Calendar dataI, Calendar dataF){
+    public List<RegistroObra> getObrasByDate(Date dataI, Date dataF, AreaCientifica areaCientifica){
 
-        parameters = new HashMap<String, Object>(2);
+        if(areaCientifica != null)
+            parameters = new HashMap<String, Object>(3);
+        else
+            parameters = new HashMap<String, Object>(2);
+
         query = new StringBuilder();
 
         parameters.put("datai", dataI);
         parameters.put("dataf", dataF);
 
-        query.append("SELECT r FROM RegistroObra r WHERE r.registroObraPK.dataRegisto >= :datai and r.registroObraPK.dataRegisto <= :dataf");
+        System.out.println("data i: "+dataI+" data f: "+dataF);
+
+        query.append("SELECT r FROM RegistroObra r WHERE r.registroObraPK.dataRegisto >= :datai ");
+        query.append("and r.registroObraPK.dataRegisto <= :dataf");
+        if(areaCientifica != null) {
+            parameters.put("idarea", areaCientifica.getIdarea());
+            query.append(" and r.registroObraPK.obra.areacientifica.idarea = :idarea");
+        }
 
         return this.crudService.findByJPQuery(query.toString(),parameters);
-
-
     }
 }
