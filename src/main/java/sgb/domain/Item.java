@@ -1,14 +1,19 @@
 package sgb.domain;
 
-import java.util.ArrayList;
-
 public class Item
 {
     private Obra obra;
     private int quantidade;
-    private boolean isLineUp;
-    private boolean isHomeRequisition;
-    private boolean canBeRequested = true;
+    private boolean lineUp;
+    private boolean homeRequisition;
+    private boolean canDoInternalRequisition;
+    private boolean canDoHomeRequisition;
+    private boolean internalRequisition;
+    public boolean delete = false;
+
+
+    private boolean canBeViewed = true;
+    private EstadoPedido estadoPedido;
 
     public Obra getObra() {
         return this.obra;
@@ -26,27 +31,67 @@ public class Item
         this.quantidade = quantidade;
     }
 
-    public boolean getIsLineUp() {
-        return isLineUp;
+    public boolean isLineUp()
+    {
+        return lineUp;
     }
 
-    public void setLineUp(boolean lineUp) {
-        isLineUp = lineUp;
+    public void setLineUp(boolean lineUp)
+    {
+        this.lineUp = lineUp;
     }
 
-    public boolean getIsHomeRequisition() {
-        return isHomeRequisition;
+    public boolean isHomeRequisition()
+    {
+        return homeRequisition;
     }
 
-    public void setHomeRequisition(boolean homeRequisition) {
-        isHomeRequisition = homeRequisition;
+    public void setHomeRequisition(boolean homeRequisition)
+    {
+        this.homeRequisition = homeRequisition;
     }
 
-    public boolean getCanBeRequested() {
-        return canBeRequested;
+    public boolean isInternalRequisition()
+    {
+        return internalRequisition;
     }
 
-    public void setCanBeRequested(boolean canBeRequested) {
-        this.canBeRequested = canBeRequested;
+    public void setInternalRequisition(boolean internalRequisition)
+    {
+        this.internalRequisition = internalRequisition;
+    }
+
+    public EstadoPedido getEstadoPedido()
+    {
+        return estadoPedido;
+    }
+
+    public void setEstadoPedido(EstadoPedido estadoPedido)
+    {
+        this.estadoPedido = estadoPedido;
+    }
+
+    public boolean isCanBeViewed() {
+        return canBeViewed;
+    }
+
+    public void setCanBeViewed(boolean canBeViewed) {
+        this.canBeViewed = canBeViewed;
+    }
+
+    public boolean isCanDoInternalRequisition() {
+        return canDoInternalRequisition;
+    }
+
+    public void setCanDoInternalRequisition(boolean canDoInternalRequisition) {
+        this.canDoInternalRequisition = canDoInternalRequisition;
+    }
+
+    public boolean isCanDoHomeRequisition() {
+        return canDoHomeRequisition;
+    }
+
+    public void setCanDoHomeRequisition(boolean canDoHomeRequisition) {
+        this.canDoHomeRequisition = canDoHomeRequisition;
     }
 }

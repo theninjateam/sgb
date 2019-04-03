@@ -39,6 +39,8 @@ public class RelatorioObras extends SelectorComposer<Component> {
     private Listbox obracategoria;
     private Listbox obrasregistadas;
     private Label qtdd;
+    Calendar dataI = Calendar.getInstance();
+    Calendar dataF = Calendar.getInstance();
 
     @Wire
     private Datebox dataInicio;
@@ -90,17 +92,22 @@ public class RelatorioObras extends SelectorComposer<Component> {
         dataInicio = null;
         setListModelsallData();
         setListBoxsModels();
+        dataInicio = null;
+
     }
 
     @Listen("onSelect = #areaCientificaListBox")
     public void change() {
 
+
+            getSelectedDate();
+
         AreaCientifica areaCientifica = areaCientificaListBox.getSelectedItem().getValue();
-        List<RegistroObra> registroObras = registroObras = registroObraController.getObrasByDate(dataInicio.getValue(),dataFim.getValue(),areaCientifica);
+        List<RegistroObra> registroObras = registroObras = registroObraController.getObrasByDate(dataI,dataF,areaCientifica);
 
         if(areaCientifica.getIdarea()!=0){
-            if(dataInicio.getValue()!=null)
-            obraCategoriaListModel = new ListModelList<ObraCategoria>(obraController.getObrasCategorias(registroObras,areaCientifica));
+            if(dataInicio != null)
+                obraCategoriaListModel = new ListModelList<ObraCategoria>(obraController.getObrasCategorias(registroObras,areaCientifica));
             else
                 obraCategoriaListModel = new ListModelList<ObraCategoria>(obraController.getObrasCategorias(areaCientifica));
             obrasregistadasListModel = new ListModelList<RegistroObra>(registroObraController.getObrasRegistadas());
@@ -117,9 +124,9 @@ public class RelatorioObras extends SelectorComposer<Component> {
     @Listen("onChange = #dataInicio")
     public void dataChange() {
 
-
+        getSelectedDate();
         AreaCientifica areaCientifica = areaCientificaListBox.getSelectedItem().getValue();
-        List<RegistroObra> registroObras = registroObraController.getObrasByDate(dataInicio.getValue(),dataFim.getValue(),areaCientifica);
+        List<RegistroObra> registroObras = registroObraController.getObrasByDate(dataI,dataF,areaCientifica);
 
         if(areaCientifica.getIdarea()!=0){
             obraCategoriaListModel = new ListModelList<ObraCategoria>(obraController.getObrasCategorias(registroObras,areaCientifica));
@@ -134,12 +141,9 @@ public class RelatorioObras extends SelectorComposer<Component> {
 
     public void setListModelsallData(){
 
-
-
-
         if (dataInicio != null) {
-            //AreaCientifica areaCientifica = areaCientificaListBox.getSelectedItem().getValue();
-            List<RegistroObra> registroObras = registroObraController.getObrasByDate(dataInicio.getValue(), dataFim.getValue(), null);
+            getSelectedDate();
+            List<RegistroObra> registroObras = registroObraController.getObrasByDate(dataI, dataF, null);
 
             obraCategoriaListModel = new ListModelList<ObraCategoria>(obraController.getObrasCategorias(registroObras, null));
         }else
@@ -203,5 +207,17 @@ public class RelatorioObras extends SelectorComposer<Component> {
 //        emprestimoListModel.add(empReprovado);
 //
 //    }
+    
+    public void getSelectedDate(){
+
+        try {
+            dataI.setTime(dataInicio.getValue());
+            dataF.setTime(dataFim.getValue());
+        }catch (Exception e){
+
+        };
+
+
+    }
 
 }

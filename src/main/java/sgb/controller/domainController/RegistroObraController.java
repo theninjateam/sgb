@@ -28,7 +28,7 @@ public class RegistroObraController
         return this.crudService.findByJPQuery(query.toString(),null);
     }
 
-    public List<RegistroObra> getObrasByDate(Date dataI, Date dataF, AreaCientifica areaCientifica){
+    public List<RegistroObra> getObrasByDate(Calendar dataI, Calendar dataF, AreaCientifica areaCientifica){
 
         if(areaCientifica != null)
             parameters = new HashMap<String, Object>(3);

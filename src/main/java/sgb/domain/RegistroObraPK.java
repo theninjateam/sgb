@@ -14,7 +14,7 @@ public class RegistroObraPK implements Serializable
 
     @Column(name = "dataregisto")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dataRegisto;
+    private Calendar dataRegisto;
 
     public Obra getObra() {
         return obra;
@@ -23,10 +23,10 @@ public class RegistroObraPK implements Serializable
         this.obra = obra;
     }
 
-    public Date getDataRegisto() {
+    public Calendar getDataRegisto() {
         return dataRegisto;
     }
-    public void setDataRegisto(Date dataregisto) {
+    public void setDataRegisto(Calendar dataregisto) {
         this.dataRegisto = dataregisto;
     }
 }
