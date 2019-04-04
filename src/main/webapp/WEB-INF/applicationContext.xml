@@ -175,6 +175,13 @@
         <constructor-arg index="1" ref="areaCientificaController"/>
     </bean>
 
+    <bean id="registroObraController"  class="sgb.controller.domainController.RegistroObraController" >
+        <constructor-arg index="0" ref="CRUDService"/>
+    </bean>
+
+    <bean id="obraEliminadasController"  class="sgb.controller.domainController.ObraEliminadasController" >
+        <constructor-arg index="0" ref="CRUDService"/>
+    </bean>
 
     <context:annotation-config />
     <context:component-scan base-package="sgb"/>

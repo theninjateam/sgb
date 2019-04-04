@@ -5,7 +5,7 @@
                 </columns>
                 <rows>
                       <row>
-                        <listbox width="100%" id="obraregistadas"
+                        <listbox width="100%" id="obrasregistadas"
                                  emptyMessage="Nao tem nenhum pedido pendente">
                             <listhead>
                                 <listheader width="20%" height="100%" label="Data da Operacao"/>

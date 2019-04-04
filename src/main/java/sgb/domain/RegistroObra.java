@@ -1,8 +1,9 @@
 package sgb.domain;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -84,4 +85,6 @@ public class RegistroObra
     public void setQuantidade(Integer quantidade) {
         this.quantidade = quantidade;
     }
+
+
 }
