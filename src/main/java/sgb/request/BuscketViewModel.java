@@ -9,6 +9,8 @@ import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.zk.ui.Session;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.ListModelList;
@@ -24,6 +26,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class BuscketViewModel
 {
     private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;
+    private Session session = Sessions.getCurrent();
 
     private Request request = (Request) SpringUtil.getBean("request");
     private MultaController multaController = (MultaController) SpringUtil.getBean("multaController");
@@ -47,11 +50,27 @@ public class BuscketViewModel
     @Init
     public void init() throws Exception
     {
-        this.buscketBooksQuantity = 0;
-        this.canAddToBuscket = this.getCanAddToBuscket();
-        this.internalRequisition = false;
-        this.homeRequisition = false;
-        this.canShowRadios = false;
+
+        if (this.session.getAttribute("buscket") == null)
+        {
+            this.buscketBooksQuantity = 0;
+            this.canAddToBuscket = this.getCanAddToBuscket();
+            this.internalRequisition = false;
+            this.homeRequisition = false;
+            this.canShowRadios = false;
+            session.setAttribute("buscket", this);
+
+        }
+        else
+        {
+            this.buscketBooksQuantity = ((BuscketViewModel) this.session.getAttribute("buscket")).buscketBooksQuantity;
+            this.canAddToBuscket = ((BuscketViewModel) this.session.getAttribute("buscket")).canAddToBuscket;
+            this.internalRequisition = ((BuscketViewModel) this.session.getAttribute("buscket")).internalRequisition;
+            this.homeRequisition = ((BuscketViewModel) this.session.getAttribute("buscket")).homeRequisition;
+            this.canShowRadios = ((BuscketViewModel) this.session.getAttribute("buscket")).canShowRadios;
+            this.items = ((BuscketViewModel) this.session.getAttribute("buscket")).items;
+        }
+
     }
 
     @NotifyChange("*")
@@ -148,6 +167,7 @@ public class BuscketViewModel
             this.buscketBooksQuantity = 0;
 
             this.items = new ArrayList<Item>();
+            this.session.setAttribute("buscket", null);
             BindUtils.postNotifyChange(null, null, this, "items");
 
             Clients.showNotification("Feito",null,null,null,5000);
