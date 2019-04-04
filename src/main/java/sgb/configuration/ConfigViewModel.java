@@ -35,7 +35,12 @@ public class ConfigViewModel
     @Command("updateConfig")
     public void updateConfig()
     {
-        Clients.showNotification("olaha:");
+        for (Config config: this.configs)
+        {
+            this.crudService.update(config);
+        }
+
+        Clients.showNotification("Feito");
     }
     public List<Config> getConfigs()
     {
