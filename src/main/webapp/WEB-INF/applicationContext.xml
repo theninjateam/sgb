@@ -126,6 +126,8 @@
         <constructor-arg index="3" ref="obraConcurrenceControl"/>
         <constructor-arg index="4" ref="queue"/>
         <constructor-arg index="5" ref="emprestimoController"/>
+        <constructor-arg index="6" ref="estadoDevolucaoControler"/>
+        <constructor-arg index="7" ref="tiporequisicao"/>
     </bean>
 
     <bean id="queue"  class="sgb.request.Queue" >

@@ -4,7 +4,7 @@ public class Item
 {
     private Obra obra;
     private int quantidade;
-    private boolean lineUp;
+    private boolean lineUp = false;
     private boolean homeRequisition;
     private boolean canDoInternalRequisition;
     private boolean canDoHomeRequisition;

@@ -1,5 +1,7 @@
 package sgb.request;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.zkoss.bind.BindUtils;
@@ -111,8 +113,8 @@ public class BuscketViewModel
             item.setQuantidade(1);
             item.setHomeRequisition(this.homeRequisition);
             item.setInternalRequisition(this.internalRequisition);
-            item.setCanDoInternalRequisition(this.request.canDoInternalRequisition(obra));
-            item.setCanDoHomeRequisition(this.request.canDoHomeRequisition(obra));
+            item.setCanDoInternalRequisition(this.request.canDoInternalRequisition(obra, item.getQuantidade()));
+            item.setCanDoHomeRequisition(this.request.canDoHomeRequisition(obra, item.getQuantidade()));
 
             this.items.add(item);
 
@@ -132,19 +134,27 @@ public class BuscketViewModel
     /*
     * must be a transation
     * */
-    @NotifyChange("*")
+    @NotifyChange({"buscketBooksQuantity", "canAddToBuscket", "homeRequisition", "internalRequisition", "canShowRadios"})
     @Command("request")
-    public void request()
+    public void request() throws Exception
     {
         if (this.buscketBooksQuantity  > 0)
         {
             this.request.request(this.items, this.user);
+
+            this.homeRequisition = false;
+            this.internalRequisition = false;
+            this.canShowRadios  = false;
+            this.buscketBooksQuantity = 0;
 
             for (Item item: this.items)
             {
                 int pos = this.items.indexOf(item);
                 this.items.get(pos).delete = true;
             }
+
+            this.setItems(this.items);
+            BindUtils.postNotifyChange(null, null, this, "items");
 
             Clients.showNotification("Feito",null,null,null,5000);
         }
@@ -155,7 +165,7 @@ public class BuscketViewModel
 
     }
 
-//    @NotifyChange({"buscketBooksQuantity", "items", "canAddToBuscket", "homeRequisition", "internalRequisition", "canShowRadios"})
+    @NotifyChange({"buscketBooksQuantity", "canAddToBuscket", "homeRequisition", "internalRequisition", "canShowRadios"})
     @Command("remove")
     public void remove(@BindingParam("item") Item item ) throws Exception
     {
@@ -163,6 +173,7 @@ public class BuscketViewModel
 
         int pos  = this.items.indexOf(item);
         this.items.get(pos).delete = true;
+        this.setItems(this.items);
         this.buscketBooksQuantity = this.buscketBooksQuantity - 1;
 
         semaphore.release();
@@ -174,11 +185,14 @@ public class BuscketViewModel
         }
 
         BindUtils.postNotifyChange(null, null, this, "items");
-        BindUtils.postNotifyChange(null, null, this, "buscketBooksQuantity");
-        BindUtils.postNotifyChange(null, null, this, "canAddToBuscket");
-        BindUtils.postNotifyChange(null, null, this, "homeRequisition");
-        BindUtils.postNotifyChange(null, null, this, "internalRequisition");
-        BindUtils.postNotifyChange(null, null, this, "canShowRadios");
+    }
+
+    @NotifyChange({"items"})
+    @Command("lineUp")
+    public void lineUp(@BindingParam("item") Item item,  @BindingParam("lineUp") boolean lineUp)
+    {
+        int pos  = this.items.indexOf(item);
+        this.items.get(pos).setLineUp(lineUp);
     }
 
     /*****************************************
@@ -229,6 +243,7 @@ public class BuscketViewModel
     public int getAllBooks() throws Exception
     {
         int allBooks =  this.getBuscketBooksQuantity();
+
         List<Emprestimo> emprestimos = new ArrayList<Emprestimo>();
 
         emprestimos.addAll(this.emprestimoController.getBorrowedBooks(this.user, this.estadoDevolucaoControler.NOT_RETURNED));
@@ -237,9 +252,7 @@ public class BuscketViewModel
         emprestimos.addAll(this.emprestimoController.getRequest(this.user, this.estadoPedidoControler.PENDING_MINI_BOOKING));
 
         for (Emprestimo e: emprestimos)
-        {
             allBooks = allBooks + e.getQuantidade();
-        }
 
         return allBooks;
     }
