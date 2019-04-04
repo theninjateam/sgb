@@ -147,13 +147,7 @@ public class BuscketViewModel
             this.canShowRadios  = false;
             this.buscketBooksQuantity = 0;
 
-            for (Item item: this.items)
-            {
-                int pos = this.items.indexOf(item);
-                this.items.get(pos).delete = true;
-            }
-
-            this.setItems(this.items);
+            this.items = new ArrayList<Item>();
             BindUtils.postNotifyChange(null, null, this, "items");
 
             Clients.showNotification("Feito",null,null,null,5000);
@@ -171,9 +165,17 @@ public class BuscketViewModel
     {
         semaphore.acquire();
 
-        int pos  = this.items.indexOf(item);
-        this.items.get(pos).delete = true;
-        this.setItems(this.items);
+        List<Item> its = new ArrayList<Item>(this.items);
+        this.items = new ArrayList<Item>();
+
+        for (Item i: its)
+        {
+            if (!i.getObra().getCota().equals(item.getObra().getCota()))
+            {
+                this.items.add(i);
+            }
+        }
+
         this.buscketBooksQuantity = this.buscketBooksQuantity - 1;
 
         semaphore.release();
@@ -264,21 +266,7 @@ public class BuscketViewModel
 
     public List<Item> getItems() throws Exception
     {
-        semaphore.acquire();
-
-        List<Item> its = new ArrayList<Item>(this.items);
-
-        for (Item i: its)
-        {
-            if (i.delete)
-            {
-                this.items.remove(i);
-            }
-        }
-
-        semaphore.release();
-
-        return items;
+        return this.items;
     }
 
     public void setItems(List<Item> items)
