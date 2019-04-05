@@ -13,5 +13,5 @@ buildNumber.properties
 
 .idea
 .settings
-target
+target/
 zksandbox.iml
