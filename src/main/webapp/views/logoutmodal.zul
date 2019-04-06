@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk>
+    <window id="logoutModal" apply="sgb.controller.viewsController.LogoutModalController"
+            border="none" closable="true"
+            position="center,top" action="show: slideDown;hide: slideUp" width="460px">
+
+        <grid  style="border-style: none;">
+            <!--<columns style=" background-color: white;  border-style: none;">-->
+            <!--<column style=" background-color: white;  border-style: none;" width="100%" >-->
+            <!--<vlayout   style="text-align: center;">-->
+
+            <!--</vlayout>-->
+            <!--</column>-->
+            <!--</columns>-->
+
+            <rows>
+                <row>
+                    <toolbar id="tb" height="30px" align="center">
+                        <label style="font-weight: bold" id="currentUser" ></label>
+                    </toolbar>
+
+                </row>
+                <row>
+                    <cell  align="center">
+
+                        <hlayout sclass="second-layout">
+                            <div sclass="description-area" align="center">
+
+                                <toolbarbutton id="alterarSenha" label="Alterar Senha"/>
+                                <toolbarbutton apply="sgb.controller.LoginController" id="logout" label="Sair"/>
+                            </div>
+
+
+                        </hlayout>
+                    </cell>
+
+                </row>
+
+                <row>
+                    <toolbar id="twb" height="30px" align="center">
+                        <toolbarbutton id="fechar" label="Fechar"/>
+                    </toolbar>
+
+                </row>
+
+            </rows>
+
+
+        </grid>
+    </window>
+</zk>

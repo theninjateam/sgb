@@ -9,6 +9,7 @@ import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.Textbox;
+import org.zkoss.zul.Window;
 import sgb.domain.*;
 import sgb.service.CRUDService;
 
@@ -27,6 +28,9 @@ public class UserController extends SelectorComposer<Component> {
 
     @Wire
     private Textbox confirmarSenha;
+
+    @Wire
+    private Window alterarSenha;
 
     @Wire
     private Label currentUser;
@@ -57,6 +61,7 @@ public class UserController extends SelectorComposer<Component> {
 
             userController.changeUserPassword(user,userController.encrypt(novaSenha.getValue()));
             Clients.showNotification("Feito");
+            closeModal();
             return;
 
         }
@@ -77,6 +82,11 @@ public class UserController extends SelectorComposer<Component> {
         confirmarSenha.setValue("");
 
 
+    }
+    @Listen("onClick = #fechar")
+    public void closeModal(){
+
+        alterarSenha.detach();
     }
 
 
