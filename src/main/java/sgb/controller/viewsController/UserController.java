@@ -5,21 +5,18 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zkplus.spring.SpringUtil;
+import org.zkoss.zul.Label;
 import org.zkoss.zul.Textbox;
 import sgb.domain.*;
 import sgb.service.CRUDService;
 
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
-public class AlterarSenhaController extends SelectorComposer<Component> {
+public class UserController extends SelectorComposer<Component> {
 
     private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;
-    private Boolean isNormalUser = true;
-    private CRUDService crudService = (CRUDService) SpringUtil.getBean("CRUDService");
-    private static MessageDigest m;
+    private sgb.controller.domainController.UserController userController = (sgb.controller.domainController.UserController) SpringUtil.getBean("userController");
+
 
 
     @Wire
@@ -31,46 +28,53 @@ public class AlterarSenhaController extends SelectorComposer<Component> {
     @Wire
     private Textbox confirmarSenha;
 
-    public Boolean isPasswordEqual(String actualPassword,String newPass,String confNewPass)
+    @Wire
+    private Label currentUser;
+    @Override
+    public void doAfterCompose(Component comp) throws Exception
     {
-        return (user.getPassword().equals(criptografar(actualPassword)) && newPass.equals(confNewPass));
+        super.doAfterCompose(comp);
+
+        currentUser.setValue(user.getName() +" "+ user.getLastName());
 
     }
 
-
-    public String criptografar(String password)
+    public Boolean isPasswordEqual(String actualPassword,String newPass,String confNewPass)
     {
+        return (user.getPassword().equals(userController.encrypt(actualPassword)) && newPass.equals(confNewPass));
 
-        try
-        {
-            m = MessageDigest.getInstance("MD5");
-            m.update(password.getBytes(), 0, password.length());
-            BigInteger login1 = new BigInteger(1, m.digest());
-
-            password = String.format("%1$032X", login1).toLowerCase();
-
-
-            return password;
-        } catch (NoSuchAlgorithmException e)
-        {
-            e.printStackTrace();
-        }
-        return null;
     }
 
 
     @Listen("onClick = #savebtn")
-    public void UpdatePassword()
+    public void updatePassword()
     {
 
 
         if (isPasswordEqual(senhaActual.getValue(),novaSenha.getValue(),confirmarSenha.getValue()))
         {
-            this.user.setPassword(novaSenha.getValue());
 
-            this.crudService.update((Users)user);
+
+            userController.changeUserPassword(user,userController.encrypt(novaSenha.getValue()));
+            Clients.showNotification("Feito");
+            return;
 
         }
+
+        Clients.showNotification("Dados incorrectos");
+
+
+
+
+
+    }
+
+    @Listen("onClick = #cancelbtn")
+    public void clearPassword()
+    {
+        senhaActual.setValue("");
+        novaSenha.setValue("");
+        confirmarSenha.setValue("");
 
 
     }

@@ -35,6 +35,8 @@ public class RelatorioObras extends SelectorComposer<Component> {
     private Boolean isNormalUser = true;
 
 
+
+
     private Listbox obraeliminadas;
     private Listbox obracategoria;
     private Listbox obrasregistadas;

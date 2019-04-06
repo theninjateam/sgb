@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk>
+    <window id="addObra" apply="sgb.controller.viewsController.UserController"
+            border="none" hflex="1" vflex="1" contentStyle="overflow:auto" >
+
+    <!--<div style="padding:0px">-->
+        <!--<div align="center" >-->
+
+            <!--<span >-->
+                <!--Cassimo Duarte-->
+            <!--</span>-->
+        <!--</div>-->
+
+
+
+    <!--</div>-->
+
+        <grid style="align:center" >
+
+            <rows>
+
+
+                <row>
+
+                    <toolbar id="tb" height="30px" align="center">
+                        <label style="font-weight: bold" id="currentUser" value="${user.nome}"></label>
+                    </toolbar>
+                </row>
+                <row>
+
+
+                        <cell align="center">
+
+                            <hlayout sclass="second-layout">
+                                <div sclass="description-area" height="100%">
+
+                                    <span sclass="input-group-addon">Senha Actual</span>
+                                </div>
+                                <div sclass="description-area" >
+
+                            <textbox id="senhaActual" type="password"/>
+                                </div>
+                            </hlayout>
+                        </cell>
+
+                </row>
+                <row>
+                    <cell align="center">
+                        <hlayout sclass="second-layout">
+                            <div sclass="description-area" height="100%">
+                    <span>Nova Senha</span>
+                            </div>
+                            <div sclass="description-area" height="100%">
+                    <textbox id="novaSenha" type="password"/>
+                            </div>
+                        </hlayout>
+                </cell>
+
+                </row>
+                <row>
+                    <cell align="center">
+                        <hlayout sclass="second-layout">
+                            <div sclass="description-area" height="100%">
+                        <span>Confirmar Senha</span>
+                            </div>
+                            <div sclass="description-area" height="100%">
+                        <textbox id="confirmarSenha" type="password"/>
+                            </div>
+                        </hlayout>
+                    </cell>
+                </row>
+
+
+
+
+            <row>
+
+                <toolbar height="30px" align="center">
+                    <toolbarbutton id="savebtn" label="${labels.btnsave}"/>
+                    <toolbarbutton id="cancelbtn"  label="${labels.btndelete}"/>
+                </toolbar>
+            </row>
+            </rows>
+
+
+
+
+
+
+        </grid>
+
+
+    </window>
+</zk>
