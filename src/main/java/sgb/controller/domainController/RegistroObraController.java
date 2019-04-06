@@ -40,8 +40,6 @@ public class RegistroObraController
         parameters.put("datai", dataI);
         parameters.put("dataf", dataF);
 
-        System.out.println("data i: "+dataI+" data f: "+dataF);
-
         query.append("SELECT r FROM RegistroObra r WHERE r.registroObraPK.dataRegisto >= :datai ");
         query.append("and r.registroObraPK.dataRegisto <= :dataf");
         if(areaCientifica != null) {
