@@ -86,10 +86,11 @@ public class ListMulta extends SelectorComposer<Component> {
             Button btn = (Button) event.getOrigin().getTarget();
             Listitem litem = (Listitem) btn.getParent().getParent().getParent();
             Multa multa = (Multa) litem.getValue();
-            Boolean isForDetails = false;
 
+            Boolean isForDetails = false;
             session.setAttribute("ForDetais", isForDetails);
-            session.setAttribute("multa", multa);
+            session.setAttribute("Multa", multa);
+
             Window window =(Window) Executions.createComponents("/views/multamodal.zul", null, null);
             window.setClosable(true);
             window.doModal();

@@ -26,7 +26,6 @@ public class MultaController
         parameters.put("cota", emprestimoPK.getObra().getCota());
         parameters.put("dataentrada", emprestimoPK.getDataentradapedido());
 
-
         query.append("SELECT m FROM Multa m WHERE m.multaPK.utente.id = :user_id and ");
         query.append("m.multaPK.obra.cota = :cota and m.multaPK.dataentradapedido = :dataentrada");
 
