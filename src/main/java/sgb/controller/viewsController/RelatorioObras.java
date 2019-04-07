@@ -1,6 +1,8 @@
 package sgb.controller.viewsController;
 
 import javafx.scene.control.Alert;
+import net.sf.jasperreports.engine.JRException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.zkoss.zk.ui.Component;
@@ -14,6 +16,7 @@ import sgb.controller.domainController.ObraController;
 import sgb.controller.domainController.ObraEliminadasController;
 import sgb.controller.domainController.RegistroObraController;
 import sgb.domain.*;
+import sgb.report.GerarRelatorio;
 import sgb.service.CRUDService;
 
 //import org.zkoss.zk.chart.Charts;
@@ -21,13 +24,14 @@ import sgb.service.CRUDService;
 //import org.zkoss.chart.model.DefaultCategoryModel;
 
 import javax.management.Notification;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 
 public class RelatorioObras extends SelectorComposer<Component> {
-
+    private GerarRelatorio gerarRelatorio = (GerarRelatorio) SpringUtil.getBean("gerarRelatorio");;
     private ObraController obraController  = (ObraController) SpringUtil.getBean("obraController");;
     private RegistroObraController registroObraController  = (RegistroObraController) SpringUtil.getBean("registroObraController");;
     private ObraEliminadasController obraEliminadasController  = (ObraEliminadasController) SpringUtil.getBean("obraEliminadasController");;
@@ -45,6 +49,9 @@ public class RelatorioObras extends SelectorComposer<Component> {
     private Label qtdd;
     Calendar dataI = Calendar.getInstance();
     Calendar dataF = Calendar.getInstance();
+
+    @Wire
+    private Button save;
 
     @Wire
     private Datebox dataInicio;
@@ -182,6 +189,11 @@ public class RelatorioObras extends SelectorComposer<Component> {
 
         };
 
+    }
+
+    @Listen("onClick = #save")
+    public void exportar() throws JRException, IOException {
+        gerarRelatorio.createPdf(obraCategoriaListModel);
     }
 
 }

@@ -26,6 +26,7 @@
 
                     <span sclass="input-group-addon">   to: </span>
                     <datebox id="dataFim" cols="12" format="medium" onCreate="self.value = new Date()" />
+                    <button id="save" label="Exportar" style="margin-left:60px"/>
                 </div>
             </toolbar>
 
