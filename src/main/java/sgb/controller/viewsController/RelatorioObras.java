@@ -1,5 +1,8 @@
 package sgb.controller.viewsController;
 
+import javafx.scene.control.Alert;
+import net.sf.jasperreports.engine.JRException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.zkoss.zk.ui.Component;
@@ -13,19 +16,22 @@ import sgb.controller.domainController.ObraController;
 import sgb.controller.domainController.ObraEliminadasController;
 import sgb.controller.domainController.RegistroObraController;
 import sgb.domain.*;
+import sgb.report.GerarRelatorio;
 import sgb.service.CRUDService;
 
 //import org.zkoss.zk.chart.Charts;
 //import org.zkoss.chart.model.CategoryModel;
 //import org.zkoss.chart.model.DefaultCategoryModel;
 
+import javax.management.Notification;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 
 public class RelatorioObras extends SelectorComposer<Component> {
-
+    private GerarRelatorio gerarRelatorio = (GerarRelatorio) SpringUtil.getBean("gerarRelatorio");;
     private ObraController obraController  = (ObraController) SpringUtil.getBean("obraController");;
     private RegistroObraController registroObraController  = (RegistroObraController) SpringUtil.getBean("registroObraController");;
     private ObraEliminadasController obraEliminadasController  = (ObraEliminadasController) SpringUtil.getBean("obraEliminadasController");;
@@ -34,13 +40,15 @@ public class RelatorioObras extends SelectorComposer<Component> {
     private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;
     private Boolean isNormalUser = true;
 
-
     private Listbox obraeliminadas;
     private Listbox obracategoria;
     private Listbox obrasregistadas;
     private Label qtdd;
     Calendar dataI = Calendar.getInstance();
     Calendar dataF = Calendar.getInstance();
+
+    @Wire
+    private Button save;
 
     @Wire
     private Datebox dataInicio;
@@ -88,32 +96,27 @@ public class RelatorioObras extends SelectorComposer<Component> {
         areaCientificaListModel.add(0,a);
         areaCientificaListModel.addToSelection(a);
         areaCientificaListBox.setModel(areaCientificaListModel);
-
-        dataInicio = null;
         setListModelsallData();
         setListBoxsModels();
-        dataInicio = null;
 
     }
 
     @Listen("onSelect = #areaCientificaListBox")
     public void change() {
 
-
-            getSelectedDate();
-
+        List<RegistroObra> registroObras;
         AreaCientifica areaCientifica = areaCientificaListBox.getSelectedItem().getValue();
-        List<RegistroObra> registroObras = registroObras = registroObraController.getObrasByDate(dataI,dataF,areaCientifica);
 
         if(areaCientifica.getIdarea()!=0){
-            if(dataInicio != null)
-                obraCategoriaListModel = new ListModelList<ObraCategoria>(obraController.getObrasCategorias(registroObras,areaCientifica));
-            else
-                obraCategoriaListModel = new ListModelList<ObraCategoria>(obraController.getObrasCategorias(areaCientifica));
-            obrasregistadasListModel = new ListModelList<RegistroObra>(registroObraController.getObrasRegistadas());
-            obraEliminadasListModel =new ListModelList<ObraEliminadas>(obraEliminadasController.getObrasEliminadas());
+           if(dataInicio.getValue() ==null)
+               obraCategoriaListModel = new ListModelList<ObraCategoria>(obraController.getObrasCategorias(areaCientifica));
+           else{
+               getUpdateDate();
+               registroObras = registroObraController.getObrasByDate(dataI,dataF,areaCientifica);
+               obraCategoriaListModel = new ListModelList<ObraCategoria>(obraController.getObrasCategorias(registroObras,areaCientifica));
+            }
         } else {
-            dataInicio = null;
+
             setListModelsallData();
         }
 
@@ -121,10 +124,10 @@ public class RelatorioObras extends SelectorComposer<Component> {
     }
 
 
-    @Listen("onChange = #dataInicio")
+    @Listen("onChange = #dataInicio;onChange = #dataFim")
     public void dataChange() {
 
-        getSelectedDate();
+        getUpdateDate();
         AreaCientifica areaCientifica = areaCientificaListBox.getSelectedItem().getValue();
         List<RegistroObra> registroObras = registroObraController.getObrasByDate(dataI,dataF,areaCientifica);
 
@@ -141,15 +144,17 @@ public class RelatorioObras extends SelectorComposer<Component> {
 
     public void setListModelsallData(){
 
-        if (dataInicio != null) {
-            getSelectedDate();
-            List<RegistroObra> registroObras = registroObraController.getObrasByDate(dataI, dataF, null);
+        List<RegistroObra> registroObras;
 
+        if(dataInicio.getValue() ==null) {
+            obraCategoriaListModel = new ListModelList<ObraCategoria>(obraController.getObrasCategorias(null));
+        }else {
+            getUpdateDate();
+            registroObras = registroObraController.getObrasByDate(dataI, dataF, null);
             obraCategoriaListModel = new ListModelList<ObraCategoria>(obraController.getObrasCategorias(registroObras, null));
-        }else
-            obraCategoriaListModel = new ListModelList<ObraCategoria>(obraController.getObrasCategorias( null));
-            obrasregistadasListModel = new ListModelList<RegistroObra>(registroObraController.getObrasRegistadas());
-            obraEliminadasListModel =new ListModelList<ObraEliminadas>(obraEliminadasController.getObrasEliminadas());
+        }
+        obrasregistadasListModel = new ListModelList<RegistroObra>(registroObraController.getObrasRegistadas());
+        obraEliminadasListModel =new ListModelList<ObraEliminadas>(obraEliminadasController.getObrasEliminadas());
 
     }
 
@@ -172,43 +177,7 @@ public class RelatorioObras extends SelectorComposer<Component> {
         return total;
     }
 
-//
-//    public void getEmprestimo() {
-//
-//        List<Emprestimo> aa = crudService.getAll(Emprestimo.class);
-//
-//        int emprealizados = aa.size();
-//        int empaprovados = 0;
-//        int empreprovados =0;
-//
-//        Geral emprealizado = new Geral();
-//        Geral empaprovado= new Geral();
-//        Geral empReprovado= new Geral();
-//
-//        for(Emprestimo emp: aa) {
-//            if(emp.getEstadoPedido().getIdestadopedido()==3)
-//                empaprovados ++;
-//            if(emp.getEstadoPedido().getIdestadopedido()==2)
-//                empreprovados ++;
-//
-//        }
-//
-//        emprealizado.setDescricao("Emprestimo Realizados ");
-//        emprealizado.setQtd(emprealizados);
-//
-//        empaprovado.setDescricao("Emprestimo Aprovados");
-//        empaprovado.setQtd(empaprovados);
-//
-//        empReprovado.setDescricao("Emprestimo Reprovados");
-//        empReprovado.setQtd(empreprovados);
-//
-//        emprestimoListModel.add(emprealizado);
-//        emprestimoListModel.add(empaprovado);
-//        emprestimoListModel.add(empReprovado);
-//
-//    }
-    
-    public void getSelectedDate(){
+    public void getUpdateDate(){
 
         try {
             dataI.setTime(dataInicio.getValue());
@@ -217,7 +186,11 @@ public class RelatorioObras extends SelectorComposer<Component> {
 
         };
 
+    }
 
+    @Listen("onClick = #save")
+    public void exportar() throws JRException, IOException {
+        gerarRelatorio.createPdf(obraCategoriaListModel);
     }
 
 }

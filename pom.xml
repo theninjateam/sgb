@@ -16,7 +16,7 @@
 		<servlet.version>2.4</servlet.version>
 		<poi.version>3.7</poi.version>
 		<jxl.version>2.6.12</jxl.version>
-		<jasperreports.version>4.5.1</jasperreports.version>
+		<jasperreports.version>5.5.0</jasperreports.version>
 		<jfreechart.version>1.0.14</jfreechart.version>
 		<filters.version>2.0.235</filters.version>
 		<ckez.version>4.4.6.1</ckez.version>
@@ -401,6 +401,20 @@
 			<artifactId>spring-test</artifactId>
 			<version>4.0.5.RELEASE</version>
 			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+			<version>1.9.3</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.codehaus.groovy/groovy-all -->
+		<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy-all</artifactId>
+			<version>2.5.2</version>
+			<type>pom</type>
 		</dependency>
 
     </dependencies>

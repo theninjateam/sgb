@@ -25,6 +25,8 @@ public class ConfigViewModel
 
     private List<Config> configs = new ArrayList<Config>();
 
+
+
     @Init
     public void init() throws Exception
     {
@@ -35,12 +37,15 @@ public class ConfigViewModel
     @Command("updateConfig")
     public void updateConfig()
     {
-        for (Config config: this.configs)
-        {
-            this.crudService.update(config);
-        }
+            for (Config config: this.configs)
+            {
+                this.crudService.update(config);
+            }
 
-        Clients.showNotification("Feito");
+            Clients.showNotification("Feito");
+
+
+
     }
     public List<Config> getConfigs()
     {
