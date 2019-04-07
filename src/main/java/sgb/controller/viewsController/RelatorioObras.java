@@ -40,9 +40,6 @@ public class RelatorioObras extends SelectorComposer<Component> {
     private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;
     private Boolean isNormalUser = true;
 
-
-
-
     private Listbox obraeliminadas;
     private Listbox obracategoria;
     private Listbox obrasregistadas;
