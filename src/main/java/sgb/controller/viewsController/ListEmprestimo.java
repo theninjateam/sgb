@@ -15,6 +15,8 @@ import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.*;
 //import sgb.controller.domainController.EmprestimoControllerSingleton;
 import sgb.controller.domainController.*;
+import sgb.deadline.BorrowedBooksDeadline;
+import sgb.deadline.Deadline;
 import sgb.domain.*;
 import sgb.fine.Fine;
 import sgb.request.Request;
@@ -42,8 +44,8 @@ public class ListEmprestimo extends SelectorComposer<Component> {
     private ConfigControler configControler =(ConfigControler) SpringUtil.getBean("configControler");
     private EstadoMultaControler eMController = (EstadoMultaControler) SpringUtil.getBean("estadoMultaControler");
     private Fine fine = (Fine) SpringUtil.getBean("fine");
-
-
+    private Deadline deadline = (Deadline) SpringUtil.getBean("deadline");
+    private MultaController mController = (MultaController) SpringUtil.getBean("multaController");
 
     private Boolean isNormalUser = true;
     private EstadoRenovacao estadoRenovacao;
@@ -100,9 +102,14 @@ public class ListEmprestimo extends SelectorComposer<Component> {
 
             if (fine.wasFinedBefore(emp.getEmprestimoPK())) {
 
-                multa = crudService.get(Multa.class,emp.getEmprestimoPK());
+                multa = mController.getFine(emp.getEmprestimoPK());
+
+                fine.fine(emp,Calendar.getInstance());
 
                 session.setAttribute("Multa", multa);
+                Boolean isForDetails = false;
+                session.setAttribute("ForDetais", isForDetails);
+
                 Window window = (Window) Executions.createComponents("/views/multamodal.zul", null, null);
                 window.setClosable(true);
                 window.doModal();
@@ -126,10 +133,9 @@ public class ListEmprestimo extends SelectorComposer<Component> {
         Button btn = (Button) event.getOrigin().getTarget();
         Listitem litem = (Listitem) btn.getParent().getParent().getParent();
         Emprestimo emp = (Emprestimo) litem.getValue();
+
         session.setAttribute("EmprestimoMultado", emp);
-
         Boolean isForDetails = true;
-
         session.setAttribute("ForDetais", isForDetails);
         Window window =(Window) Executions.createComponents("/views/multamodal.zul", null, null);
         window.setClosable(true);

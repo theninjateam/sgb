@@ -73,7 +73,7 @@ public class EmprestimoController
         parameters.put("userId", user.getId());
         parameters.put("idEstadoDevolucao",idEstadoDevolucao);
 
-        query.append("SELECT e FROM Emprestimo e WHERE e.emprestimoPK.utente.obra.cota= :cota and ");
+        query.append("SELECT e FROM Emprestimo e WHERE e.emprestimoPK.obra.cota= :cota and ");
         query.append("e.estadoDevolucao.idestadodevolucao = :idEstadoDevolucao and ");
         query.append("e.emprestimoPK.utente.id = :userId");
 
@@ -131,19 +131,29 @@ public class EmprestimoController
         query.append("e.emprestimoPK.utente.id = :userId");
 
         return this.crudService.findByJPQuery(query.toString(), parameters);
-
     }
 
+    public List<Emprestimo> getBorrowedBooks(Obra obra, int idEstadoDevolucao)
+    {
+        parameters = new HashMap<String, Object>(2);
+        query = new StringBuilder();
+
+        parameters.put("idEstadoDevolucao", idEstadoDevolucao);
+        parameters.put("cota", obra.getCota());
+
+        query.append("SELECT e FROM Emprestimo e WHERE e.estadoDevolucao.idestadodevolucao = :idEstadoDevolucao and ");
+        query.append("e.emprestimoPK.obra.cota = :cota");
+
+        return this.crudService.findByJPQuery(query.toString(), parameters);
+    }
 
     public Emprestimo getRequest(EmprestimoPK emprestimoPK)
     {
         parameters = new HashMap<String, Object>(3);
         query = new StringBuilder();
-
         parameters.put("user_id", emprestimoPK.getUtente().getId());
         parameters.put("cota", emprestimoPK.getObra().getCota());
         parameters.put("dataentrada", emprestimoPK.getDataentradapedido());
-
 
         query.append("SELECT e FROM Emprestimo e WHERE e.emprestimoPK.utente.id = :user_id and ");
         query.append("e.emprestimoPK.obra.cota = :cota and e.emprestimoPK.dataentradapedido = :dataentrada");
