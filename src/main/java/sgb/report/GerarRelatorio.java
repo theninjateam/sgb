@@ -26,7 +26,8 @@ public class GerarRelatorio {
     }
 
     public void createPdf(ListModelList<ObraCategoria> listModelList) throws JRException, IOException {
-        String path = new File("src/main/java/sgb/report/relatorio.jrxml").getCanonicalPath();
+        String path = "src/main/java/sgb/report/relatorio.jrxml";
+
         List<ObraCategoria> lista = new ArrayList<>();
 
         for(ObraCategoria o: listModelList){
