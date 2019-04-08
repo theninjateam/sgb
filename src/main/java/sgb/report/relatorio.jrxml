@@ -117,7 +117,7 @@
 				<subreportParameter name="REPORT_DATA_SOURCE">
 					<subreportParameterExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{obras})]]></subreportParameterExpression>
 				</subreportParameter>
-				<subreportExpression><![CDATA["/home/aderito/Desktop/LES_SGB/sgb/src/main/java/sgb/report/relatorio2.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA["/src/main/java/sgb/report/relatorio2.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>
