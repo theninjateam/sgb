@@ -34,7 +34,7 @@
 			<![CDATA[]]>
 		</queryString>
 	</subDataset>
-	<parameter name="qtdObras" class="java.lang.Integer"/>
+	<parameter name="pathSubreport" class="java.lang.String"/>
 	<queryString language="SQL">
 		<![CDATA[]]>
 	</queryString>
@@ -117,7 +117,7 @@
 				<subreportParameter name="REPORT_DATA_SOURCE">
 					<subreportParameterExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{obras})]]></subreportParameterExpression>
 				</subreportParameter>
-				<subreportExpression><![CDATA["/src/main/java/sgb/report/relatorio2.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA[$P{pathSubreport}]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>
