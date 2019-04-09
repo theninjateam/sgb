@@ -10,7 +10,10 @@ import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.Window;
+import sgb.domain.Role;
 import sgb.domain.Users;
+
+import java.util.Set;
 
 public class LogoutModalController extends SelectorComposer<Component> {
     private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;
@@ -19,6 +22,10 @@ public class LogoutModalController extends SelectorComposer<Component> {
 
     @Wire
     private Label currentUser;
+    @Wire
+    private Label currentUserRole;
+
+
     @Override
     public void doAfterCompose(Component comp) throws Exception
     {
@@ -26,9 +33,27 @@ public class LogoutModalController extends SelectorComposer<Component> {
             super.doAfterCompose(comp);
 
             currentUser.setValue(user.getName() +" "+ user.getLastName());
+            currentUserRole.setValue("("+getRole()+")");
+
         }catch (Exception e){}
 
 
+    }
+
+    public String getRole () {
+        String string= null;
+
+        Set<Role> userrole =user.getRoles();
+
+        for(Role rol : userrole)
+            if (rol.getRole().equals("ADMIN")){
+                string="ADIMIN";
+            } else if (rol.getRole().equals("STUDENT")){
+                string = "STUDENT";
+            }else if (rol.getRole().equals("TEACHER")){
+                string = "TEACHER";
+            }
+        return string;
     }
 
     @Listen("onClick = #preLogout")

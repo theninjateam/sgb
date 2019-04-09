@@ -16,8 +16,8 @@
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
 			<textField>
-				<reportElement mode="Transparent" x="0" y="0" width="278" height="30" forecolor="#000000" backcolor="#E6E6FA" uuid="230eb587-81eb-4f93-90a4-624c34bbbc3a"/>
-				<box bottomPadding="0">
+				<reportElement mode="Transparent" x="0" y="0" width="260" height="30" forecolor="#000000" backcolor="#E6E6FA" uuid="230eb587-81eb-4f93-90a4-624c34bbbc3a"/>
+				<box topPadding="0" leftPadding="4" bottomPadding="0">
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -30,8 +30,8 @@
 				<textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement mode="Transparent" x="278" y="0" width="277" height="30" forecolor="#000000" backcolor="#E6E6FA" uuid="cc45787b-455f-42d3-b45f-4647b299cc9a"/>
-				<box bottomPadding="0">
+				<reportElement mode="Transparent" x="260" y="0" width="295" height="30" forecolor="#000000" backcolor="#E6E6FA" uuid="cc45787b-455f-42d3-b45f-4647b299cc9a"/>
+				<box leftPadding="4" bottomPadding="0">
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>

@@ -47,7 +47,9 @@
 	<columnHeader>
 		<band height="61" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="30" width="110" height="30" uuid="05f98280-b0b8-44bc-b216-45f9c3c11bb0"/>
+				<reportElement x="0" y="30" width="110" height="30" uuid="05f98280-b0b8-44bc-b216-45f9c3c11bb0">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
+				</reportElement>
 				<box leftPadding="4">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -60,7 +62,9 @@
 				<text><![CDATA[Data Operacao]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="110" y="30" width="90" height="30" uuid="c281a341-6bbd-4023-a6fd-0b9558fa23ee"/>
+				<reportElement x="110" y="30" width="90" height="30" uuid="c281a341-6bbd-4023-a6fd-0b9558fa23ee">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
+				</reportElement>
 				<box leftPadding="4">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -73,7 +77,9 @@
 				<text><![CDATA[Bibliotecario]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="200" y="30" width="60" height="30" uuid="9d02bca6-5d09-487d-a18f-38bf7097f3bd"/>
+				<reportElement x="200" y="30" width="60" height="30" uuid="9d02bca6-5d09-487d-a18f-38bf7097f3bd">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
+				</reportElement>
 				<box leftPadding="4">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -86,7 +92,9 @@
 				<text><![CDATA[Cota]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="360" y="30" width="84" height="30" uuid="4bd5cd66-8f40-4305-9ac3-e28a571f64d3"/>
+				<reportElement x="360" y="30" width="84" height="30" uuid="4bd5cd66-8f40-4305-9ac3-e28a571f64d3">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
+				</reportElement>
 				<box leftPadding="4">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -99,7 +107,9 @@
 				<text><![CDATA[Quantidade]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="444" y="30" width="111" height="30" uuid="3b3be1a7-4bab-47fe-896a-0b35ce03073f"/>
+				<reportElement x="444" y="30" width="111" height="30" uuid="3b3be1a7-4bab-47fe-896a-0b35ce03073f">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
+				</reportElement>
 				<box leftPadding="4">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -112,7 +122,9 @@
 				<text><![CDATA[Motivos]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="260" y="30" width="100" height="30" uuid="9997f30a-29d8-4641-b4b6-c8ef9f1d2aae"/>
+				<reportElement x="260" y="30" width="100" height="30" uuid="9997f30a-29d8-4641-b4b6-c8ef9f1d2aae">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
+				</reportElement>
 				<box leftPadding="4">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>

@@ -67,7 +67,9 @@
 	<columnHeader>
 		<band height="61" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="30" width="140" height="30" uuid="8388de11-b89b-46b0-83dc-99b6056b6f37"/>
+				<reportElement x="0" y="30" width="140" height="30" uuid="8388de11-b89b-46b0-83dc-99b6056b6f37">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
+				</reportElement>
 				<box topPadding="0" leftPadding="4">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -80,7 +82,9 @@
 				<text><![CDATA[Data Registo]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="140" y="30" width="80" height="30" uuid="908c01f8-9994-4049-8d01-d475a79ea906"/>
+				<reportElement x="140" y="30" width="80" height="30" uuid="908c01f8-9994-4049-8d01-d475a79ea906">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
+				</reportElement>
 				<box topPadding="0" leftPadding="4">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -93,7 +97,9 @@
 				<text><![CDATA[Bibliotecario]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="220" y="30" width="80" height="30" uuid="78898a43-4911-4432-b4b1-a972f3c8c7eb"/>
+				<reportElement x="220" y="30" width="80" height="30" uuid="78898a43-4911-4432-b4b1-a972f3c8c7eb">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
+				</reportElement>
 				<box topPadding="0" leftPadding="4">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -106,7 +112,9 @@
 				<text><![CDATA[Cota]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="370" y="30" width="90" height="30" uuid="246d373c-bba8-4cf1-b523-181ad2ce014a"/>
+				<reportElement x="370" y="30" width="90" height="30" uuid="246d373c-bba8-4cf1-b523-181ad2ce014a">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
+				</reportElement>
 				<box topPadding="0" leftPadding="4">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -119,7 +127,9 @@
 				<text><![CDATA[Quantidade]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="460" y="30" width="95" height="30" uuid="291881ec-0cc8-4d20-9eb6-12813e886269"/>
+				<reportElement x="460" y="30" width="95" height="30" uuid="291881ec-0cc8-4d20-9eb6-12813e886269">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
+				</reportElement>
 				<box topPadding="0" leftPadding="4">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -132,7 +142,9 @@
 				<text><![CDATA[Forma Aquisicao]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="300" y="30" width="70" height="30" uuid="fd6bbafa-c76a-4e23-b2c3-28edd7472f95"/>
+				<reportElement x="300" y="30" width="70" height="30" uuid="fd6bbafa-c76a-4e23-b2c3-28edd7472f95">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
+				</reportElement>
 				<box leftPadding="2">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
