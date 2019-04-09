@@ -15,9 +15,6 @@
                     <tabpanel>
                         <grid>
                             <rows>
-                                <!--<row>-->
-                                    <!--<button id="savebtn" label="Guardar"  mold="os" sclass="w3-btn w3-teal w3-right"/>-->
-                                <!--</row>-->
 
                                 <row>
                                     <div sclass="w3-container w3-hide-small w3-hide-medium w3-padding-16 w3-white"

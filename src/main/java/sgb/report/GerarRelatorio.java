@@ -26,6 +26,7 @@ public class GerarRelatorio {
     }
 
     public void createPdf(ListModelList<ObraCategoria> listModelList) throws JRException, IOException {
+
         Map parametros = new HashMap();
         List<ObraCategoria> lista = new ArrayList<>();
 
