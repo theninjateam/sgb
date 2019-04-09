@@ -10,6 +10,8 @@ import sgb.controller.domainController.AreaCientificaController;
 import sgb.controller.domainController.ObraController;
 import sgb.domain.AreaCientifica;
 import sgb.domain.ObraCategoria;
+import sgb.domain.ObraEliminadas;
+import sgb.domain.RegistroObra;
 import sgb.service.CRUDService;
 
 import java.io.*;
@@ -25,24 +27,57 @@ public class GerarRelatorio {
         this.crudService = crudService;
     }
 
-    public void createPdf(ListModelList<ObraCategoria> listModelList) throws JRException, IOException {
-        Map parametros = new HashMap();
-        List<ObraCategoria> lista = new ArrayList<>();
+    public void createPdf(ListModelList<ObraCategoria> obraCategoriaListModelList,
+                          ListModelList<RegistroObra> obrasregistadasListModel,
+                          ListModelList<ObraEliminadas> obraEliminadasListModel, int selected, String value) throws JRException, IOException {
 
-        String path = "src/main/java/sgb/report/relatorio.jrxml";
+        String path = null;
+        JasperPrint jasperPrint = null;
+        JasperReport jasperReport = null;
+        switch (selected) {
+            case 0:{
+                Map parametros = new HashMap();
+                List<ObraCategoria> lista = new ArrayList<>();
 
-        JasperCompileManager.compileReportToFile("src/main/java/sgb/report/relatorio2.jrxml","src/main/java/sgb/report/relatorio2.jasper");
+                path = "src/main/java/sgb/report/relatorio.jrxml";
 
-        String subreportPath = new File("src/main/java/sgb/report/relatorio2.jasper").getCanonicalPath();
+                JasperCompileManager.compileReportToFile("src/main/java/sgb/report/relatorio2.jrxml", "src/main/java/sgb/report/relatorio2.jasper");
 
-        for(ObraCategoria o: listModelList){
-            lista.add(o);
+                String subreportPath = new File("src/main/java/sgb/report/relatorio2.jasper").getCanonicalPath();
+
+                for (ObraCategoria o : obraCategoriaListModelList) {
+                    lista.add(o);
+                }
+
+                parametros.put("pathSubreport", subreportPath);
+                parametros.put("totalObras", value);
+
+                jasperReport = JasperCompileManager.compileReport(path);
+                jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, new JRBeanCollectionDataSource(lista));
+                break;}
+            case 1:{
+                List<RegistroObra> lista1 = new ArrayList<>();
+                path = "src/main/java/sgb/report/relatorioObrasReg.jrxml";
+
+                for(RegistroObra r: obrasregistadasListModel){
+                    lista1.add(r);
+                }
+
+                jasperReport = JasperCompileManager.compileReport(path);
+                jasperPrint = JasperFillManager.fillReport(jasperReport, null, new JRBeanCollectionDataSource(lista1));
+                break;}
+            case 2:{
+                List<ObraEliminadas> lista2 = new ArrayList<>();
+                path = "src/main/java/sgb/report/relatorioObrasEli.jrxml";
+
+                for(ObraEliminadas oe: obraEliminadasListModel){
+                    lista2.add(oe);
+                }
+
+                jasperReport = JasperCompileManager.compileReport(path);
+                jasperPrint = JasperFillManager.fillReport(jasperReport, null, new JRBeanCollectionDataSource(lista2));
+                break;}
         }
-
-        parametros.put("pathSubreport", subreportPath);
-
-        JasperReport jasperReport = JasperCompileManager.compileReport(path);
-        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, new JRBeanCollectionDataSource(lista));
 
         JasperViewer.viewReport(jasperPrint, false);
     }

@@ -39,7 +39,7 @@ public class RelatorioObras extends SelectorComposer<Component> {
 
     private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;
     private Boolean isNormalUser = true;
-
+    private int selected = 0;
     private Listbox obraeliminadas;
     private Listbox obracategoria;
     private Listbox obrasregistadas;
@@ -68,6 +68,8 @@ public class RelatorioObras extends SelectorComposer<Component> {
     @Wire
     private Listbox areaCientificaListBox;
 
+    @Wire
+    private Tabbox obrasTabBox;
 
     private ListModelList<RegistroObra> obrasregistadasListModel;
     private ListModelList<ObraEliminadas> obraEliminadasListModel;
@@ -173,7 +175,6 @@ public class RelatorioObras extends SelectorComposer<Component> {
             for(Obra o: obraCategoria.getObras())
                 total +=o.getQuantidade();
         }
-
         return total;
     }
 
@@ -190,7 +191,12 @@ public class RelatorioObras extends SelectorComposer<Component> {
 
     @Listen("onClick = #save")
     public void exportar() throws JRException, IOException {
-        gerarRelatorio.createPdf(obraCategoriaListModel);
+        gerarRelatorio.createPdf(obraCategoriaListModel,
+                obrasregistadasListModel, obraEliminadasListModel, selected, qtdd.getValue());
     }
 
+    @Listen("onSelect = #obrasTabBox")
+    public void knowSelectedTab(){
+        selected = obrasTabBox.getSelectedTab().getIndex();
+    }
 }

@@ -48,7 +48,7 @@
                     <listfooter  height="100%"  width="100%" style="padding: 15px 32px; background-color: lightgray; border-style: none;">
                         Total
                     </listfooter>
-                    <listfooter  >
+                    <listfooter >
                         <grid>
                             <columns>
                                 <column width="80%" />
