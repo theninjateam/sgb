@@ -26,15 +26,23 @@ public class GerarRelatorio {
     }
 
     public void createPdf(ListModelList<ObraCategoria> listModelList) throws JRException, IOException {
-        String path = new File("src/main/java/sgb/report/relatorio.jrxml").getCanonicalPath();
+        Map parametros = new HashMap();
         List<ObraCategoria> lista = new ArrayList<>();
+
+        String path = "src/main/java/sgb/report/relatorio.jrxml";
+
+        JasperCompileManager.compileReportToFile("src/main/java/sgb/report/relatorio2.jrxml","src/main/java/sgb/report/relatorio2.jasper");
+
+        String subreportPath = new File("src/main/java/sgb/report/relatorio2.jasper").getCanonicalPath();
 
         for(ObraCategoria o: listModelList){
             lista.add(o);
         }
 
+        parametros.put("pathSubreport", subreportPath);
+
         JasperReport jasperReport = JasperCompileManager.compileReport(path);
-        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, new JRBeanCollectionDataSource(lista));
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, new JRBeanCollectionDataSource(lista));
 
         JasperViewer.viewReport(jasperPrint, false);
     }
