@@ -127,7 +127,8 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="125" splitType="Stretch">
+		<band height="58" splitType="Stretch">
+			<property name="local_mesure_unitheight" value="pixel"/>
 			<textField>
 				<reportElement x="444" y="20" width="111" height="30" uuid="6ef9e243-9b93-494b-aa29-2e204e128f38"/>
 				<box leftPadding="4"/>
@@ -160,7 +161,4 @@
 			</textField>
 		</band>
 	</detail>
-	<summary>
-		<band height="42" splitType="Stretch"/>
-	</summary>
 </jasperReport>
