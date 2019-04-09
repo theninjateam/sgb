@@ -30,7 +30,6 @@
                             <label style="font-weight: bold" id="currentUser" value="${user.nome}"></label>
 
 
-
                         </toolbar>
                     </cell>
 
@@ -91,8 +90,6 @@
                     </toolbar>
                 </row>
             </rows>
-
-
 
 
 

@@ -52,10 +52,12 @@ import java.util.Calendar;
 public class AddObraController extends SelectorComposer<Component> {
 
     private CRUDService crudService = (CRUDService) SpringUtil.getBean("CRUDService");
-    private Users user;
-    private  ListModelList<TipoObra> tipoObraModel;
-    private  ListModelList<AreaCientifica> areaCientificaModel;
-    private  ListModelList<Idioma> idiomaModel;
+    private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;
+    private ListModelList<TipoObra> tipoObraModel;
+    private ListModelList<AreaCientifica> areaCientificaModel;
+    private ListModelList<Idioma> idiomaModel;
+    private ListModelList<FormaAquisicao> formaAquisicaoModel;
+
     private Set<Autor> autores = new HashSet<Autor>();
     private ListModelList<Autor> authorListModel;
     Autor oAutor = new Autor();
@@ -91,29 +93,6 @@ public class AddObraController extends SelectorComposer<Component> {
     @Wire
     private Label cota_duplicated_key;
 
-    @Wire
-    private Listbox tipoObraListBox;
-
-    @Wire("#grpOtherData")
-    Div grpOtherData;
-
-    @Wire("#grpData")
-    Div grpData;
-
-    @Wire
-    Include idInclOtherData;
-
-    @Wire
-    Include idInclData;
-
-    @Wire
-    private Groupbox grplivrodata;
-
-    @Wire
-    private Groupbox grpcddata;
-
-    @Wire
-    private Groupbox grprevistadata;
 
     @Wire
     private Textbox cota;
@@ -128,12 +107,6 @@ public class AddObraController extends SelectorComposer<Component> {
     private Textbox autor;
 
     @Wire
-    private Listbox areaCientificaListBox;
-
-    @Wire
-    private Listbox idiomaListBox;
-
-    @Wire
     private Textbox localPublicacao;
 
     @Wire
@@ -141,6 +114,33 @@ public class AddObraController extends SelectorComposer<Component> {
 
     @Wire
     private Intbox quatddObra;
+    @Wire
+    private Textbox isbn;
+    @Wire
+    private Textbox editora;
+    @Wire
+    private Textbox codigobarra;
+    @Wire
+    private Intbox edicao;
+    @Wire
+    private Intbox volume;
+    @Wire
+    private Textbox observacao;
+
+
+
+
+    @Wire
+    private Listbox formaaquisicaoBox;
+    @Wire
+    private Listbox areaCientificaListBox;
+    @Wire
+    private Listbox idiomaListBox;
+    @Wire
+    private Listbox tipoObraListBox;
+    @Wire
+    private Label escolha;
+
 
 
 
@@ -156,9 +156,6 @@ public class AddObraController extends SelectorComposer<Component> {
         authorListModel = new ListModelList<Autor>();
         authorListBox.setModel(authorListModel);
 
-        authorListModel = new ListModelList<Autor>();
-        authorListBox.setModel(authorListModel);
-
         tipoObraModel = new ListModelList<TipoObra>(getTipoObraModel());
         tipoObraListBox.setModel(tipoObraModel);
 
@@ -167,6 +164,10 @@ public class AddObraController extends SelectorComposer<Component> {
 
         idiomaModel = new ListModelList<Idioma>(getIdiomaModel());
         idiomaListBox.setModel(idiomaModel);
+
+        formaAquisicaoModel = new ListModelList<FormaAquisicao>(getFormaAquisicaoModel());
+        formaaquisicaoBox.setModel(formaAquisicaoModel);
+
 
     }
 
@@ -186,24 +187,9 @@ public class AddObraController extends SelectorComposer<Component> {
         return new ListModelList<AreaCientifica>(areascientificas);
     }
 
-
-        @Listen("onSelect = #tipoObraListBox")
-    public void change() {
-
-        TipoObra tipoObra = tipoObraListBox.getSelectedItem().getValue();
-        grpData.setVisible(true);
-        if (tipoObra.getDescricao().toLowerCase().equals("livro")) {
-            idInclData.setSrc("views/livro.zul");
-        } else if (tipoObra.getDescricao().toLowerCase().equals("cd")) {
-            idInclData.setSrc("views/cd.zul");
-        } else if (tipoObra.getDescricao().toLowerCase().equals("revista")) {
-            idInclData.setSrc("views/revista.zul");
-
-        } else if (tipoObra.getDescricao().toLowerCase().equals("livro com cd")) {
-            idInclData.setSrc("views/livro.zul");
-            grpOtherData.setVisible(true);
-            idInclOtherData.setSrc("views/cd.zul");
-        }
+    public ListModelList<FormaAquisicao> getFormaAquisicaoModel () {
+        List<FormaAquisicao> formaaquisicao = crudService.getAll(FormaAquisicao.class);
+        return new ListModelList<FormaAquisicao>(formaaquisicao);
     }
 
     @Listen("onClick = #savebtn")
@@ -234,54 +220,43 @@ public class AddObraController extends SelectorComposer<Component> {
 
         registroObraPK.setObra(obra);
         registroObraPK.setDataRegisto(Calendar.getInstance());
-        FormaAquisicao formaAquisicao =  crudService.get(FormaAquisicao.class, 1);
 
         registroObra.setRegistroObraPK(registroObraPK);
-        registroObra.setFormaAquisicao(formaAquisicao);
+        registroObra.setFormaAquisicao(formaaquisicaoBox.getSelectedItem().getValue());
         registroObra.setObra(obra);
         registroObra.setUser(user);
+        registroObra.setQuantidade(quatddObra.getValue());
+        registroObra.setObservacao(observacao.getValue());
 
         if (tipoObra.getDescricao().toLowerCase().equals("livro")) {
 
             livro.setCota(obra.getCota());
-            livro.setIsbn(((Textbox)idInclData.getFellow("isbn")).getValue());
-            livro.setCodigobarra(((Textbox)idInclData.getFellow("codigobarra")).getValue());
-            livro.setEdicao(((Intbox)idInclData.getFellow("edicao")).getValue());
-            livro.setEditora(((Textbox)idInclData.getFellow("editora")).getValue());
-            livro.setVolume(((Intbox)idInclData.getFellow("volume")).getValue());
+            livro.setIsbn(isbn.getValue());
+            livro.setCodigobarra(codigobarra.getValue());
+            livro.setEdicao(edicao.getValue());
+            livro.setEditora(editora.getValue());
+            livro.setVolume(volume.getValue());
             livro.setObra(obra);
             obra.setLivro(livro);
-           String aa = ((Label)idInclData.getFellow("escolha")).getValue();
-           if(aa.equals("Sim")){
-               cd.setIdcd(obra.getCota());
-               cd.setDescricao(titulo.getValue());
-               cd.setObra(obra);
-               obra.setCd(cd);
-//               Clients.showNotification("Ola sou sim");
-           }
 
         } else if (tipoObra.getDescricao().toLowerCase().equals("cd")) {
             cd.setIdcd(obra.getCota());
-            cd.setDescricao(((Textbox)idInclData.getFellow("descricaoCd")).getValue());
+            cd.setDescricao(titulo.getValue());
             cd.setObra(obra);
             obra.setCd(cd);
         } else if (tipoObra.getDescricao().toLowerCase().equals("revista")) {
 
             revista.setCota(obra.getCota());
-            revista.setInstituicao(((Textbox)idInclData.getFellow("instituicaoRevista")).getValue());
+            revista.setInstituicao(editora.getValue());
             revista.setObra(obra);
             obra.setRevista(revista);
-        } else if (tipoObra.getDescricao().toLowerCase().equals("livro com cd")) {
+        }
 
-            livroCd.setCota(obra.getCota());
-            livroCd.setIsbn(((Textbox) idInclData.getFellow("isbn")).getValue());
-            livroCd.setCodigobarra(((Textbox) idInclData.getFellow("codigobarra")).getValue());
-            livroCd.setEdicao(((Textbox) idInclData.getFellow("edicao")).getValue());
-            livroCd.setEditora(((Textbox) idInclData.getFellow("editora")).getValue());
-            livroCd.setVolume(Integer.parseInt(((Textbox) idInclData.getFellow("volume")).getValue()));
-            livroCd.setDescricaocd(((Textbox) idInclOtherData.getFellow("descricaoCd")).getValue());
-            livroCd.setObra(obra);
-            obra.setLivroCd(livroCd);
+        if(escolha.getValue().equals("Sim")){
+               cd.setIdcd(obra.getCota());
+               cd.setDescricao(titulo.getValue());
+               cd.setObra(obra);
+               obra.setCd(cd);
         }
 
         try
@@ -289,15 +264,13 @@ public class AddObraController extends SelectorComposer<Component> {
             for(Autor autor: authorListModel) // esta linha devera sair
                 autores.add(autor);
 
-           // obra.setRegistroObra(registroObra);
             Set<RegistroObra> registroObras = new HashSet<>();
             registroObras.add(registroObra);
 
             obra.setAutores(autores);
             obra.setRegistroObras(registroObras);
-          //   deve existir transacoes
+
             crudService.Save(obra);
-            //crudService.Save(registroObra);
 
             if(fullPathPDF != null)
                 Files.copy(new File(fullPathPDF), mediaPDF.getStreamData());
@@ -339,8 +312,9 @@ public class AddObraController extends SelectorComposer<Component> {
             fullPathPDF = Executions.getCurrent().getDesktop().getWebApp().getRealPath(relativePathPDF);
             addedPDF.setValue(mediaPDF.getName());
 
-            this.upLoadPDF.setLabel("eliminar PDF adicionado");
+            this.upLoadPDF.setLabel("Eliminar PDF adicionado");
             this.upLoadPDF.setUpload("false");
+            this.upLoadPDF.setSclass("w3-btn ww3-light-grey");
         }
     }
 
@@ -355,7 +329,10 @@ public class AddObraController extends SelectorComposer<Component> {
 
             addedPDF.setValue(null);
             this.upLoadPDF.setUpload("true");
-            this.upLoadPDF.setLabel("adicionar PDF");
+            this.upLoadPDF.setLabel("Adicionar PDF");
+            this.upLoadPDF.setSclass("w3-btn ww3-light-grey");
+            this.upLoadPDF.setMold("os");
+
         }
     }
 
@@ -375,8 +352,9 @@ public class AddObraController extends SelectorComposer<Component> {
             fullPathCover = Executions.getCurrent().getDesktop().getWebApp().getRealPath(relativePathCover);
 
             this.capa.setContent((org.zkoss.image.Image) mediaCover);
-            this.upLoadCAPA.setLabel("eliminar CAPA adicionada");
+            this.upLoadCAPA.setLabel("Eliminar CAPA adicionada");
             this.upLoadCAPA.setUpload("false");
+            this.upLoadCAPA.setSclass("w3-btn ww3-light-grey");
         }
     }
 
@@ -386,7 +364,7 @@ public class AddObraController extends SelectorComposer<Component> {
         {
 
             //Clients.showNotification(Executions.getCurrent().getDesktop().getWebApp().getRealPath("digitalLibrary/cover/default.jpg"));
-            String fullPathDefaultCover = Executions.getCurrent().getDesktop().getWebApp().getRealPath("digitalLibrary/cover/default.jpg");
+            String fullPathDefaultCover = Executions.getCurrent().getDesktop().getWebApp().getRealPath("img/capa.jpg");
 
             Media mediaDefaultCover = new AImage(fullPathDefaultCover);
 
@@ -397,7 +375,10 @@ public class AddObraController extends SelectorComposer<Component> {
             this.capa.setContent((org.zkoss.image.Image) mediaDefaultCover);
 
             this.upLoadCAPA.setUpload("true");
-            this.upLoadCAPA.setLabel("adicionar CAPA");
+            this.upLoadCAPA.setLabel("Adicionar CAPA");
+            this.upLoadCAPA.setSclass("w3-btn ww3-light-grey");
+            this.upLoadCAPA.setMold("os");
+
         }
     }
 
