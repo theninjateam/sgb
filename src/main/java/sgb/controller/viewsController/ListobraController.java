@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
+import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.NotifyChange;
@@ -52,9 +53,7 @@ public class ListobraController extends SelectorComposer<Component>
     private EstadoDevolucao estadoDevolucao;
     private EstadoRenovacao estadoRenovacao;
     private ListModelList<Obra> obras;
-    private ListModelList<Item> cestaListModel = new ListModelList<Item>();
-    private ListModelList<Obra> detalheobra;
-    private boolean isHomeRequisition;
+    private ListModelList<Obra> detalheObra;
 
     @Wire
     private Button buttonPesquisar;
@@ -67,6 +66,9 @@ public class ListobraController extends SelectorComposer<Component>
 
     @Wire
     private Vlayout cesta;
+    
+    @Wire
+    private Vlayout detalhe;
 
     @Wire
     private Vlayout listObras;
@@ -78,9 +80,6 @@ public class ListobraController extends SelectorComposer<Component>
 
     @Wire
     private Window listObra;
-
-    @Wire
-    private Grid griddetalhe;
 
     @Wire
     private Listbox obraShow;
@@ -116,7 +115,7 @@ public class ListobraController extends SelectorComposer<Component>
     public void listarObras(ForwardEvent event)
     {
         cesta.setVisible(false);
-        griddetalhe.setVisible(false);
+        detalhe.setVisible(false);
         listObras.setVisible(true);
         buttonPesquisar.setVisible(true);
         textboxPesquisar.setVisible(true);
@@ -129,12 +128,12 @@ public class ListobraController extends SelectorComposer<Component>
         listObras.setVisible(false);
         buttonPesquisar.setVisible(false);
         textboxPesquisar.setVisible(false);
-        griddetalhe.setVisible(false);
+        detalhe.setVisible(false);
         cesta.setVisible(true);
         buttonVoltar.setVisible(true);
     }
 
-    @Listen("onShowOperacoes = #gridListObra")
+    @Listen("onShowOperacoes = #listObras")
     public void doShowOperacoes(ForwardEvent event)
     {
         Button btn = (Button)event.getOrigin().getTarget();
@@ -152,7 +151,7 @@ public class ListobraController extends SelectorComposer<Component>
         }
     }
 
-    @Listen("onEliminarObra = #gridListObra")
+    @Listen("onEliminarObra = #listObras")
     public void doEliminar(ForwardEvent event)
     {
         String cota = (String) event.getData();
@@ -164,10 +163,9 @@ public class ListobraController extends SelectorComposer<Component>
         window.doModal();
     }
 
-    @Listen("onDetalheObra = #gridListObra")
+    @Listen("onDetalheObra = #listObras")
     public void doDetalhe(ForwardEvent event)
     {
-        detalheobra = new ListModelList<>();
         listObras.setVisible(false);
         buttonPesquisar.setVisible(false);
         textboxPesquisar.setVisible(false);
@@ -175,14 +173,14 @@ public class ListobraController extends SelectorComposer<Component>
         cesta.setVisible(false);
 
         String cota = (String) event.getData();
-        Obra obra = this.crudService.get(Obra.class, cota);
+        detalheObra = new ListModelList<Obra>();
+        detalheObra.add(this.crudService.get(Obra.class,cota));
 
-        detalheobra.add(obra);
-        obraShow.setModel(detalheobra);
-        griddetalhe.setVisible(true);
+        BindUtils.postNotifyChange(null, null, this, "detalheObra");
+        detalhe.setVisible(true);
     }
 
-    @Listen("onAdicionarExemplares = #gridListObra")
+    @Listen("onAdicionarExemplares = #listObras")
     public void doEditar(ForwardEvent event)
     {
         String cota = (String) event.getData();
@@ -236,5 +234,10 @@ public class ListobraController extends SelectorComposer<Component>
     {
         List<Obra> listaobra = crudService.getAll(Obra.class);
         return new ListModelList<Obra>(listaobra);
+    }
+
+    public ListModelList<Obra> getDetalheObra()
+    {
+        return detalheObra;
     }
 }
