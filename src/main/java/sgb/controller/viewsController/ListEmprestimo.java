@@ -15,6 +15,8 @@ import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.*;
 //import sgb.controller.domainController.EmprestimoControllerSingleton;
 import sgb.controller.domainController.*;
+import sgb.deadline.BorrowedBooksDeadline;
+import sgb.deadline.Deadline;
 import sgb.domain.*;
 import sgb.fine.Fine;
 import sgb.request.Request;
@@ -23,9 +25,12 @@ import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
 
 import javax.swing.plaf.PanelUI;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 public class ListEmprestimo extends SelectorComposer<Component> {
@@ -42,7 +47,9 @@ public class ListEmprestimo extends SelectorComposer<Component> {
     private ConfigControler configControler =(ConfigControler) SpringUtil.getBean("configControler");
     private EstadoMultaControler eMController = (EstadoMultaControler) SpringUtil.getBean("estadoMultaControler");
     private Fine fine = (Fine) SpringUtil.getBean("fine");
-
+    private Deadline deadline = (Deadline) SpringUtil.getBean("deadline");
+    private MultaController mController = (MultaController) SpringUtil.getBean("multaController");
+    private BorrowedBooksDeadline bBDeadline = (BorrowedBooksDeadline) SpringUtil.getBean("borrowedBooksDeadline");
 
 
     private Boolean isNormalUser = true;
@@ -86,7 +93,17 @@ public class ListEmprestimo extends SelectorComposer<Component> {
     @Listen("onNotificarUtente = #emprestimoListBox")
     public void doNotificarUtente(ForwardEvent event)
     {
-         Clients.showNotification(" Enviar email a notificar utente da devolucao do livo",null,null,null,5000);
+        Button btn = (Button) event.getOrigin().getTarget();
+        Listitem litem = (Listitem) btn.getParent().getParent().getParent();
+        Emprestimo emp = (Emprestimo) litem.getValue();
+
+        session.setAttribute("EmprestimoMultado", emp);
+        Boolean isForDetails = true;
+        session.setAttribute("ForDetais", isForDetails);
+        Window window =(Window) Executions.createComponents("/views/multamodal.zul", null, null);
+        window.setClosable(true);
+        window.doModal();
+
     }
     @Listen("onDevolver = #emprestimoListBox")
     public void doDevolver(ForwardEvent event)
@@ -94,15 +111,18 @@ public class ListEmprestimo extends SelectorComposer<Component> {
         if(isNormalUser) {
             Clients.showNotification("Precisa ser Bibliotecario para executar essa acao ", null, null, null, 5000);
         } else {
-            Button btn = (Button) event.getOrigin().getTarget();
-            Listitem litem = (Listitem) btn.getParent().getParent().getParent();
-            Emprestimo emp = (Emprestimo) litem.getValue();
+            Emprestimo emp = (Emprestimo) event.getData();
 
             if (fine.wasFinedBefore(emp.getEmprestimoPK())) {
 
-                multa = crudService.get(Multa.class,emp.getEmprestimoPK());
+                multa = mController.getFine(emp.getEmprestimoPK());
+
+                fine.fine(emp,Calendar.getInstance());
 
                 session.setAttribute("Multa", multa);
+                Boolean isForDetails = false;
+                session.setAttribute("ForDetais", isForDetails);
+
                 Window window = (Window) Executions.createComponents("/views/multamodal.zul", null, null);
                 window.setClosable(true);
                 window.doModal();
@@ -110,30 +130,29 @@ public class ListEmprestimo extends SelectorComposer<Component> {
                 EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, eDController.RETURNED);
                 emp.setEstadoDevolucao(estadoDevolucao);
                 emp.setComentario("");
+
                 emprestimoListModel.remove(emp);
                 crudService.update(emp);
 
                 Clients.showNotification("Obra devolvida a tempo", null, null, null, 5000);
 
             }
-        }
+    }
 
     }
 
     @Listen("onDetalheEmprestimo = #emprestimoListBox")
     public void doDetalhes(ForwardEvent event)
     {
-        Button btn = (Button) event.getOrigin().getTarget();
-        Listitem litem = (Listitem) btn.getParent().getParent().getParent();
-        Emprestimo emp = (Emprestimo) litem.getValue();
+        Emprestimo emp = (Emprestimo) event.getData();
+
         session.setAttribute("EmprestimoMultado", emp);
-
         Boolean isForDetails = true;
-
         session.setAttribute("ForDetais", isForDetails);
         Window window =(Window) Executions.createComponents("/views/multamodal.zul", null, null);
         window.setClosable(true);
         window.doModal();
+
     }
 
     @Listen("onRenovarEmprestimo = #emprestimoListBox")
@@ -147,9 +166,8 @@ public class ListEmprestimo extends SelectorComposer<Component> {
             * Necessidade de um Metodo que verifica se existe alguem a espera daquele livro para desabilitar o
             * Botao
             */
-            Button btn = (Button) event.getOrigin().getTarget();
-            Listitem litem = (Listitem) btn.getParent().getParent().getParent();
-            Emprestimo emp = (Emprestimo) litem.getValue();
+            Emprestimo emp = (Emprestimo) event.getData();
+
             estadoRenovacao = crudService.get(EstadoRenovacao.class, 2);
             emp.setEstadoRenovacao(estadoRenovacao);
             crudService.update(emp);
@@ -157,6 +175,7 @@ public class ListEmprestimo extends SelectorComposer<Component> {
         } else {
             Clients.showNotification("Precisa ser Utente para executar essa acao ", null, null, null, 5000);
         }
+
     }
     public boolean isNormalUser () {
         Boolean a = true;
@@ -169,6 +188,57 @@ public class ListEmprestimo extends SelectorComposer<Component> {
         }
         return a;
     }
+
+
+    @Listen("onShowOperacoes = #emprestimoListBox")
+    public void doShowOperacoes(ForwardEvent event)
+    {
+        Button btn = (Button)event.getOrigin().getTarget();
+        Div div = (Div) btn.getNextSibling();
+
+        if (div.isVisible())
+        {
+            btn.setLabel("Outras operações");
+            div.setVisible(false);
+        }
+        else
+        {
+            btn.setLabel("Ocultar operações");
+            div.setVisible(true);
+        }
+    }
+
+    public Boolean Expired(Emprestimo emp) {
+        Boolean aBoolean = false;
+
+        Calendar DataLimite = bBDeadline.getDeadline(emp);
+        if(deadline.exceededDeadline(DataLimite,Calendar.getInstance())){
+            aBoolean = true;
+        }
+
+        return aBoolean;
+    }
+
+
+    public String dataConvert (Calendar dataa) {
+
+        SimpleDateFormat timeFormatter = new SimpleDateFormat("'('HH:mm:s')'");
+        DateFormat dateFormatter = new SimpleDateFormat();
+        Locale MOZAMBIQUE = new Locale("pt","MZ");
+        StringBuilder builder = new StringBuilder();
+
+
+        dateFormatter = DateFormat.getDateInstance(DateFormat.LONG, MOZAMBIQUE);
+
+        builder.append(dateFormatter.format(dataa.getTime()));
+        builder.append("\n");
+        builder.append(timeFormatter.format(dataa.getTime()));
+
+        String dataEntrada = builder.toString();
+
+        return dataEntrada;
+    }
+
 
 
 }

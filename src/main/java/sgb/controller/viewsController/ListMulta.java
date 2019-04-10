@@ -20,9 +20,10 @@ import sgb.domain.Users;
 import sgb.request.Request;
 import sgb.service.CRUDService;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.Calendar;
 
 //import sgb.controller.domainController.EmprestimoControllerSingleton;
 
@@ -83,17 +84,35 @@ public class ListMulta extends SelectorComposer<Component> {
     public void doDelahes(ForwardEvent event)
     {
 
-            Button btn = (Button) event.getOrigin().getTarget();
-            Listitem litem = (Listitem) btn.getParent().getParent().getParent();
-            Multa multa = (Multa) litem.getValue();
+            Multa multa = (Multa) event.getData();
             Boolean isForDetails = false;
-
             session.setAttribute("ForDetais", isForDetails);
-            session.setAttribute("multa", multa);
+            session.setAttribute("Multa", multa);
+
             Window window =(Window) Executions.createComponents("/views/multamodal.zul", null, null);
             window.setClosable(true);
             window.doModal();
     }
+
+    public String dataConvert (Calendar dataa) {
+
+        SimpleDateFormat timeFormatter = new SimpleDateFormat("'('HH:mm:s')'");
+        DateFormat dateFormatter = new SimpleDateFormat();
+        Locale MOZAMBIQUE = new Locale("pt","MZ");
+        StringBuilder builder = new StringBuilder();
+
+
+        dateFormatter = DateFormat.getDateInstance(DateFormat.LONG, MOZAMBIQUE);
+
+        builder.append(dateFormatter.format(dataa.getTime()));
+        builder.append("\n");
+        builder.append(timeFormatter.format(dataa.getTime()));
+
+        String dataEntrada = builder.toString();
+
+        return dataEntrada;
+    }
+
 
 
 }

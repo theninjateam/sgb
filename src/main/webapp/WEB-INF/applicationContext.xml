@@ -11,19 +11,19 @@
                    http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 
 
-     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-         <property name="driverClassName" value="org.postgresql.Driver" />
-         <property name="url" value="jdbc:postgresql://ec2-23-23-80-20.compute-1.amazonaws.com:5432/d5b0hk16j5hm0n?ssl=true&amp;sslfactory=org.postgresql.ssl.NonValidatingFactory"/>
-         <property name="username" value="faowvudjaqofvd" />
-         <property name="password" value="56679e6c26926f3c2424e5f2347bdd5a2a544b4cf9c0c86e66eed380196e0185" />
-     </bean>
+     <!--<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
+         <!--<property name="driverClassName" value="org.postgresql.Driver" />-->
+         <!--<property name="url" value="jdbc:postgresql://ec2-23-23-80-20.compute-1.amazonaws.com:5432/d5b0hk16j5hm0n?ssl=true&amp;sslfactory=org.postgresql.ssl.NonValidatingFactory"/>-->
+         <!--<property name="username" value="faowvudjaqofvd" />-->
+         <!--<property name="password" value="56679e6c26926f3c2424e5f2347bdd5a2a544b4cf9c0c86e66eed380196e0185" />-->
+     <!--</bean>-->
 
-    <!--<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
-        <!--<property name="driverClassName" value="org.postgresql.Driver" />-->
-        <!--<property name="url" value="jdbc:postgresql://localhost:5432/sgb"/>-->
-        <!--<property name="username" value="postgres" />-->
-        <!--<property name="password" value="root" />-->
-    <!--</bean>-->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="org.postgresql.Driver" />
+        <property name="url" value="jdbc:postgresql://localhost:5432/sgb"/>
+        <property name="username" value="postgres" />
+        <property name="password" value="root" />
+    </bean>
 
     <bean id="sessionFactory"
           class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
@@ -49,7 +49,9 @@
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
 
-
+    <bean id="userController"  class="sgb.controller.domainController.UserController" >
+        <constructor-arg index="0" ref="CRUDService"/>
+    </bean>
 
     <bean id="CRUDService" class="sgb.service.CRUDServiceImpl" />
 
@@ -67,6 +69,9 @@
         <constructor-arg index="0" ref="CRUDService"/>
     </bean>
 
+    <bean id="gerarRelatorio" class="sgb.report.GerarRelatorio">
+        <constructor-arg index="0" ref="CRUDService"/>
+    </bean>
 
     <bean id="deadline"  class="sgb.deadline.Deadline"/>
 
@@ -126,6 +131,8 @@
         <constructor-arg index="3" ref="obraConcurrenceControl"/>
         <constructor-arg index="4" ref="queue"/>
         <constructor-arg index="5" ref="emprestimoController"/>
+        <constructor-arg index="6" ref="estadoDevolucaoControler"/>
+        <constructor-arg index="7" ref="tiporequisicao"/>
     </bean>
 
     <bean id="queue"  class="sgb.request.Queue" >
@@ -173,6 +180,13 @@
         <constructor-arg index="1" ref="areaCientificaController"/>
     </bean>
 
+    <bean id="registroObraController"  class="sgb.controller.domainController.RegistroObraController" >
+        <constructor-arg index="0" ref="CRUDService"/>
+    </bean>
+
+    <bean id="obraEliminadasController"  class="sgb.controller.domainController.ObraEliminadasController" >
+        <constructor-arg index="0" ref="CRUDService"/>
+    </bean>
 
     <context:annotation-config />
     <context:component-scan base-package="sgb"/>

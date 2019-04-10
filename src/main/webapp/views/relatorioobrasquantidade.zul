@@ -1,0 +1,74 @@
+
+<grid>
+    <columns>
+        <column/>
+    </columns>
+    <rows>
+        <row>
+            <listbox width="100%" id="obracategoria"
+                     emptyMessage="Nao tem nenhum pedido pendente">
+                <listhead>
+                    <listheader width="25%" height="100%" label="Area"/>
+                    <listheader width="75%" height="100%" label="Descricao da Obra (Quantidade)"/>
+                </listhead>
+                <template name="model">
+                    <listitem>
+                        <listcell>
+                            <div>
+                                <label value="${each.areaCientifica.descricao}"/>
+                            </div>
+                        </listcell>
+                        <listcell>
+
+                            <grid>
+                                <columns>
+                                    <column width="80%" />
+                                    <column width="20%"/>
+                                </columns>
+
+                                <rows>
+
+                                    <row forEach="${each.obras}">
+                                        <cell>
+                                            <div>
+                                                <label value = "COTA:  "/>
+                                                <label   value="${each.cota}:  TITULO: ${each.titulo}. "/>
+                                                <label value=" DE  ${each.anoPublicacao} "/>
+                                            </div>
+                                        </cell>
+                                        <cell> <label   value="${each.quantidade} "/> </cell>
+
+                                    </row >
+                                </rows>
+                            </grid>
+                        </listcell>
+                    </listitem>
+                </template>
+                <listfoot >
+                    <listfooter  height="100%"  width="100%" style="padding: 15px 32px; background-color: lightgray; border-style: none;">
+                        Total
+                    </listfooter>
+                    <listfooter >
+                        <grid>
+                            <columns>
+                                <column width="80%" />
+                                <column width="20%"/>
+                            </columns>
+
+                            <rows>
+                                <row>
+                                    <cell> </cell>
+                                    <cell height="100%"  width="100%" style="padding: 15px 32px; background-color: lightgreen; border-style: none;">
+                                        <label id="qtdd" value = "" />
+                                    </cell>
+                                </row>
+                            </rows>
+                        </grid>
+                    </listfooter>
+
+                </listfoot>
+            </listbox>
+        </row>
+
+    </rows>
+</grid>

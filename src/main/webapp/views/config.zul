@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk >
+    <style src="css/tipografia.css"/>
+    <style src="css/w3pro.css"/>
+    <style src="css/w3.css"/>
+
+    <window id="Config" apply="org.zkoss.bind.BindComposer"
+             viewModel="@id('config') @init('sgb.configuration.ConfigViewModel')"
+            border="none" hflex="1" vflex="1" contentStyle="overflow:auto">
+
+        <!-- FOR DESKTOP-->
+        <grid  sclass="w3-top"
+               style="background-color: white; cursor: cursor; position: absolute;  width:auto; height: auto;">
+            <rows>
+                <row width="100%">
+                    <button  label="Guardar alterações" onClick="@command('updateConfig')"
+                             mold="os"  sclass=" w3-right w3-btn w3-light-gray" style="text-align: left; position: relative;" />
+                </row>
+                <row width="100%" sclass="w3-black">
+                    <button  label="Guardar alterações" onClick="@command('updateConfig')"
+                             mold="os"  sclass=" w3-right w3-btn w3-light-gray" style="text-align: left; position: relative;" />
+                </row>
+            </rows>
+        </grid>
+        <grid>
+            <rows>
+                <row width="100%" sclass="w3-black">
+                    <button label="Guardar alterações" onClick="@command('updateConfig')"
+                            mold="os"  sclass=" w3-right w3-btn w3-light-gray" style="text-align: left; position: relative;" />
+                </row>
+            </rows>
+        </grid>
+
+        <grid   sclass="w3-hide-small w3-hide-medium" visible="true"
+                style="border-style: none;" model="@bind(config.configs)">
+            <columns>
+                <column label="Descrição" width="90%" sclass="w3-container w3-xlarge w3-padding-8 w3-light-gray"/>
+                <column label="Valor" width="10%" sclass="w3-container w3-xlarge w3-padding-8 w3-light-gray"/>
+            </columns>
+            <template name="model" var="config" >
+                <row>
+                    <div sclass="w3-padding-16 w3-medium">
+                        <label value="@bind(config.descricao)"  style=" line-height: 1.4em;"/>
+                    </div>
+
+                    <intbox constraint="no negative, no zero: Apenas valores positivos!" sclass="w3-padding-16 w3-medium "
+                            value="@bind(config.valor)" style=" line-height: 1.4em; font-weight: bold;"/>
+                </row>
+            </template>
+        </grid>
+    </window>
+</zk>

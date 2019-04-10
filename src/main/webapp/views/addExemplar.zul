@@ -1,108 +1,205 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zk>
-    <window apply="sgb.controller"
+    <window id="addObra" apply="sgb.controller.viewsController.AddObraController"
             border="none" hflex="1" vflex="1" contentStyle="overflow:auto">
+        <style src="css/tipografia.css"/>
+        <style src="css/w3pro.css"/>
+        <style src="css/w3.css"/>
+
         <div style="padding:0px">
             <tabbox>
                 <tabs>
-                    <tab label="${labels.clientinfo}"></tab>
-
+                    <tab label="${labels.obrainfo}"></tab>
                 </tabs>
                 <tabpanels>
                     <tabpanel>
                         <grid>
                             <rows>
+                                <!--<row>-->
+                                    <!--<toolbar id="tb" height="30px" align="start">-->
+                                        <!--<toolbarbutton id="savebtn" label="${labels.btnsave}"/>-->
+                                        <!--<toolbarbutton label="${labels.btndelete}"/>-->
+                                    <!--</toolbar>-->
+                                <!--</row>-->
                                 <row>
-                                    <toolbar id="tb" height="30px" align="start">
-                                        <toolbarbutton label="${labels.btndraft}"/>
-                                        <toolbarbutton label="${labels.btnsave}"/>
-                                        <toolbarbutton label="${labels.btndelete}"/>
-                                    </toolbar>
+                                    <button id="savebtn" label="Guardar"  mold="os" sclass="w3-btn w3-teal"/>
                                 </row>
+
                                 <row>
-                                    <panel style="max-height:425px; overflow-x:hidden;overflow-y:auto" >
-                                        <panelchildren>
-                                            <vlayout>
-                                                <groupbox mold="3d">
-                                                    <caption sclass="folder" label="${labels.clientinfo}"/>
-                                                    <grid>
-                                                        <columns sizable="true">
-                                                            <column hflex="1" vflex="1"/>
-                                                        </columns>
-                                                        <rows>
-                                                            <row>
-                                                                <hlayout vflex="1" hflex="1" sclass="second-layout">
-                                                                    <div sclass="description-area" height="100%">
-                                                                        <label value="${labels.account}"/>
-                                                                    </div>
-                                                                    <div sclass="description-area" height="100%">
-                                                                        <textbox disabled="true" value="" hflex="1"
-                                                                                 id="idnrconta"
-                                                                                 constraint=" no Empty: Preenche o campo!"/>
-                                                                    </div>
-                                                                </hlayout>
-                                                            </row>
-                                                            <row>
-                                                                <hlayout vflex="1" hflex="1" sclass="second-layout">
-                                                                    <div sclass="description-area" height="100%">
-                                                                        <label value="${labels.accountname}"/>
-                                                                    </div>
-                                                                    <div sclass="description-area" height="100%">
-                                                                        <textbox disabled="true" value="" hflex="1"
-                                                                                 id="idnomeconta"
-                                                                                 constraint=" no Empty: Preenche o campo!"/>
-                                                                    </div>
-                                                                </hlayout>
-                                                            </row>
+                                    <div sclass="w3-container w3-hide-small w3-hide-medium w3-padding-16 w3-white"
+                                         style="white-space: normal; line-height: 1.25;">
 
-                                                            <row>
-                                                                <hlayout vflex="1" hflex="1" sclass="second-layout">
-                                                                    <div sclass="description-area" height="100%">
-                                                                        <label value="${labels.legalentitytype}"/>
-                                                                    </div>
-                                                                    <div sclass="description-area" height="100%">
-                                                                        <combobox hflex="1" id="cmbLegalentitytype"
-                                                                                  model="${$composer.entidadeLegalModel}"
-                                                                                  constraint=" no Empty: ${labels.selectone}">
-                                                                            <attribute name="onCreate"></attribute>
-                                                                            <comboitem label="${each}"/>
-                                                                        </combobox>
-                                                                    </div>
-                                                                </hlayout>
-                                                            </row>
-                                                            <row>
-                                                                <hlayout vflex="1" hflex="1" sclass="second-layout">
-                                                                    <div sclass="description-area" height="100%">
-                                                                        <label value="${labels.nuit}"/>
-                                                                    </div>
-                                                                    <div sclass="description-area" height="100%">
-                                                                        <textbox value="" hflex="1" id=""
-                                                                                 constraint=" no Empty: Preenche o campo!"/>
-                                                                    </div>
-                                                                </hlayout>
-                                                            </row>
-                                                        </rows>
-                                                    </grid>
-                                                </groupbox>
+                                        <div sclass="w3-container w3-center w3-white w3-left "
+                                             style="width: 20%; position: relative;">
+                                            <image id="capa" src="img/capa.jpg" sclass="w3-card-4 "
+                                                   style="width: 100%; height:200px; width:140px;"/>
+                                            <separator/>
 
-                                                <div id="grpData" visible="false">
-                                                    <include id="idInclData"/>
+                                            <button  label="Adcionar Capa" upload="true" sclass="w3-btn w3-light" mold="os"
+                                                    id="upLoadCAPA" forward="onUpload=upLoadCAPA.onUpLoadCAPA,
+                                                                            onClick=upLoadCAPA.onDeleteUpLoadedCAPA"/>
+                                            <separator/>
+
+                                            <image id="PDF" src="img/pdf.jpg" sclass="w3-card-4 "
+                                                   style="width: 100%; height:200px; width:140px;"/>
+                                            <separator/>
+
+                                            <button  label="Adicionar  PDF" upload="true" mold="os" sclass="w3-btn ww3-grey" onClick="false" id="upLoadPDF" forward="onUpload=upLoadPDF.onUpLoadPDF,
+                                                                            onClick=upLoadPDF.onDeleteUpLoadedPDF"/>
+
+                                            <label sclass="input-group-addon" id="addedPDF"/>
+                                            <label sclass="input-group-addon" id="addedCapa"/>
+                                        </div>
+
+                                        <div sclass="w3-container w3-white w3-display-container w3-white w3-right  w3-card-4 w3-padding-16"
+                                                 style="width: 70%; position: relative;">
+
+                                            <div>
+
+                                                <span sclass="input-group-addon">Tipo Obra: </span>
+                                                <listbox width="16%" id="tipoObraListBox"
+                                                         emptyMessage="Nenhum Tipo de Obra Encotrado"
+                                                         model="${$composer.tipoObraModel}"
+                                                         mold="select"  >
+
+                                                    <listhead>
+                                                        <listheader label="tipo de obra"/>
+                                                    </listhead>
+                                                    <template name="model">
+                                                        <listitem>
+                                                            <listcell
+                                                                    label="${each.descricao}"></listcell>
+                                                        </listitem>
+                                                    </template>
+                                                </listbox>
+
+                                                <span sclass="input-group-addon">Idioma: </span>
+                                                <listbox  width="16%" id="idiomaListBox"
+                                                         emptyMessage="Nenhum Tipo de idioma Encotrado"
+                                                         model="${$composer.idiomaModel}"
+                                                         mold="select">
+
+                                                    <listhead>
+                                                        <listheader label="Idioma"/>
+                                                    </listhead>
+                                                    <template name="model">
+                                                        <listitem>
+                                                            <listcell
+                                                                    label="${each.descricao}"></listcell>
+                                                        </listitem>
+                                                    </template>
+                                                </listbox>
+
+
+                                            <span sclass="input-group-addon">Area Cientifica: </span>
+                                                <listbox width="16%" id="areaCientificaListBox"
+                                                         emptyMessage="Nenhuma Area Cietifica Encotrada"
+                                                         model="${$composer.areaCientificaModel}"
+                                                         mold="select">
+
+                                                    <listhead>
+                                                        <listheader label="Area Cientifica"/>
+                                                    </listhead>
+                                                    <template name="model">
+                                                        <listitem>
+                                                            <listcell
+                                                                    label="${each.descricao}"></listcell>
+                                                        </listitem>
+                                                    </template>
+                                                </listbox>
+
+                                                <span sclass="input-group-addon">Forma Aquisicao: </span>
+                                                <listbox
+                                                        width="16%" id="formaaquisicaoBox"
+                                                        emptyMessage="Nenhum Tipo de Obra Encotrado"
+                                                        model="${$composer.formaAquisicaoModel}"
+                                                        mold="select">
+
+                                                    <listhead>
+                                                        <listheader label="tipo de obra" style="background-color: lightgray; border-style: none; text-align: center;"/>
+                                                    </listhead>
+                                                    <template name="model">
+                                                        <listitem>
+                                                            <listcell
+                                                                    label="${each.descricao}"></listcell>
+                                                        </listitem>
+                                                    </template>
+                                                </listbox>
+                                            </div>
+                                            <separator/>
+                                            <separator/>
+
+                                            <textbox width="48%" disabled="false"  constraint=" no Empty: Insira a Cota!" placeholder="Insira a Cota"/>
+                                            <intbox width="25%"  disabled="false" constraint=" no Empty: Insira o Registo" placeholder="Insira o Registo"/>
+                                            <intbox width="25%" disabled="false" constraint=" no Empty: Insira a Quantidade" placeholder="Insira a Quantidade"/>
+                                            <separator/>
+                                            <separator/>
+                                            <textbox width="99%" disabled="false" constraint=" no Empty: Preenche o campo!" placeholder="Insira o titulo"/>
+                                            <separator/>
+                                            <separator/>
+                                            <textbox id="autor" height="30px" width="48%" disabled="false"  placeholder="Insira o(s) autor(es) "/>
+                                            <button  label="Addicionar" id="addAuthor" mold="os" sclass="w3-btn w3-teal"/>
+                                            <separator/>
+                                            <separator/>
+
+                                                <div height="100%">
+                                                    <listbox width="99%" id="authorListBox"
+                                                             emptyMessage="${labels.noitemadded}">
+                                                        <listhead>
+                                                            <listheader width="48%" label="Autores"/>
+                                                            <listheader label="Operacoes"/>
+                                                        </listhead>
+                                                        <template name="model">
+                                                            <listitem>
+                                                                <listcell >
+                                                                    <label value="${each.nome }"/>
+                                                                </listcell>
+                                                                <listcell>
+                                                                    <button label="Eliminar" mold="os" sclass="w3-btn w3-red"
+                                                                            forward="onClick=authorListBox.onAuthorDelete"/>
+                                                                    <button label="Editar" mold="os" sclass="w3-btn w3-yellow"
+                                                                            forward="onClick=authorListBox.onAuthorEdite"/>
+                                                                </listcell>
+                                                            </listitem>
+                                                        </template>
+                                                    </listbox>
                                                 </div>
 
-                                                <div id="grpOtherData" visible="true">
-                                                    <include id="idInclOtherData"/>
-                                                </div>
+                                            <separator/>
+                                            <separator/>
+                                            <textbox width="48%" disabled="false"  placeholder="Insira o Local de Publicacao"/>
+                                            <intbox  width="25%" disabled="false"  placeholder="Insira o ano"/>
+                                            <textbox width="25%" disabled="false"  placeholder="Insira ISBN/DOI"/>
+                                            <separator/>
+                                            <separator/>
+                                            <textbox width="48%" disabled="false"  placeholder="Insira a Editora/Instituicao"/>
+                                            <intbox width="25%" disabled="false"  placeholder="Insira Volume"/>
+                                            <intbox width="25%" disabled="false" placeholder="Insira Eidcao"/>
+                                            <separator/>
+                                            <separator/>
+                                            <textbox width="48%" disabled="false"  placeholder="Insira Codigo Barra"/>
 
-                                            </vlayout>
-                                        </panelchildren>
-                                    </panel>
+                                            <separator/>
+                                            <div sclass="description-area" height="100%">
+                                                <span sclass="input-group-addon"> A obra vem com disco em anexo ?:</span>
+                                                <label id="escolha"/>
+                                                <radiogroup id="anexocd" onCheck="escolha.value=self.selectedItem.label" >
+                                                    <radio id="sim" label="Sim"  />
+                                                    <radio id="nao" label="Nao"/>
+                                                </radiogroup>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
                                 </row>
+
                             </rows>
                         </grid>
                     </tabpanel>
                 </tabpanels>
             </tabbox>
         </div>
-
     </window>
 </zk>

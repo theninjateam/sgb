@@ -3,6 +3,7 @@ package sgb.domain;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.Date;
 
 @Embeddable
 public class RegistroObraPK implements Serializable
@@ -12,6 +13,7 @@ public class RegistroObraPK implements Serializable
     private Obra obra;
 
     @Column(name = "dataregisto")
+    @Temporal(TemporalType.TIMESTAMP)
     private Calendar dataRegisto;
 
     public Obra getObra() {
@@ -24,6 +26,7 @@ public class RegistroObraPK implements Serializable
     public Calendar getDataRegisto() {
         return dataRegisto;
     }
+
     public void setDataRegisto(Calendar dataregisto) {
         this.dataRegisto = dataregisto;
     }

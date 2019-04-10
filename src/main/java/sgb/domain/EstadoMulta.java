@@ -7,11 +7,12 @@ import java.util.Objects;
 @Table(name = "estadomulta")
 public class EstadoMulta {
 
-    private int idestadomulta;
-    private String descricao;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "idestadomulta")
+    private int idestadomulta;
+
     public int getIdestadomulta() {
         return idestadomulta;
     }
@@ -21,7 +22,9 @@ public class EstadoMulta {
     }
 
     @Basic
-    @Column(name = "descricao ")
+    @Column(name = "descricao")
+    private String descricao;
+
     public String getDescricao() {
         return descricao;
     }

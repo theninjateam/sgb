@@ -6,7 +6,9 @@ import sgb.domain.*;
 import sgb.service.CRUDService;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class Request
 {
@@ -24,7 +26,9 @@ public class Request
                    EstadoPedidoControler estadoPedidoControler,
                    ObraConcurrenceControl obraConcurrenceControl,
                    Queue queue,
-                   EmprestimoController eController)
+                   EmprestimoController eController,
+                   EstadoDevolucaoControler estadoDevolucaoControler,
+                   TipoRequisicaoControler tipoRequisicaoControler)
     {
         this.configControler = configControler;
         this.crudService = crudService;
@@ -32,73 +36,87 @@ public class Request
         this.obraConcurrenceControl = obraConcurrenceControl;
         this.queue = queue;
         this.eController = eController;
+        this.estadoDevolucaoControler = estadoDevolucaoControler;
+        this.tipoRequisicaoControler = tipoRequisicaoControler;
     }
 
-    public void request(Item item, Users user)
+    public void request(List<Item> itens, Users user)
     {
-        try
+        for (Item item: itens)
         {
-            this.obraConcurrenceControl.enterInCriticalRegion(item.getObra());
-            validate(item);
-
-            Emprestimo emprestimo = getEmprestimo(item, user);
-
-            if (!item.getIsLineUp())
+            try
             {
-                Obra obra = this.crudService.get(Obra.class, item.getObra().getCota());
-                obra.setQuantidade(obra.getQuantidade() - item.getQuantidade());
-                this.crudService.update(obra);
+                this.obraConcurrenceControl.enterInCriticalRegion(item.getObra());
+
+                if (item.isHomeRequisition() && this.canDoHomeRequisition(item.getObra(), item.getQuantidade()))
+                {
+                    if (item.getObra().getQuantidade() - item.getQuantidade() >=
+                            this.configControler.MINIMUM_NUMBER_OF_COPIES)
+                    {
+                        item.setEstadoPedido(this.crudService.get(EstadoPedido.class, this.estadoPedidoControler.PENDING_MINI_BOOKING));
+                        Emprestimo emprestimo = getEmprestimo(item, user);
+
+                        Obra obra = this.crudService.get(Obra.class, item.getObra().getCota());
+                        obra.setQuantidade(obra.getQuantidade() - item.getQuantidade());
+                        this.crudService.update(obra);
+                        this.crudService.Save(emprestimo);
+                    }
+                    else if(item.isLineUp())
+                    {
+                        item.setEstadoPedido(this.crudService.get(EstadoPedido.class, this.estadoPedidoControler.ON_WAINTING_QUEUE));
+                        Emprestimo emprestimo = getEmprestimo(item, user);
+                        this.crudService.Save(emprestimo);
+                    }
+                }
+                else if (item.isInternalRequisition() && this.canDoInternalRequisition(item.getObra(), item.getQuantidade()))
+                {
+                    item.setEstadoPedido(this.crudService.get(EstadoPedido.class, this.estadoPedidoControler.PENDING_MINI_BOOKING));
+                    Emprestimo emprestimo = getEmprestimo(item, user);
+
+                    Obra obra = this.crudService.get(Obra.class, item.getObra().getCota());
+                    obra.setQuantidade(obra.getQuantidade() - item.getQuantidade());
+                    this.crudService.update(obra);
+                    this.crudService.Save(emprestimo);
+                }
+
+                this.obraConcurrenceControl.leaveInCriticalRegion(item.getObra());
             }
-
-            this.crudService.Save(emprestimo);
-            this.obraConcurrenceControl.leaveInCriticalRegion(item.getObra());
-        }
-        catch (Exception ex)
-        {
-            this.obraConcurrenceControl.leaveInCriticalRegion(item.getObra());
-            ex.printStackTrace();
+            catch (Exception ex)
+            {
+                this.obraConcurrenceControl.leaveInCriticalRegion(item.getObra());
+                ex.printStackTrace();
+            }
         }
     }
 
-    public void validate(Item item)
-    {
-        if (item.getIsHomeRequisition())
-        {
-            item.setHomeRequisition(canDoHomeRequisition(item.getObra()));
-        }
-
-        item.setLineUp(canLineUp(item.getObra(), item.getQuantidade()));
-    }
-
-    public boolean canDoHomeRequisition(Obra obra)
+    public boolean canDoHomeRequisition(Obra obra, int qtd)
     {
         int qtdMin = this.configControler.MINIMUM_NUMBER_OF_COPIES;
-        int qtd = getAvailableNumberOfCopies(obra);
+        int all = getAvailableNumberOfCopies(obra);
 
-        return qtd > qtdMin ? true : false;
+        return all - qtd >= qtdMin ? true : false;
     }
 
-    public boolean canLineUp(Obra obra, int qtd)
+    public boolean canDoInternalRequisition(Obra obra, int qtd)
     {
-        int qtdMin = this.configControler.MINIMUM_NUMBER_OF_COPIES;
-        int qtdDis = this.crudService.get(Obra.class, obra.getCota()).getQuantidade();
+        int availabble = this.crudService.get(Obra.class, obra.getCota()).getQuantidade();;
 
-        if (canDoHomeRequisition(obra))
-        {
-            return  qtdDis - qtd < qtdMin ? true : false;
-        }
-        else
-        {
-            return  qtdDis  - qtd < 0 ? true : false;
-        }
+        return availabble - qtd >= 0 ? true : false;
     }
 
     public int getAvailableNumberOfCopies(Obra obra)
     {
-        int qtd =  this.eController.getRequest(obra, this.estadoPedidoControler.PENDING_MINI_BOOKING).size();
-        qtd += this.eController.getRequest(obra, this.estadoPedidoControler.ACCEPTED).size();
-        qtd += this.eController.getRequest(obra, this.estadoPedidoControler.PENDING_BOOKING).size();
-        qtd += this.crudService.get(Obra.class, obra.getCota()).getQuantidade();
+        int qtd = 0;
+        List<Emprestimo> emprestimos = new ArrayList<Emprestimo>();
+
+        emprestimos.addAll(this.eController.getRequest(obra, this.estadoPedidoControler.PENDING_MINI_BOOKING));
+        emprestimos.addAll(this.eController.getBorrowedBooks(obra, this.estadoDevolucaoControler.NOT_RETURNED));
+        emprestimos.addAll(this.eController.getRequest(obra, this.estadoPedidoControler.PENDING_BOOKING));
+
+        for (Emprestimo e: emprestimos)
+            qtd = qtd + e.getQuantidade();
+
+        qtd = qtd + this.crudService.get(Obra.class, obra.getCota()).getQuantidade();
 
         return qtd;
     }
@@ -188,25 +206,29 @@ public class Request
     {
         EmprestimoPK emprestimoPK = new EmprestimoPK();
         Emprestimo emprestimo = new Emprestimo();
-
-        EstadoPedido estadoPedido = crudService.get(EstadoPedido.class,estadoPedidoControler.PENDING_MINI_BOOKING);
+        EstadoPedido estadoPedido = item.getEstadoPedido();
+        TipoRequisicao tipoRequisicao = null;
         EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, estadoDevolucaoControler.UNDETERMINED);
         EstadoRenovacao estadoRenovacao = null;
 
-        TipoRequisicao tipoRequisicao = crudService.get(TipoRequisicao.class,tipoRequisicaoControler.INTERNAL_REQUISITION);
-
-        if (item.getIsHomeRequisition()) {
+        if (item.isHomeRequisition())
+        {
             tipoRequisicao = crudService.get(TipoRequisicao.class, tipoRequisicaoControler.HOME_REQUISITION);
         }
-        emprestimo.setTipoRequisicao(tipoRequisicao);
+        else if (item.isInternalRequisition())
+        {
+            tipoRequisicao = crudService.get(TipoRequisicao.class, tipoRequisicaoControler.INTERNAL_REQUISITION);
+        }
 
+        emprestimo.setTipoRequisicao(tipoRequisicao);
+        emprestimo.setEstadoPedido(estadoPedido);
 
         emprestimoPK.setObra(item.getObra());
         emprestimoPK.setUtente(user);
         emprestimoPK.setDataentradapedido(Calendar.getInstance());
 
         emprestimo.setEstadoDevolucao(estadoDevolucao);
-        emprestimo.setEstadoPedido(estadoPedido);
+        emprestimo.setEstadoPedido(item.getEstadoPedido());
         emprestimo.setEmprestimoPK(emprestimoPK);
         emprestimo.setComentario("--");
         emprestimo.setDataaprovacao(null);

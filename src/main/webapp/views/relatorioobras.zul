@@ -1,72 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk>
+    <window id="listObra" apply="sgb.controller.viewsController.RelatorioObras"
+            border="none" hflex="1" vflex="1" contentStyle="overflow:auto">
+        <div style="padding:0px">
 
-<grid>
-    <columns>
-        <column/>
-    </columns>
-    <rows>
-        <row>
-            <listbox width="100%" id="obracategoria"
-                     emptyMessage="Nao tem nenhum pedido pendente">
-                <listhead>
-                    <listheader width="30%" height="100%" label="Area"/>
-                    <listheader width="70%" height="100%" label="Descricao da Obra (Quantidade)"/>
-                    <!--<listheader width="10%" height="100%" label="Quantidade"/>-->
-                    <!--<listheader width="20%" height="100%" label="Titulo"/>-->
-                    <!--<listheader width="5%" height="100%" label="Qtd"/>-->
-                    <!--<listheader width="20%" height="100%" label="Forma Aquisicao"/>-->
-                </listhead>
-                <template name="model">
-                    <listitem>
-                        <listcell>
-                            <div>
-                                <label value="${each.areaCientifica.descricao}"/>
-                            </div>
-                        </listcell>
-                        <listcell>
+            <toolbar id="tbt" height="30px" align="center">
 
-                            <grid>
-                                <columns>
-                                    <column width="80%" />
-                                    <column width="20%"/>
-                                </columns>
+                <div >
+                    <span sclass="input-group-addon">Area Cientifica: </span>
+                    <listbox width="10%" id="areaCientificaListBox"
+                     emptyMessage="Nenhuma Area Cientifica Encotrada"
+                     mold="select">
+                        <listhead>
+                            <listheader label="Area Cientifica"/>
+                        </listhead>
+                        <template name="model">
+                            <listitem>
+                                <listcell label="${each.descricao}">
+                                </listcell>
+                            </listitem>
+                        </template>
+                     </listbox>
+                    <span sclass="input-group-addon">  From: </span>
+                    <datebox id="dataInicio" cols="12" format="medium"  />
 
-                                <rows>
+                    <span sclass="input-group-addon">   to: </span>
+                    <datebox id="dataFim" cols="12" format="medium" onCreate="self.value = new Date()" />
+                    <button id="save" label="Exportar" style="margin-left:60px"/>
+                </div>
+            </toolbar>
 
-                                    <row forEach="${each.obras}">
-                                        <cell> <label   value="${each.titulo}. "/> </cell>
-                                        <cell> <label   value="${each.quantidade} "/> </cell>
+            <tabbox id="obrasTabBox">
+                <tabs>
+                    <tab label="Obras Quantidade"></tab>
+                    <tab label="Obras Registadas"></tab>
+                    <tab label="Obras Eliminadas"></tab>
+                </tabs>
 
-                                    </row >
-                                </rows>
-                            </grid>
+                <tabpanels>
 
-                            <!--<div>-->
-                                <!--<label value="${each.user.name}"/>-->
-                            <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                            <!--<listbox width="100%" id="obradescricao"-->
-                                     <!--&gt;-->
-                                <!--<listhead>-->
-                                    <!--<listheader width="70%" height="100%" />-->
-                                    <!--<listheader width="30%" height="100%" />-->
-                                <!--</listhead>-->
-                                <!--<template name="model">-->
-                                    <!--<listitem>-->
-                                        <!--<listcell>-->
+                    <tabpanel>
+                        <include id="idInclRelatorioObrasQuantidade"/>
+                    </tabpanel>
 
-                                        <!--</listcell>-->
-                                    <!--</listitem>-->
-                                <!--</template>-->
-                            <!--</listbox>-->
-                        </listcell>
-                    </listitem>
-                </template>
-                <listfoot >
-                    <listfooter  height="100%"  width="100%" style="padding: 15px 32px; background-color: lightgray; border-style: none;">
-                        Total
-                    </listfooter>
-                </listfoot>
-            </listbox>
-        </row>
+                    <tabpanel>
+                        <include id="idInclRelatorioObrasRegistadas"/>
+                    </tabpanel>
 
-    </rows>
-</grid>
+                    <tabpanel>
+                         <include id="idInclObrasEliminadas"/>
+                    </tabpanel>
+                </tabpanels>
+           </tabbox>
+        </div>
+    </window>
+</zk>

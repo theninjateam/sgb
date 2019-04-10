@@ -8,6 +8,7 @@ package sgb.controller.viewsController;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.zkoss.util.CollectionsX;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
@@ -22,6 +23,7 @@ import sgb.controller.domainController.ConfigControler;
 import sgb.controller.domainController.EmprestimoController;
 import sgb.controller.domainController.EstadoDevolucaoControler;
 import sgb.controller.domainController.EstadoMultaControler;
+import sgb.deadline.BorrowedBooksDeadline;
 import sgb.domain.*;
 import sgb.fine.Fine;
 import sgb.service.CRUDService;
@@ -59,16 +61,20 @@ public class MultaModalController extends SelectorComposer<Component> {
     @Wire
     private Listbox multaListBox;
 
-    private Emprestimo emprestimo;
-    private EstadoMultaControler eMController;
-    private EstadoDevolucaoControler eDController;
-    private Boolean isForDetails;
+
+
+
+    private EstadoMultaControler eMController = (EstadoMultaControler) SpringUtil.getBean("estadoMultaControler");
+    private EstadoDevolucaoControler eDController = (EstadoDevolucaoControler) SpringUtil.getBean("estadoDevolucaoControler");
+    private Boolean isForDetails =false;
 
     private ConfigControler configControler = (ConfigControler) SpringUtil.getBean("configControler");
+    private BorrowedBooksDeadline bBDeadline = (BorrowedBooksDeadline) SpringUtil.getBean("borrowedBooksDeadline");
     private boolean isStudent;
     private EmprestimoController eController;
 
     private Boolean isNormalUser = true;
+    private Emprestimo emprestimo = null;
 
 
 
@@ -84,19 +90,17 @@ public class MultaModalController extends SelectorComposer<Component> {
 
         isForDetails = false;
 
-        emprestimo = (Emprestimo) session.getAttribute ("EmprestimoMultado");
-        Calendar dataP;
 
         isForDetails = (Boolean) session.getAttribute("ForDetais");
 
-        multa = (Multa) session.getAttribute("multa");
-
-        multa.setValorpago(fine.getAmoutToPay(multa.getMultaPK(), Calendar.getInstance()));
 
         if (isForDetails) {
             /*
             * Elabora uma multa falsa so para apresentar como detalhes do emprestimo
             */
+
+            Emprestimo emprestimo = (Emprestimo) session.getAttribute ("EmprestimoMultado");
+
             multaListModel = new ListModelList<Multa>();
             multaListModel.add(fakeMulta(emprestimo));
             multaListBox.setModel(multaListModel);
@@ -106,6 +110,17 @@ public class MultaModalController extends SelectorComposer<Component> {
             /*
              * Multa ja criada pelo sistema
              */
+            multa = (Multa) session.getAttribute("Multa");
+            emprestimo = crudService.get(Emprestimo.class,multa.getMultaPK());
+            multa.setValorpago(fine.getAmoutToPay(emprestimo.getEmprestimoPK(), Calendar.getInstance()));
+
+            if (ObraReturned(emprestimo.getEmprestimoPK())) {
+                Calendar dataLimite = bBDeadline.getDeadline(emprestimo);
+                multa.setDiasatraso(fine.getDelayDays(emprestimo.getDatadevolucao(),dataLimite));
+            } else {
+                multa.setDiasatraso(fine.getDelayDays(Calendar.getInstance(), emprestimo.getDatadevolucao()));
+            }
+
             multaListModel = new ListModelList<Multa>();
             multaListModel.add(multa);
             multaListBox.setModel(multaListModel);
@@ -132,9 +147,11 @@ public class MultaModalController extends SelectorComposer<Component> {
         float taxaD = this.configControler.DAILY_RATE_FINE;
         multa.setTaxadiaria(taxaD);
         multa.setValorpago((diaatraso*taxaD));
-
         return multa;
 
+    }
+    public boolean isForDetails () {
+        return this.isForDetails;
     }
 
     public boolean isNormalUser () {
@@ -142,28 +159,49 @@ public class MultaModalController extends SelectorComposer<Component> {
 
         Set<Role> userrole =user.getRoles();
 
+        if(isForDetails){
+            return a;
+        } else {
+
         for(Role role : userrole) {
             if(role.getRole().equals("ADMIN"))
                 a = false;
         }
         return a;
+        }
     }
 
+
+    public String dataDevolucao(EmprestimoPK multapk) {
+
+        Calendar dataP;
+        Emprestimo emprestimo = crudService.get(Emprestimo.class,multapk);
+        dataP = emprestimo.getDatadevolucao();
+        return dataConvert(dataP);
+    }
 
     public String dataPrevistaDevolucao(EmprestimoPK multapk) {
 
         Calendar dataP;
-        emprestimo = crudService.get(Emprestimo.class,multapk);
-        dataP = emprestimo.getDatadevolucao();
+        Emprestimo emprestimo = crudService.get(Emprestimo.class,multapk);
+        dataP = bBDeadline.getDeadline(emprestimo);
         return dataConvert(dataP);
     }
+
+    public boolean ObraReturned (EmprestimoPK emprestimoPK) {
+
+        Emprestimo emprestimo = crudService.get(Emprestimo.class,emprestimoPK);
+        return emprestimo.getEstadoDevolucao().getDescricao().equals("RETURNED") ? true:false;
+
+    }
+
 
     @Listen("onExit= #multaListBox")
     public void exit ()
     {
         session.removeAttribute("ForDetais");
         session.removeAttribute("EmprestimoMultado");
-        session.removeAttribute("multa");
+        session.removeAttribute("Multa");
         multaModal.detach();
     }
 
@@ -174,15 +212,23 @@ public class MultaModalController extends SelectorComposer<Component> {
             Clients.showNotification("Precisa ser Bibliotecario para executar essa acao ", null, null, null, 5000);
         } else {
 
-            EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, eDController.RETURNED);
-            emprestimo.setEstadoDevolucao(estadoDevolucao);
-            emprestimo.setComentario("");
-            crudService.update(emprestimo);
+            if (ObraReturned(emprestimo.getEmprestimoPK())){
+                fine.pay(multa.getMultaPK(), Calendar.getInstance());
 
-            fine.pay(multa.getMultaPK(), Calendar.getInstance());
+                exit();
+                Clients.showNotification("Multa paga", null, null, null, 5000);
 
-            exit();
-            Clients.showNotification("Multa paga", null, null, null, 5000);
+            }else{
+                EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, eDController.RETURNED);
+                emprestimo.setEstadoDevolucao(estadoDevolucao);
+                emprestimo.setComentario("Multa paga");
+                crudService.update(emprestimo);
+
+                fine.pay(multa.getMultaPK(), Calendar.getInstance());
+
+                exit();
+                Clients.showNotification("Multa paga", null, null, null, 5000);
+            }
         }
 
     }
@@ -194,15 +240,24 @@ public class MultaModalController extends SelectorComposer<Component> {
             Clients.showNotification("Precisa ser Bibliotecario para executar essa acao ", null, null, null, 5000);
         } else {
 
-            EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, eDController.RETURNED);
-            emprestimo.setEstadoDevolucao(estadoDevolucao);
-            emprestimo.setComentario("");
-            crudService.update(emprestimo);
+            if (ObraReturned(emprestimo.getEmprestimoPK())){
+                fine.revoke(multa.getMultaPK());
 
-            fine.pay(multa.getMultaPK(), Calendar.getInstance());
+                exit();
+                Clients.showNotification("Multa Revogada", null, null, null, 5000);
 
-            exit();
-            Clients.showNotification("Multa Revogada", null, null, null, 5000);
+            }else{
+                EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, eDController.RETURNED);
+                emprestimo.setEstadoDevolucao(estadoDevolucao);
+                emprestimo.setComentario("Multa Revogada");
+                crudService.update(emprestimo);
+
+                fine.revoke(multa.getMultaPK());
+
+                exit();
+                Clients.showNotification("Multa Revogada", null, null, null, 5000);
+            }
+
         }
 
     }
@@ -211,10 +266,10 @@ public class MultaModalController extends SelectorComposer<Component> {
         if (isNormalUser) {
             Clients.showNotification("Precisa ser Bibliotecario para executar essa acao ", null, null, null, 5000);
         } else {
-            EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, eDController.RETURNED);
 
+            EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, eDController.RETURNED);
             emprestimo.setEstadoDevolucao(estadoDevolucao);
-            emprestimo.setComentario("");
+            emprestimo.setComentario("Obra devolvida e Multa nao paga");
 
             crudService.update(emprestimo);
 
@@ -250,13 +305,15 @@ public class MultaModalController extends SelectorComposer<Component> {
         StringBuilder builder = new StringBuilder();
 
 
-        dateFormatter = DateFormat.getDateInstance(DateFormat.FULL, MOZAMBIQUE);
+        dateFormatter = DateFormat.getDateInstance(DateFormat.LONG, MOZAMBIQUE);
 
         builder.append(dateFormatter.format(dataa.getTime()));
         builder.append("\n");
         builder.append(timeFormatter.format(dataa.getTime()));
 
         String dataEntrada = builder.toString();
+
+//        String[] aa = dataEntrada.split("(");
 
         return dataEntrada;
     }
