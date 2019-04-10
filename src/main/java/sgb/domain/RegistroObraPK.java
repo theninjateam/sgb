@@ -26,6 +26,7 @@ public class RegistroObraPK implements Serializable
     public Calendar getDataRegisto() {
         return dataRegisto;
     }
+
     public void setDataRegisto(Calendar dataregisto) {
         this.dataRegisto = dataregisto;
     }

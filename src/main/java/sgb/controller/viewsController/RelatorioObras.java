@@ -39,7 +39,7 @@ public class RelatorioObras extends SelectorComposer<Component> {
 
     private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;
     private Boolean isNormalUser = true;
-
+    private int selected = 0;
     private Listbox obraeliminadas;
     private Listbox obracategoria;
     private Listbox obrasregistadas;
@@ -68,6 +68,8 @@ public class RelatorioObras extends SelectorComposer<Component> {
     @Wire
     private Listbox areaCientificaListBox;
 
+    @Wire
+    private Tabbox obrasTabBox;
 
     private ListModelList<RegistroObra> obrasregistadasListModel;
     private ListModelList<ObraEliminadas> obraEliminadasListModel;
@@ -108,15 +110,17 @@ public class RelatorioObras extends SelectorComposer<Component> {
         AreaCientifica areaCientifica = areaCientificaListBox.getSelectedItem().getValue();
 
         if(areaCientifica.getIdarea()!=0){
-           if(dataInicio.getValue() ==null)
+           if(dataInicio.getValue() ==null) {
                obraCategoriaListModel = new ListModelList<ObraCategoria>(obraController.getObrasCategorias(areaCientifica));
-           else{
+               qtdd = (Label) idInclRelatorioObrasQuantidade.getFellow("qtdd");
+           }else{
                getUpdateDate();
                registroObras = registroObraController.getObrasByDate(dataI,dataF,areaCientifica);
                obraCategoriaListModel = new ListModelList<ObraCategoria>(obraController.getObrasCategorias(registroObras,areaCientifica));
-            }
+               qtdd = (Label) idInclRelatorioObrasQuantidade.getFellow("qtdd");
+           }
         } else {
-
+            qtdd = (Label) idInclRelatorioObrasQuantidade.getFellow("qtdd");
             setListModelsallData();
         }
 
@@ -135,7 +139,9 @@ public class RelatorioObras extends SelectorComposer<Component> {
             obraCategoriaListModel = new ListModelList<ObraCategoria>(obraController.getObrasCategorias(registroObras,areaCientifica));
             obrasregistadasListModel = new ListModelList<RegistroObra>(registroObraController.getObrasRegistadas());
             obraEliminadasListModel =new ListModelList<ObraEliminadas>(obraEliminadasController.getObrasEliminadas());
+            qtdd = (Label) idInclRelatorioObrasQuantidade.getFellow("qtdd");
         } else {
+            qtdd = (Label) idInclRelatorioObrasQuantidade.getFellow("qtdd");
             setListModelsallData();
         }
 
@@ -159,7 +165,6 @@ public class RelatorioObras extends SelectorComposer<Component> {
     }
 
     public void setListBoxsModels(){
-
         obracategoria.setModel(obraCategoriaListModel);
         obrasregistadas.setModel(obrasregistadasListModel);
         obraeliminadas.setModel(obraEliminadasListModel);
@@ -173,7 +178,6 @@ public class RelatorioObras extends SelectorComposer<Component> {
             for(Obra o: obraCategoria.getObras())
                 total +=o.getQuantidade();
         }
-
         return total;
     }
 
@@ -190,7 +194,12 @@ public class RelatorioObras extends SelectorComposer<Component> {
 
     @Listen("onClick = #save")
     public void exportar() throws JRException, IOException {
-        gerarRelatorio.createPdf(obraCategoriaListModel);
+        gerarRelatorio.createPdf(obraCategoriaListModel,
+                obrasregistadasListModel, obraEliminadasListModel, selected, qtdd.getValue());
     }
 
+    @Listen("onSelect = #obrasTabBox")
+    public void knowSelectedTab(){
+        selected = obrasTabBox.getSelectedTab().getIndex();
+    }
 }

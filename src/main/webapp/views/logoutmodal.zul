@@ -38,7 +38,7 @@
             <button  visible="true"  label="Alterar Senha" id="alterarSenha"
                      mold="os" sclass="w3-btn w3-green w3-center"/>
             <separator/>
-            <button  visible="true"  label="Sair" id="logout"
+            <button apply="sgb.controller.LoginController" visible="true"  label="Sair" id="logout"
                      mold="os" sclass="w3-btn w3-green w3-center"/>
             </div>
         </column>

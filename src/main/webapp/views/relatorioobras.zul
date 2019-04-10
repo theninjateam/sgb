@@ -30,7 +30,7 @@
                 </div>
             </toolbar>
 
-            <tabbox>
+            <tabbox id="obrasTabBox">
                 <tabs>
                     <tab label="Obras Quantidade"></tab>
                     <tab label="Obras Registadas"></tab>
