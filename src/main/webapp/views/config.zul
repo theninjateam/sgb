@@ -43,7 +43,7 @@
                         <label value="@bind(config.descricao)"  style=" line-height: 1.4em;"/>
                     </div>
 
-                    <intbox sclass="w3-padding-16 w3-medium"
+                    <intbox constraint="no negative, no zero: Apenas valores positivos!" sclass="w3-padding-16 w3-medium "
                             value="@bind(config.valor)" style=" line-height: 1.4em; font-weight: bold;"/>
                 </row>
             </template>

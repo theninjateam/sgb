@@ -16,7 +16,7 @@ public class EstadoPedido
     private int idestadopedido;
 
     @Basic
-    @Column(name = "descricao ", nullable = true, length = 255)
+    @Column(name = "descricao", nullable = true, length = 255)
     private String descricao;
 
     public int getIdestadopedido() {

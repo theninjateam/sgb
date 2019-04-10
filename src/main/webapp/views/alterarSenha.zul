@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk>
+    <window id="alterarSenha" apply="sgb.controller.viewsController.AlterarSenhaController"
+            border="none" closable="true"
+            position="center,center" action="show: slideDown;hide: slideUp" width="460px"  >
+
+        <style src="css/tipografia.css"/>
+        <style src="css/w3pro.css"/>
+        <style src="css/w3.css"/>
+
+        <grid   style="border-style: none;">
+            <columns style=" background-color: white;  border-style: none;">
+                <column style=" background-color: white;  border-style: none;" width="100%" >
+
+
+                    <div sclass="w3-container w3-center w3-white w3-left "
+                         style="width:160px; position: relative;">
+                    <image  src="img/account.jpg" sclass="w3-center"
+                           style="width: 100%; height:160px; width:160px;"/>
+                        <separator/>
+                        <separator/>
+                        <label sclass="w3-center" style="font-weight: bold" id="currentUser" />
+                        <separator/>
+                        <label sclass="w3-center" style="font-weight: bold" id="currentUserRole" />
+                    </div>
+
+                    <div sclass="w3-right">
+
+                            <div align="right" >
+                                <button  visible="true" id="fechar" label="X"  mold="os" sclass="w3-btn w3-red "/>
+                            </div>
+
+                        <separator/>
+                        <separator/>
+                        <separator/>
+
+                                <span sclass="input-group-addon">Senha Actual :</span>
+                                <textbox sclass="w3-input" width="100%" id="senhaActual" type="password"/>
+                        <separator/>
+
+
+                                <span>Nova Senha :</span>
+                                <textbox sclass="w3-input" width="100%" id="novaSenha" type="password"/>
+                        <separator/>
+
+                                <span>Confirmar  :</span>
+                                <textbox sclass="w3-input" width="100%" id="confirmarSenha" type="password"/>
+                        <separator/>
+                        <separator/>
+                        <div sclass="description-area" height="100%">
+                            <span sclass="input-group-addon"> Deseja Realmente alterar a senha ?:</span>
+                            <label id="escolha" sclass="w3-red"/>
+                            <separator/>
+                            <radiogroup id="opcao" onCheck="escolha.value=self.selectedItem.label" >
+                                <radio id="sim" label="Sim"  />
+                                <radio id="nao" label="Nao"/>
+                            </radiogroup>
+                        </div>
+                        <separator/>
+                        <separator/>
+                        <div sclass="w3-right">
+                        <button mold="os"  sclass="w3-btn w3-black" id="savebtn" label="${labels.btnsave}"/>
+                        <button mold="os" sclass="w3-btn w3-yellow" id="cancelbtn"  label="${labels.btndelete}"/>
+                        </div>
+
+                    </div>
+                </column>
+            </columns>
+        </grid>
+
+
+    </window>
+</zk>

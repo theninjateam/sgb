@@ -45,15 +45,15 @@ public class Fine
             EstadoDevolucao estadoDevolucao = this.crudService.get(EstadoDevolucao.class, this.eDController.NOT_RETURNED);
             EstadoMulta estadoMulta = crudService.get(EstadoMulta.class,this.eMController.NOT_PAID);
 
-            int diaatraso = getDelayDays(now, e.getDatadevolucao());
 
             emprestimo.setEstadoDevolucao(estadoDevolucao);
+            emprestimo.setDatadevolucao(bBDeadline.getDeadline(emprestimo));
 
             multa.setMultaPK(emprestimo.getEmprestimoPK());
             multa.setDataemissao(now);
             multa.setDataemprestimo(emprestimo.getDataaprovacao());
             multa.setEstadoMulta(estadoMulta);
-            multa.setDiasatraso(diaatraso);
+            multa.setDiasatraso(0);
 
             float taxaD = this.configControler.DAILY_RATE_FINE;
             multa.setTaxadiaria(taxaD);

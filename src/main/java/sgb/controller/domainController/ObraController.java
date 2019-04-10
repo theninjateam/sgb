@@ -78,11 +78,22 @@ public class ObraController {
         else {
             for (AreaCientifica a : areaCientificaController.getAreaCientifica()) {
 
-                obraCategorias.add(new ObraCategoria(a, obraList));
+                obraCategorias.add(new ObraCategoria(a, getObrasForCategoria(a,obraList)));
             }
         }
 
         return obraCategorias;
+    }
+
+    public List<Obra> getObrasForCategoria(AreaCientifica areaCientifica, List<Obra> obras){
+        List<Obra> obraList = new ArrayList<>();
+
+        for (Obra o : obras){
+            if(o.getAreacientifica().getIdarea() == areaCientifica.getIdarea())
+                obraList.add(o);
+        }
+
+        return obraList;
     }
 
 }

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk>
+    <window id="logoutModal" apply="sgb.controller.viewsController.LogoutModalController"
+            border="none" closable="true"
+            position="center,top" action="show: slideDown;hide: slideUp" width="240px">
+
+        <style src="css/tipografia.css"/>
+        <style src="css/w3pro.css"/>
+        <style src="css/w3.css"/>
+
+        <grid   style="border-style: none;">
+        <columns style=" background-color: white;  border-style: none;">
+        <column style=" background-color: white;  border-style: none;" width="100%" >
+
+            <div sclass="w3-right">
+            <button  visible="true" id="fechar" label="X"
+                 mold="os" sclass="w3-btn w3-red "/>
+            </div>
+            <separator/>
+            <separator/>
+            <separator/>
+            <separator/>
+            <label sclass="w3-center" style="font-weight: bold" value="Signed is " />
+
+
+            <div sclass="w3-center">
+                <separator/>
+                <separator/>
+            <image src="img/account.jpg"
+                   style="width: 100%; border-radius: 50%; height:100px; width:100px;"/>
+            <separator/>
+            <separator/>
+            <label sclass="w3-center" style="font-weight: bold" id="currentUser" />
+            <separator/>
+            <label sclass="w3-center" style="font-weight: bold" id="currentUserRole" />
+            <separator/>
+
+            <button  visible="true"  label="Alterar Senha" id="alterarSenha"
+                     mold="os" sclass="w3-btn w3-green w3-center"/>
+            <separator/>
+            <button apply="sgb.controller.LoginController" visible="true"  label="Sair" id="logout"
+                     mold="os" sclass="w3-btn w3-green w3-center"/>
+            </div>
+        </column>
+        </columns>
+        </grid>
+
+
+
+        <!--<grid  style="border-style: none;">-->
+
+            <!--<rows>-->
+                <!--<row>-->
+                    <!--<toolbar id="tb" height="30px" align="center">-->
+                        <!--<label style="font-weight: bold" id="currentUser" ></label>-->
+                    <!--&lt;!&ndash;</toolbar>&ndash;&gt;-->
+                <!--</row>-->
+
+                <!--<row>-->
+                    <!--<cell  align="center">-->
+
+                        <!--<hlayout sclass="second-layout">-->
+                            <!--<div sclass="description-area" align="center">-->
+
+                                <!--<toolbarbutton id="alterarSenha" label="Alterar Senha"/>-->
+                                <!--<toolbarbutton apply="sgb.controller.LoginController" id="logout" label="Sair"/>-->
+                            <!--</div>-->
+
+
+                        <!--</hlayout>-->
+                    <!--</cell>-->
+
+                <!--</row>-->
+
+                <!--&lt;!&ndash;<row>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<toolbar id="twb" height="30px" align="center">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<toolbarbutton id="fechar" label="Fechar"/>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</toolbar>&ndash;&gt;-->
+
+                <!--&lt;!&ndash;</row>&ndash;&gt;-->
+
+            <!--</rows>-->
+
+        <!--</grid>-->
+    </window>
+</zk>

@@ -151,11 +151,9 @@ public class EmprestimoController
     {
         parameters = new HashMap<String, Object>(3);
         query = new StringBuilder();
-
         parameters.put("user_id", emprestimoPK.getUtente().getId());
         parameters.put("cota", emprestimoPK.getObra().getCota());
         parameters.put("dataentrada", emprestimoPK.getDataentradapedido());
-
 
         query.append("SELECT e FROM Emprestimo e WHERE e.emprestimoPK.utente.id = :user_id and ");
         query.append("e.emprestimoPK.obra.cota = :cota and e.emprestimoPK.dataentradapedido = :dataentrada");

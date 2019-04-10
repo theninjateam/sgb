@@ -26,10 +26,11 @@
 
                     <span sclass="input-group-addon">   to: </span>
                     <datebox id="dataFim" cols="12" format="medium" onCreate="self.value = new Date()" />
+                    <button id="save" label="Exportar" style="margin-left:60px"/>
                 </div>
             </toolbar>
 
-            <tabbox>
+            <tabbox id="obrasTabBox">
                 <tabs>
                     <tab label="Obras Quantidade"></tab>
                     <tab label="Obras Registadas"></tab>

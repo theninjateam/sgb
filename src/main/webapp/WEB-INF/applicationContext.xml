@@ -49,7 +49,9 @@
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
 
-
+    <bean id="userController"  class="sgb.controller.domainController.UserController" >
+        <constructor-arg index="0" ref="CRUDService"/>
+    </bean>
 
     <bean id="CRUDService" class="sgb.service.CRUDServiceImpl" />
 
@@ -67,6 +69,9 @@
         <constructor-arg index="0" ref="CRUDService"/>
     </bean>
 
+    <bean id="gerarRelatorio" class="sgb.report.GerarRelatorio">
+        <constructor-arg index="0" ref="CRUDService"/>
+    </bean>
 
     <bean id="deadline"  class="sgb.deadline.Deadline"/>
 
