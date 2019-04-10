@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk >
+    <style src="css/tipografia.css"/>
+    <style src="css/w3pro.css"/>
+    <style src="css/w3.css"/>
+
+    <window id="listObra" apply="org.zkoss.bind.BindComposer, sgb.controller.viewsController.ListPedidoExemplarController"
+            border="none" hflex="1" vflex="1" contentStyle="overflow:auto">
+
+
+    <vlayout id="listObras">
+        <!--MOBILE-->
+        <!--<grid id="gridListEmprestimoMobile"  sclass="w3-hide-large" visible="true" style="border-style: none;" model="@bind($composer.emprestimos)">-->
+            <!--<template name="model" var="emprestimo">-->
+                <!--<row  style="border-style: none; background-color: white;">-->
+                    <div sclass="w3-row w3-hide-large" style="white-space: normal;  line-height: 1.25;  none;">
+                        <div sclass="w3-col w3-white w3-center w3-padding-16">
+                            <image src="@bind(emprestimo.emprestimoPK.obra.pathcapa)" sclass="w3-card-4"
+                                   style="width: 100%; height:146px; width:102px;"/>
+                        </div>
+
+                        <div  sclass="w3-col w3-white w3-center w3-padding-8">
+                            <label sclass="w3-large" value="@bind(emprestimo.emprestimoPK.obra.titulo)"/>
+                        </div>
+
+                        <div  sclass="w3-col w3-white w3-center">
+                            <div sclass="w3-left">
+                                <label sclass="w3-medium" value="Por:"/>
+                                <label sclass="w3-medium " forEach="${emprestimo.emprestimoPK.obra.autores}"  value="${each.nome}. "/>
+                                <separator/>
+                                <separator/>
+                                <label sclass=" w3-text-black w3-medium" value="Data Aprovacao :"/>
+                                <label sclass="w3-medium" value="${$composer.dataConvert(emprestimo.dataaprovacao)}"/>
+                                <separator/>
+                                <label sclass="w3-medium" value="Data Limite :"/>
+                                <label sclass="w3-medium" value="${$composer.dataConvert(emprestimo.datadevolucao)}"/>
+                                <separator/>
+                                <label sclass="w3-medium" value="Estado :"/>
+                                <label  if="${$composer.Expired(emprestimo)}" sclass="w3-medium w3-red" value="Expired"/>
+                                <label  if="${!$composer.Expired(emprestimo)}" sclass="w3-medium w3-green" value="Update"/>
+                            </div>
+                        </div>
+
+                        <button if="${!$composer.isNormalUser ()}"
+                                label="Devolver" forward="onClick=gridListEmprestimoMobile.onDevolver(${emprestimo.emprestimoPK.obra.cota})"
+                                mold="os" sclass="w3-bar-item w3-btn w3-light-gray w3-col"/>
+
+                        <button  label="Outras operações" forward="onClick=gridListEmprestimoMobile.onShowOperacoes"
+                                 mold="os" sclass="w3-bar-item w3-btn w3-light-gray w3-col"/>
+
+                        <div sclass="w3-row" visible="false">
+                            <button  sclass="w3-bar-item w3-btn w3-light-gray w3-col"
+                                     label="Detalhe" forward="onClick=gridListEmprestimoMobile.onDetalheEmprestimo"
+                                    mold="os"/>
+                            <button if="${!$composer.isNormalUser ()}"   sclass="w3-btn w3-light-gray w3-col w3-bar-item "
+                                     label="Renovar" forward="onClick=gridListEmprestimoMobile.onRenovarEmprestimo"
+                                    mold="os" />
+                        </div>
+                    </div>
+                <!--</row>-->
+            <!--</template>-->
+        <!--</grid>-->
+
+        <!-- FOR DESKTOP-->
+        <grid id="gridListEmprestimoDesktop" sclass="w3-hide-small w3-hide-medium" visible="true"
+              style="border-style: none;" >
+            <columns>
+            <column style="background-color: white;  border-style: none;  " width="100%" >
+
+            <listbox  id="EmprestimoListBox" emptyMessage="Nenhuma Obra Encontrada">
+                <template name="model" var="emprestimo">
+            <listitem  style="background-color: white; border-style:">
+            <listcell  style="background-color: white; border-style: none;
+                                                    border-bottom: 0.1em double rgb(0, 0, 0, 0.4);">
+                <div sclass="w3-container w3-hide-small w3-hide-medium w3-padding-16 w3-white"  style="white-space: normal; line-height: 1.25;">
+
+                    <div sclass="w3-container w3-center w3-white w3-left "  style="width: 20%; position: relative;">
+                        <image src="${each.emprestimoPK.obra.pathcapa}" sclass="w3-card-4 "
+                               style="width: 100%; height:146px; width:102px;"/>
+                        <separator/>
+                        <label value="${each.emprestimoPK.obra.titulo}"/>
+                        <separator/>
+                        <label value="Por:"/>
+                        <label forEach="${emprestimo.emprestimoPK.obra.autores}"  value="${each.nome}. "/>
+                    </div>
+
+                    <div sclass="w3-container w3-rest w3-display-container w3-white w3-right"
+                         style="width: 80%; position: relative;">
+
+                        <div sclass="w3-left" style="display: grid;">
+                            <div sclass="w3-left">
+                                <label sclass="w3-medium" value="Detalhes do Emprestimo"/>
+                                <separator/>
+                                <label sclass="w3-text-black w3-medium" value="Utente:"/>
+                                <label sclass="w3-medium" value="${emprestimo.emprestimoPK.utente.name} ${emprestimo.emprestimoPK.utente.lastName}"/>
+                                <label sclass="w3-medium" forEach="${emprestimo.emprestimoPK.utente.roles}"  value="(${each.role} ,)"/>
+                                <separator/>
+                                <label sclass=" w3-text-black w3-medium" value="Data Aprovacao :"/>
+                                <!--<label sclass="w3-medium" value="${$composer.dataConvert(emprestimo.dataaprovacao)}"/>-->
+                                <separator/>
+                                <label sclass="w3-medium" value="Data Limite :"/>
+                                <!--<label sclass="w3-medium" value="${$composer.dataConvert(emprestimo.datadevolucao)}"/>-->
+                                <separator/>
+                                <label sclass="w3-medium" value="Estado :"/>
+                                <label  if="${$composer.Expired(emprestimo)}" sclass="w3-medium w3-red" value="Expired"/>
+                                <label  if="${!$composer.Expired(emprestimo)}" sclass="w3-medium w3-green" value="Update"/>
+                            </div>
+
+                            <div sclass="w3-padding-16">
+                                <!--<button label="Notificar Utente" forward="onClick=emprestimoListBox.onNotificarUtente"-->
+                                <!--mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold"/>-->
+                                <button if="${!$composer.isNormalUser ()}" label="Devolver" forward="onClick=gridListEmprestimoDesktop.onDevolver(${emprestimo})"
+                                        mold="os" sclass="w3-btn w3-light-gray"/>
+                                <button label="Detalhe" forward="onClick=gridListEmprestimoDesktop.onDetalheEmprestimo(${emprestimo})"
+                                        mold="os" sclass="w3-btn w3-light-gray"/>
+                                <button if="${!$composer.isNormalUser ()}" label="Renovar" forward="onClick=gridListEmprestimoDesktop.onRenovarEmprestimo(${emprestimo})"
+                                        mold="os" sclass="w3-btn w3-light-gray"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </listcell>
+            </listitem>
+            </template>
+            </listbox>
+            </column>
+            </columns>
+            <!--<template name="model" var="emprestimo">-->
+                <!--<row>-->
+                    <!--<div sclass="w3-container w3-hide-small w3-hide-medium w3-padding-16 w3-white"  style="white-space: normal; line-height: 1.25;">-->
+
+                        <!--<div sclass="w3-container w3-center w3-white w3-left "  style="width: 20%; position: relative;">-->
+                            <!--<image src="@bind(emprestimo.emprestimoPK.obra.pathcapa)" sclass="w3-card-4 "-->
+                                   <!--style="width: 100%; height:146px; width:102px;"/>-->
+                            <!--<separator/>-->
+                            <!--<label value="@bind(emprestimo.emprestimoPK.obra.titulo)"/>-->
+                            <!--<separator/>-->
+                            <!--<label value="Por:"/>-->
+                            <!--<label forEach="${emprestimo.emprestimoPK.obra.autores}"  value="${each.nome}. "/>-->
+                        <!--</div>-->
+
+                        <!--<div sclass="w3-container w3-rest w3-display-container w3-white w3-right"-->
+                             <!--style="width: 80%; position: relative;">-->
+
+                            <!--<div sclass="w3-left" style="display: grid;">-->
+                                <!--<div sclass="w3-left">-->
+                                    <!--<label sclass="w3-medium" value="Detalhes do Emprestimo"/>-->
+                                    <!--<separator/>-->
+                                    <!--<label sclass="w3-text-black w3-medium" value="Utente:"/>-->
+                                    <!--<label sclass="w3-medium" value="${emprestimo.emprestimoPK.utente.name} ${emprestimo.emprestimoPK.utente.lastName}"/>-->
+                                    <!--<label sclass="w3-medium" forEach="${emprestimo.emprestimoPK.utente.roles}"  value="(${each.role} ,)"/>-->
+                                    <!--<separator/>-->
+                                    <!--<label sclass=" w3-text-black w3-medium" value="Data Aprovacao :"/>-->
+                                    <!--<label sclass="w3-medium" value="${$composer.dataConvert(emprestimo.dataaprovacao)}"/>-->
+                                    <!--<separator/>-->
+                                    <!--<label sclass="w3-medium" value="Data Limite :"/>-->
+                                    <!--<label sclass="w3-medium" value="${$composer.dataConvert(emprestimo.datadevolucao)}"/>-->
+                                    <!--<separator/>-->
+                                    <!--<label sclass="w3-medium" value="Estado :"/>-->
+                                    <!--<label  if="${$composer.Expired(emprestimo)}" sclass="w3-medium w3-red" value="Expired"/>-->
+                                    <!--<label  if="${!$composer.Expired(emprestimo)}" sclass="w3-medium w3-green" value="Update"/>-->
+                                <!--</div>-->
+
+                                <!--<div sclass="w3-padding-16">-->
+                                        <!--&lt;!&ndash;<button label="Notificar Utente" forward="onClick=emprestimoListBox.onNotificarUtente"&ndash;&gt;-->
+                                        <!--&lt;!&ndash;mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold"/>&ndash;&gt;-->
+                                        <!--<button if="${!$composer.isNormalUser ()}" label="Devolver" forward="onClick=gridListEmprestimoDesktop.onDevolver(${emprestimo})"-->
+                                                <!--mold="os" sclass="w3-btn w3-light-gray"/>-->
+                                        <!--<button label="Detalhe" forward="onClick=gridListEmprestimoDesktop.onDetalheEmprestimo(${emprestimo})"-->
+                                                <!--mold="os" sclass="w3-btn w3-light-gray"/>-->
+                                        <!--<button if="${!$composer.isNormalUser ()}" label="Renovar" forward="onClick=gridListEmprestimoDesktop.onRenovarEmprestimo(${emprestimo})"-->
+                                                <!--mold="os" sclass="w3-btn w3-light-gray"/>-->
+                                    <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</row>-->
+            <!--</template>-->
+        </grid>
+    </vlayout>
+
+    </window>
+</zk>

@@ -64,8 +64,8 @@ public class MultaModalController extends SelectorComposer<Component> {
 
 
 
-    private EstadoMultaControler eMController;
-    private EstadoDevolucaoControler eDController;
+    private EstadoMultaControler eMController = (EstadoMultaControler) SpringUtil.getBean("estadoMultaControler");
+    private EstadoDevolucaoControler eDController = (EstadoDevolucaoControler) SpringUtil.getBean("estadoDevolucaoControler");
     private Boolean isForDetails =false;
 
     private ConfigControler configControler = (ConfigControler) SpringUtil.getBean("configControler");
@@ -159,11 +159,16 @@ public class MultaModalController extends SelectorComposer<Component> {
 
         Set<Role> userrole =user.getRoles();
 
+        if(isForDetails){
+            return a;
+        } else {
+
         for(Role role : userrole) {
             if(role.getRole().equals("ADMIN"))
                 a = false;
         }
         return a;
+        }
     }
 
 
@@ -236,6 +241,10 @@ public class MultaModalController extends SelectorComposer<Component> {
         } else {
 
             if (ObraReturned(emprestimo.getEmprestimoPK())){
+                fine.revoke(multa.getMultaPK());
+
+                exit();
+                Clients.showNotification("Multa Revogada", null, null, null, 5000);
 
             }else{
                 EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, eDController.RETURNED);

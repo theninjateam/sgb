@@ -23,6 +23,8 @@ import sgb.domain.*;
 import sgb.request.Request;
 import sgb.service.CRUDService;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import java.util.Calendar;
@@ -96,9 +98,8 @@ public class ListPedido extends SelectorComposer<Component> {
     public void doEliminar(ForwardEvent event)
     {
         if (isNormalUser) {
-            Button btn = (Button) event.getOrigin().getTarget();
-            Listitem litem = (Listitem) btn.getParent().getParent().getParent();
-            Emprestimo emp = (Emprestimo) litem.getValue();
+            Emprestimo emp = (Emprestimo) event.getData();
+
             Messagebox.show("Tem certeza que deseja eliminar esse pedido ?", "delete pedido",
                     Messagebox.YES + Messagebox.NO, Messagebox.QUESTION,
                     new EventListener<Event>() {
@@ -123,10 +124,9 @@ public class ListPedido extends SelectorComposer<Component> {
         if(isNormalUser) {
             Clients.showNotification("Precisa ser Bibliotecario para executar essa acao ", null, null, null, 5000);
         } else {
-            Button btn = (Button) event.getOrigin().getTarget();
-            Listitem litem = (Listitem) btn.getParent().getParent().getParent();
-            Emprestimo emp = (Emprestimo) litem.getValue();
-            EstadoPedido estadoPedido = crudService.get(EstadoPedido.class, 2);
+            Emprestimo emp = (Emprestimo) event.getData();
+
+            EstadoPedido estadoPedido = crudService.get(EstadoPedido.class,ePController.REJECTED);
             emp.setEstadoPedido(estadoPedido);
             emp.setDataaprovacao(Calendar.getInstance());
             pedidoListModel.remove(emp);
@@ -141,9 +141,8 @@ public class ListPedido extends SelectorComposer<Component> {
         if(isNormalUser) {
             Clients.showNotification("Precisa ser Bibliotecario para executar essa acao ", null, null, null, 5000);
         } else {
-            Button btn = (Button) event.getOrigin().getTarget();
-            Listitem litem = (Listitem) btn.getParent().getParent().getParent();
-            Emprestimo emp = (Emprestimo) litem.getValue();
+            Emprestimo emp = (Emprestimo) event.getData();
+
             EstadoPedido estadoPedido = crudService.get(EstadoPedido.class,ePController.ACCEPTED);
             EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class,eDController.NOT_RETURNED);
             emp.setEstadoPedido(estadoPedido);
@@ -165,4 +164,57 @@ public class ListPedido extends SelectorComposer<Component> {
             Clients.showNotification("Pedido aprovado com sucesso ", null, null, null, 5000);
         }
     }
+
+
+    @Listen("onShowOperacoes = #pedidoListBox")
+    public void doShowOperacoes(ForwardEvent event)
+    {
+        Button btn = (Button)event.getOrigin().getTarget();
+        Div div = (Div) btn.getNextSibling();
+
+        if (div.isVisible())
+        {
+            btn.setLabel("Outras operações");
+            div.setVisible(false);
+        }
+        else
+        {
+            btn.setLabel("Ocultar operações");
+            div.setVisible(true);
+        }
+    }
+
+
+
+    public String dataConvert (Calendar dataa) {
+
+        SimpleDateFormat timeFormatter = new SimpleDateFormat("'('HH:mm:s')'");
+        DateFormat dateFormatter = new SimpleDateFormat();
+        Locale MOZAMBIQUE = new Locale("pt","MZ");
+        StringBuilder builder = new StringBuilder();
+
+
+        dateFormatter = DateFormat.getDateInstance(DateFormat.LONG, MOZAMBIQUE);
+
+        builder.append(dateFormatter.format(dataa.getTime()));
+        builder.append("\n");
+        builder.append(timeFormatter.format(dataa.getTime()));
+
+        String dataEntrada = builder.toString();
+
+        return dataEntrada;
+    }
+
+    public Boolean Reserved(Emprestimo emp) {
+        Boolean aBoolean = false;
+
+
+        if(emp.getEstadoPedido().getIdestadopedido() == ePController.PENDING_BOOKING){
+            aBoolean = true;
+        }
+
+        return aBoolean;
+    }
+
+
 }

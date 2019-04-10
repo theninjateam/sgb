@@ -2,10 +2,11 @@ package sgb.controller.viewsController;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.zkoss.zats.mimic.Client;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
-import org.zkoss.zk.ui.event.Event;
-import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.Session;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.ForwardEvent;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
@@ -13,7 +14,6 @@ import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.*;
-//import sgb.controller.domainController.EmprestimoControllerSingleton;
 import sgb.controller.domainController.*;
 import sgb.deadline.BorrowedBooksDeadline;
 import sgb.deadline.Deadline;
@@ -21,93 +21,101 @@ import sgb.domain.*;
 import sgb.fine.Fine;
 import sgb.request.Request;
 import sgb.service.CRUDService;
-import org.zkoss.zk.ui.Session;
-import org.zkoss.zk.ui.Sessions;
 
-import javax.swing.plaf.PanelUI;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.Duration;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
-public class ListEmprestimo extends SelectorComposer<Component> {
+/**
+ * @author Fonseca, Emerson
+ */
 
+public class ListPedidoExemplarController extends SelectorComposer<Component>
+{
     private CRUDService crudService = (CRUDService) SpringUtil.getBean("CRUDService");
-    private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;
-    private ListModelList<Emprestimo> emprestimoListModel;
-    private Session session;
-    private Multa multa;
     private Request request = (Request) SpringUtil.getBean("request");
+
     private EstadoPedidoControler ePController = (EstadoPedidoControler) SpringUtil.getBean("estadoPedidoControler");
+
+    private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;
     private EmprestimoController eController = (EmprestimoController) SpringUtil.getBean("emprestimoController");
     private EstadoDevolucaoControler eDController = (EstadoDevolucaoControler) SpringUtil.getBean("estadoDevolucaoControler");
-    private ConfigControler configControler =(ConfigControler) SpringUtil.getBean("configControler");
     private EstadoMultaControler eMController = (EstadoMultaControler) SpringUtil.getBean("estadoMultaControler");
-    private Fine fine = (Fine) SpringUtil.getBean("fine");
-    private Deadline deadline = (Deadline) SpringUtil.getBean("deadline");
     private MultaController mController = (MultaController) SpringUtil.getBean("multaController");
+    private Deadline deadline = (Deadline) SpringUtil.getBean("deadline");
     private BorrowedBooksDeadline bBDeadline = (BorrowedBooksDeadline) SpringUtil.getBean("borrowedBooksDeadline");
+    private Session session;
+    private EmprestimoPK emprestimoPK;
+    private Emprestimo emprestimo;
+    private EstadoPedido estadoPedido;
+    private EstadoDevolucao estadoDevolucao;
+    private EstadoRenovacao estadoRenovacao;
+    private ListModelList<Emprestimo> emprestimos;
 
+
+    private Multa multa;
+    private ConfigControler configControler =(ConfigControler) SpringUtil.getBean("configControler");
+    private Fine fine = (Fine) SpringUtil.getBean("fine");
 
     private Boolean isNormalUser = true;
-    private EstadoRenovacao estadoRenovacao;
 
 
     @Wire
-    private Listbox emprestimoListBox;
+    private Window listObra;
 
     @Wire
-    private Listbox estadopedidoListBox;
+    private Vlayout listObras;
+
+    @Wire
+    private Listbox EmprestimoListBox;
 
     @Override
     public void doAfterCompose(Component comp) throws Exception
     {
         super.doAfterCompose(comp);
         session = Sessions.getCurrent();
+        boolean c = isNormalUser();
 
         isNormalUser = isNormalUser();
 
-        if (isNormalUser) {
-            ComposeUserNormal();
+        emprestimos = (ListModelList<Emprestimo>) getEmprestimos();
+        EmprestimoListBox.setModel(emprestimos);
+    }
+
+    public boolean isNormalUser () {
+        Boolean a = true;
+
+        Set<Role> userrole =user.getRoles();
+
+        for(Role role : userrole) {
+            if(role.getRole().equals("ADMIN"))
+                a = false;
         }
-        else {
-            ComposeUserAdmin();
-        }
-
-    }
-
-    public void ComposeUserAdmin(){
-        emprestimoListModel = new ListModelList<Emprestimo>(eController.getRequest(ePController.ACCEPTED,eDController.NOT_RETURNED));
-        emprestimoListBox.setModel(emprestimoListModel);
-    }
-
-    public void ComposeUserNormal() {
-        emprestimoListModel = new ListModelList<Emprestimo>(eController.getRequest(this.user, ePController.ACCEPTED,eDController.NOT_RETURNED));
-        emprestimoListBox.setModel(emprestimoListModel);
+        return a;
     }
 
 
-    @Listen("onNotificarUtente = #emprestimoListBox")
-    public void doNotificarUtente(ForwardEvent event)
-    {
-        Button btn = (Button) event.getOrigin().getTarget();
-        Listitem litem = (Listitem) btn.getParent().getParent().getParent();
-        Emprestimo emp = (Emprestimo) litem.getValue();
+    public ListModelList<Emprestimo> getEmprestimos() {
+        List<Emprestimo> listemprestimo;
+        if(isNormalUser()) {
+           listemprestimo = eController.getRequest(this.user,ePController.ACCEPTED, eDController.NOT_RETURNED);
 
-        session.setAttribute("EmprestimoMultado", emp);
-        Boolean isForDetails = true;
-        session.setAttribute("ForDetais", isForDetails);
-        Window window =(Window) Executions.createComponents("/views/multamodal.zul", null, null);
-        window.setClosable(true);
-        window.doModal();
-
+           return new ListModelList<Emprestimo>(listemprestimo);
+       }else {
+           listemprestimo = eController.getRequest(ePController.ACCEPTED, eDController.NOT_RETURNED);
+//            emprestimos = (ListModelList<Emprestimo>) listemprestimo;
+//            EmprestimoListBox.setModel(emprestimos);
+           return new ListModelList<Emprestimo>(listemprestimo);
+       }
     }
-    @Listen("onDevolver = #emprestimoListBox")
+
+    @Listen("onDevolver = #gridListEmprestimoMobile, #gridListEmprestimoDesktop")
     public void doDevolver(ForwardEvent event)
     {
+
         if(isNormalUser) {
             Clients.showNotification("Precisa ser Bibliotecario para executar essa acao ", null, null, null, 5000);
         } else {
@@ -130,18 +138,17 @@ public class ListEmprestimo extends SelectorComposer<Component> {
                 EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, eDController.RETURNED);
                 emp.setEstadoDevolucao(estadoDevolucao);
                 emp.setComentario("");
+//                emprestimos.remove(emp);
 
-                emprestimoListModel.remove(emp);
                 crudService.update(emp);
 
                 Clients.showNotification("Obra devolvida a tempo", null, null, null, 5000);
 
             }
-    }
+        }
 
     }
-
-    @Listen("onDetalheEmprestimo = #emprestimoListBox")
+    @Listen("onDetalheEmprestimo = #gridListEmprestimoMobile, #gridListEmprestimoDesktop")
     public void doDetalhes(ForwardEvent event)
     {
         Emprestimo emp = (Emprestimo) event.getData();
@@ -154,20 +161,18 @@ public class ListEmprestimo extends SelectorComposer<Component> {
         window.doModal();
 
     }
-
-    @Listen("onRenovarEmprestimo = #emprestimoListBox")
+    @Listen("onRenovarEmprestimo = #gridListEmprestimoMobile, #gridListEmprestimoDesktop")
     public void doRenovar(ForwardEvent event)
     {
         if(isNormalUser) {
             /*
-            * Metodo a ser descutido
-            * Ideia 1 : O usuario submete o pedido de renovacao e o sistema aprova;
-            * Ideia 2 : O usuario vai ter com o bibliotecario e esse acede o pedido e renova;
-            * Necessidade de um Metodo que verifica se existe alguem a espera daquele livro para desabilitar o
-            * Botao
-            */
+             * Metodo a ser descutido
+             * Ideia 1 : O usuario submete o pedido de renovacao e o sistema aprova;
+             * Ideia 2 : O usuario vai ter com o bibliotecario e esse acede o pedido e renova;
+             * Necessidade de um Metodo que verifica se existe alguem a espera daquele livro para desabilitar o
+             * Botao
+             */
             Emprestimo emp = (Emprestimo) event.getData();
-
             estadoRenovacao = crudService.get(EstadoRenovacao.class, 2);
             emp.setEstadoRenovacao(estadoRenovacao);
             crudService.update(emp);
@@ -177,20 +182,12 @@ public class ListEmprestimo extends SelectorComposer<Component> {
         }
 
     }
-    public boolean isNormalUser () {
-        Boolean a = true;
-
-        Set<Role> userrole =user.getRoles();
-
-        for(Role role : userrole) {
-            if(role.getRole().equals("ADMIN"))
-                a = false;
-        }
-        return a;
-    }
 
 
-    @Listen("onShowOperacoes = #emprestimoListBox")
+
+
+
+    @Listen("onShowOperacoes = #gridListEmprestimoMobile")
     public void doShowOperacoes(ForwardEvent event)
     {
         Button btn = (Button)event.getOrigin().getTarget();
@@ -212,11 +209,11 @@ public class ListEmprestimo extends SelectorComposer<Component> {
         Boolean aBoolean = false;
 
         Calendar DataLimite = bBDeadline.getDeadline(emp);
-        if(deadline.exceededDeadline(DataLimite,Calendar.getInstance())){
-            aBoolean = true;
-        }
+       if(deadline.exceededDeadline(DataLimite,Calendar.getInstance())){
+           aBoolean = true;
+       }
 
-        return aBoolean;
+       return aBoolean;
     }
 
 
@@ -238,7 +235,6 @@ public class ListEmprestimo extends SelectorComposer<Component> {
 
         return dataEntrada;
     }
-
 
 
 }

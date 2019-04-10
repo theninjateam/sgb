@@ -86,6 +86,13 @@
 			<version>0.9.5.2</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.zkoss.chart/zkcharts -->
+		<!--<dependency>-->
+			<!--<groupId>org.zkoss.chart</groupId>-->
+			<!--<artifactId>zkcharts</artifactId>-->
+			<!--<version>${project.version}</version>-->
+		<!--</dependency>-->
+
 		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
