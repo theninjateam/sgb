@@ -140,7 +140,7 @@
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Forma Aquisicao]]></text>
+				<text><![CDATA[Forma Aquisição]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="280" y="30" width="70" height="30" uuid="fd6bbafa-c76a-4e23-b2c3-28edd7472f95">

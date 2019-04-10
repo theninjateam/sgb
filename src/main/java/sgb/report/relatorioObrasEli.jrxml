@@ -60,7 +60,7 @@
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Data Operacao]]></text>
+				<text><![CDATA[Data Operação]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="110" y="30" width="90" height="30" uuid="c281a341-6bbd-4023-a6fd-0b9558fa23ee">
@@ -75,7 +75,7 @@
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Bibliotecario]]></text>
+				<text><![CDATA[Bibliotecário]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="200" y="30" width="60" height="30" uuid="9d02bca6-5d09-487d-a18f-38bf7097f3bd">
