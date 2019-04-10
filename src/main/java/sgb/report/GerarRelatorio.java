@@ -31,12 +31,13 @@ public class GerarRelatorio {
                           ListModelList<RegistroObra> obrasregistadasListModel,
                           ListModelList<ObraEliminadas> obraEliminadasListModel, int selected, String value) throws JRException, IOException {
 
-        String path = null;
+        String path = null, pathLogo = "src/main/webapp/img/logoPNG.png";
+        Map parametros = new HashMap();
         JasperPrint jasperPrint = null;
         JasperReport jasperReport = null;
+
         switch (selected) {
             case 0:{
-                Map parametros = new HashMap();
                 List<ObraCategoria> lista = new ArrayList<>();
 
                 path = "src/main/java/sgb/report/relatorio.jrxml";
@@ -49,6 +50,7 @@ public class GerarRelatorio {
                     lista.add(o);
                 }
 
+                parametros.put("pathLogo", pathLogo);
                 parametros.put("pathSubreport", subreportPath);
                 parametros.put("totalObras", value);
 
@@ -63,8 +65,10 @@ public class GerarRelatorio {
                     lista1.add(r);
                 }
 
+                parametros.put("pathLogo", pathLogo);
+
                 jasperReport = JasperCompileManager.compileReport(path);
-                jasperPrint = JasperFillManager.fillReport(jasperReport, null, new JRBeanCollectionDataSource(lista1));
+                jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, new JRBeanCollectionDataSource(lista1));
                 break;}
             case 2:{
                 List<ObraEliminadas> lista2 = new ArrayList<>();
@@ -74,8 +78,10 @@ public class GerarRelatorio {
                     lista2.add(oe);
                 }
 
+                parametros.put("pathLogo", pathLogo);
+
                 jasperReport = JasperCompileManager.compileReport(path);
-                jasperPrint = JasperFillManager.fillReport(jasperReport, null, new JRBeanCollectionDataSource(lista2));
+                jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, new JRBeanCollectionDataSource(lista2));
                 break;}
         }
 

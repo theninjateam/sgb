@@ -29,6 +29,7 @@
 			<rightPen lineWidth="0.5" lineColor="#000000"/>
 		</box>
 	</style>
+	<parameter name="pathLogo" class="java.lang.String"/>
 	<queryString language="SQL">
 		<![CDATA[]]>
 	</queryString>
@@ -60,7 +61,7 @@
 			</staticText>
 			<image hAlign="Center">
 				<reportElement x="230" y="10" width="80" height="70" uuid="e184bdfa-125b-4a0e-b63a-e297da727ed9"/>
-				<imageExpression><![CDATA["/home/aderito/Desktop/LES_SGB/sgb/src/main/webapp/img/logoPNG.png"]]></imageExpression>
+				<imageExpression><![CDATA[$P{pathLogo}]]></imageExpression>
 			</image>
 		</band>
 	</title>
