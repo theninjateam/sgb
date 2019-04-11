@@ -1,0 +1,9 @@
+<zk>
+
+    <window border="normal" title="Himanshu" apply="sgb.controller.viewsController.PdfController">
+
+        <iframe src="digitalLibrary/pdf/isbd-cons_2007-en.pdf"  height="800px" width="800px" autohide="true"></iframe>
+
+    </window>
+
+</zk>

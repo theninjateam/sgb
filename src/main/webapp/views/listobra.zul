@@ -58,19 +58,19 @@
                                 label="Adicionar na cesta" onClick="@command('add', obra=obra)"
                                 mold="os" sclass="w3-bar-item w3-btn w3-light-gray w3-col"/>
 
-                        <button  label="Outras operações" forward="onClick=gridListObra.onShowOperacoes"
+                        <button  label="Outras operações" forward="onClick=listObras.onShowOperacoes"
                                  mold="os" sclass="w3-bar-item w3-btn w3-light-gray w3-col"/>
 
                         <div sclass="w3-row" visible="false">
                             <button if="${!$composer.isNormalUser ()}" sclass="w3-bar-item w3-btn w3-light-gray w3-col"
-                                    label="Eliminar" forward="onClick=gridListObra.onEliminarObra(${obra.cota})"
+                                    label="Eliminar" forward="onClick=listObras.onEliminarObra(${obra.cota})"
                                     mold="os"/>
                             <button if="${!$composer.isNormalUser ()}" sclass="w3-btn w3-light-gray w3-col w3-bar-item "
-                                    label="Adicionar exemplares" forward="onClick=gridListObra.onAdicionarExemplares(${obra.cota})"
+                                    label="Adicionar exemplares" forward="onClick=listObras.onAdicionarExemplares(${obra.cota})"
                                     mold="os" />
 
                             <button sclass="w3-bar-item w3-btn w3-light-gray w3-col"
-                                    label="Detalhe" forward="onClick=gridListObra.onDetalheObra(${obra.cota})"
+                                    label="Detalhe" forward="onClick=listObras.onDetalheObra(${obra.cota})"
                                     mold="os" />
                         </div>
                     </div>
@@ -107,14 +107,14 @@
                                             mold="os" sclass="w3-btn w3-light-gray"/>
 
                                     <button if="${!$composer.isNormalUser ()}" sclass="w3-btn w3-light-gray"
-                                            label="Eliminar" forward="onClick=gridListObra.onEliminarObra(${obra.cota})"
+                                            label="Eliminar" forward="onClick=listObras.onEliminarObra(${obra.cota})"
                                             mold="os"/>
                                     <button if="${!$composer.isNormalUser ()}" sclass="w3-btn w3-light-gray"
-                                            label="Adicionar exemplares" forward="onClick=gridListObra.onAdicionarExemplares(${obra.cota})"
+                                            label="Adicionar exemplares" forward="onClick=listObras.onAdicionarExemplares(${obra.cota})"
                                             mold="os" />
 
                                     <button sclass=" w3-btn w3-light-gray"
-                                            label="Detalhe" forward="onClick=gridListObra.onDetalheObra(${obra.cota})"
+                                            label="Detalhe" forward="onClick=listObras.onDetalheObra(${obra.cota})"
                                             mold="os" />
                                 </div>
 
@@ -303,191 +303,190 @@
             </div>
         </vlayout>
 
-        <grid id="griddetalhe" visible="false" style="border-style: none;">
-            <columns>
-                <column>
-                    <listbox visible="true" style="border-style: none;" hflex="1" id="obraShow" emptyMessage="Nenhuma Obra Encontrada">
-                        <listhead style="border-style: none;">
-                            <listheader  hflex="1" style="background-color: lightgray; border-style: none; text-align: center;" height="100%" label="Detalhes"/>
-                        </listhead>
-                        <template name="model">
-                            <listitem  style="background-color: white; border-style: none;">
-                                <listcell  style="background-color: white; border-style: none;
-                                                    border-bottom: 0.1em double rgb(0, 0, 0, 0.4);">
-                                    <!--For Mobile-->
-                                    <div sclass="w3-row w3-hide-large" style="white-space: normal;">
-                                        <div sclass="w3-col w3-white w3-center w3-padding-16">
-                                            <image src="${each.pathcapa}" sclass="w3-card-4"
-                                                   style="width: 100%; height:160px; width:129px;"/>
-                                        </div>
+        <vlayout id="detalhe" visible="false">
 
-                                        <div  sclass="w3-col w3-white w3-center">
-                                            <label sclass="w3-large" value="${each.titulo}"/>
-                                        </div>
+            <!--FOR MOBILE-->
+            <grid sclass="w3-hide-large" visible="true"
+                  style="border-style: none;" model="@bind($composer.detalheObra)">
+                <template name="model" var="obra">
+                    <row>
+                        <div sclass="w3-row w3-hide-large w3-white" style="white-space: normal;">
+                            <div sclass="w3-col w3-white w3-center w3-padding-16">
+                                <image src="@bind(obra.pathcapa)" sclass="w3-card-4"
+                                       style="width: 100%; height:160px; width:129px;"/>
+                            </div>
 
-                                        <div  sclass="w3-col w3-white w3-center">
-                                            <label sclass="w3-tiny" value="Por:"/>
-                                            <label sclass="w3-tiny" forEach="${each.autores}"  value="${each.nome}. "
-                                                   style="white-space: normal;"/>
-                                        </div>
+                            <div  sclass="w3-col w3-white w3-center">
+                                <label sclass="w3-large" value="@bind(obra.titulo)"/>
+                            </div>
 
+                            <div  sclass="w3-col w3-white w3-center">
+                                <label sclass="w3-tiny" value="Por:"/>
+                                <label sclass="w3-tiny" forEach="${obra.autores}"  value="${each.nome}. "
+                                       style="white-space: normal;"/>
+                            </div>
 
-                                        <button  label="Adicionar na cesta" forward="onClick=gridListObra.onAdicionarNaCesta"
-                                                 mold="os" sclass="w3-bar-item w3-btn w3-light-gray w3-col"/>
+                            <button visible="@bind(buscket.canAddToBuscket)"
+                                    label="Adicionar na cesta" onClick="@command('add', obra=obra)"
+                                    mold="os" sclass="w3-bar-item w3-col w3-btn w3-light-gray"/>
 
-                                        <button  label="Outras operações" forward="onClick=gridListObra.onShowOperacoes"
-                                                 mold="os" sclass="w3-bar-item w3-btn w3-light-gray w3-col"/>
+                            <button  label="Outras operações" forward="onClick=listObras.onShowOperacoes"
+                                     mold="os" sclass="w3-bar-item w3-btn w3-light-gray w3-col"/>
 
-                                        <div sclass="w3-row" visible="false">
-                                            <button if="${!$composer.isNormalUser ()}" sclass="w3-bar-item w3-btn w3-light-gray w3-col"
-                                                    label="Eliminar" forward="onClick=gridListObra.onEliminarObra"
-                                                    mold="os"/>
-                                            <button if="${!$composer.isNormalUser ()}" sclass="w3-bar-item w3-btn w3-light-gray w3-col "
-                                                    label="Adicionar exemplares" forward="onClick=gridListObra.onAdicionarExemplares"
-                                                    mold="os" />
-                                        </div>
+                            <div sclass="w3-row" visible="false">
+                                <button if="${!$composer.isNormalUser ()}" sclass="w3-bar-item w3-btn w3-light-gray w3-col"
+                                        label="Eliminar" forward="onClick=listObras.onEliminarObra(${obra.cota})"
+                                        mold="os"/>
+                                <button if="${!$composer.isNormalUser ()}" sclass="w3-btn w3-light-gray w3-col w3-bar-item "
+                                        label="Adicionar exemplares" forward="onClick=listObras.onAdicionarExemplares(${obra.cota})"
+                                        mold="os" />
+                            </div>
 
+                            <div sclass="w3-padding-16"></div>
+                            <div  sclass="w3-col w3-white w3-left">
+                                <label sclass="w3-tiny" value="Cota:"/>
+                                <label sclass="w3-tiny" value="@bind(obra.cota)"
+                                       style="white-space: normal; font-weight: bolder;"/>
+                            </div>
 
-                                        <div sclass="w3-padding-16"></div>
-                                        <div  sclass="w3-col w3-white w3-left">
-                                            <label sclass="w3-tiny" value="Cota:"/>
-                                            <label sclass="w3-tiny" value="${each.cota}."
-                                                   style="white-space: normal; font-weight: bolder;"/>
-                                        </div>
-
-                                        <div  sclass="w3-col w3-white w3-left">
-                                            <label sclass="w3-tiny" value="Registro:"/>
-                                            <label sclass="w3-tiny" value="${each.registro}."
-                                                   style="white-space: normal; font-weight: bolder;"/>
-                                        </div>
+                            <div  sclass="w3-col w3-white w3-left">
+                                <label sclass="w3-tiny" value="Registro:"/>
+                                <label sclass="w3-tiny" value="@bind(obra.registro)"
+                                       style="white-space: normal; font-weight: bolder;"/>
+                            </div>
 
 
-                                        <div  sclass="w3-col w3-white w3-left">
-                                            <label sclass="w3-tiny" value="Quantidade disponível:"/>
-                                            <label sclass="w3-tiny" value="${each.quantidade}."
-                                                   style="white-space: normal; font-weight: bolder;"/>
-                                        </div>
+                            <div  sclass="w3-col w3-white w3-left">
+                                <label sclass="w3-tiny" value="Quantidade disponível:"/>
+                                <label sclass="w3-tiny" value="@bind(obra.quantidade)"
+                                       style="white-space: normal; font-weight: bolder;"/>
+                            </div>
 
-                                        <div  sclass="w3-col w3-white w3-left">
-                                            <label sclass="w3-tiny" value="Área científica:"/>
-                                            <label sclass="w3-tiny" value="${each.areacientifica.descricao}."
-                                                   style="white-space: normal; font-weight: bolder;"/>
-                                        </div>
+                            <div  sclass="w3-col w3-white w3-left">
+                                <label sclass="w3-tiny" value="Área científica:"/>
+                                <label sclass="w3-tiny" value="@bind(obra.areacientifica.descricao)"
+                                       style="white-space: normal; font-weight: bolder;"/>
+                            </div>
 
-                                        <div  sclass="w3-col w3-white w3-left">
-                                            <label sclass="w3-tiny" value="Ano:"/>
-                                            <label sclass="w3-tiny" value="${each.anoPublicacao}."
-                                                   style="white-space: normal; font-weight: bolder;"/>
-                                        </div>
+                            <div  sclass="w3-col w3-white w3-left">
+                                <label sclass="w3-tiny" value="Ano:"/>
+                                <label sclass="w3-tiny" value="@bind(obra.anoPublicacao)"
+                                       style="white-space: normal; font-weight: bolder;"/>
+                            </div>
 
-                                        <div if="${each.tipoobra.descricao == 'Livro'}"  sclass="w3-col w3-white w3-left">
-                                            <label sclass="w3-tiny" value="Editora:"/>
-                                            <label sclass="w3-tiny" value="${each.livro.editora}."
-                                                   style="white-space: normal; font-weight: bolder;"/>
-                                        </div>
+                            <div if="${obra.tipoobra.descricao == 'Livro'}"  sclass="w3-col w3-white w3-left">
+                                <label sclass="w3-tiny" value="Editora:"/>
+                                <label sclass="w3-tiny" value="@bind(obra.livro.editora)"
+                                       style="white-space: normal; font-weight: bolder;"/>
+                            </div>
 
-                                        <div if="${each.tipoobra.descricao == 'Revista'}"  sclass="w3-col w3-white w3-left">
-                                            <label sclass="w3-tiny" value="Instituição:"/>
-                                            <label sclass="w3-tiny" value="${each.revista.instituicao}."
-                                                   style="white-space: normal; font-weight: bolder;"/>
-                                        </div>
+                            <div if="${obra.tipoobra.descricao == 'Revista'}"  sclass="w3-col w3-white w3-left">
+                                <label sclass="w3-tiny" value="Instituição:"/>
+                                <label sclass="w3-tiny" value="@bind(obra.revista.instituicao)"
+                                       style="white-space: normal; font-weight: bolder;"/>
+                            </div>
 
-                                        <div sclass="w3-col w3-white w3-left">
-                                            <label sclass="w3-tiny" value="Local de publicação:"/>
-                                            <label sclass="w3-tiny" value="${each.localpublicacao}."
-                                                   style="white-space: normal; font-weight: bolder;"/>
-                                        </div>
+                            <div sclass="w3-col w3-white w3-left">
+                                <label sclass="w3-tiny" value="Local de publicação:"/>
+                                <label sclass="w3-tiny" value="@bind(obra.localpublicacao)"
+                                       style="white-space: normal; font-weight: bolder;"/>
+                            </div>
+                        </div>
+                    </row>
+                </template>
+            </grid>
+
+            <!--FOR DESKTOP-->
+            <grid sclass="w3-hide-small w3-hide-medium"
+                  style="border-style: none;" model="@bind($composer.detalheObra)">
+                <template name="model" var="obra">
+                    <row>
+                        <div sclass="w3-container w3-hide-small w3-hide-medium w3-padding-16 w3-white"  style="white-space: normal;">
+
+                            <div sclass="w3-container w3-white w3-left " style="width: 20%; position: relative;">
+                                <image src="@bind(obra.pathcapa)" sclass="w3-card-4"
+                                       style="width: 100%; height:208px; width:145px;"/>
+                            </div>
+                            <div sclass="w3-container w3-rest w3-display-container w3-white w3-left w3-padding-16"
+                                 style="width: 80%; position: relative;">
+                                <label sclass="w3-col w3-xlarge w3-left" value="@bind(obra.titulo)"
+                                       style=" line-height: 1.4em;"/>
+
+                                <div sclass="w3-left" style="display: grid;">
+
+                                    <div sclass="w3-left">
+                                        <label sclass="w3-medium" value="Por:"/>
+                                        <label sclass="w3-medium " forEach="${obra.autores}"  value="${each.nome}. "/>
+                                    </div>
+                                    <div sclass="w3-padding-16">
+                                        <button visible="@bind(buscket.canAddToBuscket)"
+                                                label="Adicionar na cesta" onClick="@command('add', obra=obra)"
+                                                mold="os" sclass="w3-btn w3-light-gray"/>
+                                    </div>
+                                    <div>
+                                        <button if="${!$composer.isNormalUser ()}" sclass="w3-btn w3-light-gray"
+                                                label="Eliminar" forward="onClick=listObras.onEliminarObra(${obra.cota})"
+                                                mold="os"/>
+                                        <button if="${!$composer.isNormalUser ()}" sclass="w3-btn w3-light-gray"
+                                                label="Adicionar exemplares" forward="onClick=listObras.onAdicionarExemplares(${obra.cota})"
+                                                mold="os" />
                                     </div>
 
-                                    <!-- For no Mobile-->
-                                    <div sclass="w3-container w3-hide-small w3-hide-medium w3-padding-16"  style="white-space: normal;">
-
-                                        <div sclass="w3-container w3-white w3-left " style="width: 20%; position: relative;">
-                                            <image src="${each.pathcapa}" sclass="w3-card-4 "
-                                                   style="width: 100%; height:208px; width:145px;"/>
-                                        </div>
-                                        <div sclass="w3-container w3-rest w3-display-container w3-white w3-left  w3-card-4 w3-padding-16"
-                                             style="width: 80%; position: relative;">
-                                            <label sclass="w3-col w3-xlarge w3-left" value="${each.titulo}"
-                                                   style=" line-height: 1.4em;"/>
-
-                                            <div sclass="w3-left" style="display: grid;">
-
-                                                <div sclass="w3-left">
-                                                    <label sclass="w3-medium" value="Por:"/>
-                                                    <label sclass="w3-medium " forEach="${each.autores}"  value="${each.nome}. "/>
-                                                </div>
-                                                <div sclass="w3-padding-16">
-                                                    <button  label="Adicionar na cesta" forward="onClick=gridListObra.onAdicionarNaCesta"
-                                                             mold="os" sclass="w3-btn w3-light-gray"/>
-                                                </div>
-                                                <div>
-                                                    <button if="${!$composer.isNormalUser ()}" sclass="w3-btn w3-light-gray"
-                                                            label="Eliminar" forward="onClick=gridListObra.onEliminarObra"
-                                                            mold="os"/>
-                                                    <button if="${!$composer.isNormalUser ()}" sclass="w3-btn w3-light-gray"
-                                                            label="Adicionar exemplares" forward="onClick=gridListObra.onAdicionarExemplares"
-                                                            mold="os" />
-                                                </div>
-
-                                                <div sclass="w3-padding-16"></div>
-                                                <div  sclass="w3-col w3-white w3-left">
-                                                    <label sclass="w3-medium" value="Cota:"/>
-                                                    <label sclass="w3-medium" value="${each.cota}."
-                                                           style="white-space: normal; font-weight: bolder;"/>
-                                                </div>
-
-                                                <div  sclass="w3-col w3-white w3-left">
-                                                    <label sclass="w3-tiny" value="Registro:"/>
-                                                    <label sclass="w3-tiny" value="${each.registro}."
-                                                           style="white-space: normal; font-weight: bolder;"/>
-                                                </div>
-
-                                                <div  sclass="w3-col w3-white w3-left">
-                                                    <label sclass="w3-medium" value="Quantidade disponível:"/>
-                                                    <label sclass="w3-medium" value="${each.quantidade}."
-                                                           style="white-space: normal; font-weight: bolder;"/>
-                                                </div>
-
-                                                <div  sclass="w3-col w3-white w3-left">
-                                                    <label sclass="w3-medium" value="Área científica:"/>
-                                                    <label sclass="w3-medium" value="${each.areacientifica.descricao}."
-                                                           style="white-space: normal; font-weight: bolder;"/>
-                                                </div>
-
-                                                <div  sclass="w3-col w3-white w3-left">
-                                                    <label sclass="w3-medium" value="Ano:"/>
-                                                    <label sclass="w3-medium" value="${each.anoPublicacao}."
-                                                           style="white-space: normal; font-weight: bolder;"/>
-                                                </div>
-
-                                                <div if="${each.tipoobra.descricao == 'Livro'}"  sclass="w3-col w3-white w3-left">
-                                                    <label sclass="w3-medium" value="Editora:"/>
-                                                    <label sclass="w3-medium" value="${each.livro.editora}."
-                                                           style="white-space: normal; font-weight: bolder;"/>
-                                                </div>
-
-                                                <div if="${each.tipoobra.descricao == 'Revista'}"  sclass="w3-col w3-white w3-left">
-                                                    <label sclass="w3-medium" value="Instituição:"/>
-                                                    <label sclass="w3-medium" value="${each.revista.instituicao}."
-                                                           style="white-space: normal; font-weight: bolder;"/>
-                                                </div>
-
-                                                <div sclass="w3-col w3-white w3-left">
-                                                    <label sclass="w3-medium" value="Local de publicação:"/>
-                                                    <label sclass="w3-medium" value="${each.localpublicacao}."
-                                                           style="white-space: normal; font-weight: bolder;"/>
-                                                </div>
-
-                                            </div>
-                                        </div>
+                                    <div sclass="w3-padding-16"></div>
+                                    <div  sclass="w3-col w3-white w3-left">
+                                        <label sclass="w3-medium" value="Cota:"/>
+                                        <label sclass="w3-medium" value="@bind(obra.cota)"
+                                               style="white-space: normal; font-weight: bolder;"/>
                                     </div>
-                                </listcell>
-                            </listitem>
-                        </template>
-                    </listbox>
-                </column>
-            </columns>
-        </grid>
+
+                                    <div  sclass="w3-col w3-white w3-left">
+                                        <label sclass="w3-tiny" value="Registro:"/>
+                                        <label sclass="w3-tiny" value="@bind(obra.registro)"
+                                               style="white-space: normal; font-weight: bolder;"/>
+                                    </div>
+
+                                    <div  sclass="w3-col w3-white w3-left">
+                                        <label sclass="w3-medium" value="Quantidade disponível:"/>
+                                        <label sclass="w3-medium" value="@bind(obra.quantidade)"
+                                               style="white-space: normal; font-weight: bolder;"/>
+                                    </div>
+
+                                    <div  sclass="w3-col w3-white w3-left">
+                                        <label sclass="w3-medium" value="Área científica:"/>
+                                        <label sclass="w3-medium" value="@bind(obra.areacientifica.descricao)"
+                                               style="white-space: normal; font-weight: bolder;"/>
+                                    </div>
+
+                                    <div  sclass="w3-col w3-white w3-left">
+                                        <label sclass="w3-medium" value="Ano:"/>
+                                        <label sclass="w3-medium" value="@bind(obra.anoPublicacao)"
+                                               style="white-space: normal; font-weight: bolder;"/>
+                                    </div>
+
+                                    <div if="${obra.tipoobra.descricao == 'Livro'}"  sclass="w3-col w3-white w3-left">
+                                        <label sclass="w3-medium" value="Editora:"/>
+                                        <label sclass="w3-medium" value="@bind(obra.livro.editora)"
+                                               style="white-space: normal; font-weight: bolder;"/>
+                                    </div>
+
+                                    <div if="${obra.tipoobra.descricao == 'Revista'}"  sclass="w3-col w3-white w3-left">
+                                        <label sclass="w3-medium" value="Instituição:"/>
+                                        <label sclass="w3-medium" value="@bind(obra.revista.instituicao)"
+                                               style="white-space: normal; font-weight: bolder;"/>
+                                    </div>
+
+                                    <div sclass="w3-col w3-white w3-left">
+                                        <label sclass="w3-medium" value="Local de publicação:"/>
+                                        <label sclass="w3-medium" value="@bind(obra.localpublicacao)"
+                                               style="white-space: normal; font-weight: bolder;"/>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </row>
+                </template>
+            </grid>
+        </vlayout>
     </window>
 </zk>
