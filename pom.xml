@@ -423,6 +423,12 @@
 			<version>2.5.2</version>
 			<type>pom</type>
 		</dependency>
+        <dependency>
+            <groupId>net.bytebuddy</groupId>
+            <artifactId>byte-buddy</artifactId>
+            <version>1.9.0</version>
+            <scope>compile</scope>
+        </dependency>
 
 		<dependency>
 			<groupId>com.sample</groupId>
@@ -475,48 +481,49 @@
 				</executions>
 			</plugin>
 
-			 <!--<plugin>-->
-			 <!--<groupId>org.apache.maven.plugins</groupId>-->
-			 <!--<artifactId>maven-dependency-plugin</artifactId>-->
-			 <!--<version>3.1.1</version>-->
-			 <!--<executions>-->
-			 <!--<execution>-->
-			 <!--<phase>package</phase>-->
-			 <!--<goals>-->
-			 <!--<goal>copy</goal>-->
-			 <!--</goals>-->
-			 <!--<configuration>-->
-			 <!--<artifactItems>-->
-			 <!--<artifactItem>-->
-			 <!--<groupId>org.mortbay.jetty</groupId>-->
-			 <!--<artifactId>jetty-runner</artifactId>-->
-			 <!--<version>7.5.4.v20111024</version>-->
-			 <!--<destFileName>jetty-runner.jar</destFileName>-->
-			 <!--</artifactItem>-->
-			 <!--</artifactItems>-->
-			 <!--</configuration>-->
-			 <!--</execution>-->
-			 <!--</executions>-->
-			 <!--</plugin>-->
 
-			<!--Run with Jetty-->
 			<plugin>
-				<groupId>org.mortbay.jetty</groupId>
-				<artifactId>jetty-maven-plugin</artifactId>
-				<version>7.6.8.v20121106</version>
-
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>3.1.1</version>
 				<executions>
 					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
 						<configuration>
-							<webAppConfig>
-								<contextPath>/${project.artifactId}</contextPath>
-								<allowDuplicateFragmentNames>true</allowDuplicateFragmentNames>
-							</webAppConfig>
-							<scanIntervalSeconds>5</scanIntervalSeconds>
+							<artifactItems>
+								<artifactItem>
+									<groupId>org.mortbay.jetty</groupId>
+									<artifactId>jetty-runner</artifactId>
+									<version>7.5.4.v20111024</version>
+									<destFileName>jetty-runner.jar</destFileName>
+								</artifactItem>
+							</artifactItems>
 						</configuration>
 					</execution>
 				</executions>
 			</plugin>
+
+			<!--Run with Jetty-->
+			<!--<plugin>-->
+			<!--<groupId>org.mortbay.jetty</groupId>-->
+			<!--<artifactId>jetty-maven-plugin</artifactId>-->
+			<!--<version>7.6.8.v20121106</version>-->
+
+			<!--<executions>-->
+			<!--<execution>-->
+			<!--<configuration>-->
+			<!--<webAppConfig>-->
+			<!--<contextPath>/${project.artifactId}</contextPath>-->
+			<!--<allowDuplicateFragmentNames>true</allowDuplicateFragmentNames>-->
+			<!--</webAppConfig>-->
+			<!--<scanIntervalSeconds>5</scanIntervalSeconds>-->
+			<!--</configuration>-->
+			<!--</execution>-->
+			<!--</executions>-->
+			<!--</plugin>-->
 
 		</plugins>
 	</build>

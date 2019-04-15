@@ -1,6 +1,5 @@
 package sgb.controller.viewsController;
 
-import javafx.scene.control.Alert;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
@@ -21,9 +20,6 @@ import sgb.controller.domainController.ObraEliminadasController;
 import sgb.controller.domainController.RegistroObraController;
 import sgb.domain.*;
 import sgb.report.GerarRelatorio;
-import sgb.service.CRUDService;
-
-
 import java.io.*;
 
 import org.zkoss.util.media.AMedia;
@@ -36,8 +32,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
+
+//import org.zkoss.zk.chart.Charts;
+//import org.zkoss.chart.model.CategoryModel;
+//import org.zkoss.chart.model.DefaultCategoryModel;
 
 
 public class RelatorioObras extends SelectorComposer<Component> {
@@ -202,17 +203,14 @@ public class RelatorioObras extends SelectorComposer<Component> {
 
 
     @Listen("onClick = #save")
-    public void exportar() throws Exception, JRException, IOException {
-
+    public void exportar() throws Exception, JRException, IOException
+    {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         PdfExporter exporter = new PdfExporter();
         exporter.export(this.obracategoria, out);
 
-
         Filedownload.save(out.toByteArray(), "pdf", "report.pdf");
         out.close();
-//        Filedownload.save(JasperExportManager.exportReportToPdf(gerarRelatorio.createPdf(obraCategoriaListModel,
-//                    obrasregistadasListModel, obraEliminadasListModel, selected, qtdd.getValue())), "pdf", "report.pdf");
     }
 
     @Listen("onSelect = #obrasTabBox")

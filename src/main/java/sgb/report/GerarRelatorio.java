@@ -3,12 +3,7 @@ package sgb.report;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.view.JasperViewer;
-import org.zkoss.zul.Label;
 import org.zkoss.zul.ListModelList;
-import org.zkoss.zul.Listbox;
-import sgb.controller.domainController.AreaCientificaController;
-import sgb.controller.domainController.ObraController;
-import sgb.domain.AreaCientifica;
 import sgb.domain.ObraCategoria;
 import sgb.domain.ObraEliminadas;
 import sgb.domain.RegistroObra;
@@ -27,7 +22,7 @@ public class GerarRelatorio {
         this.crudService = crudService;
     }
 
-    public JasperPrint createPdf(ListModelList<ObraCategoria> obraCategoriaListModelList,
+    public void createPdf(ListModelList<ObraCategoria> obraCategoriaListModelList,
                           ListModelList<RegistroObra> obrasregistadasListModel,
                           ListModelList<ObraEliminadas> obraEliminadasListModel, int selected, String value) throws JRException, IOException {
 
@@ -85,7 +80,6 @@ public class GerarRelatorio {
                 break;}
         }
 
-        return jasperPrint;
       //  JasperViewer.viewReport(jasperPrint, false);
     }
 

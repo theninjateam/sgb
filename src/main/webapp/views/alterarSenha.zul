@@ -59,8 +59,8 @@
                         <separator/>
                         <separator/>
                         <div sclass="w3-right">
-                        <button mold="os"  sclass="w3-btn w3-black" id="savebtn" label="${labels.btnsave}"/>
-                        <button mold="os" sclass="w3-btn w3-yellow" id="cancelbtn"  label="${labels.btndelete}"/>
+                        <button mold="os"  sclass="w3-btn w3-green" id="savebtn" label="${labels.btnsave}"/>
+                        <button mold="os" sclass="w3-btn w3-grey" id="cancelbtn"  label="${labels.btndelete}"/>
                         </div>
 
                     </div>
