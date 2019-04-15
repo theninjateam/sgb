@@ -27,7 +27,7 @@ public class GerarRelatorio {
         this.crudService = crudService;
     }
 
-    public void createPdf(ListModelList<ObraCategoria> obraCategoriaListModelList,
+    public JasperPrint createPdf(ListModelList<ObraCategoria> obraCategoriaListModelList,
                           ListModelList<RegistroObra> obrasregistadasListModel,
                           ListModelList<ObraEliminadas> obraEliminadasListModel, int selected, String value) throws JRException, IOException {
 
@@ -85,7 +85,8 @@ public class GerarRelatorio {
                 break;}
         }
 
-        JasperViewer.viewReport(jasperPrint, false);
+        return jasperPrint;
+      //  JasperViewer.viewReport(jasperPrint, false);
     }
 
 }

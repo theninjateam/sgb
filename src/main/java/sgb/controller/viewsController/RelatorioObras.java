@@ -2,6 +2,7 @@ package sgb.controller.viewsController;
 
 import javafx.scene.control.Alert;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,6 +26,7 @@ import sgb.service.CRUDService;
 
 import javax.management.Notification;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -192,10 +194,12 @@ public class RelatorioObras extends SelectorComposer<Component> {
 
     }
 
+
     @Listen("onClick = #save")
     public void exportar() throws JRException, IOException {
-        gerarRelatorio.createPdf(obraCategoriaListModel,
-                obrasregistadasListModel, obraEliminadasListModel, selected, qtdd.getValue());
+
+            Filedownload.save(JasperExportManager.exportReportToPdf(gerarRelatorio.createPdf(obraCategoriaListModel,
+                    obrasregistadasListModel, obraEliminadasListModel, selected, qtdd.getValue())), "pdf", "report.pdf");
     }
 
     @Listen("onSelect = #obrasTabBox")
