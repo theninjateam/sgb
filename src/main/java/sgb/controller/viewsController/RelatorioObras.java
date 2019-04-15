@@ -54,10 +54,12 @@ public class RelatorioObras extends SelectorComposer<Component> {
     private Listbox obraeliminadas;
     private Listbox obrasregistadas;
     private Listbox obracategoria;
-    private Listbox areaCientificaListBox;
     private Label qtdd;
     Calendar dataI = Calendar.getInstance();
     Calendar dataF = Calendar.getInstance();
+
+    @Wire
+    private Listbox areaCientificaListBox;
 
     @Wire
     private Button save;
@@ -109,7 +111,6 @@ public class RelatorioObras extends SelectorComposer<Component> {
         areaCientificaListBox.setModel(areaCientificaListModel);
         setListModelsallData();
         setListBoxsModels();
-
     }
 
     @Listen("onSelect = #areaCientificaListBox")
