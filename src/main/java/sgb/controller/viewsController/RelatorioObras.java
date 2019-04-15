@@ -1,8 +1,6 @@
 package sgb.controller.viewsController;
 
-import javafx.scene.control.Alert;
 import net.sf.jasperreports.engine.JRException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.zkoss.zk.ui.Component;
@@ -17,17 +15,14 @@ import sgb.controller.domainController.ObraEliminadasController;
 import sgb.controller.domainController.RegistroObraController;
 import sgb.domain.*;
 import sgb.report.GerarRelatorio;
-import sgb.service.CRUDService;
+
+import java.io.IOException;
+import java.util.Calendar;
+import java.util.List;
 
 //import org.zkoss.zk.chart.Charts;
 //import org.zkoss.chart.model.CategoryModel;
 //import org.zkoss.chart.model.DefaultCategoryModel;
-
-import javax.management.Notification;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 
 
 public class RelatorioObras extends SelectorComposer<Component> {
