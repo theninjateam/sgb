@@ -201,7 +201,7 @@
 	</detail>
 	<lastPageFooter>
 		<band height="50">
-			<textField pattern="MMMMM dd, yyyy">
+			<textField pattern="MMM d, yyyy h:mm:ss a">
 				<reportElement x="0" y="20" width="555" height="30" uuid="2ebdbe36-fc12-4a62-b814-bcd9a2db8ed5"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>

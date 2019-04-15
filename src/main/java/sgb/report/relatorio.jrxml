@@ -142,7 +142,7 @@
 	</detail>
 	<lastPageFooter>
 		<band height="52">
-			<textField pattern="MMMMM dd, yyyy">
+			<textField pattern="MMM d, yyyy h:mm:ss a">
 				<reportElement x="0" y="10" width="555" height="30" uuid="b3c178b3-9339-4db5-aef6-37d47390d17d"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>

@@ -29,5 +29,6 @@
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-core:3.2.0.M1" level="project" />
     <orderEntry type="library" name="Maven: org.zkoss.zk:zkplus:6.5.0" level="project" />
     <orderEntry type="library" name="Maven: net.sf.jasperreports:jasperreports:5.5.0" level="project" />
+    <orderEntry type="library" name="Maven: org.zkoss.zk:zkbind:6.5.0" level="project" />
   </component>
 </module>

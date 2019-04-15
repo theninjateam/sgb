@@ -1,5 +1,6 @@
 package sgb.report;
 
+import java.nio.file.*;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.view.JasperViewer;
@@ -79,8 +80,8 @@ public class GerarRelatorio {
                 jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, new JRBeanCollectionDataSource(lista2));
                 break;}
         }
-
         JasperViewer.viewReport(jasperPrint, false);
+        //JasperExportManager.exportReportToPdfFile(jasperPrint,);
     }
 
 }
