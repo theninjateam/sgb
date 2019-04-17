@@ -196,7 +196,7 @@ public class Obra {
         this.livroCd = livroCd;
     }
 
-    @OneToMany(mappedBy = "obra", fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "obra", fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
     public Set<RegistroObra> getRegistroObras() { return registroObras; }
 
     public void setRegistroObras(Set<RegistroObra> registroObras) {
