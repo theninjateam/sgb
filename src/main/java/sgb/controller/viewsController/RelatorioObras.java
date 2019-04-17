@@ -114,10 +114,10 @@ public class RelatorioObras extends SelectorComposer<Component> {
         areaCientificaListModel.addToSelection(a);
         areaCientificaListBox.setModel(areaCientificaListModel);
 
-        List<String> lista = new ArrayList<>();
-        lista.add("PDF"); //lista.add("EXCELL");
-        exportarListModel = new ListModelList<String>(lista);
-        exportarListBox.setModel(exportarListModel);
+//        List<String> lista = new ArrayList<>();
+//        lista.add("PDF"); //lista.add("EXCELL");
+//        exportarListModel = new ListModelList<String>(lista);
+//        exportarListBox.setModel(exportarListModel);
         setListModelsallData();
         setListBoxsModels();
     }
@@ -146,15 +146,15 @@ public class RelatorioObras extends SelectorComposer<Component> {
         setListBoxsModels();
     }
 
-
-    @Listen("onSelect = #exportarListBox")
-    public void setExportarListBox() throws Exception {
-        String s = exportarListBox.getSelectedItem().getValue();
-
-        if(s.equalsIgnoreCase("PDF")) {
-            exportToPDF();
-        }
-    }
+//
+//    @Listen("onSelect = #exportarListBox")
+//    public void setExportarListBox() throws Exception {
+//        String s = exportarListBox.getSelectedItem().getValue();
+//
+//        if(s.equalsIgnoreCase("PDF")) {
+//            exportToPDF();
+//        }
+//    }
 
     @Listen("onChange = #dataInicio;onChange = #dataFim")
     public void dataChange() {
@@ -220,6 +220,7 @@ public class RelatorioObras extends SelectorComposer<Component> {
 
     }
 
+    @Listen("onClick=#save")
     public void exportToPDF() throws Exception, JRException, IOException
     {
         String reportName = null;
