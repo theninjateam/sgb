@@ -2,9 +2,12 @@
 <zk>
     <window id="listObra" apply="sgb.controller.viewsController.RelatorioObras"
             border="none" hflex="1" vflex="1" contentStyle="overflow:auto">
+        <style src="css/tipografia.css"/>
+        <style src="css/w3pro.css"/>
+        <style src="css/w3.css"/>
         <div style="padding:0px">
 
-            <toolbar id="tbt" height="30px" align="center">
+            <toolbar id="tbt" height="50px" align="center">
 
                 <div >
                     <span sclass="input-group-addon">Area Cientifica: </span>
@@ -16,8 +19,7 @@
                         </listhead>
                         <template name="model">
                             <listitem>
-                                <listcell label="${each.descricao}">
-                                </listcell>
+                                <listcell label="${each.descricao}"></listcell>
                             </listitem>
                         </template>
                      </listbox>
@@ -26,7 +28,22 @@
 
                     <span sclass="input-group-addon">   to: </span>
                     <datebox id="dataFim" cols="12" format="medium" onCreate="self.value = new Date()" />
-                    <button id="save" label="Exportar" style="margin-left:60px"/>
+
+                    <span style="margin-left: 5%" sclass="input-group-addon">Exportar para: </span>
+                    <listbox width="10%" id="exportarListBox" mold="select">
+                        <listhead>
+                            <listheader label="Exportar"/>
+                        </listhead>
+                        <template name="model">
+                            <listitem>
+                                <listcell label="${each}"></listcell>
+                            </listitem>
+                        </template>
+                    </listbox>
+                    <!--<button  visible="true"  label="Exportar para PDF" id="save" style="margin-left:60px"-->
+                             <!--mold="os"  sclass="w3-btn w3-light-grey"/>-->
+                    <!--<button  visible="true"  label="Exportar para Excell" id="save1" style="margin-left:40px"-->
+                             <!--mold="os"  sclass="w3-btn w3-light-grey"/>-->
                 </div>
             </toolbar>
 

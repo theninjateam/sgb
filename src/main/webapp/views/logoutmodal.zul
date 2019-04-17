@@ -14,7 +14,7 @@
 
             <div sclass="w3-right">
             <button  visible="true" id="fechar" label="X"
-                 mold="os" sclass="w3-btn w3-red "/>
+                 mold="os" sclass="w3-btn w3-light-grey"/>
             </div>
             <separator/>
             <separator/>
@@ -36,10 +36,10 @@
             <separator/>
 
             <button  visible="true"  label="Alterar Senha" id="alterarSenha"
-                     mold="os" sclass="w3-btn w3-green w3-center"/>
+                     mold="os" sclass="w3-btn w3-light-grey w3-center"/>
             <separator/>
             <button apply="sgb.controller.LoginController" visible="true"  label="Sair" id="logout"
-                     mold="os" sclass="w3-btn w3-green w3-center"/>
+                     mold="os" sclass="w3-btn w3-light-grey w3-center"/>
             </div>
         </column>
         </columns>

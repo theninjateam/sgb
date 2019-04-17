@@ -1,10 +1,15 @@
 package sgb.controller.viewsController;
 
-import javafx.scene.control.Alert;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.engine.export.JRXlsExporter;
+import org.exolab.castor.dsml.Exporter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.zkoss.exporter.pdf.PdfExporter;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
@@ -17,17 +22,25 @@ import sgb.controller.domainController.ObraEliminadasController;
 import sgb.controller.domainController.RegistroObraController;
 import sgb.domain.*;
 import sgb.report.GerarRelatorio;
-import sgb.service.CRUDService;
+import java.io.*;
+
+import org.zkoss.util.media.AMedia;
+import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.select.SelectorComposer;
+import org.zkoss.zk.ui.select.annotation.*;
+
+import javax.management.Notification;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.io.IOException;
+import java.util.Calendar;
+import java.util.List;
 
 //import org.zkoss.zk.chart.Charts;
 //import org.zkoss.chart.model.CategoryModel;
 //import org.zkoss.chart.model.DefaultCategoryModel;
-
-import javax.management.Notification;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 
 
 public class RelatorioObras extends SelectorComposer<Component> {
@@ -41,11 +54,17 @@ public class RelatorioObras extends SelectorComposer<Component> {
     private Boolean isNormalUser = true;
     private int selected = 0;
     private Listbox obraeliminadas;
-    private Listbox obracategoria;
     private Listbox obrasregistadas;
+    private Listbox obracategoria;
     private Label qtdd;
     Calendar dataI = Calendar.getInstance();
     Calendar dataF = Calendar.getInstance();
+
+    @Wire
+    private Listbox areaCientificaListBox;
+
+    @Wire
+    private Listbox exportarListBox;
 
     @Wire
     private Button save;
@@ -66,17 +85,13 @@ public class RelatorioObras extends SelectorComposer<Component> {
     private Include idInclObrasEliminadas;
 
     @Wire
-    private Listbox areaCientificaListBox;
-
-    @Wire
     private Tabbox obrasTabBox;
 
     private ListModelList<RegistroObra> obrasregistadasListModel;
     private ListModelList<ObraEliminadas> obraEliminadasListModel;
     private ListModelList<ObraCategoria> obraCategoriaListModel;
     private ListModelList<AreaCientifica> areaCientificaListModel;
-
-
+    private ListModelList<String> exportarListModel;
 
     @Override
     public void doAfterCompose(Component comp) throws Exception
@@ -98,9 +113,13 @@ public class RelatorioObras extends SelectorComposer<Component> {
         areaCientificaListModel.add(0,a);
         areaCientificaListModel.addToSelection(a);
         areaCientificaListBox.setModel(areaCientificaListModel);
+
+        List<String> lista = new ArrayList<>();
+        lista.add("PDF"); //lista.add("EXCELL");
+        exportarListModel = new ListModelList<String>(lista);
+        exportarListBox.setModel(exportarListModel);
         setListModelsallData();
         setListBoxsModels();
-
     }
 
     @Listen("onSelect = #areaCientificaListBox")
@@ -127,6 +146,15 @@ public class RelatorioObras extends SelectorComposer<Component> {
         setListBoxsModels();
     }
 
+
+    @Listen("onSelect = #exportarListBox")
+    public void setExportarListBox() throws Exception {
+        String s = exportarListBox.getSelectedItem().getValue();
+
+        if(s.equalsIgnoreCase("PDF")) {
+            exportToPDF();
+        }
+    }
 
     @Listen("onChange = #dataInicio;onChange = #dataFim")
     public void dataChange() {
@@ -192,10 +220,22 @@ public class RelatorioObras extends SelectorComposer<Component> {
 
     }
 
-    @Listen("onClick = #save")
-    public void exportar() throws JRException, IOException {
-        gerarRelatorio.createPdf(obraCategoriaListModel,
-                obrasregistadasListModel, obraEliminadasListModel, selected, qtdd.getValue());
+    public void exportToPDF() throws Exception, JRException, IOException
+    {
+        String reportName = null;
+
+//        gerarRelatorio.createPdf(obraCategoriaListModel,
+//                obrasregistadasListModel, obraEliminadasListModel, selected, qtdd.getValue());
+
+        if(selected == 0)
+            reportName = "RelatorioObrasQuantidade";
+        else if(selected == 1)
+            reportName = "RelatorioObrasRegistadas";
+        else
+            reportName = "RelatorioObrasEliminadas";
+
+        Filedownload.save(JasperExportManager.exportReportToPdf(gerarRelatorio.createPdf(obraCategoriaListModel,
+               obrasregistadasListModel, obraEliminadasListModel, selected, qtdd.getValue())), "pdf", reportName+".pdf");
     }
 
     @Listen("onSelect = #obrasTabBox")

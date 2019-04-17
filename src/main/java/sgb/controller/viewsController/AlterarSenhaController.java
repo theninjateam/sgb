@@ -96,12 +96,15 @@ public class AlterarSenhaController extends SelectorComposer<Component> {
                 return;
             } else {
                 Clients.showNotification("Seleciona Sim",null,null,null,5000);
+
             }
 
 
+        } else {
+            Clients.showNotification("Dados incorrectos","error",null,null,5000);
         }
 
-        Clients.showNotification("Dados incorrectos",null,null,null,5000);
+
 
     }
 
