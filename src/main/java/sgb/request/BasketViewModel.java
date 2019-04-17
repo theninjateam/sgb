@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class BuscketViewModel
+public class BasketViewModel
 {
     private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;
     private Session session = Sessions.getCurrent();
@@ -38,9 +38,9 @@ public class BuscketViewModel
     private EmprestimoController emprestimoController = (EmprestimoController) SpringUtil.getBean("emprestimoController");
     private EstadoPedidoControler estadoPedidoControler = (EstadoPedidoControler) SpringUtil.getBean("estadoPedidoControler");
 
-    private int buscketBooksQuantity;
+    private int basketBooksQuantity;
     private List<Item> items = new ArrayList<Item>();
-    private boolean canAddToBuscket;
+    private boolean canAddToBasket;
     private boolean homeRequisition;
     private boolean internalRequisition;
     private boolean canShowRadios;
@@ -51,24 +51,24 @@ public class BuscketViewModel
     public void init() throws Exception
     {
 
-        if (this.session.getAttribute("buscket") == null)
+        if (this.session.getAttribute("basket") == null)
         {
-            this.buscketBooksQuantity = 0;
-            this.canAddToBuscket = this.getCanAddToBuscket();
+            this.basketBooksQuantity = 0;
+            this.canAddToBasket = this.getCanAddToBasket();
             this.internalRequisition = false;
             this.homeRequisition = false;
             this.canShowRadios = false;
-            session.setAttribute("buscket", this);
+            session.setAttribute("basket", this);
 
         }
         else
         {
-            this.buscketBooksQuantity = ((BuscketViewModel) this.session.getAttribute("buscket")).buscketBooksQuantity;
-            this.canAddToBuscket = ((BuscketViewModel) this.session.getAttribute("buscket")).canAddToBuscket;
-            this.internalRequisition = ((BuscketViewModel) this.session.getAttribute("buscket")).internalRequisition;
-            this.homeRequisition = ((BuscketViewModel) this.session.getAttribute("buscket")).homeRequisition;
-            this.canShowRadios = ((BuscketViewModel) this.session.getAttribute("buscket")).canShowRadios;
-            this.items = ((BuscketViewModel) this.session.getAttribute("buscket")).items;
+            this.basketBooksQuantity = ((BasketViewModel) this.session.getAttribute("basket")).basketBooksQuantity;
+            this.canAddToBasket = ((BasketViewModel) this.session.getAttribute("basket")).canAddToBasket;
+            this.internalRequisition = ((BasketViewModel) this.session.getAttribute("basket")).internalRequisition;
+            this.homeRequisition = ((BasketViewModel) this.session.getAttribute("basket")).homeRequisition;
+            this.canShowRadios = ((BasketViewModel) this.session.getAttribute("basket")).canShowRadios;
+            this.items = ((BasketViewModel) this.session.getAttribute("basket")).items;
         }
 
     }
@@ -123,7 +123,7 @@ public class BuscketViewModel
     @Command("add")
     public void add(@BindingParam("obra") Obra obra ) throws Exception
     {
-        if (getCanAddToBuscket() && !reachedMaximumCopiesPerBook(obra))
+        if (getCanAddToBasket() && !reachedMaximumCopiesPerBook(obra))
         {
             Obra o = this.crudService.get(Obra.class, obra.getCota());
             Item item = new Item();
@@ -146,28 +146,28 @@ public class BuscketViewModel
                 setInternalRequisition();
             }
 
-            this.buscketBooksQuantity = this.buscketBooksQuantity + 1;
+            this.basketBooksQuantity = this.basketBooksQuantity + 1;
         }
     }
 
     /*
     * must be a transation
     * */
-    @NotifyChange({"buscketBooksQuantity", "canAddToBuscket", "homeRequisition", "internalRequisition", "canShowRadios"})
+    @NotifyChange({"basketBooksQuantity", "canAddToBasket", "homeRequisition", "internalRequisition", "canShowRadios"})
     @Command("request")
     public void request() throws Exception
     {
-        if (this.buscketBooksQuantity  > 0)
+        if (this.basketBooksQuantity  > 0)
         {
             this.request.request(this.items, this.user);
 
             this.homeRequisition = false;
             this.internalRequisition = false;
             this.canShowRadios  = false;
-            this.buscketBooksQuantity = 0;
+            this.basketBooksQuantity = 0;
 
             this.items = new ArrayList<Item>();
-            this.session.setAttribute("buscket", null);
+            this.session.setAttribute("basket", null);
             BindUtils.postNotifyChange(null, null, this, "items");
 
             Clients.showNotification("Feito",null,null,null,5000);
@@ -179,7 +179,7 @@ public class BuscketViewModel
 
     }
 
-    @NotifyChange({"buscketBooksQuantity", "canAddToBuscket", "homeRequisition", "internalRequisition", "canShowRadios"})
+    @NotifyChange({"basketBooksQuantity", "canAddToBasket", "homeRequisition", "internalRequisition", "canShowRadios"})
     @Command("remove")
     public void remove(@BindingParam("item") Item item ) throws Exception
     {
@@ -196,11 +196,11 @@ public class BuscketViewModel
             }
         }
 
-        this.buscketBooksQuantity = this.buscketBooksQuantity - 1;
+        this.basketBooksQuantity = this.basketBooksQuantity - 1;
 
         semaphore.release();
 
-        if (this.buscketBooksQuantity == 0)
+        if (this.basketBooksQuantity == 0)
         {
             this.homeRequisition = false;
             this.internalRequisition = false;
@@ -221,7 +221,7 @@ public class BuscketViewModel
     * Auxiliar Methods
     * ***************************************/
 
-    public boolean getCanAddToBuscket() throws Exception
+    public boolean getCanAddToBasket() throws Exception
     {
         boolean isStudent = false;
         boolean isTeacher = false;
@@ -257,14 +257,14 @@ public class BuscketViewModel
         return true;
     }
 
-    public int getBuscketBooksQuantity() throws Exception
+    public int getBasketBooksQuantity() throws Exception
     {
-        return buscketBooksQuantity;
+        return basketBooksQuantity;
     }
 
     public int getAllBooks() throws Exception
     {
-        int allBooks =  this.getBuscketBooksQuantity();
+        int allBooks =  this.getBasketBooksQuantity();
 
         List<Emprestimo> emprestimos = new ArrayList<Emprestimo>();
 
