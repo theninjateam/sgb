@@ -5,6 +5,7 @@ import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
+import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import org.exolab.castor.dsml.Exporter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -220,7 +221,7 @@ public class RelatorioObras extends SelectorComposer<Component> {
 
     }
 
-    @Listen("onClick=#save")
+    @Listen("onClick=#savePdf")
     public void exportToPDF() throws Exception, JRException, IOException
     {
         String reportName = null;
@@ -238,6 +239,38 @@ public class RelatorioObras extends SelectorComposer<Component> {
         Filedownload.save(JasperExportManager.exportReportToPdf(gerarRelatorio.createPdf(obraCategoriaListModel,
                obrasregistadasListModel, obraEliminadasListModel, selected, qtdd.getValue())), "pdf", reportName+".pdf");
     }
+
+
+    @Listen("onClick=#saveExcell")
+    public void exportToExcell() throws IOException, JRException {
+        String reportName = null;
+        JRXlsExporter exporter = new JRXlsExporter();
+
+        if(selected == 0)
+            reportName = "RelatorioObrasQuantidade";
+        else if(selected == 1)
+            reportName = "RelatorioObrasRegistadas";
+        else
+            reportName = "RelatorioObrasEliminadas";
+
+        String filePath = "src/main/java/sgb/report/xlsFiles/"+reportName+".xls";
+        File xlsFile = new File(filePath);
+
+        if(xlsFile.exists()){
+            xlsFile.delete();
+        }
+
+        exporter.setParameter(JRExporterParameter.JASPER_PRINT, gerarRelatorio.createPdf(obraCategoriaListModel,
+                obrasregistadasListModel, obraEliminadasListModel, selected, qtdd.getValue()));
+        exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, filePath);
+        exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
+        exporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);
+
+        exporter.exportReport();
+
+        Filedownload.save(xlsFile,"xls");
+    }
+
 
     @Listen("onSelect = #obrasTabBox")
     public void knowSelectedTab(){

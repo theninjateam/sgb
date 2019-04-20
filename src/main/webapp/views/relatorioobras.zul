@@ -40,7 +40,10 @@
                             <!--</listitem>-->
                         <!--</template>-->
                     <!--</listbox>-->
-                    <button  visible="true"  label="Exportar para PDF" id="save" style="margin-left:60px"
+                    <span style="margin-left:25px" sclass="input-group-addon">Exportar para: </span>
+                    <button  visible="true"  label="PDF" id="savePdf" style="margin-left:15px"
+                             mold="os"  sclass="w3-btn w3-light-grey"/>
+                    <button  visible="true"  label="EXCEL" id="saveExcell" style="margin-left:20px"
                              mold="os"  sclass="w3-btn w3-light-grey"/>
 
                 </div>

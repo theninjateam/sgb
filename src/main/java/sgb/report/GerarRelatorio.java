@@ -3,6 +3,7 @@ package sgb.report;
 import java.nio.file.*;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.view.JasperDesignViewer;
 import net.sf.jasperreports.view.JasperViewer;
 import org.zkoss.zul.ListModelList;
 import sgb.domain.ObraCategoria;
@@ -51,6 +52,7 @@ public class GerarRelatorio {
                 parametros.put("totalObras", value);
 
                 jasperReport = JasperCompileManager.compileReport(path);
+
                 jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, new JRBeanCollectionDataSource(lista));
                 break;}
             case 1:{
@@ -80,8 +82,6 @@ public class GerarRelatorio {
                 jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, new JRBeanCollectionDataSource(lista2));
                 break;}
         }
-
-        //JasperViewer.viewReport(jasperPrint, false);
 
         return jasperPrint;
     }
