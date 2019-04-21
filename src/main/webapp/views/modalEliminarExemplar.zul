@@ -1,90 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zk>
-    <window id="modalEliminar" apply="sgb.controller.viewsController.ElliminarObraController"
+    <window id="modalEliminar" apply="org.zkoss.bind.BindComposer"
+            viewModel="@id('reduceBook') @init('sgb.book.ReduceBookViewModel')"
             border="none" closable="true"
-            position="center,center" action="show: slideDown;hide: slideUp" width="460px">
+            position="center,center" action="show: slideDown;hide: slideUp" width="auto">
 
-            <grid  style="border-style: none;">
-                <columns style=" background-color: white;  border-style: none;">
-                    <column style=" background-color: white;  border-style: none;" width="100%" >
-                        <vlayout   style="text-align: center;">
-                            <listbox    style=" text-align: left;"  id="eliminarListBox"
-                                        emptyMessage="Lista vazia">
-                                <listhead >
-                                    <listheader hflex="1" style="background-color: lightgray; border-style: none; text-align: center;" width="100%" height="100%" label="Cesta de livros"/>
-                                </listhead>
-                                <template name="model">
-                                    <listitem  style="background-color: white; border-style: none;">
-                                        <listcell style="background-color: white; border-style: none;
-                                                    border-bottom: 0.1em double rgb(0, 0, 0, 0.4);">
+        <!-- DESKTOP-->
+            <div sclass="w3-container w3-hide-small w3-hide-medium w3-padding-16" style="white-space: normal;  line-height: 1.25;  none;">
+                <div sclass="w3-container w3-white w3-left " style="width: auto; position: relative;">
+                    <image src="@bind(reduceBook.obra.pathcapa)" sclass="w3-card-4"
+                           style="width: 100%; height:146px; width:102px;"/>
+                </div>
 
-                                            <div sclass="w3-container w3-hide-small w3-hide-medium w3-padding-16"  style="white-space: normal;">
+                <div sclass="w3-container w3-rest w3-row  w3-white w3-left " style="width: auto; position: relative;">
+                    <label sclass="w3-col  w3-xlarge w3-left" value="@bind(reduceBook.obra.titulo)"
+                           style=" line-height: 1.4em;"/>
+                    <div sclass="w3-left" style="display: grid; width: 100%;">
+                        <vlayout sclass="w3-left w3-padding-16" >
 
-                                                <div sclass="w3-container w3-white w3-left " style="width: 20%; position: relative;">
-                                                    <image src="${each.obra.pathcapa}" sclass="w3-card-4 "
-                                                           style="width: 100%; height:208px; width:145px;"/>
-                                                </div>
+                            <hlayout>
+                                <label  value="@bind(reduceBook.vanishedBooksQuantity)" sclass="w3-padding-16"
+                                        style="font-size: x-large; font-weight: bold;"/>
+                                <div  sclass="w3-col w3-white w3-center">
+                                    <button  sclass="w3-btn w3-light-gray "
+                                             label="-" onClick="@command('reduceVanishedBooksQuantity')" mold="os"/>
+                                    <button  sclass="w3-btn w3-light-gray"
+                                             label="+" onClick="@command('increaseVanishedBooksQuantity')" mold="os"/>
+                                </div>
+                            </hlayout>
 
-                                                <div sclass="w3-container w3-rest w3-display-container w3-white w3-left  w3-card-4 w3-padding-16"
-                                                     style="width: 80%; position: relative;">
-                                                    <label sclass="w3-col w3-xlarge w3-left" value="${each.obra.titulo}"
-                                                           style=" line-height: 1.4em;"/>
-                                                    <div sclass="w3-left" style="display: grid;">
-                                                        <div sclass="w3-left">
-                                                            <label sclass="w3-medium" value="Por:"/>
-                                                            <label sclass="w3-mediu " forEach="${each.obra.autores}"  value="${each.nome}. "/>
-                                                        </div>
+                            <label value=" (Quantidade de obras desaparecidas)" sclass="w3-medium"/>
 
-                                                        <div sclass="w3-row w3-left">
-                                                            <hlayout>
-                                                                <div  sclass="w3-col w3-white w3-center">
-                                                                    <button  sclass="w3-btn w3-light-gray "
-                                                                             label="-" forward="onClick=eliminarListBox.onReduzirQtd" mold="os"/>
-                                                                    <button  sclass="w3-btn w3-light-gray"
-                                                                             label="+" forward="onClick=eliminarListBox.onAumentarQtd" mold="os"/>
-                                                                </div>
-                                                                <vlayout  style="text-align: center;">
-                                                                    <label  value="${each.quantidade}"
-                                                                            style="font-size: x-large; font-weight: bold;"/>
-                                                                    <label value="(Quantidade)" sclass="w3-medium"/>
-                                                                </vlayout>
-                                                            </hlayout>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div>
+                            <div sclass="w3-padding-16">
+                                <label value="Descricao " sclass="w3-medium" style="width: 20%;"/>
+                                <textbox sclass="w3-light-gray w3-padding-16 w3-rest" value="@bind(reduceBook.description)"
+                                         constraint=" no Empty: Preenche o campo!"
+                                         style="width: 80%;"/>
+                            </div>
 
-                                                <hlayout vflex="1" hflex="1" sclass="second-layout">
-                                                    <div sclass="description-area" height="100%">
-                                                        <span sclass="input-group-addon">Descricao</span>
-                                                    </div>
-
-                                                    <div sclass="description-area" height="100%">
-                                                        <textbox sclass="form-control" id="descricao"
-                                                                 disabled="false" value="" hflex="1"
-                                                                 constraint=" no Empty: Preenche o campo!"/>
-                                                        <label id="cota_duplicated_key"
-                                                               visible="false"></label>
-                                                    </div>
-                                                </hlayout>
-                                            </div>
-                                            <div align="center">
-                                                <button     label="Reduzir"  forward="onClick=eliminarListBox.onReduzir" mold="os"  sclass="w3-btn w3-black"/>
-                                                <button label="Fechar" forward="onClick=eliminarListBox.onExit" sclass="w3-btn w3-light-gray "
-                                                        mold="os"/>
-                                            </div>
-                                        </listcell>
-                                    </listitem>
-                                </template>
-
-                                <listfoot >
-                                    <listfooter  height="100%" width="100%" style="padding: 15px 32px; background-color: lightgray; border-style: none;"/>
-                                </listfoot>
-                            </listbox>
+                            <hlayout>
+                                <button    label="Salvar"  onClick="@command('save', modal=modalEliminar)" mold="os"  sclass="w3-btn w3-light-gray"/>
+                                <button label="Fechar" onClick="@command('exit', modal=modalEliminar)" sclass="w3-btn w3-light-gray"
+                                        mold="os"/>
+                            </hlayout>
                         </vlayout>
-                    </column>
-                </columns>
-            </grid>
+                    </div>
+                </div>
+            </div>
     </window>
 </zk>

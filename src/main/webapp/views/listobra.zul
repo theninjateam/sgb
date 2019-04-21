@@ -84,7 +84,7 @@
             <template name="model" var="obra">
                 <row>
                     <div sclass="w3-container w3-hide-small w3-hide-medium w3-padding-16 w3-white"  style="white-space: normal; line-height: 1.25;">
-                        <div sclass="w3-container w3-white w3-left " style="width: auto; position: relative;">
+                        <div sclass="w3-container w3-white w3-left" style="width: auto; position: relative;">
                             <image src="@bind(obra.pathcapa)" sclass="w3-card-4 "
                                    style="width: 100%; height:146px; width:102px;"/>
                         </div>
