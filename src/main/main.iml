@@ -29,5 +29,17 @@
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-core:3.2.0.M1" level="project" />
     <orderEntry type="library" name="Maven: org.zkoss.zk:zkplus:6.5.0" level="project" />
     <orderEntry type="library" name="Maven: net.sf.jasperreports:jasperreports:5.5.0" level="project" />
+    <orderEntry type="library" name="Maven: org.zkoss.zk:zkbind:6.5.0" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/resources/exporter.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="library" name="Maven: org.codehaus.castor:castor:1.2" level="project" />
+    <orderEntry type="library" name="Maven: org.zkoss.common:zcommon:6.5.0" level="project" />
   </component>
 </module>

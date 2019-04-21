@@ -19,8 +19,7 @@
                         </listhead>
                         <template name="model">
                             <listitem>
-                                <listcell label="${each.descricao}">
-                                </listcell>
+                                <listcell label="${each.descricao}"></listcell>
                             </listitem>
                         </template>
                      </listbox>
@@ -29,8 +28,24 @@
 
                     <span sclass="input-group-addon">   to: </span>
                     <datebox id="dataFim" cols="12" format="medium" onCreate="self.value = new Date()" />
-                    <button  visible="true"  label="Exportar" id="save" style="margin-left:60px"
+
+                    <!--<span style="margin-left: 5%" sclass="input-group-addon">Exportar para: </span>-->
+                    <!--<listbox width="10%" id="exportarListBox" mold="select">-->
+                        <!--<listhead>-->
+                            <!--<listheader label="Exportar"/>-->
+                        <!--</listhead>-->
+                        <!--<template name="model">-->
+                            <!--<listitem>-->
+                                <!--<listcell label="${each}"></listcell>-->
+                            <!--</listitem>-->
+                        <!--</template>-->
+                    <!--</listbox>-->
+                    <span style="margin-left:25px" sclass="input-group-addon">Exportar para: </span>
+                    <button  visible="true"  label="PDF" id="savePdf" style="margin-left:15px"
                              mold="os"  sclass="w3-btn w3-light-grey"/>
+                    <button  visible="true"  label="EXCEL" id="saveExcell" style="margin-left:20px"
+                             mold="os"  sclass="w3-btn w3-light-grey"/>
+
                 </div>
             </toolbar>
 

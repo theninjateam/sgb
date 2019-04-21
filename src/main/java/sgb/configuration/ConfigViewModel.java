@@ -43,10 +43,8 @@ public class ConfigViewModel
             }
 
             Clients.showNotification("Feito");
-
-
-
     }
+
     public List<Config> getConfigs()
     {
         return configs;

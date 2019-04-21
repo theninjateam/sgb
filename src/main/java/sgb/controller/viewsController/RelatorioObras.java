@@ -1,8 +1,11 @@
 package sgb.controller.viewsController;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.engine.export.JRXlsExporter;
+import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import org.exolab.castor.dsml.Exporter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -62,6 +65,9 @@ public class RelatorioObras extends SelectorComposer<Component> {
     private Listbox areaCientificaListBox;
 
     @Wire
+    private Listbox exportarListBox;
+
+    @Wire
     private Button save;
 
     @Wire
@@ -86,8 +92,7 @@ public class RelatorioObras extends SelectorComposer<Component> {
     private ListModelList<ObraEliminadas> obraEliminadasListModel;
     private ListModelList<ObraCategoria> obraCategoriaListModel;
     private ListModelList<AreaCientifica> areaCientificaListModel;
-
-
+    private ListModelList<String> exportarListModel;
 
     @Override
     public void doAfterCompose(Component comp) throws Exception
@@ -109,6 +114,11 @@ public class RelatorioObras extends SelectorComposer<Component> {
         areaCientificaListModel.add(0,a);
         areaCientificaListModel.addToSelection(a);
         areaCientificaListBox.setModel(areaCientificaListModel);
+
+//        List<String> lista = new ArrayList<>();
+//        lista.add("PDF"); //lista.add("EXCELL");
+//        exportarListModel = new ListModelList<String>(lista);
+//        exportarListBox.setModel(exportarListModel);
         setListModelsallData();
         setListBoxsModels();
     }
@@ -137,6 +147,15 @@ public class RelatorioObras extends SelectorComposer<Component> {
         setListBoxsModels();
     }
 
+//
+//    @Listen("onSelect = #exportarListBox")
+//    public void setExportarListBox() throws Exception {
+//        String s = exportarListBox.getSelectedItem().getValue();
+//
+//        if(s.equalsIgnoreCase("PDF")) {
+//            exportToPDF();
+//        }
+//    }
 
     @Listen("onChange = #dataInicio;onChange = #dataFim")
     public void dataChange() {
@@ -202,21 +221,56 @@ public class RelatorioObras extends SelectorComposer<Component> {
 
     }
 
-
-    @Listen("onClick = #save")
-    public void exportar() throws Exception, JRException, IOException
+    @Listen("onClick=#savePdf")
+    public void exportToPDF() throws Exception, JRException, IOException
     {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        PdfExporter exporter = new PdfExporter();
-        exporter.export(this.obracategoria, out);
+        String reportName = null;
 
-        Filedownload.save(out.toByteArray(), "pdf", "report.pdf");
+//        gerarRelatorio.createPdf(obraCategoriaListModel,
+//                obrasregistadasListModel, obraEliminadasListModel, selected, qtdd.getValue());
 
-//        Filedownload.save(JasperExportManager.exportReportToPdf(gerarRelatorio.createPdf(obraCategoriaListModel,
-//                obrasregistadasListModel, obraEliminadasListModel, selected, qtdd.getValue())), "pdf", "report.pdf");
+        if(selected == 0)
+            reportName = "RelatorioObrasQuantidade";
+        else if(selected == 1)
+            reportName = "RelatorioObrasRegistadas";
+        else
+            reportName = "RelatorioObrasEliminadas";
 
-        out.close();
+        Filedownload.save(JasperExportManager.exportReportToPdf(gerarRelatorio.createPdf(obraCategoriaListModel,
+               obrasregistadasListModel, obraEliminadasListModel, selected, qtdd.getValue())), "pdf", reportName+".pdf");
     }
+
+
+    @Listen("onClick=#saveExcell")
+    public void exportToExcell() throws IOException, JRException {
+        String reportName = null;
+        JRXlsExporter exporter = new JRXlsExporter();
+
+        if(selected == 0)
+            reportName = "RelatorioObrasQuantidade";
+        else if(selected == 1)
+            reportName = "RelatorioObrasRegistadas";
+        else
+            reportName = "RelatorioObrasEliminadas";
+
+        String filePath = "src/main/java/sgb/report/xlsFiles/"+reportName+".xls";
+        File xlsFile = new File(filePath);
+
+        if(xlsFile.exists()){
+            xlsFile.delete();
+        }
+
+        exporter.setParameter(JRExporterParameter.JASPER_PRINT, gerarRelatorio.createPdf(obraCategoriaListModel,
+                obrasregistadasListModel, obraEliminadasListModel, selected, qtdd.getValue()));
+        exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, filePath);
+        exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
+        exporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);
+
+        exporter.exportReport();
+
+        Filedownload.save(xlsFile,"xls");
+    }
+
 
     @Listen("onSelect = #obrasTabBox")
     public void knowSelectedTab(){

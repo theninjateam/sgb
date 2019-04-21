@@ -61,7 +61,7 @@
 
                                     <listcell>
                                         <div>
-                                            <label value="${each.quantidade}"/>
+                                            <label value="${each.quantidade}" />
                                         </div>
                                     </listcell>
 
@@ -84,4 +84,3 @@
 
                 </rows>
             </grid>
-
