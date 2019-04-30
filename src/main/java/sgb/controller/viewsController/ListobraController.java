@@ -157,7 +157,7 @@ public class ListobraController extends SelectorComposer<Component>
         String cota = (String) event.getData();
         Obra obra = this.crudService.get(Obra.class, cota);
 
-        session.setAttribute("obraToEdite", obra);
+        session.setAttribute("obraToEdit", obra);
 
         Window window =(Window) Executions.createComponents("/views/modalEliminarExemplar.zul", null, null);
         window.doModal();
