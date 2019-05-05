@@ -192,10 +192,6 @@ public class RgeralController extends SelectorComposer<Component> {
 
         obrasregistadas.setModel(obrasregistadasListModel);
         obraeliminadas.setModel(obraEliminadasListModel);
-
-
-
-
     }
 
 

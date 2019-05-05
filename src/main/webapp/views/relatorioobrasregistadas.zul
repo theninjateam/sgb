@@ -37,7 +37,6 @@
                                     String date = builder.toString();
                                     ]]>
                                     </zscript>
-
                                             <label value="${date}"/>
                                         </div>
                                     </listcell>
@@ -57,7 +56,6 @@
                                             <label value="${each.registroObraPK.obra.titulo}"/>
                                         </div>
                                     </listcell>
-
 
                                     <listcell>
                                         <div>

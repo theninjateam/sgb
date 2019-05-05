@@ -55,7 +55,6 @@ public class ObraController {
             obraCategorias.add(new ObraCategoria(areaCientifica,getObras(areaCientifica)));
         else {
             for (AreaCientifica a : areaCientificaController.getAreaCientifica()) {
-                System.out.println("areaa ======  "+a.getDescricao());
                 obraCategorias.add(new ObraCategoria(a, getObras(a)));
             }
         }
