@@ -147,6 +147,14 @@ public class EmprestimoController
         return this.crudService.findByJPQuery(query.toString(), parameters);
     }
 
+    public List<Emprestimo> getBorrowedBooks(){
+        query = new StringBuilder();
+
+        query.append("SELECT e FROM Emprestimo e");
+
+        return this.crudService.findByJPQuery(query.toString(),null);
+    }
+
     public Emprestimo getRequest(EmprestimoPK emprestimoPK)
     {
         parameters = new HashMap<String, Object>(3);

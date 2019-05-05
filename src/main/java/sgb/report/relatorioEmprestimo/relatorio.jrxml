@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version last-->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorio" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="27ccdd9b-0f0d-496a-ad32-d2312cbf668f">
+	<parameter name="pathLogo" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[]]>
+	</queryString>
+	<field name="dataaprovacao" class="java.util.Calendar">
+		<fieldDescription><![CDATA[dataaprovacao]]></fieldDescription>
+	</field>
+	<field name="datadevolucao" class="java.util.Calendar">
+		<fieldDescription><![CDATA[datadevolucao]]></fieldDescription>
+	</field>
+	<field name="estadoDevolucao" class="sgb.domain.EstadoDevolucao">
+		<fieldDescription><![CDATA[estadoDevolucao]]></fieldDescription>
+	</field>
+	<field name="tipoRequisicao" class="sgb.domain.TipoRequisicao">
+		<fieldDescription><![CDATA[tipoRequisicao]]></fieldDescription>
+	</field>
+	<field name="emprestimoPK" class="sgb.domain.EmprestimoPK"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="169" splitType="Stretch">
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<image hAlign="Center" vAlign="Top">
+				<reportElement x="240" y="10" width="70" height="70" uuid="afcf41b1-8817-475e-95c9-2a8d88a8e2d3">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA[$P{pathLogo}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="0" y="90" width="555" height="30" uuid="749e068e-5482-4512-a2e0-df5a99750b0b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[UNIVERSIDADE LÚRIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="120" width="555" height="30" uuid="21e47dec-59ee-4954-9534-a2a45a6d8117"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RELATÓRIO DE EMPRESTIMOS]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="62" splitType="Stretch">
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<staticText>
+				<reportElement x="309" y="32" width="91" height="30" uuid="71bbf3e3-bf07-464a-b0b6-120ff3848411"/>
+				<box leftPadding="4">
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data Aprovacao]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="400" y="32" width="89" height="30" uuid="6c6fcea6-6fb4-40cf-9c10-7597d7fbc1bd"/>
+				<box leftPadding="4">
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data Limite]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="489" y="32" width="64" height="30" uuid="ffe38985-08df-4c88-8164-64217ce51a1c"/>
+				<box leftPadding="4">
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Estado da Devolucao]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="139" y="32" width="80" height="30" uuid="d584e9a8-1338-4678-9922-b6ceae20bb16"/>
+				<box leftPadding="4">
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo de Requisicao]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="49" y="32" width="90" height="30" uuid="a1f79dbe-e9f8-41ab-abc4-cf9139b0152a"/>
+				<box leftPadding="4">
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Titulo da Obra]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-1" y="32" width="50" height="30" uuid="cc34f9f7-8499-4200-9c0d-c05516d34a6e"/>
+				<box leftPadding="4">
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Utente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="219" y="32" width="90" height="30" uuid="b60a097b-d3e7-457e-8466-b18d8a97a24e"/>
+				<box leftPadding="4">
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data Pedido]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="50" splitType="Stretch">
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<textField>
+				<reportElement x="310" y="10" width="90" height="30" uuid="922ea075-2c15-4218-a3ff-0d4de6b8f851">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box topPadding="9" leftPadding="0" rightPadding="0"/>
+				<textElement textAlignment="Center" verticalAlignment="Top"/>
+				<textFieldExpression><![CDATA[$F{dataaprovacao}.getTime()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="400" y="10" width="90" height="30" uuid="f0750aaa-6b74-426c-8bc4-b0f30737f225"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{datadevolucao}.getTime()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="490" y="10" width="65" height="30" uuid="e12d9ca4-10e5-408b-a103-b7d35d3e3b5c"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{estadoDevolucao}.getDescricao()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="220" y="10" width="90" height="30" uuid="4e675ce6-881d-41b4-9cd1-859508899aa7"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{emprestimoPK}.getDataentradapedido().getTime()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="140" y="10" width="80" height="30" uuid="27bb6ae9-7049-4b79-97d3-bea1a14d42cd"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tipoRequisicao}.getDescricao()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="50" y="10" width="90" height="30" uuid="0ff9bbb4-8583-4120-a971-2dca4cbbadf3"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{emprestimoPK}.getObra().getTitulo()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="-1" y="10" width="51" height="30" uuid="6825edf5-82e2-404b-89e0-e36133eed014">
+					<property name="local_mesure_unitx" value="pixel"/>
+				</reportElement>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{emprestimoPK}.getUtente().getName()]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<lastPageFooter>
+		<band height="30">
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<textField pattern="MMM d, yyyy h:mm:ss a">
+				<reportElement x="0" y="0" width="555" height="30" uuid="72d1c5d5-1eb0-4806-be63-314b2047bf87">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</lastPageFooter>
+</jasperReport>

@@ -6,6 +6,7 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.view.JasperDesignViewer;
 import net.sf.jasperreports.view.JasperViewer;
 import org.zkoss.zul.ListModelList;
+import sgb.domain.Emprestimo;
 import sgb.domain.ObraCategoria;
 import sgb.domain.ObraEliminadas;
 import sgb.domain.RegistroObra;
@@ -37,11 +38,11 @@ public class GerarRelatorio {
             case 0:{
                 List<ObraCategoria> lista = new ArrayList<>();
 
-                path = "src/main/java/sgb/report/relatorio.jrxml";
+                path = "src/main/java/sgb/report/relatorioObras/relatorio.jrxml";
 
-                JasperCompileManager.compileReportToFile("src/main/java/sgb/report/relatorio2.jrxml", "src/main/java/sgb/report/relatorio2.jasper");
+                JasperCompileManager.compileReportToFile("src/main/java/sgb/report/relatorioObras/relatorio2.jrxml", "src/main/java/sgb/report/relatorioObras/relatorio2.jasper");
 
-                String subreportPath = new File("src/main/java/sgb/report/relatorio2.jasper").getCanonicalPath();
+                String subreportPath = new File("src/main/java/sgb/report/relatorioObras/relatorio2.jasper").getCanonicalPath();
 
                 for (ObraCategoria o : obraCategoriaListModelList) {
                     lista.add(o);
@@ -57,7 +58,7 @@ public class GerarRelatorio {
                 break;}
             case 1:{
                 List<RegistroObra> lista1 = new ArrayList<>();
-                path = "src/main/java/sgb/report/relatorioObrasReg.jrxml";
+                path = "src/main/java/sgb/report/relatorioObras/relatorioObrasReg.jrxml";
 
                 for(RegistroObra r: obrasregistadasListModel){
                     lista1.add(r);
@@ -70,7 +71,7 @@ public class GerarRelatorio {
                 break;}
             case 2:{
                 List<ObraEliminadas> lista2 = new ArrayList<>();
-                path = "src/main/java/sgb/report/relatorioObrasEli.jrxml";
+                path = "src/main/java/sgb/report/relatorioObras/relatorioObrasEli.jrxml";
 
                 for(ObraEliminadas oe: obraEliminadasListModel){
                     lista2.add(oe);
@@ -86,4 +87,22 @@ public class GerarRelatorio {
         return jasperPrint;
     }
 
+    public JasperPrint createPdf(ListModelList<Emprestimo> emprestimoListModelList) throws JRException {
+        String pathLogo = "src/main/webapp/img/logoPNG.png";
+        String path = "src/main/java/sgb/report/relatorioEmprestimo/relatorio.jrxml";
+        Map parametros = new HashMap();
+
+        List<Emprestimo> emprestimoList = new ArrayList<>();
+
+        for(Emprestimo e: emprestimoListModelList){
+            emprestimoList.add(e);
+        }
+
+        parametros.put("pathLogo", pathLogo);
+
+        JasperReport jasperReport = JasperCompileManager.compileReport(path);
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport,parametros,new JRBeanCollectionDataSource(emprestimoList));
+
+        return jasperPrint;
+    }
 }
