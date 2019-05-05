@@ -9,11 +9,11 @@
 
             <toolbar id="tbt" height="50px" align="center">
 
-                <div >
-                    <span sclass="input-group-addon">Area Cientifica: </span>
+                <div>
+                    <span sclass="input-group-addon">Area Cientifica:</span>
                     <listbox width="10%" id="areaCientificaListBox"
-                     emptyMessage="Nenhuma Area Cientifica Encotrada"
-                     mold="select">
+                             emptyMessage="Nenhuma Area Cientifica Encotrada"
+                             mold="select">
                         <listhead>
                             <listheader label="Area Cientifica"/>
                         </listhead>
@@ -23,244 +23,246 @@
                                 </listcell>
                             </listitem>
                         </template>
-                     </listbox>
-                    <span sclass="input-group-addon">  From: </span>
-                    <datebox id="dataInicio" cols="12" format="medium"  />
+                    </listbox>
+                    <span sclass="input-group-addon">From:</span>
+                    <datebox id="dataInicio" cols="12" format="medium"/>
 
-                    <span sclass="input-group-addon">   to: </span>
-                    <datebox id="dataFim" cols="12" format="medium" onCreate="self.value = new Date()" />
-                    <button  visible="true"  label="Exportar" id="save" style="margin-left:60px"
-                             mold="os"  sclass="w3-btn w3-light-grey"/>
+                    <span sclass="input-group-addon">to:</span>
+                    <datebox id="dataFim" cols="12" format="medium" onCreate="self.value = new Date()"/>
+                    <button visible="true" label="Exportar" id="save" style="margin-left:60px"
+                            mold="os" sclass="w3-btn w3-light-grey"/>
                 </div>
             </toolbar>
-<grid id="RelatorioResumo">
-    <columns>
-    <column style="background-color: white;  border-style: none;  " width="100%" >
-        <separator/>
-        <separator/>
-        <separator/>
-        <div sclass="w3-col w3-white w3-center">
-            <label sclass="w3-large" value="Relatorio Resumido"/>
-        </div>
-        <separator/>
-        <separator/>
-        <separator/>
+            <grid id="RelatorioResumo">
+                <columns>
+                    <column style="background-color: white;  border-style: none;  " width="100%">
+                        <separator/>
+                        <separator/>
+                        <separator/>
+                        <div sclass="w3-col w3-white w3-center">
+                            <label sclass="w3-large" value="Relatorio Resumido"/>
+                        </div>
+                        <separator/>
+                        <separator/>
+                        <separator/>
 
 
-        <listbox width="100%" id="obracategoria"
-             emptyMessage="Nao tem nenhum pedido pendente">
-        <listhead>
-            <listheader width="25%" height="100%" label="Area"/>
-            <listheader width="15%" height="100%" label="Qtd Disponivel"/>
-            <listheader width="15%" height="100%" label="Qtd Total"/>
-            <listheader width="15%" height="100%" label="Qtd Deletada"/>
-            <listheader width="15%" height="100%" label="Qtd Registada"/>
-            <listheader width="15%" height="100%" label="Qtd Emprestada"/>
-            <listheader width="20%" height="100%" label="Detalhes"/>
-        </listhead>
-        <template name="model">
-            <listitem>
-                <listcell>
-                    <div>
-                        <label value="${each.areaCientifica.descricao}"/>
-                    </div>
-                </listcell>
-                    <listcell>
-                    <div>
-                        <label value="${$composer.getQtd(each.obras)}"/>
-                    </div>
-                </listcell>
-                <listcell>
-                    <div>
-                        <label value="${$composer.getQtd(each.obras)}"/>
-                    </div>
-                </listcell>
-                <listcell>
-                    <div>
-                        <label value="${$composer.getQtd(each.obras)}"/>
-                    </div>
-                </listcell>
-                <listcell>
-                    <div>
-                        <label value="${$composer.getQtd(each.obras)}"/>
-                    </div>
-                </listcell>
-                <listcell>
-                    <div>
-                        <label value="${$composer.getQtd(each.obras)}"/>
-                    </div>
-                </listcell>
-                <listcell>
-                    <div>
-                        <button  label="Detalhes" forward="onClick=obracategoria.onDetalhes(${each.areaCientifica})"
-                                 mold="os" sclass="w3-bar-item w3-btn w3-light-gray w3-col"/>
-                    </div>
-                </listcell>
+                        <listbox width="100%" id="obracategoria"
+                                 emptyMessage="Nao tem nenhum pedido pendente">
+                            <listhead>
+                                <listheader width="25%" height="100%" label="Area"/>
+                                <listheader width="15%" height="100%" label="Qtd Disponivel"/>
+                                <listheader width="15%" height="100%" label="Qtd Total"/>
+                                <listheader width="15%" height="100%" label="Qtd Deletada"/>
+                                <listheader width="15%" height="100%" label="Qtd Registada"/>
+                                <listheader width="15%" height="100%" label="Qtd Emprestada"/>
+                                <listheader width="20%" height="100%" label="Detalhes"/>
+                            </listhead>
+                            <template name="model">
+                                <listitem>
+                                    <listcell>
+                                        <div>
+                                            <label value="${each.areaCientifica.descricao}"/>
+                                        </div>
+                                    </listcell>
+                                    <listcell>
+                                        <div>
+                                            <label value="${$composer.getQtd(each.obras)}"/>
+                                        </div>
+                                    </listcell>
+                                    <listcell>
+                                        <div>
+                                            <label value="${$composer.getQtd(each.obras)}"/>
+                                        </div>
+                                    </listcell>
+                                    <listcell>
+                                        <div>
+                                            <label value="${$composer.getQtd(each.obras)}"/>
+                                        </div>
+                                    </listcell>
+                                    <listcell>
+                                        <div>
+                                            <label value="${$composer.getQtd(each.obras)}"/>
+                                        </div>
+                                    </listcell>
+                                    <listcell>
+                                        <div>
+                                            <label value="${$composer.getQtd(each.obras)}"/>
+                                        </div>
+                                    </listcell>
+                                    <listcell>
+                                        <div>
+                                            <button label="Detalhes"
+                                                    forward="onClick=obracategoria.onDetalhes(${each.areaCientifica})"
+                                                    mold="os" sclass="w3-bar-item w3-btn w3-light-gray w3-col"/>
+                                        </div>
+                                    </listcell>
 
-            </listitem>
-        </template>
-    </listbox>
-    </column>
-    </columns>
-</grid>
+                                </listitem>
+                            </template>
+                        </listbox>
+                    </column>
+                </columns>
+            </grid>
             <grid visible="false" id="detalhesCategoria">
                 <columns>
-                <column style="background-color: white;  border-style: none;  " width="100%" >
-                    <div>
-                        <button  label="Voltar" id="buttonVoltar"
-                                 mold="os" sclass="w3-btn w3-teal w3-left"/>
-                    </div>
-                    <separator/>
-                    <separator/>
-                    <separator/>
-                    <div sclass="w3-col w3-white w3-center">
-                        <label sclass="w3-large" value="Relatorio Extenso"/>
-                    </div>
-                    <separator/>
-                    <div sclass="w3-col w3-white w3-center">
-                        <label sclass="w3-large" id="titulodetalhesCategoria"/>
-                    </div>
-                    <separator/>
-                    <separator/>
-                    <separator/>
-                    <listbox width="100%" id="obracategoriaDetalhes"
-                             emptyMessage="Nao tem nenhum pedido pendente">
-                        <listhead>
-                            <listheader width="5%" height="100%" label="Cota"/>
-                            <listheader height="100%" label="Titulo"/>
-                            <listheader height="100%" label="Autores"/>
-                            <listheader width="10%" height="100%" label="Qtd Emprestada"/>
-                            <listheader width="10%" height="100%" label="Qtd Disponivel"/>
-                            <listheader width="10%" height="100%" label="Qtd Total"/>
-                            <listheader width="10%" height="100%" label="Detalhes"/>
-                        </listhead>
-                        <template name="model">
-                            <listitem>
-                                <listcell>
-                                    <div>
-                                        <label value="${each.cota}"/>
-                                    </div>
-                                </listcell>
-                                <listcell>
-                                    <div>
-                                        <label value="${each.titulo}"/>
-                                    </div>
-                                </listcell>
-                                <listcell>
-                                    <!--<div>-->
-                                        <label forEach="${each.autores}"  value="${each.nome}. "/>
-                                    <!--</div>-->
-                                </listcell>
-                                <listcell>
-                                    <div>
-                                        <label value="${each.quantidade}"/>
-                                    </div>
-                                </listcell>
-                                <listcell>
-                                    <div>
-                                        <label value="${each.quantidade}"/>
-                                    </div>
-                                </listcell>
-                                <listcell>
-                                    <div>
-                                        <label value="${each.quantidade}"/>
-                                    </div>
-                                </listcell>
-                                <listcell>
-                                    <div>
-                                        <button label="Detalhes" forward="onClick=obracategoriaDetalhes.onDetalhes(${each})"
-                                                mold="os"  sclass="w3-bar-item w3-btn w3-light-gray w3-col" />
-                                    </div>
-                                </listcell>
+                    <column style="background-color: white;  border-style: none;  " width="100%">
+                        <div>
+                            <button label="Voltar" id="buttonVoltar"
+                                    mold="os" sclass="w3-btn w3-teal w3-left"/>
+                        </div>
+                        <separator/>
+                        <separator/>
+                        <separator/>
+                        <div sclass="w3-col w3-white w3-center">
+                            <label sclass="w3-large" value="Relatorio Extenso"/>
+                        </div>
+                        <separator/>
+                        <div sclass="w3-col w3-white w3-center">
+                            <label sclass="w3-large" id="titulodetalhesCategoria"/>
+                        </div>
+                        <separator/>
+                        <separator/>
+                        <separator/>
+                        <listbox width="100%" id="obracategoriaDetalhes"
+                                 emptyMessage="Nao tem nenhum pedido pendente">
+                            <listhead>
+                                <listheader width="5%" height="100%" label="Cota"/>
+                                <listheader height="100%" label="Titulo"/>
+                                <listheader height="100%" label="Autores"/>
+                                <listheader width="10%" height="100%" label="Qtd Emprestada"/>
+                                <listheader width="10%" height="100%" label="Qtd Disponivel"/>
+                                <listheader width="10%" height="100%" label="Qtd Total"/>
+                                <listheader width="10%" height="100%" label="Detalhes"/>
+                            </listhead>
+                            <template name="model">
+                                <listitem>
+                                    <listcell>
+                                        <div>
+                                            <label value="${each.cota}"/>
+                                        </div>
+                                    </listcell>
+                                    <listcell>
+                                        <div>
+                                            <label value="${each.titulo}"/>
+                                        </div>
+                                    </listcell>
+                                    <listcell>
+                                        <!--<div>-->
+                                        <label forEach="${each.autores}" value="${each.nome}. "/>
+                                        <!--</div>-->
+                                    </listcell>
+                                    <listcell>
+                                        <div>
+                                            <label value="${each.quantidade}"/>
+                                        </div>
+                                    </listcell>
+                                    <listcell>
+                                        <div>
+                                            <label value="${each.quantidade}"/>
+                                        </div>
+                                    </listcell>
+                                    <listcell>
+                                        <div>
+                                            <label value="${each.quantidade}"/>
+                                        </div>
+                                    </listcell>
+                                    <listcell>
+                                        <div>
+                                            <button label="Detalhes"
+                                                    forward="onClick=obracategoriaDetalhes.onDetalhes(${each})"
+                                                    mold="os" sclass="w3-bar-item w3-btn w3-light-gray w3-col"/>
+                                        </div>
+                                    </listcell>
 
-                            </listitem>
-                        </template>
-                    </listbox>
-                </column>
+                                </listitem>
+                            </template>
+                        </listbox>
+                    </column>
                 </columns>
             </grid>
 
 
             <grid visible="false" id="detalhesObra">
                 <columns>
-                <column style="background-color: white;  border-style: none;  " width="100%" >
+                    <column style="background-color: white;  border-style: none;  " width="100%">
 
-                    <div>
-                        <button  label="Voltar" id="buttonVoltarCatDetalhes"
-                                 mold="os" sclass="w3-btn w3-teal w3-left"/>
-                    </div>
-                    <separator/>
-                    <separator/>
-                    <listbox width="100%" id="ObraDetalhe" emptyMessage="Nao tem nenhum pedido pendente" >
-                    <template name="model">
-                    <listitem>
-                    <listcell>
-
-                    <div sclass="w3-container w3-hide-small w3-hide-medium w3-padding-16 w3-white"  style="white-space: normal; line-height: 1.25;">
-
-                    <div sclass="w3-container w3-center w3-white w3-left "  style="width: 20%; position: relative;">
-                        <image src="${each.pathcapa}" sclass="w3-card-4 "
-                               style="width: 100%; height:146px; width:102px;"/>
+                        <div>
+                            <button label="Voltar" id="buttonVoltarCatDetalhes"
+                                    mold="os" sclass="w3-btn w3-teal w3-left"/>
+                        </div>
                         <separator/>
-                        <label value="${each.titulo}"/>
                         <separator/>
-                        <!--<label value="Por:"/>-->
-                        <!--<label forEach="${each.autores}"  value="${each.nome}. "/>-->
-                    </div>
-                    <div sclass="w3-container w3-rest w3-display-container w3-white w3-right"
-                         style="width: 80%; position: relative;">
+                        <listbox width="100%" id="ObraDetalhe" emptyMessage="Nao tem nenhum pedido pendente">
+                            <template name="model">
+                                <listitem>
+                                    <listcell>
 
-                    <div sclass="w3-left" style="display: grid;">
-                    <div sclass="w3-left">
-                        <label sclass="w3-medium" value="Detalhes da Obra"/>
+                                        <div sclass="w3-container w3-hide-small w3-hide-medium w3-padding-16 w3-white"
+                                             style="white-space: normal; line-height: 1.25;">
+
+                                            <div sclass="w3-container w3-center w3-white w3-left "
+                                                 style="width: 20%; position: relative;">
+                                                <image src="${each.pathcapa}" sclass="w3-card-4 "
+                                                       style="width: 100%; height:146px; width:102px;"/>
+                                                <separator/>
+                                                <label value="${each.titulo}"/>
+                                                <separator/>
+                                                <!--<label value="Por:"/>-->
+                                                <!--<label forEach="${each.autores}"  value="${each.nome}. "/>-->
+                                            </div>
+                                            <div sclass="w3-container w3-rest w3-display-container w3-white w3-right"
+                                                 style="width: 80%; position: relative;">
+
+                                                <div sclass="w3-left" style="display: grid;">
+                                                    <div sclass="w3-left">
+                                                        <label sclass="w3-medium" value="Detalhes da Obra"/>
+                                                        <separator/>
+                                                        <!--<label sclass="w3-text-black w3-medium" value="Utente:"/>-->
+                                                        <!--<label sclass="w3-medium" value="${each.emprestimoPK.utente.name} ${each.emprestimoPK.utente.lastName}"/>-->
+                                                        <!--<label sclass="w3-medium" forEach="${each.emprestimoPK.utente.roles}"  value="(${each.role} ,)"/>-->
+                                                        <!--<separator/>-->
+                                                        <!--<label sclass=" w3-text-black w3-medium" value="Data Aprovacao :"/>-->
+                                                        <!--<label sclass="w3-medium" value="${$composer.dataConvert(each.dataaprovacao)}"/>-->
+                                                        <!--<separator/>-->
+                                                        <!--<label sclass="w3-medium" value="Data Limite :"/>-->
+                                                        <!--<label sclass="w3-medium" value="${$composer.dataConvert(each.datadevolucao)}"/>-->
+                                                        <!--<separator/>-->
+                                                        <!--<label sclass="w3-medium" value="Estado :"/>-->
+                                                        <!--<label  if="${$composer.Expired(each)}" sclass="w3-medium w3-red" value="Expired"/>-->
+                                                        <!--<label  if="${!$composer.Expired(each)}" sclass="w3-medium w3-green" value="Update"/>-->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </listcell>
+                                </listitem>
+                            </template>
+                        </listbox>
+
+
                         <separator/>
-                        <!--<label sclass="w3-text-black w3-medium" value="Utente:"/>-->
-                        <!--<label sclass="w3-medium" value="${each.emprestimoPK.utente.name} ${each.emprestimoPK.utente.lastName}"/>-->
-                        <!--<label sclass="w3-medium" forEach="${each.emprestimoPK.utente.roles}"  value="(${each.role} ,)"/>-->
-                        <!--<separator/>-->
-                        <!--<label sclass=" w3-text-black w3-medium" value="Data Aprovacao :"/>-->
-                        <!--<label sclass="w3-medium" value="${$composer.dataConvert(each.dataaprovacao)}"/>-->
-                        <!--<separator/>-->
-                        <!--<label sclass="w3-medium" value="Data Limite :"/>-->
-                        <!--<label sclass="w3-medium" value="${$composer.dataConvert(each.datadevolucao)}"/>-->
-                        <!--<separator/>-->
-                        <!--<label sclass="w3-medium" value="Estado :"/>-->
-                        <!--<label  if="${$composer.Expired(each)}" sclass="w3-medium w3-red" value="Expired"/>-->
-                        <!--<label  if="${!$composer.Expired(each)}" sclass="w3-medium w3-green" value="Update"/>-->
-                    </div>
-                    </div>
-                    </div>
-                    </div>
-                    </listcell>
-                    </listitem>
-                    </template>
-                    </listbox>
+                        <separator/>
+                        <separator/>
+                        <div sclass="w3-col w3-white w3-left">
+                            <label sclass="w3-large" value="Lista deRegisto"/>
+                        </div>
+                        <separator/>
+                        <listbox width="70%" id="obrasregistadas"
+                                 emptyMessage="Nao tem nenhum pedido pendente">
+                            <listhead>
+                                <listheader width="20%" height="100%" label="Data da Operacao"/>
+                                <listheader width="20%" height="100%" label="Bibliotecario"/>
+                                <listheader width="5%" height="100%" label="Qtd"/>
+                                <listheader width="20%" height="100%" label="Forma Aquisicao"/>
+                            </listhead>
+                            <template name="model">
+                                <listitem>
+                                    <listcell>
+                                        <div>
+                                            <zscript>
 
-
-                    <separator/>
-                    <separator/>
-                    <separator/>
-                    <div sclass="w3-col w3-white w3-left">
-                        <label sclass="w3-large" value="Lista deRegisto"/>
-                    </div>
-                    <separator/>
-                    <listbox width="70%" id="obrasregistadas"
-                             emptyMessage="Nao tem nenhum pedido pendente">
-                        <listhead>
-                            <listheader width="20%" height="100%" label="Data da Operacao"/>
-                            <listheader width="20%" height="100%" label="Bibliotecario"/>
-                            <!--<listheader width="10%" height="100%" label="Cota"/>-->
-                            <!--<listheader width="20%" height="100%" label="Titulo"/>-->
-                            <listheader width="5%" height="100%" label="Qtd"/>
-                            <listheader width="20%" height="100%" label="Forma Aquisicao"/>
-                        </listhead>
-                        <template name="model">
-                            <listitem>
-                                <listcell>
-                                    <div>
-                                        <zscript>
-
-                                            <![CDATA[
+                                                <![CDATA[
                                     import java.text.*;
                                     SimpleDateFormat  timeFormatter = new SimpleDateFormat("'('HH:mm:s')'");
                                     DateFormat  dateFormatter = new SimpleDateFormat();
@@ -275,70 +277,68 @@
 
                                     String date = builder.toString();
                                     ]]>
-                                        </zscript>
+                                            </zscript>
 
-                                        <label value="${date}"/>
-                                    </div>
-                                </listcell>
-                                <listcell>
-                                    <div>
-                                        <!--<label value="${each.user.name}"/>-->
-                                    </div>
-                                </listcell>
+                                            <label value="${date}"/>
+                                        </div>
+                                    </listcell>
+                                    <listcell>
+                                        <div>
+                                            <!--<label value="${each.user.name}"/>-->
+                                        </div>
+                                    </listcell>
 
-                                <!--<listcell>-->
+                                    <!--<listcell>-->
                                     <!--<div>-->
-                                        <!--<label value="${each.registroObraPK.obra.cota}"/>-->
+                                    <!--<label value="${each.registroObraPK.obra.cota}"/>-->
                                     <!--</div>-->
-                                <!--</listcell>-->
-                                <!--<listcell>-->
+                                    <!--</listcell>-->
+                                    <!--<listcell>-->
                                     <!--<div>-->
-                                        <!--<label value="${each.registroObraPK.obra.titulo}"/>-->
+                                    <!--<label value="${each.registroObraPK.obra.titulo}"/>-->
                                     <!--</div>-->
-                                <!--</listcell>-->
+                                    <!--</listcell>-->
 
 
-                                <listcell>
-                                    <div>
-                                        <label value="${each.quantidade}"/>
-                                    </div>
-                                </listcell>
+                                    <listcell>
+                                        <div>
+                                            <label value="${each.quantidade}"/>
+                                        </div>
+                                    </listcell>
 
-                                <listcell>
-                                    <div>
-                                        <!--<label value="${each.formaAquisicao.descricao}"/>-->
-                                        <label value="${each.observacao}"/>
-                                    </div>
-                                </listcell>
+                                    <listcell>
+                                        <div>
+                                            <!--<label value="${each.formaAquisicao.descricao}"/>-->
+                                            <label value="${each.observacao}"/>
+                                        </div>
+                                    </listcell>
 
-                            </listitem>
-                        </template>
-                    </listbox>
-                    <separator/>
-                    <separator/>
-                    <div sclass="w3-col w3-white w3-left">
-                        <label sclass="w3-large" value="Lista de Eliminacao"/>
-                    </div>
-                    <separator/>
-                    <separator/>
+                                </listitem>
+                            </template>
+                        </listbox>
+                        <separator/>
+                        <separator/>
+                        <div sclass="w3-col w3-white w3-left">
+                            <label sclass="w3-large" value="Lista de Eliminacao"/>
+                        </div>
+                        <separator/>
+                        <separator/>
 
-                    <listbox width="70%" id="obraeliminadas"
-                             emptyMessage="Nao tem nenhum pedido pendente">
-                        <listhead>
-                            <listheader width="20%" height="100%" label="Data da Operacao"/>
-                            <listheader width="20%" height="100%" label="Bibliotecario"/>
-                            <!--<listheader width="10%" height="100%" label="Cota"/>-->
-                            <!--<listheader width="20%" height="100%" label="Titulo"/>-->
-                            <listheader width="5%" height="100%" label="Qtd"/>
-                            <listheader width="20%" height="100%" label="Motivos"/>
-                        </listhead>
-                        <template name="model">
-                            <listitem>
-                                <listcell>
-                                    <div>
-                                        <zscript>
+                        <listbox width="70%" id="obraeliminadas"
+                                 emptyMessage="Nao tem nenhum pedido pendente">
+                            <listhead>
+                                <listheader width="20%" height="100%" label="Data da Operacao"/>
+                                <listheader width="20%" height="100%" label="Bibliotecario"/>
+                                <listheader width="5%" height="100%" label="Qtd"/>
+                                <listheader width="20%" height="100%" label="Motivos"/>
+                            </listhead>
+                            <template name="model">
+                                <listitem>
+                                    <listcell>
+                                        <div>
+                                            <zscript>
 
-                                            <![CDATA[
+                                                <![CDATA[
                                                             import java.text.*;
                                                             SimpleDateFormat  timeFormatter = new SimpleDateFormat("'('HH:mm:s')'");
                                                             DateFormat  dateFormatter = new SimpleDateFormat();
@@ -353,50 +353,48 @@
 
                                                             String date = builder.toString();
                                                     ]]>
-                                        </zscript>
-                                        <label value="${date}"/>
-                                    </div>
-                                </listcell>
-                                <listcell>
-                                    <div>
-                                        <!--<label value="${each.user.name}"/>-->
-                                    </div>
-                                </listcell>
+                                            </zscript>
+                                            <label value="${date}"/>
+                                        </div>
+                                    </listcell>
+                                    <listcell>
+                                        <div>
+                                            <!--<label value="${each.user.name}"/>-->
+                                        </div>
+                                    </listcell>
 
-                                <!--<listcell>-->
+                                    <!--<listcell>-->
                                     <!--<div>-->
-                                        <!--<label value="${each.obraEliminadasPK.obra.cota}"/>-->
+                                    <!--<label value="${each.obraEliminadasPK.obra.cota}"/>-->
                                     <!--</div>-->
-                                <!--</listcell>-->
-                                <!--<listcell>-->
+                                    <!--</listcell>-->
+                                    <!--<listcell>-->
                                     <!--<div>-->
-                                        <!--<label value="${each.obraEliminadasPK.obra.titulo}"/>-->
+                                    <!--<label value="${each.obraEliminadasPK.obra.titulo}"/>-->
                                     <!--</div>-->
-                                <!--</listcell>-->
+                                    <!--</listcell>-->
 
 
-                                <listcell>
-                                    <div>
-                                        <label value="${each.quantidade}"/>
-                                    </div>
-                                </listcell>
+                                    <listcell>
+                                        <div>
+                                            <label value="${each.quantidade}"/>
+                                        </div>
+                                    </listcell>
 
-                                <listcell>
-                                    <div>
-                                        <label value="${each.descricao}"/>
-                                    </div>
-                                </listcell>
+                                    <listcell>
+                                        <div>
+                                            <label value="${each.descricao}"/>
+                                        </div>
+                                    </listcell>
 
-                            </listitem>
-                        </template>
-                    </listbox>
+                                </listitem>
+                            </template>
+                        </listbox>
 
 
-                </column>
+                    </column>
                 </columns>
             </grid>
-
-
         </div>
     </window>
 </zk>
