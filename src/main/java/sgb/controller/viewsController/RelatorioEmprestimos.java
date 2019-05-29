@@ -45,6 +45,7 @@ public class RelatorioEmprestimos extends SelectorComposer<Component> {
 
         emprestimoListModel = new ListModelList<Emprestimo>(emprestimoController.getBorrowedBooks());
 
+
         EstadoDevolucao estadoDevolucao = new EstadoDevolucao();
         estadoDevolucao.setDescricao("Todos");
         estadoDevolucao.setIdestadodevolucao(0);

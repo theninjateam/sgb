@@ -16,6 +16,9 @@
          <!--<property name="username" value="faowvudjaqofvd" />-->
          <!--<property name="password" value="56679e6c26926f3c2424e5f2347bdd5a2a544b4cf9c0c86e66eed380196e0185" />-->
      <!--</bean>-->
+    <bean id="sendEmail" class="sgb.email.SendEmail">
+    </bean>
+
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.postgresql.Driver" />
@@ -152,6 +155,7 @@
         <constructor-arg index="4" ref="estadoDevolucaoControler"/>
         <constructor-arg index="5" ref="emprestimoController"/>
         <constructor-arg index="6" ref="borrowedBooksDeadline"/>
+        <constructor-arg index="7" ref="sendEmail"/>
     </bean>
 
     <bean id="borrowedBooksDeadlineController"  class="sgb.deadline.BorrowedBooksDeadlineController" >
