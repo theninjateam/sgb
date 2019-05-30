@@ -4,24 +4,23 @@ import static javax.mail.Message.RecipientType.TO;
 
 import java.io.IOException;
 import java.util.Properties;
-import javax.mail.Authenticator;
 import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
-import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 public class SendEmail{
 
 
+    private sgb.email.PasswordAuthenticatior passwordAuthenticatior;
     Properties props = new Properties();
     Session session;
 
-    public SendEmail() {
+    public SendEmail(sgb.email.PasswordAuthenticatior passwordAuthenticatior) {
 
-
+        this.passwordAuthenticatior = passwordAuthenticatior;
+//        this.passwordAuthenticatior = new sgb.email.PasswordAuthenticatior("ninjateam@unilurio.ac.mz", "p(x)=7*ninja");
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.socketFactory.port", "465");
         props.put("mail.smtp.socketFactory.class",
@@ -30,31 +29,30 @@ public class SendEmail{
         props.put("mail.smtp.port", "465");
 
         session = Session.getDefaultInstance(
-                props,
-                new PasswordAuthenticatior("ninjateam@unilurio.ac.mz", "p(x)=7*ninja")
+                props, this.passwordAuthenticatior
         );
 
     }
 
-    class PasswordAuthenticatior extends Authenticator {
+//    class PasswordAuthenticatior extends Authenticator {
+//
+//        private String username;
+//        private String password;
+//
+//        PasswordAuthenticatior(String username, String password) {
+//            this.username = username;
+//            this.password = password;
+//        }
+//
+//        public PasswordAuthentication getPasswordAuthentication() {
+//            return new PasswordAuthentication(username, password);
+//        }
+//    }
 
-        private String username;
-        private String password;
 
-        PasswordAuthenticatior(String username, String password) {
-            this.username = username;
-            this.password = password;
-        }
+    public void sendEmail(String sbjt, String msg, String destination) throws MessagingException, IOException {
 
-        public PasswordAuthentication getPasswordAuthentication() {
-            return new PasswordAuthentication(username, password);
-        }
-    }
-
-
-    public void sendEmail(String msg,String sbjt, String destination) throws MessagingException, IOException {
-
-        try {
+//        try {
 
             MimeMessage mimeMessage = new MimeMessage(session);
 
@@ -66,14 +64,14 @@ public class SendEmail{
             mimeMessage.setSubject(sbjt, "utf-8");
             mimeMessage.setText(msg);
 
-          //  mimeMessage.writeTo(System.out);
+            mimeMessage.writeTo(System.out);
 
             Transport.send(mimeMessage);
 
-        } catch (Exception ex){
-
-            System.out.println("errro mensagem nao enviada");
-        }
+//        } catch (Exception ex){
+//
+//            System.out.println("errro mensagem nao enviada");
+//        }
     }
 
 }

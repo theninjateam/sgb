@@ -60,4 +60,16 @@ public class MultaController
         return this.crudService.findByJPQuery(query.toString(), parameters);
     }
 
+    public List<Multa> getByNotification(boolean notification)
+    {
+        parameters = new HashMap<String, Object>(1);
+        query = new StringBuilder();
+
+        parameters.put("notification", notification);
+
+        query.append("SELECT m FROM Multa m WHERE m.notificacao = :notification");
+
+        return this.crudService.findByJPQuery(query.toString(), parameters);
+    }
+
 }

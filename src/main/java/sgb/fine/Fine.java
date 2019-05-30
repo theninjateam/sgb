@@ -73,7 +73,9 @@ public class Fine
                     "ultrapassou o tempo limite de emprestimo, tendo uma multa de " + multa.getValorpago() +  " MTN.\n Porfavor, Regularize a sua situacao de multa, o mais breve possivel";
             subjet = "Notificacao de Multa";
             try {
-                sendEmail.sendEmail(msg,subjet,emprestimo.getEmprestimoPK().getUtente().getEmail());
+                sendEmail.sendEmail(subjet, msg, emprestimo.getEmprestimoPK().getUtente().getEmail());
+
+
             } catch (MessagingException e1) {
                 e1.printStackTrace();
             } catch (IOException e1) {

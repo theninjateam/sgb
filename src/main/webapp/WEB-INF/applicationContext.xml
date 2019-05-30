@@ -16,8 +16,29 @@
          <!--<property name="username" value="faowvudjaqofvd" />-->
          <!--<property name="password" value="56679e6c26926f3c2424e5f2347bdd5a2a544b4cf9c0c86e66eed380196e0185" />-->
      <!--</bean>-->
+
+    <!--Meneses, may 2019-->
     <bean id="sendEmail" class="sgb.email.SendEmail">
+        <constructor-arg index="0" ref="passwordAuthenticator"/>
     </bean>
+
+    <bean id="passwordAuthenticator" class="sgb.email.PasswordAuthenticatior">
+        <constructor-arg index="0" value="ninjateam@unilurio.ac.mz"/>
+        <constructor-arg index="1" value="p(x)=7*ninja" />
+    </bean>
+
+    <bean id="sendEmailController" class="sgb.email.SendEmailController">
+        <constructor-arg index="0" ref="multaController"/>
+        <constructor-arg index="1" ref="sendEmail" />
+    </bean>
+
+    <bean id="emailThreaManager" class="sgb.email.EmailThreadManager">
+        <constructor-arg index="0" ref="sendEmailController"/>
+    </bean>
+
+
+
+    <!---->
 
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
