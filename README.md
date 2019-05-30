@@ -1,2 +1,2 @@
 #sgb
-[![Build Status](https://travis-ci.org/theninjateam/sgb.svg?branch=master)](https://travis-ci.org/theninjateam/sgb)
+[![Build Status](https://travis-ci.org/theninjateam/sgb.svg?branch=gestaoobras)](https://travis-ci.org/theninjateam/sgb)
