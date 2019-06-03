@@ -12,15 +12,15 @@ public class TipoRequisicaoControler
     private HashMap<String, Object> parameters;
     private StringBuilder query;
 
-    public final int INTERNAL_REQUISITION;
-    public final int HOME_REQUISITION;
+    public final int REQUISICAO_INTERNA;
+    public final int REQUISICAO_DOMICILIAR;
 
 
     public TipoRequisicaoControler(CRUDService crudService)
     {
         this.CRUDService = crudService;
-        HOME_REQUISITION = getValue("HOME_REQUISITION");
-        INTERNAL_REQUISITION = getValue("INTERNAL_REQUISITION");
+        REQUISICAO_DOMICILIAR = getValue("REQUISICAO_DOMICILIAR");
+        REQUISICAO_INTERNA = getValue("REQUISICAO_INTERNA");
     }
 
     public int getValue(String description)

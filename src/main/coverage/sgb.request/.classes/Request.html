@@ -264,13 +264,13 @@
 <b class="nc"><i>190</i>&nbsp;        Emprestimo emprestimo = new Emprestimo();</b>
 <i>191</i>&nbsp;
 <b class="nc"><i>192</i>&nbsp;        EstadoPedido estadoPedido = crudService.get(EstadoPedido.class,estadoPedidoControler.PENDING_MINI_BOOKING);</b>
-<b class="nc"><i>193</i>&nbsp;        EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, estadoDevolucaoControler.UNDETERMINED);</b>
+<b class="nc"><i>193</i>&nbsp;        EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, estadoDevolucaoControler.INDETERMINADO);</b>
 <b class="nc"><i>194</i>&nbsp;        EstadoRenovacao estadoRenovacao = null;</b>
 <i>195</i>&nbsp;
-<b class="nc"><i>196</i>&nbsp;        TipoRequisicao tipoRequisicao = crudService.get(TipoRequisicao.class,tipoRequisicaoControler.INTERNAL_REQUISITION);</b>
+<b class="nc"><i>196</i>&nbsp;        TipoRequisicao tipoRequisicao = crudService.get(TipoRequisicao.class,tipoRequisicaoControler.REQUISICAO_INTERNA);</b>
 <i>197</i>&nbsp;
 <b class="nc"><i>198</i>&nbsp;        if (item.getIsHomeRequisition()) {</b>
-<b class="nc"><i>199</i>&nbsp;            tipoRequisicao = crudService.get(TipoRequisicao.class, tipoRequisicaoControler.HOME_REQUISITION);</b>
+<b class="nc"><i>199</i>&nbsp;            tipoRequisicao = crudService.get(TipoRequisicao.class, tipoRequisicaoControler.REQUISICAO_DOMICILIAR);</b>
 <i>200</i>&nbsp;        }
 <b class="nc"><i>201</i>&nbsp;        emprestimo.setTipoRequisicao(tipoRequisicao);</b>
 <i>202</i>&nbsp;

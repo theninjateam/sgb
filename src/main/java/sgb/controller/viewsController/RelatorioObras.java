@@ -100,7 +100,7 @@ public class RelatorioObras extends SelectorComposer<Component> {
         obraeliminadas = (Listbox)idInclObrasEliminadas.getFellow("obraeliminadas");
         obracategoria = (Listbox)idInclRelatorioObrasQuantidade.getFellow("obracategoria");
         qtdd = (Label) idInclRelatorioObrasQuantidade.getFellow("qtdd");
-        
+
         AreaCientifica a = new AreaCientifica();
         a.setDescricao("Todas Areas"); a.setIdarea(0);
         areaCientificaListModel = new ListModelList<AreaCientifica>(areaCientificaController.getAreaCientifica());
@@ -118,15 +118,15 @@ public class RelatorioObras extends SelectorComposer<Component> {
         AreaCientifica areaCientifica = areaCientificaListBox.getSelectedItem().getValue();
 
         if(areaCientifica.getIdarea()!=0){
-           if(dataInicio.getValue() ==null) {
-               obraCategoriaListModel = new ListModelList<ObraCategoria>(obraController.getObrasCategorias(areaCientifica));
-               qtdd = (Label) idInclRelatorioObrasQuantidade.getFellow("qtdd");
-           }else{
-               getUpdateDate();
-               registroObras = registroObraController.getObrasByDate(dataI,dataF,areaCientifica);
-               obraCategoriaListModel = new ListModelList<ObraCategoria>(obraController.getObrasCategorias(registroObras,areaCientifica));
-               qtdd = (Label) idInclRelatorioObrasQuantidade.getFellow("qtdd");
-           }
+            if(dataInicio.getValue() ==null) {
+                obraCategoriaListModel = new ListModelList<ObraCategoria>(obraController.getObrasCategorias(areaCientifica));
+                qtdd = (Label) idInclRelatorioObrasQuantidade.getFellow("qtdd");
+            }else{
+                getUpdateDate();
+                registroObras = registroObraController.getObrasByDate(dataI,dataF,areaCientifica);
+                obraCategoriaListModel = new ListModelList<ObraCategoria>(obraController.getObrasCategorias(registroObras,areaCientifica));
+                qtdd = (Label) idInclRelatorioObrasQuantidade.getFellow("qtdd");
+            }
         } else {
             qtdd = (Label) idInclRelatorioObrasQuantidade.getFellow("qtdd");
             setListModelsallData();
@@ -209,7 +209,7 @@ public class RelatorioObras extends SelectorComposer<Component> {
             reportName = "RelatorioObrasEliminadas";
 
         Filedownload.save(JasperExportManager.exportReportToPdf(gerarRelatorio.createPdf(obraCategoriaListModel,
-               obrasregistadasListModel, obraEliminadasListModel, selected, qtdd.getValue())), "pdf", reportName+".pdf");
+                obrasregistadasListModel, obraEliminadasListModel, selected, qtdd.getValue())), "pdf", reportName+".pdf");
     }
 
 

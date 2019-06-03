@@ -643,7 +643,7 @@
 <b class="nc"><i>569</i>&nbsp;        List&lt;Multa&gt; multas = mController.getFine(user,eMController.NOT_PAID);</b>
 <i>570</i>&nbsp;
 <i>571</i>&nbsp;        /*
-<i>572</i>&nbsp;        List&lt;Emprestimo&gt; emprestimos = eController.getBorrowedBooks(user,eDController.NOT_RETURNED);
+<i>572</i>&nbsp;        List&lt;Emprestimo&gt; emprestimos = eController.getBorrowedBooks(user,eDController.NAO_DEVOLVIDO);
 <i>573</i>&nbsp;
 <i>574</i>&nbsp;                crudService.findByJPQuery(&quot;SELECT e FROM Emprestimo e WHERE e.emprestimoPK.utente.id = &quot;+
 <i>575</i>&nbsp;                user.getId()+&quot; and e.estadoDevolucao.idestadodevolucao = 2&quot;, null); // isso deve mudar
@@ -656,7 +656,7 @@
 <i>582</i>&nbsp;    {
 <b class="nc"><i>583</i>&nbsp;        int qtd = 0;</b>
 <i>584</i>&nbsp;
-<b class="nc"><i>585</i>&nbsp;        List&lt;Emprestimo&gt; emprestimos = eController.getBorrowedBooks(user,eDController.UNDETERMINED);</b>
+<b class="nc"><i>585</i>&nbsp;        List&lt;Emprestimo&gt; emprestimos = eController.getBorrowedBooks(user,eDController.INDETERMINADO);</b>
 <i>586</i>&nbsp;        /*
 <i>587</i>&nbsp;                crudService.findByJPQuery(&quot;SELECT e FROM Emprestimo e WHERE e.emprestimoPK.utente.id = &quot;+
 <i>588</i>&nbsp;                user.getId()+&quot; and e.estadoDevolucao.idestadodevolucao = 1&quot;, null);
@@ -672,7 +672,7 @@
 <i>598</i>&nbsp;    {
 <b class="nc"><i>599</i>&nbsp;        int qtd = 0;</b>
 <i>600</i>&nbsp;
-<b class="nc"><i>601</i>&nbsp;        List&lt;Emprestimo&gt; emprestimos = eController.getRequest(user,obra,eDController.UNDETERMINED);</b>
+<b class="nc"><i>601</i>&nbsp;        List&lt;Emprestimo&gt; emprestimos = eController.getRequest(user,obra,eDController.INDETERMINADO);</b>
 <i>602</i>&nbsp;
 <i>603</i>&nbsp;        /*
 <i>604</i>&nbsp;                crudService.findByJPQuery(&quot;SELECT e FROM Emprestimo e WHERE e.emprestimoPK.utente.id = &quot;+

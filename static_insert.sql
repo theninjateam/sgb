@@ -24,9 +24,9 @@ INSERT INTO "public"."config" VALUES ('DEADLINE_TEACHER_BORROWED_BOOKS', 'tempo 
 -- ----------------------------
 -- Records of estadodevolucao
 -- ----------------------------
-INSERT INTO "public"."estadodevolucao" VALUES (1, 'UNDETERMINED');
-INSERT INTO "public"."estadodevolucao" VALUES (3, 'RETURNED');
-INSERT INTO "public"."estadodevolucao" VALUES (2, 'NOT_RETURNED');
+INSERT INTO "public"."estadodevolucao" VALUES (1, 'INDETERMINADO');
+INSERT INTO "public"."estadodevolucao" VALUES (3, 'DEVOLVIDO');
+INSERT INTO "public"."estadodevolucao" VALUES (2, 'NAO_DEVOLVIDO');
 
 -- ----------------------------
 -- Records of estadomulta
@@ -102,6 +102,6 @@ INSERT INTO "public"."user_role" VALUES (3, 2);
 -- ----------------------------
 -- Records of tiporequisicao
 -- ----------------------------
-INSERT INTO "public"."tiporequisicao" VALUES (1, 'HOME_REQUISITION');
-INSERT INTO "public"."tiporequisicao" VALUES (2, 'INTERNAL_REQUISITION');
+INSERT INTO "public"."tiporequisicao" VALUES (1, 'REQUISICAO_DOMICILIAR');
+INSERT INTO "public"."tiporequisicao" VALUES (2, 'REQUISICAO_INTERNA');
 

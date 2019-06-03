@@ -75,7 +75,7 @@
 //        emprestimos = new ArrayList<Emprestimo>();
 //
 //
-//        EstadoDevolucao estadoDevolucao = this.crudService.get(EstadoDevolucao.class, this.estadoDevolucaoControler.NOT_RETURNED);
+//        EstadoDevolucao estadoDevolucao = this.crudService.get(EstadoDevolucao.class, this.estadoDevolucaoControler.NAO_DEVOLVIDO);
 //
 //        for (Emprestimo e: es)
 //        {

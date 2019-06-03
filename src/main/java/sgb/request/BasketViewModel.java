@@ -268,7 +268,7 @@ public class BasketViewModel
 
         List<Emprestimo> emprestimos = new ArrayList<Emprestimo>();
 
-        emprestimos.addAll(this.emprestimoController.getBorrowedBooks(this.user, this.estadoDevolucaoControler.NOT_RETURNED));
+        emprestimos.addAll(this.emprestimoController.getBorrowedBooks(this.user, this.estadoDevolucaoControler.NAO_DEVOLVIDO));
         emprestimos.addAll(this.emprestimoController.getRequest(this.user, this.estadoPedidoControler.ON_WAINTING_QUEUE));
         emprestimos.addAll(this.emprestimoController.getRequest(this.user, this.estadoPedidoControler.PENDING_BOOKING));
         emprestimos.addAll(this.emprestimoController.getRequest(this.user, this.estadoPedidoControler.PENDING_MINI_BOOKING));

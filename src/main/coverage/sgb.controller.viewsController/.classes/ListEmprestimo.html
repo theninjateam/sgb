@@ -147,12 +147,12 @@
 <i>73</i>&nbsp;    }
 <i>74</i>&nbsp;
 <i>75</i>&nbsp;    public void ComposeUserAdmin(){
-<b class="nc"><i>76</i>&nbsp;        emprestimoListModel = new ListModelList&lt;Emprestimo&gt;(eController.getRequest(ePController.ACCEPTED,eDController.NOT_RETURNED));</b>
+<b class="nc"><i>76</i>&nbsp;        emprestimoListModel = new ListModelList&lt;Emprestimo&gt;(eController.getRequest(ePController.ACCEPTED,eDController.NAO_DEVOLVIDO));</b>
 <b class="nc"><i>77</i>&nbsp;        emprestimoListBox.setModel(emprestimoListModel);</b>
 <i>78</i>&nbsp;    }
 <i>79</i>&nbsp;
 <i>80</i>&nbsp;    public void ComposeUserNormal() {
-<b class="nc"><i>81</i>&nbsp;        emprestimoListModel = new ListModelList&lt;Emprestimo&gt;(eController.getRequest(this.user, ePController.ACCEPTED,eDController.NOT_RETURNED));</b>
+<b class="nc"><i>81</i>&nbsp;        emprestimoListModel = new ListModelList&lt;Emprestimo&gt;(eController.getRequest(this.user, ePController.ACCEPTED,eDController.NAO_DEVOLVIDO));</b>
 <b class="nc"><i>82</i>&nbsp;        emprestimoListBox.setModel(emprestimoListModel);</b>
 <i>83</i>&nbsp;    }
 <i>84</i>&nbsp;
@@ -181,7 +181,7 @@
 <b class="nc"><i>107</i>&nbsp;                window.setClosable(true);</b>
 <b class="nc"><i>108</i>&nbsp;                window.doModal();</b>
 <b class="nc"><i>109</i>&nbsp;            } else {</b>
-<b class="nc"><i>110</i>&nbsp;                EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, eDController.RETURNED);</b>
+<b class="nc"><i>110</i>&nbsp;                EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, eDController.DEVOLVIDO);</b>
 <b class="nc"><i>111</i>&nbsp;                emp.setEstadoDevolucao(estadoDevolucao);</b>
 <b class="nc"><i>112</i>&nbsp;                emp.setComentario(&quot;&quot;);</b>
 <b class="nc"><i>113</i>&nbsp;                emprestimoListModel.remove(emp);</b>

@@ -42,7 +42,7 @@ public class BorrowedBooksDeadlineController extends Thread
     public void run()
     {
         System.out.println("BorrowedBooksDeadlineController ...");
-        this.process(this.eController.getBorrowedBooks(eDController.NOT_RETURNED), Calendar.getInstance());
+        this.process(this.eController.getBorrowedBooks(eDController.NAO_DEVOLVIDO), Calendar.getInstance());
     }
 
     public boolean process(List<Emprestimo> borrowedBooks, Calendar now)

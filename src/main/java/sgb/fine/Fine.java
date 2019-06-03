@@ -49,7 +49,7 @@ public class Fine
             String msg,subjet;
             Multa multa = new Multa();
             Emprestimo emprestimo = this.eController.getRequest(e.getEmprestimoPK());
-            EstadoDevolucao estadoDevolucao = this.crudService.get(EstadoDevolucao.class, this.eDController.NOT_RETURNED);
+            EstadoDevolucao estadoDevolucao = this.crudService.get(EstadoDevolucao.class, this.eDController.NAO_DEVOLVIDO);
             EstadoMulta estadoMulta = crudService.get(EstadoMulta.class,this.eMController.NOT_PAID);
 
 

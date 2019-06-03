@@ -12,17 +12,17 @@ public class EstadoDevolucaoControler
     private CRUDService CRUDService;
     private HashMap<String, Object> parameters;
     private StringBuilder query;
-    public final int UNDETERMINED;
-    public final int RETURNED;
-    public final int NOT_RETURNED;
+    public final int INDETERMINADO;
+    public final int DEVOLVIDO;
+    public final int NAO_DEVOLVIDO;
 
 
     public EstadoDevolucaoControler(CRUDService crudService)
     {
         this.CRUDService = crudService;
-        UNDETERMINED = getValue("UNDETERMINED");
-        RETURNED = getValue("RETURNED");
-        NOT_RETURNED = getValue("NOT_RETURNED");
+        INDETERMINADO = getValue("INDETERMINADO");
+        DEVOLVIDO = getValue("DEVOLVIDO");
+        NAO_DEVOLVIDO = getValue("NAO_DEVOLVIDO");
     }
 
     public int getValue(String description)

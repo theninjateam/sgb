@@ -25,9 +25,9 @@ public class GerarRelatorio {
         this.crudService = crudService;
     }
 
-    public JasperPrint createPdf(ListModelList<ObraCategoria> obraCategoriaListModelList,
-                          ListModelList<RegistroObra> obrasregistadasListModel,
-                          ListModelList<ObraEliminadas> obraEliminadasListModel, int selected, String value) throws JRException, IOException {
+    public JasperPrint createPdf(List<ObraCategoria> obraCategoriaList,
+                          List<RegistroObra> obrasregistadasList,
+                          List<ObraEliminadas> obraEliminadasList, int selected, String value) throws JRException, IOException {
 
         String path = null, pathLogo = "src/main/webapp/img/logoPNG.png";
         Map parametros = new HashMap();
@@ -36,17 +36,11 @@ public class GerarRelatorio {
 
         switch (selected) {
             case 0:{
-                List<ObraCategoria> lista = new ArrayList<>();
-
                 path = "src/main/java/sgb/report/relatorioObras/relatorio.jrxml";
 
                 JasperCompileManager.compileReportToFile("src/main/java/sgb/report/relatorioObras/relatorio2.jrxml", "src/main/java/sgb/report/relatorioObras/relatorio2.jasper");
 
                 String subreportPath = new File("src/main/java/sgb/report/relatorioObras/relatorio2.jasper").getCanonicalPath();
-
-                for (ObraCategoria o : obraCategoriaListModelList) {
-                    lista.add(o);
-                }
 
                 parametros.put("pathLogo", pathLogo);
                 parametros.put("pathSubreport", subreportPath);
@@ -54,54 +48,42 @@ public class GerarRelatorio {
 
                 jasperReport = JasperCompileManager.compileReport(path);
 
-                jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, new JRBeanCollectionDataSource(lista));
+                jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, new JRBeanCollectionDataSource(obraCategoriaList));
                 break;}
             case 1:{
-                List<RegistroObra> lista1 = new ArrayList<>();
                 path = "src/main/java/sgb/report/relatorioObras/relatorioObrasReg.jrxml";
 
-                for(RegistroObra r: obrasregistadasListModel){
-                    lista1.add(r);
-                }
-
                 parametros.put("pathLogo", pathLogo);
 
                 jasperReport = JasperCompileManager.compileReport(path);
-                jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, new JRBeanCollectionDataSource(lista1));
+                jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, new JRBeanCollectionDataSource(obrasregistadasList));
                 break;}
             case 2:{
-                List<ObraEliminadas> lista2 = new ArrayList<>();
                 path = "src/main/java/sgb/report/relatorioObras/relatorioObrasEli.jrxml";
-
-                for(ObraEliminadas oe: obraEliminadasListModel){
-                    lista2.add(oe);
-                }
 
                 parametros.put("pathLogo", pathLogo);
 
                 jasperReport = JasperCompileManager.compileReport(path);
-                jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, new JRBeanCollectionDataSource(lista2));
+                jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, new JRBeanCollectionDataSource(obraEliminadasList));
                 break;}
         }
 
         return jasperPrint;
     }
 
-    public JasperPrint createPdf(ListModelList<Emprestimo> emprestimoListModelList) throws JRException {
+    public JasperPrint createPdf(List<Emprestimo> emprestimoList, String path) throws JRException {
         String pathLogo = "src/main/webapp/img/logoPNG.png";
-        String path = "src/main/java/sgb/report/relatorioEmprestimo/relatorio.jrxml";
         Map parametros = new HashMap();
-
-        List<Emprestimo> emprestimoList = new ArrayList<>();
-
-        for(Emprestimo e: emprestimoListModelList){
-            emprestimoList.add(e);
-        }
+        JasperPrint jasperPrint = null;
 
         parametros.put("pathLogo", pathLogo);
 
-        JasperReport jasperReport = JasperCompileManager.compileReport(path);
-        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport,parametros,new JRBeanCollectionDataSource(emprestimoList));
+        try {
+            JasperReport jasperReport = JasperCompileManager.compileReport(path);
+            jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, new JRBeanCollectionDataSource(emprestimoList));
+        }catch (Exception e){
+
+        }
 
         return jasperPrint;
     }

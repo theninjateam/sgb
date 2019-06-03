@@ -245,7 +245,7 @@
 <b class="nc"><i>145</i>&nbsp;            Listitem litem = (Listitem) btn.getParent().getParent().getParent();</b>
 <b class="nc"><i>146</i>&nbsp;            Emprestimo emp = (Emprestimo) litem.getValue();</b>
 <b class="nc"><i>147</i>&nbsp;            EstadoPedido estadoPedido = crudService.get(EstadoPedido.class,ePController.ACCEPTED);</b>
-<b class="nc"><i>148</i>&nbsp;            EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class,eDController.NOT_RETURNED);</b>
+<b class="nc"><i>148</i>&nbsp;            EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class,eDController.NAO_DEVOLVIDO);</b>
 <b class="nc"><i>149</i>&nbsp;            emp.setEstadoPedido(estadoPedido);</b>
 <b class="nc"><i>150</i>&nbsp;            emp.setDataaprovacao(Calendar.getInstance());</b>
 <b class="nc"><i>151</i>&nbsp;            emp.setBibliotecario(user); //</b>
