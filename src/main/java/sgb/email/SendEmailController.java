@@ -36,19 +36,17 @@ public class SendEmailController extends Thread {
             for (Multa m: nonNotified){
 
 
-                msg = "Caro utente " + m.getMultaPK().getUtente().getName() + " " + m.getMultaPK().getUtente().getLastName()+ "\n" +
-                        " o seu emprestimo da obra" + m.getMultaPK().getObra().getTitulo() + " feito na data " + m.getMultaPK().getDataentradapedido()+
-                        "ultrapassou o tempo limite de emprestimo, tendo uma multa de " + m.getValorpago() +  " MTN.\n Porfavor, Regularize a sua situacao de multa, o mais breve possivel";
+                msg = "Caro utente " + m.getMultaPK().getUtente().getName() + " " + m.getMultaPK().getUtente().getLastName()+ ",\n" +
+                        "o seu emprestimo da obra " + m.getMultaPK().getObra().getTitulo() + " feito em " + m.getMultaPK().getDataentradapedido().getTime()+
+                        " ultrapassou o tempo limite de emprestimo, tendo uma multa de " + m.getValorpago() +  " MTN.\n Porfavor, Regularize a sua situacao de multa, o mais breve possivel";
 
                 try {
                     sendEmail.sendEmail(subjet, msg, m.getMultaPK().getUtente().getEmail());
-                    m.setNotificacao(true);
-                } catch (MessagingException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
 
+                    this.multaController.updateNotification(m.getMultaPK(),true);
+                } catch (MessagingException e) {
+                    System.out.println("Nao foi possivel enviar o email!");
+                }
 
             }
 

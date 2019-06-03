@@ -68,18 +68,18 @@ public class Fine
 
             crudService.Save(multa);
             crudService.update(emprestimo);
-            msg = "Caro utente " + emprestimo.getEmprestimoPK().getUtente().getName() + " " + emprestimo.getEmprestimoPK().getUtente().getLastName()+ "\n" +
-                    " o seu emprestimo da obra" + emprestimo.getEmprestimoPK().getObra().getTitulo() + " feito na data " + emprestimo.getEmprestimoPK().getDataentradapedido()+
-                    "ultrapassou o tempo limite de emprestimo, tendo uma multa de " + multa.getValorpago() +  " MTN.\n Porfavor, Regularize a sua situacao de multa, o mais breve possivel";
+            msg = "Caro utente " + emprestimo.getEmprestimoPK().getUtente().getName() + " " + emprestimo.getEmprestimoPK().getUtente().getLastName()+ ",\n" +
+                    "o seu emprestimo da obra " + emprestimo.getEmprestimoPK().getObra().getTitulo() + " feito em " + emprestimo.getEmprestimoPK().getDataentradapedido().getTime()+
+                    " ultrapassou o tempo limite de emprestimo, tendo uma multa de " + multa.getValorpago() +  " MTN.\n Porfavor, Regularize a sua situacao de multa, o mais breve possivel";
             subjet = "Notificacao de Multa";
             try {
                 sendEmail.sendEmail(subjet, msg, emprestimo.getEmprestimoPK().getUtente().getEmail());
 
+                this.mController.updateNotification(emprestimo.getEmprestimoPK(),true);
+
 
             } catch (MessagingException e1) {
-                e1.printStackTrace();
-            } catch (IOException e1) {
-                e1.printStackTrace();
+                System.out.println("Nao foi possivel enviar o email!");
             }
 
 

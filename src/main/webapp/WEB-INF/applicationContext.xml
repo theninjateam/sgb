@@ -32,9 +32,9 @@
         <constructor-arg index="1" ref="sendEmail" />
     </bean>
 
-    <bean id="emailThreaManager" class="sgb.email.EmailThreadManager">
-        <constructor-arg index="0" ref="sendEmailController"/>
-    </bean>
+    <!--<bean id="emailThreaManager" class="sgb.email.EmailThreadManager">-->
+        <!--<constructor-arg index="0" ref="sendEmailController"/>-->
+    <!--</bean>-->
 
 
 
@@ -193,6 +193,7 @@
         <constructor-arg index="2" ref="miniBookingDeadlineController"/>
         <constructor-arg index="3" ref="configControler"/>
         <constructor-arg index="4" ref="miniBookingConcurrenceController"/>
+        <constructor-arg index="5" ref="sendEmailController"/>
     </bean>
 
     <bean id="areaCientificaController"  class="sgb.controller.domainController.AreaCientificaController" >

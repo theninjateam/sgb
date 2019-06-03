@@ -33,6 +33,7 @@ public class MultaController
     }
 
 
+
     public List<Multa> getFine(Users user , int idEstadoMulta)
     {
         parameters = new HashMap<String, Object>(2);
@@ -70,6 +71,18 @@ public class MultaController
         query.append("SELECT m FROM Multa m WHERE m.notificacao = :notification");
 
         return this.crudService.findByJPQuery(query.toString(), parameters);
+    }
+
+    public void updateNotification (EmprestimoPK emprestimoPK,boolean notification){
+
+
+        Multa multa = this.getFine(emprestimoPK);
+
+        multa.setNotificacao(notification);
+
+        this.crudService.update(multa);
+
+
     }
 
 }
