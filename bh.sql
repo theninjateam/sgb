@@ -426,7 +426,8 @@ CREATE TABLE "public"."multa" (
   "dataemprestimo" timestamp(6),
   "idestadomulta" int4,
   "dataentradapedido" timestamp(6) NOT NULL,
-  "taxadiaria" float4
+  "taxadiaria" float4,
+  "notificacao" boolean
 )
 ;
 
