@@ -2,6 +2,7 @@ package sgb.report;
 
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import org.zkoss.zul.ListModelList;
 import sgb.domain.*;
 import sgb.service.CRUDService;
 
@@ -63,7 +64,7 @@ public class GerarRelatorio {
         return jasperPrint;
     }
 
-    public JasperPrint createPdf(List<Multa> emprestimoList) throws JRException {
+    public JasperPrint createPdf(ListModelList<Emprestimo> emprestimoList) throws JRException {
         String path = "src/main/java/sgb/report/relatorioEmprestimo/relatorio.jrxml";
         String pathLogo = "src/main/webapp/img/logoPNG.png";
         Map parametros = new HashMap();
