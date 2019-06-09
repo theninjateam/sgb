@@ -10,8 +10,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 import sgb.controller.domainController.EmprestimoController;
+import sgb.controller.domainController.MultaController;
 import sgb.controller.viewsController.RelatorioEmprestimos;
 import sgb.domain.Emprestimo;
+import sgb.domain.Multa;
 import sgb.service.CRUDService;
 import sgb.service.CRUDServiceImpl;
 
@@ -27,11 +29,13 @@ public class GerarRelatorioTest {
     @Autowired
     private ApplicationContext context;
     private EmprestimoController emprestimoController;
+    private MultaController multaController;
     private GerarRelatorio gerarRelatorio;
 
     @Before
     @Transactional
     public void before() {
+        this.multaController = (MultaController) context.getBean("multaController");
         this.emprestimoController = (EmprestimoController) context.getBean("emprestimoController");
         this.gerarRelatorio = (GerarRelatorio) context.getBean("gerarRelatorio");
     }
@@ -47,5 +51,19 @@ public class GerarRelatorioTest {
                 , "src/main/java/sgb/report/relatorioEmprestimo/relatorio.jrxml"));
 
         assertNull(gerarRelatorio.createPdf(emprestimoList, null));
+    }
+
+    @Test
+    @Transactional
+    public void createPdfMulta(){
+        List<Multa> multaList;
+
+        multaList = multaController.getMultas();
+
+        assertNotNull(gerarRelatorio.createPdfMulta(multaList,
+                "src/main/java/sgb/report/relatorioMultas/relatorio.jrxml"));
+
+        assertNull(gerarRelatorio.createPdfMulta(multaList,null));
+
     }
 }

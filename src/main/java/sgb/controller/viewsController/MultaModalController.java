@@ -114,7 +114,7 @@ public class MultaModalController extends SelectorComposer<Component> {
             emprestimo = crudService.get(Emprestimo.class,multa.getMultaPK());
             multa.setValorpago(fine.getAmoutToPay(emprestimo.getEmprestimoPK(), Calendar.getInstance()));
 
-            if (ObraDEVOLVIDO(emprestimo.getEmprestimoPK())) {
+            if (ObraRETURNED(emprestimo.getEmprestimoPK())) {
                 Calendar dataLimite = bBDeadline.getDeadline(emprestimo);
                 multa.setDiasatraso(fine.getDelayDays(emprestimo.getDatadevolucao(),dataLimite));
             } else {
@@ -188,10 +188,10 @@ public class MultaModalController extends SelectorComposer<Component> {
         return dataConvert(dataP);
     }
 
-    public boolean ObraDEVOLVIDO (EmprestimoPK emprestimoPK) {
+    public boolean ObraRETURNED (EmprestimoPK emprestimoPK) {
 
         Emprestimo emprestimo = crudService.get(Emprestimo.class,emprestimoPK);
-        return emprestimo.getEstadoDevolucao().getDescricao().equals("DEVOLVIDO") ? true:false;
+        return emprestimo.getEstadoDevolucao().getDescricao().equals("RETURNED") ? true:false;
 
     }
 
@@ -212,14 +212,14 @@ public class MultaModalController extends SelectorComposer<Component> {
             Clients.showNotification("Precisa ser Bibliotecario para executar essa acao ", null, null, null, 5000);
         } else {
 
-            if (ObraDEVOLVIDO(emprestimo.getEmprestimoPK())){
+            if (ObraRETURNED(emprestimo.getEmprestimoPK())){
                 fine.pay(multa.getMultaPK(), Calendar.getInstance());
 
                 exit();
                 Clients.showNotification("Multa paga", null, null, null, 5000);
 
             }else{
-                EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, eDController.DEVOLVIDO);
+                EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, eDController.RETURNED);
                 emprestimo.setEstadoDevolucao(estadoDevolucao);
                 emprestimo.setComentario("Multa paga");
                 crudService.update(emprestimo);
@@ -240,14 +240,14 @@ public class MultaModalController extends SelectorComposer<Component> {
             Clients.showNotification("Precisa ser Bibliotecario para executar essa acao ", null, null, null, 5000);
         } else {
 
-            if (ObraDEVOLVIDO(emprestimo.getEmprestimoPK())){
+            if (ObraRETURNED(emprestimo.getEmprestimoPK())){
                 fine.revoke(multa.getMultaPK());
 
                 exit();
                 Clients.showNotification("Multa Revogada", null, null, null, 5000);
 
             }else{
-                EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, eDController.DEVOLVIDO);
+                EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, eDController.RETURNED);
                 emprestimo.setEstadoDevolucao(estadoDevolucao);
                 emprestimo.setComentario("Multa Revogada");
                 crudService.update(emprestimo);
@@ -267,7 +267,7 @@ public class MultaModalController extends SelectorComposer<Component> {
             Clients.showNotification("Precisa ser Bibliotecario para executar essa acao ", null, null, null, 5000);
         } else {
 
-            EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, eDController.DEVOLVIDO);
+            EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, eDController.RETURNED);
             emprestimo.setEstadoDevolucao(estadoDevolucao);
             emprestimo.setComentario("Obra devolvida e Multa nao paga");
 

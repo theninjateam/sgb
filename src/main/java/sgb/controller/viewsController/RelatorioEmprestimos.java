@@ -59,7 +59,6 @@ public class RelatorioEmprestimos extends SelectorComposer<Component> {
 
     @Listen("onSelect = #estadoDevolucaoListBox")
     public void change(){
-        List<Emprestimo> emprestimoList;
         EstadoDevolucao estadoDevolucao = estadoDevolucaoListBox.getSelectedItem().getValue();
 
         if (estadoDevolucao.getIdestadodevolucao()!=0){

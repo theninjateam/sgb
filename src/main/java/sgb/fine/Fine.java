@@ -49,7 +49,7 @@ public class Fine
             String msg,subjet;
             Multa multa = new Multa();
             Emprestimo emprestimo = this.eController.getRequest(e.getEmprestimoPK());
-            EstadoDevolucao estadoDevolucao = this.crudService.get(EstadoDevolucao.class, this.eDController.NAO_DEVOLVIDO);
+            EstadoDevolucao estadoDevolucao = this.crudService.get(EstadoDevolucao.class, this.eDController.NOT_RETURNED);
             EstadoMulta estadoMulta = crudService.get(EstadoMulta.class,this.eMController.NOT_PAID);
 
 
@@ -60,7 +60,8 @@ public class Fine
             multa.setDataemissao(now);
             multa.setDataemprestimo(emprestimo.getDataaprovacao());
             multa.setEstadoMulta(estadoMulta);
-            multa.setDiasatraso(0);
+            //multa.setDiasatraso(0);
+            multa.setDiasatraso(1);
 
             float taxaD = this.configControler.DAILY_RATE_FINE;
             multa.setTaxadiaria(taxaD);
@@ -70,7 +71,7 @@ public class Fine
             crudService.update(emprestimo);
             msg = "Caro utente " + emprestimo.getEmprestimoPK().getUtente().getName() + " " + emprestimo.getEmprestimoPK().getUtente().getLastName()+ ",\n" +
                     "o seu emprestimo da obra " + emprestimo.getEmprestimoPK().getObra().getTitulo() + " feito em " + emprestimo.getEmprestimoPK().getDataentradapedido().getTime()+
-                    " ultrapassou o tempo limite de emprestimo, tendo uma multa de " + multa.getValorpago() +  " MTN.\n Porfavor, Regularize a sua situacao de multa, o mais breve possivel";
+                    " ultrapassou o tempo limite de emprestimo, tendo uma multa de " + multa.getValorpago() +  " MTN.\n Por favor, Regularize a sua situacao de multa, o mais breve possivel";
             subjet = "Notificacao de Multa";
             try {
                 sendEmail.sendEmail(subjet, msg, emprestimo.getEmprestimoPK().getUtente().getEmail());

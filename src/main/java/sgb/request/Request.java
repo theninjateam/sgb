@@ -110,7 +110,7 @@ public class Request
         List<Emprestimo> emprestimos = new ArrayList<Emprestimo>();
 
         emprestimos.addAll(this.eController.getRequest(obra, this.estadoPedidoControler.PENDING_MINI_BOOKING));
-        emprestimos.addAll(this.eController.getBorrowedBooks(obra, this.estadoDevolucaoControler.NAO_DEVOLVIDO));
+        emprestimos.addAll(this.eController.getBorrowedBooks(obra, this.estadoDevolucaoControler.NOT_RETURNED));
         emprestimos.addAll(this.eController.getRequest(obra, this.estadoPedidoControler.PENDING_BOOKING));
 
         for (Emprestimo e: emprestimos)
@@ -208,16 +208,16 @@ public class Request
         Emprestimo emprestimo = new Emprestimo();
         EstadoPedido estadoPedido = item.getEstadoPedido();
         TipoRequisicao tipoRequisicao = null;
-        EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, estadoDevolucaoControler.INDETERMINADO);
+        EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, estadoDevolucaoControler.UNDETERMINED);
         EstadoRenovacao estadoRenovacao = null;
 
         if (item.isHomeRequisition())
         {
-            tipoRequisicao = crudService.get(TipoRequisicao.class, tipoRequisicaoControler.REQUISICAO_DOMICILIAR);
+            tipoRequisicao = crudService.get(TipoRequisicao.class, tipoRequisicaoControler.HOME_REQUISITION);
         }
         else if (item.isInternalRequisition())
         {
-            tipoRequisicao = crudService.get(TipoRequisicao.class, tipoRequisicaoControler.REQUISICAO_INTERNA);
+            tipoRequisicao = crudService.get(TipoRequisicao.class, tipoRequisicaoControler.INTERNAL_REQUISITION);
         }
 
         emprestimo.setTipoRequisicao(tipoRequisicao);

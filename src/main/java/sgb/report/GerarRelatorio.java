@@ -1,19 +1,11 @@
 package sgb.report;
 
-import java.nio.file.*;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.view.JasperDesignViewer;
-import net.sf.jasperreports.view.JasperViewer;
-import org.zkoss.zul.ListModelList;
-import sgb.domain.Emprestimo;
-import sgb.domain.ObraCategoria;
-import sgb.domain.ObraEliminadas;
-import sgb.domain.RegistroObra;
+import sgb.domain.*;
 import sgb.service.CRUDService;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,8 +18,8 @@ public class GerarRelatorio {
     }
 
     public JasperPrint createPdf(List<ObraCategoria> obraCategoriaList,
-                          List<RegistroObra> obrasregistadasList,
-                          List<ObraEliminadas> obraEliminadasList, int selected, String value) throws JRException, IOException {
+                                 List<RegistroObra> obrasregistadasList,
+                                 List<ObraEliminadas> obraEliminadasList, int selected, String value) throws JRException, IOException {
 
         String path = null, pathLogo = "src/main/webapp/img/logoPNG.png";
         Map parametros = new HashMap();
@@ -71,7 +63,8 @@ public class GerarRelatorio {
         return jasperPrint;
     }
 
-    public JasperPrint createPdf(List<Emprestimo> emprestimoList, String path) throws JRException {
+    public JasperPrint createPdf(List<Multa> emprestimoList) throws JRException {
+        String path = "src/main/java/sgb/report/relatorioEmprestimo/relatorio.jrxml";
         String pathLogo = "src/main/webapp/img/logoPNG.png";
         Map parametros = new HashMap();
         JasperPrint jasperPrint = null;
@@ -87,4 +80,23 @@ public class GerarRelatorio {
 
         return jasperPrint;
     }
+
+    public JasperPrint createPdf1(List<Multa> multaList) throws JRException{
+        String path = "src/main/java/sgb/report/relatorioMultas/relatorio.jrxml";
+        String pathLogo = "src/main/webapp/img/logoPNG.png";
+        Map parametros = new HashMap();
+        JasperPrint jasperPrint = null;
+
+        parametros.put("pathLogo", pathLogo);
+
+        try {
+            JasperReport jasperReport = JasperCompileManager.compileReport(path);
+            jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, new JRBeanCollectionDataSource(multaList));
+        }catch (Exception e){
+
+        }
+
+        return jasperPrint;
+    }
+
 }

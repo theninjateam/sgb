@@ -75,7 +75,7 @@ public class BorrowedBooksDeadlineControllerTest
         emprestimos = new ArrayList<Emprestimo>();
 
 
-        EstadoDevolucao estadoDevolucao = this.crudService.get(EstadoDevolucao.class, this.estadoDevolucaoControler.NAO_DEVOLVIDO);
+        EstadoDevolucao estadoDevolucao = this.crudService.get(EstadoDevolucao.class, this.estadoDevolucaoControler.NOT_RETURNED);
 
         for (Emprestimo e: es)
         {

@@ -32,8 +32,6 @@ public class MultaController
         return this.crudService.findEntByJPQueryT(query.toString(), parameters);
     }
 
-
-
     public List<Multa> getFine(Users user , int idEstadoMulta)
     {
         parameters = new HashMap<String, Object>(2);
@@ -83,6 +81,14 @@ public class MultaController
         this.crudService.update(multa);
 
 
+    }
+
+    public List<Multa> getMultas(){
+        query = new StringBuilder();
+
+        query.append("SELECT m FROM Multa m");
+
+        return this.crudService.findByJPQuery(query.toString(),null);
     }
 
 }

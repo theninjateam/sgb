@@ -248,7 +248,7 @@
 <b class="nc"><i>174</i>&nbsp;            Clients.showNotification(&quot;Precisa ser Bibliotecario para executar essa acao &quot;, null, null, null, 5000);</b>
 <i>175</i>&nbsp;        } else {
 <i>176</i>&nbsp;
-<b class="nc"><i>177</i>&nbsp;            EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, eDController.DEVOLVIDO);</b>
+<b class="nc"><i>177</i>&nbsp;            EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, eDController.RETURNED);</b>
 <b class="nc"><i>178</i>&nbsp;            emprestimo.setEstadoDevolucao(estadoDevolucao);</b>
 <b class="nc"><i>179</i>&nbsp;            emprestimo.setComentario(&quot;&quot;);</b>
 <b class="nc"><i>180</i>&nbsp;            crudService.update(emprestimo);</b>
@@ -268,7 +268,7 @@
 <b class="nc"><i>194</i>&nbsp;            Clients.showNotification(&quot;Precisa ser Bibliotecario para executar essa acao &quot;, null, null, null, 5000);</b>
 <i>195</i>&nbsp;        } else {
 <i>196</i>&nbsp;
-<b class="nc"><i>197</i>&nbsp;            EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, eDController.DEVOLVIDO);</b>
+<b class="nc"><i>197</i>&nbsp;            EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, eDController.RETURNED);</b>
 <b class="nc"><i>198</i>&nbsp;            emprestimo.setEstadoDevolucao(estadoDevolucao);</b>
 <b class="nc"><i>199</i>&nbsp;            emprestimo.setComentario(&quot;&quot;);</b>
 <b class="nc"><i>200</i>&nbsp;            crudService.update(emprestimo);</b>
@@ -285,7 +285,7 @@
 <b class="nc"><i>211</i>&nbsp;        if (isNormalUser) {</b>
 <b class="nc"><i>212</i>&nbsp;            Clients.showNotification(&quot;Precisa ser Bibliotecario para executar essa acao &quot;, null, null, null, 5000);</b>
 <i>213</i>&nbsp;        } else {
-<b class="nc"><i>214</i>&nbsp;            EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, eDController.DEVOLVIDO);</b>
+<b class="nc"><i>214</i>&nbsp;            EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, eDController.RETURNED);</b>
 <i>215</i>&nbsp;
 <b class="nc"><i>216</i>&nbsp;            emprestimo.setEstadoDevolucao(estadoDevolucao);</b>
 <b class="nc"><i>217</i>&nbsp;            emprestimo.setComentario(&quot;&quot;);</b>

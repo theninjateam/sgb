@@ -153,8 +153,8 @@ public class DeadlineThreadManager extends Thread implements ApplicationListener
 
     public void startBorrowedBooksDeadlineController()
     {
-        boolean canStart = false;
-
+        boolean canStart = true;
+        //boolean canStart = false;
         if (this.today.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY)
         {
             if (this.isServerStarting.get() &&

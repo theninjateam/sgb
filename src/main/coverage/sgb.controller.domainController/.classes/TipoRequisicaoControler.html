@@ -86,15 +86,15 @@
 <i>12</i>&nbsp;    private HashMap&lt;String, Object&gt; parameters;
 <i>13</i>&nbsp;    private StringBuilder query;
 <i>14</i>&nbsp;
-<i>15</i>&nbsp;    public final int REQUISICAO_INTERNA;
-<i>16</i>&nbsp;    public final int REQUISICAO_DOMICILIAR;
+<i>15</i>&nbsp;    public final int INTERNAL_REQUISITION;
+<i>16</i>&nbsp;    public final int HOME_REQUISITION;
 <i>17</i>&nbsp;
 <i>18</i>&nbsp;
 <i>19</i>&nbsp;    public TipoRequisicaoControler(CRUDService crudService)
 <b class="fc"><i>20</i>&nbsp;    {</b>
 <b class="fc"><i>21</i>&nbsp;        this.CRUDService = crudService;</b>
-<b class="fc"><i>22</i>&nbsp;        REQUISICAO_DOMICILIAR = getValue(&quot;REQUISICAO_DOMICILIAR&quot;);</b>
-<b class="fc"><i>23</i>&nbsp;        REQUISICAO_INTERNA = getValue(&quot;REQUISICAO_INTERNA&quot;);</b>
+<b class="fc"><i>22</i>&nbsp;        HOME_REQUISITION = getValue(&quot;HOME_REQUISITION&quot;);</b>
+<b class="fc"><i>23</i>&nbsp;        INTERNAL_REQUISITION = getValue(&quot;INTERNAL_REQUISITION&quot;);</b>
 <b class="fc"><i>24</i>&nbsp;    }</b>
 <i>25</i>&nbsp;
 <i>26</i>&nbsp;    public int getValue(String description)

@@ -80,12 +80,12 @@ public class ListEmprestimo extends SelectorComposer<Component> {
     }
 
     public void ComposeUserAdmin(){
-        emprestimoListModel = new ListModelList<Emprestimo>(eController.getRequest(ePController.ACCEPTED,eDController.NAO_DEVOLVIDO));
+        emprestimoListModel = new ListModelList<Emprestimo>(eController.getRequest(ePController.ACCEPTED,eDController.NOT_RETURNED));
         emprestimoListBox.setModel(emprestimoListModel);
     }
 
     public void ComposeUserNormal() {
-        emprestimoListModel = new ListModelList<Emprestimo>(eController.getRequest(this.user, ePController.ACCEPTED,eDController.NAO_DEVOLVIDO));
+        emprestimoListModel = new ListModelList<Emprestimo>(eController.getRequest(this.user, ePController.ACCEPTED,eDController.NOT_RETURNED));
         emprestimoListBox.setModel(emprestimoListModel);
     }
 
@@ -127,7 +127,7 @@ public class ListEmprestimo extends SelectorComposer<Component> {
                 window.setClosable(true);
                 window.doModal();
             } else {
-                EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, eDController.DEVOLVIDO);
+                EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, eDController.RETURNED);
                 emp.setEstadoDevolucao(estadoDevolucao);
                 emp.setComentario("");
 

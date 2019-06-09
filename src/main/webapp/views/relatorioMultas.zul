@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk>
+    <window id="listMultas" apply="sgb.controller.viewsController.RelatorioMultas"
+            border="none" hflex="1" vflex="1" contentStyle="overflow:auto">
+        <style src="css/tipografia.css"/>
+        <style src="css/w3pro.css"/>
+        <style src="css/w3.css"/>
+        <div style="padding:0px">
+            <toolbar id="tbt" height="50px" align="center">
+
+                <div>
+                    <span sclass="input-group-addon">Mostrar por estado da multa: </span>
+                    <listbox width="10%" id="estadoMultaListbox"
+                             emptyMessage="No data found"
+                             mold="select">
+                        <listhead>
+                            <listheader label="Estado Multa"/>
+                        </listhead>
+                        <template name="model">
+                            <listitem>
+                                <listcell label="${each.descricao}"></listcell>
+                            </listitem>
+                        </template>
+                    </listbox>
+
+                    <span style="margin-left:25px" sclass="input-group-addon">Exportar para: </span>
+                    <button  visible="true"  label="PDF" id="savePdf" style="margin-left:15px"
+                             mold="os"  sclass="w3-btn w3-light-grey"/>
+                    <button  visible="true"  label="EXCEL" id="saveExcell" style="margin-left:20px"
+                             mold="os"  sclass="w3-btn w3-light-grey"/>
+                </div>
+            </toolbar>
+
+            <grid>
+                <rows>
+                    <row>
+                        <listbox width="100%" id="multasListbox"
+                                 emptyMessage="Nenhum utente a mostrar">
+                            <listhead>
+                                <listheader width="20%" height="100%" label="Nome do Utente"/>
+                                <listheader width="20%" height="100%" label="Dias em atraso"/>
+                                <listheader width="20%" height="100%" label="Valor a pagar"/>
+                                <listheader width="40%" height="100%" label="Estado da multa"/>
+                            </listhead>
+                            <template name="model">
+                                <listitem>
+                                    <listcell>
+                                        <div>
+                                            <zscript>
+                                                <![CDATA[
+                                                    import java.text.*;
+                                                    StringBuilder builder = new StringBuilder();
+                                                    builder.append(each.multaPK.utente.name);
+                                                    builder.append(" ");
+                                                    builder.append(each.multaPK.utente.lastName);
+
+                                                    String utente = builder.toString();
+                                                ]]>
+                                            </zscript>
+                                            <label value="${utente}"/>
+                                        </div>
+                                    </listcell>
+
+                                    <listcell>
+                                        <div>
+                                            <label value="${each.diasatraso}"/>
+                                        </div>
+                                    </listcell>
+
+                                    <listcell>
+                                        <div>
+                                            <zscript>
+                                                <![CDATA[
+                                                    import java.text.*;
+                                                    float valorPagar= each.diasatraso*each.taxadiaria;
+                                                ]]>
+                                            </zscript>
+                                            <label value="${valorPagar}"/>
+                                        </div>
+                                    </listcell>
+
+                                    <listcell>
+                                        <div>
+                                            <label value="${each.estadoMulta.descricao}"/>
+                                        </div>
+                                    </listcell>
+
+                                </listitem>
+                            </template>
+                        </listbox>
+                    </row>
+                </rows>
+            </grid>
+        </div>
+    </window>
+</zk>

@@ -116,7 +116,7 @@
 <i>42</i>&nbsp;        {
 <b class="fc"><i>43</i>&nbsp;            Multa multa = new Multa();</b>
 <b class="fc"><i>44</i>&nbsp;            Emprestimo emprestimo = this.eController.getRequest(e.getEmprestimoPK());</b>
-<b class="fc"><i>45</i>&nbsp;            EstadoDevolucao estadoDevolucao = this.crudService.get(EstadoDevolucao.class, this.eDController.NAO_DEVOLVIDO);</b>
+<b class="fc"><i>45</i>&nbsp;            EstadoDevolucao estadoDevolucao = this.crudService.get(EstadoDevolucao.class, this.eDController.NOT_RETURNED);</b>
 <b class="fc"><i>46</i>&nbsp;            EstadoMulta estadoMulta = crudService.get(EstadoMulta.class,this.eMController.NOT_PAID);</b>
 <i>47</i>&nbsp;
 <b class="fc"><i>48</i>&nbsp;            int diaatraso = getDelayDays(now, e.getDatadevolucao());</b>

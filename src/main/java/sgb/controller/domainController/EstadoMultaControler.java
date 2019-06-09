@@ -5,6 +5,7 @@ import sgb.domain.EstadoPedido;
 import sgb.service.CRUDService;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class EstadoMultaControler
 {
@@ -33,5 +34,12 @@ public class EstadoMultaControler
         query.append("SELECT e FROM EstadoMulta e WHERE e.descricao = :description");
 
         return  ((EstadoMulta) this.CRUDService.findEntByJPQueryT(query.toString(), parameters)).getIdestadomulta();
+    }
+
+    public List<EstadoMulta> getEstadoMultas(){
+        query = new StringBuilder();
+
+        query.append("SELECT em FROM EstadoMulta em");
+        return this.CRUDService.findByJPQuery(query.toString(),null);
     }
 }
