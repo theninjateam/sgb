@@ -144,7 +144,7 @@ public class ListPedido extends SelectorComposer<Component> {
             Emprestimo emp = (Emprestimo) event.getData();
 
             EstadoPedido estadoPedido = crudService.get(EstadoPedido.class,ePController.ACCEPTED);
-            EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class,eDController.NAO_DEVOLVIDO);
+            EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class,eDController.NOT_RETURNED);
             emp.setEstadoPedido(estadoPedido);
             emp.setDataaprovacao(Calendar.getInstance());
             emp.setBibliotecario(user); //

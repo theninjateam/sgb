@@ -101,11 +101,11 @@ public class ListPedidoExemplarController extends SelectorComposer<Component>
     public ListModelList<Emprestimo> getEmprestimos() {
         List<Emprestimo> listemprestimo;
         if(isNormalUser()) {
-           listemprestimo = eController.getRequest(this.user,ePController.ACCEPTED, eDController.NAO_DEVOLVIDO);
+           listemprestimo = eController.getRequest(this.user,ePController.ACCEPTED, eDController.NOT_RETURNED);
 
            return new ListModelList<Emprestimo>(listemprestimo);
        }else {
-           listemprestimo = eController.getRequest(ePController.ACCEPTED, eDController.NAO_DEVOLVIDO);
+           listemprestimo = eController.getRequest(ePController.ACCEPTED, eDController.NOT_RETURNED);
 //            emprestimos = (ListModelList<Emprestimo>) listemprestimo;
 //            EmprestimoListBox.setModel(emprestimos);
            return new ListModelList<Emprestimo>(listemprestimo);
@@ -135,7 +135,7 @@ public class ListPedidoExemplarController extends SelectorComposer<Component>
                 window.setClosable(true);
                 window.doModal();
             } else {
-                EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, eDController.DEVOLVIDO);
+                EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, eDController.RETURNED);
                 emp.setEstadoDevolucao(estadoDevolucao);
                 emp.setComentario("");
 //                emprestimos.remove(emp);
