@@ -26,7 +26,26 @@ Copyright (C) 2008 Potix Corporation. All Rights Reserved.
 <?component name="categorybar" extends="div" widgetClass="zksandbox.Categorybar"?>
 <zk>
 <zscript><![CDATA[
+
+
+	import sgb.login.Login;
+
+	import sgb.controller.LoginController;
+
+	import org.zkoss.zk.ui.util.Clients;
+	import org.zkoss.zk.ui.Session;
+	import org.zkoss.zk.ui.Sessions;
+
+
 	String themeSClass = org.zkoss.zksandbox.Themes.isBlueTheme() ? "blue" : org.zkoss.zksandbox.Themes.getCurrentTheme();
+
+	Login log = new Login();
+
+
+    if (log.isBlocked()){
+	    Executions.sendRedirect("login.jsp?blocked=1");
+	}
+
 ]]></zscript>
 <borderlayout id="main" sclass="${themeSClass}" apply="org.zkoss.zksandbox.MainLayoutComposer">
 	<north border="none" size="100px" sclass="demo-header" collapsible="true" id="north">

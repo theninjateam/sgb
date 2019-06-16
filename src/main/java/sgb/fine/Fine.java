@@ -60,8 +60,8 @@ public class Fine
             multa.setDataemissao(now);
             multa.setDataemprestimo(emprestimo.getDataaprovacao());
             multa.setEstadoMulta(estadoMulta);
-            //multa.setDiasatraso(0);
-            multa.setDiasatraso(1);
+            multa.setDiasatraso(0);
+//            multa.setDiasatraso(1);
 
             float taxaD = this.configControler.DAILY_RATE_FINE;
             multa.setTaxadiaria(taxaD);

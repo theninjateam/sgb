@@ -48,7 +48,7 @@ private Button buttonBlock;
     {
         super.doAfterCompose(comp);
 
-        usersListModelList = new ListModelList<Users>(this.getNormalUsers(userController.getUsers()));
+        usersListModelList = new ListModelList<Users>(this.userController.getNormalUsers(userController.getUsers()));
 
         estado = new ListModelList<String>();
         estado.add("All");
@@ -71,16 +71,7 @@ private Button buttonBlock;
     public void block(ForwardEvent event) {
 
         int id = (int)event.getData();
-
-        Users user = userController.getUser(id);
-
-        if (user.getActive() == 1){
-            user.setActive(0);
-        }else {
-            user.setActive(1);
-        }
-        this.crudService.update(user);
-
+        this.userController.blockUser(id);
         pesquisar(textboxPesquisar.getValue());
     }
 
@@ -102,7 +93,7 @@ private Button buttonBlock;
 
         usersListModelList.removeAll(usersListModelList);
 
-        List <Users> users= this.getNormalUsers(this.getUsers()) ;
+        List <Users> users= this.userController.getNormalUsers(this.getUsers()) ;
         for (Users user: users)
             {
                 for ( String key: keys.split(" "))
@@ -128,43 +119,8 @@ private Button buttonBlock;
             return userController.getUsers();
         else {
             String estate = estadoListBox.getSelectedItem().getValue();
-            return userController.getUsersByState(getState(estate));
+            return userController.getUsersByState(userController.getState(estate));
         }
     }
-
-    public List<Users> getNormalUsers(List<Users> users){
-
-
-        Set<Role> userRoles;
-        List<Users> result = users;
-        try {
-            for (Users user : result) {
-
-                userRoles = user.getRoles();
-
-                for (Role role : userRoles) {
-
-                    if (role.getRole().equals("ADMIN")) {
-                        result.remove(user);
-                    }
-
-                }
-//
-
-            }
-        }catch (Exception e){}
-        return result;
-    }
-
-
-    public int getState(String state){
-
-        if (state.equals("Blocked"))
-            return 0;
-
-        return 1;
-
-    }
-
 
 }

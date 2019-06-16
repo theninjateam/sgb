@@ -784,10 +784,10 @@ CREATE TABLE "public"."user" (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO "public"."user" VALUES (1, 1, 'admin@admin', 'admin', 'admin', '21232f297a57a5a743894a0e4a801fc3');
-INSERT INTO "public"."user" VALUES (3, 1, 'student@unilurio.ac.mz', 'student', 'student', '289ffeb2a745ccf51ca89a297f47e382');
-INSERT INTO "public"."user" VALUES (4, 1, 'teacher@unilurio.ac.mz', 'teacher', 'teacher', '289ffeb2a745ccf51ca89a297f47e382');
-INSERT INTO "public"."user" VALUES (2, 1, 'fonseca@fonseca', 'Fonseca', 'Fonseca', 'e653d3954be6576488c5ce7a599869de');
+INSERT INTO "public"."user" VALUES (1, 1 , 'admin@admin', 'admin', 'admin', '21232f297a57a5a743894a0e4a801fc3');
+INSERT INTO "public"."user" VALUES (3, 1 , 'student@unilurio.ac.mz', 'student', 'student', '289ffeb2a745ccf51ca89a297f47e382');
+INSERT INTO "public"."user" VALUES (4, 1 , 'teacher@unilurio.ac.mz', 'teacher', 'teacher', '289ffeb2a745ccf51ca89a297f47e382');
+INSERT INTO "public"."user" VALUES (2, 1 , 'fonseca@fonseca', 'Fonseca', 'Fonseca', 'e653d3954be6576488c5ce7a599869de');
 
 -- ----------------------------
 -- Table structure for user_role

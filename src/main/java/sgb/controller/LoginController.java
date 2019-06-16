@@ -4,16 +4,13 @@
  */
 package sgb.controller;
 
-import org.zkoss.zk.ui.Component;
-import org.zkoss.zk.ui.Executions;
-import org.zkoss.zk.ui.Session;
-import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.*;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zkplus.spring.SpringUtil;
 import sgb.service.CRUDService;
 
-;
+;import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -31,6 +28,7 @@ public class LoginController extends SelectorComposer<Component> {
         Sessions.getCurrent().invalidate();
         Executions.sendRedirect("/");
     }
+
 
 
 

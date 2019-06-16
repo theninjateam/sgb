@@ -86,4 +86,49 @@ public class UserController {
         return null;
     }
 
+
+    public void blockUser(int id){
+
+        Users user = getUser(id);
+
+        if (user.getActive() == 1){
+            user.setActive(0);
+        }else {
+            user.setActive(1);
+        }
+        this.crudService.update(user);
+    }
+
+    public List<Users> getNormalUsers(List<Users> users){
+
+
+        Set<Role> userRoles;
+        List<Users> result = users;
+        try {
+            for (Users user : result) {
+
+                userRoles = user.getRoles();
+
+                for (Role role : userRoles) {
+
+                    if (role.getRole().equals("ADMIN")) {
+                        result.remove(user);
+                    }
+
+                }
+
+            }
+        }catch (Exception e){}
+        return result;
+    }
+
+    public int getState(String state){
+
+        if (state.equals("Blocked"))
+            return 0;
+
+        return 1;
+
+    }
+
 }

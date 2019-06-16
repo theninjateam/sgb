@@ -1,4 +1,4 @@
-<%--
+<%@ page import="org.zkoss.zk.ui.util.Clients" %><%--
   Created by IntelliJ IDEA.
   User: meneses
   Date: 6/9/19
@@ -72,14 +72,24 @@
 
         <%
             int error = 0;
+            int blocked = 0;
             try {
                 error = Integer.parseInt(request.getParameter("login_error"));
             }catch (Exception ex){}
+            try{
+                blocked = Integer.parseInt(request.getParameter("blocked"));
+            }catch (Exception e){}
+
+
+//                Clients.showNotification("Dados incorrectos","error",null,null,0,true);
+
             if (error ==1){
         %>
         <h4 style="color: #d40904">   Por favor, verifique se digitou correctamente os dados.</h4>
+        <%}%>
 
-        Caso o problema prevalece, poderá estar numa situacão de bloqueio!
+        <%if (blocked==1){%>
+        <h4 style="color: #d40904">   Utilizador Bloqueiado!</h4>
         <%}%>
 
     </form>

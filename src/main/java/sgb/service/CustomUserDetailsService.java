@@ -23,7 +23,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException,
             DataAccessException {
 
-        Users u = crudService.findEntByJPQueryT("SELECT u FROM Users u WHERE u.active = '1' and u.name ='" +username+"'", null);
+        Users u = crudService.findEntByJPQueryT("SELECT u FROM Users u WHERE u.name ='" +username+"'", null);
         Optional<Users> optionalUsers = Optional.of(u);
 
             optionalUsers
