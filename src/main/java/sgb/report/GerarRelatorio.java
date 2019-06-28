@@ -2,6 +2,7 @@ package sgb.report;
 
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.view.JasperViewer;
 import org.zkoss.zul.ListModelList;
 import sgb.domain.*;
 import sgb.service.CRUDService;
@@ -64,8 +65,7 @@ public class GerarRelatorio {
         return jasperPrint;
     }
 
-    public JasperPrint createPdf(ListModelList<Emprestimo> emprestimoList) throws JRException {
-        String path = "src/main/java/sgb/report/relatorioEmprestimo/relatorio.jrxml";
+    public JasperPrint createPdf(List<Emprestimo> emprestimoList, String path) throws JRException {
         String pathLogo = "src/main/webapp/img/logoPNG.png";
         Map parametros = new HashMap();
         JasperPrint jasperPrint = null;
@@ -82,8 +82,7 @@ public class GerarRelatorio {
         return jasperPrint;
     }
 
-    public JasperPrint createPdf1(List<Multa> multaList) throws JRException{
-        String path = "src/main/java/sgb/report/relatorioMultas/relatorio.jrxml";
+    public JasperPrint createPdf1(List<Multa> multaList, String path) throws JRException{
         String pathLogo = "src/main/webapp/img/logoPNG.png";
         Map parametros = new HashMap();
         JasperPrint jasperPrint = null;

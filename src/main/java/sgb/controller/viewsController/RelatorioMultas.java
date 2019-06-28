@@ -13,22 +13,27 @@ import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
+import sgb.controller.domainController.EmprestimoController;
 import sgb.controller.domainController.EstadoMultaControler;
 import sgb.controller.domainController.MultaController;
+import sgb.fine.Fine;
 import sgb.domain.EstadoMulta;
 import sgb.domain.Multa;
 import sgb.report.GerarRelatorio;
 
-import javax.swing.plaf.synth.SynthRootPaneUI;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 public class RelatorioMultas extends SelectorComposer<Component> {
     private EstadoMultaControler estadoMultaControler = (EstadoMultaControler) SpringUtil.getBean("estadoMultaControler");
+    private EmprestimoController eController = (EmprestimoController) SpringUtil.getBean("emprestimoController");
     private MultaController multaController = (MultaController) SpringUtil.getBean("multaController");
-    private ListModelList<Multa> multaListModelList;
-    private ListModelList<EstadoMulta> estadoMultaListModelList;
     private GerarRelatorio gerarRelatorio = (GerarRelatorio) SpringUtil.getBean("gerarRelatorio");
+    private Fine fine = (Fine) SpringUtil.getBean("fine");
+    private ListModelList<EstadoMulta> estadoMultaListModelList;
+    private ListModelList<Multa> multaListModelList;
+    private List<Multa> multaList;
 
     @Wire
     private Listbox multasListbox;
@@ -39,7 +44,11 @@ public class RelatorioMultas extends SelectorComposer<Component> {
     public void doAfterCompose(Component comp) throws Exception {
         super.doAfterCompose(comp);
 
-        multaListModelList = new ListModelList<Multa>(multaController.getMultas());
+        multaList = multaController.getMultas();
+
+        fine.updateDelayDays(multaList);
+
+        multaListModelList = new ListModelList<>(multaList);
 
         EstadoMulta estadoMulta = new EstadoMulta();
         estadoMulta.setDescricao("Todos");
@@ -68,7 +77,10 @@ public class RelatorioMultas extends SelectorComposer<Component> {
     @Listen("onClick=#savePdf")
     public void exportToPDF() throws Exception, JRException, IOException
     {
-        Filedownload.save(JasperExportManager.exportReportToPdf(gerarRelatorio.createPdf1(multaListModelList)),"pdf","RelatorioMultas.pdf");
+        Filedownload.save(JasperExportManager.exportReportToPdf(gerarRelatorio.createPdf1(multaListModelList
+                , "src/main/java/sgb/report/relatorioMultas/relatorio.jrxml"))
+                ,"pdf"
+                ,"RelatorioMultas.pdf");
     }
 
 
@@ -83,7 +95,9 @@ public class RelatorioMultas extends SelectorComposer<Component> {
             xlsFile.delete();
         }
 
-        exporter.setParameter(JRExporterParameter.JASPER_PRINT, gerarRelatorio.createPdf1(multaListModelList));
+        exporter.setParameter(JRExporterParameter.JASPER_PRINT
+                , gerarRelatorio.createPdf1(multaListModelList
+                , "src/main/java/sgb/report/relatorioMultas/relatorio.jrxml"));
         exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, filePath);
         exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
         exporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);
@@ -92,6 +106,4 @@ public class RelatorioMultas extends SelectorComposer<Component> {
 
         Filedownload.save(xlsFile,"xls");
     }
-
-
 }

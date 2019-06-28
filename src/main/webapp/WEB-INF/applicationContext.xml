@@ -83,6 +83,10 @@
         <constructor-arg index="0" ref="CRUDService"/>
     </bean>
 
+    <bean id="estadoMultaControler"  class="sgb.controller.domainController.EstadoMultaControler" >
+        <constructor-arg index="0" ref="CRUDService"/>
+    </bean>
+
     <bean id="multaController"  class="sgb.controller.domainController.MultaController" >
         <constructor-arg index="0" ref="CRUDService"/>
     </bean>
@@ -125,10 +129,6 @@
     </bean>
 
     <bean id="roleController"  class="sgb.controller.domainController.RoleController" >
-        <constructor-arg index="0" ref="CRUDService"/>
-    </bean>
-
-    <bean id="estadoMultaControler"  class="sgb.controller.domainController.EstadoMultaControler" >
         <constructor-arg index="0" ref="CRUDService"/>
     </bean>
 

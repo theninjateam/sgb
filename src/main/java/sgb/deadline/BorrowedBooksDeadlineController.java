@@ -7,6 +7,7 @@ import sgb.controller.domainController.EstadoDevolucaoControler;
 import sgb.controller.domainController.EstadoPedidoControler;
 import sgb.domain.Emprestimo;
 import sgb.domain.EstadoDevolucao;
+import sgb.domain.Multa;
 import sgb.fine.Fine;
 import sgb.request.Request;
 

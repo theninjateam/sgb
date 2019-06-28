@@ -1,6 +1,15 @@
 language: java
-script:
-  - mvn test
-  - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-jdk:
-  - oraclejdk8
+  dist: trusty
+  jdk: oraclejdk8
+  env:
+    global:
+      - CC_TEST_REPORTER_ID=[YOUR CODE COVERAGE]
+  before_script:
+    - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+    - chmod +x ./cc-test-reporter
+    - ./cc-test-reporter before-build
+  script:
+    - mvn test
+  after_script:
+    - ./cc-test-reporter format-coverage -d -t jacoco ./target/jacoco-ut/jacoco.xml
+    - ./cc-test-reporter upload-coverage -d

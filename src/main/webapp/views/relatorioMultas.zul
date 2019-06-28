@@ -71,11 +71,17 @@
                                         <div>
                                             <zscript>
                                                 <![CDATA[
-                                                    import java.text.*;
-                                                    float valorPagar= each.diasatraso*each.taxadiaria;
+                                                    import sgb.fine.Fine;
+                                                    import java.util.Calendar;
+                                                    import java.lang.Float;
+                                                    import org.zkoss.zkplus.spring.SpringUtil;
+
+                                                    Fine fine = (Fine) SpringUtil.getBean("fine");
+
+                                                    Float toPay = fine.getAmountToPay(each.multaPK);
                                                 ]]>
                                             </zscript>
-                                            <label value="${valorPagar}"/>
+                                            <label value="${toPay}"/>
                                         </div>
                                     </listcell>
 

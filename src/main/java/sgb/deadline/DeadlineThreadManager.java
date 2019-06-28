@@ -212,7 +212,6 @@ public class DeadlineThreadManager extends Thread implements ApplicationListener
         }
 
         this.wasSendEmailControllerStarted.set(false);
-
     }
 
     public void onApplicationEvent(final ContextRefreshedEvent event)
@@ -226,4 +225,6 @@ public class DeadlineThreadManager extends Thread implements ApplicationListener
         this.setName("DeadLine Thread Manager");
         this.start();
     }
+
+
 }

@@ -75,9 +75,13 @@
 
                                             dateFormatter = DateFormat.getDateInstance(DateFormat.FULL, MOZAMBIQUE);
 
-                                            builder.append(dateFormatter.format(each.datadevolucao.getTime()));
-                                            builder.append("\n");
-                                            builder.append(timeFormatter.format(each.datadevolucao.getTime()));
+                                            if (each.datadevolucao == null){
+                                                builder.append("Data limite nao definida!");
+                                            }else{
+                                                builder.append(dateFormatter.format(each.datadevolucao.getTime()));
+                                                builder.append("\n");
+                                                builder.append(timeFormatter.format(each.datadevolucao.getTime()));
+                                            }
 
                                             String date = builder.toString();
                                             ]]>

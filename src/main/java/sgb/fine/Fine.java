@@ -1,5 +1,6 @@
 package sgb.fine;
 
+import org.zkoss.zkplus.spring.SpringUtil;
 import sgb.controller.domainController.*;
 import sgb.deadline.BorrowedBooksDeadline;
 import sgb.domain.*;
@@ -10,6 +11,7 @@ import javax.mail.MessagingException;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Calendar;
+import java.util.List;
 
 public class Fine
 {
@@ -61,7 +63,6 @@ public class Fine
             multa.setDataemprestimo(emprestimo.getDataaprovacao());
             multa.setEstadoMulta(estadoMulta);
             multa.setDiasatraso(0);
-//            multa.setDiasatraso(1);
 
             float taxaD = this.configControler.DAILY_RATE_FINE;
             multa.setTaxadiaria(taxaD);
@@ -105,6 +106,14 @@ public class Fine
         return (float) this.configControler.DAILY_RATE_FINE * days;
     }
 
+    public float getAmountToPay(EmprestimoPK emprestimoPK)
+    {
+        MultaController multaController = (MultaController) SpringUtil.getBean("multaController");
+        int days = multaController.getFine(emprestimoPK).getDiasatraso();
+
+        return (float) this.configControler.DAILY_RATE_FINE * days;
+    }
+
     public void pay(EmprestimoPK emprestimoPK, Calendar now)
     {
         EstadoMulta estadoMulta = crudService.get(EstadoMulta.class,this.eMController.PAID);
@@ -121,5 +130,24 @@ public class Fine
         multa.setEstadoMulta(estadoMulta);
 
         this.crudService.update(multa);
+    }
+
+    public void updateDelayDays(List<Multa> multaList){
+        for(Multa m: multaList){
+            int dias = 0;
+            dias = getDelayDays(Calendar.getInstance()
+                    ,eController.getRequest(m.getMultaPK()).getDatadevolucao());
+
+           switch(m.getEstadoMulta().getDescricao()){
+               case "NOT_PAID":
+                   m.setDiasatraso(dias);
+                   break;
+               case "REVOKED":
+                   m.setDiasatraso(dias);
+                   break;
+               default:
+                   break;
+           }
+        }
     }
 }

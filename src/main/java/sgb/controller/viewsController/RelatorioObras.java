@@ -209,7 +209,9 @@ public class RelatorioObras extends SelectorComposer<Component> {
             reportName = "RelatorioObrasEliminadas";
 
         Filedownload.save(JasperExportManager.exportReportToPdf(gerarRelatorio.createPdf(obraCategoriaListModel,
-                obrasregistadasListModel, obraEliminadasListModel, selected, qtdd.getValue())), "pdf", reportName+".pdf");
+                obrasregistadasListModel, obraEliminadasListModel, selected, qtdd.getValue()))
+                , "pdf"
+                , reportName+".pdf");
     }
 
 

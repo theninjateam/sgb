@@ -45,7 +45,6 @@ public class RelatorioEmprestimos extends SelectorComposer<Component> {
 
         emprestimoListModel = new ListModelList<Emprestimo>(emprestimoController.getBorrowedBooks());
 
-
         EstadoDevolucao estadoDevolucao = new EstadoDevolucao();
         estadoDevolucao.setDescricao("Todos");
         estadoDevolucao.setIdestadodevolucao(0);
@@ -73,7 +72,10 @@ public class RelatorioEmprestimos extends SelectorComposer<Component> {
     @Listen("onClick=#savePdf")
     public void exportToPDF() throws Exception, JRException, IOException
     {
-        Filedownload.save(JasperExportManager.exportReportToPdf(gerarRelatorio.createPdf(emprestimoListModel)),"pdf","RelatorioEmprestimo.pdf");
+        Filedownload.save(JasperExportManager.exportReportToPdf(gerarRelatorio.createPdf(emprestimoListModel
+                , "src/main/java/sgb/report/relatorioEmprestimo/relatorio.jrxml"))
+                ,"pdf"
+                ,"RelatorioEmprestimo.pdf");
     }
 
 
@@ -88,7 +90,8 @@ public class RelatorioEmprestimos extends SelectorComposer<Component> {
             xlsFile.delete();
         }
 
-        exporter.setParameter(JRExporterParameter.JASPER_PRINT, gerarRelatorio.createPdf(emprestimoListModel));
+        exporter.setParameter(JRExporterParameter.JASPER_PRINT, gerarRelatorio.createPdf(emprestimoListModel
+                , "src/main/java/sgb/report/relatorioEmprestimo/relatorio.jrxml"));
         exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, filePath);
         exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
         exporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);
