@@ -5,7 +5,11 @@ import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
+import org.zkoss.util.media.AMedia;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Page;
+import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
@@ -14,6 +18,7 @@ import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import sgb.controller.domainController.EmprestimoController;
+import org.zkoss.zul.*;
 import sgb.controller.domainController.EstadoMultaControler;
 import sgb.controller.domainController.MultaController;
 import sgb.fine.Fine;
@@ -60,6 +65,48 @@ public class RelatorioMultas extends SelectorComposer<Component> {
         multasListbox.setModel(multaListModelList);
         estadoMultaListbox.setModel(estadoMultaListModelList);
     }
+    @Listen("onClick=#savePdf")
+    public void show() throws JRException {
+        byte [] arr = JasperExportManager.exportReportToPdf(gerarRelatorio.createPdf1(multaListModelList,
+                "src/main/java/sgb/report/relatorioMultas/relatorio.jrxml"));
+        AMedia media = new AMedia("RelatorioMultas", "pdf", "application/pdf", arr);
+        final Window window = new Window();
+        window.setClosable(true);
+        window.setSizable(false);
+        Iframe iframe = new Iframe();
+        iframe.setContent(media);
+        Borderlayout borderlayout = new Borderlayout();
+        North north = new North();
+        Toolbar toolbar = new Toolbar();
+
+        toolbar.setWidth("100%");
+
+
+        toolbar.setAlign("end");
+
+
+        Toolbarbutton close = new Toolbarbutton("Exit");
+        close.setMode("overlapped");
+
+        close.setTooltiptext("Sair");
+        close.setClass("w3-btn w3-light-grey");
+        close.addEventListener("onClick", (Event t) -> {         window.onClose();     });
+        toolbar.appendChild(close);
+        north.appendChild(toolbar);
+        Center cntr = new Center();
+        cntr.appendChild(iframe);
+        borderlayout.appendChild(cntr);
+        borderlayout.resize();
+        window.appendChild(toolbar);
+        window.appendChild(borderlayout);
+        iframe.setWidth("100%");
+        iframe.setHeight("100%");
+        window.setWidth("100%");
+        window.setHeight("100%");
+
+        window.setPage(getPage());
+        window.doModal();
+    }
 
     @Listen("onSelect = #estadoMultaListbox")
     public void change(){
@@ -74,7 +121,7 @@ public class RelatorioMultas extends SelectorComposer<Component> {
         multasListbox.setModel(multaListModelList);
     }
 
-    @Listen("onClick=#savePdf")
+//    @Listen("onClick=#savePdf")
     public void exportToPDF() throws Exception, JRException, IOException
     {
         Filedownload.save(JasperExportManager.exportReportToPdf(gerarRelatorio.createPdf1(multaListModelList

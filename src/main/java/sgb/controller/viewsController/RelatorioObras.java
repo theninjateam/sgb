@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.zkoss.exporter.pdf.PdfExporter;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
@@ -197,6 +198,61 @@ public class RelatorioObras extends SelectorComposer<Component> {
     }
 
     @Listen("onClick=#savePdf")
+    public void show() throws JRException, IOException {
+
+        String reportName = null;
+
+        if(selected == 0)
+            reportName = "RelatorioObrasQuantidade";
+        else if(selected == 1)
+            reportName = "RelatorioObrasRegistadas";
+        else
+            reportName = "RelatorioObrasEliminadas";
+
+
+        byte [] arr = JasperExportManager.exportReportToPdf(gerarRelatorio.createPdf(obraCategoriaListModel,
+                obrasregistadasListModel, obraEliminadasListModel, selected, qtdd.getValue()));
+        AMedia media = new AMedia(reportName, "pdf", "application/pdf", arr);
+        final Window window = new Window();
+        window.setClosable(true);
+        window.setSizable(false);
+        Iframe iframe = new Iframe();
+        iframe.setContent(media);
+        Borderlayout borderlayout = new Borderlayout();
+        North north = new North();
+        Toolbar toolbar = new Toolbar();
+
+        toolbar.setWidth("100%");
+
+
+        toolbar.setAlign("end");
+
+
+        Toolbarbutton close = new Toolbarbutton("Exit");
+        close.setMode("overlapped");
+
+        close.setTooltiptext("Sair");
+        close.setClass("w3-btn w3-light-grey");
+        close.addEventListener("onClick", (Event t) -> {         window.onClose();     });
+
+
+        toolbar.appendChild(close);
+        north.appendChild(toolbar);
+        Center cntr = new Center();
+        cntr.appendChild(iframe);
+        borderlayout.appendChild(cntr);
+        borderlayout.resize();
+        window.appendChild(toolbar);
+        window.appendChild(borderlayout);
+        iframe.setWidth("100%");
+        iframe.setHeight("100%");
+        window.setWidth("100%");
+        window.setHeight("100%");
+
+        window.setPage(getPage());
+        window.doModal();
+    }
+
     public void exportToPDF() throws Exception, JRException, IOException
     {
         String reportName = null;

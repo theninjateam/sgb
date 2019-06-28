@@ -65,6 +65,11 @@ public class UserController {
         return this.crudService.findByJPQuery(query.toString(),parameters);
     }
 
+    public void updateUser(Users user){
+
+        this.crudService.update(user);
+    }
+
 
     public String encrypt(String password)
     {
@@ -87,17 +92,7 @@ public class UserController {
     }
 
 
-    public void blockUser(int id){
 
-        Users user = getUser(id);
-
-        if (user.getActive() == 1){
-            user.setActive(0);
-        }else {
-            user.setActive(1);
-        }
-        this.crudService.update(user);
-    }
 
     public List<Users> getNormalUsers(List<Users> users){
 
@@ -122,13 +117,6 @@ public class UserController {
         return result;
     }
 
-    public int getState(String state){
 
-        if (state.equals("Blocked"))
-            return 0;
-
-        return 1;
-
-    }
 
 }

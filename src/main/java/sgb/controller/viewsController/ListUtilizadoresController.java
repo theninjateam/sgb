@@ -10,6 +10,7 @@ import org.zkoss.zul.*;
 import sgb.controller.domainController.UserController;
 import sgb.domain.Role;
 import sgb.domain.Users;
+import sgb.login.Login;
 import sgb.service.CRUDService;
 
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.Set;
 
 public class ListUtilizadoresController extends SelectorComposer<Component> {
 
+    private Login login = (Login) SpringUtil.getBean("login") ;
     private UserController userController = (UserController) SpringUtil.getBean("userController");
     private CRUDService crudService = (CRUDService) SpringUtil.getBean("CRUDService");
 
@@ -70,8 +72,16 @@ private Button buttonBlock;
     @Listen("onBlock = #listUsers")
     public void block(ForwardEvent event) {
 
-        int id = (int)event.getData();
-        this.userController.blockUser(id);
+
+        Users user = (Users)event.getData();
+        if(user.getActive()==1){
+
+            this.login.blockUser(user);
+
+        }else{
+            this.login.unblockUser(user);
+        }
+
         pesquisar(textboxPesquisar.getValue());
     }
 
@@ -119,7 +129,7 @@ private Button buttonBlock;
             return userController.getUsers();
         else {
             String estate = estadoListBox.getSelectedItem().getValue();
-            return userController.getUsersByState(userController.getState(estate));
+            return userController.getUsersByState(login.getState(estate));
         }
     }
 

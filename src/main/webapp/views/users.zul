@@ -79,7 +79,7 @@
                                             ]]>
                                     </zscript>
                                     <button label="${label}" width="70px"
-                                            forward="onClick=listUsers.onBlock(${each.id})"
+                                            forward="onClick=listUsers.onBlock(${each})"
                                             mold="os" sclass=" w3-right w3-btn w3-${color}"/>
                                 </listcell>
                             </listitem>

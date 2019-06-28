@@ -213,16 +213,16 @@ CREATE TABLE "public"."emprestimo" (
 -- ----------------------------
 -- Records of emprestimo
 -- ----------------------------
-INSERT INTO "public"."emprestimo" VALUES (4, 'BBB1', '2019-03-27 20:16:24.677', 1, NULL, NULL, 1, '--', 1, 2, 1, 1);
-INSERT INTO "public"."emprestimo" VALUES (4, 'AAA9', '2019-03-27 20:16:24.402', 1, NULL, NULL, 1, '--', 1, 2, 1, 1);
-INSERT INTO "public"."emprestimo" VALUES (4, 'AAA8', '2019-03-27 20:16:24.244', 1, NULL, NULL, 1, '--', 1, 2, 1, 1);
-INSERT INTO "public"."emprestimo" VALUES (4, 'AAA7', '2019-03-27 20:16:24.091', 1, NULL, NULL, 1, '--', 1, 2, 1, 1);
-INSERT INTO "public"."emprestimo" VALUES (2, 'AAA3', '2019-03-27 20:14:21.75', 6, NULL, NULL, 1, '--', 1, 2, 1, 1);
-INSERT INTO "public"."emprestimo" VALUES (2, 'AAA2', '2019-03-27 20:14:21.585', 1, NULL, NULL, 1, '--', 1, 2, 1, 1);
-INSERT INTO "public"."emprestimo" VALUES (2, 'AAA6', '2019-03-27 20:14:21.365', 1, NULL, NULL, 1, '--', 1, 2, 1, 1);
-INSERT INTO "public"."emprestimo" VALUES (3, 'AAA6', '2019-03-27 20:05:50.171', 1, NULL, NULL, 1, '--', 1, 2, 1, 1);
-INSERT INTO "public"."emprestimo" VALUES (3, 'WW2', '2019-03-27 20:05:49.94', 1, NULL, NULL, 1, '--', 1, 2, 1, 1);
-INSERT INTO "public"."emprestimo" VALUES (3, 'AAA1', '2019-03-27 20:05:49.694', 1, NULL, NULL, 1, '--', 1, 2, 1, 1);
+-- INSERT INTO "public"."emprestimo" VALUES (4, 'BBB1', '2019-03-27 20:16:24.677', 1, NULL, NULL, 1, '--', 1, 2, 1, 1);
+-- INSERT INTO "public"."emprestimo" VALUES (4, 'AAA9', '2019-03-27 20:16:24.402', 1, NULL, NULL, 1, '--', 1, 2, 1, 1);
+-- INSERT INTO "public"."emprestimo" VALUES (4, 'AAA8', '2019-03-27 20:16:24.244', 1, NULL, NULL, 1, '--', 1, 2, 1, 1);
+-- INSERT INTO "public"."emprestimo" VALUES (4, 'AAA7', '2019-03-27 20:16:24.091', 1, NULL, NULL, 1, '--', 1, 2, 1, 1);
+-- INSERT INTO "public"."emprestimo" VALUES (2, 'AAA3', '2019-03-27 20:14:21.75', 6, NULL, NULL, 1, '--', 1, 2, 1, 1);
+-- INSERT INTO "public"."emprestimo" VALUES (2, 'AAA2', '2019-03-27 20:14:21.585', 1, NULL, NULL, 1, '--', 1, 2, 1, 1);
+-- INSERT INTO "public"."emprestimo" VALUES (2, 'AAA6', '2019-03-27 20:14:21.365', 1, NULL, NULL, 1, '--', 1, 2, 1, 1);
+-- INSERT INTO "public"."emprestimo" VALUES (3, 'AAA6', '2019-03-27 20:05:50.171', 1, NULL, NULL, 1, '--', 1, 2, 1, 1);
+-- INSERT INTO "public"."emprestimo" VALUES (3, 'WW2', '2019-03-27 20:05:49.94', 1, NULL, NULL, 1, '--', 1, 2, 1, 1);
+-- INSERT INTO "public"."emprestimo" VALUES (3, 'AAA1', '2019-03-27 20:05:49.694', 1, NULL, NULL, 1, '--', 1, 2, 1, 1);
 INSERT INTO "public"."emprestimo" VALUES (3, 'WW2', '2018-12-26 12:17:46.228', 1, '2018-05-14', '2018-05-17', 1, 'Cancelado Pelo Sistema, excedeu o deadline', 1, 2, 1, 1);
 INSERT INTO "public"."emprestimo" VALUES (3, 'WW2', '2018-12-26 12:29:20.376', 1, '2019-03-21', '2019-03-25', 1, 'Cancelado Pelo Sistema, excedeu o deadline', 1, 2, 1, 1);
 INSERT INTO "public"."emprestimo" VALUES (3, 'WW2', '2018-12-26 12:21:38.945', 1, '2019-03-21', '2019-03-25', 1, 'Cancelado Pelo Sistema, excedeu o deadline', 1, 2, 1, 1);
