@@ -65,6 +65,7 @@ public class RelatorioMultas extends SelectorComposer<Component> {
         multasListbox.setModel(multaListModelList);
         estadoMultaListbox.setModel(estadoMultaListModelList);
     }
+
     @Listen("onClick=#savePdf")
     public void show() throws JRException {
         byte [] arr = JasperExportManager.exportReportToPdf(gerarRelatorio.createPdf1(multaListModelList,
@@ -120,16 +121,6 @@ public class RelatorioMultas extends SelectorComposer<Component> {
 
         multasListbox.setModel(multaListModelList);
     }
-
-//    @Listen("onClick=#savePdf")
-    public void exportToPDF() throws Exception, JRException, IOException
-    {
-        Filedownload.save(JasperExportManager.exportReportToPdf(gerarRelatorio.createPdf1(multaListModelList
-                , "src/main/java/sgb/report/relatorioMultas/relatorio.jrxml"))
-                ,"pdf"
-                ,"RelatorioMultas.pdf");
-    }
-
 
     @Listen("onClick=#saveExcell")
     public void exportToExcell() throws IOException, JRException {

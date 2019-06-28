@@ -74,10 +74,8 @@ public class RelatorioEmprestimos extends SelectorComposer<Component> {
 
     @Listen("onClick=#savePdf")
     public void show() throws JRException {
-
-
-
-        byte [] arr = JasperExportManager.exportReportToPdf(gerarRelatorio.createPdf(emprestimoListModel));
+        byte [] arr = JasperExportManager.exportReportToPdf(gerarRelatorio.createPdf(emprestimoListModel
+                , "src/main/java/sgb/report/relatorioEmprestimo/relatorio.jrxml"));
         AMedia media = new AMedia("RelatorioEmprestimo", "pdf", "application/pdf", arr);
 
         final Window window = new Window();
@@ -118,13 +116,6 @@ public class RelatorioEmprestimos extends SelectorComposer<Component> {
 
         window.setPage(getPage());
         window.doModal();
-    }
-    public void exportToPDF() throws Exception, JRException, IOException
-    {
-        Filedownload.save(JasperExportManager.exportReportToPdf(gerarRelatorio.createPdf(emprestimoListModel
-                , "src/main/java/sgb/report/relatorioEmprestimo/relatorio.jrxml"))
-                ,"pdf"
-                ,"RelatorioEmprestimo.pdf");
     }
 
     @Listen("onClick=#saveExcell")

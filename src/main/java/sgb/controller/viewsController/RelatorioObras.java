@@ -253,24 +253,6 @@ public class RelatorioObras extends SelectorComposer<Component> {
         window.doModal();
     }
 
-    public void exportToPDF() throws Exception, JRException, IOException
-    {
-        String reportName = null;
-
-        if(selected == 0)
-            reportName = "RelatorioObrasQuantidade";
-        else if(selected == 1)
-            reportName = "RelatorioObrasRegistadas";
-        else
-            reportName = "RelatorioObrasEliminadas";
-
-        Filedownload.save(JasperExportManager.exportReportToPdf(gerarRelatorio.createPdf(obraCategoriaListModel,
-                obrasregistadasListModel, obraEliminadasListModel, selected, qtdd.getValue()))
-                , "pdf"
-                , reportName+".pdf");
-    }
-
-
     @Listen("onClick=#saveExcell")
     public void exportToExcell() throws IOException, JRException {
         String reportName = null;
