@@ -7,15 +7,17 @@ import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.zkoss.util.media.AMedia;
+import org.zkoss.util.media.Media;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Page;
+import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zkplus.spring.SpringUtil;
-import org.zkoss.zul.Datebox;
-import org.zkoss.zul.Filedownload;
-import org.zkoss.zul.ListModelList;
-import org.zkoss.zul.Listbox;
+import org.zkoss.zul.*;
 import sgb.controller.domainController.AreaCientificaController;
 import sgb.controller.domainController.EmprestimoController;
 import sgb.controller.domainController.EstadoDevolucaoControler;
@@ -24,6 +26,7 @@ import sgb.domain.EstadoDevolucao;
 import sgb.report.GerarRelatorio;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
@@ -71,11 +74,56 @@ public class RelatorioEmprestimos extends SelectorComposer<Component> {
     }
 
     @Listen("onClick=#savePdf")
+    public void show() throws JRException {
+
+
+
+        byte [] arr = JasperExportManager.exportReportToPdf(gerarRelatorio.createPdf(emprestimoListModel));
+        AMedia media = new AMedia("RelatorioEmprestimo", "pdf", "application/pdf", arr);
+
+        final Window window = new Window();
+        window.setClosable(true);
+        window.setSizable(false);
+        Iframe iframe = new Iframe();
+        iframe.setContent(media);
+        Borderlayout borderlayout = new Borderlayout();
+        North north = new North();
+        Toolbar toolbar = new Toolbar();
+
+        toolbar.setWidth("100%");
+
+
+        toolbar.setAlign("end");
+
+
+        Toolbarbutton close = new Toolbarbutton("Exit");
+        close.setMode("overlapped");
+
+        close.setTooltiptext("Sair");
+        close.setClass("w3-btn w3-light-grey");
+        close.addEventListener("onClick", (Event t) -> {         window.onClose();     });
+
+
+        toolbar.appendChild(close);
+        north.appendChild(toolbar);
+        Center cntr = new Center();
+        cntr.appendChild(iframe);
+        borderlayout.appendChild(cntr);
+        borderlayout.resize();
+        window.appendChild(toolbar);
+        window.appendChild(borderlayout);
+        iframe.setWidth("100%");
+        iframe.setHeight("100%");
+        window.setWidth("100%");
+        window.setHeight("100%");
+
+        window.setPage(getPage());
+        window.doModal();
+    }
     public void exportToPDF() throws Exception, JRException, IOException
     {
         Filedownload.save(JasperExportManager.exportReportToPdf(gerarRelatorio.createPdf(emprestimoListModel)),"pdf","RelatorioEmprestimo.pdf");
     }
-
 
     @Listen("onClick=#saveExcell")
     public void exportToExcell() throws IOException, JRException {
@@ -83,6 +131,7 @@ public class RelatorioEmprestimos extends SelectorComposer<Component> {
 
         String filePath = "src/main/java/sgb/report/relatorioEmprestimo/xls/RelatorioEmprestimo.xls";
         File xlsFile = new File(filePath);
+
 
         if(xlsFile.exists()){
             xlsFile.delete();
