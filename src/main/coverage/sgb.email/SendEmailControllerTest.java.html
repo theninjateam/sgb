@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SendEmailControllerTest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$All_in_zksandbox.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.email</a> &gt; <span class="el_source">SendEmailControllerTest.java</span></div><h1>SendEmailControllerTest.java</h1><pre class="source lang-java linenums">package sgb.email;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
+import sgb.controller.domainController.MultaController;
+import sgb.domain.Multa;
+import sgb.service.CRUDService;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations={&quot;file:src/main/webapp/WEB-INF/applicationContext.xml&quot;})
+
+/**
+ * @author Meneses
+ */
+
+
+
+<span class="fc" id="L29">public class SendEmailControllerTest</span>
+{
+    @Autowired
+    private ApplicationContext context;
+    private CRUDService crudService;
+    private List&lt;Multa&gt;  multas;
+
+
+    private MultaController multaController;
+    private SendEmail sendEmail;
+    private sgb.email.SendEmailController sendEmailController;
+
+
+
+    @Before
+    @Transactional
+    public void before() throws Exception {
+<span class="fc" id="L46">        System.out.println(&quot;Setting it up!&quot;);</span>
+
+<span class="fc" id="L48">        this.multaController = (MultaController) context.getBean(&quot;multaController&quot;);</span>
+<span class="fc" id="L49">        this.sendEmail = (SendEmail) context.getBean(&quot;sendEmail&quot;);</span>
+<span class="fc" id="L50">        this.sendEmailController = (SendEmailController) context.getBean(&quot;sendEmailController&quot;);</span>
+
+
+<span class="fc" id="L53">        multas = new ArrayList&lt;Multa&gt;();</span>
+
+<span class="fc" id="L55">    }</span>
+
+    @Test
+    @Transactional
+    public void processTest() throws Exception
+    {
+
+        boolean notify;
+
+
+<span class="fc" id="L65">        notify = this.sendEmailController.process(null);</span>
+<span class="fc" id="L66">        assertThat(notify).isFalse();</span>
+
+
+<span class="fc" id="L69">        notify = this.sendEmailController.process(multas);</span>
+<span class="fc" id="L70">        assertThat(notify).isTrue();</span>
+
+<span class="fc" id="L72">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

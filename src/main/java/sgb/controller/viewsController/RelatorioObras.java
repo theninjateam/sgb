@@ -199,19 +199,25 @@ public class RelatorioObras extends SelectorComposer<Component> {
 
     @Listen("onClick=#savePdf")
     public void show() throws JRException, IOException {
-
+        String path;
         String reportName = null;
 
-        if(selected == 0)
+        if(selected == 0){
             reportName = "RelatorioObrasQuantidade";
-        else if(selected == 1)
+            path = "src/main/java/sgb/report/relatorioObras/relatorio.jrxml";
+        }
+        else if(selected == 1){
             reportName = "RelatorioObrasRegistadas";
-        else
+            path = "src/main/java/sgb/report/relatorioObras/relatorioObrasReg.jrxml";
+        }
+        else{
             reportName = "RelatorioObrasEliminadas";
+            path = "src/main/java/sgb/report/relatorioObras/relatorioObrasEli.jrxml";
+        }
 
 
-        byte [] arr = JasperExportManager.exportReportToPdf(gerarRelatorio.createPdf(obraCategoriaListModel,
-                obrasregistadasListModel, obraEliminadasListModel, selected, qtdd.getValue()));
+        byte [] arr = JasperExportManager.exportReportToPdf(gerarRelatorio.createPdfObras(obraCategoriaListModel,
+                obrasregistadasListModel, obraEliminadasListModel, selected, qtdd.getValue(), path));
         AMedia media = new AMedia(reportName, "pdf", "application/pdf", arr);
         final Window window = new Window();
         window.setClosable(true);
@@ -255,15 +261,22 @@ public class RelatorioObras extends SelectorComposer<Component> {
 
     @Listen("onClick=#saveExcell")
     public void exportToExcell() throws IOException, JRException {
-        String reportName = null;
         JRXlsExporter exporter = new JRXlsExporter();
+        String path;
+        String reportName = null;
 
-        if(selected == 0)
+        if(selected == 0){
             reportName = "RelatorioObrasQuantidade";
-        else if(selected == 1)
+            path = "src/main/java/sgb/report/relatorioObras/relatorio.jrxml";
+        }
+        else if(selected == 1){
             reportName = "RelatorioObrasRegistadas";
-        else
+            path = "src/main/java/sgb/report/relatorioObras/relatorioObrasReg.jrxml";
+        }
+        else{
             reportName = "RelatorioObrasEliminadas";
+            path = "src/main/java/sgb/report/relatorioObras/relatorioObrasEli.jrxml";
+        }
 
         String filePath = "src/main/java/sgb/report/xlsFiles/"+reportName+".xls";
         File xlsFile = new File(filePath);
@@ -272,8 +285,8 @@ public class RelatorioObras extends SelectorComposer<Component> {
             xlsFile.delete();
         }
 
-        exporter.setParameter(JRExporterParameter.JASPER_PRINT, gerarRelatorio.createPdf(obraCategoriaListModel,
-                obrasregistadasListModel, obraEliminadasListModel, selected, qtdd.getValue()));
+        exporter.setParameter(JRExporterParameter.JASPER_PRINT, gerarRelatorio.createPdfObras(obraCategoriaListModel,
+                obrasregistadasListModel, obraEliminadasListModel, selected, qtdd.getValue(), path));
         exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, filePath);
         exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
         exporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);

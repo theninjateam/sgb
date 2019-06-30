@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RegistroObraPK.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$All_in_zksandbox.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.domain</a> &gt; <span class="el_source">RegistroObraPK.java</span></div><h1>RegistroObraPK.java</h1><pre class="source lang-java linenums">package sgb.domain;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
+
+@Embeddable
+<span class="fc" id="L9">public class RegistroObraPK implements Serializable</span>
+{
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = &quot;cota&quot;, nullable = false)
+    private Obra obra;
+
+    @Column(name = &quot;dataregisto&quot;)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Calendar dataRegisto;
+
+    public Obra getObra() {
+<span class="nc" id="L20">        return obra;</span>
+    }
+    public void setObra(Obra obra) {
+<span class="nc" id="L23">        this.obra = obra;</span>
+<span class="nc" id="L24">    }</span>
+
+    public Calendar getDataRegisto() {
+<span class="fc" id="L27">        return dataRegisto;</span>
+    }
+
+    public void setDataRegisto(Calendar dataregisto) {
+<span class="nc" id="L31">        this.dataRegisto = dataregisto;</span>
+<span class="nc" id="L32">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

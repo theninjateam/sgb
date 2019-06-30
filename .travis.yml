@@ -10,6 +10,7 @@ language: java
     - ./cc-test-reporter before-build
   script:
     - mvn test
+    - mvn site
   after_script:
     - ./cc-test-reporter format-coverage -d -t jacoco ./target/jacoco-ut/jacoco.xml
     - ./cc-test-reporter upload-coverage -d

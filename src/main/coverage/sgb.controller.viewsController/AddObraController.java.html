@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AddObraController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$All_in_zksandbox.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.controller.viewsController</a> &gt; <span class="el_source">AddObraController.java</span></div><h1>AddObraController.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package sgb.controller.viewsController;
+
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.zkoss.lang.Strings;
+import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Session;
+import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.event.ForwardEvent;
+import org.zkoss.zk.ui.event.UploadEvent;
+import org.zkoss.zk.ui.select.SelectorComposer;
+import org.zkoss.zk.ui.select.annotation.Listen;
+import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zkplus.spring.SpringUtil;
+import org.zkoss.zul.*;
+import org.zkoss.zul.impl.InputElement;
+import sgb.domain.*;
+import sgb.service.CRUDService;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.zkoss.zk.ui.util.ForEach;
+
+import java.awt.image.RenderedImage;
+import java.io.File;
+import org.zkoss.io.Files;
+import org.zkoss.util.media.Media;
+import org.zkoss.image.AImage;
+import org.zkoss.zk.ui.Executions;
+
+import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.Calendar;
+
+/**
+ * @author Fonseca, Emerson, Matimbe
+ */
+
+<span class="nc" id="L52">public class AddObraController extends SelectorComposer&lt;Component&gt; {</span>
+
+<span class="nc" id="L54">    private CRUDService crudService = (CRUDService) SpringUtil.getBean(&quot;CRUDService&quot;);</span>
+<span class="nc" id="L55">    private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;</span>
+    private ListModelList&lt;TipoObra&gt; tipoObraModel;
+    private ListModelList&lt;AreaCientifica&gt; areaCientificaModel;
+    private ListModelList&lt;Idioma&gt; idiomaModel;
+    private ListModelList&lt;FormaAquisicao&gt; formaAquisicaoModel;
+
+<span class="nc" id="L61">    private Set&lt;Autor&gt; autores = new HashSet&lt;Autor&gt;();</span>
+    private ListModelList&lt;Autor&gt; authorListModel;
+<span class="nc" id="L63">    Autor oAutor = new Autor();</span>
+<span class="nc" id="L64">    private RegistroObra registroObra = new RegistroObra();</span>
+<span class="nc" id="L65">    private String fullPathPDF = null;</span>
+<span class="nc" id="L66">    private String relativePathPDF = null;</span>
+<span class="nc" id="L67">    private String fullPathCover = null;</span>
+<span class="nc" id="L68">    private String relativePathCover = null;</span>
+    private Media mediaCover;
+    private Media mediaPDF;
+    private Session session;
+
+    @Wire
+    private Image capa;
+    @Wire
+    private Button upLoadPDF;
+
+    @Wire
+    private Button upLoadCAPA;
+
+    @Wire
+    private Label addedPDF;
+
+    @Wire
+    private Label addedCapa; // eliminar esta label
+
+    @Wire
+    private Window addObra;
+
+    @Wire
+    private Listbox authorListBox;
+
+    @Wire
+    private Label cota_duplicated_key;
+
+
+    @Wire
+    private Textbox cota;
+
+    @Wire
+    private Intbox registo;
+
+    @Wire
+    private Textbox titulo;
+
+    @Wire
+    private Textbox autor;
+
+    @Wire
+    private Textbox localPublicacao;
+
+    @Wire
+    private Intbox anoPublicacao;
+
+    @Wire
+    private Intbox quatddObra;
+    @Wire
+    private Textbox isbn;
+    @Wire
+    private Textbox editora;
+    @Wire
+    private Textbox codigobarra;
+    @Wire
+    private Intbox edicao;
+    @Wire
+    private Intbox volume;
+    @Wire
+    private Textbox observacao;
+
+
+
+
+    @Wire
+    private Listbox formaaquisicaoBox;
+    @Wire
+    private Listbox areaCientificaListBox;
+    @Wire
+    private Listbox idiomaListBox;
+    @Wire
+    private Listbox tipoObraListBox;
+    @Wire
+    private Label escolha;
+
+
+
+
+
+    @Override
+    public void doAfterCompose(Component comp) throws Exception {
+<span class="nc" id="L150">        super.doAfterCompose(comp);</span>
+
+<span class="nc" id="L152">        session = Sessions.getCurrent();</span>
+
+<span class="nc" id="L154">        setAttributeSession(session);</span>
+
+<span class="nc" id="L156">        authorListModel = new ListModelList&lt;Autor&gt;();</span>
+<span class="nc" id="L157">        authorListBox.setModel(authorListModel);</span>
+
+<span class="nc" id="L159">        tipoObraModel = new ListModelList&lt;TipoObra&gt;(getTipoObraModel());</span>
+<span class="nc" id="L160">        tipoObraListBox.setModel(tipoObraModel);</span>
+
+<span class="nc" id="L162">        areaCientificaModel = new ListModelList&lt;AreaCientifica&gt;(getAreaCientificaModel());</span>
+<span class="nc" id="L163">        areaCientificaListBox.setModel(areaCientificaModel);</span>
+
+<span class="nc" id="L165">        idiomaModel = new ListModelList&lt;Idioma&gt;(getIdiomaModel());</span>
+<span class="nc" id="L166">        idiomaListBox.setModel(idiomaModel);</span>
+
+<span class="nc" id="L168">        formaAquisicaoModel = new ListModelList&lt;FormaAquisicao&gt;(getFormaAquisicaoModel());</span>
+<span class="nc" id="L169">        formaaquisicaoBox.setModel(formaAquisicaoModel);</span>
+
+
+<span class="nc" id="L172">    }</span>
+
+    public ListModelList&lt;TipoObra&gt; getTipoObraModel() {
+
+<span class="nc" id="L176">        List&lt;TipoObra&gt; tipoObras = crudService.getAll(TipoObra.class);</span>
+<span class="nc" id="L177">        return new ListModelList&lt;TipoObra&gt;(tipoObras);</span>
+    }
+
+    public ListModelList&lt;Idioma&gt; getIdiomaModel() {
+<span class="nc" id="L181">        List&lt;Idioma&gt; idiomas = crudService.getAll(Idioma.class);</span>
+<span class="nc" id="L182">        return new ListModelList&lt;Idioma&gt;(idiomas);</span>
+    }
+
+    public ListModelList&lt;AreaCientifica&gt; getAreaCientificaModel() {
+<span class="nc" id="L186">        List&lt;AreaCientifica&gt; areascientificas = crudService.getAll(AreaCientifica.class);</span>
+<span class="nc" id="L187">        return new ListModelList&lt;AreaCientifica&gt;(areascientificas);</span>
+    }
+
+    public ListModelList&lt;FormaAquisicao&gt; getFormaAquisicaoModel () {
+<span class="nc" id="L191">        List&lt;FormaAquisicao&gt; formaaquisicao = crudService.getAll(FormaAquisicao.class);</span>
+<span class="nc" id="L192">        return new ListModelList&lt;FormaAquisicao&gt;(formaaquisicao);</span>
+    }
+
+    @Listen(&quot;onClick = #savebtn&quot;)
+    public void saveData() throws ParseException {
+<span class="nc" id="L197">        check(addObra);</span>
+
+<span class="nc" id="L199">        Obra obra = new Obra();</span>
+<span class="nc" id="L200">        Livro livro = new Livro();</span>
+<span class="nc" id="L201">        Cd cd = new Cd();</span>
+<span class="nc" id="L202">        LivroCd livroCd = new LivroCd();</span>
+<span class="nc" id="L203">        Revista revista = new Revista();</span>
+<span class="nc" id="L204">        TipoObra tipoObra = tipoObraListBox.getSelectedItem().getValue();</span>
+<span class="nc" id="L205">        user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();</span>
+
+<span class="nc" id="L207">        obra.setCota(cota.getValue());</span>
+<span class="nc" id="L208">        obra.setRegistro(registo.getValue());</span>
+<span class="nc" id="L209">        obra.setTipoobra(tipoObra);</span>
+<span class="nc" id="L210">        obra.setTitulo(titulo.getValue());</span>
+<span class="nc" id="L211">        obra.setAreacientifica(areaCientificaListBox.getSelectedItem().getValue());</span>
+<span class="nc" id="L212">        obra.setAnoPublicacao(anoPublicacao.getValue());</span>
+<span class="nc" id="L213">        obra.setLocalpublicacao(localPublicacao.getValue());</span>
+<span class="nc" id="L214">        obra.setQuantidade(quatddObra.getValue());</span>
+<span class="nc" id="L215">        obra.setPathcapa(relativePathCover);</span>
+<span class="nc" id="L216">        obra.setPathpdf(relativePathPDF);</span>
+<span class="nc" id="L217">        obra.setIdioma(idiomaListBox.getSelectedItem().getValue());</span>
+
+<span class="nc" id="L219">        RegistroObraPK registroObraPK = new RegistroObraPK();</span>
+
+<span class="nc" id="L221">        registroObraPK.setObra(obra);</span>
+<span class="nc" id="L222">        registroObraPK.setDataRegisto(Calendar.getInstance());</span>
+
+<span class="nc" id="L224">        registroObra.setRegistroObraPK(registroObraPK);</span>
+<span class="nc" id="L225">        registroObra.setFormaAquisicao(formaaquisicaoBox.getSelectedItem().getValue());</span>
+<span class="nc" id="L226">        registroObra.setObra(obra);</span>
+<span class="nc" id="L227">        registroObra.setUser(user);</span>
+<span class="nc" id="L228">        registroObra.setQuantidade(quatddObra.getValue());</span>
+<span class="nc" id="L229">        registroObra.setObservacao(observacao.getValue());</span>
+
+<span class="nc bnc" id="L231" title="All 2 branches missed.">        if (tipoObra.getDescricao().toLowerCase().equals(&quot;livro&quot;)) {</span>
+
+<span class="nc" id="L233">            livro.setCota(obra.getCota());</span>
+<span class="nc" id="L234">            livro.setIsbn(isbn.getValue());</span>
+<span class="nc" id="L235">            livro.setCodigobarra(codigobarra.getValue());</span>
+<span class="nc" id="L236">            livro.setEdicao(edicao.getValue());</span>
+<span class="nc" id="L237">            livro.setEditora(editora.getValue());</span>
+<span class="nc" id="L238">            livro.setVolume(volume.getValue());</span>
+<span class="nc" id="L239">            livro.setObra(obra);</span>
+<span class="nc" id="L240">            obra.setLivro(livro);</span>
+
+<span class="nc bnc" id="L242" title="All 2 branches missed.">        } else if (tipoObra.getDescricao().toLowerCase().equals(&quot;cd&quot;)) {</span>
+<span class="nc" id="L243">            cd.setIdcd(obra.getCota());</span>
+<span class="nc" id="L244">            cd.setDescricao(titulo.getValue());</span>
+<span class="nc" id="L245">            cd.setObra(obra);</span>
+<span class="nc" id="L246">            obra.setCd(cd);</span>
+<span class="nc bnc" id="L247" title="All 2 branches missed.">        } else if (tipoObra.getDescricao().toLowerCase().equals(&quot;revista&quot;)) {</span>
+
+<span class="nc" id="L249">            revista.setCota(obra.getCota());</span>
+<span class="nc" id="L250">            revista.setInstituicao(editora.getValue());</span>
+<span class="nc" id="L251">            revista.setObra(obra);</span>
+<span class="nc" id="L252">            obra.setRevista(revista);</span>
+        }
+
+<span class="nc bnc" id="L255" title="All 2 branches missed.">        if(escolha.getValue().equals(&quot;Sim&quot;)){</span>
+<span class="nc" id="L256">               cd.setIdcd(obra.getCota());</span>
+<span class="nc" id="L257">               cd.setDescricao(titulo.getValue());</span>
+<span class="nc" id="L258">               cd.setObra(obra);</span>
+<span class="nc" id="L259">               obra.setCd(cd);</span>
+        }
+
+        try
+        {
+<span class="nc bnc" id="L264" title="All 2 branches missed.">            for(Autor autor: authorListModel) // esta linha devera sair</span>
+<span class="nc" id="L265">                autores.add(autor);</span>
+
+<span class="nc" id="L267">            Set&lt;RegistroObra&gt; registroObras = new HashSet&lt;&gt;();</span>
+<span class="nc" id="L268">            registroObras.add(registroObra);</span>
+
+<span class="nc" id="L270">            obra.setAutores(autores);</span>
+<span class="nc" id="L271">            obra.setRegistroObras(registroObras);</span>
+
+<span class="nc" id="L273">            crudService.Save(obra);</span>
+
+<span class="nc bnc" id="L275" title="All 2 branches missed.">            if(fullPathPDF != null)</span>
+<span class="nc" id="L276">                Files.copy(new File(fullPathPDF), mediaPDF.getStreamData());</span>
+
+<span class="nc bnc" id="L278" title="All 2 branches missed.">            if(fullPathCover != null)</span>
+<span class="nc" id="L279">                Files.copy(new File(fullPathCover), mediaCover.getStreamData());</span>
+
+
+<span class="nc" id="L282">            Clients.showNotification(&quot;Os dados foram guardados com sucesso!&quot;,null,null,null,5000);</span>
+        }
+<span class="nc" id="L284">        catch (Exception e)</span>
+        {
+<span class="nc bnc" id="L286" title="All 2 branches missed.">            if(e instanceof DataIntegrityViolationException)</span>
+            {
+<span class="nc" id="L288">                DataIntegrityViolationException dive = (DataIntegrityViolationException) e;</span>
+
+<span class="nc bnc" id="L290" title="All 2 branches missed.">                if(dive.getMostSpecificCause().toString().contains(&quot;duplicate key value&quot;))</span>
+                {
+<span class="nc" id="L292">                    Clients.showNotification(&quot;Ops: Parece que ja existe uma ObraConcurrenceControl com numero de cota '&quot;+cota.getValue()+&quot;'&quot;,null,null,null,5000);</span>
+                }
+            }
+<span class="nc" id="L295">            e.printStackTrace();</span>
+<span class="nc" id="L296">        }</span>
+<span class="nc" id="L297">    }</span>
+
+    @Listen(&quot;onUpLoadPDF = #upLoadPDF&quot;)
+    public void loadPDF(ForwardEvent event)
+    {
+<span class="nc" id="L302">        UploadEvent uploadEvent = (UploadEvent) event.getOrigin();</span>
+<span class="nc" id="L303">        mediaPDF = uploadEvent.getMedia();</span>
+
+<span class="nc bnc" id="L305" title="All 2 branches missed.">        if (!mediaPDF.getFormat().equals(&quot;pdf&quot;))</span>
+        {
+<span class="nc" id="L307">            Clients.showNotification(&quot;Ficheiro Invalido, carrega um ficheiro pdf&quot;,null,null,null,5000);</span>
+        }
+        else
+        {
+<span class="nc" id="L311">            relativePathPDF = &quot;digitalLibrary/pdf/&quot;.concat(mediaPDF.getName());</span>
+<span class="nc" id="L312">            fullPathPDF = Executions.getCurrent().getDesktop().getWebApp().getRealPath(relativePathPDF);</span>
+<span class="nc" id="L313">            addedPDF.setValue(mediaPDF.getName());</span>
+
+<span class="nc" id="L315">            this.upLoadPDF.setLabel(&quot;Eliminar PDF adicionado&quot;);</span>
+<span class="nc" id="L316">            this.upLoadPDF.setUpload(&quot;false&quot;);</span>
+<span class="nc" id="L317">            this.upLoadPDF.setSclass(&quot;w3-btn ww3-light-grey&quot;);</span>
+        }
+<span class="nc" id="L319">    }</span>
+
+    @Listen(&quot;onDeleteUpLoadedPDF = #upLoadPDF&quot;)
+    public void deletUpLoadPDF(ForwardEvent event)
+    {
+<span class="nc bnc" id="L324" title="All 4 branches missed.">        if(relativePathPDF != null || fullPathPDF != null)</span>
+        {
+<span class="nc" id="L326">            relativePathPDF = null;</span>
+<span class="nc" id="L327">            fullPathPDF = null;</span>
+<span class="nc" id="L328">            mediaPDF = null;</span>
+
+<span class="nc" id="L330">            addedPDF.setValue(null);</span>
+<span class="nc" id="L331">            this.upLoadPDF.setUpload(&quot;true&quot;);</span>
+<span class="nc" id="L332">            this.upLoadPDF.setLabel(&quot;Adicionar PDF&quot;);</span>
+<span class="nc" id="L333">            this.upLoadPDF.setSclass(&quot;w3-btn ww3-light-grey&quot;);</span>
+<span class="nc" id="L334">            this.upLoadPDF.setMold(&quot;os&quot;);</span>
+
+        }
+<span class="nc" id="L337">    }</span>
+
+    @Listen(&quot;onUpLoadCAPA = #upLoadCAPA&quot;)
+    public void loadCAPA(ForwardEvent event)
+    {
+<span class="nc" id="L342">        UploadEvent uploadEvent = (UploadEvent) event.getOrigin();</span>
+<span class="nc" id="L343">        mediaCover = uploadEvent.getMedia();</span>
+
+<span class="nc bnc" id="L345" title="All 2 branches missed.">        if (!mediaCover.getContentType().contains(&quot;image&quot;))</span>
+        {
+<span class="nc" id="L347">            Clients.showNotification(&quot;Ficheiro Invalido, carrega uma imagem&quot;,null,null,null,5000);</span>
+        }
+        else
+        {
+<span class="nc" id="L351">            relativePathCover = &quot;digitalLibrary/cover/&quot;.concat(mediaCover.getName());</span>
+<span class="nc" id="L352">            fullPathCover = Executions.getCurrent().getDesktop().getWebApp().getRealPath(relativePathCover);</span>
+
+<span class="nc" id="L354">            this.capa.setContent((org.zkoss.image.Image) mediaCover);</span>
+<span class="nc" id="L355">            this.upLoadCAPA.setLabel(&quot;Eliminar CAPA adicionada&quot;);</span>
+<span class="nc" id="L356">            this.upLoadCAPA.setUpload(&quot;false&quot;);</span>
+<span class="nc" id="L357">            this.upLoadCAPA.setSclass(&quot;w3-btn ww3-light-grey&quot;);</span>
+        }
+<span class="nc" id="L359">    }</span>
+
+    @Listen(&quot;onDeleteUpLoadedCAPA = #upLoadCAPA&quot;)
+    public void deletUpLoadCAPA(ForwardEvent event) throws IOException {
+<span class="nc bnc" id="L363" title="All 4 branches missed.">        if(relativePathCover != null || fullPathCover != null)</span>
+        {
+
+            //Clients.showNotification(Executions.getCurrent().getDesktop().getWebApp().getRealPath(&quot;digitalLibrary/cover/default.jpg&quot;));
+<span class="nc" id="L367">            String fullPathDefaultCover = Executions.getCurrent().getDesktop().getWebApp().getRealPath(&quot;img/capa.jpg&quot;);</span>
+
+<span class="nc" id="L369">            Media mediaDefaultCover = new AImage(fullPathDefaultCover);</span>
+
+<span class="nc" id="L371">            relativePathCover = null;</span>
+<span class="nc" id="L372">            fullPathCover = null;</span>
+<span class="nc" id="L373">            mediaCover = null;</span>
+
+<span class="nc" id="L375">            this.capa.setContent((org.zkoss.image.Image) mediaDefaultCover);</span>
+
+<span class="nc" id="L377">            this.upLoadCAPA.setUpload(&quot;true&quot;);</span>
+<span class="nc" id="L378">            this.upLoadCAPA.setLabel(&quot;Adicionar CAPA&quot;);</span>
+<span class="nc" id="L379">            this.upLoadCAPA.setSclass(&quot;w3-btn ww3-light-grey&quot;);</span>
+<span class="nc" id="L380">            this.upLoadCAPA.setMold(&quot;os&quot;);</span>
+
+        }
+<span class="nc" id="L383">    }</span>
+
+    @Listen(&quot;onClick = #addAuthor&quot;)
+    public void addNewAuthor() throws NoSuchAlgorithmException {
+
+<span class="nc bnc" id="L388" title="All 2 branches missed.">        if (Strings.isBlank(autor.getValue()))</span>
+        {
+<span class="nc" id="L390">            Clients.showNotification(&quot;Informe O Nome e o Apelido do Autor&quot;,null,null,null,5000);</span>
+        }
+        else
+        {
+<span class="nc" id="L394">            Autor outroAutor = new Autor();</span>
+<span class="nc" id="L395">            String nomeC = autor.getValue().trim();</span>
+
+<span class="nc" id="L397">            outroAutor.setHashcode(DigestUtils.md5Hex(nomeC.toLowerCase()));</span>
+<span class="nc" id="L398">            outroAutor.setNome(nomeC);</span>
+
+<span class="nc" id="L400">            authorListModel.add(outroAutor);</span>
+<span class="nc" id="L401">            authorListModel.addToSelection(outroAutor);</span>
+<span class="nc" id="L402">            autor.setValue(null);</span>
+        }
+<span class="nc" id="L404">    }</span>
+
+    @Listen(&quot;onAuthorDelete = #authorListBox&quot;)
+    public void doAuthorDelete(ForwardEvent evt)
+    {
+<span class="nc" id="L409">        Button btn = (Button)evt.getOrigin().getTarget();</span>
+<span class="nc" id="L410">        Listitem litem = (Listitem)btn.getParent().getParent();</span>
+<span class="nc" id="L411">        Autor autor = (Autor) litem.getValue();</span>
+<span class="nc" id="L412">        authorListModel.remove(autor);</span>
+<span class="nc" id="L413">    }</span>
+
+    @Listen(&quot;onAuthorEdite = #authorListBox&quot;)
+    public void doAuthorEdit(ForwardEvent evt)
+    {
+<span class="nc" id="L418">        Button btn = (Button)evt.getOrigin().getTarget();</span>
+<span class="nc" id="L419">        Listitem litem = (Listitem)btn.getParent().getParent();</span>
+<span class="nc" id="L420">        Autor autor = (Autor) litem.getValue();</span>
+<span class="nc" id="L421">        authorListModel.remove(autor);</span>
+<span class="nc" id="L422">        this.autor.setValue(autor.getNome());</span>
+<span class="nc" id="L423">    }</span>
+
+    private void check(Component component) {
+<span class="nc" id="L426">        checkIsValid(component);</span>
+
+<span class="nc bnc" id="L428" title="All 4 branches missed.">        if (component.isVisible() || component instanceof Tabpanel) {</span>
+<span class="nc" id="L429">            List&lt;Component&gt; children = component.getChildren();</span>
+<span class="nc bnc" id="L430" title="All 2 branches missed.">            for (Component each : children) {</span>
+<span class="nc" id="L431">                check(each);</span>
+<span class="nc" id="L432">            }</span>
+        }
+<span class="nc" id="L434">    }</span>
+
+    private void limpar(Component component) {
+<span class="nc" id="L437">        limparComp(component);</span>
+
+        //if (component.isVisible()) {
+<span class="nc" id="L440">        List&lt;Component&gt; children = component.getChildren();</span>
+<span class="nc bnc" id="L441" title="All 2 branches missed.">        for (Component each : children) {</span>
+<span class="nc" id="L442">            limpar(each);</span>
+<span class="nc" id="L443">        }</span>
+        // }
+<span class="nc" id="L445">    }</span>
+
+    public void limparComp(Component component) {
+<span class="nc" id="L448">        Constraint co = null;</span>
+<span class="nc bnc" id="L449" title="All 2 branches missed.">        if (component instanceof InputElement) {</span>
+<span class="nc" id="L450">            Constraint c = ((InputElement) component).getConstraint();</span>
+<span class="nc bnc" id="L451" title="All 2 branches missed.">            if (!(component instanceof Combobox)) {</span>
+<span class="nc bnc" id="L452" title="All 2 branches missed.">                if (c != null) {</span>
+<span class="nc" id="L453">                    SimpleConstraint sc = (SimpleConstraint) c;</span>
+<span class="nc" id="L454">                    String s = sc.getClientConstraint();</span>
+<span class="nc" id="L455">                    ((InputElement) component).setConstraint(co);</span>
+<span class="nc" id="L456">                    ((InputElement) component).setText(&quot;&quot;);</span>
+<span class="nc" id="L457">                    ((InputElement) component).setConstraint(c);</span>
+<span class="nc" id="L458">                } else {</span>
+<span class="nc" id="L459">                    ((InputElement) component).setText(&quot;&quot;);</span>
+                }
+            }
+        }
+<span class="nc" id="L463">    }</span>
+    private void checkIsValid(Component component) {
+<span class="nc bnc" id="L465" title="All 2 branches missed.">        if (component instanceof InputElement) {</span>
+<span class="nc bnc" id="L466" title="All 2 branches missed.">            if ((!((InputElement) component).isValid())) {</span>
+<span class="nc" id="L467">                Clients.scrollIntoView(component);</span>
+<span class="nc" id="L468">                ((InputElement) component).getText();</span>
+            }
+<span class="nc bnc" id="L470" title="All 4 branches missed.">            if (((component instanceof Combobox) &amp;&amp; ((Combobox) component).getSelectedItem() == null)) {</span>
+<span class="nc" id="L471">                Clients.scrollIntoView(component);</span>
+<span class="nc" id="L472">                ((Combobox) component).setText(&quot;&quot;);</span>
+<span class="nc" id="L473">                ((Combobox) component).getValue();</span>
+            }
+        }
+<span class="nc" id="L476">    }</span>
+
+    private void setAttributeSession(Session session)
+    {
+<span class="nc bnc" id="L480" title="All 2 branches missed.">        if (session.getAttribute(&quot;addObraCota&quot;) == null)</span>
+<span class="nc" id="L481">            session.setAttribute(&quot;addObraCota&quot;, cota);</span>
+        else
+<span class="nc" id="L483">            cota.setValue(((Textbox) session.getAttribute(&quot;addObraCota&quot;)).getValue());</span>
+
+<span class="nc bnc" id="L485" title="All 2 branches missed.">        if (session.getAttribute(&quot;addObraTitulo&quot;) == null)</span>
+<span class="nc" id="L486">            session.setAttribute(&quot;addObraTitulo&quot;, titulo);</span>
+        else
+<span class="nc" id="L488">            titulo.setValue(((Textbox) session.getAttribute(&quot;addObraTitulo&quot;)).getValue());</span>
+<span class="nc" id="L489">    }</span>
+
+    private void removeAttributeSession(Session session)
+    {
+<span class="nc bnc" id="L493" title="All 2 branches missed.">        if (session.getAttribute (&quot;addObraCota&quot;) != null)</span>
+<span class="nc" id="L494">            session.removeAttribute(&quot;addObraCota&quot;);</span>
+
+<span class="nc bnc" id="L496" title="All 2 branches missed.">        if (session.getAttribute(&quot;addObraTitulo&quot;) != null)</span>
+<span class="nc" id="L497">            session.removeAttribute(&quot;addObraTitulo&quot;);</span>
+<span class="nc" id="L498">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

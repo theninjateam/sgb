@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BookingDeadline.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$All_in_zksandbox.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.deadline</a> &gt; <span class="el_source">BookingDeadline.java</span></div><h1>BookingDeadline.java</h1><pre class="source lang-java linenums">package sgb.deadline;
+
+import sgb.controller.domainController.ConfigControler;
+
+import java.util.Calendar;
+
+public class BookingDeadline extends Deadline
+{
+    private ConfigControler configControler;
+
+    public BookingDeadline(ConfigControler configControler)
+<span class="fc" id="L12">    {</span>
+<span class="fc" id="L13">        this.configControler = configControler;</span>
+<span class="fc" id="L14">    }</span>
+
+    public Calendar getDeadline(Calendar reservationDate)
+    {
+<span class="fc" id="L18">        Calendar deadline = Calendar.getInstance();</span>
+<span class="fc" id="L19">        deadline.setTime(reservationDate.getTime());</span>
+
+<span class="fc" id="L21">        deadline.set(Calendar.DATE, reservationDate.get(Calendar.DATE) + this.configControler.DEADLINE_RESERVED_BOOKS);</span>
+<span class="fc" id="L22">        goToNextWorkingDay(deadline);</span>
+
+<span class="fc" id="L24">        return deadline;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

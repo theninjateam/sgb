@@ -138,16 +138,9 @@ public class Fine
             dias = getDelayDays(Calendar.getInstance()
                     ,eController.getRequest(m.getMultaPK()).getDatadevolucao());
 
-           switch(m.getEstadoMulta().getDescricao()){
-               case "NOT_PAID":
-                   m.setDiasatraso(dias);
-                   break;
-               case "REVOKED":
-                   m.setDiasatraso(dias);
-                   break;
-               default:
-                   break;
-           }
+            if(m.getEstadoMulta().getDescricao().equals("NOT_PAID")){
+                m.setDiasatraso(dias);
+            }
         }
     }
 }

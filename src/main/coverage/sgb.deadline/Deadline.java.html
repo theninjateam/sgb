@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Deadline.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$All_in_zksandbox.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.deadline</a> &gt; <span class="el_source">Deadline.java</span></div><h1>Deadline.java</h1><pre class="source lang-java linenums">package sgb.deadline;
+
+import java.util.Calendar;
+
+<span class="fc" id="L5">public class Deadline</span>
+{
+    public boolean exceededDeadline(Calendar deadline, Calendar currentDate)
+    {
+<span class="fc" id="L9">        boolean  exceededDeadline = false;</span>
+
+<span class="fc bfc" id="L11" title="All 2 branches covered.">        if (currentDate.compareTo(deadline) &gt; 0)</span>
+        {
+<span class="fc" id="L13">            exceededDeadline = true;</span>
+        }
+
+<span class="fc" id="L16">        return  exceededDeadline;</span>
+    }
+
+    public boolean isSaturDay(Calendar c)
+    {
+<span class="pc bpc" id="L21" title="1 of 2 branches missed.">        return (c.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) ? true : false;</span>
+    }
+
+    public boolean isSunDay(Calendar c)
+    {
+<span class="fc bfc" id="L26" title="All 2 branches covered.">        return (c.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) ? true : false;</span>
+    }
+
+    public void incrementNMinutes(Calendar calendar, int minutes)
+    {
+<span class="fc" id="L31">        calendar.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE) + minutes);</span>
+<span class="fc" id="L32">    }</span>
+
+    public void goToNextWorkingDay(Calendar calendar)
+    {
+<span class="fc bfc" id="L36" title="All 2 branches covered.">        if (isSunDay(calendar))</span>
+        {
+<span class="fc" id="L38">            calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + 1);</span>
+<span class="fc" id="L39">            goToNextWorkingDay(calendar);</span>
+        }
+        else
+        {
+<span class="fc" id="L43">            return;</span>
+        }
+<span class="fc" id="L45">    }</span>
+
+
+    public boolean isWeekend(Calendar c)
+    {
+<span class="fc bfc" id="L50" title="All 2 branches covered.">        return c.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY</span>
+<span class="pc bpc" id="L51" title="1 of 2 branches missed.">                || c.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY ? true : false;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

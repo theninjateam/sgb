@@ -74,7 +74,7 @@ public class RelatorioEmprestimos extends SelectorComposer<Component> {
 
     @Listen("onClick=#savePdf")
     public void show() throws JRException {
-        byte [] arr = JasperExportManager.exportReportToPdf(gerarRelatorio.createPdf(emprestimoListModel
+        byte [] arr = JasperExportManager.exportReportToPdf(gerarRelatorio.createPdfEmprestimo(emprestimoListModel
                 , "src/main/java/sgb/report/relatorioEmprestimo/relatorio.jrxml"));
         AMedia media = new AMedia("RelatorioEmprestimo", "pdf", "application/pdf", arr);
 
@@ -130,7 +130,7 @@ public class RelatorioEmprestimos extends SelectorComposer<Component> {
             xlsFile.delete();
         }
 
-        exporter.setParameter(JRExporterParameter.JASPER_PRINT, gerarRelatorio.createPdf(emprestimoListModel
+        exporter.setParameter(JRExporterParameter.JASPER_PRINT, gerarRelatorio.createPdfEmprestimo(emprestimoListModel
                 , "src/main/java/sgb/report/relatorioEmprestimo/relatorio.jrxml"));
         exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, filePath);
         exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);

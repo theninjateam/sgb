@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RegistroObra.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$All_in_zksandbox.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.domain</a> &gt; <span class="el_source">RegistroObra.java</span></div><h1>RegistroObra.java</h1><pre class="source lang-java linenums">package sgb.domain;
+
+import javax.persistence.*;
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Objects;
+
+@Entity
+@Table(name = &quot;registroobra&quot;, schema = &quot;public&quot;)
+<span class="fc" id="L11">public class RegistroObra</span>
+{
+    @EmbeddedId
+    private RegistroObraPK registroObraPK;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = &quot;formaaquisicao&quot;, nullable = false)
+    private FormaAquisicao formaAquisicao;
+
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = &quot;user_id&quot;, nullable = false)
+    private Users user;
+
+    @Basic
+    @Column( name = &quot;observacao&quot;)
+    private String observacao;
+
+    @Basic
+    @Column(name = &quot;quantidade&quot;)
+    private Integer quantidade;
+
+
+    @ManyToOne
+    @JoinColumn (name =&quot;cota&quot;, insertable = false, updatable = false)
+    private Obra obra;
+
+    public RegistroObraPK getRegistroObraPK()
+    {
+<span class="fc" id="L39">        return registroObraPK;</span>
+    }
+
+    public void setRegistroObraPK(RegistroObraPK registroObraPK)
+    {
+<span class="nc" id="L44">        this.registroObraPK = registroObraPK;</span>
+<span class="nc" id="L45">    }</span>
+
+    public FormaAquisicao getFormaAquisicao()
+    {
+<span class="fc" id="L49">        return formaAquisicao;</span>
+    }
+
+    public void setFormaAquisicao(FormaAquisicao formaAquisicao)
+    {
+<span class="nc" id="L54">        this.formaAquisicao = formaAquisicao;</span>
+<span class="nc" id="L55">    }</span>
+
+    public String getObservacao()
+    {
+<span class="nc" id="L59">        return observacao;</span>
+    }
+
+    public void setObservacao(String observacao)
+    {
+<span class="nc" id="L64">        this.observacao = observacao;</span>
+<span class="nc" id="L65">    }</span>
+
+    public Users getUser() {
+<span class="fc" id="L68">        return user;</span>
+    }
+    public void setUser(Users user) {
+<span class="nc" id="L71">        this.user = user;</span>
+<span class="nc" id="L72">    }</span>
+
+    public Obra getObra() {
+<span class="fc" id="L75">        return obra;</span>
+    }
+    public void setObra(Obra obra) {
+<span class="nc" id="L78">        this.obra = obra;</span>
+<span class="nc" id="L79">    }</span>
+
+    public Integer getQuantidade() {
+<span class="fc" id="L82">        return quantidade;</span>
+    }
+
+    public void setQuantidade(Integer quantidade) {
+<span class="nc" id="L86">        this.quantidade = quantidade;</span>
+<span class="nc" id="L87">    }</span>
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

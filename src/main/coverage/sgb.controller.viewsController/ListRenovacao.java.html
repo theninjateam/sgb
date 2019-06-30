@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ListRenovacao.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$All_in_zksandbox.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.controller.viewsController</a> &gt; <span class="el_source">ListRenovacao.java</span></div><h1>ListRenovacao.java</h1><pre class="source lang-java linenums">package sgb.controller.viewsController;
+
+import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.select.SelectorComposer;
+import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zul.ListModelList;
+import org.zkoss.zul.Listbox;
+import sgb.domain.Emprestimo;
+import sgb.domain.Obra;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.zkoss.bind.annotation.Command;
+import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Session;
+import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.event.ForwardEvent;
+import org.zkoss.zk.ui.select.SelectorComposer;
+import org.zkoss.zk.ui.select.annotation.Listen;
+import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zkplus.spring.SpringUtil;
+import org.zkoss.zul.*;
+import sgb.domain.*;
+import sgb.service.CRUDService;
+
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+import java.util.Calendar;
+import java.util.List;
+
+<span class="nc" id="L37">public class ListRenovacao extends SelectorComposer&lt;Component&gt; {</span>
+<span class="nc" id="L38">    private CRUDService crudService = (CRUDService) SpringUtil.getBean(&quot;CRUDService&quot;);</span>
+<span class="nc" id="L39">    private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;</span>
+    private ListModelList&lt;Emprestimo&gt; renovacaoListModel;
+<span class="nc" id="L41">    private Boolean isNormalUser = true;</span>
+    private EstadoRenovacao estadoRenovacao;
+
+    @Wire
+    private Listbox renovacaoListBox;
+
+    @Override
+    public void doAfterCompose(Component comp) throws Exception
+    {
+<span class="nc" id="L50">        super.doAfterCompose(comp);</span>
+<span class="nc" id="L51">        Set&lt;Role&gt; userrole =user.getRoles();</span>
+
+<span class="nc bnc" id="L53" title="All 2 branches missed.">        for(Role role : userrole) {</span>
+<span class="nc bnc" id="L54" title="All 2 branches missed.">            if(role.getRole().equals(&quot;ADMIN&quot;))</span>
+<span class="nc" id="L55">                isNormalUser = false;</span>
+<span class="nc" id="L56">        }</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">        if (isNormalUser) {</span>
+<span class="nc" id="L58">            ComposeUserNormal();</span>
+        }
+        else {
+<span class="nc" id="L61">            ComposeUserAdmin();</span>
+        }
+<span class="nc" id="L63">    }</span>
+
+    public void ComposeUserAdmin(){
+<span class="nc" id="L66">        renovacaoListModel = new ListModelList&lt;Emprestimo&gt;(getAllEmprestimoListModel());</span>
+<span class="nc" id="L67">        renovacaoListBox.setModel(renovacaoListModel);</span>
+<span class="nc" id="L68">    }</span>
+    public void ComposeUserNormal() {
+<span class="nc" id="L70">        renovacaoListModel = new ListModelList&lt;Emprestimo&gt;(getUserEmprestimoListModel());</span>
+<span class="nc" id="L71">        renovacaoListBox.setModel(renovacaoListModel);</span>
+<span class="nc" id="L72">    }</span>
+    public ListModelList&lt;Emprestimo&gt; getUserEmprestimoListModel() {
+<span class="nc" id="L74">        List&lt;Emprestimo&gt; lista = crudService.findByJPQuery(&quot;SELECT e FROM Emprestimo e WHERE e.estadoRenovacao.idestadorenovacao=2 and e.estadoPedido.idestadopedido=3 and e.emprestimoPK.utente.id = &quot; +</span>
+<span class="nc" id="L75">                user.getId(),null);</span>
+<span class="nc" id="L76">        return new ListModelList&lt;Emprestimo&gt;(lista);</span>
+    }
+    public ListModelList&lt;Emprestimo&gt; getAllEmprestimoListModel () {
+<span class="nc" id="L79">        List&lt;Emprestimo&gt; lista = crudService.findByJPQuery(&quot;SELECT e FROM Emprestimo e WHERE e.estadoRenovacao.idestadorenovacao=2 and e.estadoPedido.idestadopedido=3&quot;,null);</span>
+<span class="nc" id="L80">        return new ListModelList&lt;Emprestimo&gt;(lista);</span>
+    }
+
+    @Listen(&quot;onEliminarRenovacao = #renovacaoListBox&quot;)
+    public void doEliminar(ForwardEvent event)
+    {
+<span class="nc bnc" id="L86" title="All 2 branches missed.">        if (isNormalUser) {</span>
+<span class="nc" id="L87">            Button btn = (Button) event.getOrigin().getTarget();</span>
+<span class="nc" id="L88">            Listitem litem = (Listitem) btn.getParent().getParent().getParent();</span>
+<span class="nc" id="L89">            Emprestimo emp = (Emprestimo) litem.getValue();</span>
+<span class="nc" id="L90">            Messagebox.show(&quot;Tem certeza que deseja eliminar esse pedido ?&quot;, &quot;delete pedido&quot;,</span>
+                    Messagebox.YES + Messagebox.NO, Messagebox.QUESTION,
+<span class="nc" id="L92">                    new EventListener&lt;Event&gt;() {</span>
+                        @Override
+                        public void onEvent(Event event) throws Exception {
+<span class="nc bnc" id="L95" title="All 2 branches missed.">                            if (Messagebox.ON_YES.equals(event.getName())) {</span>
+<span class="nc" id="L96">                                estadoRenovacao = crudService.get(EstadoRenovacao.class, 1);</span>
+<span class="nc" id="L97">                                emp.setEstadoRenovacao(estadoRenovacao);</span>
+<span class="nc" id="L98">                                renovacaoListModel.remove(emp);</span>
+<span class="nc" id="L99">                                crudService.update(emp);</span>
+<span class="nc" id="L100">                                Clients.showNotification(&quot;Pedido eliminado com sucesso&quot;, null, null, null, 5000);</span>
+                            }
+<span class="nc" id="L102">                        }</span>
+                    });
+<span class="nc" id="L104">        }else {</span>
+<span class="nc" id="L105">            Clients.showNotification(&quot;Precisa ser Utente para executar essa acao &quot;, null, null, null, 5000);</span>
+        }
+
+<span class="nc" id="L108">    }</span>
+    @Listen(&quot;onReprovarRenovacao = #renovacaoListBox&quot;)
+    public void doReprovar(ForwardEvent event)
+    {
+<span class="nc bnc" id="L112" title="All 2 branches missed.">        if(isNormalUser) {</span>
+<span class="nc" id="L113">            Clients.showNotification(&quot;Precisa ser Bibliotecario para executar essa acao &quot;, null, null, null, 5000);</span>
+        } else {
+<span class="nc" id="L115">            Button btn = (Button) event.getOrigin().getTarget();</span>
+<span class="nc" id="L116">            Listitem litem = (Listitem) btn.getParent().getParent().getParent();</span>
+<span class="nc" id="L117">            Emprestimo emp = (Emprestimo) litem.getValue();</span>
+<span class="nc" id="L118">            EstadoPedido estadoPedido = crudService.get(EstadoPedido.class, 2);</span>
+<span class="nc" id="L119">            emp.setEstadoPedido(estadoPedido);</span>
+<span class="nc" id="L120">            emp.setDataaprovacao(Calendar.getInstance());</span>
+<span class="nc" id="L121">            estadoRenovacao = crudService.get(EstadoRenovacao.class, 4);</span>
+<span class="nc" id="L122">            emp.setEstadoRenovacao(estadoRenovacao);</span>
+<span class="nc" id="L123">            renovacaoListModel.remove(emp);</span>
+<span class="nc" id="L124">            crudService.update(emp);</span>
+<span class="nc" id="L125">            Clients.showNotification(&quot;Pedido reprovado com sucesso &quot;, null, null, null, 5000);</span>
+        }
+
+<span class="nc" id="L128">    }</span>
+
+    @Listen(&quot;onAprovarRenovacao = #renovacaoListBox&quot;)
+    public void doAprovar(ForwardEvent event)
+    {
+<span class="nc bnc" id="L133" title="All 2 branches missed.">        if(isNormalUser) {</span>
+<span class="nc" id="L134">            Clients.showNotification(&quot;Precisa ser Bibliotecario para executar essa acao &quot;, null, null, null, 5000);</span>
+        } else {
+<span class="nc" id="L136">            Button btn = (Button) event.getOrigin().getTarget();</span>
+<span class="nc" id="L137">            Listitem litem = (Listitem) btn.getParent().getParent().getParent();</span>
+<span class="nc" id="L138">            Emprestimo emp = (Emprestimo) litem.getValue();</span>
+<span class="nc" id="L139">            EstadoPedido estadoPedido = crudService.get(EstadoPedido.class, 3);</span>
+<span class="nc" id="L140">            emp.setEstadoPedido(estadoPedido);</span>
+<span class="nc" id="L141">            emp.setDataaprovacao(Calendar.getInstance());</span>
+<span class="nc" id="L142">            emp.setDatadevolucao(Calendar.getInstance());</span>
+<span class="nc" id="L143">            estadoRenovacao = crudService.get(EstadoRenovacao.class, 3);</span>
+<span class="nc" id="L144">            emp.setEstadoRenovacao(estadoRenovacao);</span>
+<span class="nc" id="L145">            renovacaoListModel.remove(emp);</span>
+<span class="nc" id="L146">            crudService.update(emp);</span>
+<span class="nc" id="L147">            Clients.showNotification(&quot;Pedido aprovado com sucesso &quot;, null, null, null, 5000);</span>
+        }
+
+<span class="nc" id="L150">    }</span>
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

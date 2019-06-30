@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EmprestimoController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$All_in_zksandbox.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.controller.domainController</a> &gt; <span class="el_source">EmprestimoController.java</span></div><h1>EmprestimoController.java</h1><pre class="source lang-java linenums">package sgb.controller.domainController;
+
+import sgb.domain.Emprestimo;
+import sgb.domain.EmprestimoPK;
+import sgb.domain.Obra;
+import sgb.domain.Users;
+import sgb.service.CRUDService;
+
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+
+public class EmprestimoController
+{
+    private StringBuilder query;
+    private HashMap&lt;String, Object&gt; parameters;
+    private CRUDService crudService;
+
+    public EmprestimoController(CRUDService crudService)
+<span class="fc" id="L20">    {</span>
+<span class="fc" id="L21">        this.crudService = crudService;</span>
+<span class="fc" id="L22">    }</span>
+
+    public List&lt;Emprestimo&gt; getRequest(Obra obra, int idEstadoPedido)
+    {
+<span class="nc" id="L26">        parameters = new HashMap&lt;String, Object&gt;(2);</span>
+<span class="nc" id="L27">        query = new StringBuilder();</span>
+
+<span class="nc" id="L29">        parameters.put(&quot;idEstadoPedido&quot;, idEstadoPedido);</span>
+<span class="nc" id="L30">        parameters.put(&quot;cota&quot;, obra.getCota());</span>
+
+<span class="nc" id="L32">        query.append(&quot;SELECT e FROM Emprestimo e WHERE e.estadoPedido.idestadopedido = :idEstadoPedido and &quot;);</span>
+<span class="nc" id="L33">        query.append(&quot;e.emprestimoPK.obra.cota = :cota&quot;);</span>
+
+<span class="nc" id="L35">        return this.crudService.findByJPQuery(query.toString(), parameters);</span>
+    }
+
+    public List&lt;Emprestimo&gt; getRequest(Users user, int idEstadoPedido)
+    {
+<span class="nc" id="L40">        parameters = new HashMap&lt;String, Object&gt;(2);</span>
+<span class="nc" id="L41">        query = new StringBuilder();</span>
+
+<span class="nc" id="L43">        parameters.put(&quot;idEstadoPedido&quot;, idEstadoPedido);</span>
+<span class="nc" id="L44">        parameters.put(&quot;userId&quot;, user.getId());</span>
+
+<span class="nc" id="L46">        query.append(&quot;SELECT e FROM Emprestimo e WHERE e.estadoPedido.idestadopedido = :idEstadoPedido and &quot;);</span>
+<span class="nc" id="L47">        query.append(&quot;e.emprestimoPK.utente.id = :userId&quot;);</span>
+
+<span class="nc" id="L49">        return this.crudService.findByJPQuery(query.toString(), parameters);</span>
+    }
+
+    public List&lt;Emprestimo&gt; getRequest(Users user, int idEstadoPedido, int idEstadoDevolucao)
+    {
+<span class="nc" id="L54">        parameters = new HashMap&lt;String, Object&gt;(2);</span>
+<span class="nc" id="L55">        query = new StringBuilder();</span>
+
+<span class="nc" id="L57">        parameters.put(&quot;idEstadoPedido&quot;, idEstadoPedido);</span>
+<span class="nc" id="L58">        parameters.put(&quot;userId&quot;, user.getId());</span>
+<span class="nc" id="L59">        parameters.put(&quot;idEstadoDevolucao&quot;,idEstadoDevolucao);</span>
+
+<span class="nc" id="L61">        query.append(&quot;SELECT e FROM Emprestimo e WHERE e.estadoPedido.idestadopedido = :idEstadoPedido and &quot;);</span>
+<span class="nc" id="L62">        query.append(&quot;e.estadoDevolucao.idestadodevolucao = :idEstadoDevolucao and &quot;);</span>
+<span class="nc" id="L63">        query.append(&quot;e.emprestimoPK.utente.id = :userId&quot;);</span>
+
+<span class="nc" id="L65">        return this.crudService.findByJPQuery(query.toString(), parameters);</span>
+    }
+
+    public List&lt;Emprestimo&gt; getRequest(Users user, Obra obra, int idEstadoDevolucao)
+    {
+<span class="nc" id="L70">        parameters = new HashMap&lt;String, Object&gt;(3);</span>
+<span class="nc" id="L71">        query = new StringBuilder();</span>
+
+<span class="nc" id="L73">        parameters.put(&quot;cota&quot;,obra.getCota());</span>
+<span class="nc" id="L74">        parameters.put(&quot;userId&quot;, user.getId());</span>
+<span class="nc" id="L75">        parameters.put(&quot;idEstadoDevolucao&quot;,idEstadoDevolucao);</span>
+
+<span class="nc" id="L77">        query.append(&quot;SELECT e FROM Emprestimo e WHERE e.emprestimoPK.obra.cota= :cota and &quot;);</span>
+<span class="nc" id="L78">        query.append(&quot;e.estadoDevolucao.idestadodevolucao = :idEstadoDevolucao and &quot;);</span>
+<span class="nc" id="L79">        query.append(&quot;e.emprestimoPK.utente.id = :userId&quot;);</span>
+
+<span class="nc" id="L81">        return this.crudService.findByJPQuery(query.toString(), parameters);</span>
+    }
+
+
+    public List&lt;Emprestimo&gt; getRequest(int idEstadoPedido, int idEstadoDevolucao)
+    {
+<span class="nc" id="L87">        parameters = new HashMap&lt;String, Object&gt;(2);</span>
+<span class="nc" id="L88">        query = new StringBuilder();</span>
+
+<span class="nc" id="L90">        parameters.put(&quot;idEstadoPedido&quot;, idEstadoPedido);</span>
+<span class="nc" id="L91">        parameters.put(&quot;idEstadoDevolucao&quot;,idEstadoDevolucao);</span>
+
+<span class="nc" id="L93">        query.append(&quot;SELECT e FROM Emprestimo e WHERE e.estadoPedido.idestadopedido = :idEstadoPedido and &quot;);</span>
+<span class="nc" id="L94">        query.append(&quot;e.estadoDevolucao.idestadodevolucao = :idEstadoDevolucao&quot;);</span>
+
+<span class="nc" id="L96">        return this.crudService.findByJPQuery(query.toString(), parameters);</span>
+    }
+
+    public List&lt;Emprestimo&gt; getRequest(int idEstadoPedido)
+    {
+<span class="fc" id="L101">        parameters = new HashMap&lt;String, Object&gt;(1);</span>
+<span class="fc" id="L102">        query = new StringBuilder();</span>
+
+<span class="fc" id="L104">        parameters.put(&quot;idEstadoPedido&quot;, idEstadoPedido);</span>
+
+<span class="fc" id="L106">        query.append(&quot;SELECT e FROM Emprestimo e WHERE e.estadoPedido.idestadopedido = :idEstadoPedido&quot;);</span>
+
+<span class="fc" id="L108">        return this.crudService.findByJPQuery(query.toString(), parameters);</span>
+    }
+
+    public List&lt;Emprestimo&gt; getBorrowedBooks(int idEstadoDevolucao)
+    {
+<span class="fc" id="L113">        parameters = new HashMap&lt;String, Object&gt;(1);</span>
+<span class="fc" id="L114">        query = new StringBuilder();</span>
+
+<span class="fc" id="L116">        parameters.put(&quot;idEstadoDevolucao&quot;, idEstadoDevolucao);</span>
+
+<span class="fc" id="L118">        query.append(&quot;SELECT e FROM Emprestimo e WHERE e.estadoDevolucao.idestadodevolucao = :idEstadoDevolucao&quot;);</span>
+
+<span class="fc" id="L120">        return this.crudService.findByJPQuery(query.toString(), parameters);</span>
+    }
+
+    public List&lt;Emprestimo&gt; getBorrowedBooks(Users user, int idEstadoDevolucao)
+    {
+<span class="nc" id="L125">        parameters = new HashMap&lt;String, Object&gt;(2);</span>
+<span class="nc" id="L126">        query = new StringBuilder();</span>
+
+<span class="nc" id="L128">        parameters.put(&quot;idEstadoDevolucao&quot;, idEstadoDevolucao);</span>
+<span class="nc" id="L129">        parameters.put(&quot;userId&quot;, user.getId());</span>
+
+<span class="nc" id="L131">        query.append(&quot;SELECT e FROM Emprestimo e WHERE e.estadoDevolucao.idestadodevolucao = :idEstadoDevolucao and &quot;);</span>
+<span class="nc" id="L132">        query.append(&quot;e.emprestimoPK.utente.id = :userId&quot;);</span>
+
+<span class="nc" id="L134">        return this.crudService.findByJPQuery(query.toString(), parameters);</span>
+    }
+
+    public List&lt;Emprestimo&gt; getBorrowedBooks(Obra obra, int idEstadoDevolucao)
+    {
+<span class="nc" id="L139">        parameters = new HashMap&lt;String, Object&gt;(2);</span>
+<span class="nc" id="L140">        query = new StringBuilder();</span>
+
+<span class="nc" id="L142">        parameters.put(&quot;idEstadoDevolucao&quot;, idEstadoDevolucao);</span>
+<span class="nc" id="L143">        parameters.put(&quot;cota&quot;, obra.getCota());</span>
+
+<span class="nc" id="L145">        query.append(&quot;SELECT e FROM Emprestimo e WHERE e.estadoDevolucao.idestadodevolucao = :idEstadoDevolucao and &quot;);</span>
+<span class="nc" id="L146">        query.append(&quot;e.emprestimoPK.obra.cota = :cota&quot;);</span>
+
+<span class="nc" id="L148">        return this.crudService.findByJPQuery(query.toString(), parameters);</span>
+    }
+
+    public List&lt;Emprestimo&gt; getBorrowedBooks(){
+<span class="fc" id="L152">        query = new StringBuilder();</span>
+
+<span class="fc" id="L154">        query.append(&quot;SELECT e FROM Emprestimo e&quot;);</span>
+
+<span class="fc" id="L156">        return this.crudService.findByJPQuery(query.toString(),null);</span>
+    }
+
+    public Emprestimo getRequest(EmprestimoPK emprestimoPK)
+    {
+<span class="fc" id="L161">        parameters = new HashMap&lt;String, Object&gt;(3);</span>
+<span class="fc" id="L162">        query = new StringBuilder();</span>
+<span class="fc" id="L163">        parameters.put(&quot;user_id&quot;, emprestimoPK.getUtente().getId());</span>
+<span class="fc" id="L164">        parameters.put(&quot;cota&quot;, emprestimoPK.getObra().getCota());</span>
+<span class="fc" id="L165">        parameters.put(&quot;dataentrada&quot;, emprestimoPK.getDataentradapedido());</span>
+
+<span class="fc" id="L167">        query.append(&quot;SELECT e FROM Emprestimo e WHERE e.emprestimoPK.utente.id = :user_id and &quot;);</span>
+<span class="fc" id="L168">        query.append(&quot;e.emprestimoPK.obra.cota = :cota and e.emprestimoPK.dataentradapedido = :dataentrada&quot;);</span>
+
+<span class="fc" id="L170">        return this.crudService.findEntByJPQueryT(query.toString(), parameters);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

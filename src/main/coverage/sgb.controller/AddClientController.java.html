@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AddClientController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$All_in_zksandbox.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.controller</a> &gt; <span class="el_source">AddClientController.java</span></div><h1>AddClientController.java</h1><pre class="source lang-java linenums">package sgb.controller;
+
+
+import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.select.SelectorComposer;
+import org.zkoss.zk.ui.select.annotation.Listen;
+import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zkplus.spring.SpringUtil;
+import org.zkoss.zul.*;
+import sgb.domain.Users;
+import sgb.service.CRUDService;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
+<span class="nc" id="L17">public class AddClientController extends SelectorComposer {</span>
+
+
+    @Wire(&quot;#grpData&quot;)
+    Div grpData, grpOtherData;
+
+    @Wire
+    Include idInclData, idInclOtherData;
+
+    @Wire
+    private Combobox cmbLegalentitytype;
+
+    @Override
+    public void doAfterCompose(Component comp) throws Exception{
+<span class="nc" id="L31">        super.doAfterCompose(comp);</span>
+<span class="nc" id="L32">    }</span>
+
+
+    public ListModel&lt;String&gt; getEntidadeLegalModel() {
+<span class="nc" id="L36">        List&lt;String&gt; entidadeLegal = new ArrayList&lt;String&gt;();</span>
+
+        // Get data from Database
+<span class="nc" id="L39">        entidadeLegal.add(&quot;Pessoa Singularrr&quot;);</span>
+<span class="nc" id="L40">        entidadeLegal.add(&quot;Organização&quot;);</span>
+
+<span class="nc" id="L42">        return new ListModelList&lt;String&gt;(entidadeLegal);</span>
+    }
+
+    @Listen(&quot;onChange = combobox#cmbLegalentitytype&quot;)
+    public void change() {
+<span class="nc" id="L47">        CRUDService csimp = (CRUDService) SpringUtil.getBean(&quot;CRUDService&quot;);</span>
+
+<span class="nc" id="L49">        Users u = csimp.findEntByJPQueryT(&quot;SELECT u FROM Users u WHERE u.name = 'admin'&quot;, null);</span>
+//            java.util.Map par = new java.util.HashMap();
+//           par.clear();
+//        List&lt;Users&gt; i = csimp.getAll(Users.class);
+<span class="nc" id="L53">        Messagebox.show(u.getName()+&quot;&quot;);</span>
+
+<span class="nc" id="L55">       String str = cmbLegalentitytype.getSelectedItem().getValue();</span>
+<span class="nc bnc" id="L56" title="All 2 branches missed.">        if(str.equals(&quot;Pessoa Singular&quot;)) {</span>
+<span class="nc" id="L57">            grpData.setVisible(true);</span>
+<span class="nc" id="L58">            idInclData.setSrc(&quot;conta/clientdata.zul&quot;);</span>
+<span class="nc" id="L59">            ((Textbox)idInclData.getFellow(&quot;txtRegnumber&quot;)).getValue();</span>
+<span class="nc bnc" id="L60" title="All 2 branches missed.">        }else if(str.equals(&quot;Organização&quot;)){</span>
+<span class="nc" id="L61">            grpData.setVisible(true);</span>
+<span class="nc" id="L62">            idInclData.setSrc(&quot;conta/orgdata.zul&quot;);</span>
+        }
+<span class="nc" id="L64">    }</span>
+
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

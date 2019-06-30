@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BorrowedBooksDeadlineControllerTest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$All_in_zksandbox.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.deadline</a> &gt; <span class="el_source">BorrowedBooksDeadlineControllerTest.java</span></div><h1>BorrowedBooksDeadlineControllerTest.java</h1><pre class="source lang-java linenums">package sgb.deadline;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
+import sgb.controller.domainController.ConfigControler;
+import sgb.controller.domainController.EstadoDevolucaoControler;
+import sgb.controller.domainController.EstadoPedidoControler;
+import sgb.controller.domainController.RoleController;
+import sgb.domain.Emprestimo;
+import sgb.domain.EstadoDevolucao;
+import sgb.domain.Role;
+import sgb.service.CRUDService;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations={&quot;file:src/main/webapp/WEB-INF/applicationContext.xml&quot;})
+
+/**
+ * @author Fonseca, bfonseca@unilurio.ac.mz
+ */
+
+
+
+<span class="fc" id="L35">public class BorrowedBooksDeadlineControllerTest</span>
+{
+    @Autowired
+    private ApplicationContext context;
+    private BorrowedBooksDeadline borrowedBooksDeadline;
+    private BorrowedBooksDeadlineController borrowedBooksDeadlineController;
+    private ConfigControler configControler;
+    private CRUDService crudService;
+    private EstadoPedidoControler estadoPedidoControler;
+    private RoleController roleController;
+    private EstadoDevolucaoControler estadoDevolucaoControler;
+    private List&lt;Emprestimo&gt;  emprestimos;
+<span class="fc" id="L47">    Calendar dataAprovacao = Calendar.getInstance();</span>
+    private Emprestimo eStudent;
+    private Emprestimo eTeacher;
+
+    @Before
+    @Transactional
+    public void before() throws Exception {
+<span class="fc" id="L54">        System.out.println(&quot;Setting it up!&quot;);</span>
+
+<span class="fc" id="L56">        this.borrowedBooksDeadline = (BorrowedBooksDeadline) context.getBean(&quot;borrowedBooksDeadline&quot;);</span>
+<span class="fc" id="L57">        this.configControler = (ConfigControler) context.getBean(&quot;configControler&quot;);</span>
+<span class="fc" id="L58">        this.crudService = (CRUDService) context.getBean(&quot;CRUDService&quot;);</span>
+<span class="fc" id="L59">        this.borrowedBooksDeadlineController = (BorrowedBooksDeadlineController) context.getBean(&quot;borrowedBooksDeadlineController&quot;);</span>
+<span class="fc" id="L60">        this.estadoPedidoControler = (EstadoPedidoControler) context.getBean(&quot;estadoPedidoControler&quot;);</span>
+<span class="fc" id="L61">        this.roleController  = (RoleController) context.getBean(&quot;roleController&quot;);</span>
+<span class="fc" id="L62">        this.estadoDevolucaoControler = (EstadoDevolucaoControler) context.getBean(&quot;estadoDevolucaoControler&quot;);</span>
+<span class="fc" id="L63">        emprestimos = new ArrayList&lt;Emprestimo&gt;();</span>
+
+<span class="fc" id="L65">        dataAprovacao.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);</span>
+<span class="fc" id="L66">        dataAprovacao.set(Calendar.HOUR_OF_DAY, this.configControler.ENTRY_TIME_ON_WEEKDAYS + 1);</span>
+<span class="fc" id="L67">        dataAprovacao.set(Calendar.MINUTE, 00);</span>
+<span class="fc" id="L68">        dataAprovacao.set(Calendar.SECOND, 00);</span>
+<span class="fc" id="L69">        dataAprovacao.set(Calendar.MILLISECOND, 00);</span>
+
+<span class="fc" id="L71">        Role rStudent = this.crudService.get(Role.class, this.roleController.STUDENT);</span>
+<span class="fc" id="L72">        Role rTeacher = this.crudService.get(Role.class, this.roleController.TEACHER);</span>
+
+<span class="fc" id="L74">        List&lt;Emprestimo&gt; es = this.crudService.getAll(Emprestimo.class);</span>
+<span class="fc" id="L75">        emprestimos = new ArrayList&lt;Emprestimo&gt;();</span>
+
+
+<span class="fc" id="L78">        EstadoDevolucao estadoDevolucao = this.crudService.get(EstadoDevolucao.class, this.estadoDevolucaoControler.NOT_RETURNED);</span>
+
+<span class="pc bpc" id="L80" title="1 of 2 branches missed.">        for (Emprestimo e: es)</span>
+        {
+<span class="pc bpc" id="L82" title="1 of 2 branches missed.">            if (e.getEmprestimoPK().getUtente().getRoles().contains(rStudent)</span>
+<span class="pc bpc" id="L83" title="1 of 2 branches missed.">                    &amp;&amp; e.getDataaprovacao() != null)</span>
+            {
+<span class="fc" id="L85">                eStudent = e;</span>
+<span class="fc" id="L86">                eStudent.setEstadoDevolucao(estadoDevolucao);</span>
+<span class="fc" id="L87">                break;</span>
+            }
+<span class="nc" id="L89">        }</span>
+
+<span class="fc bfc" id="L91" title="All 2 branches covered.">        for (Emprestimo e: es)</span>
+        {
+<span class="pc bpc" id="L93" title="1 of 2 branches missed.">            if (e.getEmprestimoPK().getUtente().getRoles().contains(rTeacher)</span>
+<span class="nc bnc" id="L94" title="All 2 branches missed.">                    &amp;&amp; e.getDataaprovacao() != null)</span>
+            {
+<span class="nc" id="L96">                eTeacher = e;</span>
+<span class="nc" id="L97">                eTeacher.setEstadoDevolucao(estadoDevolucao);</span>
+<span class="nc" id="L98">                eTeacher.setQuantidade(0);</span>
+<span class="nc" id="L99">                break;</span>
+            }
+<span class="fc" id="L101">        }</span>
+
+<span class="fc" id="L103">        eStudent.setDataaprovacao(dataAprovacao);</span>
+<span class="fc" id="L104">        eStudent.setDatadevolucao(this.borrowedBooksDeadline.getDeadline(eStudent));</span>
+<span class="nc" id="L105">        eTeacher.setDataaprovacao(dataAprovacao);</span>
+<span class="nc" id="L106">        eTeacher.setDatadevolucao(this.borrowedBooksDeadline.getDeadline(eTeacher));</span>
+
+<span class="nc" id="L108">        emprestimos.add(eStudent);</span>
+<span class="nc" id="L109">        emprestimos.add(eTeacher);</span>
+
+<span class="nc bnc" id="L111" title="All 2 branches missed.">        if (emprestimos.size() &lt; 2)</span>
+        {
+<span class="nc" id="L113">            StringBuilder builder = new StringBuilder();</span>
+<span class="nc" id="L114">            builder.append(&quot;Deve existir duas tuplas na tabela emprestimo com o campo data de aprovacao diferente de null\n&quot;);</span>
+<span class="nc" id="L115">            builder.append(&quot;uma tupla para professor uma para estudante\n&quot;);</span>
+
+<span class="nc" id="L117">            throw new Exception(builder.toString());</span>
+        }
+<span class="nc" id="L119">    }</span>
+
+    @Test
+    @Transactional
+    public void processTest() throws Exception
+    {
+<span class="nc" id="L125">        Calendar now = Calendar.getInstance();</span>
+<span class="nc" id="L126">        Calendar deadline = this.borrowedBooksDeadline.getDeadline(emprestimos.get(0));</span>
+        boolean thereIsFinedBorrow;
+
+        /**********************************************
+        * STUDENT
+        * **********************************************/
+        /*
+        * before exceed deadline
+        * */
+
+<span class="nc" id="L136">        emprestimos.remove(1);</span>
+
+<span class="nc" id="L138">        now.setTime(deadline.getTime());</span>
+
+<span class="nc" id="L140">        thereIsFinedBorrow = this.borrowedBooksDeadlineController.process(emprestimos, now);</span>
+<span class="nc" id="L141">        assertThat(thereIsFinedBorrow).isFalse();</span>
+
+        /*
+         * after deadline
+         * */
+
+<span class="nc" id="L147">        now.set(Calendar.DATE, now.get(Calendar.DATE) + 1);</span>
+<span class="nc" id="L148">        this.borrowedBooksDeadline.goToNextWorkingDay(now);</span>
+
+<span class="nc" id="L150">        thereIsFinedBorrow = this.borrowedBooksDeadlineController.process(emprestimos, now);</span>
+<span class="nc" id="L151">        assertThat(thereIsFinedBorrow).isTrue();</span>
+
+        /**********************************************
+         * TEACHER
+         * **********************************************/
+        /*
+         * before exceed deadline
+         * */
+
+<span class="nc" id="L160">        emprestimos = new ArrayList&lt;Emprestimo&gt;();</span>
+<span class="nc" id="L161">        emprestimos.add(eTeacher);</span>
+
+<span class="nc" id="L163">        deadline = this.borrowedBooksDeadline.getDeadline(emprestimos.get(0));</span>
+<span class="nc" id="L164">        now.setTime(deadline.getTime());</span>
+
+<span class="nc" id="L166">        thereIsFinedBorrow = this.borrowedBooksDeadlineController.process(emprestimos, now);</span>
+<span class="nc" id="L167">        assertThat(thereIsFinedBorrow).isFalse();</span>
+
+        /*
+         * after deadline
+         * */
+
+<span class="nc" id="L173">        now.set(Calendar.DATE, now.get(Calendar.DATE) + 1);</span>
+<span class="nc" id="L174">        this.borrowedBooksDeadline.goToNextWorkingDay(now);</span>
+
+<span class="nc" id="L176">        thereIsFinedBorrow = this.borrowedBooksDeadlineController.process(emprestimos, now);</span>
+<span class="nc" id="L177">        assertThat(thereIsFinedBorrow).isTrue();</span>
+
+<span class="nc" id="L179">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

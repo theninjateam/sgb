@@ -68,7 +68,7 @@ public class RelatorioMultas extends SelectorComposer<Component> {
 
     @Listen("onClick=#savePdf")
     public void show() throws JRException {
-        byte [] arr = JasperExportManager.exportReportToPdf(gerarRelatorio.createPdf1(multaListModelList,
+        byte [] arr = JasperExportManager.exportReportToPdf(gerarRelatorio.createPdfMulta(multaListModelList,
                 "src/main/java/sgb/report/relatorioMultas/relatorio.jrxml"));
         AMedia media = new AMedia("RelatorioMultas", "pdf", "application/pdf", arr);
         final Window window = new Window();
@@ -134,7 +134,7 @@ public class RelatorioMultas extends SelectorComposer<Component> {
         }
 
         exporter.setParameter(JRExporterParameter.JASPER_PRINT
-                , gerarRelatorio.createPdf1(multaListModelList
+                , gerarRelatorio.createPdfMulta(multaListModelList
                 , "src/main/java/sgb/report/relatorioMultas/relatorio.jrxml"));
         exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, filePath);
         exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);

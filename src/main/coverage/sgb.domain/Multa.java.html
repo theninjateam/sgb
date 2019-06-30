@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Multa.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$All_in_zksandbox.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.domain</a> &gt; <span class="el_source">Multa.java</span></div><h1>Multa.java</h1><pre class="source lang-java linenums">package sgb.domain;
+
+import javax.persistence.*;
+import java.util.Objects;
+import java.util.Calendar;
+
+@Entity
+@Table(name = &quot;multa&quot;, schema = &quot;public&quot;)
+<span class="fc" id="L9">public class Multa {</span>
+    @EmbeddedId
+    private EmprestimoPK multaPK;
+    private Integer diasatraso;
+    private Float valorpago;
+    private Calendar dataemprestimo;
+    private Calendar dataemissao;
+    private Float taxadiaria;
+    private boolean notificacao;
+
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = &quot;idestadomulta&quot;, nullable = false)
+    private EstadoMulta estadoMulta;
+<span class="fc" id="L23">    public EstadoMulta getEstadoMulta() { return estadoMulta; }</span>
+<span class="fc" id="L24">    public void setEstadoMulta(EstadoMulta estadoMulta) {this.estadoMulta = estadoMulta; }</span>
+
+    @ManyToOne(fetch = FetchType.LAZY,  cascade = CascadeType.PERSIST)
+    @JoinColumn(name=&quot;bibliotecario&quot;, nullable = false)
+    private Users bibliotecario;
+
+    public Users getBibliotecario() {
+<span class="nc" id="L31">        return bibliotecario;</span>
+    }
+
+    public void setBibliotecario(Users bibliotecario) {
+<span class="nc" id="L35">        this.bibliotecario = bibliotecario;</span>
+<span class="nc" id="L36">    }</span>
+
+    public EmprestimoPK getMultaPK() {
+<span class="fc" id="L39">        return multaPK;</span>
+    }
+
+    public void setMultaPK(EmprestimoPK multaPK) {
+<span class="fc" id="L43">        this.multaPK = multaPK;</span>
+<span class="fc" id="L44">    }</span>
+
+
+    @Basic
+    @Column(name = &quot;diasatraso&quot;)
+    public Integer getDiasatraso() {
+<span class="fc" id="L50">        return diasatraso;</span>
+    }
+
+    public void setDiasatraso(Integer diasatraso) {
+<span class="fc" id="L54">        this.diasatraso = diasatraso;</span>
+<span class="fc" id="L55">    }</span>
+
+    @Basic
+    @Column(name = &quot;valorpago&quot;)
+    public Float getValorpago() {
+<span class="fc" id="L60">        return valorpago;</span>
+    }
+
+    public void setValorpago(Float valorpago) {
+<span class="fc" id="L64">        this.valorpago = valorpago;</span>
+<span class="fc" id="L65">    }</span>
+
+    @Basic
+    @Column(name = &quot;dataemprestimo&quot;)
+    public Calendar getDataemprestimo() {
+<span class="nc" id="L70">        return dataemprestimo;</span>
+    }
+
+    public void setDataemprestimo(Calendar dataemprestimo) {
+<span class="fc" id="L74">        this.dataemprestimo = dataemprestimo;</span>
+<span class="fc" id="L75">    }</span>
+
+    @Column(name = &quot;dataemissao&quot;)
+    public Calendar getDataemissao() {
+<span class="nc" id="L79">        return dataemissao;</span>
+    }
+
+    public void setDataemissao(Calendar dataemissao) {
+<span class="fc" id="L83">        this.dataemissao = dataemissao;</span>
+<span class="fc" id="L84">    }</span>
+
+    @Basic
+    @Column(name = &quot;taxadiaria&quot;)
+
+    public Float getTaxadiaria() {
+<span class="fc" id="L90">        return taxadiaria;</span>
+    }
+
+    public void setTaxadiaria(Float taxadiaria) {
+<span class="fc" id="L94">        this.taxadiaria = taxadiaria;</span>
+<span class="fc" id="L95">    }</span>
+
+
+    @Basic
+    @Column (name = &quot;notificacao&quot;)
+<span class="nc" id="L100">    public boolean getNotificacao(){ return notificacao; }</span>
+
+<span class="fc" id="L102">    public void setNotificacao(boolean notificacao) { this.notificacao = notificacao; }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

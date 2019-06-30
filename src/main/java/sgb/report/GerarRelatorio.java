@@ -19,19 +19,17 @@ public class GerarRelatorio {
         this.crudService = crudService;
     }
 
-    public JasperPrint createPdf(List<ObraCategoria> obraCategoriaList,
+    public JasperPrint createPdfObras(List<ObraCategoria> obraCategoriaList,
                                  List<RegistroObra> obrasregistadasList,
-                                 List<ObraEliminadas> obraEliminadasList, int selected, String value) throws JRException, IOException {
+                                 List<ObraEliminadas> obraEliminadasList, int selected, String value, String path) throws JRException, IOException {
 
-        String path = null, pathLogo = "src/main/webapp/img/logoPNG.png";
+        String pathLogo = "src/main/webapp/img/logoPNG.png";
         Map parametros = new HashMap();
         JasperPrint jasperPrint = null;
         JasperReport jasperReport = null;
 
         switch (selected) {
             case 0:{
-                path = "src/main/java/sgb/report/relatorioObras/relatorio.jrxml";
-
                 JasperCompileManager.compileReportToFile("src/main/java/sgb/report/relatorioObras/relatorio2.jrxml", "src/main/java/sgb/report/relatorioObras/relatorio2.jasper");
 
                 String subreportPath = new File("src/main/java/sgb/report/relatorioObras/relatorio2.jasper").getCanonicalPath();
@@ -40,32 +38,43 @@ public class GerarRelatorio {
                 parametros.put("pathSubreport", subreportPath);
                 parametros.put("totalObras", value);
 
-                jasperReport = JasperCompileManager.compileReport(path);
+                try {
+                    jasperReport = JasperCompileManager.compileReport(path);
+                    jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, new JRBeanCollectionDataSource(obraCategoriaList));
+                }catch (Exception e){
 
-                jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, new JRBeanCollectionDataSource(obraCategoriaList));
-                break;}
+                }
+
+                break;
+            }
             case 1:{
-                path = "src/main/java/sgb/report/relatorioObras/relatorioObrasReg.jrxml";
-
                 parametros.put("pathLogo", pathLogo);
 
-                jasperReport = JasperCompileManager.compileReport(path);
-                jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, new JRBeanCollectionDataSource(obrasregistadasList));
-                break;}
+                try {
+                    jasperReport = JasperCompileManager.compileReport(path);
+                    jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, new JRBeanCollectionDataSource(obrasregistadasList));
+                }catch (Exception e){
+
+                }
+                break;
+            }
             case 2:{
-                path = "src/main/java/sgb/report/relatorioObras/relatorioObrasEli.jrxml";
-
                 parametros.put("pathLogo", pathLogo);
 
-                jasperReport = JasperCompileManager.compileReport(path);
-                jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, new JRBeanCollectionDataSource(obraEliminadasList));
-                break;}
+                try {
+                    jasperReport = JasperCompileManager.compileReport(path);
+                    jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, new JRBeanCollectionDataSource(obraEliminadasList));
+                }catch (Exception e){
+
+                }
+                break;
+            }
         }
 
         return jasperPrint;
     }
 
-    public JasperPrint createPdf(List<Emprestimo> emprestimoList, String path) throws JRException {
+    public JasperPrint createPdfEmprestimo(List<Emprestimo> emprestimoList, String path) throws JRException {
         String pathLogo = "src/main/webapp/img/logoPNG.png";
         Map parametros = new HashMap();
         JasperPrint jasperPrint = null;
@@ -82,7 +91,7 @@ public class GerarRelatorio {
         return jasperPrint;
     }
 
-    public JasperPrint createPdf1(List<Multa> multaList, String path) throws JRException{
+    public JasperPrint createPdfMulta(List<Multa> multaList, String path) throws JRException{
         String pathLogo = "src/main/webapp/img/logoPNG.png";
         Map parametros = new HashMap();
         JasperPrint jasperPrint = null;

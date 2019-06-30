@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RgeralController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$All_in_zksandbox.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.controller.viewsController</a> &gt; <span class="el_source">RgeralController.java</span></div><h1>RgeralController.java</h1><pre class="source lang-java linenums">package sgb.controller.viewsController;
+
+import net.sf.jasperreports.engine.JRException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.zkoss.exporter.pdf.PdfExporter;
+import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.event.ForwardEvent;
+import org.zkoss.zk.ui.select.SelectorComposer;
+import org.zkoss.zk.ui.select.annotation.Listen;
+import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zkplus.spring.SpringUtil;
+import org.zkoss.zul.*;
+import sgb.controller.domainController.AreaCientificaController;
+import sgb.controller.domainController.ObraController;
+import sgb.controller.domainController.ObraEliminadasController;
+import sgb.controller.domainController.RegistroObraController;
+import sgb.domain.*;
+import sgb.report.GerarRelatorio;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.Calendar;
+import java.util.List;
+
+//import org.zkoss.zk.chart.Charts;
+//import org.zkoss.chart.model.CategoryModel;
+//import org.zkoss.chart.model.DefaultCategoryModel;
+
+
+<span class="nc" id="L33">public class RgeralController extends SelectorComposer&lt;Component&gt; {</span>
+<span class="nc" id="L34">    private GerarRelatorio gerarRelatorio = (GerarRelatorio) SpringUtil.getBean(&quot;gerarRelatorio&quot;);;</span>
+<span class="nc" id="L35">    private ObraController obraController  = (ObraController) SpringUtil.getBean(&quot;obraController&quot;);;</span>
+<span class="nc" id="L36">    private RegistroObraController registroObraController  = (RegistroObraController) SpringUtil.getBean(&quot;registroObraController&quot;);;</span>
+<span class="nc" id="L37">    private ObraEliminadasController obraEliminadasController  = (ObraEliminadasController) SpringUtil.getBean(&quot;obraEliminadasController&quot;);;</span>
+<span class="nc" id="L38">    private AreaCientificaController areaCientificaController  = (AreaCientificaController) SpringUtil.getBean(&quot;areaCientificaController&quot;);;</span>
+
+<span class="nc" id="L40">    private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;</span>
+<span class="nc" id="L41">    private Boolean isNormalUser = true;</span>
+<span class="nc" id="L42">    private int selected = 0;</span>
+
+    @Wire
+    private Listbox obraeliminadas;
+    @Wire
+    private Listbox obrasregistadas;
+    @Wire
+    private Listbox ObraDetalhe;
+
+    @Wire
+    private Grid detalhesObra;
+
+    private Label qtdd;
+<span class="nc" id="L55">    Calendar dataI = Calendar.getInstance();</span>
+<span class="nc" id="L56">    Calendar dataF = Calendar.getInstance();</span>
+
+    @Wire
+    private Listbox areaCientificaListBox;
+
+    @Wire
+    private Button save;
+
+    @Wire
+    private Datebox dataInicio;
+
+    @Wire
+    private Datebox dataFim;
+
+    @Wire
+    private Grid detalhesCategoria;
+
+    @Wire
+    private Label titulodetalhesCategoria;
+
+    @Wire
+    private Grid RelatorioResumo;
+
+    @Wire
+    private Listbox obracategoriaDetalhes;
+
+    @Wire
+    private Include idInclRelatorioObrasRegistadas;
+
+    @Wire
+    private Include idInclRelatorioObrasQuantidade;
+
+    @Wire
+    private Include idInclObrasEliminadas;
+
+    @Wire
+    private Listbox obracategoria;
+
+    private ListModelList&lt;RegistroObra&gt; obrasregistadasListModel;
+    private ListModelList&lt;ObraEliminadas&gt; obraEliminadasListModel;
+    private ListModelList&lt;ObraCategoria&gt; obraCategoriaListModel;
+    private ListModelList&lt;AreaCientifica&gt; areaCientificaListModel;
+    private ListModelList&lt;Obra&gt; obraListModelList;
+<span class="nc" id="L99">    private ListModelList&lt;Obra&gt; listObra = new ListModelList&lt;Obra&gt;();</span>
+
+
+
+    @Override
+    public void doAfterCompose(Component comp) throws Exception
+    {
+<span class="nc" id="L106">        super.doAfterCompose(comp);</span>
+
+
+<span class="nc" id="L109">        AreaCientifica a = new AreaCientifica();</span>
+<span class="nc" id="L110">        a.setDescricao(&quot;Todas Areas&quot;); a.setIdarea(0);</span>
+<span class="nc" id="L111">        areaCientificaListModel = new ListModelList&lt;AreaCientifica&gt;(areaCientificaController.getAreaCientifica());</span>
+<span class="nc" id="L112">        areaCientificaListModel.add(0,a);</span>
+<span class="nc" id="L113">        areaCientificaListModel.addToSelection(a);</span>
+<span class="nc" id="L114">        areaCientificaListBox.setModel(areaCientificaListModel);</span>
+
+<span class="nc" id="L116">        obraCategoriaListModel = new ListModelList&lt;ObraCategoria&gt;(obraController.getObrasCategorias(null));</span>
+<span class="nc" id="L117">        obracategoria.setModel(obraCategoriaListModel);</span>
+<span class="nc" id="L118">    }</span>
+
+
+
+    public int getQtddTotalObra(ListModelList&lt;ObraCategoria&gt; obraCategoriaListModel){
+<span class="nc" id="L123">        int total=0;</span>
+
+<span class="nc bnc" id="L125" title="All 2 branches missed.">        for (ObraCategoria obraCategoria : obraCategoriaListModel) {</span>
+<span class="nc bnc" id="L126" title="All 2 branches missed.">            for(Obra o: obraCategoria.getObras())</span>
+<span class="nc" id="L127">                total +=o.getQuantidade();</span>
+<span class="nc" id="L128">        }</span>
+<span class="nc" id="L129">        return total;</span>
+    }
+
+    public void getUpdateDate(){
+
+        try {
+<span class="nc" id="L135">            dataI.setTime(dataInicio.getValue());</span>
+<span class="nc" id="L136">            dataF.setTime(dataFim.getValue());</span>
+<span class="nc" id="L137">        }catch (Exception e){</span>
+
+<span class="nc" id="L139">        };</span>
+
+<span class="nc" id="L141">    }</span>
+
+
+    @Listen(&quot;onClick = #save&quot;)
+    public void exportar() throws Exception, JRException, IOException
+    {
+<span class="nc" id="L147">        ByteArrayOutputStream out = new ByteArrayOutputStream();</span>
+<span class="nc" id="L148">        PdfExporter exporter = new PdfExporter();</span>
+<span class="nc" id="L149">        exporter.export(this.obracategoria, out);</span>
+
+<span class="nc" id="L151">        Filedownload.save(out.toByteArray(), &quot;pdf&quot;, &quot;report.pdf&quot;);</span>
+
+//        Filedownload.save(JasperExportManager.exportReportToPdf(gerarRelatorio.createPdf(obraCategoriaListModel,
+//                obrasregistadasListModel, obraEliminadasListModel, selected, qtdd.getValue())), &quot;pdf&quot;, &quot;report.pdf&quot;);
+
+<span class="nc" id="L156">        out.close();</span>
+<span class="nc" id="L157">    }</span>
+
+    public int getQtd (List&lt;Obra&gt; obras) {
+<span class="nc" id="L160">        int qtd = 0;</span>
+<span class="nc" id="L161">        return obras.size();</span>
+    }
+
+    @Listen(&quot;onDetalhes = #obracategoria&quot;)
+    public void doDelahes(ForwardEvent event)
+    {
+
+<span class="nc" id="L168">        AreaCientifica areaCientifica = (AreaCientifica) event.getData();</span>
+
+<span class="nc" id="L170">        obraListModelList = new ListModelList&lt;Obra&gt;(obraController.getObras(areaCientifica));</span>
+<span class="nc" id="L171">        titulodetalhesCategoria.setValue(&quot;Area Cientifica &quot; + areaCientifica.getDescricao());</span>
+
+<span class="nc" id="L173">        RelatorioResumo.setVisible(false);</span>
+<span class="nc" id="L174">        detalhesCategoria.setVisible(true);</span>
+<span class="nc" id="L175">        obracategoriaDetalhes.setModel(obraListModelList);</span>
+<span class="nc" id="L176">    }</span>
+
+    @Listen(&quot;onDetalhes = #obracategoriaDetalhes&quot;)
+    public void doDelahesC(ForwardEvent event)
+    {
+
+<span class="nc" id="L182">        Obra obra = (Obra) event.getData();</span>
+<span class="nc" id="L183">        RelatorioResumo.setVisible(false);</span>
+<span class="nc" id="L184">        detalhesCategoria.setVisible(false);</span>
+<span class="nc" id="L185">        detalhesObra.setVisible(true);</span>
+
+<span class="nc" id="L187">        listObra.add(obra);</span>
+<span class="nc" id="L188">        ObraDetalhe.setModel(listObra);</span>
+
+<span class="nc" id="L190">        obrasregistadasListModel = new ListModelList&lt;RegistroObra&gt;( obra.getRegistroObras());</span>
+<span class="nc" id="L191">        obraEliminadasListModel = new ListModelList&lt;ObraEliminadas&gt;(obra.getObraEliminadas());</span>
+
+<span class="nc" id="L193">        obrasregistadas.setModel(obrasregistadasListModel);</span>
+<span class="nc" id="L194">        obraeliminadas.setModel(obraEliminadasListModel);</span>
+<span class="nc" id="L195">    }</span>
+
+
+    @Listen(&quot;onClick = #buttonVoltar&quot;)
+    public void saveData() throws ParseException {
+<span class="nc" id="L200">        RelatorioResumo.setVisible(true);</span>
+<span class="nc" id="L201">        detalhesCategoria.setVisible(false);</span>
+<span class="nc" id="L202">    }</span>
+
+    @Listen(&quot;onClick = #buttonVoltarCatDetalhes&quot;)
+    public void Return() throws ParseException {
+<span class="nc" id="L206">        RelatorioResumo.setVisible(false);</span>
+<span class="nc" id="L207">        detalhesCategoria.setVisible(true);</span>
+<span class="nc" id="L208">        detalhesObra.setVisible(false);</span>
+
+<span class="nc" id="L210">        obraCategoriaListModel = new ListModelList&lt;ObraCategoria&gt;(obraController.getObrasCategorias(null));</span>
+<span class="nc" id="L211">        obracategoria.setModel(obraCategoriaListModel);</span>
+
+<span class="nc" id="L213">        listObra.remove(0);</span>
+
+<span class="nc" id="L215">    }</span>
+
+
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MiniBookingDeadline.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$All_in_zksandbox.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.deadline</a> &gt; <span class="el_source">MiniBookingDeadline.java</span></div><h1>MiniBookingDeadline.java</h1><pre class="source lang-java linenums">package sgb.deadline;
+
+import sgb.controller.domainController.ConfigControler;
+
+import java.util.Calendar;
+
+public class MiniBookingDeadline extends Deadline
+{
+    private ConfigControler configControler;
+    
+    public MiniBookingDeadline(ConfigControler configControler)
+<span class="fc" id="L12">    {</span>
+<span class="fc" id="L13">        this.configControler = configControler;</span>
+<span class="fc" id="L14">    }</span>
+
+
+    public Calendar getDeadline(Calendar requestDate)
+    {
+<span class="fc bfc" id="L19" title="All 2 branches covered.">        if (isWeekend(requestDate))</span>
+        {
+<span class="fc" id="L21">            return calculateDeadlineForWeekendRequest(requestDate);</span>
+        }
+        else
+        {
+<span class="fc" id="L25">            return calculateDeadlineForWeekdaysRequest(requestDate);</span>
+        }
+    }
+
+    public Calendar calculateDeadlineForWeekdaysRequest(Calendar requestDate)
+    {
+<span class="fc" id="L31">        Calendar calendar = Calendar.getInstance();</span>
+<span class="fc" id="L32">        calendar.setTime(requestDate.getTime());</span>
+
+<span class="fc bfc" id="L34" title="All 2 branches covered.">        if (calendar.get(calendar.HOUR_OF_DAY) &gt;= this.configControler.EXIT_TIME_ON_WEEKDAYS)</span>
+        {
+
+
+<span class="fc bfc" id="L38" title="All 2 branches covered.">            if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY)</span>
+            {
+<span class="fc" id="L40">                calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + 1);</span>
+<span class="fc" id="L41">                this.goToNextWorkingDay(calendar);</span>
+<span class="fc" id="L42">                calendar.set(Calendar.HOUR_OF_DAY, this.configControler.ENTRY_TIME_ON_SATURDAY);</span>
+            }
+            else
+            {
+<span class="fc" id="L46">                calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + 1);</span>
+<span class="fc" id="L47">                this.goToNextWorkingDay(calendar);</span>
+<span class="fc" id="L48">                calendar.set(Calendar.HOUR_OF_DAY, this.configControler.ENTRY_TIME_ON_WEEKDAYS);</span>
+            }
+
+<span class="fc" id="L51">            calendar.set(Calendar.MINUTE, 00);</span>
+<span class="fc" id="L52">            calendar.set(Calendar.SECOND, 00);</span>
+<span class="fc" id="L53">            calendar.set(Calendar.MILLISECOND, 00);</span>
+
+<span class="fc" id="L55">            incrementNMinutes(calendar, this.configControler.DEADLINE_REQUESTED_BOOKS);</span>
+        }
+<span class="fc bfc" id="L57" title="All 2 branches covered.">        else if (calendar.get(Calendar.HOUR_OF_DAY) &lt; this.configControler.ENTRY_TIME_ON_WEEKDAYS)</span>
+        {
+<span class="fc" id="L59">            calendar.set(Calendar.HOUR_OF_DAY, this.configControler.ENTRY_TIME_ON_WEEKDAYS);</span>
+<span class="fc" id="L60">            calendar.set(Calendar.SECOND, 00);</span>
+<span class="fc" id="L61">            calendar.set(Calendar.MILLISECOND, 00);</span>
+<span class="fc" id="L62">            calendar.set(Calendar.MINUTE, this.configControler.DEADLINE_REQUESTED_BOOKS);</span>
+        }
+        else
+        {
+<span class="fc" id="L66">            incrementNMinutes(calendar, this.configControler.DEADLINE_REQUESTED_BOOKS);</span>
+        }
+
+<span class="fc" id="L69">        return calendar;</span>
+    }
+
+    public Calendar calculateDeadlineForWeekendRequest(Calendar requestDate)
+    {
+<span class="fc" id="L74">        Calendar calendar = Calendar.getInstance();</span>
+<span class="fc" id="L75">        calendar.setTime(requestDate.getTime());</span>
+        
+<span class="pc bpc" id="L77" title="1 of 4 branches missed.">        if (this.isSaturDay(calendar) &amp;&amp; calendar.get(Calendar.HOUR_OF_DAY) &lt; this.configControler.ENTRY_TIME_ON_SATURDAY)</span>
+        {
+<span class="fc" id="L79">            calendar.set(Calendar.MINUTE, 00);</span>
+<span class="fc" id="L80">            calendar.set(Calendar.SECOND, 00);</span>
+<span class="fc" id="L81">            calendar.set(Calendar.MILLISECOND, 00);</span>
+<span class="fc" id="L82">            calendar.set(Calendar.HOUR_OF_DAY, this.configControler.ENTRY_TIME_ON_SATURDAY);</span>
+            
+<span class="fc" id="L84">            this.incrementNMinutes(calendar, this.configControler.DEADLINE_REQUESTED_BOOKS);</span>
+        }
+<span class="pc bpc" id="L86" title="1 of 4 branches missed.">        else if (this.isSaturDay(calendar) &amp;&amp; calendar.get(Calendar.HOUR_OF_DAY) &lt; this.configControler.EXIT_TIME_ON_SATURDAY)</span>
+        {
+<span class="fc" id="L88">            this.incrementNMinutes(calendar, this.configControler.DEADLINE_REQUESTED_BOOKS);</span>
+        }
+        else
+        {
+<span class="fc" id="L92">            calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + 1);</span>
+
+<span class="fc" id="L94">            this.goToNextWorkingDay(calendar);</span>
+
+<span class="fc" id="L96">            calendar.set(Calendar.MILLISECOND, 00);</span>
+<span class="fc" id="L97">            calendar.set(Calendar.SECOND, 00);</span>
+<span class="fc" id="L98">            calendar.set(Calendar.MINUTE, 00);</span>
+<span class="fc" id="L99">            calendar.set(Calendar.HOUR_OF_DAY, this.configControler.ENTRY_TIME_ON_WEEKDAYS);</span>
+
+<span class="fc" id="L101">            this.incrementNMinutes(calendar, this.configControler.DEADLINE_REQUESTED_BOOKS);</span>
+        }
+        
+<span class="fc" id="L104">        return calendar;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
