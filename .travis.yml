@@ -1,19 +1,2 @@
 language: java
-dist: trusty
 jdk: oraclejdk8
-env:
-  global:
-    - CC_TEST_REPORTER_ID=fe868c52605925231b139c6769cefb563e6c4fc3db786a70b88b77d7c0497fa8
-before_script:
-  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-  - chmod +x ./cc-test-reporter
-  - ./cc-test-reporter before-build
-script:
-  - mvn test
-  - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-after_script:
-  - ./cc-test-reporter format-coverage -d -t jacoco ./target/jacoco-ut/jacoco.xml
-  - ./cc-test-reporter upload-coverage -d
-addons:
-  code_climate:
-    repo_token: fe868c52605925231b139c6769cefb563e6c4fc3db786a70b88b77d7c0497fa8
