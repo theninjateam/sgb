@@ -10,7 +10,5 @@ addons:
   apt:
     packages:
       - oracle-java8-installer
-before_install:
-  - chmod +x mvnw
 after_success:
   - mvn clean test jacoco:report coveralls:report
