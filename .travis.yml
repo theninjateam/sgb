@@ -3,11 +3,13 @@ sudo: true
 dist: trusty
 jdk:
   - oraclejdk8
+script:
+  - mvn test -B
 addons:
   apt:
     packages:
       - oracle-java8-installer
-before_install:
-  - chmod +x mvn
+#before_install:
+#  - chmod +x mvnw
 after_success:
   - mvn clean test jacoco:report coveralls:report
