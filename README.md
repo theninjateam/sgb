@@ -1,2 +1,3 @@
 #sgb
 [![Build Status](https://travis-ci.org/theninjateam/sgb.svg?branch=gestaoobras)](https://travis-ci.org/theninjateam/sgb)
+[![Coverage Status](https://coveralls.io/repos/github/theninjateam/sgb/badge.svg?branch=master)](https://coveralls.io/github/theninjateam/sgb?branch=gestaoobras)

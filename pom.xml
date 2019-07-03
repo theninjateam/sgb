@@ -460,6 +460,21 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/src/main/resources/exporter.jar</systemPath>
 		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.eluder.coveralls/coveralls-maven-plugin -->
+		<dependency>
+			<groupId>org.eluder.coveralls</groupId>
+			<artifactId>coveralls-maven-plugin</artifactId>
+			<version>4.2.0</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin -->
+		<dependency>
+			<groupId>org.jacoco</groupId>
+			<artifactId>jacoco-maven-plugin</artifactId>
+			<version>0.8.4</version>
+		</dependency>
+
 	</dependencies>
 	<build>
 		<finalName>${project.artifactId}</finalName>
