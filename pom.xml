@@ -461,19 +461,19 @@
 			<systemPath>${project.basedir}/src/main/resources/exporter.jar</systemPath>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.eluder.coveralls/coveralls-maven-plugin -->
-		<dependency>
-			<groupId>org.eluder.coveralls</groupId>
-			<artifactId>coveralls-maven-plugin</artifactId>
-			<version>4.2.0</version>
-		</dependency>
+		<!--&lt;!&ndash; https://mvnrepository.com/artifact/org.eluder.coveralls/coveralls-maven-plugin &ndash;&gt;-->
+		<!--<dependency>-->
+			<!--<groupId>org.eluder.coveralls</groupId>-->
+			<!--<artifactId>coveralls-maven-plugin</artifactId>-->
+			<!--<version>4.2.0</version>-->
+		<!--</dependency>-->
 
-		<!-- https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin -->
-		<dependency>
-			<groupId>org.jacoco</groupId>
-			<artifactId>jacoco-maven-plugin</artifactId>
-			<version>0.8.4</version>
-		</dependency>
+		<!--&lt;!&ndash; https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin &ndash;&gt;-->
+		<!--<dependency>-->
+			<!--<groupId>org.jacoco</groupId>-->
+			<!--<artifactId>jacoco-maven-plugin</artifactId>-->
+			<!--<version>0.8.4</version>-->
+		<!--</dependency>-->
 
 	</dependencies>
 	<build>
@@ -519,56 +519,25 @@
 				</executions>
 			</plugin>
 
-			<!--<plugin>-->
-				<!--<groupId>org.jacoco</groupId>-->
-				<!--<artifactId>jacoco-maven-plugin</artifactId>-->
-				<!--<version>0.8.1</version>-->
-				<!--<executions>-->
-					<!--<execution>-->
-						<!--<id>prepare-agent</id>-->
-						<!--<goals>-->
-							<!--<goal>prepare-agent</goal>-->
-						<!--</goals>-->
-					<!--</execution>-->
-					<!--<execution>-->
-						<!--<id>report</id>-->
-						<!--<phase>prepare-package</phase>-->
-						<!--<goals>-->
-							<!--<goal>report</goal>-->
-						<!--</goals>-->
-					<!--</execution>-->
-					<!--<execution>-->
-						<!--<id>post-unit-test</id>-->
-						<!--<phase>test</phase>-->
-						<!--<goals>-->
-							<!--<goal>report</goal>-->
-						<!--</goals>-->
-						<!--<configuration>-->
-							<!--&lt;!&ndash; Sets the path to the file which contains the execution data. &ndash;&gt;-->
-							<!--<dataFile>target/jacoco.exec</dataFile>-->
-							<!--&lt;!&ndash; Sets the output directory for the code coverage report. &ndash;&gt;-->
-							<!--<outputDirectory>target/jacoco-ut</outputDirectory>-->
-						<!--</configuration>-->
-					<!--</execution>-->
-				<!--</executions>-->
-			<!--</plugin>-->
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.7.6.201602180812</version>
+				<executions>
+					<execution>
+						<id>prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 
-			<!--<plugin>-->
-				<!--<artifactId>maven-antrun-plugin</artifactId>-->
-				<!--<executions>-->
-					<!--<execution>-->
-						<!--<phase>test</phase>-->
-						<!--<configuration>-->
-							<!--<tasks>-->
-								<!--<replace file="target/jacoco-ut/jacoco.xml" token="com/" value="src/main/java/com/"/>-->
-							<!--</tasks>-->
-						<!--</configuration>-->
-						<!--<goals>-->
-							<!--<goal>run</goal>-->
-						<!--</goals>-->
-					<!--</execution>-->
-				<!--</executions>-->
-			<!--</plugin>-->
+			<plugin>
+				<groupId>org.eluder.coveralls</groupId>
+				<artifactId>coveralls-maven-plugin</artifactId>
+				<version>4.3.0</version>
+			</plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
