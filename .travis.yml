@@ -3,15 +3,14 @@ sudo: true
 dist: trusty
 jdk:
   - oraclejdk8
-install:
-  - sudo apt-get update
-  - sudo apt-get update install build-essential
 script:
-  - export LD_LIBRARY_PATH="$TRAVIS_BUILD_DIR/lib/"
   - mvn test -B
+  - mvn install -DskipTests=false -Dmaven.javadoc.skip=true -B -V
 addons:
   apt:
     packages:
       - oracle-java8-installer
+before_install:
+  - chmod +x mvnw
 after_success:
   - mvn clean test jacoco:report coveralls:report
