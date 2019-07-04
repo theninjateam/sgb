@@ -453,6 +453,122 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/src/main/resources/exporter.jar</systemPath>
 		</dependency>
+
+		<!--&lt;!&ndash; https://mvnrepository.com/artifact/org.eluder.coveralls/coveralls-maven-plugin &ndash;&gt;-->
+		<!--<dependency>-->
+			<!--<groupId>org.eluder.coveralls</groupId>-->
+			<!--<artifactId>coveralls-maven-plugin</artifactId>-->
+			<!--<version>4.2.0</version>-->
+		<!--</dependency>-->
+
+		<!--&lt;!&ndash; https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin &ndash;&gt;-->
+		<!--<dependency>-->
+			<!--<groupId>org.jacoco</groupId>-->
+			<!--<artifactId>jacoco-maven-plugin</artifactId>-->
+			<!--<version>0.8.4</version>-->
+		<!--</dependency>-->
+		<!-- https://mvnrepository.com/artifact/org.codehaus.plexus/plexus-classworlds -->
+		<dependency>
+			<groupId>org.codehaus.plexus</groupId>
+			<artifactId>plexus-classworlds</artifactId>
+			<version>2.3</version>
+		</dependency>
+			<dependency>
+				<groupId>org.junit.jupiter</groupId>
+				<artifactId>junit-jupiter-api</artifactId>
+				<version>5.4.2</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.junit.jupiter</groupId>
+				<artifactId>junit-jupiter-engine</artifactId>
+				<version>5.4.2</version>
+				<scope>test</scope>
+			</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.4.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.4.2</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.4.2</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.4.2</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.4.2</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.4.2</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.4.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.4.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.4.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.4.2</version>
+		</dependency>
+
 	</dependencies>
 	<build>
 		<finalName>${project.artifactId}</finalName>
@@ -542,6 +658,12 @@
 			</plugin>
 
 		</plugins>
+
+		<resources>
+			<resource>
+				<directory>src/test</directory>
+			</resource>
+		</resources>
 	</build>
 
 </project>
