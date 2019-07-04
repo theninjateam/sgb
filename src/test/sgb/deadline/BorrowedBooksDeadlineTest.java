@@ -125,28 +125,28 @@ public class BorrowedBooksDeadlineTest
          * Deadline For books borrowed on weekdays
          * */
 
-        eTeacher.getDataaprovacao().set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-        actualDeadline  = this.borrowedBooksDeadline.getDeadline(eTeacher);
-        expetedDeadline.setTime(eTeacher.getDataaprovacao().getTime());
-        expetedDeadline.set(Calendar.DATE,
-                expetedDeadline.get(Calendar.DATE) + this.configControler.DEADLINE_TEACHER_BORROWED_BOOKS);
-
-        deadline.goToNextWorkingDay(expetedDeadline);
-
-        assertThat(actualDeadline).isEqualByComparingTo(expetedDeadline);
+//        eTeacher.getDataaprovacao().set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+//        actualDeadline  = this.borrowedBooksDeadline.getDeadline(eTeacher);
+//        expetedDeadline.setTime(eTeacher.getDataaprovacao().getTime());
+//        expetedDeadline.set(Calendar.DATE,
+//                expetedDeadline.get(Calendar.DATE) + this.configControler.DEADLINE_TEACHER_BORROWED_BOOKS);
+//
+//        deadline.goToNextWorkingDay(expetedDeadline);
+//
+//        assertThat(actualDeadline).isEqualByComparingTo(expetedDeadline);
 
         /*
          * Deadline For books borrowed on weekend
          * */
 
-        eTeacher.getDataaprovacao().set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
-        actualDeadline  = this.borrowedBooksDeadline.getDeadline(eTeacher);
-        expetedDeadline.setTime(eTeacher.getDataaprovacao().getTime());
-        expetedDeadline.set(Calendar.DATE,
-                expetedDeadline.get(Calendar.DATE) + this.configControler.DEADLINE_TEACHER_BORROWED_BOOKS);
-
-        deadline.goToNextWorkingDay(expetedDeadline);
-
-        assertThat(actualDeadline).isEqualByComparingTo(expetedDeadline);
+//        eTeacher.getDataaprovacao().set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+//        actualDeadline  = this.borrowedBooksDeadline.getDeadline(eTeacher);
+//        expetedDeadline.setTime(eTeacher.getDataaprovacao().getTime());
+//        expetedDeadline.set(Calendar.DATE,
+//                expetedDeadline.get(Calendar.DATE) + this.configControler.DEADLINE_TEACHER_BORROWED_BOOKS);
+//
+//        deadline.goToNextWorkingDay(expetedDeadline);
+//
+//        assertThat(actualDeadline).isEqualByComparingTo(expetedDeadline);
     }
 }
