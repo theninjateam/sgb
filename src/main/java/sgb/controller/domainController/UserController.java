@@ -1,5 +1,6 @@
 package sgb.controller.domainController;
 
+import sgb.domain.Role;
 import sgb.domain.Users;
 import sgb.service.CRUDService;
 
@@ -7,6 +8,8 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 
 public class UserController {
 
@@ -41,6 +44,33 @@ public class UserController {
 
     }
 
+    public List<Users> getUsers(){
+
+        query = new StringBuilder();
+
+        query.append("SELECT u FROM Users u order by u.name asc");
+
+        return this.crudService.findByJPQuery(query.toString(),null);
+    }
+
+    public List<Users> getUsersByState(int active){
+
+        parameters = new HashMap<String, Object>(1);
+        query = new StringBuilder();
+
+        parameters.put("active", active);
+
+        query.append("SELECT u FROM Users u where u.active = :active order by u.name asc");
+
+        return this.crudService.findByJPQuery(query.toString(),parameters);
+    }
+
+    public void updateUser(Users user){
+
+        this.crudService.update(user);
+    }
+
+
     public String encrypt(String password)
     {
 
@@ -60,5 +90,33 @@ public class UserController {
         }
         return null;
     }
+
+
+
+
+    public List<Users> getNormalUsers(List<Users> users){
+
+
+        Set<Role> userRoles;
+        List<Users> result = users;
+        try {
+            for (Users user : result) {
+
+                userRoles = user.getRoles();
+
+                for (Role role : userRoles) {
+
+                    if (role.getRole().equals("ADMIN")) {
+                        result.remove(user);
+                    }
+
+                }
+
+            }
+        }catch (Exception e){}
+        return result;
+    }
+
+
 
 }

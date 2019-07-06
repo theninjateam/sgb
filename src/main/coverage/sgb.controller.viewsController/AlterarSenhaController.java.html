@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AlterarSenhaController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$All_in_zksandbox.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.controller.viewsController</a> &gt; <span class="el_source">AlterarSenhaController.java</span></div><h1>AlterarSenhaController.java</h1><pre class="source lang-java linenums">package sgb.controller.viewsController;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.select.SelectorComposer;
+import org.zkoss.zk.ui.select.annotation.Listen;
+import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zkplus.spring.SpringUtil;
+import org.zkoss.zul.Label;
+import org.zkoss.zul.Radiogroup;
+import org.zkoss.zul.Textbox;
+import org.zkoss.zul.Window;
+import sgb.domain.*;
+import sgb.service.CRUDService;
+
+import java.util.Set;
+
+<span class="nc" id="L19">public class AlterarSenhaController extends SelectorComposer&lt;Component&gt; {</span>
+
+<span class="nc" id="L21">    private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;</span>
+<span class="nc" id="L22">    private sgb.controller.domainController.UserController userController = (sgb.controller.domainController.UserController) SpringUtil.getBean(&quot;userController&quot;);</span>
+
+
+
+    @Wire
+    private Textbox senhaActual;
+
+    @Wire
+    private Textbox novaSenha;
+
+    @Wire
+    private Textbox confirmarSenha;
+
+    @Wire
+    private Window alterarSenha;
+
+    @Wire
+    private Label currentUser;
+
+    @Wire
+    private Label currentUserRole;
+
+    @Wire
+    private Label escolha;
+
+    @Wire
+    private Radiogroup opcao;
+
+
+    @Override
+    public void doAfterCompose(Component comp) throws Exception
+    {
+<span class="nc" id="L54">        super.doAfterCompose(comp);</span>
+
+<span class="nc" id="L56">        currentUser.setValue(user.getName() +&quot; &quot;+ user.getLastName());</span>
+<span class="nc" id="L57">        currentUserRole.setValue(&quot;(&quot;+getRole()+&quot;)&quot;);</span>
+
+<span class="nc" id="L59">    }</span>
+
+    public Boolean isPasswordEqual(String actualPassword,String newPass,String confNewPass)
+    {
+<span class="nc bnc" id="L63" title="All 4 branches missed.">        return (user.getPassword().equals(userController.encrypt(actualPassword)) &amp;&amp; newPass.equals(confNewPass));</span>
+
+    }
+
+    public String getRole () {
+<span class="nc" id="L68">        String string= null;</span>
+
+<span class="nc" id="L70">        Set&lt;Role&gt; userrole =user.getRoles();</span>
+
+<span class="nc bnc" id="L72" title="All 2 branches missed.">        for(Role rol : userrole)</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">            if (rol.getRole().equals(&quot;ADMIN&quot;)){</span>
+<span class="nc" id="L74">                string=&quot;ADIMIN&quot;;</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">            } else if (rol.getRole().equals(&quot;STUDENT&quot;)){</span>
+<span class="nc" id="L76">                string = &quot;STUDENT&quot;;</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">            }else if (rol.getRole().equals(&quot;TEACHER&quot;)){</span>
+<span class="nc" id="L78">                string = &quot;TEACHER&quot;;</span>
+            }
+<span class="nc" id="L80">        return string;</span>
+    }
+
+
+
+    @Listen(&quot;onClick = #savebtn&quot;)
+    public void updatePassword()
+    {
+
+
+<span class="nc bnc" id="L90" title="All 2 branches missed.">        if (isPasswordEqual(senhaActual.getValue(),novaSenha.getValue(),confirmarSenha.getValue()))</span>
+        {
+<span class="nc bnc" id="L92" title="All 2 branches missed.">            if(escolha.getValue().equals(&quot;Sim&quot;)) {</span>
+<span class="nc" id="L93">                userController.changeUserPassword(user,userController.encrypt(novaSenha.getValue()));</span>
+<span class="nc" id="L94">                Clients.showNotification(&quot;Senha alterada com sucesso&quot;,null,null,null,5000);</span>
+<span class="nc" id="L95">                closeModal();</span>
+<span class="nc" id="L96">                return;</span>
+            } else {
+<span class="nc" id="L98">                Clients.showNotification(&quot;Seleciona Sim&quot;,null,null,null,5000);</span>
+
+            }
+
+
+        } else {
+<span class="nc" id="L104">            Clients.showNotification(&quot;Dados incorrectos&quot;,&quot;error&quot;,null,null,5000);</span>
+
+        }
+
+
+
+<span class="nc" id="L110">    }</span>
+
+    @Listen(&quot;onClick = #cancelbtn&quot;)
+    public void clearPassword()
+    {
+<span class="nc" id="L115">        senhaActual.setValue(&quot;&quot;);</span>
+<span class="nc" id="L116">        novaSenha.setValue(&quot;&quot;);</span>
+<span class="nc" id="L117">        confirmarSenha.setValue(&quot;&quot;);</span>
+<span class="nc" id="L118">        escolha.setValue(&quot;&quot;);</span>
+<span class="nc" id="L119">        opcao.setSelectedItem(null);</span>
+
+<span class="nc" id="L121">    }</span>
+    @Listen(&quot;onClick = #fechar&quot;)
+    public void closeModal(){
+
+<span class="nc" id="L125">        alterarSenha.detach();</span>
+<span class="nc" id="L126">    }</span>
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

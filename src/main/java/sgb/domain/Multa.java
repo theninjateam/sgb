@@ -14,6 +14,7 @@ public class Multa {
     private Calendar dataemprestimo;
     private Calendar dataemissao;
     private Float taxadiaria;
+    private boolean notificacao;
 
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
@@ -92,4 +93,12 @@ public class Multa {
     public void setTaxadiaria(Float taxadiaria) {
         this.taxadiaria = taxadiaria;
     }
+
+
+    @Basic
+    @Column (name = "notificacao")
+    public boolean getNotificacao(){ return notificacao; }
+
+    public void setNotificacao(boolean notificacao) { this.notificacao = notificacao; }
+
 }

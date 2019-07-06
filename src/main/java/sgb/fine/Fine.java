@@ -1,12 +1,17 @@
 package sgb.fine;
 
+import org.zkoss.zkplus.spring.SpringUtil;
 import sgb.controller.domainController.*;
 import sgb.deadline.BorrowedBooksDeadline;
 import sgb.domain.*;
+import sgb.email.SendEmail;
 import sgb.service.CRUDService;
 
+import javax.mail.MessagingException;
+import java.io.IOException;
 import java.time.Duration;
 import java.util.Calendar;
+import java.util.List;
 
 public class Fine
 {
@@ -17,6 +22,7 @@ public class Fine
     private ConfigControler configControler;
     private EmprestimoController eController;
     private BorrowedBooksDeadline bBDeadline;
+    private SendEmail sendEmail;
 
     public Fine(ConfigControler configControler,
                 MultaController mController,
@@ -24,7 +30,8 @@ public class Fine
                 CRUDService crudService,
                 EstadoDevolucaoControler eDController,
                 EmprestimoController eController,
-                BorrowedBooksDeadline bBDeadline)
+                BorrowedBooksDeadline bBDeadline,
+                SendEmail sendEmail)
     {
 
         this.configControler = configControler;
@@ -34,12 +41,14 @@ public class Fine
         this.eDController = eDController;
         this.mController = mController;
         this.bBDeadline = bBDeadline;
+        this.sendEmail = sendEmail;
     }
 
     public void fine(Emprestimo e, Calendar now)
     {
         if (!this.wasFinedBefore(e.getEmprestimoPK()))
         {
+            String msg,subjet;
             Multa multa = new Multa();
             Emprestimo emprestimo = this.eController.getRequest(e.getEmprestimoPK());
             EstadoDevolucao estadoDevolucao = this.crudService.get(EstadoDevolucao.class, this.eDController.NOT_RETURNED);
@@ -61,6 +70,20 @@ public class Fine
 
             crudService.Save(multa);
             crudService.update(emprestimo);
+            msg = "Caro utente " + emprestimo.getEmprestimoPK().getUtente().getName() + " " + emprestimo.getEmprestimoPK().getUtente().getLastName()+ ",\n" +
+                    "o seu emprestimo da obra " + emprestimo.getEmprestimoPK().getObra().getTitulo() + " feito em " + emprestimo.getEmprestimoPK().getDataentradapedido().getTime()+
+                    " ultrapassou o tempo limite de emprestimo, tendo uma multa de " + multa.getValorpago() +  " MTN.\n Por favor, Regularize a sua situacao de multa, o mais breve possivel";
+            subjet = "Notificacao de Multa";
+            try {
+                sendEmail.sendEmail(subjet, msg, emprestimo.getEmprestimoPK().getUtente().getEmail());
+
+                this.mController.updateNotification(emprestimo.getEmprestimoPK(),true);
+
+
+            } catch (MessagingException e1) {
+                System.out.println("Nao foi possivel enviar o email!");
+            }
+
 
         }
     }
@@ -83,6 +106,14 @@ public class Fine
         return (float) this.configControler.DAILY_RATE_FINE * days;
     }
 
+    public float getAmountToPay(EmprestimoPK emprestimoPK)
+    {
+        MultaController multaController = (MultaController) SpringUtil.getBean("multaController");
+        int days = multaController.getFine(emprestimoPK).getDiasatraso();
+
+        return (float) this.configControler.DAILY_RATE_FINE * days;
+    }
+
     public void pay(EmprestimoPK emprestimoPK, Calendar now)
     {
         EstadoMulta estadoMulta = crudService.get(EstadoMulta.class,this.eMController.PAID);
@@ -99,5 +130,27 @@ public class Fine
         multa.setEstadoMulta(estadoMulta);
 
         this.crudService.update(multa);
+    }
+
+    public void updateDelayDays(List<Multa> multaList){
+        for(Multa m: multaList){
+            int dias = 0;
+            dias = getDelayDays(Calendar.getInstance()
+                    ,eController.getRequest(m.getMultaPK()).getDatadevolucao());
+
+            if(m.getEstadoMulta().getDescricao().equals("NOT_PAID")){
+                m.setDiasatraso(dias);
+            }
+        }
+    }
+
+    public double totalDinheiro(){
+        double totalAmount = 0.0;
+
+        for(Multa m:mController.getMultas()){
+            totalAmount += getAmountToPay(m.getMultaPK());
+        }
+
+        return totalAmount;
     }
 }

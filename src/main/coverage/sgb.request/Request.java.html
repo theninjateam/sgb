@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Request.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$All_in_zksandbox.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.request</a> &gt; <span class="el_source">Request.java</span></div><h1>Request.java</h1><pre class="source lang-java linenums">package sgb.request;
+
+import sgb.concurrence.ObraConcurrenceControl;
+import sgb.controller.domainController.*;
+import sgb.domain.*;
+import sgb.service.CRUDService;
+
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+public class Request
+{
+    private CRUDService crudService;
+    private ConfigControler configControler;
+    private EstadoPedidoControler estadoPedidoControler;
+    private EstadoDevolucaoControler estadoDevolucaoControler;
+    private ObraConcurrenceControl obraConcurrenceControl;
+    private TipoRequisicaoControler tipoRequisicaoControler;
+    private Queue queue;
+    private EmprestimoController eController;
+    
+    public Request(CRUDService crudService,
+                   ConfigControler configControler,
+                   EstadoPedidoControler estadoPedidoControler,
+                   ObraConcurrenceControl obraConcurrenceControl,
+                   Queue queue,
+                   EmprestimoController eController,
+                   EstadoDevolucaoControler estadoDevolucaoControler,
+                   TipoRequisicaoControler tipoRequisicaoControler)
+<span class="fc" id="L32">    {</span>
+<span class="fc" id="L33">        this.configControler = configControler;</span>
+<span class="fc" id="L34">        this.crudService = crudService;</span>
+<span class="fc" id="L35">        this.estadoPedidoControler = estadoPedidoControler;</span>
+<span class="fc" id="L36">        this.obraConcurrenceControl = obraConcurrenceControl;</span>
+<span class="fc" id="L37">        this.queue = queue;</span>
+<span class="fc" id="L38">        this.eController = eController;</span>
+<span class="fc" id="L39">        this.estadoDevolucaoControler = estadoDevolucaoControler;</span>
+<span class="fc" id="L40">        this.tipoRequisicaoControler = tipoRequisicaoControler;</span>
+<span class="fc" id="L41">    }</span>
+
+    public void request(List&lt;Item&gt; itens, Users user)
+    {
+<span class="nc bnc" id="L45" title="All 2 branches missed.">        for (Item item: itens)</span>
+        {
+            try
+            {
+<span class="nc" id="L49">                this.obraConcurrenceControl.enterInCriticalRegion(item.getObra());</span>
+
+<span class="nc bnc" id="L51" title="All 4 branches missed.">                if (item.isHomeRequisition() &amp;&amp; this.canDoHomeRequisition(item.getObra(), item.getQuantidade()))</span>
+                {
+<span class="nc bnc" id="L53" title="All 2 branches missed.">                    if (item.getObra().getQuantidade() - item.getQuantidade() &gt;=</span>
+                            this.configControler.MINIMUM_NUMBER_OF_COPIES)
+                    {
+<span class="nc" id="L56">                        item.setEstadoPedido(this.crudService.get(EstadoPedido.class, this.estadoPedidoControler.PENDING_MINI_BOOKING));</span>
+<span class="nc" id="L57">                        Emprestimo emprestimo = getEmprestimo(item, user);</span>
+
+<span class="nc" id="L59">                        Obra obra = this.crudService.get(Obra.class, item.getObra().getCota());</span>
+<span class="nc" id="L60">                        obra.setQuantidade(obra.getQuantidade() - item.getQuantidade());</span>
+<span class="nc" id="L61">                        this.crudService.update(obra);</span>
+<span class="nc" id="L62">                        this.crudService.Save(emprestimo);</span>
+<span class="nc" id="L63">                    }</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">                    else if(item.isLineUp())</span>
+                    {
+<span class="nc" id="L66">                        item.setEstadoPedido(this.crudService.get(EstadoPedido.class, this.estadoPedidoControler.ON_WAINTING_QUEUE));</span>
+<span class="nc" id="L67">                        Emprestimo emprestimo = getEmprestimo(item, user);</span>
+<span class="nc" id="L68">                        this.crudService.Save(emprestimo);</span>
+<span class="nc" id="L69">                    }</span>
+                }
+<span class="nc bnc" id="L71" title="All 4 branches missed.">                else if (item.isInternalRequisition() &amp;&amp; this.canDoInternalRequisition(item.getObra(), item.getQuantidade()))</span>
+                {
+<span class="nc" id="L73">                    item.setEstadoPedido(this.crudService.get(EstadoPedido.class, this.estadoPedidoControler.PENDING_MINI_BOOKING));</span>
+<span class="nc" id="L74">                    Emprestimo emprestimo = getEmprestimo(item, user);</span>
+
+<span class="nc" id="L76">                    Obra obra = this.crudService.get(Obra.class, item.getObra().getCota());</span>
+<span class="nc" id="L77">                    obra.setQuantidade(obra.getQuantidade() - item.getQuantidade());</span>
+<span class="nc" id="L78">                    this.crudService.update(obra);</span>
+<span class="nc" id="L79">                    this.crudService.Save(emprestimo);</span>
+                }
+
+<span class="nc" id="L82">                this.obraConcurrenceControl.leaveInCriticalRegion(item.getObra());</span>
+            }
+<span class="nc" id="L84">            catch (Exception ex)</span>
+            {
+<span class="nc" id="L86">                this.obraConcurrenceControl.leaveInCriticalRegion(item.getObra());</span>
+<span class="nc" id="L87">                ex.printStackTrace();</span>
+<span class="nc" id="L88">            }</span>
+<span class="nc" id="L89">        }</span>
+<span class="nc" id="L90">    }</span>
+
+    public boolean canDoHomeRequisition(Obra obra, int qtd)
+    {
+<span class="nc" id="L94">        int qtdMin = this.configControler.MINIMUM_NUMBER_OF_COPIES;</span>
+<span class="nc" id="L95">        int all = getAvailableNumberOfCopies(obra);</span>
+
+<span class="nc bnc" id="L97" title="All 2 branches missed.">        return all - qtd &gt;= qtdMin ? true : false;</span>
+    }
+
+    public boolean canDoInternalRequisition(Obra obra, int qtd)
+    {
+<span class="nc" id="L102">        int availabble = this.crudService.get(Obra.class, obra.getCota()).getQuantidade();;</span>
+
+<span class="nc bnc" id="L104" title="All 2 branches missed.">        return availabble - qtd &gt;= 0 ? true : false;</span>
+    }
+
+    public int getAvailableNumberOfCopies(Obra obra)
+    {
+<span class="nc" id="L109">        int qtd = 0;</span>
+<span class="nc" id="L110">        List&lt;Emprestimo&gt; emprestimos = new ArrayList&lt;Emprestimo&gt;();</span>
+
+<span class="nc" id="L112">        emprestimos.addAll(this.eController.getRequest(obra, this.estadoPedidoControler.PENDING_MINI_BOOKING));</span>
+<span class="nc" id="L113">        emprestimos.addAll(this.eController.getBorrowedBooks(obra, this.estadoDevolucaoControler.NOT_RETURNED));</span>
+<span class="nc" id="L114">        emprestimos.addAll(this.eController.getRequest(obra, this.estadoPedidoControler.PENDING_BOOKING));</span>
+
+<span class="nc bnc" id="L116" title="All 2 branches missed.">        for (Emprestimo e: emprestimos)</span>
+<span class="nc" id="L117">            qtd = qtd + e.getQuantidade();</span>
+
+<span class="nc" id="L119">        qtd = qtd + this.crudService.get(Obra.class, obra.getCota()).getQuantidade();</span>
+
+<span class="nc" id="L121">        return qtd;</span>
+    }
+
+    public void cancel(Emprestimo e)
+    {
+<span class="fc" id="L126">        int idEstadoPedido = e.getEstadoPedido().getIdestadopedido();</span>
+
+<span class="fc" id="L128">        boolean wasReserved = false;</span>
+        try
+        {
+<span class="nc" id="L131">            Emprestimo emprestimo = this.eController.getRequest(e.getEmprestimoPK());</span>
+<span class="nc" id="L132">            EstadoPedido estadoPedido = this.crudService.get(EstadoPedido.class, this.estadoPedidoControler.CANCELED);</span>
+<span class="nc" id="L133">            emprestimo.setEstadoPedido(estadoPedido);</span>
+<span class="nc" id="L134">            emprestimo.setComentario(&quot;Cancelado Pelo Sistema, excedeu o deadline&quot;);</span>
+
+<span class="nc bnc" id="L136" title="All 2 branches missed.">            if (!this.queue.getQueue(e.getEmprestimoPK().getObra()).isEmpty())</span>
+            {
+<span class="nc" id="L138">                Emprestimo emp = this.queue.getQueue(e.getEmprestimoPK().getObra()).remove();</span>
+<span class="nc" id="L139">                wasReserved = reserve(emp, e.getQuantidade());</span>
+            }
+
+<span class="nc bnc" id="L142" title="All 2 branches missed.">            if (!wasReserved)</span>
+            {
+                try
+                {
+<span class="nc" id="L146">                    this.obraConcurrenceControl.enterInCriticalRegion(e.getEmprestimoPK().getObra());</span>
+<span class="nc" id="L147">                    Obra obra = this.crudService.get(Obra.class, e.getEmprestimoPK().getObra().getCota());</span>
+<span class="nc" id="L148">                    obra.setQuantidade(obra.getQuantidade() + e.getQuantidade());</span>
+<span class="nc" id="L149">                    this.crudService.update(obra);</span>
+<span class="nc" id="L150">                    this.obraConcurrenceControl.leaveInCriticalRegion(e.getEmprestimoPK().getObra());</span>
+                }
+<span class="nc" id="L152">                catch (Exception ex)</span>
+                {
+<span class="nc" id="L154">                    ex.printStackTrace();</span>
+<span class="nc" id="L155">                    this.obraConcurrenceControl.leaveInCriticalRegion(e.getEmprestimoPK().getObra());</span>
+<span class="nc" id="L156">                }</span>
+            }
+
+<span class="nc" id="L159">            this.crudService.update(emprestimo);</span>
+        }
+<span class="fc" id="L161">        catch (Exception ex)</span>
+        {
+<span class="fc" id="L163">            ex.printStackTrace();</span>
+<span class="nc" id="L164">        }</span>
+<span class="fc" id="L165">    }</span>
+
+    public boolean reserve(Emprestimo e, int qtdObras)
+    {
+        try
+        {
+<span class="nc bnc" id="L171" title="All 2 branches missed.">            if (qtdObras &gt; e.getQuantidade())</span>
+            {
+<span class="nc" id="L173">                qtdObras = qtdObras - e.getQuantidade();</span>
+            }
+<span class="nc bnc" id="L175" title="All 2 branches missed.">            else if (qtdObras &lt; e.getQuantidade())</span>
+            {
+<span class="nc" id="L177">                e.setQuantidade(qtdObras);</span>
+            }
+
+<span class="nc" id="L180">            e.setEstadoPedido(this.crudService.get(EstadoPedido.class, this.estadoPedidoControler.PENDING_BOOKING));</span>
+<span class="nc" id="L181">            e.setDataaprovacao(Calendar.getInstance());</span>
+
+<span class="nc" id="L183">            this.obraConcurrenceControl.enterInCriticalRegion(e.getEmprestimoPK().getObra());</span>
+
+<span class="nc bnc" id="L185" title="All 2 branches missed.">            if (qtdObras &gt; 0)</span>
+            {
+<span class="nc" id="L187">                Obra obra = this.crudService.get(Obra.class, e.getEmprestimoPK().getObra().getCota());</span>
+<span class="nc" id="L188">                obra.setQuantidade(obra.getQuantidade() + qtdObras);</span>
+<span class="nc" id="L189">                this.crudService.update(obra);</span>
+            }
+
+<span class="nc" id="L192">            this.obraConcurrenceControl.leaveInCriticalRegion(e.getEmprestimoPK().getObra());</span>
+<span class="nc" id="L193">            this.crudService.update(e);</span>
+
+<span class="nc" id="L195">            return true;</span>
+        }
+<span class="nc" id="L197">        catch (Exception ex)</span>
+        {
+<span class="nc" id="L199">            this.obraConcurrenceControl.leaveInCriticalRegion(e.getEmprestimoPK().getObra());</span>
+<span class="nc" id="L200">            ex.printStackTrace();</span>
+<span class="nc" id="L201">            return false;</span>
+        }
+    }
+
+    public Emprestimo getEmprestimo(Item item, Users user)
+    {
+<span class="nc" id="L207">        EmprestimoPK emprestimoPK = new EmprestimoPK();</span>
+<span class="nc" id="L208">        Emprestimo emprestimo = new Emprestimo();</span>
+<span class="nc" id="L209">        EstadoPedido estadoPedido = item.getEstadoPedido();</span>
+<span class="nc" id="L210">        TipoRequisicao tipoRequisicao = null;</span>
+<span class="nc" id="L211">        EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, estadoDevolucaoControler.UNDETERMINED);</span>
+<span class="nc" id="L212">        EstadoRenovacao estadoRenovacao = null;</span>
+
+<span class="nc bnc" id="L214" title="All 2 branches missed.">        if (item.isHomeRequisition())</span>
+        {
+<span class="nc" id="L216">            tipoRequisicao = crudService.get(TipoRequisicao.class, tipoRequisicaoControler.HOME_REQUISITION);</span>
+        }
+<span class="nc bnc" id="L218" title="All 2 branches missed.">        else if (item.isInternalRequisition())</span>
+        {
+<span class="nc" id="L220">            tipoRequisicao = crudService.get(TipoRequisicao.class, tipoRequisicaoControler.INTERNAL_REQUISITION);</span>
+        }
+
+<span class="nc" id="L223">        emprestimo.setTipoRequisicao(tipoRequisicao);</span>
+<span class="nc" id="L224">        emprestimo.setEstadoPedido(estadoPedido);</span>
+
+<span class="nc" id="L226">        emprestimoPK.setObra(item.getObra());</span>
+<span class="nc" id="L227">        emprestimoPK.setUtente(user);</span>
+<span class="nc" id="L228">        emprestimoPK.setDataentradapedido(Calendar.getInstance());</span>
+
+<span class="nc" id="L230">        emprestimo.setEstadoDevolucao(estadoDevolucao);</span>
+<span class="nc" id="L231">        emprestimo.setEstadoPedido(item.getEstadoPedido());</span>
+<span class="nc" id="L232">        emprestimo.setEmprestimoPK(emprestimoPK);</span>
+<span class="nc" id="L233">        emprestimo.setComentario(&quot;--&quot;);</span>
+<span class="nc" id="L234">        emprestimo.setDataaprovacao(null);</span>
+<span class="nc" id="L235">        emprestimo.setDatadevolucao(null);</span>
+<span class="nc" id="L236">        emprestimo.setQuantidade(item.getQuantidade());</span>
+<span class="nc" id="L237">        emprestimo.setEstadoRenovacao(estadoRenovacao);</span>
+<span class="nc" id="L238">        emprestimo.setTipoRequisicao(tipoRequisicao);</span>
+
+<span class="nc" id="L240">        return emprestimo;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$All_in_zksandbox.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.controller.domainController</a> &gt; <span class="el_source">UserController.java</span></div><h1>UserController.java</h1><pre class="source lang-java linenums">package sgb.controller.domainController;
+
+import sgb.domain.Role;
+import sgb.domain.Users;
+import sgb.service.CRUDService;
+
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
+
+public class UserController {
+
+    private CRUDService crudService;
+    private StringBuilder query;
+    private HashMap&lt;String, Object&gt; parameters;
+    private static MessageDigest m;
+
+<span class="fc" id="L21">    public UserController(CRUDService crudService) {</span>
+<span class="fc" id="L22">        this.crudService = crudService;</span>
+<span class="fc" id="L23">    }</span>
+
+    public void changeUserPassword(Users user, String password){
+
+<span class="nc" id="L27">        Users user1= getUser(user.getId());</span>
+<span class="nc" id="L28">        user1.setPassword(password);</span>
+
+<span class="nc" id="L30">        this.crudService.update(user1);</span>
+
+<span class="nc" id="L32">    }</span>
+
+    public Users getUser(int id){
+
+<span class="nc" id="L36">        parameters = new HashMap&lt;String, Object&gt;(1);</span>
+<span class="nc" id="L37">        query = new StringBuilder();</span>
+
+<span class="nc" id="L39">        parameters.put(&quot;id&quot;, id);</span>
+
+<span class="nc" id="L41">        query.append(&quot;SELECT u FROM Users u WHERE u.id = :id&quot;);</span>
+
+<span class="nc" id="L43">        return (Users) this.crudService.findByJPQuery(query.toString(),parameters).get(0);</span>
+
+    }
+
+    public List&lt;Users&gt; getUsers(){
+
+<span class="nc" id="L49">        query = new StringBuilder();</span>
+
+<span class="nc" id="L51">        query.append(&quot;SELECT u FROM Users u order by u.name asc&quot;);</span>
+
+<span class="nc" id="L53">        return this.crudService.findByJPQuery(query.toString(),null);</span>
+    }
+
+    public List&lt;Users&gt; getUsersByState(int active){
+
+<span class="nc" id="L58">        parameters = new HashMap&lt;String, Object&gt;(1);</span>
+<span class="nc" id="L59">        query = new StringBuilder();</span>
+
+<span class="nc" id="L61">        parameters.put(&quot;active&quot;, active);</span>
+
+<span class="nc" id="L63">        query.append(&quot;SELECT u FROM Users u where u.active = :active order by u.name asc&quot;);</span>
+
+<span class="nc" id="L65">        return this.crudService.findByJPQuery(query.toString(),parameters);</span>
+    }
+
+    public void updateUser(Users user){
+
+<span class="fc" id="L70">        this.crudService.update(user);</span>
+<span class="fc" id="L71">    }</span>
+
+
+    public String encrypt(String password)
+    {
+
+        try
+        {
+<span class="nc" id="L79">            m = MessageDigest.getInstance(&quot;MD5&quot;);</span>
+<span class="nc" id="L80">            m.update(password.getBytes(), 0, password.length());</span>
+<span class="nc" id="L81">            BigInteger login1 = new BigInteger(1, m.digest());</span>
+
+<span class="nc" id="L83">            password = String.format(&quot;%1$032X&quot;, login1).toLowerCase();</span>
+
+
+<span class="nc" id="L86">            return password;</span>
+<span class="nc" id="L87">        } catch (NoSuchAlgorithmException e)</span>
+        {
+<span class="nc" id="L89">            e.printStackTrace();</span>
+        }
+<span class="nc" id="L91">        return null;</span>
+    }
+
+
+
+
+    public List&lt;Users&gt; getNormalUsers(List&lt;Users&gt; users){
+
+
+        Set&lt;Role&gt; userRoles;
+<span class="nc" id="L101">        List&lt;Users&gt; result = users;</span>
+        try {
+<span class="nc bnc" id="L103" title="All 2 branches missed.">            for (Users user : result) {</span>
+
+<span class="nc" id="L105">                userRoles = user.getRoles();</span>
+
+<span class="nc bnc" id="L107" title="All 2 branches missed.">                for (Role role : userRoles) {</span>
+
+<span class="nc bnc" id="L109" title="All 2 branches missed.">                    if (role.getRole().equals(&quot;ADMIN&quot;)) {</span>
+<span class="nc" id="L110">                        result.remove(user);</span>
+                    }
+
+<span class="nc" id="L113">                }</span>
+
+<span class="nc" id="L115">            }</span>
+<span class="nc" id="L116">        }catch (Exception e){}</span>
+<span class="nc" id="L117">        return result;</span>
+    }
+
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

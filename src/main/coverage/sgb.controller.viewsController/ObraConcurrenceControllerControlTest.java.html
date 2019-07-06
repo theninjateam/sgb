@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ObraConcurrenceControllerControlTest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$All_in_zksandbox.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.controller.viewsController</a> &gt; <span class="el_source">ObraConcurrenceControllerControlTest.java</span></div><h1>ObraConcurrenceControllerControlTest.java</h1><pre class="source lang-java linenums">package sgb.controller.viewsController;
+
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.zkoss.zats.mimic.DesktopAgent;
+import org.zkoss.zats.mimic.Zats;
+
+<span class="fc" id="L10">public class ObraConcurrenceControllerControlTest</span>
+{
+    @BeforeClass
+    public static void init()
+    {
+<span class="fc" id="L15">        Zats.init(&quot;./src/main/webapp/WEB-INF&quot;);</span>
+<span class="fc" id="L16">    }</span>
+
+    @AfterClass
+    public static void end() {
+<span class="fc" id="L20">        Zats.end();</span>
+<span class="fc" id="L21">    }</span>
+
+    @After
+    public void after() {
+<span class="fc" id="L25">        Zats.cleanup();</span>
+<span class="fc" id="L26">    }</span>
+
+    @Test
+    public void saveData()
+    {
+    //    DesktopAgent desktop = Zats.newClient().connect(&quot;/views/addObra.zul&quot;);
+//
+//        ComponentAgent authorListBox = desktop.query(&quot;listbox[id='authorListBox']&quot;);
+//        ComponentAgent autor = desktop.query(&quot;textbox[id='autor']&quot;);
+//
+//        autor.type(&quot;Bania Fonseca&quot;);
+//        desktop.query(&quot;button[id='addAuthor']&quot;).click();
+//
+//        List&lt;ComponentAgent&gt; cells = authorListBox.queryAll(&quot;listitem&quot;).get(0).getChildren();
+//        System.out.println(&quot;Typed author: &quot;+ cells.get(0).as(Listcell.class).getLabel());
+        //Assert.assertEquals(&quot;Hello Mimic&quot;, label.as(Label.class).getValue());
+<span class="fc" id="L42">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

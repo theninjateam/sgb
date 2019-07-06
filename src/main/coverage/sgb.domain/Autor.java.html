@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Autor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$All_in_zksandbox.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.domain</a> &gt; <span class="el_source">Autor.java</span></div><h1>Autor.java</h1><pre class="source lang-java linenums">package sgb.domain;
+
+import javax.persistence.*;
+import java.util.Objects;
+import java.util.Set;
+
+@Entity
+<span class="nc" id="L8">public class Autor {</span>
+    private String hashcode;
+    private String nome;
+    private Set&lt;Obra&gt; obras;
+
+    @Id
+    @Column(name = &quot;hashcode&quot;)
+    public String getHashcode() {
+<span class="nc" id="L16">        return hashcode;</span>
+    }
+
+    public void setHashcode(String hashcode) {
+<span class="nc" id="L20">        this.hashcode = hashcode;</span>
+<span class="nc" id="L21">    }</span>
+
+    @Basic
+    @Column(name = &quot;nome&quot;)
+    public String getNome() {
+<span class="nc" id="L26">        return nome;</span>
+    }
+
+    public void setNome(String nome) {
+<span class="nc" id="L30">        this.nome = nome;</span>
+<span class="nc" id="L31">    }</span>
+
+    @Override
+    public boolean equals(Object o) {
+<span class="nc bnc" id="L35" title="All 2 branches missed.">        if (this == o) return true;</span>
+<span class="nc bnc" id="L36" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc" id="L37">        Autor autor = (Autor) o;</span>
+<span class="nc bnc" id="L38" title="All 2 branches missed.">        return Objects.equals(hashcode, autor.hashcode) &amp;&amp;</span>
+<span class="nc bnc" id="L39" title="All 2 branches missed.">                Objects.equals(nome, autor.nome);</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L44">        return Objects.hash(hashcode, nome);</span>
+    }
+
+    @ManyToMany(fetch = FetchType.LAZY,
+            mappedBy = &quot;autores&quot; )
+    public Set&lt;Obra&gt; getObras() {
+<span class="nc" id="L50">        return obras;</span>
+    }
+
+    public void setObras(Set&lt;Obra&gt; obras) {
+<span class="nc" id="L54">        this.obras = obras;</span>
+<span class="nc" id="L55">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

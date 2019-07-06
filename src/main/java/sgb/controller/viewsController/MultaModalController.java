@@ -114,7 +114,7 @@ public class MultaModalController extends SelectorComposer<Component> {
             emprestimo = crudService.get(Emprestimo.class,multa.getMultaPK());
             multa.setValorpago(fine.getAmoutToPay(emprestimo.getEmprestimoPK(), Calendar.getInstance()));
 
-            if (ObraReturned(emprestimo.getEmprestimoPK())) {
+            if (ObraRETURNED(emprestimo.getEmprestimoPK())) {
                 Calendar dataLimite = bBDeadline.getDeadline(emprestimo);
                 multa.setDiasatraso(fine.getDelayDays(emprestimo.getDatadevolucao(),dataLimite));
             } else {
@@ -188,7 +188,7 @@ public class MultaModalController extends SelectorComposer<Component> {
         return dataConvert(dataP);
     }
 
-    public boolean ObraReturned (EmprestimoPK emprestimoPK) {
+    public boolean ObraRETURNED (EmprestimoPK emprestimoPK) {
 
         Emprestimo emprestimo = crudService.get(Emprestimo.class,emprestimoPK);
         return emprestimo.getEstadoDevolucao().getDescricao().equals("RETURNED") ? true:false;
@@ -212,7 +212,7 @@ public class MultaModalController extends SelectorComposer<Component> {
             Clients.showNotification("Precisa ser Bibliotecario para executar essa acao ", null, null, null, 5000);
         } else {
 
-            if (ObraReturned(emprestimo.getEmprestimoPK())){
+            if (ObraRETURNED(emprestimo.getEmprestimoPK())){
                 fine.pay(multa.getMultaPK(), Calendar.getInstance());
 
                 exit();
@@ -240,7 +240,7 @@ public class MultaModalController extends SelectorComposer<Component> {
             Clients.showNotification("Precisa ser Bibliotecario para executar essa acao ", null, null, null, 5000);
         } else {
 
-            if (ObraReturned(emprestimo.getEmprestimoPK())){
+            if (ObraRETURNED(emprestimo.getEmprestimoPK())){
                 fine.revoke(multa.getMultaPK());
 
                 exit();

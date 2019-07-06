@@ -1,8 +1,11 @@
 package sgb.controller.domainController;
 
+import org.zkoss.zkplus.spring.SpringUtil;
 import sgb.domain.*;
+import sgb.fine.Fine;
 import sgb.service.CRUDService;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -32,7 +35,6 @@ public class MultaController
         return this.crudService.findEntByJPQueryT(query.toString(), parameters);
     }
 
-
     public List<Multa> getFine(Users user , int idEstadoMulta)
     {
         parameters = new HashMap<String, Object>(2);
@@ -60,4 +62,35 @@ public class MultaController
         return this.crudService.findByJPQuery(query.toString(), parameters);
     }
 
+    public List<Multa> getByNotification(boolean notification)
+    {
+        parameters = new HashMap<String, Object>(1);
+        query = new StringBuilder();
+
+        parameters.put("notification", notification);
+
+        query.append("SELECT m FROM Multa m WHERE m.notificacao = :notification");
+
+        return this.crudService.findByJPQuery(query.toString(), parameters);
+    }
+
+    public void updateNotification (EmprestimoPK emprestimoPK,boolean notification){
+
+
+        Multa multa = this.getFine(emprestimoPK);
+
+        multa.setNotificacao(notification);
+
+        this.crudService.update(multa);
+
+
+    }
+
+    public List<Multa> getMultas(){
+        query = new StringBuilder();
+
+        query.append("SELECT m FROM Multa m");
+
+        return this.crudService.findByJPQuery(query.toString(),null);
+    }
 }

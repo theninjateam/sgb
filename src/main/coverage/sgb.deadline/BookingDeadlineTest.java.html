@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BookingDeadlineTest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$All_in_zksandbox.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.deadline</a> &gt; <span class="el_source">BookingDeadlineTest.java</span></div><h1>BookingDeadlineTest.java</h1><pre class="source lang-java linenums">package sgb.deadline;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
+import sgb.controller.domainController.ConfigControler;
+import sgb.domain.Emprestimo;
+import sgb.service.CRUDService;
+
+import java.util.Calendar;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations={&quot;file:src/main/webapp/WEB-INF/applicationContext.xml&quot;})
+
+/**
+ * @author Fonseca, bfonseca@unilurio.ac.mz
+ */
+
+<span class="fc" id="L26">public class BookingDeadlineTest</span>
+{
+    @Autowired
+    private ApplicationContext context;
+    private BookingDeadline bookingDeadline;
+    private CRUDService crudService;
+    private ConfigControler configControler;
+    private Emprestimo emprestimo;
+
+    @Before
+    @Transactional
+    public void before() throws Exception
+    {
+<span class="fc" id="L39">        System.out.println(&quot;Setting it up!&quot;);</span>
+
+<span class="fc" id="L41">        this.configControler = (ConfigControler) context.getBean(&quot;configControler&quot;);</span>
+<span class="fc" id="L42">        this.bookingDeadline = (BookingDeadline) context.getBean(&quot;bookingDeadline&quot;);</span>
+<span class="fc" id="L43">        this.crudService = (CRUDService) context.getBean(&quot;CRUDService&quot;);</span>
+
+<span class="pc bpc" id="L45" title="1 of 2 branches missed.">        for (Emprestimo e: this.crudService.getAll(Emprestimo.class))</span>
+        {
+<span class="pc bpc" id="L47" title="1 of 2 branches missed.">            if (e.getDataaprovacao() != null)</span>
+            {
+<span class="fc" id="L49">                emprestimo = e;</span>
+<span class="fc" id="L50">                break;</span>
+            }
+<span class="nc" id="L52">        }</span>
+<span class="fc" id="L53">    }</span>
+
+    @Test
+    @Transactional
+    public void getDeadlineTest() throws Exception
+    {
+<span class="fc" id="L59">        Calendar actualDeadline = Calendar.getInstance();</span>
+<span class="fc" id="L60">        Calendar expectedDeadline = Calendar.getInstance();</span>
+
+        /*
+        * Booking made on weekdays
+        * */
+
+<span class="fc" id="L66">        emprestimo.getDataaprovacao().set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);</span>
+<span class="fc" id="L67">        actualDeadline = this.bookingDeadline.getDeadline(emprestimo.getDataaprovacao());</span>
+
+<span class="fc" id="L69">        expectedDeadline.setTime(emprestimo.getDataaprovacao().getTime());</span>
+<span class="fc" id="L70">        expectedDeadline.set(Calendar.DATE, expectedDeadline.get(Calendar.DATE) + this.configControler.DEADLINE_RESERVED_BOOKS);</span>
+<span class="fc" id="L71">        this.bookingDeadline.goToNextWorkingDay(expectedDeadline);</span>
+
+<span class="fc" id="L73">        assertThat(actualDeadline).isEqualByComparingTo(expectedDeadline);</span>
+
+        /*
+         * Booking made on weekend
+         * */
+
+<span class="fc" id="L79">        emprestimo.getDataaprovacao().set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);</span>
+<span class="fc" id="L80">        actualDeadline = this.bookingDeadline.getDeadline(emprestimo.getDataaprovacao());</span>
+
+<span class="fc" id="L82">        expectedDeadline.setTime(emprestimo.getDataaprovacao().getTime());</span>
+<span class="fc" id="L83">        expectedDeadline.set(Calendar.DATE, expectedDeadline.get(Calendar.DATE) + this.configControler.DEADLINE_RESERVED_BOOKS);</span>
+<span class="fc" id="L84">        this.bookingDeadline.goToNextWorkingDay(expectedDeadline);</span>
+
+<span class="fc" id="L86">        assertThat(actualDeadline).isEqualByComparingTo(expectedDeadline);</span>
+<span class="fc" id="L87">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

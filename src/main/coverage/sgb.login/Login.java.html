@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Login.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$All_in_zksandbox.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.login</a> &gt; <span class="el_source">Login.java</span></div><h1>Login.java</h1><pre class="source lang-java linenums">package sgb.login;
+
+import org.zkoss.zkplus.spring.SpringUtil;
+import sgb.controller.domainController.UserController;
+import sgb.domain.Users;
+
+public class Login {
+
+    private sgb.controller.domainController.UserController userController;
+
+//    public Login() {
+//
+//        this.userController = (sgb.controller.domainController.UserController) SpringUtil.getBean(&quot;userController&quot;);
+//
+//    }
+
+
+<span class="fc" id="L18">    public Login(UserController userController) {</span>
+<span class="fc" id="L19">        this.userController = userController;</span>
+<span class="fc" id="L20">    }</span>
+
+    public boolean isBlocked(Users user){
+
+<span class="fc bfc" id="L24" title="All 2 branches covered.">        return user.getActive()==0;</span>
+    }
+
+    public int getState(String state){
+
+<span class="fc bfc" id="L29" title="All 2 branches covered.">        if (state.equals(&quot;Blocked&quot;))</span>
+<span class="fc" id="L30">            return 0;</span>
+
+<span class="fc" id="L32">        return 1;</span>
+
+    }
+
+    public void blockUser(Users user){
+
+<span class="fc" id="L38">        user.setActive(0);</span>
+<span class="fc" id="L39">        this.userController.updateUser(user);</span>
+<span class="fc" id="L40">    }</span>
+
+    public void unblockUser(Users user){
+
+<span class="fc" id="L44">        user.setActive(1);</span>
+<span class="fc" id="L45">        this.userController.updateUser(user);</span>
+<span class="fc" id="L46">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

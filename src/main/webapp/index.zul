@@ -26,29 +26,53 @@ Copyright (C) 2008 Potix Corporation. All Rights Reserved.
 <?component name="categorybar" extends="div" widgetClass="zksandbox.Categorybar"?>
 <zk>
 <zscript><![CDATA[
+
+
+	import sgb.login.Login;
+
+	import sgb.controller.LoginController;
+	import sgb.domain.Users;
+	import org.springframework.security.core.context.SecurityContextHolder;
+	import org.springframework.security.core.userdetails.UserDetails;
+	import org.zkoss.zkplus.spring.SpringUtil;
+
+
 	String themeSClass = org.zkoss.zksandbox.Themes.isBlueTheme() ? "blue" : org.zkoss.zksandbox.Themes.getCurrentTheme();
+
+	Login log = (Login) SpringUtil.getBean("login");
+
+	private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+
+    if (log.isBlocked(user)){
+	    Executions.sendRedirect("login.jsp?blocked=1");
+	}
+
 ]]></zscript>
 <borderlayout id="main" sclass="${themeSClass}" apply="org.zkoss.zksandbox.MainLayoutComposer">
 	<north border="none" size="100px" sclass="demo-header" collapsible="true" id="north">
 		<hbox>
 			<div  sclass="demo-logo pointer">
-				<n:a xmlns:n="native" href="http://www.zkoss.org">
-				<image width="90px" height="80px" src="/img/ZK-Logo.gif"/>
+				<n:a xmlns:n="native" href="">
+				<image sclass="w3-circle" width="90px" height="80px" src="img/logounilurio.jpg"/>
 				</n:a>
+
 			</div>
 
 
-            <categorybar zclass="demo-categorybar" id="header">
+            <categorybar style="left: 5%"  zclass="demo-categorybar" id="header">
                 <category zclass="demo-category" forEach="${main$MainLayoutComposer.categories}" id="${each.id}" image="${each.icon}" label="${each.label}"
                           forward="onClick=main.onCategorySelect"/>
             </categorybar>
 
-			<div  style="padding: 50px 50px 0 50px; cursor: pointer;" >
+			<!--style="padding: 50px 50px 0 50px; cursor: pointer;"-->
+
+			<div  style="padding: 50px 50px 0 50px; cursor: pointer; position: absolute; right: 2%; width:auto; height: auto;"   >
 				<hbox apply="sgb.controller.viewsController.LogoutModalController"
-					  hflex="1" vflex="1" pack="end" align="end" >
-					<image src="/img/profile.png" width="20px" height="20px"/>
-					<label value="${sessionScope.userCredential.name}" if="${not sessionScope.userCredential.anonymous}"/>
-					<label id="preLogout" value="${labels.myaccount}"  sclass="logout" if="${not sessionScope.userCredential.anonymous}"/>
+					  hflex="1" vflex="1" pack="end" align="start" style="align:right" >
+					<image id="preLogout" src="/img/profile.png" width="20px" height="20px"/>
+					<label  value="${sessionScope.userCredential.name}" if="${not sessionScope.userCredential.anonymous}"/>
+					<!--<label id="preLogout" value="${labels.myaccount}"  sclass="logout" if="${not sessionScope.userCredential.anonymous}"/>-->
 				</hbox>
 			</div>
         </hbox>
@@ -69,11 +93,11 @@ Copyright (C) 2008 Potix Corporation. All Rights Reserved.
 			<!--</hbox>-->
 	</north>
 	<!-- remember to put css here-->
-	<west title="ZK ${desktop.webApp.version}" size="250px" flex="true" splittable="true"
+	<west title=" " size="250px" flex="true" splittable="true"
 		minsize="210" maxsize="500" collapsible="true">
 		<panel>
 			<toolbar>
-				<label value="Search:"/><textbox id="searchBox" ctrlKeys="#down#up" focus="true" sclass="demo-search-inp"/>
+				<label value="Pesquisar:"/><textbox id="searchBox" ctrlKeys="#down#up" focus="true" sclass="demo-search-inp"/>
 			</toolbar>
 			<panelchildren>
 				<listbox id="itemList" oddRowSclass="non-odd" sclass="demo-items"

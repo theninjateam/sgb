@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ListPedido.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$All_in_zksandbox.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.controller.viewsController</a> &gt; <span class="el_source">ListPedido.java</span></div><h1>ListPedido.java</h1><pre class="source lang-java linenums">package sgb.controller.viewsController;
+
+import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.select.SelectorComposer;
+import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zul.ListModelList;
+import org.zkoss.zul.Listbox;
+import sgb.controller.domainController.EmprestimoController;
+import sgb.controller.domainController.EstadoDevolucaoControler;
+import sgb.controller.domainController.EstadoPedidoControler;
+import sgb.deadline.BorrowedBooksDeadline;
+import sgb.domain.Emprestimo;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.zkoss.zk.ui.event.ForwardEvent;
+import org.zkoss.zk.ui.select.annotation.Listen;
+import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zkplus.spring.SpringUtil;
+import org.zkoss.zul.*;
+import sgb.domain.*;
+import sgb.request.Request;
+import sgb.service.CRUDService;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+import java.util.Calendar;
+
+<span class="nc" id="L32">public class ListPedido extends SelectorComposer&lt;Component&gt; {</span>
+
+<span class="nc" id="L34">    private CRUDService crudService = (CRUDService) SpringUtil.getBean(&quot;CRUDService&quot;);</span>
+<span class="nc" id="L35">    private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();</span>
+<span class="nc" id="L36">    private boolean isStudent = false;</span>
+<span class="nc" id="L37">    private BorrowedBooksDeadline bBDeadline = (BorrowedBooksDeadline) SpringUtil.getBean(&quot;borrowedBooksDeadline&quot;);</span>
+    private ListModelList&lt;Emprestimo&gt; pedidoListModel;
+    private ListModel&lt;EstadoPedido&gt; estadopedidoModel;
+<span class="nc" id="L40">    private Boolean isNormalUser = true;</span>
+<span class="nc" id="L41">    private Request request = (Request) SpringUtil.getBean(&quot;request&quot;);</span>
+<span class="nc" id="L42">    private EstadoPedidoControler ePController = (EstadoPedidoControler) SpringUtil.getBean(&quot;estadoPedidoControler&quot;);</span>
+<span class="nc" id="L43">    private EmprestimoController eController = (EmprestimoController) SpringUtil.getBean(&quot;emprestimoController&quot;);</span>
+<span class="nc" id="L44">    private EstadoDevolucaoControler eDController = (EstadoDevolucaoControler) SpringUtil.getBean(&quot;estadoDevolucaoControler&quot;);</span>
+
+
+
+    @Wire
+    private Listbox pedidoListBox;
+
+
+    @Override
+    public void doAfterCompose(Component comp) throws Exception
+    {
+<span class="nc" id="L55">        super.doAfterCompose(comp);</span>
+
+<span class="nc" id="L57">        isNormalUser = isNormalUser();</span>
+
+<span class="nc bnc" id="L59" title="All 2 branches missed.">        if (isNormalUser) {</span>
+<span class="nc" id="L60">            ComposeUserNormal();</span>
+        }
+        else {
+<span class="nc" id="L63">           ComposeUserAdmin();</span>
+        }
+<span class="nc" id="L65">    }</span>
+
+    public void ComposeUserAdmin(){
+<span class="nc" id="L68">        List&lt;Emprestimo&gt; pedidos = eController.getRequest(ePController.PENDING_MINI_BOOKING);</span>
+<span class="nc" id="L69">        pedidos.addAll(eController.getRequest(ePController.PENDING_BOOKING));</span>
+
+<span class="nc" id="L71">        pedidoListModel = new ListModelList&lt;Emprestimo&gt;(pedidos);</span>
+
+<span class="nc" id="L73">        pedidoListBox.setModel(pedidoListModel);</span>
+<span class="nc" id="L74">    }</span>
+
+    public void ComposeUserNormal() {
+<span class="nc" id="L77">        List&lt;Emprestimo&gt; pedidos = eController.getRequest(this.user, ePController.PENDING_MINI_BOOKING);</span>
+<span class="nc" id="L78">        pedidos.addAll(eController.getRequest(this.user, ePController.PENDING_BOOKING));</span>
+<span class="nc" id="L79">        pedidoListModel = new ListModelList&lt;Emprestimo&gt;(pedidos);</span>
+
+<span class="nc" id="L81">        pedidoListBox.setModel(pedidoListModel);</span>
+<span class="nc" id="L82">    }</span>
+
+    public boolean isNormalUser () {
+<span class="nc" id="L85">        Boolean a = true;</span>
+
+<span class="nc" id="L87">        Set&lt;Role&gt; userrole =user.getRoles();</span>
+
+<span class="nc bnc" id="L89" title="All 2 branches missed.">        for(Role role : userrole) {</span>
+<span class="nc bnc" id="L90" title="All 2 branches missed.">            if(role.getRole().equals(&quot;ADMIN&quot;))</span>
+<span class="nc" id="L91">                a = false;</span>
+<span class="nc" id="L92">        }</span>
+<span class="nc" id="L93">        return a;</span>
+    }
+
+
+    @Listen(&quot;onEliminarEmprestimo = #pedidoListBox&quot;)
+    public void doEliminar(ForwardEvent event)
+    {
+<span class="nc bnc" id="L100" title="All 2 branches missed.">        if (isNormalUser) {</span>
+<span class="nc" id="L101">            Emprestimo emp = (Emprestimo) event.getData();</span>
+
+<span class="nc" id="L103">            Messagebox.show(&quot;Tem certeza que deseja eliminar esse pedido ?&quot;, &quot;delete pedido&quot;,</span>
+                    Messagebox.YES + Messagebox.NO, Messagebox.QUESTION,
+<span class="nc" id="L105">                    new EventListener&lt;Event&gt;() {</span>
+                        @Override
+                        public void onEvent(Event event) throws Exception {
+<span class="nc bnc" id="L108" title="All 2 branches missed.">                            if (Messagebox.ON_YES.equals(event.getName())) {</span>
+<span class="nc" id="L109">                                pedidoListModel.remove(emp);</span>
+<span class="nc" id="L110">                                crudService.delete(emp);</span>
+<span class="nc" id="L111">                                Clients.showNotification(&quot;Pedido eliminado com sucesso&quot;, null, null, null, 5000);</span>
+                            }
+<span class="nc" id="L113">                        }</span>
+                    });
+<span class="nc" id="L115">        }else {</span>
+<span class="nc" id="L116">            Clients.showNotification(&quot;Precisa ser Utente para executar essa acao &quot;, null, null, null, 5000);</span>
+        }
+
+<span class="nc" id="L119">    }</span>
+
+    @Listen(&quot;onReprovarEmprestimo = #pedidoListBox&quot;)
+    public void doReprovar(ForwardEvent event)
+    {
+<span class="nc bnc" id="L124" title="All 2 branches missed.">        if(isNormalUser) {</span>
+<span class="nc" id="L125">            Clients.showNotification(&quot;Precisa ser Bibliotecario para executar essa acao &quot;, null, null, null, 5000);</span>
+        } else {
+<span class="nc" id="L127">            Emprestimo emp = (Emprestimo) event.getData();</span>
+
+<span class="nc" id="L129">            EstadoPedido estadoPedido = crudService.get(EstadoPedido.class,ePController.REJECTED);</span>
+<span class="nc" id="L130">            emp.setEstadoPedido(estadoPedido);</span>
+<span class="nc" id="L131">            emp.setDataaprovacao(Calendar.getInstance());</span>
+<span class="nc" id="L132">            pedidoListModel.remove(emp);</span>
+<span class="nc" id="L133">            crudService.update(emp);</span>
+<span class="nc" id="L134">            Clients.showNotification(&quot;Pedido reprovado com sucesso &quot;, null, null, null, 5000);</span>
+        }
+<span class="nc" id="L136">    }</span>
+
+    @Listen(&quot;onAprovarEmprestimo = #pedidoListBox&quot;)
+    public void doAprovar(ForwardEvent event)
+    {
+<span class="nc bnc" id="L141" title="All 2 branches missed.">        if(isNormalUser) {</span>
+<span class="nc" id="L142">            Clients.showNotification(&quot;Precisa ser Bibliotecario para executar essa acao &quot;, null, null, null, 5000);</span>
+        } else {
+<span class="nc" id="L144">            Emprestimo emp = (Emprestimo) event.getData();</span>
+
+<span class="nc" id="L146">            EstadoPedido estadoPedido = crudService.get(EstadoPedido.class,ePController.ACCEPTED);</span>
+<span class="nc" id="L147">            EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class,eDController.NOT_RETURNED);</span>
+<span class="nc" id="L148">            emp.setEstadoPedido(estadoPedido);</span>
+<span class="nc" id="L149">            emp.setDataaprovacao(Calendar.getInstance());</span>
+<span class="nc" id="L150">            emp.setBibliotecario(user); //</span>
+<span class="nc" id="L151">            emp.setEstadoDevolucao(estadoDevolucao);</span>
+
+<span class="nc" id="L153">            Set&lt;Role&gt; roles = emp.getEmprestimoPK().getUtente().getRoles();</span>
+
+<span class="nc bnc" id="L155" title="All 2 branches missed.">            for(Role role: roles) {</span>
+<span class="nc bnc" id="L156" title="All 2 branches missed.">                if(role.getRole().equals(&quot;student&quot;))</span>
+<span class="nc" id="L157">                    isStudent= true;</span>
+                else
+<span class="nc" id="L159">                    isStudent = false;</span>
+<span class="nc" id="L160">            }</span>
+<span class="nc" id="L161">            emp.setDatadevolucao(bBDeadline.getDeadline(emp)); // Calcula data de devolucao</span>
+<span class="nc" id="L162">            pedidoListModel.remove(emp);</span>
+<span class="nc" id="L163">            crudService.update(emp);</span>
+<span class="nc" id="L164">            Clients.showNotification(&quot;Pedido aprovado com sucesso &quot;, null, null, null, 5000);</span>
+        }
+<span class="nc" id="L166">    }</span>
+
+
+    @Listen(&quot;onShowOperacoes = #pedidoListBox&quot;)
+    public void doShowOperacoes(ForwardEvent event)
+    {
+<span class="nc" id="L172">        Button btn = (Button)event.getOrigin().getTarget();</span>
+<span class="nc" id="L173">        Div div = (Div) btn.getNextSibling();</span>
+
+<span class="nc bnc" id="L175" title="All 2 branches missed.">        if (div.isVisible())</span>
+        {
+<span class="nc" id="L177">            btn.setLabel(&quot;Outras operações&quot;);</span>
+<span class="nc" id="L178">            div.setVisible(false);</span>
+        }
+        else
+        {
+<span class="nc" id="L182">            btn.setLabel(&quot;Ocultar operações&quot;);</span>
+<span class="nc" id="L183">            div.setVisible(true);</span>
+        }
+<span class="nc" id="L185">    }</span>
+
+
+
+    public String dataConvert (Calendar dataa) {
+
+<span class="nc" id="L191">        SimpleDateFormat timeFormatter = new SimpleDateFormat(&quot;'('HH:mm:s')'&quot;);</span>
+<span class="nc" id="L192">        DateFormat dateFormatter = new SimpleDateFormat();</span>
+<span class="nc" id="L193">        Locale MOZAMBIQUE = new Locale(&quot;pt&quot;,&quot;MZ&quot;);</span>
+<span class="nc" id="L194">        StringBuilder builder = new StringBuilder();</span>
+
+
+<span class="nc" id="L197">        dateFormatter = DateFormat.getDateInstance(DateFormat.LONG, MOZAMBIQUE);</span>
+
+<span class="nc" id="L199">        builder.append(dateFormatter.format(dataa.getTime()));</span>
+<span class="nc" id="L200">        builder.append(&quot;\n&quot;);</span>
+<span class="nc" id="L201">        builder.append(timeFormatter.format(dataa.getTime()));</span>
+
+<span class="nc" id="L203">        String dataEntrada = builder.toString();</span>
+
+<span class="nc" id="L205">        return dataEntrada;</span>
+    }
+
+    public Boolean Reserved(Emprestimo emp) {
+<span class="nc" id="L209">        Boolean aBoolean = false;</span>
+
+
+<span class="nc bnc" id="L212" title="All 2 branches missed.">        if(emp.getEstadoPedido().getIdestadopedido() == ePController.PENDING_BOOKING){</span>
+<span class="nc" id="L213">            aBoolean = true;</span>
+        }
+
+<span class="nc" id="L216">        return aBoolean;</span>
+    }
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

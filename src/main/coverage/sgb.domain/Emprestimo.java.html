@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Emprestimo.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$All_in_zksandbox.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.domain</a> &gt; <span class="el_source">Emprestimo.java</span></div><h1>Emprestimo.java</h1><pre class="source lang-java linenums">package sgb.domain;
+
+import javax.persistence.*;
+import java.sql.Date;
+import java.util.Calendar;
+import java.util.Objects;
+
+@Entity
+@Table(name = &quot;emprestimo&quot;, schema = &quot;public&quot;)
+<span class="fc" id="L10">public class Emprestimo  implements Comparable&lt;Emprestimo&gt;{</span>
+
+    @EmbeddedId
+    private EmprestimoPK emprestimoPK;
+    private Calendar dataaprovacao;
+    private Calendar datadevolucao;
+    private int quantidade;
+    private String comentario;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = &quot;idtipoRequisicao&quot;, nullable = false)
+    private TipoRequisicao tipoRequisicao;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = &quot;estadopedido&quot;, nullable = false)
+    private EstadoPedido estadoPedido;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = &quot;estadodevolucao&quot;, nullable = false)
+    private EstadoDevolucao estadoDevolucao;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name=&quot;estadorenovacao&quot;, nullable = false)
+    private EstadoRenovacao estadoRenovacao;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = &quot;bibliotecario&quot;, nullable = false)
+    private Users bibliotecario;
+
+
+    public EmprestimoPK getEmprestimoPK() {
+<span class="fc" id="L41">        return this.emprestimoPK;</span>
+    }
+
+    public void setEmprestimoPK(EmprestimoPK emprestimoPK) {
+<span class="nc" id="L45">        this.emprestimoPK = emprestimoPK;</span>
+<span class="nc" id="L46">    }</span>
+
+    @Basic
+    @Column(name = &quot;dataaprovacao&quot;, nullable = true)
+    public Calendar getDataaprovacao() {
+<span class="fc" id="L51">        return dataaprovacao;</span>
+    }
+
+    public void setDataaprovacao(Calendar dataaprovacao) {
+<span class="fc" id="L55">        this.dataaprovacao = dataaprovacao;</span>
+<span class="fc" id="L56">    }</span>
+
+    @Basic
+    @Column(name = &quot;datadevolucao&quot;, nullable = true)
+    public Calendar getDatadevolucao() {
+<span class="fc" id="L61">        return datadevolucao;</span>
+    }
+
+    public void setDatadevolucao(Calendar datadevolucao) {
+<span class="fc" id="L65">        this.datadevolucao = datadevolucao;</span>
+<span class="fc" id="L66">    }</span>
+
+    @Basic
+    @Column(name = &quot;quantidade&quot;, nullable = true, length = 255)
+    public int getQuantidade() {
+<span class="nc" id="L71">        return quantidade;</span>
+    }
+
+    public void setQuantidade(int quantidade) {
+<span class="nc" id="L75">        this.quantidade = quantidade;</span>
+<span class="nc" id="L76">    }</span>
+
+    @Basic
+    @Column(name = &quot;comentario&quot;, nullable = true, length = 5000)
+    public String getComentario() {
+<span class="nc" id="L81">        return comentario;</span>
+    }
+
+    public void setComentario(String comentario) {
+<span class="nc" id="L85">        this.comentario = comentario;</span>
+<span class="nc" id="L86">    }</span>
+
+
+    public EstadoPedido getEstadoPedido() {
+<span class="fc" id="L90">        return this.estadoPedido;</span>
+    }
+
+    public void setEstadoPedido(EstadoPedido estadoPedido) {
+<span class="nc" id="L94">        this.estadoPedido = estadoPedido;</span>
+<span class="nc" id="L95">    }</span>
+
+
+<span class="fc" id="L98">    public EstadoDevolucao getEstadoDevolucao() { return this.estadoDevolucao; }</span>
+
+    public void setEstadoDevolucao(EstadoDevolucao estadoDevolucao)
+    {
+<span class="fc" id="L102">        this.estadoDevolucao = estadoDevolucao;</span>
+<span class="fc" id="L103">    }</span>
+
+    public EstadoRenovacao getEstadoRenovacao() {
+<span class="nc" id="L106">        return estadoRenovacao;</span>
+    }
+
+    public void setEstadoRenovacao(EstadoRenovacao estadoRenovacao) {
+<span class="nc" id="L110">        this.estadoRenovacao = estadoRenovacao;</span>
+<span class="nc" id="L111">    }</span>
+
+
+<span class="fc" id="L114">    public TipoRequisicao getTipoRequisicao() { return tipoRequisicao; }</span>
+
+<span class="nc" id="L116">    public void setTipoRequisicao(TipoRequisicao tipoRequisicao) { this.tipoRequisicao = tipoRequisicao; }</span>
+
+    public Users getBibliotecario() {
+<span class="nc" id="L119">        return bibliotecario;</span>
+    }
+
+    public void setBibliotecario(Users bibliotecario) {
+<span class="nc" id="L123">        this.bibliotecario = bibliotecario;</span>
+<span class="nc" id="L124">    }</span>
+
+    @Override
+    public int compareTo(Emprestimo emprestimo)
+    {
+<span class="nc" id="L129">        return this.getEmprestimoPK().getDataentradapedido().</span>
+<span class="nc" id="L130">                compareTo(emprestimo.getEmprestimoPK().getDataentradapedido());</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

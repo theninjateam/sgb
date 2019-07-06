@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.zkoss.exporter.pdf.PdfExporter;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
@@ -100,7 +101,7 @@ public class RelatorioObras extends SelectorComposer<Component> {
         obraeliminadas = (Listbox)idInclObrasEliminadas.getFellow("obraeliminadas");
         obracategoria = (Listbox)idInclRelatorioObrasQuantidade.getFellow("obracategoria");
         qtdd = (Label) idInclRelatorioObrasQuantidade.getFellow("qtdd");
-        
+
         AreaCientifica a = new AreaCientifica();
         a.setDescricao("Todas Areas"); a.setIdarea(0);
         areaCientificaListModel = new ListModelList<AreaCientifica>(areaCientificaController.getAreaCientifica());
@@ -118,15 +119,15 @@ public class RelatorioObras extends SelectorComposer<Component> {
         AreaCientifica areaCientifica = areaCientificaListBox.getSelectedItem().getValue();
 
         if(areaCientifica.getIdarea()!=0){
-           if(dataInicio.getValue() ==null) {
-               obraCategoriaListModel = new ListModelList<ObraCategoria>(obraController.getObrasCategorias(areaCientifica));
-               qtdd = (Label) idInclRelatorioObrasQuantidade.getFellow("qtdd");
-           }else{
-               getUpdateDate();
-               registroObras = registroObraController.getObrasByDate(dataI,dataF,areaCientifica);
-               obraCategoriaListModel = new ListModelList<ObraCategoria>(obraController.getObrasCategorias(registroObras,areaCientifica));
-               qtdd = (Label) idInclRelatorioObrasQuantidade.getFellow("qtdd");
-           }
+            if(dataInicio.getValue() ==null) {
+                obraCategoriaListModel = new ListModelList<ObraCategoria>(obraController.getObrasCategorias(areaCientifica));
+                qtdd = (Label) idInclRelatorioObrasQuantidade.getFellow("qtdd");
+            }else{
+                getUpdateDate();
+                registroObras = registroObraController.getObrasByDate(dataI,dataF,areaCientifica);
+                obraCategoriaListModel = new ListModelList<ObraCategoria>(obraController.getObrasCategorias(registroObras,areaCientifica));
+                qtdd = (Label) idInclRelatorioObrasQuantidade.getFellow("qtdd");
+            }
         } else {
             qtdd = (Label) idInclRelatorioObrasQuantidade.getFellow("qtdd");
             setListModelsallData();
@@ -197,33 +198,85 @@ public class RelatorioObras extends SelectorComposer<Component> {
     }
 
     @Listen("onClick=#savePdf")
-    public void exportToPDF() throws Exception, JRException, IOException
-    {
+    public void show() throws JRException, IOException {
+        String path;
         String reportName = null;
 
-        if(selected == 0)
+        if(selected == 0){
             reportName = "RelatorioObrasQuantidade";
-        else if(selected == 1)
+            path = "src/main/java/sgb/report/relatorioObras/relatorio.jrxml";
+        }
+        else if(selected == 1){
             reportName = "RelatorioObrasRegistadas";
-        else
+            path = "src/main/java/sgb/report/relatorioObras/relatorioObrasReg.jrxml";
+        }
+        else{
             reportName = "RelatorioObrasEliminadas";
+            path = "src/main/java/sgb/report/relatorioObras/relatorioObrasEli.jrxml";
+        }
 
-        Filedownload.save(JasperExportManager.exportReportToPdf(gerarRelatorio.createPdf(obraCategoriaListModel,
-               obrasregistadasListModel, obraEliminadasListModel, selected, qtdd.getValue())), "pdf", reportName+".pdf");
+
+        byte [] arr = JasperExportManager.exportReportToPdf(gerarRelatorio.createPdfObras(obraCategoriaListModel,
+                obrasregistadasListModel, obraEliminadasListModel, selected, qtdd.getValue(), path));
+        AMedia media = new AMedia(reportName, "pdf", "application/pdf", arr);
+        final Window window = new Window();
+        window.setClosable(true);
+        window.setSizable(false);
+        Iframe iframe = new Iframe();
+        iframe.setContent(media);
+        Borderlayout borderlayout = new Borderlayout();
+        North north = new North();
+        Toolbar toolbar = new Toolbar();
+
+        toolbar.setWidth("100%");
+
+
+        toolbar.setAlign("end");
+
+
+        Toolbarbutton close = new Toolbarbutton("Exit");
+        close.setMode("overlapped");
+
+        close.setTooltiptext("Sair");
+        close.setClass("w3-btn w3-light-grey");
+        close.addEventListener("onClick", (Event t) -> {         window.onClose();     });
+
+
+        toolbar.appendChild(close);
+        north.appendChild(toolbar);
+        Center cntr = new Center();
+        cntr.appendChild(iframe);
+        borderlayout.appendChild(cntr);
+        borderlayout.resize();
+        window.appendChild(toolbar);
+        window.appendChild(borderlayout);
+        iframe.setWidth("100%");
+        iframe.setHeight("100%");
+        window.setWidth("100%");
+        window.setHeight("100%");
+
+        window.setPage(getPage());
+        window.doModal();
     }
-
 
     @Listen("onClick=#saveExcell")
     public void exportToExcell() throws IOException, JRException {
-        String reportName = null;
         JRXlsExporter exporter = new JRXlsExporter();
+        String path;
+        String reportName = null;
 
-        if(selected == 0)
+        if(selected == 0){
             reportName = "RelatorioObrasQuantidade";
-        else if(selected == 1)
+            path = "src/main/java/sgb/report/relatorioObras/relatorio.jrxml";
+        }
+        else if(selected == 1){
             reportName = "RelatorioObrasRegistadas";
-        else
+            path = "src/main/java/sgb/report/relatorioObras/relatorioObrasReg.jrxml";
+        }
+        else{
             reportName = "RelatorioObrasEliminadas";
+            path = "src/main/java/sgb/report/relatorioObras/relatorioObrasEli.jrxml";
+        }
 
         String filePath = "src/main/java/sgb/report/xlsFiles/"+reportName+".xls";
         File xlsFile = new File(filePath);
@@ -232,8 +285,8 @@ public class RelatorioObras extends SelectorComposer<Component> {
             xlsFile.delete();
         }
 
-        exporter.setParameter(JRExporterParameter.JASPER_PRINT, gerarRelatorio.createPdf(obraCategoriaListModel,
-                obrasregistadasListModel, obraEliminadasListModel, selected, qtdd.getValue()));
+        exporter.setParameter(JRExporterParameter.JASPER_PRINT, gerarRelatorio.createPdfObras(obraCategoriaListModel,
+                obrasregistadasListModel, obraEliminadasListModel, selected, qtdd.getValue(), path));
         exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, filePath);
         exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
         exporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);

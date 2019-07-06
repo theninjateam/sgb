@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LivroCd.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$All_in_zksandbox.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.domain</a> &gt; <span class="el_source">LivroCd.java</span></div><h1>LivroCd.java</h1><pre class="source lang-java linenums">package sgb.domain;
+
+import javax.persistence.*;
+import java.util.Objects;
+
+@Entity
+@Table(name = &quot;livrocd&quot;, schema = &quot;public&quot;)
+<span class="nc" id="L8">public class LivroCd {</span>
+    private String cota;
+    private String isbn;
+    private String editora;
+    private String edicao;
+    private int volume;
+    private String codigobarra;
+    private String descricaocd;
+    private Obra obra;
+
+    @Id
+    @Column(name = &quot;cota&quot;)
+    public String getCota() {
+<span class="nc" id="L21">        return cota;</span>
+    }
+
+    public void setCota(String cota) {
+<span class="nc" id="L25">        this.cota = cota;</span>
+<span class="nc" id="L26">    }</span>
+
+    @Basic
+    @Column(name = &quot;isbn&quot;)
+    public String getIsbn() {
+<span class="nc" id="L31">        return isbn;</span>
+    }
+
+    public void setIsbn(String isbn) {
+<span class="nc" id="L35">        this.isbn = isbn;</span>
+<span class="nc" id="L36">    }</span>
+
+    @Basic
+    @Column(name = &quot;editora&quot;)
+    public String getEditora() {
+<span class="nc" id="L41">        return editora;</span>
+    }
+
+    public void setEditora(String editora) {
+<span class="nc" id="L45">        this.editora = editora;</span>
+<span class="nc" id="L46">    }</span>
+
+    @Basic
+    @Column(name = &quot;edicao&quot;)
+    public String getEdicao() {
+<span class="nc" id="L51">        return edicao;</span>
+    }
+
+    public void setEdicao(String edicao) {
+<span class="nc" id="L55">        this.edicao = edicao;</span>
+<span class="nc" id="L56">    }</span>
+
+    @Basic
+    @Column(name = &quot;volume&quot;)
+    public int getVolume() {
+<span class="nc" id="L61">        return volume;</span>
+    }
+
+    public void setVolume(int volume) {
+<span class="nc" id="L65">        this.volume = volume;</span>
+<span class="nc" id="L66">    }</span>
+
+    @Basic
+    @Column(name = &quot;codigobarra&quot;)
+    public String getCodigobarra() {
+<span class="nc" id="L71">        return codigobarra;</span>
+    }
+
+    public void setCodigobarra(String codigobarra) {
+<span class="nc" id="L75">        this.codigobarra = codigobarra;</span>
+<span class="nc" id="L76">    }</span>
+
+    @Basic
+    @Column(name = &quot;descricaocd&quot;)
+<span class="nc" id="L80">    public String getDescricaocd() { return descricaocd; }</span>
+
+    public void setDescricaocd(String descricaocd) {
+<span class="nc" id="L83">        this.descricaocd = descricaocd;</span>
+<span class="nc" id="L84">    }</span>
+
+    @Override
+    public boolean equals(Object o) {
+<span class="nc bnc" id="L88" title="All 2 branches missed.">        if (this == o) return true;</span>
+<span class="nc bnc" id="L89" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc" id="L90">        LivroCd livro = (LivroCd) o;</span>
+<span class="nc bnc" id="L91" title="All 2 branches missed.">        return Objects.equals(cota, livro.cota) &amp;&amp;</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">                Objects.equals(isbn, livro.isbn) &amp;&amp;</span>
+<span class="nc bnc" id="L93" title="All 2 branches missed.">                Objects.equals(editora, livro.editora) &amp;&amp;</span>
+<span class="nc bnc" id="L94" title="All 2 branches missed.">                Objects.equals(edicao, livro.edicao) &amp;&amp;</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">                Objects.equals(volume, livro.volume) &amp;&amp;</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">                Objects.equals(codigobarra, livro.codigobarra) &amp;&amp;</span>
+<span class="nc bnc" id="L97" title="All 2 branches missed.">                Objects.equals(descricaocd, livro.descricaocd);</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L102">        return Objects.hash(cota, isbn, editora, edicao,volume, codigobarra,descricaocd);</span>
+    }
+
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = &quot;cota&quot;, nullable = false)
+
+    public Obra getObra() {
+<span class="nc" id="L109">        return obra;</span>
+    }
+
+    public void setObra(Obra obra) {
+<span class="nc" id="L113">        this.obra = obra;</span>
+<span class="nc" id="L114">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

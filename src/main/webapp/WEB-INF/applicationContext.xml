@@ -17,6 +17,31 @@
          <!--<property name="password" value="56679e6c26926f3c2424e5f2347bdd5a2a544b4cf9c0c86e66eed380196e0185" />-->
      <!--</bean>-->
 
+    <!--Meneses, may 2019-->
+    <bean id="sendEmail" class="sgb.email.SendEmail">
+        <constructor-arg index="0" ref="passwordAuthenticator"/>
+    </bean>
+
+    <bean id="passwordAuthenticator" class="sgb.email.PasswordAuthenticatior">
+        <constructor-arg index="0" value="ninjateam@unilurio.ac.mz"/>
+        <constructor-arg index="1" value="p(x)=7*ninja" />
+    </bean>
+
+    <bean id="sendEmailController" class="sgb.email.SendEmailController">
+        <constructor-arg index="0" ref="multaController"/>
+        <constructor-arg index="1" ref="sendEmail" />
+    </bean>
+
+    <bean id="login" class="sgb.login.Login">
+        <constructor-arg index="0" ref="userController"/>
+    </bean>
+
+
+
+
+    <!---->
+
+
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.postgresql.Driver" />
         <property name="url" value="jdbc:postgresql://localhost:5432/sgb"/>
@@ -61,6 +86,10 @@
     </bean>
 
     <bean id="emprestimoController"  class="sgb.controller.domainController.EmprestimoController" >
+        <constructor-arg index="0" ref="CRUDService"/>
+    </bean>
+
+    <bean id="estadoMultaControler"  class="sgb.controller.domainController.EstadoMultaControler" >
         <constructor-arg index="0" ref="CRUDService"/>
     </bean>
 
@@ -109,10 +138,6 @@
         <constructor-arg index="0" ref="CRUDService"/>
     </bean>
 
-    <bean id="estadoMultaControler"  class="sgb.controller.domainController.EstadoMultaControler" >
-        <constructor-arg index="0" ref="CRUDService"/>
-    </bean>
-
     <bean id="estadoDevolucaoControler"  class="sgb.controller.domainController.EstadoDevolucaoControler" >
         <constructor-arg index="0" ref="CRUDService"/>
     </bean>
@@ -152,6 +177,7 @@
         <constructor-arg index="4" ref="estadoDevolucaoControler"/>
         <constructor-arg index="5" ref="emprestimoController"/>
         <constructor-arg index="6" ref="borrowedBooksDeadline"/>
+        <constructor-arg index="7" ref="sendEmail"/>
     </bean>
 
     <bean id="borrowedBooksDeadlineController"  class="sgb.deadline.BorrowedBooksDeadlineController" >
@@ -168,6 +194,7 @@
         <constructor-arg index="2" ref="miniBookingDeadlineController"/>
         <constructor-arg index="3" ref="configControler"/>
         <constructor-arg index="4" ref="miniBookingConcurrenceController"/>
+        <constructor-arg index="5" ref="sendEmailController"/>
     </bean>
 
     <bean id="areaCientificaController"  class="sgb.controller.domainController.AreaCientificaController" >

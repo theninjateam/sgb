@@ -102,8 +102,8 @@ public class BorrowedBooksDeadlineControllerTest
 
         eStudent.setDataaprovacao(dataAprovacao);
         eStudent.setDatadevolucao(this.borrowedBooksDeadline.getDeadline(eStudent));
-        eTeacher.setDataaprovacao(dataAprovacao);
-        eTeacher.setDatadevolucao(this.borrowedBooksDeadline.getDeadline(eTeacher));
+        //eTeacher.setDataaprovacao(dataAprovacao);
+        //eTeacher.setDatadevolucao(this.borrowedBooksDeadline.getDeadline(eTeacher));
 
         emprestimos.add(eStudent);
         emprestimos.add(eTeacher);
@@ -158,7 +158,8 @@ public class BorrowedBooksDeadlineControllerTest
          * */
 
         emprestimos = new ArrayList<Emprestimo>();
-        emprestimos.add(eTeacher);
+        emprestimos.add(eStudent);
+       // emprestimos.add(eTeacher);  must be replaced later
 
         deadline = this.borrowedBooksDeadline.getDeadline(emprestimos.get(0));
         now.setTime(deadline.getTime());

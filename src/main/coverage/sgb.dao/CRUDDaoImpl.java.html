@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CRUDDaoImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$All_in_zksandbox.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.dao</a> &gt; <span class="el_source">CRUDDaoImpl.java</span></div><h1>CRUDDaoImpl.java</h1><pre class="source lang-java linenums">package sgb.dao;
+
+import org.hibernate.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import java.io.Serializable;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+@Repository
+<span class="fc" id="L14">public class CRUDDaoImpl implements CRUDDao {</span>
+
+    @Autowired
+    SessionFactory sessionFactory;
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    public &lt;T&gt; List&lt;T&gt; getAll(Class&lt;T&gt; klass) {
+<span class="fc" id="L21">        return getCurrentSession().createQuery(&quot;from &quot; + klass.getName())</span>
+<span class="fc" id="L22">                .list();</span>
+    }
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    public &lt;T&gt; int count(Class&lt;T&gt; klass) {
+<span class="nc" id="L27">        Long l = (Long) getCurrentSession().createQuery(&quot;select count(c) from &quot; + klass.getName() + &quot; c&quot;)</span>
+<span class="nc" id="L28">                .uniqueResult();</span>
+<span class="nc" id="L29">        return l.intValue();</span>
+    }
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    @Override
+    public &lt;T&gt; Long countJPQuery(String hql, Map&lt;String, Object&gt; namedParams) {
+<span class="nc" id="L35">        Query query = getCurrentSession().createQuery(hql);</span>
+<span class="nc bnc" id="L36" title="All 2 branches missed.">        if (namedParams != null) {</span>
+            Entry mapEntry;
+<span class="nc" id="L38">            for (Iterator it = namedParams.entrySet().iterator(); it</span>
+<span class="nc bnc" id="L39" title="All 2 branches missed.">                    .hasNext(); query.setParameter(</span>
+<span class="nc" id="L40">                            (String) mapEntry.getKey(), mapEntry.getValue())) {</span>
+<span class="nc" id="L41">                mapEntry = (Entry) it.next();</span>
+            }
+        }
+<span class="nc" id="L44">        Long l = (Long) query.uniqueResult();</span>
+<span class="nc" id="L45">        return l;</span>
+    }
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    @Override
+    public &lt;T&gt; Float sumJPQuery(String hql, Map&lt;String, Object&gt; namedParams) {
+<span class="nc" id="L51">        Query query = getCurrentSession().createQuery(hql);</span>
+<span class="nc bnc" id="L52" title="All 2 branches missed.">        if (namedParams != null) {</span>
+            Entry mapEntry;
+<span class="nc" id="L54">            for (Iterator it = namedParams.entrySet().iterator(); it</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">                    .hasNext(); query.setParameter(</span>
+<span class="nc" id="L56">                            (String) mapEntry.getKey(), mapEntry.getValue())) {</span>
+<span class="nc" id="L57">                mapEntry = (Entry) it.next();</span>
+            }
+        }
+<span class="nc" id="L60">        Object o = query.uniqueResult();</span>
+<span class="nc" id="L61">        Float l = null;</span>
+<span class="nc bnc" id="L62" title="All 2 branches missed.">        if (o != null) {</span>
+<span class="nc" id="L63">            l = ((Double) o).floatValue();</span>
+        }
+<span class="nc" id="L65">        return l;</span>
+    }
+
+    protected final Session getCurrentSession() {
+
+//        Login.setTenantId(&quot;fecn2&quot;);
+//        SessionBuilder sb=  sessionFactory.withOptions().tenantIdentifier(&quot;fecn1&quot;);
+//        return  sb.openSession();//.getCurrentSession();
+        Session session;
+
+        try
+        {
+<span class="fc" id="L77">            session = sessionFactory.getCurrentSession();</span>
+<span class="fc" id="L78">        } catch (HibernateException e)</span>
+        {
+<span class="fc" id="L80">            session = sessionFactory.openSession();</span>
+<span class="fc" id="L81">        }</span>
+
+<span class="fc" id="L83">        return session;</span>
+    }
+
+    protected final Session getSession(String tenant) {
+<span class="nc" id="L87">        SessionBuilder sb = sessionFactory.withOptions().tenantIdentifier(tenant);</span>
+<span class="nc" id="L88">        return sb.openSession();</span>
+    }
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    public &lt;T&gt; List&lt;T&gt; getAllQuery(String s) {
+<span class="nc" id="L93">        return getCurrentSession().createQuery(s)</span>
+<span class="nc" id="L94">                .list();</span>
+    }
+
+    public &lt;T&gt; void update(T klass) {
+<span class="fc" id="L98">        getCurrentSession().merge(klass);</span>
+<span class="fc" id="L99">    }</span>
+
+    public &lt;T&gt; void updates(T klass) {
+<span class="nc" id="L102">        getCurrentSession().merge(klass);</span>
+<span class="nc" id="L103">        getCurrentSession().flush();</span>
+<span class="nc" id="L104">    }</span>
+
+    @Override
+    public &lt;T&gt; boolean exist(T klass) {
+<span class="nc" id="L108">        return getCurrentSession().contains(klass);</span>
+    }
+
+    public &lt;T&gt; LockMode bloqueado(T klass) {
+<span class="nc" id="L112">        return getCurrentSession().getCurrentLockMode(klass);</span>
+    }
+
+    public &lt;T&gt; T load(Class&lt;T&gt; klass, Serializable id) {
+<span class="nc" id="L116">        return (T) getCurrentSession().load(klass.getName(), id);</span>
+    }
+
+    public &lt;T&gt; T get(Class&lt;T&gt; klass, Serializable id) {
+<span class="fc" id="L120">        return (T) getCurrentSession().get(klass.getName(), id);</span>
+    }
+
+    public &lt;T&gt; T loadLocked(Class&lt;T&gt; klass, Serializable id) {
+<span class="nc" id="L124">        LockOptions lo = new LockOptions(LockMode.PESSIMISTIC_WRITE);</span>
+
+<span class="nc" id="L126">        Object o = getCurrentSession().load(klass.getName(), id, lo);</span>
+<span class="nc" id="L127">        getCurrentSession().flush();</span>
+<span class="nc" id="L128">        return (T) o;</span>
+    }
+
+    public &lt;T&gt; T getLocked(Class&lt;T&gt; klass, Serializable id) {
+<span class="nc" id="L132">        LockOptions lo = new LockOptions(LockMode.PESSIMISTIC_WRITE);</span>
+<span class="nc" id="L133">        Object o = getCurrentSession().get(klass.getName(), id, lo);</span>
+<span class="nc" id="L134">        getCurrentSession().flush();</span>
+<span class="nc" id="L135">        return (T) o;</span>
+    }
+
+    @Override
+    public &lt;T&gt; void refresh(T klass) {
+<span class="nc" id="L140">        getCurrentSession().refresh(klass);</span>
+<span class="nc" id="L141">    }</span>
+
+    public &lt;T&gt; void Save(T klass) {
+<span class="fc" id="L144">        getCurrentSession().save(klass);</span>
+<span class="fc" id="L145">    }</span>
+
+    public &lt;T&gt; void Saves(T klass) {
+        //  getCurrentSession().setFlushMode(FlushMode.NEVER);
+<span class="nc" id="L149">        getCurrentSession().save(klass);</span>
+<span class="nc" id="L150">        getCurrentSession().flush();</span>
+<span class="nc" id="L151">    }</span>
+
+    public &lt;T&gt; void delete(T klass) {
+<span class="nc" id="L154">        getCurrentSession().delete(klass);</span>
+<span class="nc" id="L155">    }</span>
+
+    public &lt;T&gt; void deletes(T klass) {
+<span class="nc" id="L158">        getCurrentSession().delete(klass);</span>
+<span class="nc" id="L159">        getCurrentSession().flush();</span>
+<span class="nc" id="L160">    }</span>
+
+    public &lt;T&gt; void lock(T klass) {
+<span class="nc" id="L163">        LockOptions lo = new LockOptions(LockMode.PESSIMISTIC_WRITE);</span>
+<span class="nc" id="L164">        getCurrentSession().buildLockRequest(lo).lock(klass);</span>
+<span class="nc" id="L165">    }</span>
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    public &lt;T&gt; T GetUniqueEntityByNamedQuery(String query, Object... params) {
+<span class="nc" id="L169">        Query q = getCurrentSession().getNamedQuery(query);</span>
+<span class="nc" id="L170">        int i = 0;</span>
+
+<span class="nc bnc" id="L172" title="All 2 branches missed.">        for (Object o : params) {</span>
+<span class="nc" id="L173">            q.setParameter(i, o);</span>
+<span class="nc" id="L174">            i++;//new</span>
+        }
+
+<span class="nc" id="L177">        List&lt;T&gt; results = q.list();</span>
+
+<span class="nc" id="L179">        T foundentity = null;</span>
+<span class="nc bnc" id="L180" title="All 2 branches missed.">        if (!results.isEmpty()) {</span>
+            // ignores multiple results
+<span class="nc" id="L182">            foundentity = results.get(0);</span>
+        }
+<span class="nc" id="L184">        return foundentity;</span>
+    }
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    public &lt;T&gt; List&lt;T&gt; GetAllEntityByNamedQuery(String query, Object... params) {
+<span class="nc" id="L189">        Query q = getCurrentSession().getNamedQuery(query);</span>
+<span class="nc" id="L190">        int i = 0;</span>
+
+<span class="nc bnc" id="L192" title="All 2 branches missed.">        for (Object o : params) {</span>
+<span class="nc" id="L193">            q.setParameter(i, o);</span>
+<span class="nc" id="L194">            i++;//new</span>
+        }
+
+<span class="nc" id="L197">        List&lt;T&gt; results = q.list();</span>
+
+<span class="nc" id="L199">        return results;</span>
+    }
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    public &lt;T&gt; int updateQuery(String query, Object... params) {
+<span class="nc" id="L204">        SQLQuery q = getCurrentSession().createSQLQuery(query);</span>
+<span class="nc" id="L205">        int i = 0;</span>
+<span class="nc bnc" id="L206" title="All 2 branches missed.">        for (Object o : params) {</span>
+<span class="nc" id="L207">            q.setParameter(i, o);</span>
+<span class="nc" id="L208">            i++;//new</span>
+        }
+<span class="nc" id="L210">        int r = q.executeUpdate();</span>
+<span class="nc" id="L211">        return r;</span>
+    }
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    public &lt;T&gt; List&lt;T&gt; findByQuery(String hql, Map&lt;String, Object&gt; entidade, Map&lt;String, Object&gt; namedParams) {
+<span class="nc" id="L216">        SQLQuery query = getCurrentSession().createSQLQuery(hql);</span>
+<span class="nc bnc" id="L217" title="All 2 branches missed.">        if (entidade != null) {</span>
+            Entry mapEntry;
+<span class="nc" id="L219">            for (Iterator it = entidade.entrySet().iterator(); it</span>
+<span class="nc bnc" id="L220" title="All 2 branches missed.">                    .hasNext(); query.addEntity(</span>
+<span class="nc" id="L221">                            (String) mapEntry.getKey(), (Class) mapEntry.getValue())) {</span>
+<span class="nc" id="L222">                mapEntry = (Entry) it.next();</span>
+            }
+        }
+<span class="nc bnc" id="L225" title="All 2 branches missed.">        if (namedParams != null) {</span>
+            Entry mapEntry;
+<span class="nc" id="L227">            for (Iterator it = namedParams.entrySet().iterator(); it</span>
+<span class="nc bnc" id="L228" title="All 2 branches missed.">                    .hasNext(); query.setParameter(</span>
+<span class="nc" id="L229">                            (String) mapEntry.getKey(), mapEntry.getValue())) {</span>
+<span class="nc" id="L230">                mapEntry = (Entry) it.next();</span>
+            }
+        }
+<span class="nc" id="L233">        List&lt;T&gt; returnList = query.list();</span>
+
+<span class="nc" id="L235">        return returnList;</span>
+    }
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    public &lt;T&gt; List&lt;T&gt; findByQueryFilter(String hql, Map&lt;String, Object&gt; entidade, Map&lt;String, Object&gt; namedParams, int f, int m) {
+<span class="nc" id="L240">        SQLQuery query = getCurrentSession().createSQLQuery(hql);</span>
+<span class="nc bnc" id="L241" title="All 2 branches missed.">        if (entidade != null) {</span>
+            Entry mapEntry;
+<span class="nc" id="L243">            for (Iterator it = entidade.entrySet().iterator(); it</span>
+<span class="nc bnc" id="L244" title="All 2 branches missed.">                    .hasNext(); query.addEntity(</span>
+<span class="nc" id="L245">                            (String) mapEntry.getKey(), (Class) mapEntry.getValue())) {</span>
+<span class="nc" id="L246">                mapEntry = (Entry) it.next();</span>
+            }
+        }
+<span class="nc bnc" id="L249" title="All 2 branches missed.">        if (namedParams != null) {</span>
+            Entry mapEntry;
+<span class="nc" id="L251">            for (Iterator it = namedParams.entrySet().iterator(); it</span>
+<span class="nc bnc" id="L252" title="All 2 branches missed.">                    .hasNext(); query.setParameter(</span>
+<span class="nc" id="L253">                            (String) mapEntry.getKey(), mapEntry.getValue())) {</span>
+<span class="nc" id="L254">                mapEntry = (Entry) it.next();</span>
+            }
+        }
+<span class="nc" id="L257">        query.setFirstResult(f);</span>
+<span class="nc" id="L258">        query.setMaxResults(m);</span>
+<span class="nc" id="L259">        List&lt;T&gt; returnList = query.list();</span>
+
+<span class="nc" id="L261">        return returnList;</span>
+    }
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    @Override
+    public &lt;T&gt; List&lt;T&gt; findByJPQueryFilter(String hql, Map&lt;String, Object&gt; namedParams, int f, int m) {
+<span class="nc" id="L267">        Query query = getCurrentSession().createQuery(hql);</span>
+<span class="nc bnc" id="L268" title="All 2 branches missed.">        if (namedParams != null) {</span>
+            Entry mapEntry;
+<span class="nc" id="L270">            for (Iterator it = namedParams.entrySet().iterator(); it</span>
+<span class="nc bnc" id="L271" title="All 2 branches missed.">                    .hasNext(); query.setParameter(</span>
+<span class="nc" id="L272">                            (String) mapEntry.getKey(), mapEntry.getValue())) {</span>
+<span class="nc" id="L273">                mapEntry = (Entry) it.next();</span>
+            }
+        }
+<span class="nc" id="L276">        query.setFirstResult(f);</span>
+<span class="nc" id="L277">        query.setMaxResults(m);</span>
+<span class="nc" id="L278">        List&lt;T&gt; returnList = query.list();</span>
+
+<span class="nc" id="L280">        return returnList;</span>
+    }
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    @Override
+    public &lt;T&gt; List&lt;T&gt; findByJPQuery(String hql, Map&lt;String, Object&gt; namedParams) {
+<span class="fc" id="L286">        Query query = getCurrentSession().createQuery(hql);</span>
+<span class="fc bfc" id="L287" title="All 2 branches covered.">        if (namedParams != null) {</span>
+            Entry mapEntry;
+<span class="fc" id="L289">            for (Iterator it = namedParams.entrySet().iterator(); it</span>
+<span class="fc bfc" id="L290" title="All 2 branches covered.">                    .hasNext(); query.setParameter(</span>
+<span class="fc" id="L291">                            (String) mapEntry.getKey(), mapEntry.getValue())) {</span>
+<span class="fc" id="L292">                mapEntry = (Entry) it.next();</span>
+            }
+        }
+<span class="fc" id="L295">        List&lt;T&gt; returnList = query.list();</span>
+
+<span class="fc" id="L297">        return returnList;</span>
+    }
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    public &lt;T&gt; T findEntByJPQueryLock(String hql, Map&lt;String, Object&gt; namedParams) {
+<span class="nc" id="L302">        LockOptions lo = new LockOptions(LockMode.PESSIMISTIC_WRITE);</span>
+<span class="nc" id="L303">        Query query = getCurrentSession().createQuery(hql);</span>
+<span class="nc" id="L304">        query.setLockOptions(lo);</span>
+<span class="nc bnc" id="L305" title="All 2 branches missed.">        if (namedParams != null) {</span>
+            Entry mapEntry;
+<span class="nc" id="L307">            for (Iterator it = namedParams.entrySet().iterator(); it</span>
+<span class="nc bnc" id="L308" title="All 2 branches missed.">                    .hasNext(); query.setParameter(</span>
+<span class="nc" id="L309">                            (String) mapEntry.getKey(), mapEntry.getValue())) {</span>
+<span class="nc" id="L310">                mapEntry = (Entry) it.next();</span>
+            }
+        }
+<span class="nc" id="L313">        List&lt;T&gt; results = query.list();</span>
+
+<span class="nc" id="L315">        T foundentity = null;</span>
+<span class="nc bnc" id="L316" title="All 2 branches missed.">        if (!results.isEmpty()) {</span>
+            // ignores multiple results
+<span class="nc" id="L318">            foundentity = results.get(0);</span>
+        }
+<span class="nc" id="L320">        return foundentity;</span>
+    }
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    public &lt;T&gt; T findEntByJPQuery(String hql, Map&lt;String, Object&gt; namedParams) {
+<span class="nc" id="L325">        Query query = getCurrentSession().createQuery(hql);</span>
+<span class="nc bnc" id="L326" title="All 2 branches missed.">        if (namedParams != null) {</span>
+            Entry mapEntry;
+<span class="nc" id="L328">            for (Iterator it = namedParams.entrySet().iterator(); it</span>
+<span class="nc bnc" id="L329" title="All 2 branches missed.">                    .hasNext(); query.setParameter(</span>
+<span class="nc" id="L330">                            (String) mapEntry.getKey(), mapEntry.getValue())) {</span>
+<span class="nc" id="L331">                mapEntry = (Entry) it.next();</span>
+            }
+        }
+<span class="nc" id="L334">        List&lt;T&gt; results = query.list();</span>
+
+<span class="nc" id="L336">        T foundentity = null;</span>
+<span class="nc bnc" id="L337" title="All 2 branches missed.">        if (!results.isEmpty()) {</span>
+            // ignores multiple results
+<span class="nc" id="L339">            foundentity = results.get(0);</span>
+        }
+<span class="nc" id="L341">        return foundentity;</span>
+    }
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    public &lt;T&gt; T findEntByJPQueryT(String hql, Map&lt;String, Object&gt; namedParams) {
+<span class="fc" id="L346">        Query query = getCurrentSession().createQuery(hql);</span>
+<span class="pc bpc" id="L347" title="1 of 2 branches missed.">        if (namedParams != null) {</span>
+            Entry mapEntry;
+<span class="fc" id="L349">            for (Iterator it = namedParams.entrySet().iterator(); it</span>
+<span class="fc bfc" id="L350" title="All 2 branches covered.">                    .hasNext(); query.setParameter(</span>
+<span class="fc" id="L351">                            (String) mapEntry.getKey(), mapEntry.getValue())) {</span>
+<span class="fc" id="L352">                mapEntry = (Entry) it.next();</span>
+            }
+        }
+<span class="fc" id="L355">        List&lt;T&gt; results = query.list();</span>
+
+<span class="fc" id="L357">        T foundentity = null;</span>
+<span class="fc bfc" id="L358" title="All 2 branches covered.">        if (!results.isEmpty()) {</span>
+            // ignores multiple results
+<span class="fc" id="L360">            foundentity = results.get(0);</span>
+        }
+<span class="fc" id="L362">        return foundentity;</span>
+    }
+
+    @Override
+    public &lt;T&gt; Transaction getTransacao() {
+
+<span class="nc" id="L368">        return getCurrentSession().getTransaction();</span>
+    }
+
+    ////////////////////////////////////////tenant param///////////////////////////////////////////
+    @SuppressWarnings(&quot;unchecked&quot;)
+    public &lt;T&gt; int updateQuerySes(String query, String tenant) {
+<span class="nc" id="L374">        Session s = getSession(tenant);</span>
+<span class="nc" id="L375">        s.beginTransaction();</span>
+        try {
+<span class="nc" id="L377">            SQLQuery q = s.createSQLQuery(query);</span>
+<span class="nc" id="L378">            int i = 0;</span>
+//            for (Object o : params) {
+//                q.setParameter(i, o);
+//                i++;//new
+//            }
+<span class="nc" id="L383">            int r = q.executeUpdate();</span>
+<span class="nc" id="L384">            s.getTransaction().commit();</span>
+<span class="nc" id="L385">            s.close();</span>
+<span class="nc" id="L386">            return r;</span>
+        } finally {
+<span class="nc bnc" id="L388" title="All 2 branches missed.">            if (s.isOpen()) {</span>
+<span class="nc" id="L389">                s.close();</span>
+            }
+        }
+    }
+
+    public &lt;T&gt; void refreshSes(T klass, String tenant) {
+<span class="nc" id="L395">        Session s = getSession(tenant);</span>
+        try {
+<span class="nc" id="L397">            s.refresh(klass);</span>
+        } finally {
+<span class="nc" id="L399">            s.close();</span>
+        }
+
+<span class="nc" id="L402">    }</span>
+
+    public &lt;T&gt; void updateSes(T klass, String tenant) {
+<span class="nc" id="L405">        Session s = getSession(tenant);</span>
+<span class="nc" id="L406">        s.beginTransaction();</span>
+        try {
+<span class="nc" id="L408">            s.merge(klass);</span>
+<span class="nc" id="L409">            s.getTransaction().commit();</span>
+        } finally {
+<span class="nc" id="L411">            s.close();</span>
+        }
+<span class="nc" id="L413">    }</span>
+
+    public &lt;T&gt; void SaveSes(T klass, String tenant) {
+        //  getCurrentSession().setFlushMode(FlushMode.NEVER);
+<span class="nc" id="L417">        Session s = getSession(tenant);</span>
+<span class="nc" id="L418">        s.beginTransaction();</span>
+        try {
+<span class="nc" id="L420">            s.save(klass);</span>
+<span class="nc" id="L421">            s.getTransaction().commit();</span>
+        } finally {
+<span class="nc" id="L423">            s.close();</span>
+        }
+<span class="nc" id="L425">    }</span>
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    public &lt;T&gt; T findEntByJPQuerySes(String hql, Map&lt;String, Object&gt; namedParams, String tenant) {
+<span class="nc" id="L429">        Session s = getSession(tenant);</span>
+        try {
+<span class="nc" id="L431">            Query query = s.createQuery(hql);</span>
+<span class="nc bnc" id="L432" title="All 2 branches missed.">            if (namedParams != null) {</span>
+                Entry mapEntry;
+<span class="nc" id="L434">                for (Iterator it = namedParams.entrySet().iterator(); it</span>
+<span class="nc bnc" id="L435" title="All 2 branches missed.">                        .hasNext(); query.setParameter(</span>
+<span class="nc" id="L436">                                (String) mapEntry.getKey(), mapEntry.getValue())) {</span>
+<span class="nc" id="L437">                    mapEntry = (Entry) it.next();</span>
+                }
+            }
+<span class="nc" id="L440">            List&lt;T&gt; results = query.list();</span>
+
+<span class="nc" id="L442">            T foundentity = null;</span>
+<span class="nc bnc" id="L443" title="All 2 branches missed.">            if (!results.isEmpty()) {</span>
+                // ignores multiple results
+<span class="nc" id="L445">                foundentity = results.get(0);</span>
+            }
+<span class="nc" id="L447">            return foundentity;</span>
+        } finally {
+<span class="nc" id="L449">            s.close();</span>
+        }
+    }
+
+    public &lt;T&gt; T getSes(Class&lt;T&gt; klass, Serializable id, String tenant) {
+<span class="nc" id="L454">        Session s = getSession(tenant);</span>
+        try {
+<span class="nc" id="L456">            return (T) s.get(klass.getName(), id);</span>
+        } finally {
+<span class="nc" id="L458">            s.close();</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

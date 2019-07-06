@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ReduceBookViewModel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$All_in_zksandbox.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.book</a> &gt; <span class="el_source">ReduceBookViewModel.java</span></div><h1>ReduceBookViewModel.java</h1><pre class="source lang-java linenums">package sgb.book;
+
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.zkoss.bind.BindUtils;
+import org.zkoss.bind.annotation.BindingParam;
+import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.Init;
+import org.zkoss.zats.mimic.Client;
+import org.zkoss.zk.ui.Session;
+import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zkplus.spring.SpringUtil;
+import org.zkoss.zul.Window;
+import sgb.domain.Obra;
+import sgb.domain.ObraEliminadas;
+import sgb.domain.ObraEliminadasPK;
+import sgb.domain.Users;
+import sgb.service.CRUDService;
+
+import java.util.Calendar;
+import java.util.HashSet;
+import java.util.Set;
+
+<span class="nc" id="L25">public class ReduceBookViewModel</span>
+{
+<span class="nc" id="L27">    private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;</span>
+<span class="nc" id="L28">    private CRUDService crudService = (CRUDService) SpringUtil.getBean(&quot;CRUDService&quot;);</span>
+<span class="nc" id="L29">    private Session session = Sessions.getCurrent();</span>
+    private int vanishedBooksQuantity;
+    private Obra obra;
+    private String description;
+
+    @Init
+    public void init() throws Exception
+    {
+<span class="nc" id="L37">        this.vanishedBooksQuantity = 0;</span>
+<span class="nc" id="L38">        this.obra = (Obra) this.session.getAttribute(&quot;obraToEdit&quot;);</span>
+
+<span class="nc bnc" id="L40" title="All 2 branches missed.">        if (obra == null)</span>
+        {
+<span class="nc" id="L42">            throw new Exception(&quot;Obra can not be null&quot;);</span>
+        }
+<span class="nc" id="L44">    }</span>
+
+    @Command
+    public void reduceVanishedBooksQuantity()
+    {
+<span class="nc bnc" id="L49" title="All 2 branches missed.">        if (this.vanishedBooksQuantity &gt; 0)</span>
+        {
+<span class="nc" id="L51">            this.vanishedBooksQuantity = this.vanishedBooksQuantity - 1;</span>
+<span class="nc" id="L52">            BindUtils.postNotifyChange(null, null, this, &quot;vanishedBooksQuantity&quot;);</span>
+        }
+<span class="nc" id="L54">    }</span>
+
+    @Command
+    public void increaseVanishedBooksQuantity()
+    {
+<span class="nc bnc" id="L59" title="All 2 branches missed.">        if (this.vanishedBooksQuantity &lt; obra.getQuantidade())</span>
+        {
+<span class="nc" id="L61">            this.vanishedBooksQuantity = this.vanishedBooksQuantity + 1;</span>
+        }
+<span class="nc" id="L63">        BindUtils.postNotifyChange(null, null, this, &quot;vanishedBooksQuantity&quot;);</span>
+<span class="nc" id="L64">    }</span>
+
+    @Command
+    public void exit(@BindingParam(&quot;modal&quot;) Window modal)
+    {
+<span class="nc" id="L69">        modal.detach();</span>
+<span class="nc" id="L70">    }</span>
+
+    @Command
+    public void save(@BindingParam(&quot;modal&quot;) Window modal)
+    {
+        try
+        {
+<span class="nc" id="L77">            obra.setQuantidade(this.obra.getQuantidade() - this.vanishedBooksQuantity);</span>
+
+<span class="nc" id="L79">            Set&lt;ObraEliminadas&gt; listobraEliminadas = new HashSet&lt;&gt;();</span>
+<span class="nc" id="L80">            listobraEliminadas = obra.getObraEliminadas();</span>
+
+<span class="nc" id="L82">            ObraEliminadas obraEliminada = new ObraEliminadas();</span>
+<span class="nc" id="L83">            ObraEliminadasPK obraEliminadaPK = new ObraEliminadasPK();</span>
+
+<span class="nc" id="L85">            obraEliminadaPK.setObra(obra);</span>
+<span class="nc" id="L86">            obraEliminadaPK.setDataRegisto(Calendar.getInstance());</span>
+
+<span class="nc" id="L88">            obraEliminada.setObraEliminadasPK(obraEliminadaPK);</span>
+<span class="nc" id="L89">            obraEliminada.setObra(obra);</span>
+<span class="nc" id="L90">            obraEliminada.setQuantidade(this.vanishedBooksQuantity);</span>
+<span class="nc" id="L91">            obraEliminada.setDescricao(this.description);</span>
+<span class="nc" id="L92">            obraEliminada.setUser(this.user);</span>
+
+<span class="nc" id="L94">            listobraEliminadas.add(obraEliminada);</span>
+
+<span class="nc" id="L96">            obra.setObraEliminadas(listobraEliminadas);</span>
+
+<span class="nc" id="L98">            crudService.update(obra);</span>
+<span class="nc" id="L99">            modal.detach();</span>
+<span class="nc" id="L100">            Clients.showNotification(&quot;Feito&quot;);</span>
+        }
+<span class="nc" id="L102">        catch (Exception ex)</span>
+        {
+<span class="nc" id="L104">            ex.printStackTrace();</span>
+<span class="nc" id="L105">        }</span>
+<span class="nc" id="L106">    }</span>
+
+    public Obra getObra()
+    {
+<span class="nc" id="L110">        return obra;</span>
+    }
+
+    public void setObra(Obra obra)
+    {
+<span class="nc" id="L115">        this.obra = obra;</span>
+<span class="nc" id="L116">    }</span>
+
+    public int getVanishedBooksQuantity()
+    {
+<span class="nc" id="L120">        return vanishedBooksQuantity;</span>
+    }
+
+    public void setVanishedBooksQuantity(int vanishedBooksQuantity)
+    {
+<span class="nc" id="L125">        this.vanishedBooksQuantity = vanishedBooksQuantity;</span>
+<span class="nc" id="L126">    }</span>
+
+    public String getDescription()
+    {
+<span class="nc" id="L130">        return description;</span>
+    }
+
+    public void setDescription(String description)
+    {
+<span class="nc" id="L135">        this.description = description;</span>
+<span class="nc" id="L136">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

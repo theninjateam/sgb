@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Obra.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$All_in_zksandbox.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.domain</a> &gt; <span class="el_source">Obra.java</span></div><h1>Obra.java</h1><pre class="source lang-java linenums">package sgb.domain;
+
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
+
+
+@Entity
+@Table(name=&quot;obra&quot;, schema = &quot;public&quot;)
+<span class="fc" id="L10">public class Obra {</span>
+    private String cota;
+    private Integer registro;
+    private String titulo;
+    private String localpublicacao;
+    private Integer quantidade;
+    private String pathpdf;
+    private String pathcapa;
+    private Integer anoPublicacao;
+    private TipoObra tipoobra;
+<span class="fc" id="L20">    private Set&lt;Autor&gt; autores = new HashSet&lt;&gt;();</span>
+    private Idioma idioma;
+    private Livro livro;
+    private Cd cd;
+    private Revista revista;
+    private LivroCd livroCd;
+    private AreaCientifica areacientifica;
+<span class="fc" id="L27">    private Set&lt;RegistroObra&gt; registroObras = new HashSet&lt;&gt;();</span>
+<span class="fc" id="L28">    private Set&lt;ObraEliminadas&gt; obraEliminadas = new HashSet&lt;&gt;();</span>
+
+    @Id
+    @Column(name = &quot;cota&quot;)
+    public String getCota() {
+<span class="fc" id="L33">        return cota;</span>
+    }
+
+    public void setCota(String cota) {
+<span class="fc" id="L37">        this.cota = cota;</span>
+<span class="fc" id="L38">    }</span>
+
+    @Basic
+    @Column(name = &quot;registro&quot;)
+    public Integer getRegistro() {
+<span class="fc" id="L43">        return registro;</span>
+    }
+
+    public void setRegistro(Integer registro) {
+<span class="fc" id="L47">        this.registro = registro;</span>
+<span class="fc" id="L48">    }</span>
+
+    @Basic
+    @Column(name = &quot;titulo&quot;)
+    public String getTitulo() {
+<span class="fc" id="L53">        return titulo;</span>
+    }
+
+    public void setTitulo(String titulo) {
+<span class="fc" id="L57">        this.titulo = titulo;</span>
+<span class="fc" id="L58">    }</span>
+
+    @Basic
+    @Column(name = &quot;localpublicacao&quot;)
+    public String getLocalpublicacao() {
+<span class="fc" id="L63">        return localpublicacao;</span>
+    }
+
+    public void setLocalpublicacao(String localpublicacao) {
+<span class="fc" id="L67">        this.localpublicacao = localpublicacao;</span>
+<span class="fc" id="L68">    }</span>
+
+    @Basic
+    @Column(name = &quot;quantidade&quot;)
+    public Integer getQuantidade() {
+<span class="fc" id="L73">        return quantidade;</span>
+    }
+
+    public void setQuantidade(Integer quantidade) {
+<span class="fc" id="L77">        this.quantidade = quantidade;</span>
+<span class="fc" id="L78">    }</span>
+
+    @Basic
+    @Column(name = &quot;pathpdf&quot;)
+    public String getPathpdf() {
+<span class="fc" id="L83">        return pathpdf;</span>
+    }
+
+
+    public void setPathpdf(String pathpdf) {
+<span class="fc" id="L88">        this.pathpdf = pathpdf;</span>
+<span class="fc" id="L89">    }</span>
+
+    @Basic
+    @Column(name = &quot;pathcapa&quot;)
+    public String getPathcapa() {
+<span class="fc" id="L94">        return pathcapa;</span>
+    }
+
+    public void setPathcapa(String pathcapa) {
+<span class="fc" id="L98">        this.pathcapa = pathcapa;</span>
+<span class="fc" id="L99">    }</span>
+
+    @Basic
+    @Column(name = &quot;anopublicacao&quot;)
+    public Integer getAnoPublicacao() {
+<span class="fc" id="L104">        return anoPublicacao;</span>
+    }
+    public void setAnoPublicacao(Integer anoPublicacao) {
+<span class="fc" id="L107">        this.anoPublicacao = anoPublicacao;</span>
+<span class="fc" id="L108">    }</span>
+
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = &quot;ididioma&quot;, nullable = false)
+    public Idioma getIdioma() {
+<span class="fc" id="L114">        return idioma;</span>
+    }
+    public void setIdioma(Idioma idioma) {
+<span class="fc" id="L117">        this.idioma = idioma;</span>
+<span class="fc" id="L118">    }</span>
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = &quot;idtipo&quot;, nullable = false)
+    public TipoObra getTipoobra() {
+<span class="fc" id="L123">        return tipoobra;</span>
+    }
+
+    public void setTipoobra(TipoObra tipoobra) {
+<span class="fc" id="L127">        this.tipoobra = tipoobra;</span>
+<span class="fc" id="L128">    }</span>
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = &quot;idarea&quot;, nullable = false)
+    public AreaCientifica getAreacientifica() {
+<span class="fc" id="L133">        return areacientifica;</span>
+    }
+
+    public void setAreacientifica(AreaCientifica areacientifica) {
+<span class="fc" id="L137">        this.areacientifica = areacientifica;</span>
+<span class="fc" id="L138">    }</span>
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    @JoinTable(name=&quot;obra_autor&quot;,  joinColumns = @JoinColumn(name =&quot;cota&quot;, nullable = false),
+            inverseJoinColumns = @JoinColumn(name=&quot;hashcode&quot;, nullable = false))
+    public Set&lt;Autor&gt; getAutores(){
+<span class="fc" id="L144">        return this.autores;</span>
+    }
+
+    public void setAutores(Set&lt;Autor&gt; autores) {
+<span class="fc" id="L148">        this.autores=autores;</span>
+<span class="fc" id="L149">    }</span>
+
+
+    @OneToOne(fetch = FetchType.LAZY,
+            cascade =  CascadeType.ALL,
+            mappedBy = &quot;obra&quot;)
+    public Livro getLivro() {
+<span class="fc" id="L156">        return livro;</span>
+    }
+
+    public void setLivro(Livro livro) {
+<span class="fc" id="L160">        this.livro = livro;</span>
+<span class="fc" id="L161">    }</span>
+
+    @OneToOne(fetch = FetchType.LAZY,
+            cascade =  CascadeType.ALL,
+            mappedBy = &quot;obra&quot;)
+
+    public Cd getCd() {
+<span class="fc" id="L168">        return cd;</span>
+    }
+
+    public void setCd(Cd cd) {
+<span class="fc" id="L172">        this.cd = cd;</span>
+<span class="fc" id="L173">    }</span>
+
+    @OneToOne(fetch = FetchType.LAZY,
+            cascade =  CascadeType.ALL,
+            mappedBy = &quot;obra&quot;)
+
+    public Revista getRevista(){
+<span class="fc" id="L180">        return revista;</span>
+    }
+
+    public void setRevista(Revista revista) {
+<span class="fc" id="L184">        this.revista = revista;</span>
+<span class="fc" id="L185">    }</span>
+
+    @OneToOne(fetch = FetchType.LAZY,
+            cascade =  CascadeType.ALL,
+            mappedBy = &quot;obra&quot;)
+
+    public LivroCd getLivroCd() {
+<span class="fc" id="L192">        return livroCd;</span>
+    }
+
+    public void setLivroCd(LivroCd livroCd) {
+<span class="fc" id="L196">        this.livroCd = livroCd;</span>
+<span class="fc" id="L197">    }</span>
+
+    @OneToMany(mappedBy = &quot;obra&quot;, fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+<span class="fc" id="L200">    public Set&lt;RegistroObra&gt; getRegistroObras() { return registroObras; }</span>
+
+    public void setRegistroObras(Set&lt;RegistroObra&gt; registroObras) {
+<span class="fc" id="L203">        this.registroObras = registroObras;</span>
+<span class="fc" id="L204">    }</span>
+
+
+
+    @OneToMany(mappedBy = &quot;obra&quot;, fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+    public Set&lt;ObraEliminadas&gt; getObraEliminadas() {
+<span class="fc" id="L210">        return obraEliminadas;</span>
+    }
+
+    public void setObraEliminadas(Set&lt;ObraEliminadas&gt; obraEliminadas) {
+<span class="fc" id="L214">        this.obraEliminadas = obraEliminadas;</span>
+<span class="fc" id="L215">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

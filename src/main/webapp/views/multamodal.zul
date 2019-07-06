@@ -58,7 +58,7 @@
                                                             <label sclass="w3-mediu "  value="${$composer.dataConvert(each.dataemprestimo)}"
                                                                    style="font-size: large; font-weight: bold; padding: 2px 2px 2px 2px; font-size: 12px;"/>
                                                         </div>
-                                                        <div if="${$composer.ObraReturned(each.multaPK)}" sclass="w3-left">
+                                                        <div if="${$composer.ObraRETURNED(each.multaPK)}" sclass="w3-left">
                                                             <label sclass="w3-medium" value="Data da Devolucao:"/>
                                                             <label sclass="w3-mediu " value="${$composer.dataDevolucao(each.multaPK)}"
                                                                    style="font-size: large; font-weight: bold; padding: 2px 2px 2px 2px; font-size: 12px;"/>

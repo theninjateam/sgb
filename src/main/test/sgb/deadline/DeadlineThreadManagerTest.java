@@ -409,7 +409,30 @@ public class DeadlineThreadManagerTest
 
         assertThat(this.deadlineThreadManager.wasBorrowedBooksDeadlineControllerStarted.get()).isFalse();
     }
+    @Test
+    @Transactional
+    public void startSendEmailControllerTest()
+    {
 
+
+        this.deadlineThreadManager.isServerStarting.set(true);
+
+        this.deadlineThreadManager.delayForEmail = 12*60*1000;
+        this.deadlineThreadManager.startSendEmailController();
+
+        assertThat(this.deadlineThreadManager.wasSendEmailControllerStarted.get()).isTrue();
+
+        this.deadlineThreadManager.isServerStarting.set(false);
+        this.deadlineThreadManager.delayForEmail = 120*60*1000;
+        this.deadlineThreadManager.startSendEmailController();
+        assertThat(this.deadlineThreadManager.wasSendEmailControllerStarted.get()).isTrue();
+
+        this.deadlineThreadManager.isServerStarting.set(false);
+        this.deadlineThreadManager.delayForEmail = 12*60*1000;
+        this.deadlineThreadManager.startSendEmailController();
+        assertThat(this.deadlineThreadManager.wasSendEmailControllerStarted.get()).isFalse();
+
+    }
     @After
     @Transactional
     public void after() throws Exception

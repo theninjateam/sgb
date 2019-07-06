@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Fine.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$All_in_zksandbox.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.fine</a> &gt; <span class="el_source">Fine.java</span></div><h1>Fine.java</h1><pre class="source lang-java linenums">package sgb.fine;
+
+import org.zkoss.zkplus.spring.SpringUtil;
+import sgb.controller.domainController.*;
+import sgb.deadline.BorrowedBooksDeadline;
+import sgb.domain.*;
+import sgb.email.SendEmail;
+import sgb.service.CRUDService;
+
+import javax.mail.MessagingException;
+import java.io.IOException;
+import java.time.Duration;
+import java.util.Calendar;
+import java.util.List;
+
+public class Fine
+{
+    private MultaController mController;
+    private EstadoMultaControler eMController;
+    private CRUDService crudService;
+    private EstadoDevolucaoControler eDController;
+    private ConfigControler configControler;
+    private EmprestimoController eController;
+    private BorrowedBooksDeadline bBDeadline;
+    private SendEmail sendEmail;
+
+    public Fine(ConfigControler configControler,
+                MultaController mController,
+                EstadoMultaControler eMController,
+                CRUDService crudService,
+                EstadoDevolucaoControler eDController,
+                EmprestimoController eController,
+                BorrowedBooksDeadline bBDeadline,
+                SendEmail sendEmail)
+<span class="fc" id="L35">    {</span>
+
+<span class="fc" id="L37">        this.configControler = configControler;</span>
+<span class="fc" id="L38">        this.crudService = crudService;</span>
+<span class="fc" id="L39">        this.eController = eController;</span>
+<span class="fc" id="L40">        this.eMController = eMController;</span>
+<span class="fc" id="L41">        this.eDController = eDController;</span>
+<span class="fc" id="L42">        this.mController = mController;</span>
+<span class="fc" id="L43">        this.bBDeadline = bBDeadline;</span>
+<span class="fc" id="L44">        this.sendEmail = sendEmail;</span>
+<span class="fc" id="L45">    }</span>
+
+    public void fine(Emprestimo e, Calendar now)
+    {
+<span class="fc bfc" id="L49" title="All 2 branches covered.">        if (!this.wasFinedBefore(e.getEmprestimoPK()))</span>
+        {
+            String msg,subjet;
+<span class="fc" id="L52">            Multa multa = new Multa();</span>
+<span class="fc" id="L53">            Emprestimo emprestimo = this.eController.getRequest(e.getEmprestimoPK());</span>
+<span class="fc" id="L54">            EstadoDevolucao estadoDevolucao = this.crudService.get(EstadoDevolucao.class, this.eDController.NOT_RETURNED);</span>
+<span class="fc" id="L55">            EstadoMulta estadoMulta = crudService.get(EstadoMulta.class,this.eMController.NOT_PAID);</span>
+
+
+<span class="fc" id="L58">            emprestimo.setEstadoDevolucao(estadoDevolucao);</span>
+<span class="fc" id="L59">            emprestimo.setDatadevolucao(bBDeadline.getDeadline(emprestimo));</span>
+
+<span class="fc" id="L61">            multa.setMultaPK(emprestimo.getEmprestimoPK());</span>
+<span class="fc" id="L62">            multa.setDataemissao(now);</span>
+<span class="fc" id="L63">            multa.setDataemprestimo(emprestimo.getDataaprovacao());</span>
+<span class="fc" id="L64">            multa.setEstadoMulta(estadoMulta);</span>
+<span class="fc" id="L65">            multa.setDiasatraso(0);</span>
+
+<span class="fc" id="L67">            float taxaD = this.configControler.DAILY_RATE_FINE;</span>
+<span class="fc" id="L68">            multa.setTaxadiaria(taxaD);</span>
+<span class="fc" id="L69">            multa.setValorpago((float) 0);</span>
+
+<span class="fc" id="L71">            crudService.Save(multa);</span>
+<span class="fc" id="L72">            crudService.update(emprestimo);</span>
+<span class="fc" id="L73">            msg = &quot;Caro utente &quot; + emprestimo.getEmprestimoPK().getUtente().getName() + &quot; &quot; + emprestimo.getEmprestimoPK().getUtente().getLastName()+ &quot;,\n&quot; +</span>
+<span class="fc" id="L74">                    &quot;o seu emprestimo da obra &quot; + emprestimo.getEmprestimoPK().getObra().getTitulo() + &quot; feito em &quot; + emprestimo.getEmprestimoPK().getDataentradapedido().getTime()+</span>
+<span class="fc" id="L75">                    &quot; ultrapassou o tempo limite de emprestimo, tendo uma multa de &quot; + multa.getValorpago() +  &quot; MTN.\n Por favor, Regularize a sua situacao de multa, o mais breve possivel&quot;;</span>
+<span class="fc" id="L76">            subjet = &quot;Notificacao de Multa&quot;;</span>
+            try {
+<span class="fc" id="L78">                sendEmail.sendEmail(subjet, msg, emprestimo.getEmprestimoPK().getUtente().getEmail());</span>
+
+<span class="fc" id="L80">                this.mController.updateNotification(emprestimo.getEmprestimoPK(),true);</span>
+
+
+<span class="nc" id="L83">            } catch (MessagingException e1) {</span>
+<span class="nc" id="L84">                System.out.println(&quot;Nao foi possivel enviar o email!&quot;);</span>
+<span class="fc" id="L85">            }</span>
+
+
+        }
+<span class="fc" id="L89">    }</span>
+
+    public int getDelayDays(Calendar now, Calendar deadline)
+    {
+<span class="fc" id="L93">        return Math.abs ((int) Duration.between(now.toInstant(), deadline.toInstant()).toDays());</span>
+    }
+
+    public boolean wasFinedBefore(EmprestimoPK emprestimoPK)
+    {
+<span class="fc bfc" id="L98" title="All 2 branches covered.">        return  this.mController.getFine(emprestimoPK) == null? false : true;</span>
+    }
+
+    public float getAmoutToPay(EmprestimoPK emprestimoPK, Calendar now)
+    {
+<span class="fc" id="L103">        Emprestimo emprestimo = this.eController.getRequest(emprestimoPK);</span>
+<span class="fc" id="L104">        int days = getDelayDays(now, emprestimo.getDatadevolucao());</span>
+
+<span class="fc" id="L106">        return (float) this.configControler.DAILY_RATE_FINE * days;</span>
+    }
+
+    public float getAmountToPay(EmprestimoPK emprestimoPK)
+    {
+<span class="nc" id="L111">        MultaController multaController = (MultaController) SpringUtil.getBean(&quot;multaController&quot;);</span>
+<span class="nc" id="L112">        int days = multaController.getFine(emprestimoPK).getDiasatraso();</span>
+
+<span class="nc" id="L114">        return (float) this.configControler.DAILY_RATE_FINE * days;</span>
+    }
+
+    public void pay(EmprestimoPK emprestimoPK, Calendar now)
+    {
+<span class="fc" id="L119">        EstadoMulta estadoMulta = crudService.get(EstadoMulta.class,this.eMController.PAID);</span>
+<span class="fc" id="L120">        Multa multa = this.mController.getFine(emprestimoPK);</span>
+<span class="fc" id="L121">        multa.setEstadoMulta(estadoMulta);</span>
+<span class="fc" id="L122">        multa.setValorpago(getAmoutToPay(emprestimoPK, now));</span>
+<span class="fc" id="L123">        this.crudService.update(multa);</span>
+<span class="fc" id="L124">    }</span>
+
+    public void revoke(EmprestimoPK emprestimoPK)
+    {
+<span class="nc" id="L128">        EstadoMulta estadoMulta = crudService.get(EstadoMulta.class,this.eMController.REVOKED);</span>
+<span class="nc" id="L129">        Multa multa = this.mController.getFine(emprestimoPK);</span>
+<span class="nc" id="L130">        multa.setEstadoMulta(estadoMulta);</span>
+
+<span class="nc" id="L132">        this.crudService.update(multa);</span>
+<span class="nc" id="L133">    }</span>
+
+    public void updateDelayDays(List&lt;Multa&gt; multaList){
+<span class="nc bnc" id="L136" title="All 2 branches missed.">        for(Multa m: multaList){</span>
+<span class="nc" id="L137">            int dias = 0;</span>
+<span class="nc" id="L138">            dias = getDelayDays(Calendar.getInstance()</span>
+<span class="nc" id="L139">                    ,eController.getRequest(m.getMultaPK()).getDatadevolucao());</span>
+
+<span class="nc bnc" id="L141" title="All 2 branches missed.">            if(m.getEstadoMulta().getDescricao().equals(&quot;NOT_PAID&quot;)){</span>
+<span class="nc" id="L142">                m.setDiasatraso(dias);</span>
+            }
+<span class="nc" id="L144">        }</span>
+<span class="nc" id="L145">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

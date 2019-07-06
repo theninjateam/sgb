@@ -1,15 +1,16 @@
 package sgb.controller.viewsController;
 
-import org.zkoss.zk.ui.*;
-import org.zkoss.zk.ui.event.*;
-import org.zkoss.zk.ui.util.*;
-import org.zkoss.zk.ui.ext.*;
-import org.zkoss.zk.au.*;
-import org.zkoss.zk.au.out.*;
-import org.zkoss.zul.*;
 import org.zkoss.util.media.AMedia;
-import java.io.*;
-import java.net.*;
+import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.util.GenericForwardComposer;
+import org.zkoss.zul.Iframe;
+import org.zkoss.zul.Messagebox;
+
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 
 public class PdfController extends GenericForwardComposer{
 

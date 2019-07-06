@@ -4,6 +4,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import sgb.concurrence.MiniBookingConcurrenceController;
 import sgb.controller.domainController.ConfigControler;
+import sgb.email.SendEmailController;
 
 import java.util.Calendar;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -15,27 +16,33 @@ public class DeadlineThreadManager extends Thread implements ApplicationListener
     private MiniBookingDeadlineController mBDController;
     private ConfigControler configControler;
     private MiniBookingConcurrenceController miniBookingConcurrenceController;
+    private SendEmailController sendEmailController;
 
     private int delay = 1*60*1000;
+
+    public int delayForEmail = 0;
 
     public Calendar today;
     public final AtomicBoolean running = new AtomicBoolean(false);
     public final AtomicBoolean wasBookingDeadlineControllerStarted = new AtomicBoolean(false);
     public final AtomicBoolean wasBorrowedBooksDeadlineControllerStarted = new AtomicBoolean(false);
     public final AtomicBoolean wasMiniBookingDeadlineControllerStarted = new AtomicBoolean(false);
+    public final AtomicBoolean wasSendEmailControllerStarted = new AtomicBoolean(false);
     public final AtomicBoolean isServerStarting  = new AtomicBoolean(false);
 
     public DeadlineThreadManager(BookingDeadlineController bDController,
                                  BorrowedBooksDeadlineController bBDController,
                                  MiniBookingDeadlineController mBDController,
                                  ConfigControler configControler,
-                                 MiniBookingConcurrenceController miniBookingConcurrenceController)
+                                 MiniBookingConcurrenceController miniBookingConcurrenceController,
+                                 SendEmailController sendEmailController)
     {
         this.bBDController = bBDController;
         this.bDController = bDController;
         this.mBDController = mBDController;
         this.configControler = configControler;
         this.miniBookingConcurrenceController = miniBookingConcurrenceController;
+        this.sendEmailController = sendEmailController;
     }
 
     public void run()
@@ -44,12 +51,15 @@ public class DeadlineThreadManager extends Thread implements ApplicationListener
         {
             this.startBookingDeadlineController();
             this.startBorrowedBooksDeadlineController();
+            this.startSendEmailController();
 
             this.miniBookingConcurrenceController.enterInCriticalRegion();
             this.startMiniBookingDeadlineController();
             this.miniBookingConcurrenceController.leaveInCriticalRegion();
 
             this.isServerStarting.set(false);
+
+            this.delayForEmail+=(60*1000);
 
             try
             {
@@ -143,8 +153,8 @@ public class DeadlineThreadManager extends Thread implements ApplicationListener
 
     public void startBorrowedBooksDeadlineController()
     {
+        //boolean canStart = true;
         boolean canStart = false;
-
         if (this.today.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY)
         {
             if (this.isServerStarting.get() &&
@@ -181,6 +191,29 @@ public class DeadlineThreadManager extends Thread implements ApplicationListener
         }
     }
 
+
+    public void startSendEmailController() {
+
+        boolean canStart = false;
+
+        if (this.isServerStarting.get()==true){
+
+           canStart = true;
+        } else if (this.delayForEmail>=120*60*1000)
+            canStart = true;
+
+        if (canStart){
+
+            new Thread(sendEmailController).start();
+
+            this.wasSendEmailControllerStarted.set(true);
+            this.delayForEmail = 0;
+            return;
+        }
+
+        this.wasSendEmailControllerStarted.set(false);
+    }
+
     public void onApplicationEvent(final ContextRefreshedEvent event)
     {
         System.out.println("Initializing Threads ...");
@@ -192,4 +225,6 @@ public class DeadlineThreadManager extends Thread implements ApplicationListener
         this.setName("DeadLine Thread Manager");
         this.start();
     }
+
+
 }

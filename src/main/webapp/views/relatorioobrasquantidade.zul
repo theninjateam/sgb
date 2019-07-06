@@ -31,8 +31,7 @@
                                     <row forEach="${each.obras}">
                                         <cell>
                                             <div>
-                                                <label value = "COTA:  "/>
-                                                <label   value="${each.cota}:  TITULO: ${each.titulo}. "/>
+                                                <label   value="TITULO: ${each.titulo}. "/>
                                                 <label value=" DE  ${each.anoPublicacao} "/>
                                             </div>
                                         </cell>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk >
+    <style src="css/tipografia.css"/>
+    <style src="css/w3pro.css"/>
+    <style src="css/w3.css"/>
+
+    <window id="Config" apply="sgb.controller.viewsController.ListUtilizadoresController"
+            viewModel="@id('config') @init('sgb.configuration.ConfigViewModel')"
+            border="none" hflex="1" vflex="1" contentStyle="overflow:auto">
+
+        <!-- FOR DESKTOP-->
+
+        <toolbar sclass="w3-container w3-white" id="tbt" height="50px" align="center">
+            <div style="white-space: normal; width: 100%;">
+
+                <span sclass="input-group-addon">Estado: </span>
+                <listbox height="35px"  width="10%" id="estadoListBox" mold="select">
+                    <listhead>
+                        <listheader label="Estado"/>
+                    </listhead>
+                    <template name="model">
+                        <listitem>
+                            <listcell label="${each}"></listcell>
+                        </listitem>
+                    </template>
+                </listbox>
+
+                <button label="Pesquisar"  style="margin-left: 10px;" id="buttonPesquisar"
+                        forward="onClick=buttonPesquisar.onPesquisar"
+                        mold="os" sclass=" w3-right w3-btn w3-light-gray"/>
+
+                <textbox  id="textboxPesquisar" forward="onOK=textboxPesquisar.onPesquisar,
+                        onChange=textboxPesquisar.onPesquisar" mold="default" placeholder="insira nome ou apelido"
+                          sclass="w3-right w3-white   w3-padding-16 w3-border" style="width: 30%;"/>
+
+
+            </div>
+
+        </toolbar>
+
+        <vlayout id="listUsers">
+        <grid   sclass="w3-hide-small" visible="true"
+                style="border-style: none;">
+            <rows>
+                <row>
+                    <listbox width="100%" id="listUtilizadores"
+                             emptyMessage="Nao tem Utilizadores">
+
+                        <listhead>
+                        <listheader width="90%" height="100%" label="Utilizadores"/>
+                        <listheader  width="10%" height="100%" label="Accao"/>
+                        </listhead>
+                        <template name="model">
+
+                            <listitem>
+                            <listcell>
+                                <div>
+                                    <label value="${each.name}"/>
+                                </div>
+                            </listcell>
+                                <listcell>
+                                    <zscript>
+                                        <![CDATA[
+                                            import java.text.*;
+                                            String label;
+                                            String color;
+
+                                            if (each.active == 1){
+
+                                                 label = "Block";
+                                                 color = "red";
+
+                                            } else{
+
+                                                label = "Unblock";
+                                                color = "light-gray";
+                                            }
+
+                                            ]]>
+                                    </zscript>
+                                    <button label="${label}" width="70px"
+                                            forward="onClick=listUsers.onBlock(${each})"
+                                            mold="os" sclass=" w3-right w3-btn w3-${color}"/>
+                                </listcell>
+                            </listitem>
+                        </template>
+
+                    </listbox>
+                </row>
+            </rows>
+
+        </grid>
+        </vlayout>
+
+    </window>
+</zk>
