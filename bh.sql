@@ -12,8 +12,9 @@
  Target Server Version : 100005
  File Encoding         : 65001
 
- Date: 27/03/2019 20:51:20
+ Date: 06/07/2019 12:26:28
 */
+
 
 -- ----------------------------
 -- Sequence structure for areacientifica_idarea_seq
@@ -165,6 +166,11 @@ CREATE TABLE "public"."cd" (
 ;
 
 -- ----------------------------
+-- Records of cd
+-- ----------------------------
+INSERT INTO "public"."cd" VALUES ('DDD1', 'O ilumindao');
+
+-- ----------------------------
 -- Table structure for config
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."config";
@@ -178,18 +184,20 @@ CREATE TABLE "public"."config" (
 -- ----------------------------
 -- Records of config
 -- ----------------------------
-INSERT INTO public.config (nome, descricao, valor) VALUES ('MINIMUM_NUMBER_OF_COPIES', '"QUANTIDADE MINIMA DE EXEMPLARES" QUE DEVEM FICAR NA BIBLIOTECA', '2');
-INSERT INTO public.config (nome, descricao, valor) VALUES ('ENTRY_TIME_ON_WEEKDAYS', 'HORARIO INICIAL DE FUNCIONAMENTO DOS SERVICOS BIBLIOTECARIO NOS DIAS DA SEMANA', '7');
-INSERT INTO public.config (nome, descricao, valor) VALUES ('ENTRY_TIME_ON_SATURDAY', 'HORARIO INICIAL DE FUNCIONAMENTO DOS SERVICOS BIBLIOTECARIO NOE SABADO', '9');
-INSERT INTO public.config (nome, descricao, valor) VALUES ('EXIT_TIME_ON_WEEKDAYS', 'HORARIO FINAL DE FUNCIONAMENTO DOS SERVICOS BIBLIOTECARIO NOS DIAS DA SEMANA', '17');
-INSERT INTO public.config (nome, descricao, valor) VALUES ('EXIT_TIME_ON_SATURDAY', 'HORARIO FINAL DE FUNCIONAMENTO DOS SERVICOS BIBLIOTECARIO NOE SABADO', '13');
-INSERT INTO public.config (nome, descricao, valor) VALUES ('DAILY_RATE_FINE', 'TAXA DIARIA DA MULTA PARA ATRASO DE EVOLUCAO DE LIVRO', '25');
-INSERT INTO public.config (nome, descricao, valor) VALUES ('DEADLINE_REQUESTED_BOOKS', 'tempo maximo em minuto, que uma obra requesitada por um utente, permanece disponivel para o levatamento.', '60');
-INSERT INTO public.config (nome, descricao, valor) VALUES ('DEADLINE_RESERVED_BOOKS', 'tempo maximo em dias, que uma obra reservada por um utente, permanece disponivel para o levatamento.', '2');
-INSERT INTO public.config (nome, descricao, valor) VALUES ('DEADLINE_STUDENT_BORROWED_BOOKS', 'tempo maximo em dias, que uma obra emprestada permanece na posse de um estudante', '3');
-INSERT INTO public.config (nome, descricao, valor) VALUES ('DEADLINE_TEACHER_BORROWED_BOOKS', 'tempo maximo em dias, que uma obra emprestada permanece na posse de um docente', '7');
-INSERT INTO public.config (nome, descricao, valor) VALUES ('MAXIMUM_NUMBER_OF_COPIES', '"QUANTIDADE MAXIMA DE EXEMPLARES" QUE UM UTENTE PODE REQUISITAR', '3');
-INSERT INTO public.config (nome, descricao, valor) VALUES ('MAXIMUM_COPIES_PER_BOOK', '"QUANTIDADE MAXIMA DE EXEMPLARES" QUE UM UTENTE PODE REQUISITAR POR OBRA', '1');
+INSERT INTO "public"."config" VALUES ('MAXIMUM_TIME', '"TEMPO MAXIMO". EM MINUTOS QUE UM EXEMPLAR FICA A DISPONIBILIDADE DE UM UTENTE, APOS A REQUISICAO', '60');
+INSERT INTO "public"."config" VALUES ('MINIMUM_NUMBER_OF_COPIES', '"QUANTIDADE MINIMA DE EXEMPLARES" QUE DEVEM FICAR NA BIBLIOTECA', '2');
+INSERT INTO "public"."config" VALUES ('ENTRY_TIME_ON_WEEKDAYS', 'HORARIO INICIAL DE FUNCIONAMENTO DOS SERVICOS BIBLIOTECARIO NOS DIAS DA SEMANA', '7');
+INSERT INTO "public"."config" VALUES ('ENTRY_TIME_ON_SATURDAY', 'HORARIO INICIAL DE FUNCIONAMENTO DOS SERVICOS BIBLIOTECARIO NOE SABADO', '9');
+INSERT INTO "public"."config" VALUES ('EXIT_TIME_ON_SATURDAY', 'HORARIO FINAL DE FUNCIONAMENTO DOS SERVICOS BIBLIOTECARIO NOE SABADO', '13');
+INSERT INTO "public"."config" VALUES ('DAILY_RATE_FINE', 'TAXA DIARIA DA MULTA PARA ATRASO DE EVOLUCAO DE LIVRO', '25');
+INSERT INTO "public"."config" VALUES ('DEADLINE_REQUESTED_BOOKS', 'tempo maximo em minuto, que uma obra requesitada por um utente, permanece disponivel para o levatamento.', '60');
+INSERT INTO "public"."config" VALUES ('DEADLINE_RESERVED_BOOKS', 'tempo maximo em dias, que uma obra reservada por um utente, permanece disponivel para o levatamento.', '2');
+INSERT INTO "public"."config" VALUES ('DEADLINE_STUDENT_BORROWED_BOOKS', 'tempo maximo em dias, que uma obra emprestada permanece na posse de um estudante', '3');
+INSERT INTO "public"."config" VALUES ('DEADLINE_TEACHER_BORROWED_BOOKS', 'tempo maximo em dias, que uma obra emprestada permanece na posse de um docente', '7');
+INSERT INTO "public"."config" VALUES ('MAXIMUM_COPIES_PER_BOOK', '"QUANTIDADE MAXIMA DE EXEMPLARES" QUE UM UTENTE PODE REQUISITAR POR OBRA', '1');
+INSERT INTO "public"."config" VALUES ('MAXIMUM_NUMBER_OF_COPIES', '"QUANTIDADE MAXIMA DE EXEMPLARES" QUE UM UTENTE PODE REQUISITAR', '3');
+INSERT INTO "public"."config" VALUES ('EXIT_TIME_ON_WEEKDAYS', 'HORARIO FINAL DE FUNCIONAMENTO DOS SERVICOS BIBLIOTECARIO NOS DIAS DA SEMANA', '23');
+
 -- ----------------------------
 -- Table structure for emprestimo
 -- ----------------------------
@@ -213,21 +221,24 @@ CREATE TABLE "public"."emprestimo" (
 -- ----------------------------
 -- Records of emprestimo
 -- ----------------------------
--- INSERT INTO "public"."emprestimo" VALUES (4, 'BBB1', '2019-03-27 20:16:24.677', 1, NULL, NULL, 1, '--', 1, 2, 1, 1);
--- INSERT INTO "public"."emprestimo" VALUES (4, 'AAA9', '2019-03-27 20:16:24.402', 1, NULL, NULL, 1, '--', 1, 2, 1, 1);
--- INSERT INTO "public"."emprestimo" VALUES (4, 'AAA8', '2019-03-27 20:16:24.244', 1, NULL, NULL, 1, '--', 1, 2, 1, 1);
--- INSERT INTO "public"."emprestimo" VALUES (4, 'AAA7', '2019-03-27 20:16:24.091', 1, NULL, NULL, 1, '--', 1, 2, 1, 1);
--- INSERT INTO "public"."emprestimo" VALUES (2, 'AAA3', '2019-03-27 20:14:21.75', 6, NULL, NULL, 1, '--', 1, 2, 1, 1);
--- INSERT INTO "public"."emprestimo" VALUES (2, 'AAA2', '2019-03-27 20:14:21.585', 1, NULL, NULL, 1, '--', 1, 2, 1, 1);
--- INSERT INTO "public"."emprestimo" VALUES (2, 'AAA6', '2019-03-27 20:14:21.365', 1, NULL, NULL, 1, '--', 1, 2, 1, 1);
--- INSERT INTO "public"."emprestimo" VALUES (3, 'AAA6', '2019-03-27 20:05:50.171', 1, NULL, NULL, 1, '--', 1, 2, 1, 1);
--- INSERT INTO "public"."emprestimo" VALUES (3, 'WW2', '2019-03-27 20:05:49.94', 1, NULL, NULL, 1, '--', 1, 2, 1, 1);
--- INSERT INTO "public"."emprestimo" VALUES (3, 'AAA1', '2019-03-27 20:05:49.694', 1, NULL, NULL, 1, '--', 1, 2, 1, 1);
-INSERT INTO "public"."emprestimo" VALUES (3, 'WW2', '2018-12-26 12:17:46.228', 1, '2018-05-14', '2018-05-17', 1, 'Cancelado Pelo Sistema, excedeu o deadline', 1, 2, 1, 1);
-INSERT INTO "public"."emprestimo" VALUES (3, 'WW2', '2018-12-26 12:29:20.376', 1, '2019-03-21', '2019-03-25', 1, 'Cancelado Pelo Sistema, excedeu o deadline', 1, 2, 1, 1);
-INSERT INTO "public"."emprestimo" VALUES (3, 'WW2', '2018-12-26 12:21:38.945', 1, '2019-03-21', '2019-03-25', 1, 'Cancelado Pelo Sistema, excedeu o deadline', 1, 2, 1, 1);
-INSERT INTO "public"."emprestimo" VALUES (2, '544FF', '2018-12-26 12:25:14.634', 1, '2019-03-21', '2019-03-25', 1, 'Cancelado Pelo Sistema, excedeu o deadline', 1, 2, 1, 1);
-INSERT INTO "public"."emprestimo" VALUES (2, 'WW2', '2018-12-26 12:26:21.673', 1, '2019-03-21', '2019-03-29', 1, 'Cancelado Pelo Sistema, excedeu o deadline', 1, 2, 1, 1);
+INSERT INTO "public"."emprestimo" VALUES (3, 'AAA1', '2019-03-27 20:05:49.694', 5, '2018-05-14', '2018-05-17', 1, 'Cancelado Pelo Sistema, excedeu o deadline', 3, 2, 1, 1);
+INSERT INTO "public"."emprestimo" VALUES (3, 'AAA7', '2019-03-27 20:16:24.091', 5, '2018-05-14', '2018-05-17', 1, 'Cancelado Pelo Sistema, excedeu o deadline', 2, 2, 1, 1);
+INSERT INTO "public"."emprestimo" VALUES (3, 'BBB1', '2019-03-27 20:16:24.677', 5, '2018-05-14', '2018-05-17', 1, 'Cancelado Pelo Sistema, excedeu o deadline', 2, 2, 1, 1);
+INSERT INTO "public"."emprestimo" VALUES (2, 'WW2', '2018-12-26 12:26:21.673', 5, '2019-03-21', '2019-03-25', 1, 'Cancelado Pelo Sistema, excedeu o deadline', 2, 2, 1, 1);
+INSERT INTO "public"."emprestimo" VALUES (2, 'AAA6', '2019-03-27 20:14:21.365', 5, '2019-02-25', '2019-02-28', 1, 'Cancelado Pelo Sistema, excedeu o deadline', 2, 2, 1, 1);
+INSERT INTO "public"."emprestimo" VALUES (3, 'AAA6', '2019-03-27 20:05:50.171', 5, '2019-01-27', '2019-01-30', 1, 'Cancelado Pelo Sistema, excedeu o deadline', 2, 2, 1, 1);
+INSERT INTO "public"."emprestimo" VALUES (3, 'WW2', '2018-12-26 12:21:38.945', 5, '2019-03-21', '2019-03-25', 1, 'Cancelado Pelo Sistema, excedeu o deadline', 2, 2, 1, 1);
+INSERT INTO "public"."emprestimo" VALUES (2, '544FF', '2018-12-26 12:25:14.634', 5, '2019-03-21', '2019-03-25', 1, 'Cancelado Pelo Sistema, excedeu o deadline', 2, 2, 1, 1);
+INSERT INTO "public"."emprestimo" VALUES (3, 'WW2', '2018-12-26 12:17:46.228', 5, '2018-05-14', '2018-05-17', 1, 'Cancelado Pelo Sistema, excedeu o deadline', 2, 2, 1, 1);
+INSERT INTO "public"."emprestimo" VALUES (3, 'WW2', '2018-12-26 12:29:20.376', 5, '2019-03-21', '2019-03-25', 1, 'Cancelado Pelo Sistema, excedeu o deadline', 2, 2, 1, 1);
+INSERT INTO "public"."emprestimo" VALUES (2, 'AAA3', '2019-03-27 20:14:21.75', 5, '2019-03-21', '2019-03-25', 1, 'Cancelado Pelo Sistema, excedeu o deadline', 2, 2, 1, 1);
+INSERT INTO "public"."emprestimo" VALUES (2, 'AAA2', '2019-03-27 20:14:21.585', 5, '2018-05-14', '2018-05-17', 1, 'Cancelado Pelo Sistema, excedeu o deadline', 2, 2, 1, 1);
+INSERT INTO "public"."emprestimo" VALUES (3, 'AAA8', '2019-03-27 20:16:24.244', 5, '2019-04-09', '2019-04-12', 1, 'Cancelado Pelo Sistema, excedeu o deadline', 2, 2, 1, 1);
+INSERT INTO "public"."emprestimo" VALUES (3, 'AAA9', '2019-03-27 20:16:24.402', 3, '2019-04-10', '2019-04-13', 1, 'Cancelado Pelo Sistema, excedeu o deadline', 2, 2, 1, 1);
+INSERT INTO "public"."emprestimo" VALUES (4, '531.4F', '2019-07-06 10:51:31.138', 2, '2019-07-06', NULL, 1, '--', 1, NULL, 1, NULL);
+INSERT INTO "public"."emprestimo" VALUES (4, '589AF', '2019-07-06 10:51:30.865', 2, '2019-07-06', NULL, 1, '--', 1, NULL, 1, NULL);
+INSERT INTO "public"."emprestimo" VALUES (4, '545AA', '2019-07-06 10:53:21.09', 5, NULL, NULL, 1, 'Cancelado Pelo Sistema, excedeu o deadline', 1, NULL, 2, NULL);
+INSERT INTO "public"."emprestimo" VALUES (3, 'WW2', '2019-03-27 20:05:49.94', 3, '2019-02-04', '2019-02-07', 1, 'Obra devolvida e Multa nao paga', 3, 2, 1, 1);
 
 -- ----------------------------
 -- Table structure for estadod
@@ -252,9 +263,9 @@ CREATE TABLE "public"."estadodevolucao" (
 -- ----------------------------
 -- Records of estadodevolucao
 -- ----------------------------
-INSERT INTO "public"."estadodevolucao" VALUES (1, 'UNDETERMINED');
-INSERT INTO "public"."estadodevolucao" VALUES (3, 'RETURNED');
-INSERT INTO "public"."estadodevolucao" VALUES (2, 'NOT_RETURNED');
+INSERT INTO "public"."estadodevolucao" VALUES (3, 'DEVOLVIDO');
+INSERT INTO "public"."estadodevolucao" VALUES (2, 'NAO_DEVOLVIDO');
+INSERT INTO "public"."estadodevolucao" VALUES (1, 'INDETERMINADO');
 
 -- ----------------------------
 -- Table structure for estadomulta
@@ -269,10 +280,9 @@ CREATE TABLE "public"."estadomulta" (
 -- ----------------------------
 -- Records of estadomulta
 -- ----------------------------
-INSERT INTO "public"."estadomulta" VALUES (1, 'Indeferido');
-INSERT INTO "public"."estadomulta" VALUES (3, 'NOT_PAID');
-INSERT INTO "public"."estadomulta" VALUES (2, 'PAID');
-INSERT INTO "public"."estadomulta" VALUES (4, 'REVOKED');
+INSERT INTO "public"."estadomulta" VALUES (1, 'NAO_PAGA');
+INSERT INTO "public"."estadomulta" VALUES (3, 'PAGA');
+INSERT INTO "public"."estadomulta" VALUES (2, 'REVOGADA');
 
 -- ----------------------------
 -- Table structure for estadopedido
@@ -287,12 +297,12 @@ CREATE TABLE "public"."estadopedido" (
 -- ----------------------------
 -- Records of estadopedido
 -- ----------------------------
-INSERT INTO "public"."estadopedido" VALUES (3, 'ACCEPTED');
-INSERT INTO "public"."estadopedido" VALUES (5, 'CANCELED');
-INSERT INTO "public"."estadopedido" VALUES (2, 'REJECTED');
-INSERT INTO "public"."estadopedido" VALUES (4, 'ON_WAINTING_QUEUE');
-INSERT INTO "public"."estadopedido" VALUES (6, 'PENDING_BOOKING');
-INSERT INTO "public"."estadopedido" VALUES (1, 'PENDING_MINI_BOOKING');
+INSERT INTO "public"."estadopedido" VALUES (3, 'ACEITO');
+INSERT INTO "public"."estadopedido" VALUES (5, 'CANCELADO');
+INSERT INTO "public"."estadopedido" VALUES (2, 'REJEITADO');
+INSERT INTO "public"."estadopedido" VALUES (4, 'NA_FILA');
+INSERT INTO "public"."estadopedido" VALUES (6, 'RESERVA_PENDENTE');
+INSERT INTO "public"."estadopedido" VALUES (1, 'MINI_RESERVA_PENDENTE');
 
 -- ----------------------------
 -- Table structure for estadorenovacao
@@ -307,8 +317,8 @@ CREATE TABLE "public"."estadorenovacao" (
 -- ----------------------------
 -- Records of estadorenovacao
 -- ----------------------------
-INSERT INTO "public"."estadorenovacao" VALUES (1, 'Renovado');
-INSERT INTO "public"."estadorenovacao" VALUES (2, 'Indeferido');
+INSERT INTO "public"."estadorenovacao" VALUES (1, 'RENOVADO');
+INSERT INTO "public"."estadorenovacao" VALUES (2, 'INDEFERIDO');
 
 -- ----------------------------
 -- Table structure for formaaquisicao
@@ -323,9 +333,9 @@ CREATE TABLE "public"."formaaquisicao" (
 -- ----------------------------
 -- Records of formaaquisicao
 -- ----------------------------
-INSERT INTO "public"."formaaquisicao" VALUES (1, 'Compra');
-INSERT INTO "public"."formaaquisicao" VALUES (2, 'Doacao');
-INSERT INTO "public"."formaaquisicao" VALUES (3, 'Permuta');
+INSERT INTO "public"."formaaquisicao" VALUES (1, 'COMPRA');
+INSERT INTO "public"."formaaquisicao" VALUES (2, 'DOACAO');
+INSERT INTO "public"."formaaquisicao" VALUES (3, 'PERMUTA');
 
 -- ----------------------------
 -- Table structure for formatocd
@@ -398,6 +408,11 @@ CREATE TABLE "public"."livro" (
 ;
 
 -- ----------------------------
+-- Records of livro
+-- ----------------------------
+INSERT INTO "public"."livro" VALUES ('DDD1', '1228-589-689-666', 'Suha', 5, '112536789', 1);
+
+-- ----------------------------
 -- Table structure for livrocd
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."livrocd";
@@ -427,7 +442,7 @@ CREATE TABLE "public"."multa" (
   "idestadomulta" int4,
   "dataentradapedido" timestamp(6) NOT NULL,
   "taxadiaria" float4,
-  "notificacao" boolean
+  "notificacao" bool
 )
 ;
 
@@ -454,9 +469,6 @@ CREATE TABLE "public"."obra" (
 -- ----------------------------
 -- Records of obra
 -- ----------------------------
-INSERT INTO "public"."obra" VALUES ('545AA', 785, 'Introducao a Estatistica', 1, 'Maputo', 1, 2, 2, NULL, 'digitalLibrary/cover/Introducao-a-Estatistica-Enfoque-Informatico-com-o-Pacote-Estatistico-SPSS-275390.jpg', 2017, NULL);
-INSERT INTO "public"."obra" VALUES ('589AF', 78988, 'Introducao a Geografia', 1, 'teste', 1, 120, 2, NULL, 'digitalLibrary/cover/geografia.jpg', 2018, NULL);
-INSERT INTO "public"."obra" VALUES ('531.4F', 1223, 'Introducao Fisica', 1, 'Pemba', 1, 4, 1, '', 'digitalLibrary/cover/fisica.jpg', 2001, NULL);
 INSERT INTO "public"."obra" VALUES ('77788', 555, 'Introducao a Quimica', 5, 'Maputo', 1, 4, 2, 'digitalLibrary/pdf/isbd-cons_2007-en.pdf', 'digitalLibrary/cover/quimica.jpg', 788, NULL);
 INSERT INTO "public"."obra" VALUES ('eee2', 1234, 'Introducao a Matematica', 1, 'Beira', 1, 4, 2, 'digitalLibrary/pdf/4.pdf', 'digitalLibrary/cover/Introducao-a-Matematica.jpg', 1298, NULL);
 INSERT INTO "public"."obra" VALUES ('AAA5', 123, 'O Homem mais inteligente da historia', 4, 'Pemba', 1, 100, 2, NULL, 'digitalLibrary/cover/capa-o-homem-mais-inteligente-da-historia.jpg', 2018, NULL);
@@ -467,22 +479,25 @@ INSERT INTO "public"."obra" VALUES ('BBB5', 123, 'A Torre da Andorinha', 4, 'Pem
 INSERT INTO "public"."obra" VALUES ('BBB6', 123, 'Simplesmente Aconteceu', 4, 'Pemba', 1, 100, 2, NULL, 'digitalLibrary/cover/Livro-Simplesmente-Acontece-Edicao.jpg', 2018, NULL);
 INSERT INTO "public"."obra" VALUES ('BBB7', 123, 'Diario de Um Vampiro - Meia Noite', 4, 'Pemba', 1, 100, 2, NULL, 'digitalLibrary/cover/meia-noite-dv.jpg', 2018, NULL);
 INSERT INTO "public"."obra" VALUES ('BBB8', 123, 'O Mundo dos Dragoes', 4, 'Pemba', 1, 100, 2, NULL, 'digitalLibrary/cover/mundo-dragoes.jpg', 2018, NULL);
-INSERT INTO "public"."obra" VALUES ('BBB9', 123, 'O Iluminado', 4, 'Pemba', 1, 100, 2, NULL, 'digitalLibrary/cover/O iluminado.jpg', 2018, NULL);
 INSERT INTO "public"."obra" VALUES ('CCC1', 123, 'O Segredo sas Sombras', 4, 'Pemba', 1, 100, 2, NULL, 'digitalLibrary/cover/o segredo das sombras.jpg', 2018, NULL);
 INSERT INTO "public"."obra" VALUES ('CCC2', 123, 'O Sete', 4, 'Pemba', 1, 100, 2, NULL, 'digitalLibrary/cover/O setes.jpg', 2018, NULL);
 INSERT INTO "public"."obra" VALUES ('CCC3', 123, 'O Hobbit', 4, 'Pemba', 1, 100, 2, NULL, 'digitalLibrary/cover/O-Hobbit-Edicao-Especial-Capa-do-Filme-J-R-R-Tolkien-1768460.jpg', 2018, NULL);
 INSERT INTO "public"."obra" VALUES ('CCC4', 123, 'Quem e voce, Alasca ?', 4, 'Pemba', 1, 100, 2, NULL, 'digitalLibrary/cover/Quem é Você, Alasca.jpg', 2018, NULL);
-INSERT INTO "public"."obra" VALUES ('BBB1', 123, 'Harry Potter e as Criancas Amaldicoadas', 4, 'Pemba', 1, 99, 2, NULL, 'digitalLibrary/cover/Harry Potter e as Criancas amaldicoadas.jpg', 2018, NULL);
 INSERT INTO "public"."obra" VALUES ('AAA4', 123, 'A Ultima musica', 4, 'Pemba', 1, 99, 2, NULL, 'digitalLibrary/cover/a-ultima-musica-capa-livro1.jpg', 2018, NULL);
-INSERT INTO "public"."obra" VALUES ('AAA1', 123, 'A Cabana', 4, 'Pemba', 1, 99, 2, NULL, 'digitalLibrary/cover/A Cabana.jpg', 2018, NULL);
-INSERT INTO "public"."obra" VALUES ('WW2', 7777, 'Introducao a Biologia', 1, 'Nampula', 2, 23, 2, '', 'digitalLibrary/cover/bg4.jpg', 44444, NULL);
-INSERT INTO "public"."obra" VALUES ('544FF', 7887, 'Introducao a Matematica', 1, 'Pemba', 1, 12, 1, NULL, 'digitalLibrary/cover/Introducao-a-Matematica.jpg', 2018, NULL);
-INSERT INTO "public"."obra" VALUES ('AAA6', 123, 'A Cidade de Ossos', 4, 'Pemba', 1, 96, 2, NULL, 'digitalLibrary/cover/cidade-dos-ossos1.jpg', 2018, NULL);
-INSERT INTO "public"."obra" VALUES ('AAA2', 123, 'A primeira Vista', 4, 'Pemba', 1, 98, 2, NULL, 'digitalLibrary/cover/A primeira Vista.jpg', 2018, NULL);
-INSERT INTO "public"."obra" VALUES ('AAA3', 123, 'Ackson e os Olimpianos', 4, 'Pemba', 1, 99, 2, NULL, 'digitalLibrary/cover/ackson & os olimpianos.jpg', 2018, NULL);
-INSERT INTO "public"."obra" VALUES ('AAA7', 123, 'A Cidade de Papel', 4, 'Pemba', 1, 99, 2, NULL, 'digitalLibrary/cover/CIDADES_DE_PAPEL_1374703616B.jpg', 2018, NULL);
-INSERT INTO "public"."obra" VALUES ('AAA8', 123, 'As Cronicas de Gelo e de Fogo', 4, 'Pemba', 1, 99, 2, NULL, 'digitalLibrary/cover/Coleção As Crônicas De Gelo E Fogo.jpg', 2018, NULL);
-INSERT INTO "public"."obra" VALUES ('AAA9', 123, 'O Esplendor da Honra', 4, 'Pemba', 1, 99, 2, NULL, 'digitalLibrary/cover/esplendor-da-honra-julie-garwood-editora-universo-dos-livros-romance-de-epoca-as-7-melhores-e-mais-bonitas-capas-de-2017-mademoisellelovesbooks.jpg', 2018, NULL);
+INSERT INTO "public"."obra" VALUES ('AAA6', 123, 'A Cidade de Ossos', 4, 'Pemba', 1, 106, 2, NULL, 'digitalLibrary/cover/cidade-dos-ossos1.jpg', 2018, NULL);
+INSERT INTO "public"."obra" VALUES ('544FF', 7887, 'Introducao a Matematica', 1, 'Pemba', 1, 17, 1, NULL, 'digitalLibrary/cover/Introducao-a-Matematica.jpg', 2018, NULL);
+INSERT INTO "public"."obra" VALUES ('WW2', 7777, 'Introducao a Biologia', 1, 'Nampula', 2, 49, 2, '', 'digitalLibrary/cover/bg4.jpg', 44444, NULL);
+INSERT INTO "public"."obra" VALUES ('AAA3', 123, 'Ackson e os Olimpianos', 4, 'Pemba', 1, 102, 2, NULL, 'digitalLibrary/cover/ackson & os olimpianos.jpg', 2018, NULL);
+INSERT INTO "public"."obra" VALUES ('AAA1', 123, 'A Cabana', 4, 'Pemba', 1, 106, 2, NULL, 'digitalLibrary/cover/A Cabana.jpg', 2018, NULL);
+INSERT INTO "public"."obra" VALUES ('DDD1', 1234, 'O ilumindao', 5, 'New York', 1, 800, 1, 'digitalLibrary/pdf/02.pdf', 'digitalLibrary/cover/O iluminado.jpg', 2010, NULL);
+INSERT INTO "public"."obra" VALUES ('AAA2', 123, 'A primeira Vista', 4, 'Pemba', 1, 103, 2, NULL, 'digitalLibrary/cover/A primeira Vista.jpg', 2018, NULL);
+INSERT INTO "public"."obra" VALUES ('589AF', 78988, 'Introducao a Geografia', 1, 'teste', 1, 119, 2, NULL, 'digitalLibrary/cover/geografia.jpg', 2018, NULL);
+INSERT INTO "public"."obra" VALUES ('531.4F', 1223, 'Introducao Fisica', 1, 'Pemba', 1, 3, 1, '', 'digitalLibrary/cover/fisica.jpg', 2001, NULL);
+INSERT INTO "public"."obra" VALUES ('545AA', 785, 'Introducao a Estatistica', 1, 'Maputo', 1, 2, 2, NULL, 'digitalLibrary/cover/Introducao-a-Estatistica-Enfoque-Informatico-com-o-Pacote-Estatistico-SPSS-275390.jpg', 2017, NULL);
+INSERT INTO "public"."obra" VALUES ('AAA9', 123, 'O Esplendor da Honra', 4, 'Pemba', 1, 102, 2, NULL, 'digitalLibrary/cover/esplendor-da-honra-julie-garwood-editora-universo-dos-livros-romance-de-epoca-as-7-melhores-e-mais-bonitas-capas-de-2017-mademoisellelovesbooks.jpg', 2018, NULL);
+INSERT INTO "public"."obra" VALUES ('AAA8', 123, 'As Cronicas de Gelo e de Fogo', 4, 'Pemba', 1, 104, 2, NULL, 'digitalLibrary/cover/Coleção As Crônicas De Gelo E Fogo.jpg', 2018, NULL);
+INSERT INTO "public"."obra" VALUES ('AAA7', 123, 'A Cidade de Papel', 4, 'Pemba', 1, 104, 2, NULL, 'digitalLibrary/cover/CIDADES_DE_PAPEL_1374703616B.jpg', 2018, NULL);
+INSERT INTO "public"."obra" VALUES ('BBB1', 123, 'Harry Potter e as Criancas Amaldicoadas', 4, 'Pemba', 1, 104, 2, NULL, 'digitalLibrary/cover/Harry Potter e as Criancas amaldicoadas.jpg', 2018, NULL);
 
 -- ----------------------------
 -- Table structure for obra_autor
@@ -572,11 +587,6 @@ INSERT INTO "public"."obra_autor" VALUES ('ad8cc9439f4078432c3a1ac916879580', 'B
 INSERT INTO "public"."obra_autor" VALUES ('0c2bdde760f064e8de5806fa5d04a761', 'BBB8');
 INSERT INTO "public"."obra_autor" VALUES ('f6b6fe0e0847f01b9a71511cbb3be063', 'BBB8');
 INSERT INTO "public"."obra_autor" VALUES ('cb90597609ca97413350bc3fa0576828', 'BBB8');
-INSERT INTO "public"."obra_autor" VALUES ('ad8cc9439f4078432c3a1ac916879580', 'BBB9');
-INSERT INTO "public"."obra_autor" VALUES ('f70e3a934c3327ff6b0b0f829a9cda99', 'BBB9');
-INSERT INTO "public"."obra_autor" VALUES ('0c2bdde760f064e8de5806fa5d04a761', 'BBB9');
-INSERT INTO "public"."obra_autor" VALUES ('f6b6fe0e0847f01b9a71511cbb3be063', 'BBB9');
-INSERT INTO "public"."obra_autor" VALUES ('cb90597609ca97413350bc3fa0576828', 'BBB9');
 INSERT INTO "public"."obra_autor" VALUES ('ad8cc9439f4078432c3a1ac916879580', 'CCC1');
 INSERT INTO "public"."obra_autor" VALUES ('f70e3a934c3327ff6b0b0f829a9cda99', 'CCC1');
 INSERT INTO "public"."obra_autor" VALUES ('8306288b152e788442c362936e796f3f', 'CCC1');
@@ -608,6 +618,7 @@ INSERT INTO "public"."obra_autor" VALUES ('b687b7ca6a24140b9b03305c6ee42260', 'C
 INSERT INTO "public"."obra_autor" VALUES ('0b757be795f46a5c37c52e7932e8effc', '545AA');
 INSERT INTO "public"."obra_autor" VALUES ('f6b6fe0e0847f01b9a71511cbb3be063', '545AA');
 INSERT INTO "public"."obra_autor" VALUES ('cb90597609ca97413350bc3fa0576828', '589AF');
+INSERT INTO "public"."obra_autor" VALUES ('f70e3a934c3327ff6b0b0f829a9cda99', 'DDD1');
 
 -- ----------------------------
 -- Table structure for obraeliminadas
@@ -625,7 +636,8 @@ CREATE TABLE "public"."obraeliminadas" (
 -- ----------------------------
 -- Records of obraeliminadas
 -- ----------------------------
-INSERT INTO "public"."obraeliminadas" VALUES ('2019-01-10 20:40:01.468', 'dddd', 8, '544FF', 3);
+INSERT INTO "public"."obraeliminadas" VALUES ('2019-04-17 09:20:48', 'fff', 10, 'AAA5', 1);
+INSERT INTO "public"."obraeliminadas" VALUES ('2019-01-10 20:40:01.468', 'dddd', 8, '544FF', 1);
 
 -- ----------------------------
 -- Table structure for registroobra
@@ -650,7 +662,6 @@ INSERT INTO "public"."registroobra" VALUES ('AAA1', 1, '2019-03-27 18:58:13.842'
 INSERT INTO "public"."registroobra" VALUES ('AAA2', 1, '2019-03-27 18:58:52.762', NULL, 1, NULL);
 INSERT INTO "public"."registroobra" VALUES ('AAA3', 1, '2019-03-27 18:59:54.765', NULL, 1, NULL);
 INSERT INTO "public"."registroobra" VALUES ('AAA4', 1, '2019-03-27 19:00:45.722', NULL, 1, NULL);
-INSERT INTO "public"."registroobra" VALUES ('AAA5', 1, '2019-03-27 19:01:42.331', NULL, 1, NULL);
 INSERT INTO "public"."registroobra" VALUES ('AAA6', 1, '2019-03-27 19:03:03.114', NULL, 1, NULL);
 INSERT INTO "public"."registroobra" VALUES ('AAA7', 1, '2019-03-27 19:03:21.602', NULL, 1, NULL);
 INSERT INTO "public"."registroobra" VALUES ('AAA8', 1, '2019-03-27 19:03:54.947', NULL, 1, NULL);
@@ -663,11 +674,12 @@ INSERT INTO "public"."registroobra" VALUES ('BBB5', 1, '2019-03-27 19:06:48.176'
 INSERT INTO "public"."registroobra" VALUES ('BBB6', 1, '2019-03-27 19:07:08.216', NULL, 1, NULL);
 INSERT INTO "public"."registroobra" VALUES ('BBB7', 1, '2019-03-27 19:07:37.305', NULL, 1, NULL);
 INSERT INTO "public"."registroobra" VALUES ('BBB8', 1, '2019-03-27 19:08:05.778', NULL, 1, NULL);
-INSERT INTO "public"."registroobra" VALUES ('BBB9', 1, '2019-03-27 19:08:43.346', NULL, 1, NULL);
 INSERT INTO "public"."registroobra" VALUES ('CCC1', 1, '2019-03-27 19:09:40.489', NULL, 1, NULL);
 INSERT INTO "public"."registroobra" VALUES ('CCC2', 1, '2019-03-27 19:10:09.575', NULL, 1, NULL);
 INSERT INTO "public"."registroobra" VALUES ('CCC3', 1, '2019-03-27 19:11:13.796', NULL, 1, NULL);
 INSERT INTO "public"."registroobra" VALUES ('CCC4', 1, '2019-03-27 19:11:53.782', NULL, 1, NULL);
+INSERT INTO "public"."registroobra" VALUES ('DDD1', 1, '2019-04-08 21:28:22.189', NULL, 3, NULL);
+INSERT INTO "public"."registroobra" VALUES ('AAA5', 1, '2019-03-27 19:01:42.331', NULL, 1, 40);
 
 -- ----------------------------
 -- Table structure for revista
@@ -699,7 +711,6 @@ INSERT INTO "public"."revista" VALUES ('BBB5', 'Unilurio');
 INSERT INTO "public"."revista" VALUES ('BBB6', 'Unilurio');
 INSERT INTO "public"."revista" VALUES ('BBB7', 'Unilurio');
 INSERT INTO "public"."revista" VALUES ('BBB8', 'Unilurio');
-INSERT INTO "public"."revista" VALUES ('BBB9', 'Unilurio');
 INSERT INTO "public"."revista" VALUES ('CCC1', 'Unilurio');
 INSERT INTO "public"."revista" VALUES ('CCC2', 'Unilurio');
 INSERT INTO "public"."revista" VALUES ('CCC3', 'Unilurio');
@@ -720,8 +731,8 @@ CREATE TABLE "public"."role" (
 -- Records of role
 -- ----------------------------
 INSERT INTO "public"."role" VALUES (1, 'ADMIN', 0);
-INSERT INTO "public"."role" VALUES (2, 'STUDENT', 6);
-INSERT INTO "public"."role" VALUES (3, 'TEACHER', 4);
+INSERT INTO "public"."role" VALUES (2, 'ESTUDANTE', 6);
+INSERT INTO "public"."role" VALUES (3, 'PROFESSOR', 5);
 
 -- ----------------------------
 -- Table structure for roleitem
@@ -764,8 +775,8 @@ COMMENT ON TABLE "public"."tiporequisicao" IS 'especifica os tipos de requisicoe
 -- ----------------------------
 -- Records of tiporequisicao
 -- ----------------------------
-INSERT INTO "public"."tiporequisicao" VALUES (1, 'HOME_REQUISITION');
-INSERT INTO "public"."tiporequisicao" VALUES (2, 'INTERNAL_REQUISITION');
+INSERT INTO "public"."tiporequisicao" VALUES (1, 'REQUISICAO_DOMICILIARIA');
+INSERT INTO "public"."tiporequisicao" VALUES (2, 'REQUISICAO_INTERNA');
 
 -- ----------------------------
 -- Table structure for user
@@ -784,10 +795,10 @@ CREATE TABLE "public"."user" (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO "public"."user" VALUES (1, 1 , 'admin@admin', 'admin', 'admin', '21232f297a57a5a743894a0e4a801fc3');
-INSERT INTO "public"."user" VALUES (3, 1 , 'student@unilurio.ac.mz', 'student', 'student', '289ffeb2a745ccf51ca89a297f47e382');
-INSERT INTO "public"."user" VALUES (4, 1 , 'teacher@unilurio.ac.mz', 'teacher', 'teacher', '289ffeb2a745ccf51ca89a297f47e382');
-INSERT INTO "public"."user" VALUES (2, 1 , 'fonseca@fonseca', 'Fonseca', 'Fonseca', 'e653d3954be6576488c5ce7a599869de');
+INSERT INTO "public"."user" VALUES (1, 1, 'admin@admin', 'admin', 'admin', '21232f297a57a5a743894a0e4a801fc3');
+INSERT INTO "public"."user" VALUES (2, 1, 'fonseca@fonseca', 'Fonseca', 'Fonseca', 'e653d3954be6576488c5ce7a599869de');
+INSERT INTO "public"."user" VALUES (3, 1, 'student@unilurio.ac.mz', 'student', 'student', '289ffeb2a745ccf51ca89a297f47e382');
+INSERT INTO "public"."user" VALUES (4, 1, 'teacher@unilurio.ac.mz', 'teacher', 'teacher', '289ffeb2a745ccf51ca89a297f47e382');
 
 -- ----------------------------
 -- Table structure for user_role
@@ -919,11 +930,6 @@ ALTER TABLE "public"."livro" ADD CONSTRAINT "livro_key" PRIMARY KEY ("cota");
 ALTER TABLE "public"."livrocd" ADD CONSTRAINT "livrocd_pkey" PRIMARY KEY ("cota");
 
 -- ----------------------------
--- Primary Key structure for table multa
--- ----------------------------
-ALTER TABLE "public"."multa" ADD CONSTRAINT "multa_pkey" PRIMARY KEY ("cota", "utente", "dataentradapedido");
-
--- ----------------------------
 -- Primary Key structure for table obra
 -- ----------------------------
 ALTER TABLE "public"."obra" ADD CONSTRAINT "obra_key" PRIMARY KEY ("cota");
@@ -1013,10 +1019,10 @@ ALTER TABLE "public"."livrocd" ADD CONSTRAINT "fkb022d77f183e4c5" FOREIGN KEY ("
 -- ----------------------------
 -- Foreign Keys structure for table multa
 -- ----------------------------
-ALTER TABLE "public"."multa" ADD CONSTRAINT "bibliotecario" FOREIGN KEY ("bibliotecario") REFERENCES "public"."user" ("user_id") ON DELETE NO ACTION ON UPDATE NO ACTION;
-ALTER TABLE "public"."multa" ADD CONSTRAINT "cota" FOREIGN KEY ("cota") REFERENCES "public"."obra" ("cota") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "public"."multa" ADD CONSTRAINT "fk636d531433c2e30" FOREIGN KEY ("bibliotecario") REFERENCES "public"."user" ("user_id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "public"."multa" ADD CONSTRAINT "fk636d5317e6bd97" FOREIGN KEY ("utente") REFERENCES "public"."user" ("user_id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE "public"."multa" ADD CONSTRAINT "fk636d5319b43d611" FOREIGN KEY ("idestadomulta") REFERENCES "public"."estadomulta" ("idestadomulta") ON DELETE NO ACTION ON UPDATE NO ACTION;
-ALTER TABLE "public"."multa" ADD CONSTRAINT "utente" FOREIGN KEY ("utente") REFERENCES "public"."user" ("user_id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "public"."multa" ADD CONSTRAINT "fk636d531f183e4c5" FOREIGN KEY ("cota") REFERENCES "public"."obra" ("cota") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- ----------------------------
 -- Foreign Keys structure for table obra

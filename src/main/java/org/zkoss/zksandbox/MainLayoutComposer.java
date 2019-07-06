@@ -154,6 +154,7 @@ public class MainLayoutComposer extends GenericForwardComposer<Borderlayout> imp
 	}
 
 	public void onMainCreate(Event event) {
+
 		final Execution exec = Executions.getCurrent();
 		final String id = exec.getParameter("id");
 		Listitem item = null;

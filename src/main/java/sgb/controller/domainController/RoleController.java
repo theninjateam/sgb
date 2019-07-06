@@ -19,8 +19,8 @@ public class RoleController
     {
         this.crudService = crudService;
 
-        STUDENT = getRoleId("STUDENT");
-        TEACHER = getRoleId("TEACHER");
+        STUDENT = getRoleId("ESTUDANTE");
+        TEACHER = getRoleId("PROFESSOR");
         ADMIN = getRoleId("ADMIN");
     }
 

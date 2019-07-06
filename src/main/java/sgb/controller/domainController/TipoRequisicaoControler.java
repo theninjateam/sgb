@@ -19,8 +19,8 @@ public class TipoRequisicaoControler
     public TipoRequisicaoControler(CRUDService crudService)
     {
         this.CRUDService = crudService;
-        HOME_REQUISITION = getValue("HOME_REQUISITION");
-        INTERNAL_REQUISITION = getValue("INTERNAL_REQUISITION");
+        HOME_REQUISITION = getValue("REQUISICAO_DOMICILIARIA");
+        INTERNAL_REQUISITION = getValue("REQUISICAO_INTERNA");
     }
 
     public int getValue(String description)
