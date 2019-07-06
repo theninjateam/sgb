@@ -54,6 +54,7 @@ public class ListobraController extends SelectorComposer<Component>
     private EstadoRenovacao estadoRenovacao;
     private ListModelList<Obra> obras;
     private ListModelList<Obra> detalheObra;
+    private boolean isSearching  = false;
 
     @Wire
     private Button buttonPesquisar;
@@ -193,48 +194,63 @@ public class ListobraController extends SelectorComposer<Component>
     }
 
 
+
 //    @Listen("onPesquisar = #textboxPesquisar")
 //    public void doAutoPesquisar(ForwardEvent event)
 //    {
 //        pesquisar(textboxPesquisar.getValue());
 //    }
 
+    @Listen("onPesquisar = #textboxPesquisar")
+    public void doAutoPesquisar(ForwardEvent event)
+    {
+        pesquisar(textboxPesquisar.getValue());
+        BindUtils.postNotifyChange(null, null, this, "obras");
+
+    }
+
     @Listen("onPesquisar = #buttonPesquisar")
     public void doPesquisar(ForwardEvent event)
     {
-        System.out.println(textboxPesquisar.getValue());
+       pesquisar(textboxPesquisar.getValue());
+       BindUtils.postNotifyChange(null, null, this, "obras");
 
-        pesquisar(textboxPesquisar.getValue());
     }
 
     public void pesquisar(String keys)
     {
+        obras = new ListModelList<Obra>();
+
         if (textboxPesquisar.getValue().isEmpty())
         {
-            obras.removeAll(obras);
-            obras.addAll(getObras());
+            isSearching = false;
         }
         else
         {
-            System.out.println(obras.isEmpty());
-//            obras.removeAll(obras);
+            isSearching = true;
 
-//            for (Obra obra: getObras())
-//            {
-//                for ( String key: keys.split(" "))
-//                {
-//                    if( obra.getTitulo().toLowerCase().contains(key.toLowerCase()))
-//                    {
-//                        obras.add(obra);
-//                        break;
-//                    }
-//                }
-//            }
+            for (Obra obra: crudService.getAll(Obra.class))
+            {
+                for ( String key: keys.split(" "))
+                {
+                    if( obra.getTitulo().toLowerCase().contains(key.toLowerCase()))
+                    {
+                        obras.add(obra);
+                        break;
+                    }
+                }
+            }
         }
     }
 
     public ListModelList<Obra> getObras()
     {
+        if (isSearching)
+        {
+            isSearching = false;
+            return obras;
+        }
+
         List<Obra> listaobra = crudService.getAll(Obra.class);
         return new ListModelList<Obra>(listaobra);
     }

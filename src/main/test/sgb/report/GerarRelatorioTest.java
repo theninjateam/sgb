@@ -124,9 +124,9 @@ public class GerarRelatorioTest {
         multaList = multaController.getMultas();
 
         assertNotNull(gerarRelatorio.createPdfMulta(multaList
-                ,"src/main/java/sgb/report/relatorioMultas/relatorio.jrxml"));
+                ,"src/main/java/sgb/report/relatorioMultas/relatorio.jrxml", 1));
 
-        assertNull(gerarRelatorio.createPdfMulta(multaList,null));
+        assertNull(gerarRelatorio.createPdfMulta(multaList,null, 1));
 
     }
 }
