@@ -53,9 +53,9 @@ private Button buttonBlock;
         usersListModelList = new ListModelList<Users>(this.userController.getNormalUsers(userController.getUsers()));
 
         estado = new ListModelList<String>();
-        estado.add("All");
-        estado.add("Blocked");
-        estado.add("Unblocked");
+        estado.add("Todos");
+        estado.add("Bloqueados");
+        estado.add("Desbloqueados");
 
         estadoListBox.setModel(estado);
         listUtilizadores.setModel(usersListModelList);
@@ -125,7 +125,7 @@ private Button buttonBlock;
             estado = estadoListBox.getSelectedItem().getValue();
         }catch (Exception ex){}
 
-        if(estado.equals("All") || estado.equals(""))
+        if(estado.equals("Todos") || estado.equals(""))
             return userController.getUsers();
         else {
             String estate = estadoListBox.getSelectedItem().getValue();

@@ -22,11 +22,12 @@ public class Login {
     public boolean isBlocked(Users user){
 
         return user.getActive()==0;
+
     }
 
     public int getState(String state){
 
-        if (state.equals("Blocked"))
+        if (state.equals("Bloqueados"))
             return 0;
 
         return 1;
