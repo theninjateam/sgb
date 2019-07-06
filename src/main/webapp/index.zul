@@ -51,6 +51,8 @@ Copyright (C) 2008 Potix Corporation. All Rights Reserved.
 	    Executions.sendRedirect("login.jsp?blocked=1");
 	}
 
+
+
 ]]></zscript>
 <borderlayout id="main" sclass="${themeSClass}" apply="org.zkoss.zksandbox.MainLayoutComposer">
 	<north border="none" size="100px" sclass="demo-header" collapsible="true" id="north">
@@ -65,7 +67,8 @@ Copyright (C) 2008 Potix Corporation. All Rights Reserved.
 
 
             <categorybar style="left: 5%"  zclass="demo-categorybar" id="header">
-                <category zclass="demo-category" forEach="${main$MainLayoutComposer.categories}" id="${each.id}" image="${each.icon}" label="${each.label}"
+                <category zclass="demo-category" forEach="${main$MainLayoutComposer.categories}"
+						  id="${each.id}" image="${each.icon}" label="${each.label}" if="${each!=null}"
                           forward="onClick=main.onCategorySelect"/>
             </categorybar>
 

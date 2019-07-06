@@ -1,6 +1,7 @@
 package sgb.domain;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "role", schema = "public")
@@ -15,6 +16,9 @@ public class Role {
 
     private String role;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "item_role", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "item_id"))
+    private Set<Zitem> zitems;
 
     @Column(name = "qtdmaxobras")
     private int qtdMaxObras;
@@ -42,5 +46,13 @@ public class Role {
 
     public void setQtdMaxObras(int qtdMaxObras) {
         this.qtdMaxObras = qtdMaxObras;
+    }
+
+    public Set<Zitem> getZitems() {
+        return zitems;
+    }
+
+    public void setZitems(Set<Zitem> zitems) {
+        this.zitems = zitems;
     }
 }

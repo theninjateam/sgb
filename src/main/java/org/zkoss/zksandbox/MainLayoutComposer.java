@@ -1,3 +1,6 @@
+/*@Bania Fonseca, modified that class
+ * */
+
 /* MainLayoutComposer.java
 
 {{IS_NOTE
@@ -35,6 +38,13 @@ import javax.servlet.ServletRequest;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import sgb.domain.Role;
+import sgb.domain.Users;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import sgb.domain.Zitem;
 
 /**
  * @author jumperchen
@@ -51,11 +61,11 @@ public class MainLayoutComposer extends GenericForwardComposer<Borderlayout> imp
 	
 	Include xcontents;
 
-	Category[] categories;
-	
 	Div header;
 
 	Button _selected;
+
+	private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
 	public MainLayoutComposer()
 	{
@@ -238,34 +248,58 @@ public class MainLayoutComposer extends GenericForwardComposer<Borderlayout> imp
 		_selected = null;
 	}
 
+	/*@Bania Fonseca, modified that method
+	* */
 	private DemoItem[] getItems() {
 		LinkedList<DemoItem> items = new LinkedList<DemoItem>();
 		Category[] categories = getCategories();
 		for (int i = 0; i < categories.length; i++) {
-			items.addAll(categories[i].getItems());
+			if (categories[i] != null)
+				items.addAll(categories[i].getItems());
 		}
 		return (DemoItem[]) items.toArray(new DemoItem[] {});
 	}
 
-	
+	/*@Bania Fonseca, modified that method
+	 * */
 	public Category[] getCategories()
 	{
-//		categories = new Category[((Category[]) getCategoryMap().values().toArray(new Category[] {})).length];
-//		Category[] temp  = (Category[]) getCategoryMap().values().toArray(new Category[] {});
-//
-//		for (int i = 0; i < categories.length; i++ )
-//		{
-//			categories[i] = temp[i];
-//			if (i == 1)
-//				break;
-//		}
+		Category[] temp = (Category[]) getCategoryMap().values().toArray(new Category[] {});;
+		Category[] categories = new Category[temp.length];
 
-		return  (Category[]) getCategoryMap().values()
-				.toArray(new Category[] {});
-//		return categories;
+		Set<Zitem> zitems = getZitems();
+
+		for (int i = 0; i < temp.length; i++ )
+		{
+			for (Zitem zitem: zitems)
+			{
+				if (zitem.getItem().contains(temp[i].getId().toUpperCase()))
+				{
+					categories[i] = temp[i];
+					break;
+				}
+			}
+		}
+
+		return categories;
 	}
 
-	
+	private Set<Zitem> getZitems()
+	{
+		Set<Zitem> zitems = null;
+		int numRoles = 0;
+
+		for (Role role: user.getRoles())
+		{
+			if (numRoles == 0)
+				zitems = role.getZitems();
+			else
+				zitems.addAll(role.getZitems());
+			numRoles++;
+		}
+		return zitems;
+	}
+
 	public ListitemRenderer<DemoItem> getItemRenderer() {
 		return _defRend;
 	}
@@ -290,18 +324,35 @@ public class MainLayoutComposer extends GenericForwardComposer<Borderlayout> imp
 		return (Category) getCategoryMap().get(cateId);
 	}
 
-	
+	/*@Bania Fonseca, modified that method
+	 * */
 	public ListModel<DemoItem> getSelectedModel() {
-		Category cate = _selected == null ? getCategories()[0] :
+		LinkedList<DemoItem> items = new LinkedList<DemoItem>();
+		Category cate = _selected == null ? getCategories()[0]:
 				getCategory(_selected.getId());
-		return new ListModelList<DemoItem>(cate.getItems(), true);
+
+
+		for (DemoItem dItem: cate.getItems())
+		{
+			for (Zitem zitem : getZitems())
+			{
+				if (zitem.getItem().contains(dItem.getId().toUpperCase())|| zitem.getItem().contains("ALL"))
+				{
+					items.add(dItem);
+					break;
+				}
+			}
+		}
+		return new ListModelList<DemoItem>(items, true);
+		//	return new ListModelList<DemoItem>(cate.getItems(), true);
 	}
 
 	// Composer Implementation
 	
 	public void doAfterCompose(Borderlayout comp) throws Exception {
 		super.doAfterCompose(comp);
-
 		Events.postEvent("onMainCreate", comp, null);
 	}
+
+
 }
