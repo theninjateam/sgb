@@ -19,8 +19,7 @@
                     <!--For Mobile and no Mobile-->
                     <div sclass="w3-container w3-white"
                          style="white-space: normal; width: 100%;">
-                        <textbox  id="textboxPesquisar" forward="onOK=textboxPesquisar.onPesquisar,
-                        onChange=textboxPesquisar.onPesquisar" mold="default"
+                        <textbox  id="textboxPesquisar" forward="onOK=textboxPesquisar.onPesquisar" mold="default"
                                   sclass="w3-left w3-white w3-card-4  w3-padding-16 w3-border" style="width: 80%;"/>
                     </div>
                     <div style="padding: 4px;"> </div>

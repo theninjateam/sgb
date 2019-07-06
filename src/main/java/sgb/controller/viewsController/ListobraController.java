@@ -54,6 +54,7 @@ public class ListobraController extends SelectorComposer<Component>
     private EstadoRenovacao estadoRenovacao;
     private ListModelList<Obra> obras;
     private ListModelList<Obra> detalheObra;
+    private boolean isSearching  = false;
 
     @Wire
     private Button buttonPesquisar;
@@ -197,26 +198,31 @@ public class ListobraController extends SelectorComposer<Component>
     public void doAutoPesquisar(ForwardEvent event)
     {
         pesquisar(textboxPesquisar.getValue());
+        BindUtils.postNotifyChange(null, null, this, "obras");
+
     }
 
     @Listen("onPesquisar = #buttonPesquisar")
     public void doPesquisar(ForwardEvent event)
     {
-        pesquisar(textboxPesquisar.getValue());
+       pesquisar(textboxPesquisar.getValue());
+       BindUtils.postNotifyChange(null, null, this, "obras");
+
     }
 
     public void pesquisar(String keys)
     {
+        obras = new ListModelList<Obra>();
+
         if (textboxPesquisar.getValue().isEmpty())
         {
-            obras.removeAll(obras);
-            obras.addAll(getObras());
+            isSearching = false;
         }
         else
         {
-            obras.removeAll(obras);
+            isSearching = true;
 
-            for (Obra obra: getObras())
+            for (Obra obra: crudService.getAll(Obra.class))
             {
                 for ( String key: keys.split(" "))
                 {
@@ -232,6 +238,12 @@ public class ListobraController extends SelectorComposer<Component>
 
     public ListModelList<Obra> getObras()
     {
+        if (isSearching)
+        {
+            isSearching = false;
+            return obras;
+        }
+
         List<Obra> listaobra = crudService.getAll(Obra.class);
         return new ListModelList<Obra>(listaobra);
     }

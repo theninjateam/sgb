@@ -28,6 +28,7 @@ import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.*;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zk.ui.util.GenericForwardComposer;
+import org.zkoss.zk.ui.util.WebAppInit;
 import org.zkoss.zul.*;
 
 import javax.servlet.ServletRequest;
@@ -49,12 +50,15 @@ public class MainLayoutComposer extends GenericForwardComposer<Borderlayout> imp
 	Listbox itemList;
 	
 	Include xcontents;
+
+	Category[] categories;
 	
 	Div header;
 
 	Button _selected;
 
-	public MainLayoutComposer() {
+	public MainLayoutComposer()
+	{
 		initKey();
 	}
 
@@ -158,6 +162,7 @@ public class MainLayoutComposer extends GenericForwardComposer<Borderlayout> imp
 		final Execution exec = Executions.getCurrent();
 		final String id = exec.getParameter("id");
 		Listitem item = null;
+
 		if (id != null) {
 			try {
 				final LinkedList<DemoItem> list = new LinkedList<DemoItem>();
@@ -192,6 +197,7 @@ public class MainLayoutComposer extends GenericForwardComposer<Borderlayout> imp
 		Clients.evalJavaScript(deselect);
 		item.getDesktop().setBookmark(item.getId());
 	}
+
 	public void onCtrlKey$searchBox(KeyEvent event) {
 		int keyCode = event.getKeyCode();
 		List items = itemList.getItems();
@@ -242,9 +248,21 @@ public class MainLayoutComposer extends GenericForwardComposer<Borderlayout> imp
 	}
 
 	
-	public Category[] getCategories() {
-		return (Category[]) getCategoryMap().values()
+	public Category[] getCategories()
+	{
+//		categories = new Category[((Category[]) getCategoryMap().values().toArray(new Category[] {})).length];
+//		Category[] temp  = (Category[]) getCategoryMap().values().toArray(new Category[] {});
+//
+//		for (int i = 0; i < categories.length; i++ )
+//		{
+//			categories[i] = temp[i];
+//			if (i == 1)
+//				break;
+//		}
+
+		return  (Category[]) getCategoryMap().values()
 				.toArray(new Category[] {});
+//		return categories;
 	}
 
 	
@@ -283,6 +301,7 @@ public class MainLayoutComposer extends GenericForwardComposer<Borderlayout> imp
 	
 	public void doAfterCompose(Borderlayout comp) throws Exception {
 		super.doAfterCompose(comp);
+
 		Events.postEvent("onMainCreate", comp, null);
 	}
 }
