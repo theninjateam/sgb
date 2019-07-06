@@ -1,5 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.zkoss</groupId>
 	<artifactId>zksandbox</artifactId>
@@ -82,16 +82,16 @@
 
 
 		<!--New dependency-->
-			<dependency>
-				<groupId>com.sun.mail</groupId>
-				<artifactId>javax.mail</artifactId>
-				<version>1.6.2</version>
-			</dependency>
-        <dependency>
-            <groupId>org.glassfish.web</groupId>
-            <artifactId>jsp-impl</artifactId>
-            <version>2.1.3-b10</version>
-        </dependency>
+		<dependency>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>javax.mail</artifactId>
+			<version>1.6.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.web</groupId>
+			<artifactId>jsp-impl</artifactId>
+			<version>2.1.3-b10</version>
+		</dependency>
 
 
 
@@ -104,9 +104,9 @@
 
 		<!-- https://mvnrepository.com/artifact/org.zkoss.chart/zkcharts -->
 		<!--<dependency>-->
-			<!--<groupId>org.zkoss.chart</groupId>-->
-			<!--<artifactId>zkcharts</artifactId>-->
-			<!--<version>${project.version}</version>-->
+		<!--<groupId>org.zkoss.chart</groupId>-->
+		<!--<artifactId>zkcharts</artifactId>-->
+		<!--<version>${project.version}</version>-->
 		<!--</dependency>-->
 
 		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
@@ -396,13 +396,6 @@
 			<version>1.4</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-plugin -->
-		<dependency>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-surefire-plugin</artifactId>
-			<version>2.22.1</version>
-		</dependency>
-
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -446,12 +439,12 @@
 			<version>2.5.2</version>
 			<type>pom</type>
 		</dependency>
-        <dependency>
-            <groupId>net.bytebuddy</groupId>
-            <artifactId>byte-buddy</artifactId>
-            <version>1.9.0</version>
-            <scope>compile</scope>
-        </dependency>
+		<dependency>
+			<groupId>net.bytebuddy</groupId>
+			<artifactId>byte-buddy</artifactId>
+			<version>1.9.0</version>
+			<scope>compile</scope>
+		</dependency>
 
 		<dependency>
 			<groupId>com.sample</groupId>
@@ -576,7 +569,6 @@
 			<version>5.4.2</version>
 		</dependency>
 
-
 	</dependencies>
 	<build>
 		<finalName>${project.artifactId}</finalName>
@@ -621,129 +613,48 @@
 				</executions>
 			</plugin>
 
-			<!--<plugin>-->
-				<!--<groupId>org.jacoco</groupId>-->
-				<!--<artifactId>jacoco-maven-plugin</artifactId>-->
-				<!--<version>0.7.6.201602180812</version>-->
-				<!--<executions>-->
-					<!--<execution>-->
-						<!--<id>prepare-agent</id>-->
-						<!--<goals>-->
-							<!--<goal>prepare-agent</goal>-->
-						<!--</goals>-->
-					<!--</execution>-->
-
-					<!--<execution>-->
-						<!--<id>report</id>-->
-						<!--<phase>test</phase>-->
-						<!--<goals>-->
-							<!--<goal>report</goal>-->
-						<!--</goals>-->
-					<!--</execution>-->
-				<!--</executions>-->
-			<!--</plugin>-->
-
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.7.6.201602180812</version>
-				<executions>
-					<execution>
-						<id>default-prepare-agent</id>
-						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>default-report</id>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>report</goal>
-						</goals>
-					</execution>
-					<!--<execution>-->
-						<!--<id>default-check</id>-->
-						<!--<goals>-->
-							<!--<goal>check</goal>-->
-						<!--</goals>-->
-					<!--</execution>-->
-				</executions>
-			</plugin>
-
-
-
-			<plugin>
-				<groupId>org.eluder.coveralls</groupId>
-				<artifactId>coveralls-maven-plugin</artifactId>
-				<version>4.3.0</version>
-			</plugin>
-
-            <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-surefire-plugin</artifactId>-->
-                <!--<version>2.19.1</version>-->
-                <!--<configuration>-->
-                    <!--<parallel>methods</parallel>-->
-                    <!--<useUnlimitedThreads>true</useUnlimitedThreads>-->
-                <!--</configuration>-->
-            <!--</plugin>-->
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-surefire-plugin</artifactId>
-					<version>2.22.1</version>
-					<executions>
-						<execution>
-							<id>default-test</id>
-							<phase>test</phase>
-							<goals>
-								<goal>test</goal>
-							</goals>
-						</execution>
-					</executions>
-
-				</plugin>
 
 			<!--<plugin>-->
-				<!--<groupId>org.apache.maven.plugins</groupId>-->
-				<!--<artifactId>maven-dependency-plugin</artifactId>-->
-				<!--<version>3.1.1</version>-->
-				<!--<executions>-->
-					<!--<execution>-->
-						<!--<phase>package</phase>-->
-						<!--<goals>-->
-							<!--<goal>copy</goal>-->
-						<!--</goals>-->
-						<!--<configuration>-->
-							<!--<artifactItems>-->
-								<!--<artifactItem>-->
-									<!--<groupId>org.mortbay.jetty</groupId>-->
-									<!--<artifactId>jetty-runner</artifactId>-->
-									<!--<version>7.5.4.v20111024</version>-->
-									<!--<destFileName>jetty-runner.jar</destFileName>-->
-								<!--</artifactItem>-->
-							<!--</artifactItems>-->
-						<!--</configuration>-->
-					<!--</execution>-->
-				<!--</executions>-->
+			<!--<groupId>org.apache.maven.plugins</groupId>-->
+			<!--<artifactId>maven-dependency-plugin</artifactId>-->
+			<!--<version>3.1.1</version>-->
+			<!--<executions>-->
+			<!--<execution>-->
+			<!--<phase>package</phase>-->
+			<!--<goals>-->
+			<!--<goal>copy</goal>-->
+			<!--</goals>-->
+			<!--<configuration>-->
+			<!--<artifactItems>-->
+			<!--<artifactItem>-->
+			<!--<groupId>org.mortbay.jetty</groupId>-->
+			<!--<artifactId>jetty-runner</artifactId>-->
+			<!--<version>7.5.4.v20111024</version>-->
+			<!--<destFileName>jetty-runner.jar</destFileName>-->
+			<!--</artifactItem>-->
+			<!--</artifactItems>-->
+			<!--</configuration>-->
+			<!--</execution>-->
+			<!--</executions>-->
 			<!--</plugin>-->
 
 			<!--Run with Jetty-->
 			<plugin>
-			<groupId>org.mortbay.jetty</groupId>
-			<artifactId>jetty-maven-plugin</artifactId>
-			<version>7.6.8.v20121106</version>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>7.6.8.v20121106</version>
 
-			<executions>
-			<execution>
-			<configuration>
-			<webAppConfig>
-			<contextPath>/${project.artifactId}</contextPath>
-			<allowDuplicateFragmentNames>true</allowDuplicateFragmentNames>
-			</webAppConfig>
-			<scanIntervalSeconds>5</scanIntervalSeconds>
-			</configuration>
-			</execution>
-			</executions>
+				<executions>
+					<execution>
+						<configuration>
+							<webAppConfig>
+								<contextPath>/${project.artifactId}</contextPath>
+								<allowDuplicateFragmentNames>true</allowDuplicateFragmentNames>
+							</webAppConfig>
+							<scanIntervalSeconds>5</scanIntervalSeconds>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 
 		</plugins>
