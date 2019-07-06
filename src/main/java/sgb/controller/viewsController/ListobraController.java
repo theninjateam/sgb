@@ -193,15 +193,17 @@ public class ListobraController extends SelectorComposer<Component>
     }
 
 
-    @Listen("onPesquisar = #textboxPesquisar")
-    public void doAutoPesquisar(ForwardEvent event)
-    {
-        pesquisar(textboxPesquisar.getValue());
-    }
+//    @Listen("onPesquisar = #textboxPesquisar")
+//    public void doAutoPesquisar(ForwardEvent event)
+//    {
+//        pesquisar(textboxPesquisar.getValue());
+//    }
 
     @Listen("onPesquisar = #buttonPesquisar")
     public void doPesquisar(ForwardEvent event)
     {
+        System.out.println(textboxPesquisar.getValue());
+
         pesquisar(textboxPesquisar.getValue());
     }
 
@@ -214,19 +216,20 @@ public class ListobraController extends SelectorComposer<Component>
         }
         else
         {
-            obras.removeAll(obras);
+            System.out.println(obras.isEmpty());
+//            obras.removeAll(obras);
 
-            for (Obra obra: getObras())
-            {
-                for ( String key: keys.split(" "))
-                {
-                    if( obra.getTitulo().toLowerCase().contains(key.toLowerCase()))
-                    {
-                        obras.add(obra);
-                        break;
-                    }
-                }
-            }
+//            for (Obra obra: getObras())
+//            {
+//                for ( String key: keys.split(" "))
+//                {
+//                    if( obra.getTitulo().toLowerCase().contains(key.toLowerCase()))
+//                    {
+//                        obras.add(obra);
+//                        break;
+//                    }
+//                }
+//            }
         }
     }
 
