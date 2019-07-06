@@ -20,9 +20,9 @@ public class EstadoDevolucaoControler
     public EstadoDevolucaoControler(CRUDService crudService)
     {
         this.CRUDService = crudService;
-        UNDETERMINED = getValue("UNDETERMINED");
-        RETURNED = getValue("RETURNED");
-        NOT_RETURNED = getValue("NOT_RETURNED");
+        UNDETERMINED = getValue("INDETERMINADO");
+        RETURNED = getValue("DEVOLVIDO");
+        NOT_RETURNED = getValue("NAO_DEVOLVIDO");
     }
 
     public int getValue(String description)

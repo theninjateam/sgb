@@ -20,9 +20,9 @@ public class EstadoMultaControler
     public EstadoMultaControler(CRUDService crudService)
     {
         this.CRUDService = crudService;
-        NOT_PAID = getValue("NOT_PAID");
-        PAID = getValue("PAID");
-        REVOKED = getValue("REVOKED");
+        NOT_PAID = getValue("NAO_PAGA");
+        PAID = getValue("PAGA");
+        REVOKED = getValue("REVOGADA");
     }
 
     public int getValue(String description)

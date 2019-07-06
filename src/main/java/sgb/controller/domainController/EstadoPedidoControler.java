@@ -19,12 +19,12 @@ public class EstadoPedidoControler
     public EstadoPedidoControler(CRUDService crudService)
     {
         this.CRUDService = crudService;
-        PENDING_BOOKING = getValue("PENDING_BOOKING");
-        PENDING_MINI_BOOKING = getValue("PENDING_MINI_BOOKING");
-        REJECTED = getValue("REJECTED");
-        ON_WAINTING_QUEUE = getValue("ON_WAINTING_QUEUE");
-        ACCEPTED = getValue("ACCEPTED");
-        CANCELED = getValue("CANCELED");
+        PENDING_BOOKING = getValue("RESERVA_PENDENTE");
+        PENDING_MINI_BOOKING = getValue("MINI_RESERVA_PENDENTE");
+        REJECTED = getValue("REJEITADO");
+        ON_WAINTING_QUEUE = getValue("NA_FILA");
+        ACCEPTED = getValue("ACEITO");
+        CANCELED = getValue("CANCELADO");
     }
 
     public int getValue(String description)
