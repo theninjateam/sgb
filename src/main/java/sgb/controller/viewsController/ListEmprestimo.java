@@ -175,8 +175,8 @@ public class ListEmprestimo extends SelectorComposer<Component> {
         } else {
             Clients.showNotification("Precisa ser Utente para executar essa acao ", null, null, null, 5000);
         }
-
     }
+
     public boolean isNormalUser () {
         Boolean a = true;
 

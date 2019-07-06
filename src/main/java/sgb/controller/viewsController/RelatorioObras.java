@@ -45,11 +45,11 @@ import java.util.List;
 
 
 public class RelatorioObras extends SelectorComposer<Component> {
-    private GerarRelatorio gerarRelatorio = (GerarRelatorio) SpringUtil.getBean("gerarRelatorio");;
-    private ObraController obraController  = (ObraController) SpringUtil.getBean("obraController");;
-    private RegistroObraController registroObraController  = (RegistroObraController) SpringUtil.getBean("registroObraController");;
-    private ObraEliminadasController obraEliminadasController  = (ObraEliminadasController) SpringUtil.getBean("obraEliminadasController");;
-    private AreaCientificaController areaCientificaController  = (AreaCientificaController) SpringUtil.getBean("areaCientificaController");;
+    private GerarRelatorio gerarRelatorio = (GerarRelatorio) SpringUtil.getBean("gerarRelatorio");
+    private ObraController obraController  = (ObraController) SpringUtil.getBean("obraController");
+    private RegistroObraController registroObraController  = (RegistroObraController) SpringUtil.getBean("registroObraController");
+    private ObraEliminadasController obraEliminadasController  = (ObraEliminadasController) SpringUtil.getBean("obraEliminadasController");
+    private AreaCientificaController areaCientificaController  = (AreaCientificaController) SpringUtil.getBean("areaCientificaController");
 
     private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;
     private Boolean isNormalUser = true;
@@ -63,12 +63,6 @@ public class RelatorioObras extends SelectorComposer<Component> {
 
     @Wire
     private Listbox areaCientificaListBox;
-
-    @Wire
-    private Listbox exportarListBox;
-
-    @Wire
-    private Button save;
 
     @Wire
     private Datebox dataInicio;
@@ -92,7 +86,6 @@ public class RelatorioObras extends SelectorComposer<Component> {
     private ListModelList<ObraEliminadas> obraEliminadasListModel;
     private ListModelList<ObraCategoria> obraCategoriaListModel;
     private ListModelList<AreaCientifica> areaCientificaListModel;
-    private ListModelList<String> exportarListModel;
 
     @Override
     public void doAfterCompose(Component comp) throws Exception
@@ -114,11 +107,6 @@ public class RelatorioObras extends SelectorComposer<Component> {
         areaCientificaListModel.add(0,a);
         areaCientificaListModel.addToSelection(a);
         areaCientificaListBox.setModel(areaCientificaListModel);
-
-//        List<String> lista = new ArrayList<>();
-//        lista.add("PDF"); //lista.add("EXCELL");
-//        exportarListModel = new ListModelList<String>(lista);
-//        exportarListBox.setModel(exportarListModel);
         setListModelsallData();
         setListBoxsModels();
     }
@@ -146,16 +134,6 @@ public class RelatorioObras extends SelectorComposer<Component> {
 
         setListBoxsModels();
     }
-
-//
-//    @Listen("onSelect = #exportarListBox")
-//    public void setExportarListBox() throws Exception {
-//        String s = exportarListBox.getSelectedItem().getValue();
-//
-//        if(s.equalsIgnoreCase("PDF")) {
-//            exportToPDF();
-//        }
-//    }
 
     @Listen("onChange = #dataInicio;onChange = #dataFim")
     public void dataChange() {
@@ -190,7 +168,6 @@ public class RelatorioObras extends SelectorComposer<Component> {
         }
         obrasregistadasListModel = new ListModelList<RegistroObra>(registroObraController.getObrasRegistadas());
         obraEliminadasListModel =new ListModelList<ObraEliminadas>(obraEliminadasController.getObrasEliminadas());
-
     }
 
     public void setListBoxsModels(){
@@ -211,23 +188,18 @@ public class RelatorioObras extends SelectorComposer<Component> {
     }
 
     public void getUpdateDate(){
-
         try {
             dataI.setTime(dataInicio.getValue());
             dataF.setTime(dataFim.getValue());
         }catch (Exception e){
 
         };
-
     }
 
     @Listen("onClick=#savePdf")
     public void exportToPDF() throws Exception, JRException, IOException
     {
         String reportName = null;
-
-//        gerarRelatorio.createPdf(obraCategoriaListModel,
-//                obrasregistadasListModel, obraEliminadasListModel, selected, qtdd.getValue());
 
         if(selected == 0)
             reportName = "RelatorioObrasQuantidade";
