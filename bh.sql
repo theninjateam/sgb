@@ -384,6 +384,20 @@ CREATE TABLE "public"."item" (
 ;
 
 -- ----------------------------
+-- Records of item
+-- ----------------------------
+
+INSERT INTO public.item (item_id, descricao, item) VALUES (1, 'ALL REPORTS', 'C2-ALL');
+INSERT INTO public.item (item_id, descricao, item) VALUES (5, 'OBRAS', 'C1-F2');
+INSERT INTO public.item (item_id, descricao, item) VALUES (4, 'OBRAS', 'C1-F1');
+INSERT INTO public.item (item_id, descricao, item) VALUES (7, 'OBRAS', 'C1-F4');
+INSERT INTO public.item (item_id, descricao, item) VALUES (6, 'OBRAS', 'C1-F3');
+INSERT INTO public.item (item_id, descricao, item) VALUES (2, 'OBRAS', 'C1-ALL');
+INSERT INTO public.item (item_id, descricao, item) VALUES (8, 'OBRAS', 'C1-F7');
+INSERT INTO public.item (item_id, descricao, item) VALUES (3, 'ADMIN', 'C3-ALL');
+
+
+-- ----------------------------
 -- Table structure for item_role
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."item_role";
@@ -393,6 +407,20 @@ CREATE TABLE "public"."item_role" (
 )
 ;
 
+-- ----------------------------
+-- Records of item_role
+-- ----------------------------
+INSERT INTO public.item_role (item_id, role_id) VALUES (1, 1);
+INSERT INTO public.item_role (item_id, role_id) VALUES (2, 1);
+INSERT INTO public.item_role (item_id, role_id) VALUES (3, 1);
+INSERT INTO public.item_role (item_id, role_id) VALUES (4, 2);
+INSERT INTO public.item_role (item_id, role_id) VALUES (6, 2);
+INSERT INTO public.item_role (item_id, role_id) VALUES (7, 2);
+INSERT INTO public.item_role (item_id, role_id) VALUES (8, 2);
+INSERT INTO public.item_role (item_id, role_id) VALUES (4, 3);
+INSERT INTO public.item_role (item_id, role_id) VALUES (6, 3);
+INSERT INTO public.item_role (item_id, role_id) VALUES (7, 3);
+INSERT INTO public.item_role (item_id, role_id) VALUES (8, 3);
 -- ----------------------------
 -- Table structure for livro
 -- ----------------------------
