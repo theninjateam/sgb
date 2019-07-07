@@ -205,7 +205,7 @@ public class ListobraController extends SelectorComposer<Component>
     public void doAutoPesquisar(ForwardEvent event)
     {
         pesquisar(textboxPesquisar.getValue());
-        BindUtils.postNotifyChange(null, null, this, "obras");
+        BindUtils.postNotifyChange(null, null, this, "*");
 
     }
 
@@ -213,8 +213,7 @@ public class ListobraController extends SelectorComposer<Component>
     public void doPesquisar(ForwardEvent event)
     {
        pesquisar(textboxPesquisar.getValue());
-       BindUtils.postNotifyChange(null, null, this, "obras");
-
+       BindUtils.postNotifyChange(null, null, this, "*");
     }
 
     public void pesquisar(String keys)
@@ -247,6 +246,7 @@ public class ListobraController extends SelectorComposer<Component>
     {
         if (isSearching)
         {
+            alert("ola");
             isSearching = false;
             return obras;
         }
