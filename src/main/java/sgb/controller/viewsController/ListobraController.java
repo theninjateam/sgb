@@ -246,7 +246,7 @@ public class ListobraController extends SelectorComposer<Component>
     {
         if (isSearching)
         {
-            alert("ola");
+
             isSearching = false;
             return obras;
         }
