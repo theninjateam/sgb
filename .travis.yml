@@ -17,9 +17,7 @@ notifications:
 
 script:
   - mvn test -B
+  - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 
 after_success:
   - mvn clean cobertura:cobertura coveralls:report
-
-install:
-  - mvn install -DskipTests=true -Dgpg.skip=true --settings ~/settings.xml
