@@ -16,7 +16,7 @@ notifications:
     on_failure: always
 
 script:
-  - mvn test -B
+  - cd sgb/src/main/test/sgb/report; mvn test -B
   - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 
 after_success:
