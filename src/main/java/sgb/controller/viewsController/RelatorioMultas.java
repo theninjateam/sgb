@@ -28,6 +28,7 @@ import sgb.report.GerarRelatorio;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.List;
 
 public class RelatorioMultas extends SelectorComposer<Component> {
@@ -69,7 +70,7 @@ public class RelatorioMultas extends SelectorComposer<Component> {
     @Listen("onClick=#savePdf")
     public void show() throws JRException {
         byte [] arr = JasperExportManager.exportReportToPdf(gerarRelatorio.createPdfMulta(multaListModelList,
-                "src/main/java/sgb/report/relatorioMultas/relatorio.jrxml"));
+                "src/main/java/sgb/report/relatorioMultas/relatorio.jrxml", fine.totalDinheiro()));
         AMedia media = new AMedia("RelatorioMultas", "pdf", "application/pdf", arr);
         final Window window = new Window();
         window.setClosable(true);
@@ -84,7 +85,6 @@ public class RelatorioMultas extends SelectorComposer<Component> {
 
 
         toolbar.setAlign("end");
-
 
         Toolbarbutton close = new Toolbarbutton("Exit");
         close.setMode("overlapped");
@@ -135,7 +135,7 @@ public class RelatorioMultas extends SelectorComposer<Component> {
 
         exporter.setParameter(JRExporterParameter.JASPER_PRINT
                 , gerarRelatorio.createPdfMulta(multaListModelList
-                , "src/main/java/sgb/report/relatorioMultas/relatorio.jrxml"));
+                , "src/main/java/sgb/report/relatorioMultas/relatorio.jrxml", fine.totalDinheiro()));
         exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, filePath);
         exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
         exporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);

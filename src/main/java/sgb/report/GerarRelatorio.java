@@ -91,12 +91,14 @@ public class GerarRelatorio {
         return jasperPrint;
     }
 
-    public JasperPrint createPdfMulta(List<Multa> multaList, String path) throws JRException{
-        String pathLogo = "src/main/webapp/img/logoPNG.png";
+    public JasperPrint createPdfMulta(List<Multa> multaList, String path, double totalDinheiro) throws JRException{
+        String pathLogo = "src/main/webapp/img/logoPNG.png", s ="";
         Map parametros = new HashMap();
         JasperPrint jasperPrint = null;
 
+        s +=totalDinheiro;
         parametros.put("pathLogo", pathLogo);
+        parametros.put("totalDinheiro", s);
 
         try {
             JasperReport jasperReport = JasperCompileManager.compileReport(path);

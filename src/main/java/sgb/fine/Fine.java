@@ -143,4 +143,14 @@ public class Fine
             }
         }
     }
+
+    public double totalDinheiro(){
+        double totalAmount = 0.0;
+
+        for(Multa m:mController.getMultas()){
+            totalAmount += getAmountToPay(m.getMultaPK());
+        }
+
+        return totalAmount;
+    }
 }

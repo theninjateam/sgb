@@ -93,5 +93,4 @@ public class MultaController
 
         return this.crudService.findByJPQuery(query.toString(),null);
     }
-
 }
