@@ -1,14 +1,25 @@
 language: java
-sudo: true
-dist: trusty
-jdk:
-  - oraclejdk8
-#script:
-#  - mvn test -B
-#  - mvn install -DskipTests=false -Dmaven.javadoc.skip=true -B -V
-addons:
-  apt:
-    packages:
-      - oracle-java8-installer
+
+before_script:
+  - export TZ=Mocambique/Pemba
+
+jdk: oraclejdk8
+
+sudo: false
+
+notifications:
+  email:
+    recipients:
+      - cduarte@unilurio.ac.mz
+      - abatalha@unilurio.ac.mz
+    on_success: change
+    on_failure: always
+
+script:
+  - mvn test -B
+
 after_success:
-  - mvn test jacoco:report coveralls:report
+  - mvn clean cobertura:cobertura coveralls:report
+
+install:
+  - mvn install -DskipTests=true -Dgpg.skip=true --settings ~/settings.xml

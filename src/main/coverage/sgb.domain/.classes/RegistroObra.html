@@ -42,26 +42,26 @@
   <td class="name">RegistroObra</td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    100%
   </span>
   <span class="absValue">
-    (0/ 1)
+    (1/ 1)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    46.2%
   </span>
   <span class="absValue">
-    (0/ 13)
+    (6/ 13)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    31.6%
   </span>
   <span class="absValue">
-    (0/ 19)
+    (6/ 19)
   </span>
 </td>
 </tr>
@@ -75,96 +75,99 @@
 <div class="sourceCode"><i>1</i>&nbsp;package sgb.domain;
 <i>2</i>&nbsp;
 <i>3</i>&nbsp;import javax.persistence.*;
-<i>4</i>&nbsp;import java.sql.Date;
+<i>4</i>&nbsp;import java.sql.Timestamp;
 <i>5</i>&nbsp;import java.util.Calendar;
-<i>6</i>&nbsp;import java.util.Objects;
-<i>7</i>&nbsp;
-<i>8</i>&nbsp;@Entity
-<i>9</i>&nbsp;@Table(name = &quot;registroobra&quot;, schema = &quot;public&quot;)
-<b class="nc"><i>10</i>&nbsp;public class RegistroObra</b>
-<i>11</i>&nbsp;{
-<i>12</i>&nbsp;    @EmbeddedId
-<i>13</i>&nbsp;    private RegistroObraPK registroObraPK;
-<i>14</i>&nbsp;
-<i>15</i>&nbsp;    @ManyToOne(fetch = FetchType.LAZY)
-<i>16</i>&nbsp;    @JoinColumn(name = &quot;formaaquisicao&quot;, nullable = false)
-<i>17</i>&nbsp;    private FormaAquisicao formaAquisicao;
-<i>18</i>&nbsp;
-<i>19</i>&nbsp;    @OneToOne(fetch = FetchType.LAZY, optional = false)
-<i>20</i>&nbsp;    @JoinColumn(name = &quot;user_id&quot;, nullable = false)
-<i>21</i>&nbsp;    private Users user;
-<i>22</i>&nbsp;
-<i>23</i>&nbsp;    @Basic
-<i>24</i>&nbsp;    @Column( name = &quot;observacao&quot;)
-<i>25</i>&nbsp;    private String observacao;
-<i>26</i>&nbsp;
-<i>27</i>&nbsp;    @Basic
-<i>28</i>&nbsp;    @Column(name = &quot;quantidade&quot;)
-<i>29</i>&nbsp;    private Integer quantidade;
-<i>30</i>&nbsp;
+<i>6</i>&nbsp;import java.util.Date;
+<i>7</i>&nbsp;import java.util.Objects;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;@Entity
+<i>10</i>&nbsp;@Table(name = &quot;registroobra&quot;, schema = &quot;public&quot;)
+<b class="fc"><i>11</i>&nbsp;public class RegistroObra</b>
+<i>12</i>&nbsp;{
+<i>13</i>&nbsp;    @EmbeddedId
+<i>14</i>&nbsp;    private RegistroObraPK registroObraPK;
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;    @ManyToOne(fetch = FetchType.LAZY)
+<i>17</i>&nbsp;    @JoinColumn(name = &quot;formaaquisicao&quot;, nullable = false)
+<i>18</i>&nbsp;    private FormaAquisicao formaAquisicao;
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    @OneToOne(fetch = FetchType.LAZY, optional = false)
+<i>21</i>&nbsp;    @JoinColumn(name = &quot;user_id&quot;, nullable = false)
+<i>22</i>&nbsp;    private Users user;
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    @Basic
+<i>25</i>&nbsp;    @Column( name = &quot;observacao&quot;)
+<i>26</i>&nbsp;    private String observacao;
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    @Basic
+<i>29</i>&nbsp;    @Column(name = &quot;quantidade&quot;)
+<i>30</i>&nbsp;    private Integer quantidade;
 <i>31</i>&nbsp;
-<i>32</i>&nbsp;    @ManyToOne
-<i>33</i>&nbsp;    @JoinColumn (name =&quot;cota&quot;, insertable = false, updatable = false)
-<i>34</i>&nbsp;    private Obra obra;
-<i>35</i>&nbsp;
-<i>36</i>&nbsp;    public RegistroObraPK getRegistroObraPK()
-<i>37</i>&nbsp;    {
-<b class="nc"><i>38</i>&nbsp;        return registroObraPK;</b>
-<i>39</i>&nbsp;    }
-<i>40</i>&nbsp;
-<i>41</i>&nbsp;    public void setRegistroObraPK(RegistroObraPK registroObraPK)
-<i>42</i>&nbsp;    {
-<b class="nc"><i>43</i>&nbsp;        this.registroObraPK = registroObraPK;</b>
-<b class="nc"><i>44</i>&nbsp;    }</b>
-<i>45</i>&nbsp;
-<i>46</i>&nbsp;    public FormaAquisicao getFormaAquisicao()
-<i>47</i>&nbsp;    {
-<b class="nc"><i>48</i>&nbsp;        return formaAquisicao;</b>
-<i>49</i>&nbsp;    }
-<i>50</i>&nbsp;
-<i>51</i>&nbsp;    public void setFormaAquisicao(FormaAquisicao formaAquisicao)
-<i>52</i>&nbsp;    {
-<b class="nc"><i>53</i>&nbsp;        this.formaAquisicao = formaAquisicao;</b>
-<b class="nc"><i>54</i>&nbsp;    }</b>
-<i>55</i>&nbsp;
-<i>56</i>&nbsp;    public String getObservacao()
-<i>57</i>&nbsp;    {
-<b class="nc"><i>58</i>&nbsp;        return observacao;</b>
-<i>59</i>&nbsp;    }
-<i>60</i>&nbsp;
-<i>61</i>&nbsp;    public void setObservacao(String observacao)
-<i>62</i>&nbsp;    {
-<b class="nc"><i>63</i>&nbsp;        this.observacao = observacao;</b>
-<b class="nc"><i>64</i>&nbsp;    }</b>
-<i>65</i>&nbsp;
-<i>66</i>&nbsp;    public Users getUser() {
-<b class="nc"><i>67</i>&nbsp;        return user;</b>
-<i>68</i>&nbsp;    }
-<i>69</i>&nbsp;    public void setUser(Users user) {
-<b class="nc"><i>70</i>&nbsp;        this.user = user;</b>
-<b class="nc"><i>71</i>&nbsp;    }</b>
-<i>72</i>&nbsp;
-<i>73</i>&nbsp;    public Obra getObra() {
-<b class="nc"><i>74</i>&nbsp;        return obra;</b>
-<i>75</i>&nbsp;    }
-<i>76</i>&nbsp;    public void setObra(Obra obra) {
-<b class="nc"><i>77</i>&nbsp;        this.obra = obra;</b>
-<b class="nc"><i>78</i>&nbsp;    }</b>
-<i>79</i>&nbsp;
-<i>80</i>&nbsp;    public Integer getQuantidade() {
-<b class="nc"><i>81</i>&nbsp;        return quantidade;</b>
-<i>82</i>&nbsp;    }
-<i>83</i>&nbsp;
-<i>84</i>&nbsp;    public void setQuantidade(Integer quantidade) {
-<b class="nc"><i>85</i>&nbsp;        this.quantidade = quantidade;</b>
-<b class="nc"><i>86</i>&nbsp;    }</b>
-<i>87</i>&nbsp;}
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    @ManyToOne
+<i>34</i>&nbsp;    @JoinColumn (name =&quot;cota&quot;, insertable = false, updatable = false)
+<i>35</i>&nbsp;    private Obra obra;
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;    public RegistroObraPK getRegistroObraPK()
+<i>38</i>&nbsp;    {
+<b class="fc"><i>39</i>&nbsp;        return registroObraPK;</b>
+<i>40</i>&nbsp;    }
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;    public void setRegistroObraPK(RegistroObraPK registroObraPK)
+<i>43</i>&nbsp;    {
+<b class="nc"><i>44</i>&nbsp;        this.registroObraPK = registroObraPK;</b>
+<b class="nc"><i>45</i>&nbsp;    }</b>
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;    public FormaAquisicao getFormaAquisicao()
+<i>48</i>&nbsp;    {
+<b class="fc"><i>49</i>&nbsp;        return formaAquisicao;</b>
+<i>50</i>&nbsp;    }
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;    public void setFormaAquisicao(FormaAquisicao formaAquisicao)
+<i>53</i>&nbsp;    {
+<b class="nc"><i>54</i>&nbsp;        this.formaAquisicao = formaAquisicao;</b>
+<b class="nc"><i>55</i>&nbsp;    }</b>
+<i>56</i>&nbsp;
+<i>57</i>&nbsp;    public String getObservacao()
+<i>58</i>&nbsp;    {
+<b class="nc"><i>59</i>&nbsp;        return observacao;</b>
+<i>60</i>&nbsp;    }
+<i>61</i>&nbsp;
+<i>62</i>&nbsp;    public void setObservacao(String observacao)
+<i>63</i>&nbsp;    {
+<b class="nc"><i>64</i>&nbsp;        this.observacao = observacao;</b>
+<b class="nc"><i>65</i>&nbsp;    }</b>
+<i>66</i>&nbsp;
+<i>67</i>&nbsp;    public Users getUser() {
+<b class="fc"><i>68</i>&nbsp;        return user;</b>
+<i>69</i>&nbsp;    }
+<i>70</i>&nbsp;    public void setUser(Users user) {
+<b class="nc"><i>71</i>&nbsp;        this.user = user;</b>
+<b class="nc"><i>72</i>&nbsp;    }</b>
+<i>73</i>&nbsp;
+<i>74</i>&nbsp;    public Obra getObra() {
+<b class="fc"><i>75</i>&nbsp;        return obra;</b>
+<i>76</i>&nbsp;    }
+<i>77</i>&nbsp;    public void setObra(Obra obra) {
+<b class="nc"><i>78</i>&nbsp;        this.obra = obra;</b>
+<b class="nc"><i>79</i>&nbsp;    }</b>
+<i>80</i>&nbsp;
+<i>81</i>&nbsp;    public Integer getQuantidade() {
+<b class="fc"><i>82</i>&nbsp;        return quantidade;</b>
+<i>83</i>&nbsp;    }
+<i>84</i>&nbsp;
+<i>85</i>&nbsp;    public void setQuantidade(Integer quantidade) {
+<b class="nc"><i>86</i>&nbsp;        this.quantidade = quantidade;</b>
+<b class="nc"><i>87</i>&nbsp;    }</b>
+<i>88</i>&nbsp;
+<i>89</i>&nbsp;
+<i>90</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2019-03-29 22:00</div>
+    <div style="float:right;">generated on 2019-07-08 13:41</div>
 </div>
 </body>
 </html>

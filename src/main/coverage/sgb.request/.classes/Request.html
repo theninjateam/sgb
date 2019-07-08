@@ -50,18 +50,18 @@
 </td>
 <td class="coverageStat">
   <span class="percent">
-    22.2%
+    25%
   </span>
   <span class="absValue">
-    (2/ 9)
+    (2/ 8)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    13.6%
+    13.2%
   </span>
   <span class="absValue">
-    (14/ 103)
+    (16/ 121)
   </span>
 </td>
 </tr>
@@ -80,224 +80,246 @@
 <i>6</i>&nbsp;import sgb.service.CRUDService;
 <i>7</i>&nbsp;
 <i>8</i>&nbsp;import java.time.Duration;
-<i>9</i>&nbsp;import java.util.Calendar;
-<i>10</i>&nbsp;
-<i>11</i>&nbsp;public class Request
-<i>12</i>&nbsp;{
-<i>13</i>&nbsp;    private CRUDService crudService;
-<i>14</i>&nbsp;    private ConfigControler configControler;
-<i>15</i>&nbsp;    private EstadoPedidoControler estadoPedidoControler;
-<i>16</i>&nbsp;    private EstadoDevolucaoControler estadoDevolucaoControler;
-<i>17</i>&nbsp;    private ObraConcurrenceControl obraConcurrenceControl;
-<i>18</i>&nbsp;    private TipoRequisicaoControler tipoRequisicaoControler;
-<i>19</i>&nbsp;    private Queue queue;
-<i>20</i>&nbsp;    private EmprestimoController eController;
-<i>21</i>&nbsp;    
-<i>22</i>&nbsp;    public Request(CRUDService crudService,
-<i>23</i>&nbsp;                   ConfigControler configControler,
-<i>24</i>&nbsp;                   EstadoPedidoControler estadoPedidoControler,
-<i>25</i>&nbsp;                   ObraConcurrenceControl obraConcurrenceControl,
-<i>26</i>&nbsp;                   Queue queue,
-<i>27</i>&nbsp;                   EmprestimoController eController)
-<b class="fc"><i>28</i>&nbsp;    {</b>
-<b class="fc"><i>29</i>&nbsp;        this.configControler = configControler;</b>
-<b class="fc"><i>30</i>&nbsp;        this.crudService = crudService;</b>
-<b class="fc"><i>31</i>&nbsp;        this.estadoPedidoControler = estadoPedidoControler;</b>
-<b class="fc"><i>32</i>&nbsp;        this.obraConcurrenceControl = obraConcurrenceControl;</b>
-<b class="fc"><i>33</i>&nbsp;        this.queue = queue;</b>
-<b class="fc"><i>34</i>&nbsp;        this.eController = eController;</b>
-<b class="fc"><i>35</i>&nbsp;    }</b>
-<i>36</i>&nbsp;
-<i>37</i>&nbsp;    public void request(Item item, Users user)
-<i>38</i>&nbsp;    {
-<i>39</i>&nbsp;        try
-<i>40</i>&nbsp;        {
-<b class="nc"><i>41</i>&nbsp;            this.obraConcurrenceControl.enterInCriticalRegion(item.getObra());</b>
-<b class="nc"><i>42</i>&nbsp;            validate(item);</b>
-<i>43</i>&nbsp;
-<b class="nc"><i>44</i>&nbsp;            Emprestimo emprestimo = getEmprestimo(item, user);</b>
-<i>45</i>&nbsp;
-<b class="nc"><i>46</i>&nbsp;            if (!item.getIsLineUp())</b>
-<i>47</i>&nbsp;            {
-<b class="nc"><i>48</i>&nbsp;                Obra obra = this.crudService.get(Obra.class, item.getObra().getCota());</b>
-<b class="nc"><i>49</i>&nbsp;                obra.setQuantidade(obra.getQuantidade() - item.getQuantidade());</b>
-<b class="nc"><i>50</i>&nbsp;                this.crudService.update(obra);</b>
-<i>51</i>&nbsp;            }
-<i>52</i>&nbsp;
-<b class="nc"><i>53</i>&nbsp;            this.crudService.Save(emprestimo);</b>
-<b class="nc"><i>54</i>&nbsp;            this.obraConcurrenceControl.leaveInCriticalRegion(item.getObra());</b>
-<i>55</i>&nbsp;        }
-<b class="nc"><i>56</i>&nbsp;        catch (Exception ex)</b>
-<i>57</i>&nbsp;        {
-<b class="nc"><i>58</i>&nbsp;            this.obraConcurrenceControl.leaveInCriticalRegion(item.getObra());</b>
-<b class="nc"><i>59</i>&nbsp;            ex.printStackTrace();</b>
-<b class="nc"><i>60</i>&nbsp;        }</b>
-<b class="nc"><i>61</i>&nbsp;    }</b>
-<i>62</i>&nbsp;
-<i>63</i>&nbsp;    public void validate(Item item)
-<i>64</i>&nbsp;    {
-<b class="nc"><i>65</i>&nbsp;        if (item.getIsHomeRequisition())</b>
-<i>66</i>&nbsp;        {
-<b class="nc"><i>67</i>&nbsp;            item.setHomeRequisition(canDoHomeRequisition(item.getObra()));</b>
-<i>68</i>&nbsp;        }
-<i>69</i>&nbsp;
-<b class="nc"><i>70</i>&nbsp;        item.setLineUp(canLineUp(item.getObra(), item.getQuantidade()));</b>
-<b class="nc"><i>71</i>&nbsp;    }</b>
-<i>72</i>&nbsp;
-<i>73</i>&nbsp;    public boolean canDoHomeRequisition(Obra obra)
-<i>74</i>&nbsp;    {
-<b class="nc"><i>75</i>&nbsp;        int qtdMin = this.configControler.MINIMUM_NUMBER_OF_COPIES;</b>
-<b class="nc"><i>76</i>&nbsp;        int qtd = getAvailableNumberOfCopies(obra);</b>
-<i>77</i>&nbsp;
-<b class="nc"><i>78</i>&nbsp;        return qtd &gt; qtdMin ? true : false;</b>
-<i>79</i>&nbsp;    }
-<i>80</i>&nbsp;
-<i>81</i>&nbsp;    public boolean canLineUp(Obra obra, int qtd)
-<i>82</i>&nbsp;    {
-<b class="nc"><i>83</i>&nbsp;        int qtdMin = this.configControler.MINIMUM_NUMBER_OF_COPIES;</b>
-<b class="nc"><i>84</i>&nbsp;        int qtdDis = this.crudService.get(Obra.class, obra.getCota()).getQuantidade();</b>
-<i>85</i>&nbsp;
-<b class="nc"><i>86</i>&nbsp;        if (canDoHomeRequisition(obra))</b>
-<i>87</i>&nbsp;        {
-<b class="nc"><i>88</i>&nbsp;            return  qtdDis - qtd &lt; qtdMin ? true : false;</b>
-<i>89</i>&nbsp;        }
-<i>90</i>&nbsp;        else
-<i>91</i>&nbsp;        {
-<b class="nc"><i>92</i>&nbsp;            return  qtdDis  - qtd &lt; 0 ? true : false;</b>
-<i>93</i>&nbsp;        }
-<i>94</i>&nbsp;    }
-<i>95</i>&nbsp;
-<i>96</i>&nbsp;    public int getAvailableNumberOfCopies(Obra obra)
-<i>97</i>&nbsp;    {
-<b class="nc"><i>98</i>&nbsp;        int qtd =  this.eController.getRequest(obra, this.estadoPedidoControler.PENDING_MINI_BOOKING).size();</b>
-<b class="nc"><i>99</i>&nbsp;        qtd += this.eController.getRequest(obra, this.estadoPedidoControler.ACCEPTED).size();</b>
-<b class="nc"><i>100</i>&nbsp;        qtd += this.eController.getRequest(obra, this.estadoPedidoControler.PENDING_BOOKING).size();</b>
-<b class="nc"><i>101</i>&nbsp;        qtd += this.crudService.get(Obra.class, obra.getCota()).getQuantidade();</b>
-<i>102</i>&nbsp;
-<b class="nc"><i>103</i>&nbsp;        return qtd;</b>
-<i>104</i>&nbsp;    }
-<i>105</i>&nbsp;
-<i>106</i>&nbsp;    public void cancel(Emprestimo e)
-<i>107</i>&nbsp;    {
-<b class="fc"><i>108</i>&nbsp;        int idEstadoPedido = e.getEstadoPedido().getIdestadopedido();</b>
-<i>109</i>&nbsp;
-<b class="fc"><i>110</i>&nbsp;        boolean wasReserved = false;</b>
-<i>111</i>&nbsp;        try
-<i>112</i>&nbsp;        {
-<b class="fc"><i>113</i>&nbsp;            Emprestimo emprestimo = this.eController.getRequest(e.getEmprestimoPK());</b>
-<b class="nc"><i>114</i>&nbsp;            EstadoPedido estadoPedido = this.crudService.get(EstadoPedido.class, this.estadoPedidoControler.CANCELED);</b>
-<b class="nc"><i>115</i>&nbsp;            emprestimo.setEstadoPedido(estadoPedido);</b>
-<b class="nc"><i>116</i>&nbsp;            emprestimo.setComentario(&quot;Cancelado Pelo Sistema, excedeu o deadline&quot;);</b>
-<i>117</i>&nbsp;
-<b class="nc"><i>118</i>&nbsp;            if (!this.queue.getQueue(e.getEmprestimoPK().getObra()).isEmpty())</b>
-<i>119</i>&nbsp;            {
-<b class="nc"><i>120</i>&nbsp;                Emprestimo emp = this.queue.getQueue(e.getEmprestimoPK().getObra()).remove();</b>
-<b class="nc"><i>121</i>&nbsp;                wasReserved = reserve(emp, e.getQuantidade());</b>
-<i>122</i>&nbsp;            }
+<i>9</i>&nbsp;import java.util.ArrayList;
+<i>10</i>&nbsp;import java.util.Calendar;
+<i>11</i>&nbsp;import java.util.List;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;public class Request
+<i>14</i>&nbsp;{
+<i>15</i>&nbsp;    private CRUDService crudService;
+<i>16</i>&nbsp;    private ConfigControler configControler;
+<i>17</i>&nbsp;    private EstadoPedidoControler estadoPedidoControler;
+<i>18</i>&nbsp;    private EstadoDevolucaoControler estadoDevolucaoControler;
+<i>19</i>&nbsp;    private ObraConcurrenceControl obraConcurrenceControl;
+<i>20</i>&nbsp;    private TipoRequisicaoControler tipoRequisicaoControler;
+<i>21</i>&nbsp;    private Queue queue;
+<i>22</i>&nbsp;    private EmprestimoController eController;
+<i>23</i>&nbsp;    
+<i>24</i>&nbsp;    public Request(CRUDService crudService,
+<i>25</i>&nbsp;                   ConfigControler configControler,
+<i>26</i>&nbsp;                   EstadoPedidoControler estadoPedidoControler,
+<i>27</i>&nbsp;                   ObraConcurrenceControl obraConcurrenceControl,
+<i>28</i>&nbsp;                   Queue queue,
+<i>29</i>&nbsp;                   EmprestimoController eController,
+<i>30</i>&nbsp;                   EstadoDevolucaoControler estadoDevolucaoControler,
+<i>31</i>&nbsp;                   TipoRequisicaoControler tipoRequisicaoControler)
+<b class="fc"><i>32</i>&nbsp;    {</b>
+<b class="fc"><i>33</i>&nbsp;        this.configControler = configControler;</b>
+<b class="fc"><i>34</i>&nbsp;        this.crudService = crudService;</b>
+<b class="fc"><i>35</i>&nbsp;        this.estadoPedidoControler = estadoPedidoControler;</b>
+<b class="fc"><i>36</i>&nbsp;        this.obraConcurrenceControl = obraConcurrenceControl;</b>
+<b class="fc"><i>37</i>&nbsp;        this.queue = queue;</b>
+<b class="fc"><i>38</i>&nbsp;        this.eController = eController;</b>
+<b class="fc"><i>39</i>&nbsp;        this.estadoDevolucaoControler = estadoDevolucaoControler;</b>
+<b class="fc"><i>40</i>&nbsp;        this.tipoRequisicaoControler = tipoRequisicaoControler;</b>
+<b class="fc"><i>41</i>&nbsp;    }</b>
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;    public void request(List&lt;Item&gt; itens, Users user)
+<i>44</i>&nbsp;    {
+<b class="nc"><i>45</i>&nbsp;        for (Item item: itens)</b>
+<i>46</i>&nbsp;        {
+<i>47</i>&nbsp;            try
+<i>48</i>&nbsp;            {
+<b class="nc"><i>49</i>&nbsp;                this.obraConcurrenceControl.enterInCriticalRegion(item.getObra());</b>
+<i>50</i>&nbsp;
+<b class="nc"><i>51</i>&nbsp;                if (item.isHomeRequisition() &amp;&amp; this.canDoHomeRequisition(item.getObra(), item.getQuantidade()))</b>
+<i>52</i>&nbsp;                {
+<b class="nc"><i>53</i>&nbsp;                    if (item.getObra().getQuantidade() - item.getQuantidade() &gt;=</b>
+<i>54</i>&nbsp;                            this.configControler.MINIMUM_NUMBER_OF_COPIES)
+<i>55</i>&nbsp;                    {
+<b class="nc"><i>56</i>&nbsp;                        item.setEstadoPedido(this.crudService.get(EstadoPedido.class, this.estadoPedidoControler.PENDING_MINI_BOOKING));</b>
+<b class="nc"><i>57</i>&nbsp;                        Emprestimo emprestimo = getEmprestimo(item, user);</b>
+<i>58</i>&nbsp;
+<b class="nc"><i>59</i>&nbsp;                        Obra obra = this.crudService.get(Obra.class, item.getObra().getCota());</b>
+<b class="nc"><i>60</i>&nbsp;                        obra.setQuantidade(obra.getQuantidade() - item.getQuantidade());</b>
+<b class="nc"><i>61</i>&nbsp;                        this.crudService.update(obra);</b>
+<b class="nc"><i>62</i>&nbsp;                        this.crudService.Save(emprestimo);</b>
+<b class="nc"><i>63</i>&nbsp;                    }</b>
+<b class="nc"><i>64</i>&nbsp;                    else if(item.isLineUp())</b>
+<i>65</i>&nbsp;                    {
+<b class="nc"><i>66</i>&nbsp;                        item.setEstadoPedido(this.crudService.get(EstadoPedido.class, this.estadoPedidoControler.ON_WAINTING_QUEUE));</b>
+<b class="nc"><i>67</i>&nbsp;                        Emprestimo emprestimo = getEmprestimo(item, user);</b>
+<b class="nc"><i>68</i>&nbsp;                        this.crudService.Save(emprestimo);</b>
+<b class="nc"><i>69</i>&nbsp;                    }</b>
+<i>70</i>&nbsp;                }
+<b class="nc"><i>71</i>&nbsp;                else if (item.isInternalRequisition() &amp;&amp; this.canDoInternalRequisition(item.getObra(), item.getQuantidade()))</b>
+<i>72</i>&nbsp;                {
+<b class="nc"><i>73</i>&nbsp;                    item.setEstadoPedido(this.crudService.get(EstadoPedido.class, this.estadoPedidoControler.PENDING_MINI_BOOKING));</b>
+<b class="nc"><i>74</i>&nbsp;                    Emprestimo emprestimo = getEmprestimo(item, user);</b>
+<i>75</i>&nbsp;
+<b class="nc"><i>76</i>&nbsp;                    Obra obra = this.crudService.get(Obra.class, item.getObra().getCota());</b>
+<b class="nc"><i>77</i>&nbsp;                    obra.setQuantidade(obra.getQuantidade() - item.getQuantidade());</b>
+<b class="nc"><i>78</i>&nbsp;                    this.crudService.update(obra);</b>
+<b class="nc"><i>79</i>&nbsp;                    this.crudService.Save(emprestimo);</b>
+<i>80</i>&nbsp;                }
+<i>81</i>&nbsp;
+<b class="nc"><i>82</i>&nbsp;                this.obraConcurrenceControl.leaveInCriticalRegion(item.getObra());</b>
+<i>83</i>&nbsp;            }
+<b class="nc"><i>84</i>&nbsp;            catch (Exception ex)</b>
+<i>85</i>&nbsp;            {
+<b class="nc"><i>86</i>&nbsp;                this.obraConcurrenceControl.leaveInCriticalRegion(item.getObra());</b>
+<b class="nc"><i>87</i>&nbsp;                ex.printStackTrace();</b>
+<b class="nc"><i>88</i>&nbsp;            }</b>
+<b class="nc"><i>89</i>&nbsp;        }</b>
+<b class="nc"><i>90</i>&nbsp;    }</b>
+<i>91</i>&nbsp;
+<i>92</i>&nbsp;    public boolean canDoHomeRequisition(Obra obra, int qtd)
+<i>93</i>&nbsp;    {
+<b class="nc"><i>94</i>&nbsp;        int qtdMin = this.configControler.MINIMUM_NUMBER_OF_COPIES;</b>
+<b class="nc"><i>95</i>&nbsp;        int all = getAvailableNumberOfCopies(obra);</b>
+<i>96</i>&nbsp;
+<b class="nc"><i>97</i>&nbsp;        return all - qtd &gt;= qtdMin ? true : false;</b>
+<i>98</i>&nbsp;    }
+<i>99</i>&nbsp;
+<i>100</i>&nbsp;    public boolean canDoInternalRequisition(Obra obra, int qtd)
+<i>101</i>&nbsp;    {
+<b class="nc"><i>102</i>&nbsp;        int availabble = this.crudService.get(Obra.class, obra.getCota()).getQuantidade();;</b>
+<i>103</i>&nbsp;
+<b class="nc"><i>104</i>&nbsp;        return availabble - qtd &gt;= 0 ? true : false;</b>
+<i>105</i>&nbsp;    }
+<i>106</i>&nbsp;
+<i>107</i>&nbsp;    public int getAvailableNumberOfCopies(Obra obra)
+<i>108</i>&nbsp;    {
+<b class="nc"><i>109</i>&nbsp;        int qtd = 0;</b>
+<b class="nc"><i>110</i>&nbsp;        List&lt;Emprestimo&gt; emprestimos = new ArrayList&lt;Emprestimo&gt;();</b>
+<i>111</i>&nbsp;
+<b class="nc"><i>112</i>&nbsp;        emprestimos.addAll(this.eController.getRequest(obra, this.estadoPedidoControler.PENDING_MINI_BOOKING));</b>
+<b class="nc"><i>113</i>&nbsp;        emprestimos.addAll(this.eController.getBorrowedBooks(obra, this.estadoDevolucaoControler.NOT_RETURNED));</b>
+<b class="nc"><i>114</i>&nbsp;        emprestimos.addAll(this.eController.getRequest(obra, this.estadoPedidoControler.PENDING_BOOKING));</b>
+<i>115</i>&nbsp;
+<b class="nc"><i>116</i>&nbsp;        for (Emprestimo e: emprestimos)</b>
+<b class="nc"><i>117</i>&nbsp;            qtd = qtd + e.getQuantidade();</b>
+<i>118</i>&nbsp;
+<b class="nc"><i>119</i>&nbsp;        qtd = qtd + this.crudService.get(Obra.class, obra.getCota()).getQuantidade();</b>
+<i>120</i>&nbsp;
+<b class="nc"><i>121</i>&nbsp;        return qtd;</b>
+<i>122</i>&nbsp;    }
 <i>123</i>&nbsp;
-<b class="nc"><i>124</i>&nbsp;            if (!wasReserved)</b>
-<i>125</i>&nbsp;            {
-<i>126</i>&nbsp;                try
-<i>127</i>&nbsp;                {
-<b class="nc"><i>128</i>&nbsp;                    this.obraConcurrenceControl.enterInCriticalRegion(e.getEmprestimoPK().getObra());</b>
-<b class="nc"><i>129</i>&nbsp;                    Obra obra = this.crudService.get(Obra.class, e.getEmprestimoPK().getObra().getCota());</b>
-<b class="nc"><i>130</i>&nbsp;                    obra.setQuantidade(obra.getQuantidade() + e.getQuantidade());</b>
-<b class="nc"><i>131</i>&nbsp;                    this.crudService.update(obra);</b>
-<b class="nc"><i>132</i>&nbsp;                    this.obraConcurrenceControl.leaveInCriticalRegion(e.getEmprestimoPK().getObra());</b>
-<i>133</i>&nbsp;                }
-<b class="nc"><i>134</i>&nbsp;                catch (Exception ex)</b>
-<i>135</i>&nbsp;                {
-<b class="nc"><i>136</i>&nbsp;                    ex.printStackTrace();</b>
-<b class="nc"><i>137</i>&nbsp;                    this.obraConcurrenceControl.leaveInCriticalRegion(e.getEmprestimoPK().getObra());</b>
-<b class="nc"><i>138</i>&nbsp;                }</b>
-<i>139</i>&nbsp;            }
-<i>140</i>&nbsp;
-<b class="nc"><i>141</i>&nbsp;            this.crudService.update(emprestimo);</b>
-<i>142</i>&nbsp;        }
-<b class="fc"><i>143</i>&nbsp;        catch (Exception ex)</b>
-<i>144</i>&nbsp;        {
-<b class="fc"><i>145</i>&nbsp;            ex.printStackTrace();</b>
-<b class="nc"><i>146</i>&nbsp;        }</b>
-<b class="fc"><i>147</i>&nbsp;    }</b>
-<i>148</i>&nbsp;
-<i>149</i>&nbsp;    public boolean reserve(Emprestimo e, int qtdObras)
-<i>150</i>&nbsp;    {
-<i>151</i>&nbsp;        try
-<i>152</i>&nbsp;        {
-<b class="nc"><i>153</i>&nbsp;            if (qtdObras &gt; e.getQuantidade())</b>
-<i>154</i>&nbsp;            {
-<b class="nc"><i>155</i>&nbsp;                qtdObras = qtdObras - e.getQuantidade();</b>
-<i>156</i>&nbsp;            }
-<b class="nc"><i>157</i>&nbsp;            else if (qtdObras &lt; e.getQuantidade())</b>
-<i>158</i>&nbsp;            {
-<b class="nc"><i>159</i>&nbsp;                e.setQuantidade(qtdObras);</b>
-<i>160</i>&nbsp;            }
-<i>161</i>&nbsp;
-<b class="nc"><i>162</i>&nbsp;            e.setEstadoPedido(this.crudService.get(EstadoPedido.class, this.estadoPedidoControler.PENDING_BOOKING));</b>
-<b class="nc"><i>163</i>&nbsp;            e.setDataaprovacao(Calendar.getInstance());</b>
-<i>164</i>&nbsp;
-<b class="nc"><i>165</i>&nbsp;            this.obraConcurrenceControl.enterInCriticalRegion(e.getEmprestimoPK().getObra());</b>
+<i>124</i>&nbsp;    public void cancel(Emprestimo e)
+<i>125</i>&nbsp;    {
+<b class="fc"><i>126</i>&nbsp;        int idEstadoPedido = e.getEstadoPedido().getIdestadopedido();</b>
+<i>127</i>&nbsp;
+<b class="fc"><i>128</i>&nbsp;        boolean wasReserved = false;</b>
+<i>129</i>&nbsp;        try
+<i>130</i>&nbsp;        {
+<b class="fc"><i>131</i>&nbsp;            Emprestimo emprestimo = this.eController.getRequest(e.getEmprestimoPK());</b>
+<b class="nc"><i>132</i>&nbsp;            EstadoPedido estadoPedido = this.crudService.get(EstadoPedido.class, this.estadoPedidoControler.CANCELED);</b>
+<b class="nc"><i>133</i>&nbsp;            emprestimo.setEstadoPedido(estadoPedido);</b>
+<b class="nc"><i>134</i>&nbsp;            emprestimo.setComentario(&quot;Cancelado Pelo Sistema, excedeu o deadline&quot;);</b>
+<i>135</i>&nbsp;
+<b class="nc"><i>136</i>&nbsp;            if (!this.queue.getQueue(e.getEmprestimoPK().getObra()).isEmpty())</b>
+<i>137</i>&nbsp;            {
+<b class="nc"><i>138</i>&nbsp;                Emprestimo emp = this.queue.getQueue(e.getEmprestimoPK().getObra()).remove();</b>
+<b class="nc"><i>139</i>&nbsp;                wasReserved = reserve(emp, e.getQuantidade());</b>
+<i>140</i>&nbsp;            }
+<i>141</i>&nbsp;
+<b class="nc"><i>142</i>&nbsp;            if (!wasReserved)</b>
+<i>143</i>&nbsp;            {
+<i>144</i>&nbsp;                try
+<i>145</i>&nbsp;                {
+<b class="nc"><i>146</i>&nbsp;                    this.obraConcurrenceControl.enterInCriticalRegion(e.getEmprestimoPK().getObra());</b>
+<b class="nc"><i>147</i>&nbsp;                    Obra obra = this.crudService.get(Obra.class, e.getEmprestimoPK().getObra().getCota());</b>
+<b class="nc"><i>148</i>&nbsp;                    obra.setQuantidade(obra.getQuantidade() + e.getQuantidade());</b>
+<b class="nc"><i>149</i>&nbsp;                    this.crudService.update(obra);</b>
+<b class="nc"><i>150</i>&nbsp;                    this.obraConcurrenceControl.leaveInCriticalRegion(e.getEmprestimoPK().getObra());</b>
+<i>151</i>&nbsp;                }
+<b class="nc"><i>152</i>&nbsp;                catch (Exception ex)</b>
+<i>153</i>&nbsp;                {
+<b class="nc"><i>154</i>&nbsp;                    ex.printStackTrace();</b>
+<b class="nc"><i>155</i>&nbsp;                    this.obraConcurrenceControl.leaveInCriticalRegion(e.getEmprestimoPK().getObra());</b>
+<b class="nc"><i>156</i>&nbsp;                }</b>
+<i>157</i>&nbsp;            }
+<i>158</i>&nbsp;
+<b class="nc"><i>159</i>&nbsp;            this.crudService.update(emprestimo);</b>
+<i>160</i>&nbsp;        }
+<b class="fc"><i>161</i>&nbsp;        catch (Exception ex)</b>
+<i>162</i>&nbsp;        {
+<b class="fc"><i>163</i>&nbsp;            ex.printStackTrace();</b>
+<b class="nc"><i>164</i>&nbsp;        }</b>
+<b class="fc"><i>165</i>&nbsp;    }</b>
 <i>166</i>&nbsp;
-<b class="nc"><i>167</i>&nbsp;            if (qtdObras &gt; 0)</b>
-<i>168</i>&nbsp;            {
-<b class="nc"><i>169</i>&nbsp;                Obra obra = this.crudService.get(Obra.class, e.getEmprestimoPK().getObra().getCota());</b>
-<b class="nc"><i>170</i>&nbsp;                obra.setQuantidade(obra.getQuantidade() + qtdObras);</b>
-<b class="nc"><i>171</i>&nbsp;                this.crudService.update(obra);</b>
-<i>172</i>&nbsp;            }
-<i>173</i>&nbsp;
-<b class="nc"><i>174</i>&nbsp;            this.obraConcurrenceControl.leaveInCriticalRegion(e.getEmprestimoPK().getObra());</b>
-<b class="nc"><i>175</i>&nbsp;            this.crudService.update(e);</b>
-<i>176</i>&nbsp;
-<b class="nc"><i>177</i>&nbsp;            return true;</b>
-<i>178</i>&nbsp;        }
-<b class="nc"><i>179</i>&nbsp;        catch (Exception ex)</b>
-<i>180</i>&nbsp;        {
-<b class="nc"><i>181</i>&nbsp;            this.obraConcurrenceControl.leaveInCriticalRegion(e.getEmprestimoPK().getObra());</b>
-<b class="nc"><i>182</i>&nbsp;            ex.printStackTrace();</b>
-<b class="nc"><i>183</i>&nbsp;            return false;</b>
-<i>184</i>&nbsp;        }
-<i>185</i>&nbsp;    }
-<i>186</i>&nbsp;
-<i>187</i>&nbsp;    public Emprestimo getEmprestimo(Item item, Users user)
-<i>188</i>&nbsp;    {
-<b class="nc"><i>189</i>&nbsp;        EmprestimoPK emprestimoPK = new EmprestimoPK();</b>
-<b class="nc"><i>190</i>&nbsp;        Emprestimo emprestimo = new Emprestimo();</b>
+<i>167</i>&nbsp;    public boolean reserve(Emprestimo e, int qtdObras)
+<i>168</i>&nbsp;    {
+<i>169</i>&nbsp;        try
+<i>170</i>&nbsp;        {
+<b class="nc"><i>171</i>&nbsp;            if (qtdObras &gt; e.getQuantidade())</b>
+<i>172</i>&nbsp;            {
+<b class="nc"><i>173</i>&nbsp;                qtdObras = qtdObras - e.getQuantidade();</b>
+<i>174</i>&nbsp;            }
+<b class="nc"><i>175</i>&nbsp;            else if (qtdObras &lt; e.getQuantidade())</b>
+<i>176</i>&nbsp;            {
+<b class="nc"><i>177</i>&nbsp;                e.setQuantidade(qtdObras);</b>
+<i>178</i>&nbsp;            }
+<i>179</i>&nbsp;
+<b class="nc"><i>180</i>&nbsp;            e.setEstadoPedido(this.crudService.get(EstadoPedido.class, this.estadoPedidoControler.PENDING_BOOKING));</b>
+<b class="nc"><i>181</i>&nbsp;            e.setDataaprovacao(Calendar.getInstance());</b>
+<i>182</i>&nbsp;
+<b class="nc"><i>183</i>&nbsp;            this.obraConcurrenceControl.enterInCriticalRegion(e.getEmprestimoPK().getObra());</b>
+<i>184</i>&nbsp;
+<b class="nc"><i>185</i>&nbsp;            if (qtdObras &gt; 0)</b>
+<i>186</i>&nbsp;            {
+<b class="nc"><i>187</i>&nbsp;                Obra obra = this.crudService.get(Obra.class, e.getEmprestimoPK().getObra().getCota());</b>
+<b class="nc"><i>188</i>&nbsp;                obra.setQuantidade(obra.getQuantidade() + qtdObras);</b>
+<b class="nc"><i>189</i>&nbsp;                this.crudService.update(obra);</b>
+<i>190</i>&nbsp;            }
 <i>191</i>&nbsp;
-<b class="nc"><i>192</i>&nbsp;        EstadoPedido estadoPedido = crudService.get(EstadoPedido.class,estadoPedidoControler.PENDING_MINI_BOOKING);</b>
-<b class="nc"><i>193</i>&nbsp;        EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, estadoDevolucaoControler.UNDETERMINED);</b>
-<b class="nc"><i>194</i>&nbsp;        EstadoRenovacao estadoRenovacao = null;</b>
-<i>195</i>&nbsp;
-<b class="nc"><i>196</i>&nbsp;        TipoRequisicao tipoRequisicao = crudService.get(TipoRequisicao.class,tipoRequisicaoControler.INTERNAL_REQUISITION);</b>
-<i>197</i>&nbsp;
-<b class="nc"><i>198</i>&nbsp;        if (item.getIsHomeRequisition()) {</b>
-<b class="nc"><i>199</i>&nbsp;            tipoRequisicao = crudService.get(TipoRequisicao.class, tipoRequisicaoControler.HOME_REQUISITION);</b>
-<i>200</i>&nbsp;        }
-<b class="nc"><i>201</i>&nbsp;        emprestimo.setTipoRequisicao(tipoRequisicao);</b>
-<i>202</i>&nbsp;
-<i>203</i>&nbsp;
-<b class="nc"><i>204</i>&nbsp;        emprestimoPK.setObra(item.getObra());</b>
-<b class="nc"><i>205</i>&nbsp;        emprestimoPK.setUtente(user);</b>
-<b class="nc"><i>206</i>&nbsp;        emprestimoPK.setDataentradapedido(Calendar.getInstance());</b>
-<i>207</i>&nbsp;
-<b class="nc"><i>208</i>&nbsp;        emprestimo.setEstadoDevolucao(estadoDevolucao);</b>
-<b class="nc"><i>209</i>&nbsp;        emprestimo.setEstadoPedido(estadoPedido);</b>
-<b class="nc"><i>210</i>&nbsp;        emprestimo.setEmprestimoPK(emprestimoPK);</b>
-<b class="nc"><i>211</i>&nbsp;        emprestimo.setComentario(&quot;--&quot;);</b>
-<b class="nc"><i>212</i>&nbsp;        emprestimo.setDataaprovacao(null);</b>
-<b class="nc"><i>213</i>&nbsp;        emprestimo.setDatadevolucao(null);</b>
-<b class="nc"><i>214</i>&nbsp;        emprestimo.setQuantidade(item.getQuantidade());</b>
-<b class="nc"><i>215</i>&nbsp;        emprestimo.setEstadoRenovacao(estadoRenovacao);</b>
-<b class="nc"><i>216</i>&nbsp;        emprestimo.setTipoRequisicao(tipoRequisicao);</b>
-<i>217</i>&nbsp;
-<b class="nc"><i>218</i>&nbsp;        return emprestimo;</b>
-<i>219</i>&nbsp;    }
-<i>220</i>&nbsp;}
+<b class="nc"><i>192</i>&nbsp;            this.obraConcurrenceControl.leaveInCriticalRegion(e.getEmprestimoPK().getObra());</b>
+<b class="nc"><i>193</i>&nbsp;            this.crudService.update(e);</b>
+<i>194</i>&nbsp;
+<b class="nc"><i>195</i>&nbsp;            return true;</b>
+<i>196</i>&nbsp;        }
+<b class="nc"><i>197</i>&nbsp;        catch (Exception ex)</b>
+<i>198</i>&nbsp;        {
+<b class="nc"><i>199</i>&nbsp;            this.obraConcurrenceControl.leaveInCriticalRegion(e.getEmprestimoPK().getObra());</b>
+<b class="nc"><i>200</i>&nbsp;            ex.printStackTrace();</b>
+<b class="nc"><i>201</i>&nbsp;            return false;</b>
+<i>202</i>&nbsp;        }
+<i>203</i>&nbsp;    }
+<i>204</i>&nbsp;
+<i>205</i>&nbsp;    public Emprestimo getEmprestimo(Item item, Users user)
+<i>206</i>&nbsp;    {
+<b class="nc"><i>207</i>&nbsp;        EmprestimoPK emprestimoPK = new EmprestimoPK();</b>
+<b class="nc"><i>208</i>&nbsp;        Emprestimo emprestimo = new Emprestimo();</b>
+<b class="nc"><i>209</i>&nbsp;        EstadoPedido estadoPedido = item.getEstadoPedido();</b>
+<b class="nc"><i>210</i>&nbsp;        TipoRequisicao tipoRequisicao = null;</b>
+<b class="nc"><i>211</i>&nbsp;        EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, estadoDevolucaoControler.UNDETERMINED);</b>
+<b class="nc"><i>212</i>&nbsp;        EstadoRenovacao estadoRenovacao = null;</b>
+<i>213</i>&nbsp;
+<b class="nc"><i>214</i>&nbsp;        if (item.isHomeRequisition())</b>
+<i>215</i>&nbsp;        {
+<b class="nc"><i>216</i>&nbsp;            tipoRequisicao = crudService.get(TipoRequisicao.class, tipoRequisicaoControler.HOME_REQUISITION);</b>
+<i>217</i>&nbsp;        }
+<b class="nc"><i>218</i>&nbsp;        else if (item.isInternalRequisition())</b>
+<i>219</i>&nbsp;        {
+<b class="nc"><i>220</i>&nbsp;            tipoRequisicao = crudService.get(TipoRequisicao.class, tipoRequisicaoControler.INTERNAL_REQUISITION);</b>
+<i>221</i>&nbsp;        }
+<i>222</i>&nbsp;
+<b class="nc"><i>223</i>&nbsp;        emprestimo.setTipoRequisicao(tipoRequisicao);</b>
+<b class="nc"><i>224</i>&nbsp;        emprestimo.setEstadoPedido(estadoPedido);</b>
+<i>225</i>&nbsp;
+<b class="nc"><i>226</i>&nbsp;        emprestimoPK.setObra(item.getObra());</b>
+<b class="nc"><i>227</i>&nbsp;        emprestimoPK.setUtente(user);</b>
+<b class="nc"><i>228</i>&nbsp;        emprestimoPK.setDataentradapedido(Calendar.getInstance());</b>
+<i>229</i>&nbsp;
+<b class="nc"><i>230</i>&nbsp;        emprestimo.setEstadoDevolucao(estadoDevolucao);</b>
+<b class="nc"><i>231</i>&nbsp;        emprestimo.setEstadoPedido(item.getEstadoPedido());</b>
+<b class="nc"><i>232</i>&nbsp;        emprestimo.setEmprestimoPK(emprestimoPK);</b>
+<b class="nc"><i>233</i>&nbsp;        emprestimo.setComentario(&quot;--&quot;);</b>
+<b class="nc"><i>234</i>&nbsp;        emprestimo.setDataaprovacao(null);</b>
+<b class="nc"><i>235</i>&nbsp;        emprestimo.setDatadevolucao(null);</b>
+<b class="nc"><i>236</i>&nbsp;        emprestimo.setQuantidade(item.getQuantidade());</b>
+<b class="nc"><i>237</i>&nbsp;        emprestimo.setEstadoRenovacao(estadoRenovacao);</b>
+<b class="nc"><i>238</i>&nbsp;        emprestimo.setTipoRequisicao(tipoRequisicao);</b>
+<i>239</i>&nbsp;
+<b class="nc"><i>240</i>&nbsp;        return emprestimo;</b>
+<i>241</i>&nbsp;    }
+<i>242</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2019-03-29 22:00</div>
+    <div style="float:right;">generated on 2019-07-08 13:41</div>
 </div>
 </body>
 </html>

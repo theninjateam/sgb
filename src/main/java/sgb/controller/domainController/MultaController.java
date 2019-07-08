@@ -62,6 +62,29 @@ public class MultaController
         return this.crudService.findByJPQuery(query.toString(), parameters);
     }
 
+    public List<Multa> getMultasByDate(Calendar dataI, Calendar dataF, EstadoMulta estadoMulta){
+        if(estadoMulta!=null){
+            parameters = new HashMap<>(3);
+        }
+        else{
+            parameters = new HashMap<>(2);
+        }
+
+        parameters.put("datai", dataI);
+        parameters.put("dataf", dataF);
+
+        query = new StringBuilder();
+
+        query.append("SELECT m FROM Multa m WHERE m.dataemissao >= :datai ");
+        query.append("and m.dataemissao <= :dataf");
+        if(estadoMulta!=null){
+            parameters.put("idEstado",estadoMulta.getIdestadomulta());
+            query.append(" and m.estadoMulta.idestadomulta = :idEstado");
+        }
+
+        return this.crudService.findByJPQuery(query.toString(),parameters);
+    }
+
     public List<Multa> getByNotification(boolean notification)
     {
         parameters = new HashMap<String, Object>(1);

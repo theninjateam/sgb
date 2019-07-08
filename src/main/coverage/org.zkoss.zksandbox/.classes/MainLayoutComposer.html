@@ -1,0 +1,470 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: MainLayoutComposer</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">org.zkoss.zksandbox</a> ]
+</div>
+
+<h1>Coverage Summary for Class: MainLayoutComposer (org.zkoss.zksandbox)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MainLayoutComposer</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 167)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">MainLayoutComposer$1</td>
+  </tr>
+  <tr>
+    <td class="name">MainLayoutComposer$ItemRender</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 10)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 177)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;/*@Bania Fonseca, modified that class
+<i>2</i>&nbsp; * */
+<i>3</i>&nbsp;
+<i>4</i>&nbsp;/* MainLayoutComposer.java
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;{{IS_NOTE
+<i>7</i>&nbsp;	Purpose:
+<i>8</i>&nbsp;		
+<i>9</i>&nbsp;	Description:
+<i>10</i>&nbsp;		
+<i>11</i>&nbsp;	History:
+<i>12</i>&nbsp;		Nov 12, 2008 3:10:06 PM , Created by jumperchen
+<i>13</i>&nbsp;}}IS_NOTE
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;Copyright (C) 2008 Potix Corporation. All Rights Reserved.
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;{{IS_RIGHT
+<i>18</i>&nbsp;	This program is distributed under GPL Version 3.0 in the hope that
+<i>19</i>&nbsp;	it will be useful, but WITHOUT ANY WARRANTY.
+<i>20</i>&nbsp;}}IS_RIGHT
+<i>21</i>&nbsp; */
+<i>22</i>&nbsp;package org.zkoss.zksandbox;
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;import org.slf4j.Logger;
+<i>25</i>&nbsp;import org.slf4j.LoggerFactory;
+<i>26</i>&nbsp;import org.zkoss.web.fn.ServletFns;
+<i>27</i>&nbsp;import org.zkoss.web.servlet.Servlets;
+<i>28</i>&nbsp;import org.zkoss.zk.ui.ComponentNotFoundException;
+<i>29</i>&nbsp;import org.zkoss.zk.ui.Execution;
+<i>30</i>&nbsp;import org.zkoss.zk.ui.Executions;
+<i>31</i>&nbsp;import org.zkoss.zk.ui.event.*;
+<i>32</i>&nbsp;import org.zkoss.zk.ui.util.Clients;
+<i>33</i>&nbsp;import org.zkoss.zk.ui.util.GenericForwardComposer;
+<i>34</i>&nbsp;import org.zkoss.zk.ui.util.WebAppInit;
+<i>35</i>&nbsp;import org.zkoss.zul.*;
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;import javax.servlet.ServletRequest;
+<i>38</i>&nbsp;import java.util.LinkedList;
+<i>39</i>&nbsp;import java.util.List;
+<i>40</i>&nbsp;import java.util.Map;
+<i>41</i>&nbsp;import java.util.Set;
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;import sgb.domain.Role;
+<i>44</i>&nbsp;import sgb.domain.Users;
+<i>45</i>&nbsp;import org.springframework.security.core.context.SecurityContextHolder;
+<i>46</i>&nbsp;import org.springframework.security.core.userdetails.UserDetails;
+<i>47</i>&nbsp;import sgb.domain.Zitem;
+<i>48</i>&nbsp;
+<i>49</i>&nbsp;/**
+<i>50</i>&nbsp; * @author jumperchen
+<i>51</i>&nbsp; * 
+<i>52</i>&nbsp; */
+<i>53</i>&nbsp;@SuppressWarnings(&quot;serial&quot;)
+<i>54</i>&nbsp;public class MainLayoutComposer extends GenericForwardComposer&lt;Borderlayout&gt; implements
+<i>55</i>&nbsp;        MainLayoutAPI {
+<b class="nc"><i>56</i>&nbsp;	private static final Logger log = LoggerFactory.getLogger(MainLayoutComposer.class);</b>
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;	Textbox searchBox;
+<i>59</i>&nbsp;
+<i>60</i>&nbsp;	Listbox itemList;
+<i>61</i>&nbsp;	
+<i>62</i>&nbsp;	Include xcontents;
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;	Div header;
+<i>65</i>&nbsp;
+<i>66</i>&nbsp;	Button _selected;
+<i>67</i>&nbsp;
+<b class="nc"><i>68</i>&nbsp;	private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();</b>
+<i>69</i>&nbsp;
+<i>70</i>&nbsp;	public MainLayoutComposer()
+<b class="nc"><i>71</i>&nbsp;	{</b>
+<b class="nc"><i>72</i>&nbsp;		initKey();</b>
+<b class="nc"><i>73</i>&nbsp;	}</b>
+<i>74</i>&nbsp;
+<i>75</i>&nbsp;	private Map&lt;String, Category&gt; getCategoryMap() {
+<b class="nc"><i>76</i>&nbsp;		ServletRequest request = ServletFns.getCurrentRequest();</b>
+<b class="nc"><i>77</i>&nbsp;		return Servlets.getBrowser(request, &quot;mobile&quot;) == null ?	</b>
+<b class="nc"><i>78</i>&nbsp;				DemoWebAppInit.getCateMap()	: DemoWebAppInit.getMobilCateMap();</b>
+<i>79</i>&nbsp;	}
+<i>80</i>&nbsp;
+<i>81</i>&nbsp;	private void initKey() {
+<i>82</i>&nbsp;		// We have to decide the key of Google Maps since we have a demo using
+<i>83</i>&nbsp;		// it.
+<i>84</i>&nbsp;		// This key is used by zksandbox/index.zul to generate a proper
+<i>85</i>&nbsp;		// script
+<b class="nc"><i>86</i>&nbsp;		final Execution exec = Executions.getCurrent();</b>
+<b class="nc"><i>87</i>&nbsp;		final String sn = exec.getServerName();</b>
+<b class="nc"><i>88</i>&nbsp;		final int sp = exec.getServerPort();</b>
+<i>89</i>&nbsp;
+<i>90</i>&nbsp;		// To add more keys: http://www.google.com/apis/maps/signup.html
+<i>91</i>&nbsp;
+<b class="nc"><i>92</i>&nbsp;		String gkey = null;</b>
+<b class="nc"><i>93</i>&nbsp;		if (sn.indexOf(&quot;www.potix.com&quot;) &gt;= 0) { // http://www.potix.com/</b>
+<b class="nc"><i>94</i>&nbsp;			gkey = &quot;ABQIAAAAmGxmYR57XDAbAumS9tV5fxRYCo_4ZGj_-54kHesWSk0nMkbs4xTpq0zo9O75_ZqvsSLGY2YkC7jjNg&quot;;</b>
+<b class="nc"><i>95</i>&nbsp;		} else if (sn.indexOf(&quot;www.zkoss.org&quot;) &gt;= 0) { // http://www.zkoss.org/</b>
+<b class="nc"><i>96</i>&nbsp;			gkey = &quot;ABQIAAAAmGxmYR57XDAbAumS9tV5fxQXyylOlR69a1vFTcUcpV6DXdesOBSMEHfkewcSzwEwBT7UzVx8ep8vjA&quot;;</b>
+<b class="nc"><i>97</i>&nbsp;		} else if (sn.indexOf(&quot;zkoss.org&quot;) &gt;= 0) { // http://www.zkoss.org/</b>
+<b class="nc"><i>98</i>&nbsp;			gkey = &quot;ABQIAAAAakIm31AXAvNGFHV8i1Tx8RSF4KLGEmvBsS1z1zAsQZvbQceuNRQBsm65qGaXpTWjZsc2bl-hm2Vyfw&quot;;</b>
+<b class="nc"><i>99</i>&nbsp;		} else if (sn.indexOf(&quot;zktest&quot;) &gt;= 0) { //zktest		</b>
+<b class="nc"><i>100</i>&nbsp;			gkey=&quot;ABQIAAAAWaNkzbzygbuWnmqS4YCEZhTOLZK1h7IfBeBWqZtjq6JJy913gBRHY1uafo5XzZVSyXXksjv_jHoUsA&quot;;</b>
+<b class="nc"><i>101</i>&nbsp;		} else if (sn.indexOf(&quot;zktest2&quot;) &gt;= 0) { //zktest2	</b>
+<b class="nc"><i>102</i>&nbsp;			gkey=&quot;ABQIAAAAWaNkzbzygbuWnmqS4YCEZhTWO6y1eecluAZvbpmC7meqCt-saxSETUOirx46xfUyu-Z-mqLCi4vo9A&quot;;</b>
+<b class="nc"><i>103</i>&nbsp;		}else if (sn.indexOf(&quot;localhost&quot;) &gt;= 0) { // localhost</b>
+<b class="nc"><i>104</i>&nbsp;			if (sp == 80) // http://localhost/</b>
+<b class="nc"><i>105</i>&nbsp;				gkey = &quot;ABQIAAAAmGxmYR57XDAbAumS9tV5fxT2yXp_ZAY8_ufC3CFXhHIE1NvwkxRUITTZ-rzsyEVih16Hn3ApyUpSkA&quot;;</b>
+<b class="nc"><i>106</i>&nbsp;			else if (sp == 8080) // http://localhost:8080</b>
+<b class="nc"><i>107</i>&nbsp;				gkey = &quot;ABQIAAAAmGxmYR57XDAbAumS9tV5fxTwM0brOpm-All5BF6PoaKBxRWWERSynObNOWSyMNmLGAMZAO1WkDUubA&quot;;</b>
+<b class="nc"><i>108</i>&nbsp;			else if (sp == 7799)</b>
+<b class="nc"><i>109</i>&nbsp;				gkey = &quot;ABQIAAAAmGxmYR57XDAbAumS9tV5fxTT6-Op-9nAQgn7qnDG0QjE8aldaBRU1BQK2ADNWCt1BR2yg4ghOM6YIA&quot;;</b>
+<i>110</i>&nbsp;		}
+<i>111</i>&nbsp;
+<b class="nc"><i>112</i>&nbsp;		if (gkey != null)</b>
+<b class="nc"><i>113</i>&nbsp;			exec.getDesktop().getSession().setAttribute(&quot;gmapsKey&quot;, gkey);</b>
+<b class="nc"><i>114</i>&nbsp;	}</b>
+<i>115</i>&nbsp;
+<i>116</i>&nbsp;	public void onCategorySelect(ForwardEvent event) {
+<b class="nc"><i>117</i>&nbsp;		Button btn = (Button) event.getOrigin().getTarget();</b>
+<b class="nc"><i>118</i>&nbsp;		Listitem item = null;</b>
+<b class="nc"><i>119</i>&nbsp;		if (_selected != btn) {</b>
+<b class="nc"><i>120</i>&nbsp;			_selected = btn;</b>
+<i>121</i>&nbsp;		} else {
+<b class="nc"><i>122</i>&nbsp;			item = itemList.getSelectedItem();</b>
+<i>123</i>&nbsp;		}
+<b class="nc"><i>124</i>&nbsp;		String href = getCategory(_selected.getId()).getHref();</b>
+<b class="nc"><i>125</i>&nbsp;		if (href != null) {</b>
+<b class="nc"><i>126</i>&nbsp;			Executions.getCurrent().sendRedirect(href);</b>
+<i>127</i>&nbsp;		} else {
+<b class="nc"><i>128</i>&nbsp;			itemList.setModel(getSelectedModel());</b>
+<b class="nc"><i>129</i>&nbsp;			if (item != null) {</b>
+<b class="nc"><i>130</i>&nbsp;				itemList.renderAll();</b>
+<b class="nc"><i>131</i>&nbsp;				((Listitem)itemList.getFellow(item.getId())).setSelected(true);</b>
+<i>132</i>&nbsp;			}
+<i>133</i>&nbsp;		}
+<b class="nc"><i>134</i>&nbsp;	}</b>
+<i>135</i>&nbsp;	public void onBookmarkChange$main(BookmarkEvent event) {
+<b class="nc"><i>136</i>&nbsp;		String id = event.getBookmark();</b>
+<b class="nc"><i>137</i>&nbsp;		if (id.length() &gt; 0) {</b>
+<b class="nc"><i>138</i>&nbsp;			final DemoItem[] items = getItems();</b>
+<b class="nc"><i>139</i>&nbsp;			for (int i = 0; i &lt; items.length; i++) {</b>
+<b class="nc"><i>140</i>&nbsp;				if (items[i].getId().equals(id)) {</b>
+<b class="nc"><i>141</i>&nbsp;					_selected = (Button)self.getFellow(items[i].getCateId());</b>
+<b class="nc"><i>142</i>&nbsp;					itemList.setModel(getSelectedModel());</b>
+<b class="nc"><i>143</i>&nbsp;					itemList.renderAll();</b>
+<b class="nc"><i>144</i>&nbsp;					Listitem item = ((Listitem)itemList.getFellow(id));</b>
+<b class="nc"><i>145</i>&nbsp;					item.setSelected(true);</b>
+<b class="nc"><i>146</i>&nbsp;					itemList.invalidate();</b>
+<b class="nc"><i>147</i>&nbsp;					setSelectedCategory(item);</b>
+<b class="nc"><i>148</i>&nbsp;					xcontents.setSrc(((DemoItem) item.getValue()).getFile());</b>
+<b class="nc"><i>149</i>&nbsp;					item.focus();</b>
+<b class="nc"><i>150</i>&nbsp;					return;</b>
+<i>151</i>&nbsp;				}
+<i>152</i>&nbsp;			}
+<i>153</i>&nbsp;		}
+<b class="nc"><i>154</i>&nbsp;	}</b>
+<i>155</i>&nbsp;	public void onSelect$itemList(SelectEvent event) {
+<b class="nc"><i>156</i>&nbsp;		Listitem item = itemList.getSelectedItem();</b>
+<i>157</i>&nbsp;		 
+<b class="nc"><i>158</i>&nbsp;		if (item != null) {</b>
+<i>159</i>&nbsp;			
+<i>160</i>&nbsp;			// sometimes the item is unloaded.
+<b class="nc"><i>161</i>&nbsp;			if (!item.isLoaded()) {</b>
+<b class="nc"><i>162</i>&nbsp;				itemList.renderItem(item);</b>
+<i>163</i>&nbsp;			}
+<i>164</i>&nbsp;			
+<b class="nc"><i>165</i>&nbsp;			setSelectedCategory(item);</b>
+<b class="nc"><i>166</i>&nbsp;			xcontents.setSrc(((DemoItem) item.getValue()).getFile());</b>
+<i>167</i>&nbsp;		}
+<b class="nc"><i>168</i>&nbsp;	}</b>
+<i>169</i>&nbsp;
+<i>170</i>&nbsp;	public void onMainCreate(Event event) {
+<i>171</i>&nbsp;
+<b class="nc"><i>172</i>&nbsp;		final Execution exec = Executions.getCurrent();</b>
+<b class="nc"><i>173</i>&nbsp;		final String id = exec.getParameter(&quot;id&quot;);</b>
+<b class="nc"><i>174</i>&nbsp;		Listitem item = null;</b>
+<i>175</i>&nbsp;
+<b class="nc"><i>176</i>&nbsp;		if (id != null) {</b>
+<i>177</i>&nbsp;			try {
+<b class="nc"><i>178</i>&nbsp;				final LinkedList&lt;DemoItem&gt; list = new LinkedList&lt;DemoItem&gt;();</b>
+<b class="nc"><i>179</i>&nbsp;				final DemoItem[] items = getItems();</b>
+<b class="nc"><i>180</i>&nbsp;				for (int i = 0; i &lt; items.length; i++) {</b>
+<b class="nc"><i>181</i>&nbsp;					if (items[i].getId().equals(id))</b>
+<b class="nc"><i>182</i>&nbsp;						list.add(items[i]);</b>
+<i>183</i>&nbsp;				}
+<b class="nc"><i>184</i>&nbsp;				if (!list.isEmpty()) {</b>
+<b class="nc"><i>185</i>&nbsp;					itemList.setModel(new ListModelList&lt;DemoItem&gt;(list, true));</b>
+<b class="nc"><i>186</i>&nbsp;					itemList.renderAll();</b>
+<b class="nc"><i>187</i>&nbsp;					item = (Listitem) self.getFellow(id);</b>
+<b class="nc"><i>188</i>&nbsp;					setSelectedCategory(item);</b>
+<i>189</i>&nbsp;				}
+<b class="nc"><i>190</i>&nbsp;			} catch (ComponentNotFoundException ex) { // ignore</b>
+<b class="nc"><i>191</i>&nbsp;			}</b>
+<i>192</i>&nbsp;		}
+<i>193</i>&nbsp;
+<b class="nc"><i>194</i>&nbsp;		if (item == null) {</b>
+<b class="nc"><i>195</i>&nbsp;			item = (Listitem) self.getFellow(&quot;f1&quot;);</b>
+<b class="nc"><i>196</i>&nbsp;			setSelectedCategory(item);</b>
+<i>197</i>&nbsp;		}
+<b class="nc"><i>198</i>&nbsp;		xcontents.setSrc(((DemoItem) item.getValue()).getFile());</b>
+<i>199</i>&nbsp;
+<b class="nc"><i>200</i>&nbsp;		itemList.selectItem(item);</b>
+<b class="nc"><i>201</i>&nbsp;	}</b>
+<i>202</i>&nbsp;	private void setSelectedCategory(Listitem item) {
+<b class="nc"><i>203</i>&nbsp;		DemoItem di = (DemoItem) item.getValue();</b>
+<b class="nc"><i>204</i>&nbsp;		_selected = (Button) self.getFellow(di.getCateId());</b>
+<b class="nc"><i>205</i>&nbsp;		String deselect = _selected != null ? &quot;jq(&#39;#&quot;+ _selected.getUuid() + </b>
+<i>206</i>&nbsp;		&quot;&#39;).addClass(&#39;demo-seld&#39;).siblings().removeClass(&#39;demo-seld&#39;);&quot; : &quot;&quot;;
+<b class="nc"><i>207</i>&nbsp;		Clients.evalJavaScript(deselect);</b>
+<b class="nc"><i>208</i>&nbsp;		item.getDesktop().setBookmark(item.getId());</b>
+<b class="nc"><i>209</i>&nbsp;	}</b>
+<i>210</i>&nbsp;
+<i>211</i>&nbsp;	public void onCtrlKey$searchBox(KeyEvent event) {
+<b class="nc"><i>212</i>&nbsp;		int keyCode = event.getKeyCode();</b>
+<b class="nc"><i>213</i>&nbsp;		List items = itemList.getItems();</b>
+<b class="nc"><i>214</i>&nbsp;		if (items.isEmpty()) return;</b>
+<b class="nc"><i>215</i>&nbsp;		Listitem item = null;</b>
+<b class="nc"><i>216</i>&nbsp;		switch (keyCode) {</b>
+<i>217</i>&nbsp;		case 38: // UP
+<b class="nc"><i>218</i>&nbsp;			item = itemList.getItemAtIndex(items.size() -1);</b>
+<b class="nc"><i>219</i>&nbsp;			itemList.setSelectedItem(item);</b>
+<b class="nc"><i>220</i>&nbsp;			break;</b>
+<i>221</i>&nbsp;		case 40: // DOWN
+<b class="nc"><i>222</i>&nbsp;			item = itemList.getItemAtIndex(0);</b>
+<b class="nc"><i>223</i>&nbsp;			itemList.setSelectedItem(item);</b>
+<i>224</i>&nbsp;			break;
+<i>225</i>&nbsp;		}
+<b class="nc"><i>226</i>&nbsp;		if (item != null) {</b>
+<b class="nc"><i>227</i>&nbsp;			if (!item.isLoaded())</b>
+<b class="nc"><i>228</i>&nbsp;				itemList.renderItem(item);</b>
+<b class="nc"><i>229</i>&nbsp;			setSelectedCategory(item);</b>
+<b class="nc"><i>230</i>&nbsp;			xcontents.setSrc(((DemoItem) item.getValue()).getFile());</b>
+<b class="nc"><i>231</i>&nbsp;			item.focus();</b>
+<i>232</i>&nbsp;		}
+<b class="nc"><i>233</i>&nbsp;	}</b>
+<i>234</i>&nbsp;	public void onChanging$searchBox(InputEvent event) {
+<b class="nc"><i>235</i>&nbsp;		String key = event.getValue();</b>
+<b class="nc"><i>236</i>&nbsp;		LinkedList&lt;DemoItem&gt; item = new LinkedList&lt;DemoItem&gt;();</b>
+<b class="nc"><i>237</i>&nbsp;		DemoItem[] items = getItems();</b>
+<i>238</i>&nbsp;
+<b class="nc"><i>239</i>&nbsp;		if (key.trim().length() != 0) {</b>
+<b class="nc"><i>240</i>&nbsp;			for (int i = 0; i &lt; items.length; i++) {</b>
+<b class="nc"><i>241</i>&nbsp;				if (items[i].getLabel().toLowerCase(java.util.Locale.ENGLISH)</b>
+<b class="nc"><i>242</i>&nbsp;						.indexOf(key.toLowerCase(java.util.Locale.ENGLISH)) != -1)</b>
+<b class="nc"><i>243</i>&nbsp;					item.add(items[i]);</b>
+<i>244</i>&nbsp;			}
+<b class="nc"><i>245</i>&nbsp;			itemList.setModel(new ListModelList&lt;DemoItem&gt;(item, true));</b>
+<i>246</i>&nbsp;		} else
+<b class="nc"><i>247</i>&nbsp;			itemList.setModel(new ListModelList&lt;DemoItem&gt;(items));</b>
+<b class="nc"><i>248</i>&nbsp;		_selected = null;</b>
+<b class="nc"><i>249</i>&nbsp;	}</b>
+<i>250</i>&nbsp;
+<i>251</i>&nbsp;	/*@Bania Fonseca, modified that method
+<i>252</i>&nbsp;	* */
+<i>253</i>&nbsp;	private DemoItem[] getItems() {
+<b class="nc"><i>254</i>&nbsp;		LinkedList&lt;DemoItem&gt; items = new LinkedList&lt;DemoItem&gt;();</b>
+<b class="nc"><i>255</i>&nbsp;		Category[] categories = getCategories();</b>
+<b class="nc"><i>256</i>&nbsp;		for (int i = 0; i &lt; categories.length; i++) {</b>
+<b class="nc"><i>257</i>&nbsp;			if (categories[i] != null)</b>
+<b class="nc"><i>258</i>&nbsp;				items.addAll(categories[i].getItems());</b>
+<i>259</i>&nbsp;		}
+<b class="nc"><i>260</i>&nbsp;		return (DemoItem[]) items.toArray(new DemoItem[] {});</b>
+<i>261</i>&nbsp;	}
+<i>262</i>&nbsp;
+<i>263</i>&nbsp;	/*@Bania Fonseca, modified that method
+<i>264</i>&nbsp;	 * */
+<i>265</i>&nbsp;	public Category[] getCategories()
+<i>266</i>&nbsp;	{
+<b class="nc"><i>267</i>&nbsp;		Category[] temp = (Category[]) getCategoryMap().values().toArray(new Category[] {});;</b>
+<b class="nc"><i>268</i>&nbsp;		Category[] categories = new Category[temp.length];</b>
+<i>269</i>&nbsp;
+<b class="nc"><i>270</i>&nbsp;		Set&lt;Zitem&gt; zitems = getZitems();</b>
+<i>271</i>&nbsp;
+<b class="nc"><i>272</i>&nbsp;		for (int i = 0; i &lt; temp.length; i++ )</b>
+<i>273</i>&nbsp;		{
+<b class="nc"><i>274</i>&nbsp;			for (Zitem zitem: zitems)</b>
+<i>275</i>&nbsp;			{
+<b class="nc"><i>276</i>&nbsp;				if (zitem.getItem().contains(temp[i].getId().toUpperCase()))</b>
+<i>277</i>&nbsp;				{
+<b class="nc"><i>278</i>&nbsp;					categories[i] = temp[i];</b>
+<b class="nc"><i>279</i>&nbsp;					break;</b>
+<i>280</i>&nbsp;				}
+<b class="nc"><i>281</i>&nbsp;			}</b>
+<i>282</i>&nbsp;		}
+<i>283</i>&nbsp;
+<b class="nc"><i>284</i>&nbsp;		return categories;</b>
+<i>285</i>&nbsp;	}
+<i>286</i>&nbsp;
+<i>287</i>&nbsp;	private Set&lt;Zitem&gt; getZitems()
+<i>288</i>&nbsp;	{
+<b class="nc"><i>289</i>&nbsp;		Set&lt;Zitem&gt; zitems = null;</b>
+<b class="nc"><i>290</i>&nbsp;		int numRoles = 0;</b>
+<i>291</i>&nbsp;
+<b class="nc"><i>292</i>&nbsp;		for (Role role: user.getRoles())</b>
+<i>293</i>&nbsp;		{
+<b class="nc"><i>294</i>&nbsp;			if (numRoles == 0)</b>
+<b class="nc"><i>295</i>&nbsp;				zitems = role.getZitems();</b>
+<i>296</i>&nbsp;			else
+<b class="nc"><i>297</i>&nbsp;				zitems.addAll(role.getZitems());</b>
+<b class="nc"><i>298</i>&nbsp;			numRoles++;</b>
+<b class="nc"><i>299</i>&nbsp;		}</b>
+<b class="nc"><i>300</i>&nbsp;		return zitems;</b>
+<i>301</i>&nbsp;	}
+<i>302</i>&nbsp;
+<i>303</i>&nbsp;	public ListitemRenderer&lt;DemoItem&gt; getItemRenderer() {
+<b class="nc"><i>304</i>&nbsp;		return _defRend;</b>
+<i>305</i>&nbsp;	}
+<i>306</i>&nbsp;
+<b class="nc"><i>307</i>&nbsp;	private static final ListitemRenderer&lt;DemoItem&gt; _defRend = new ItemRender();</b>
+<i>308</i>&nbsp;		
+<b class="nc"><i>309</i>&nbsp;	private static class ItemRender implements ListitemRenderer&lt;DemoItem&gt;, java.io.Serializable {</b>
+<i>310</i>&nbsp;		
+<i>311</i>&nbsp;		public void render(Listitem item, DemoItem data, int index) {
+<b class="nc"><i>312</i>&nbsp;			DemoItem di = (DemoItem) data;</b>
+<b class="nc"><i>313</i>&nbsp;			Listcell lc = new Listcell();</b>
+<b class="nc"><i>314</i>&nbsp;			item.setValue(di);</b>
+<b class="nc"><i>315</i>&nbsp;			lc.setHeight(&quot;30px&quot;);</b>
+<b class="nc"><i>316</i>&nbsp;			lc.setImage(di.getIcon());</b>
+<b class="nc"><i>317</i>&nbsp;			item.setId(di.getId());</b>
+<b class="nc"><i>318</i>&nbsp;			lc.setLabel(di.getLabel());</b>
+<b class="nc"><i>319</i>&nbsp;			lc.setParent(item);</b>
+<b class="nc"><i>320</i>&nbsp;		}</b>
+<i>321</i>&nbsp;	};
+<i>322</i>&nbsp;
+<i>323</i>&nbsp;	private Category getCategory(String cateId) {
+<b class="nc"><i>324</i>&nbsp;		return (Category) getCategoryMap().get(cateId);</b>
+<i>325</i>&nbsp;	}
+<i>326</i>&nbsp;
+<i>327</i>&nbsp;	/*@Bania Fonseca, modified that method
+<i>328</i>&nbsp;	 * */
+<i>329</i>&nbsp;	public ListModel&lt;DemoItem&gt; getSelectedModel() {
+<b class="nc"><i>330</i>&nbsp;		LinkedList&lt;DemoItem&gt; items = new LinkedList&lt;DemoItem&gt;();</b>
+<b class="nc"><i>331</i>&nbsp;		Category cate = _selected == null ? getCategories()[0]:</b>
+<b class="nc"><i>332</i>&nbsp;				getCategory(_selected.getId());</b>
+<i>333</i>&nbsp;
+<i>334</i>&nbsp;
+<b class="nc"><i>335</i>&nbsp;		for (DemoItem dItem: cate.getItems())</b>
+<i>336</i>&nbsp;		{
+<b class="nc"><i>337</i>&nbsp;			for (Zitem zitem : getZitems())</b>
+<i>338</i>&nbsp;			{
+<b class="nc"><i>339</i>&nbsp;				if (zitem.getItem().contains(dItem.getId().toUpperCase())|| zitem.getItem().contains(&quot;ALL&quot;))</b>
+<i>340</i>&nbsp;				{
+<b class="nc"><i>341</i>&nbsp;					items.add(dItem);</b>
+<b class="nc"><i>342</i>&nbsp;					break;</b>
+<i>343</i>&nbsp;				}
+<b class="nc"><i>344</i>&nbsp;			}</b>
+<b class="nc"><i>345</i>&nbsp;		}</b>
+<b class="nc"><i>346</i>&nbsp;		return new ListModelList&lt;DemoItem&gt;(items, true);</b>
+<i>347</i>&nbsp;		//	return new ListModelList&lt;DemoItem&gt;(cate.getItems(), true);
+<i>348</i>&nbsp;	}
+<i>349</i>&nbsp;
+<i>350</i>&nbsp;	// Composer Implementation
+<i>351</i>&nbsp;	
+<i>352</i>&nbsp;	public void doAfterCompose(Borderlayout comp) throws Exception {
+<b class="nc"><i>353</i>&nbsp;		super.doAfterCompose(comp);</b>
+<b class="nc"><i>354</i>&nbsp;		Events.postEvent(&quot;onMainCreate&quot;, comp, null);</b>
+<b class="nc"><i>355</i>&nbsp;	}</b>
+<i>356</i>&nbsp;
+<i>357</i>&nbsp;
+<i>358</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-07-08 13:41</div>
+</div>
+</body>
+</html>

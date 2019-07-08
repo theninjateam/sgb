@@ -61,7 +61,7 @@
     0%
   </span>
   <span class="absValue">
-    (0/ 66)
+    (0/ 72)
   </span>
 </td>
 </tr>
@@ -141,7 +141,7 @@
 <b class="nc"><i>67</i>&nbsp;        tab.setLabel(&quot;Obras Requisitadas por: &quot;+r.getUser().getName()+&quot; &quot;+r.getUser().getLastName());</b>
 <i>68</i>&nbsp;
 <b class="nc"><i>69</i>&nbsp;        estadoPedidos = crudService.getAll(EstadoPedido.class);</b>
-<i>70</i>&nbsp;    }
+<b class="nc"><i>70</i>&nbsp;    }</b>
 <i>71</i>&nbsp;
 <i>72</i>&nbsp;    public ListModelList&lt;Emprestimo&gt; getEmprestimoListModel() {
 <i>73</i>&nbsp;
@@ -167,7 +167,7 @@
 <b class="nc"><i>93</i>&nbsp;        Emprestimo emprestimo = (Emprestimo) litem.getValue();</b>
 <i>94</i>&nbsp;
 <b class="nc"><i>95</i>&nbsp;        emprestimoListModel.remove(emprestimo);</b>
-<i>96</i>&nbsp;    }
+<b class="nc"><i>96</i>&nbsp;    }</b>
 <i>97</i>&nbsp;
 <i>98</i>&nbsp;    @Listen(&quot;onReduzirQtd = #emprestimoListBox&quot;)
 <i>99</i>&nbsp;    public void doReduzirQtd(ForwardEvent event)
@@ -183,7 +183,7 @@
 <b class="nc"><i>109</i>&nbsp;            emprestimo.setQuantidade(emprestimo.getQuantidade() - 1);</b>
 <b class="nc"><i>110</i>&nbsp;            emprestimoListModel.add(emprestimo);</b>
 <i>111</i>&nbsp;        }
-<i>112</i>&nbsp;    }
+<b class="nc"><i>112</i>&nbsp;    }</b>
 <i>113</i>&nbsp;
 <i>114</i>&nbsp;    @Listen(&quot;onAumentarQtd = #emprestimoListBox&quot;)
 <i>115</i>&nbsp;    public void doAumentarQtd(ForwardEvent event)
@@ -204,7 +204,7 @@
 <b class="nc"><i>130</i>&nbsp;            emprestimoListModel.add(emprestimo);</b>
 <i>131</i>&nbsp;        }
 <i>132</i>&nbsp;
-<i>133</i>&nbsp;    }
+<b class="nc"><i>133</i>&nbsp;    }</b>
 <i>134</i>&nbsp;
 <i>135</i>&nbsp;    @Listen(&quot;onClick = #acceptBtn&quot;)
 <i>136</i>&nbsp;    public void accept() {
@@ -222,7 +222,7 @@
 <b class="nc"><i>148</i>&nbsp;            crudService.update(e);</b>
 <b class="nc"><i>149</i>&nbsp;        }</b>
 <b class="nc"><i>150</i>&nbsp;        modalDialog.detach();</b>
-<i>151</i>&nbsp;    }
+<b class="nc"><i>151</i>&nbsp;    }</b>
 <i>152</i>&nbsp;
 <i>153</i>&nbsp;    @Listen(&quot;onClick = #rejectBtn&quot;)
 <i>154</i>&nbsp;    public void reject() {
@@ -247,7 +247,7 @@
 <i>173</i>&nbsp;
 <b class="nc"><i>174</i>&nbsp;        modalDialog.detach();</b>
 <i>175</i>&nbsp;
-<i>176</i>&nbsp;    }
+<b class="nc"><i>176</i>&nbsp;    }</b>
 <i>177</i>&nbsp;
 <i>178</i>&nbsp;}
 </div>
@@ -255,7 +255,7 @@
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2019-03-29 22:00</div>
+    <div style="float:right;">generated on 2019-07-08 13:41</div>
 </div>
 </body>
 </html>

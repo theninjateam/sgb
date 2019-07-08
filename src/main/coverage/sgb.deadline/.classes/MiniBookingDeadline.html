@@ -58,10 +58,10 @@
 </td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    75.6%
   </span>
   <span class="absValue">
-    (45/ 45)
+    (34/ 45)
   </span>
 </td>
 </tr>
@@ -109,24 +109,24 @@
 <i>35</i>&nbsp;        {
 <i>36</i>&nbsp;
 <i>37</i>&nbsp;
-<b class="fc"><i>38</i>&nbsp;            if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY)</b>
+<b class="nc"><i>38</i>&nbsp;            if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY)</b>
 <i>39</i>&nbsp;            {
-<b class="fc"><i>40</i>&nbsp;                calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + 1);</b>
-<b class="fc"><i>41</i>&nbsp;                this.goToNextWorkingDay(calendar);</b>
-<b class="fc"><i>42</i>&nbsp;                calendar.set(Calendar.HOUR_OF_DAY, this.configControler.ENTRY_TIME_ON_SATURDAY);</b>
+<b class="nc"><i>40</i>&nbsp;                calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + 1);</b>
+<b class="nc"><i>41</i>&nbsp;                this.goToNextWorkingDay(calendar);</b>
+<b class="nc"><i>42</i>&nbsp;                calendar.set(Calendar.HOUR_OF_DAY, this.configControler.ENTRY_TIME_ON_SATURDAY);</b>
 <i>43</i>&nbsp;            }
 <i>44</i>&nbsp;            else
 <i>45</i>&nbsp;            {
-<b class="fc"><i>46</i>&nbsp;                calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + 1);</b>
-<b class="fc"><i>47</i>&nbsp;                this.goToNextWorkingDay(calendar);</b>
-<b class="fc"><i>48</i>&nbsp;                calendar.set(Calendar.HOUR_OF_DAY, this.configControler.ENTRY_TIME_ON_WEEKDAYS);</b>
+<b class="nc"><i>46</i>&nbsp;                calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + 1);</b>
+<b class="nc"><i>47</i>&nbsp;                this.goToNextWorkingDay(calendar);</b>
+<b class="nc"><i>48</i>&nbsp;                calendar.set(Calendar.HOUR_OF_DAY, this.configControler.ENTRY_TIME_ON_WEEKDAYS);</b>
 <i>49</i>&nbsp;            }
 <i>50</i>&nbsp;
-<b class="fc"><i>51</i>&nbsp;            calendar.set(Calendar.MINUTE, 00);</b>
-<b class="fc"><i>52</i>&nbsp;            calendar.set(Calendar.SECOND, 00);</b>
-<b class="fc"><i>53</i>&nbsp;            calendar.set(Calendar.MILLISECOND, 00);</b>
+<b class="nc"><i>51</i>&nbsp;            calendar.set(Calendar.MINUTE, 00);</b>
+<b class="nc"><i>52</i>&nbsp;            calendar.set(Calendar.SECOND, 00);</b>
+<b class="nc"><i>53</i>&nbsp;            calendar.set(Calendar.MILLISECOND, 00);</b>
 <i>54</i>&nbsp;
-<b class="fc"><i>55</i>&nbsp;            incrementNMinutes(calendar, this.configControler.DEADLINE_REQUESTED_BOOKS);</b>
+<b class="nc"><i>55</i>&nbsp;            incrementNMinutes(calendar, this.configControler.DEADLINE_REQUESTED_BOOKS);</b>
 <i>56</i>&nbsp;        }
 <b class="fc"><i>57</i>&nbsp;        else if (calendar.get(Calendar.HOUR_OF_DAY) &lt; this.configControler.ENTRY_TIME_ON_WEEKDAYS)</b>
 <i>58</i>&nbsp;        {
@@ -183,7 +183,7 @@
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2019-03-29 22:00</div>
+    <div style="float:right;">generated on 2019-07-08 13:41</div>
 </div>
 </body>
 </html>

@@ -23,6 +23,13 @@
                         </template>
                     </listbox>
 
+                    <span style="padding-left: 25px"></span>
+                    <span sclass="input-group-addon">  From: </span>
+                    <datebox id="dataInicio" cols="12" format="medium" value="${$composer.reduzDataActual()}"/>
+
+                    <span sclass="input-group-addon">   to: </span>
+                    <datebox id="dataFim" cols="12" format="medium" onCreate="self.value = new Date()" />
+
                     <span style="margin-left:25px" sclass="input-group-addon">Exportar para: </span>
                     <button  visible="true"  label="PDF" id="savePdf" style="margin-left:15px"
                              mold="os"  sclass="w3-btn w3-light-grey"/>
@@ -38,12 +45,14 @@
                                  emptyMessage="Nenhum utente a mostrar">
                             <listhead>
                                 <listheader width="20%" height="100%" label="Nome do Utente"/>
-                                <listheader width="40%" height="100%" label="Valor a pagar"/>
                                 <listheader width="20%" height="100%" label="Dias em atraso"/>
                                 <listheader width="20%" height="100%" label="Estado da multa"/>
+                                <listheader width="20%" height="100%" label="Taxa diaria"/>
+                                <listheader width="40%" height="100%" label="Valor a pagar"/>
 
                             </listhead>
                             <template name="model">
+
                                 <listitem>
                                     <listcell>
                                         <div>
@@ -60,6 +69,22 @@
                                             </zscript>
                                             <label value="${utente}"/>
                                         </div>
+                                    </listcell>
+
+                                    <listcell>
+                                        <div>
+                                            <label value="${each.diasatraso}"/>
+                                        </div>
+                                    </listcell>
+
+                                    <listcell>
+                                        <div>
+                                            <label value="${each.estadoMulta.descricao}"/>
+                                        </div>
+                                    </listcell>
+
+                                    <listcell>
+                                        <div><label value="${each.taxadiaria}"/></div>
                                     </listcell>
 
                                     <listcell>
@@ -81,53 +106,33 @@
                                     </listcell>
 
                                     <listcell>
-                                        <div>
-                                            <label value="${each.diasatraso}"/>
-                                        </div>
-                                    </listcell>
-
-                                    <listcell>
-                                        <div>
-                                            <label value="${each.estadoMulta.descricao}"/>
-                                        </div>
+                                        <div>Total</div>
                                     </listcell>
                                 </listitem>
+
                             </template>
                             <listfoot>
                                 <listfooter height="100%"  width="100%" style="padding: 15px 32px; background-color: lightgray; border-style: none;">
                                     Total
                                 </listfooter>
+                                <listfooter></listfooter>
+                                <listfooter></listfooter>
+                                <listfooter></listfooter>
                                 <listfooter>
                                     <grid>
-                                        <columns>
-                                            <column width="80%" />
-                                            <column width="20%"/>
-                                        </columns>
-
                                         <rows>
                                             <row>
                                                 <cell height="100%"  width="100%" style="padding: 15px 32px; background-color: lightgreen; border-style: none;">
                                                     <div>
-                                                        <zscript>
-                                                            <![CDATA[
-                                                                import sgb.fine.Fine;
-                                                                import java.lang.Double;
-                                                                import org.zkoss.zkplus.spring.SpringUtil;
-
-                                                                Fine fine = (Fine) SpringUtil.getBean("fine");
-
-                                                                double total = fine.totalDinheiro();
-                                                             ]]>
-                                                        </zscript>
-                                                        <label value="${total}"/>
+                                                        <label id="totalToPay"/>
                                                     </div>
                                                 </cell>
-                                                <cell></cell>
                                             </row>
                                         </rows>
                                     </grid>
                                 </listfooter>
                             </listfoot>
+
                         </listbox>
                     </row>
                 </rows>

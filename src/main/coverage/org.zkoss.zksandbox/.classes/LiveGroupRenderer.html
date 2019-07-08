@@ -1,0 +1,130 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: LiveGroupRenderer</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">org.zkoss.zksandbox</a> ]
+</div>
+
+<h1>Coverage Summary for Class: LiveGroupRenderer (org.zkoss.zksandbox)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LiveGroupRenderer</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 16)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;/* LiveGroupRenderer.java
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;{{IS_NOTE
+<i>4</i>&nbsp;	Purpose:
+<i>5</i>&nbsp;		
+<i>6</i>&nbsp;	Description:
+<i>7</i>&nbsp;		
+<i>8</i>&nbsp;	History:
+<i>9</i>&nbsp;		Nov 18, 2008 11:37:53 AM , Created by jumperchen
+<i>10</i>&nbsp;}}IS_NOTE
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;Copyright (C) 2008 Potix Corporation. All Rights Reserved.
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;{{IS_RIGHT
+<i>15</i>&nbsp;	This program is distributed under GPL Version 3.0 in the hope that
+<i>16</i>&nbsp;	it will be useful, but WITHOUT ANY WARRANTY.
+<i>17</i>&nbsp;}}IS_RIGHT
+<i>18</i>&nbsp;*/
+<i>19</i>&nbsp;package org.zkoss.zksandbox;
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;import org.zkoss.zul.*;
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;/**
+<i>24</i>&nbsp; * @author jumperchen
+<i>25</i>&nbsp; *
+<i>26</i>&nbsp; */
+<b class="nc"><i>27</i>&nbsp;public class LiveGroupRenderer implements RowRenderer {</b>
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;	public void render(Row row, Object data, int index) {
+<b class="nc"><i>30</i>&nbsp;		if(data instanceof String[]) {</b>
+<b class="nc"><i>31</i>&nbsp;			String[] ary = (String[]) data;</b>
+<b class="nc"><i>32</i>&nbsp;      Div div = new Div();</b>
+<b class="nc"><i>33</i>&nbsp;      Image icon = new Image();</b>
+<b class="nc"><i>34</i>&nbsp;      icon.setStyle(&quot;padding: 0px 10px&quot;);</b>
+<b class="nc"><i>35</i>&nbsp;      icon.setSrc(&quot;/img/Centigrade-Widget-Icons/EnvelopeOpen-16x16.png&quot;);</b>
+<b class="nc"><i>36</i>&nbsp;      div.appendChild(icon);</b>
+<b class="nc"><i>37</i>&nbsp;      new Label(ary[0]).setParent(div);</b>
+<b class="nc"><i>38</i>&nbsp;      row.appendChild(div);</b>
+<b class="nc"><i>39</i>&nbsp;      new Label(ary[1]).setParent(row);</b>
+<b class="nc"><i>40</i>&nbsp;      new Label(ary[2]).setParent(row);</b>
+<b class="nc"><i>41</i>&nbsp;      new Label(ary[3]).setParent(row);</b>
+<b class="nc"><i>42</i>&nbsp;		} else {</b>
+<b class="nc"><i>43</i>&nbsp;			new Label(data.toString()).setParent(row);</b>
+<i>44</i>&nbsp;		}
+<i>45</i>&nbsp;        
+<b class="nc"><i>46</i>&nbsp;	}</b>
+<i>47</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-07-08 13:41</div>
+</div>
+</body>
+</html>
