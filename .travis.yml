@@ -13,4 +13,4 @@ notifications:
 
 script:
   - mvn test
-  - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+  - mvn install -DskipTests=false -Dmaven.javadoc.skip=true -B -V
