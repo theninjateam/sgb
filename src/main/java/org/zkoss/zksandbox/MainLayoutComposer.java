@@ -1,3 +1,6 @@
+/*@Bania Fonseca, modified that class
+ * */
+
 /* MainLayoutComposer.java
 
 {{IS_NOTE
@@ -28,12 +31,20 @@ import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.*;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zk.ui.util.GenericForwardComposer;
+import org.zkoss.zk.ui.util.WebAppInit;
 import org.zkoss.zul.*;
 
 import javax.servlet.ServletRequest;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import sgb.domain.Role;
+import sgb.domain.Users;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import sgb.domain.Zitem;
 
 /**
  * @author jumperchen
@@ -49,12 +60,15 @@ public class MainLayoutComposer extends GenericForwardComposer<Borderlayout> imp
 	Listbox itemList;
 	
 	Include xcontents;
-	
+
 	Div header;
 
 	Button _selected;
 
-	public MainLayoutComposer() {
+	private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+	public MainLayoutComposer()
+	{
 		initKey();
 	}
 
@@ -158,6 +172,7 @@ public class MainLayoutComposer extends GenericForwardComposer<Borderlayout> imp
 		final Execution exec = Executions.getCurrent();
 		final String id = exec.getParameter("id");
 		Listitem item = null;
+
 		if (id != null) {
 			try {
 				final LinkedList<DemoItem> list = new LinkedList<DemoItem>();
@@ -192,6 +207,7 @@ public class MainLayoutComposer extends GenericForwardComposer<Borderlayout> imp
 		Clients.evalJavaScript(deselect);
 		item.getDesktop().setBookmark(item.getId());
 	}
+
 	public void onCtrlKey$searchBox(KeyEvent event) {
 		int keyCode = event.getKeyCode();
 		List items = itemList.getItems();
@@ -232,22 +248,58 @@ public class MainLayoutComposer extends GenericForwardComposer<Borderlayout> imp
 		_selected = null;
 	}
 
+	/*@Bania Fonseca, modified that method
+	* */
 	private DemoItem[] getItems() {
 		LinkedList<DemoItem> items = new LinkedList<DemoItem>();
 		Category[] categories = getCategories();
 		for (int i = 0; i < categories.length; i++) {
-			items.addAll(categories[i].getItems());
+			if (categories[i] != null)
+				items.addAll(categories[i].getItems());
 		}
 		return (DemoItem[]) items.toArray(new DemoItem[] {});
 	}
 
-	
-	public Category[] getCategories() {
-		return (Category[]) getCategoryMap().values()
-				.toArray(new Category[] {});
+	/*@Bania Fonseca, modified that method
+	 * */
+	public Category[] getCategories()
+	{
+		Category[] temp = (Category[]) getCategoryMap().values().toArray(new Category[] {});;
+		Category[] categories = new Category[temp.length];
+
+		Set<Zitem> zitems = getZitems();
+
+		for (int i = 0; i < temp.length; i++ )
+		{
+			for (Zitem zitem: zitems)
+			{
+				if (zitem.getItem().contains(temp[i].getId().toUpperCase()))
+				{
+					categories[i] = temp[i];
+					break;
+				}
+			}
+		}
+
+		return categories;
 	}
 
-	
+	private Set<Zitem> getZitems()
+	{
+		Set<Zitem> zitems = null;
+		int numRoles = 0;
+
+		for (Role role: user.getRoles())
+		{
+			if (numRoles == 0)
+				zitems = role.getZitems();
+			else
+				zitems.addAll(role.getZitems());
+			numRoles++;
+		}
+		return zitems;
+	}
+
 	public ListitemRenderer<DemoItem> getItemRenderer() {
 		return _defRend;
 	}
@@ -272,11 +324,27 @@ public class MainLayoutComposer extends GenericForwardComposer<Borderlayout> imp
 		return (Category) getCategoryMap().get(cateId);
 	}
 
-	
+	/*@Bania Fonseca, modified that method
+	 * */
 	public ListModel<DemoItem> getSelectedModel() {
-		Category cate = _selected == null ? getCategories()[0] :
+		LinkedList<DemoItem> items = new LinkedList<DemoItem>();
+		Category cate = _selected == null ? getCategories()[0]:
 				getCategory(_selected.getId());
-		return new ListModelList<DemoItem>(cate.getItems(), true);
+
+
+		for (DemoItem dItem: cate.getItems())
+		{
+			for (Zitem zitem : getZitems())
+			{
+				if (zitem.getItem().contains(dItem.getId().toUpperCase())|| zitem.getItem().contains("ALL"))
+				{
+					items.add(dItem);
+					break;
+				}
+			}
+		}
+		return new ListModelList<DemoItem>(items, true);
+		//	return new ListModelList<DemoItem>(cate.getItems(), true);
 	}
 
 	// Composer Implementation
@@ -285,4 +353,6 @@ public class MainLayoutComposer extends GenericForwardComposer<Borderlayout> imp
 		super.doAfterCompose(comp);
 		Events.postEvent("onMainCreate", comp, null);
 	}
+
+
 }

@@ -245,7 +245,7 @@ public class BasketViewModel
         {
             return false;
         }
-        else if (this.getAllBooks() == this.getMaximumBooksAllowed())
+        else if (this.getAllBooks() >= this.getMaximumBooksAllowed())
         {
             return false;
         }

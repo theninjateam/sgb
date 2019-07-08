@@ -29,6 +29,7 @@ public class Category {
 	private String _icon;
 	private String _label;
 	private String _href;
+
 	private List<DemoItem> _items;
 	@SuppressWarnings("serial")
 	public Category(String id, String icon, String label, String href) {
@@ -61,5 +62,10 @@ public class Category {
 	}
 	public String getLabel() {
 		return _label;
+	}
+
+	public void setIdToNull()
+	{
+		_id = null;
 	}
 }
