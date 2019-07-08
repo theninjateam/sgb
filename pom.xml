@@ -563,6 +563,12 @@
 			<version>5.4.2</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-resources-plugin</artifactId>
+			<version>3.1.0</version>
+			<type>maven-plugin</type>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>${project.artifactId}</finalName>
@@ -589,16 +595,16 @@
 				<filtering>false</filtering>
 				<directory>src/main/test</directory>
 			</testResource>
-			<!--<testResource>-->
-				<!--<filtering>false</filtering>-->
-				<!--<directory>src/main/test/sgb/report</directory>-->
-				<!--<includes>-->
-					<!--<include>**</include>-->
-				<!--</includes>-->
-				<!--<excludes>-->
-					<!--<exclude>**/*.java</exclude>-->
-				<!--</excludes>-->
-			<!--</testResource>-->
+			<testResource>
+				<filtering>false</filtering>
+				<directory>src/main/test</directory>
+				<includes>
+					<include>**</include>
+				</includes>
+				<excludes>
+					<exclude>**/*.java</exclude>
+				</excludes>
+			</testResource>
 		</testResources>
 
 		<plugins>
