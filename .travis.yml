@@ -1,8 +1,4 @@
 language: java
-
-before_script:
-  - export TZ=Mocambique/Pemba
-
 jdk: oraclejdk8
 
 sudo: false
@@ -16,8 +12,5 @@ notifications:
     on_failure: always
 
 script:
-  - cd sgb/src/main/test/sgb/report; mvn test -B
+  - mvn test
   - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-
-after_success:
-  - mvn clean cobertura:cobertura coveralls:report
