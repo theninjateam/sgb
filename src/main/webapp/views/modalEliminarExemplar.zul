@@ -32,7 +32,7 @@
                             <label value=" (Quantidade de obras desaparecidas)" sclass="w3-medium"/>
 
                             <div sclass="w3-padding-16">
-                                <label value="Descricao " sclass="w3-medium" style="width: 20%;"/>
+                                <label value="Descricao :" sclass="w3-medium" style="width: 20%;"/>
                                 <textbox sclass="w3-light-gray w3-padding-16 w3-rest" value="@bind(reduceBook.description)"
                                          constraint=" no Empty: Preenche o campo!"
                                          style="width: 80%;"/>

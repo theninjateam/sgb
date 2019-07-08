@@ -138,7 +138,7 @@ public class Fine
             dias = getDelayDays(Calendar.getInstance()
                     ,eController.getRequest(m.getMultaPK()).getDatadevolucao());
 
-            if(m.getEstadoMulta().getDescricao().equals("NOT_PAID")){
+            if(m.getEstadoMulta().getIdestadomulta()==eMController.NOT_PAID){
                 m.setDiasatraso(dias);
             }
         }
