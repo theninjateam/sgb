@@ -90,6 +90,11 @@
         <constructor-arg index="0" ref="CRUDService"/>
     </bean>
 
+    <bean id="estadoRenovacaoControler"  class="sgb.controller.domainController.EstadoRenovacaoControler" >
+        <constructor-arg index="0" ref="CRUDService"/>
+    </bean>
+
+
     <bean id="multaController"  class="sgb.controller.domainController.MultaController" >
         <constructor-arg index="0" ref="CRUDService"/>
     </bean>
@@ -164,6 +169,7 @@
     <bean id="borrowedBooksDeadline"  class="sgb.deadline.BorrowedBooksDeadline" >
         <constructor-arg index="0" ref="configControler"/>
         <constructor-arg index="1" ref="roleController"/>
+        <constructor-arg index="2" ref="estadoRenovacaoControler"/>
     </bean>
 
     <bean id="fine"  class="sgb.fine.Fine" >

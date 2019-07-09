@@ -153,11 +153,13 @@
 
                                             <div sclass="description-area" height="100%">
                                                 <span sclass="input-group-addon"> A obra vem com disco em anexo ?:</span>
-                                                <label id="escolha"/>
+
                                                 <radiogroup id="anexocd" onCheck="escolha.value=self.selectedItem.label" >
                                                     <radio id="sim" label="Sim"  />
                                                     <radio id="nao" label="Nao"/>
                                                 </radiogroup>
+                                                <separator/>
+                                                <label id="escolha" sclass="w3-medium w3-green"/>
                                             </div>
                                             <separator/>
                                             <separator/>

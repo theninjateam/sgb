@@ -9,7 +9,7 @@
         <div style="padding:0px">
             <tabbox>
                 <tabs>
-                    <tab label="${labels.obrainfo}"></tab>
+                    <tab label="Lista de Multas"></tab>
                 </tabs>
                 <tabpanels>
                     <tabpanel>
@@ -86,7 +86,6 @@
 
                                                         <button  label="Detalhes" forward="onClick=multaListBox.onDetalhesMulta(${each})"
                                                                  mold="os" sclass="w3-bar-item w3-btn w3-light-gray w3-col"/>
-
 
                                                     </div>
                                                     </div>

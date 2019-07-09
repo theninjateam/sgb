@@ -33,6 +33,7 @@ public class ConfigControler
     public final int DAILY_RATE_FINE;
     public final int MAXIMUM_NUMBER_OF_COPIES;
     public final int MAXIMUM_COPIES_PER_BOOK;
+    public final int DAY_OF_RENEWAL;
 
     public ConfigControler(CRUDService crudService)
     {
@@ -50,6 +51,7 @@ public class ConfigControler
         DAILY_RATE_FINE = Integer.parseInt(getConfigValue("DAILY_RATE_FINE"));
         MAXIMUM_NUMBER_OF_COPIES = Integer.parseInt(getConfigValue("MAXIMUM_NUMBER_OF_COPIES"));
         MAXIMUM_COPIES_PER_BOOK = Integer.parseInt(getConfigValue("MAXIMUM_COPIES_PER_BOOK"));
+        DAY_OF_RENEWAL = Integer.parseInt(getConfigValue("DAY_OF_RENEWAL"));
     }
 
     public String getConfigValue(String id)

@@ -48,6 +48,8 @@ public class MultaModalController extends SelectorComposer<Component> {
 
 
     private  ListModelList<Multa> multaListModel;
+    private  ListModelList<Multa> LisModelFromListMulta; // List Model da view ListMulta
+
     private Session session;
 
     private Obra obra;
@@ -86,12 +88,14 @@ public class MultaModalController extends SelectorComposer<Component> {
 
         session = Sessions.getCurrent();
 
+
         isNormalUser = isNormalUser();
 
         isForDetails = false;
 
-
         isForDetails = (Boolean) session.getAttribute("ForDetais");
+
+        LisModelFromListMulta = (ListModelList<Multa>)session.getAttribute("MultaListModel");
 
 
         if (isForDetails) {
@@ -132,9 +136,14 @@ public class MultaModalController extends SelectorComposer<Component> {
     public Multa fakeMulta (Emprestimo e) {
         Multa multa = new Multa();
 
+         Calendar CurremtDate = Calendar.getInstance();
+
         Emprestimo emprestimo = e;
-        int diaatraso = Math.abs (
-                (int) Duration.between(Calendar.getInstance().toInstant(), emprestimo.getDatadevolucao().toInstant()).toDays());
+        int diaatraso = 0;
+        if(CurremtDate.compareTo(emprestimo.getDatadevolucao())>0) {
+            diaatraso = Math.abs(
+                    (int) Duration.between(CurremtDate.toInstant(), emprestimo.getDatadevolucao().toInstant()).toDays());
+        }
 
         emprestimo.setEstadoDevolucao(null);
 
@@ -208,6 +217,7 @@ public class MultaModalController extends SelectorComposer<Component> {
     @Listen("onPagar= #multaListBox")
     public void doPagar (ForwardEvent event)
     {
+
         if(isNormalUser) {
             Clients.showNotification("Precisa ser Bibliotecario para executar essa acao ", null, null, null, 5000);
         } else {
@@ -230,6 +240,8 @@ public class MultaModalController extends SelectorComposer<Component> {
                 Clients.showNotification("Multa paga", null, null, null, 5000);
             }
         }
+        LisModelFromListMulta.remove(multa);
+        session.removeAttribute("MultaListModel");
 
     }
 
@@ -243,6 +255,7 @@ public class MultaModalController extends SelectorComposer<Component> {
             if (ObraRETURNED(emprestimo.getEmprestimoPK())){
                 fine.revoke(multa.getMultaPK());
 
+
                 exit();
                 Clients.showNotification("Multa Revogada", null, null, null, 5000);
 
@@ -254,11 +267,14 @@ public class MultaModalController extends SelectorComposer<Component> {
 
                 fine.revoke(multa.getMultaPK());
 
+
+
                 exit();
                 Clients.showNotification("Multa Revogada", null, null, null, 5000);
             }
-
         }
+        LisModelFromListMulta.remove(multa);
+        session.removeAttribute("MultaListModel");
 
     }
     @Listen("onDevolver = #multaListBox")
@@ -299,13 +315,13 @@ public class MultaModalController extends SelectorComposer<Component> {
     public String dataConvert (Calendar dataa) {
 
 
-        SimpleDateFormat timeFormatter = new SimpleDateFormat("'('HH:mm:s')'");
+        SimpleDateFormat timeFormatter = new SimpleDateFormat("");
         DateFormat dateFormatter = new SimpleDateFormat();
         Locale MOZAMBIQUE = new Locale("pt","MZ");
         StringBuilder builder = new StringBuilder();
 
 
-        dateFormatter = DateFormat.getDateInstance(DateFormat.LONG, MOZAMBIQUE);
+        dateFormatter = DateFormat.getDateInstance(DateFormat.MEDIUM, MOZAMBIQUE);
 
         builder.append(dateFormatter.format(dataa.getTime()));
         builder.append("\n");

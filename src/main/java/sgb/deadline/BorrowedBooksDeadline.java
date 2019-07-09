@@ -8,12 +8,15 @@ public class BorrowedBooksDeadline extends Deadline
 {
     private ConfigControler configControler;
     private RoleController rController;
+    private EstadoRenovacaoControler eRController;
 
     public BorrowedBooksDeadline(ConfigControler configControler,
-                                 RoleController rController)
+                                 RoleController rController,
+                                 EstadoRenovacaoControler eRController)
     {
         this.configControler = configControler;
         this.rController = rController;
+        this.eRController = eRController;
     }
 
     public Calendar getDeadline(Emprestimo e)
@@ -36,6 +39,9 @@ public class BorrowedBooksDeadline extends Deadline
         {
             deadline.set(Calendar.DATE, borrowDate.get(Calendar.DATE) +
                     this.configControler.DEADLINE_TEACHER_BORROWED_BOOKS);
+        }
+        if(e.getEstadoRenovacao().getIdestadorenovacao() == eRController.RENOVADO) {
+            deadline.add(Calendar.DATE,this.configControler.DAY_OF_RENEWAL);
         }
 
         goToNextWorkingDay(deadline);

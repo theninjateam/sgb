@@ -19,6 +19,7 @@ import sgb.deadline.BorrowedBooksDeadline;
 import sgb.deadline.Deadline;
 import sgb.domain.*;
 import sgb.fine.Fine;
+import sgb.request.Queue;
 import sgb.request.Request;
 import sgb.service.CRUDService;
 import org.zkoss.zk.ui.Session;
@@ -26,6 +27,7 @@ import org.zkoss.zk.ui.Sessions;
 
 import javax.swing.plaf.PanelUI;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.Calendar;
@@ -44,12 +46,15 @@ public class ListEmprestimo extends SelectorComposer<Component> {
     private EstadoPedidoControler ePController = (EstadoPedidoControler) SpringUtil.getBean("estadoPedidoControler");
     private EmprestimoController eController = (EmprestimoController) SpringUtil.getBean("emprestimoController");
     private EstadoDevolucaoControler eDController = (EstadoDevolucaoControler) SpringUtil.getBean("estadoDevolucaoControler");
+    private EstadoRenovacaoControler eRController = (EstadoRenovacaoControler) SpringUtil.getBean("estadoRenovacaoControler");
+    private RoleController rController = (RoleController) SpringUtil.getBean("roleController");
     private ConfigControler configControler =(ConfigControler) SpringUtil.getBean("configControler");
     private EstadoMultaControler eMController = (EstadoMultaControler) SpringUtil.getBean("estadoMultaControler");
     private Fine fine = (Fine) SpringUtil.getBean("fine");
     private Deadline deadline = (Deadline) SpringUtil.getBean("deadline");
     private MultaController mController = (MultaController) SpringUtil.getBean("multaController");
     private BorrowedBooksDeadline bBDeadline = (BorrowedBooksDeadline) SpringUtil.getBean("borrowedBooksDeadline");
+    private Queue queue = (Queue) SpringUtil.getBean("queue");
 
 
     private Boolean isNormalUser = true;
@@ -117,7 +122,7 @@ public class ListEmprestimo extends SelectorComposer<Component> {
 
                 multa = mController.getFine(emp.getEmprestimoPK());
 
-                fine.fine(emp,Calendar.getInstance());
+//                fine.fine(emp,Calendar.getInstance());
 
                 session.setAttribute("Multa", multa);
                 Boolean isForDetails = false;
@@ -158,23 +163,53 @@ public class ListEmprestimo extends SelectorComposer<Component> {
     @Listen("onRenovarEmprestimo = #emprestimoListBox")
     public void doRenovar(ForwardEvent event)
     {
+        Emprestimo emp = (Emprestimo) event.getData();
         if(isNormalUser) {
-            /*
-            * Metodo a ser descutido
-            * Ideia 1 : O usuario submete o pedido de renovacao e o sistema aprova;
-            * Ideia 2 : O usuario vai ter com o bibliotecario e esse acede o pedido e renova;
-            * Necessidade de um Metodo que verifica se existe alguem a espera daquele livro para desabilitar o
-            * Botao
-            */
-            Emprestimo emp = (Emprestimo) event.getData();
 
-            estadoRenovacao = crudService.get(EstadoRenovacao.class, 2);
-            emp.setEstadoRenovacao(estadoRenovacao);
-            crudService.update(emp);
-            Clients.showNotification("Renovacao do Emprestimo", null, null, null, 5000);
+
+
+
+            if(CanDoRenewal(emp)) {
+                Clients.showNotification("Renovacao", null, null, null, 5000);
+
+                 estadoRenovacao = crudService.get(EstadoRenovacao.class,eRController.RENOVADO);
+                 emp.setEstadoRenovacao(estadoRenovacao);
+                 emprestimoListModel.remove(emp);
+                 emp.setDatadevolucao(bBDeadline.getDeadline(emp));
+                 emprestimoListModel.add(emp);
+                 crudService.update(emp);
+
+            }else {
+                if(!queue.getOnWaitingQueueRequest(emp.getEmprestimoPK().getObra()).isEmpty())
+                    Clients.showNotification("Existe um usuario na Lista de espera dessa obra, Por favor devolva a obra", null, null, null, 5000);
+                else
+                    Clients.showNotification("Renovacao so pode ser feita no dia de devolucao ou um dia antes", null, null, null, 5000);
+            }
+
         } else {
             Clients.showNotification("Precisa ser Utente para executar essa acao ", null, null, null, 5000);
         }
+    }
+
+    public Boolean CanDoRenewal (Emprestimo emp )
+    {
+        Calendar today = Calendar.getInstance();
+
+        if(!iSRenovated(emp) && queue.getOnWaitingQueueRequest(emp.getEmprestimoPK().getObra()).isEmpty()) {
+
+//            if((emp.getDatadevolucao().get(Calendar.ERA) == today.get(Calendar.ERA)) &&
+//                    (emp.getDatadevolucao().get(Calendar.YEAR) == today.get(Calendar.YEAR)) &&
+//                    ((emp.getDatadevolucao().get(Calendar.DAY_OF_YEAR) == today.get(Calendar.DAY_OF_YEAR)) ||
+//                            ((emp.getDatadevolucao().get(Calendar.DAY_OF_YEAR) - 1) == today.get(Calendar.DAY_OF_YEAR)))) {
+//                return true;
+//            } else {
+//                return true;
+//            }
+            return true;
+
+        }else
+            return false;
+
     }
 
     public boolean isNormalUser () {
@@ -183,7 +218,7 @@ public class ListEmprestimo extends SelectorComposer<Component> {
         Set<Role> userrole =user.getRoles();
 
         for(Role role : userrole) {
-            if(role.getRole().equals("ADMIN"))
+            if(role.getRoleId() == rController.ADMIN)
                 a = false;
         }
         return a;
@@ -209,14 +244,21 @@ public class ListEmprestimo extends SelectorComposer<Component> {
     }
 
     public Boolean Expired(Emprestimo emp) {
-        Boolean aBoolean = false;
 
-        Calendar DataLimite = bBDeadline.getDeadline(emp);
+        Calendar DataLimite = emp.getDatadevolucao();
+
         if(deadline.exceededDeadline(DataLimite,Calendar.getInstance())){
-            aBoolean = true;
+            return true;
         }
 
-        return aBoolean;
+        return false;
+    }
+    public Boolean iSRenovated (Emprestimo emp) {
+
+        if(emp.getEstadoRenovacao().getIdestadorenovacao() == eRController.RENOVADO)
+            return true;
+        else
+            return false;
     }
 
 

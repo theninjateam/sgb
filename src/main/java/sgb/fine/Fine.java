@@ -84,7 +84,6 @@ public class Fine
                 System.out.println("Nao foi possivel enviar o email!");
             }
 
-
         }
     }
 

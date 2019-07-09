@@ -74,9 +74,9 @@
                                                                     <label sclass="w3-medium" value="Data Limite :"/>
                                                                     <label sclass="w3-medium" value="${$composer.dataConvert(each.datadevolucao)}"/>
                                                                     <separator/>
-                                                                    <label sclass="w3-medium" value="Estado :"/>
-                                                                    <label  if="${$composer.Expired(each)}" sclass="w3-medium w3-red" value="Expired"/>
-                                                                    <label  if="${!$composer.Expired(each)}" sclass="w3-medium w3-green" value="Update"/>
+                                                                    <label sclass="w3-medium" value="Estado do Emprestimo:"/>
+                                                                    <label  if="${$composer.Expired(each)}" sclass="w3-medium w3-red" value="Expirado"/>
+                                                                    <label  if="${!$composer.Expired(each)}" sclass="w3-medium w3-green" value="Atulizado"/>
                                                                 </div>
 
                                                                 <div sclass="w3-padding-16">
@@ -86,7 +86,7 @@
                                                                             mold="os" sclass="w3-btn w3-light-gray"/>
                                                                     <button label="Detalhe" forward="onClick=emprestimoListBox.onDetalheEmprestimo(${each})"
                                                                             mold="os" sclass="w3-btn w3-light-gray"/>
-                                                                    <button if="${!$composer.isNormalUser ()}" label="Renovar" forward="onClick=emprestimoListBox.onRenovarEmprestimo(${each})"
+                                                                    <button if="${$composer.isNormalUser () and  $composer.CanDoRenewal(each)}" label="Renovar" forward="onClick=emprestimoListBox.onRenovarEmprestimo(${each})"
                                                                             mold="os" sclass="w3-btn w3-light-gray"/>
                                                                 </div>
                                                             </div>
@@ -117,9 +117,9 @@
                                                                 <label sclass="w3-medium" value="Data Limite :"/>
                                                                 <label sclass="w3-medium" value="${$composer.dataConvert(each.datadevolucao)}"/>
                                                                 <separator/>
-                                                                <label sclass="w3-medium" value="Estado :"/>
-                                                                <label  if="${$composer.Expired(each)}" sclass="w3-medium w3-red" value="Expired"/>
-                                                                <label  if="${!$composer.Expired(each)}" sclass="w3-medium w3-green" value="Update"/>                                                            </div>
+                                                                <label sclass="w3-medium" value="Estado do Emprestimo :"/>
+                                                                <label  if="${$composer.Expired(each)}" sclass="w3-medium w3-red" value="Expirado"/>
+                                                                <label  if="${!$composer.Expired(each)}" sclass="w3-medium w3-green" value="Atulizado"/>                                                            </div>
                                                         </div>
 
                                                         <button if="${!$composer.isNormalUser ()}"
@@ -133,7 +133,7 @@
                                                             <button  sclass="w3-bar-item w3-btn w3-light-gray w3-col"
                                                                      label="Detalhe" forward="onClick=emprestimoListBox.onDetalheEmprestimo (${each})"
                                                                      mold="os"/>
-                                                            <button if="${!$composer.isNormalUser ()}"   sclass="w3-btn w3-light-gray w3-col w3-bar-item "
+                                                            <button if="${$composer.isNormalUser () and  $composer.CanDoRenewal(each)}"   sclass="w3-btn w3-light-gray w3-col w3-bar-item "
                                                                     label="Renovar" forward="onClick=emprestimoListBox.onRenovarEmprestimo (${each})"
                                                                     mold="os" />
                                                         </div>

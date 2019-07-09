@@ -69,14 +69,10 @@ public class AlterarSenhaController extends SelectorComposer<Component> {
 
         Set<Role> userrole =user.getRoles();
 
-        for(Role rol : userrole)
-            if (rol.getRole().equals("ADMIN")){
-                string="ADIMIN";
-            } else if (rol.getRole().equals("STUDENT")){
-                string = "STUDENT";
-            }else if (rol.getRole().equals("TEACHER")){
-                string = "TEACHER";
-            }
+        for(Role rol : userrole) {
+            string = rol.getRole();
+        }
+
         return string;
     }
 
