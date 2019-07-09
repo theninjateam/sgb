@@ -14,3 +14,5 @@ notifications:
 script:
   - mvn test
   - mvn install -DskipTests=false -Dmaven.javadoc.skip=true -B -V
+after_success:
+  - mvn clean cobertura:cobertura coveralls:report
