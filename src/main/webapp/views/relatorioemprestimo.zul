@@ -23,6 +23,13 @@
                         </template>
                     </listbox>
 
+                    <span style="padding-left: 25px"></span>
+                    <span sclass="input-group-addon">  From: </span>
+                    <datebox id="dataInicio" cols="12" format="medium" value="${$composer.reduzDataActual()}"/>
+
+                    <span sclass="input-group-addon">   to: </span>
+                    <datebox id="dataFim" cols="12" format="medium" onCreate="self.value = new Date()" />
+
                     <span style="margin-left:25px" sclass="input-group-addon">Exportar para: </span>
                     <button  visible="true"  label="PDF" id="savePdf" style="margin-left:15px"
                              mold="os"  sclass="w3-btn w3-light-grey"/>
@@ -65,28 +72,7 @@
 
                                     <listcell>
                                         <div>
-                                            <zscript>
-                                            <![CDATA[
-                                            import java.text.*;
-                                            SimpleDateFormat  timeFormatter = new SimpleDateFormat("'('HH:mm:s')'");
-                                            DateFormat  dateFormatter = new SimpleDateFormat();
-                                            Locale MOZAMBIQUE = new Locale("pt","MZ");
-                                            StringBuilder builder = new StringBuilder();
-
-                                            dateFormatter = DateFormat.getDateInstance(DateFormat.FULL, MOZAMBIQUE);
-
-                                            if (each.datadevolucao == null){
-                                                builder.append("Data limite nao definida!");
-                                            }else{
-                                                builder.append(dateFormatter.format(each.datadevolucao.getTime()));
-                                                builder.append("\n");
-                                                builder.append(timeFormatter.format(each.datadevolucao.getTime()));
-                                            }
-
-                                            String date = builder.toString();
-                                            ]]>
-                                            </zscript>
-                                            <label value="${date}"/>
+                                            <label value="${$composer.dataConvert(each.datadevolucao)}"/>
                                         </div>
                                     </listcell>
 

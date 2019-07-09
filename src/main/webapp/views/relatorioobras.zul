@@ -23,8 +23,10 @@
                             </listitem>
                         </template>
                      </listbox>
+
+                    <span style="padding-left: 25px"></span>
                     <span sclass="input-group-addon">  From: </span>
-                    <datebox id="dataInicio" cols="12" format="medium"  />
+                    <datebox id="dataInicio" cols="12" format="medium" value="${$composer.reduzDataActual()}"/>
 
                     <span sclass="input-group-addon">   to: </span>
                     <datebox id="dataFim" cols="12" format="medium" onCreate="self.value = new Date()" />

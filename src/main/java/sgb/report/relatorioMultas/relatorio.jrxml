@@ -4,7 +4,7 @@
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<parameter name="pathLogo" class="java.lang.String"/>
 	<parameter name="totalValor" class="java.lang.String"/>
-	<parameter name="datas" class="java.lang.String"/>
+	<parameter name="dataFiltro" class="java.lang.String"/>
 	<queryString language="SQL">
 		<![CDATA[]]>
 	</queryString>
@@ -27,8 +27,9 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="194" splitType="Stretch">
+		<band height="198" splitType="Stretch">
 			<property name="local_mesure_unitheight" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<image>
 				<reportElement x="240" y="10" width="70" height="70" uuid="a9bdec39-6d59-4d01-8623-755e00fc7bd3">
 					<property name="local_mesure_unitx" value="pixel"/>
@@ -77,6 +78,22 @@
 				</textElement>
 				<text><![CDATA[REPARTIÇÃO DOS SERVIÇOS BIBLIOTECÁRIOS]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="0" y="178" width="555" height="20" uuid="bfd04a8e-6efd-4fcb-92ec-b62e7ba1683a">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dataFiltro}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<columnHeader>

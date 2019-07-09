@@ -28,6 +28,7 @@ import sgb.report.GerarRelatorio;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -42,6 +43,7 @@ public class RelatorioMultas extends SelectorComposer<Component> {
     private ListModelList<Multa> multaListModelList;
     private List<Multa> multaList;
     private EstadoMulta estadoMulta;
+    String dateFiltered;
     Calendar dataI = Calendar.getInstance();
     Calendar dataF = Calendar.getInstance();
 
@@ -79,7 +81,8 @@ public class RelatorioMultas extends SelectorComposer<Component> {
     public void show() throws JRException {
         byte [] arr = JasperExportManager.exportReportToPdf(gerarRelatorio.createPdfMulta(multaListModelList
                 , "src/main/java/sgb/report/relatorioMultas/relatorio.jrxml"
-                , Double.parseDouble(totalToPay.getValue())));
+                , Double.parseDouble(totalToPay.getValue())
+                , dateFiltered));
         AMedia media = new AMedia("RelatorioMultas", "pdf", "application/pdf", arr);
         final Window window = new Window();
         window.setClosable(true);
@@ -132,7 +135,8 @@ public class RelatorioMultas extends SelectorComposer<Component> {
         exporter.setParameter(JRExporterParameter.JASPER_PRINT
                 , gerarRelatorio.createPdfMulta(multaListModelList
                         , "src/main/java/sgb/report/relatorioMultas/relatorio.jrxml"
-                        , Double.parseDouble(totalToPay.getValue())));
+                        , Double.parseDouble(totalToPay.getValue())
+                        , dateFiltered));
         exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, filePath);
         exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
         exporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);
@@ -169,6 +173,16 @@ public class RelatorioMultas extends SelectorComposer<Component> {
         return c.getTime();
     }
 
+    public String dataConvert (Calendar dataa) {
+
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
+        StringBuilder builder = new StringBuilder();
+
+        builder.append(dateFormatter.format(dataa.getTime()));
+
+        return builder.toString();
+    }
+
     @Listen("onSelect = #estadoMultaListbox")
     public void change(){
         estadoMulta = estadoMultaListbox.getSelectedItem().getValue();
@@ -186,6 +200,7 @@ public class RelatorioMultas extends SelectorComposer<Component> {
             multaList = multaController.getMultasByDate(dataI, dataF, null);
         }
         multaListModelList = new ListModelList<Multa>(multaList);
+        dateFiltered = "Lista de "+dataConvert(dataI)+" a "+dataConvert(dataF);
     }
 
     public void setListBoxsModels(){
