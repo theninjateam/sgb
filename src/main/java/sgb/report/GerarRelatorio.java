@@ -19,9 +19,12 @@ public class GerarRelatorio {
         this.crudService = crudService;
     }
 
-    public JasperPrint createPdfObras(List<ObraCategoria> obraCategoriaList,
-                                 List<RegistroObra> obrasregistadasList,
-                                 List<ObraEliminadas> obraEliminadasList, int selected, String value, String path) throws JRException, IOException {
+    public JasperPrint createPdfObras(List<ObraCategoria> obraCategoriaList
+            , List<RegistroObra> obrasregistadasList
+            , List<ObraEliminadas> obraEliminadasList
+            , int selected
+            , String value
+            , String path) throws JRException, IOException {
 
         String pathLogo = "src/main/webapp/img/logoPNG.png";
         Map parametros = new HashMap();
@@ -74,12 +77,14 @@ public class GerarRelatorio {
         return jasperPrint;
     }
 
-    public JasperPrint createPdfEmprestimo(List<Emprestimo> emprestimoList, String path) throws JRException {
+    public JasperPrint createPdfEmprestimo(List<Emprestimo> emprestimoList
+            , String path) throws JRException {
         String pathLogo = "src/main/webapp/img/logoPNG.png";
         Map parametros = new HashMap();
         JasperPrint jasperPrint = null;
 
         parametros.put("pathLogo", pathLogo);
+        //parametros.put("datas", datas);
 
         try {
             JasperReport jasperReport = JasperCompileManager.compileReport(path);
@@ -91,14 +96,16 @@ public class GerarRelatorio {
         return jasperPrint;
     }
 
-    public JasperPrint createPdfMulta(List<Multa> multaList, String path, double totalDinheiro) throws JRException{
+    public JasperPrint createPdfMulta(List<Multa> multaList
+            , String path
+            , double totalValor) throws JRException{
         String pathLogo = "src/main/webapp/img/logoPNG.png", s ="";
         Map parametros = new HashMap();
         JasperPrint jasperPrint = null;
 
-        s +=totalDinheiro;
+        s +=totalValor;
         parametros.put("pathLogo", pathLogo);
-        parametros.put("totalDinheiro", s);
+        parametros.put("totalValor", s);
 
         try {
             JasperReport jasperReport = JasperCompileManager.compileReport(path);

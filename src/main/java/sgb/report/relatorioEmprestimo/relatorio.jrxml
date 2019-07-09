@@ -39,18 +39,42 @@
 				<imageExpression><![CDATA[$P{pathLogo}]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement x="0" y="90" width="555" height="30" uuid="749e068e-5482-4512-a2e0-df5a99750b0b"/>
+				<reportElement x="0" y="90" width="555" height="20" uuid="749e068e-5482-4512-a2e0-df5a99750b0b">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="16" isBold="true"/>
 				</textElement>
 				<text><![CDATA[UNIVERSIDADE LÚRIO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="120" width="555" height="30" uuid="21e47dec-59ee-4954-9534-a2a45a6d8117"/>
+				<reportElement x="0" y="130" width="555" height="20" uuid="21e47dec-59ee-4954-9534-a2a45a6d8117">
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="16" isBold="true"/>
 				</textElement>
 				<text><![CDATA[RELATÓRIO DE EMPRESTIMOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="110" width="555" height="20" uuid="d8b58b46-26eb-4196-88d8-2d2d491f3b97">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REPARTIÇÃO DOS SERVIÇOS BIBLIOTECÁRIOS]]></text>
 			</staticText>
 		</band>
 	</title>

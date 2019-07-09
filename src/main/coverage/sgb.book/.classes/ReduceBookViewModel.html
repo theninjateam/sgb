@@ -1,0 +1,220 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ReduceBookViewModel</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">sgb.book</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ReduceBookViewModel (sgb.book)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ReduceBookViewModel</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 49)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package sgb.book;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import org.springframework.security.core.context.SecurityContextHolder;
+<i>4</i>&nbsp;import org.springframework.security.core.userdetails.UserDetails;
+<i>5</i>&nbsp;import org.zkoss.bind.BindUtils;
+<i>6</i>&nbsp;import org.zkoss.bind.annotation.BindingParam;
+<i>7</i>&nbsp;import org.zkoss.bind.annotation.Command;
+<i>8</i>&nbsp;import org.zkoss.bind.annotation.Init;
+<i>9</i>&nbsp;import org.zkoss.zats.mimic.Client;
+<i>10</i>&nbsp;import org.zkoss.zk.ui.Session;
+<i>11</i>&nbsp;import org.zkoss.zk.ui.Sessions;
+<i>12</i>&nbsp;import org.zkoss.zk.ui.util.Clients;
+<i>13</i>&nbsp;import org.zkoss.zkplus.spring.SpringUtil;
+<i>14</i>&nbsp;import org.zkoss.zul.Window;
+<i>15</i>&nbsp;import sgb.domain.Obra;
+<i>16</i>&nbsp;import sgb.domain.ObraEliminadas;
+<i>17</i>&nbsp;import sgb.domain.ObraEliminadasPK;
+<i>18</i>&nbsp;import sgb.domain.Users;
+<i>19</i>&nbsp;import sgb.service.CRUDService;
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;import java.util.Calendar;
+<i>22</i>&nbsp;import java.util.HashSet;
+<i>23</i>&nbsp;import java.util.Set;
+<i>24</i>&nbsp;
+<b class="nc"><i>25</i>&nbsp;public class ReduceBookViewModel</b>
+<i>26</i>&nbsp;{
+<b class="nc"><i>27</i>&nbsp;    private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;</b>
+<b class="nc"><i>28</i>&nbsp;    private CRUDService crudService = (CRUDService) SpringUtil.getBean(&quot;CRUDService&quot;);</b>
+<b class="nc"><i>29</i>&nbsp;    private Session session = Sessions.getCurrent();</b>
+<i>30</i>&nbsp;    private int vanishedBooksQuantity;
+<i>31</i>&nbsp;    private Obra obra;
+<i>32</i>&nbsp;    private String description;
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;    @Init
+<i>35</i>&nbsp;    public void init() throws Exception
+<i>36</i>&nbsp;    {
+<b class="nc"><i>37</i>&nbsp;        this.vanishedBooksQuantity = 0;</b>
+<b class="nc"><i>38</i>&nbsp;        this.obra = (Obra) this.session.getAttribute(&quot;obraToEdit&quot;);</b>
+<i>39</i>&nbsp;
+<b class="nc"><i>40</i>&nbsp;        if (obra == null)</b>
+<i>41</i>&nbsp;        {
+<b class="nc"><i>42</i>&nbsp;            throw new Exception(&quot;Obra can not be null&quot;);</b>
+<i>43</i>&nbsp;        }
+<b class="nc"><i>44</i>&nbsp;    }</b>
+<i>45</i>&nbsp;
+<i>46</i>&nbsp;    @Command
+<i>47</i>&nbsp;    public void reduceVanishedBooksQuantity()
+<i>48</i>&nbsp;    {
+<b class="nc"><i>49</i>&nbsp;        if (this.vanishedBooksQuantity &gt; 0)</b>
+<i>50</i>&nbsp;        {
+<b class="nc"><i>51</i>&nbsp;            this.vanishedBooksQuantity = this.vanishedBooksQuantity - 1;</b>
+<b class="nc"><i>52</i>&nbsp;            BindUtils.postNotifyChange(null, null, this, &quot;vanishedBooksQuantity&quot;);</b>
+<i>53</i>&nbsp;        }
+<b class="nc"><i>54</i>&nbsp;    }</b>
+<i>55</i>&nbsp;
+<i>56</i>&nbsp;    @Command
+<i>57</i>&nbsp;    public void increaseVanishedBooksQuantity()
+<i>58</i>&nbsp;    {
+<b class="nc"><i>59</i>&nbsp;        if (this.vanishedBooksQuantity &lt; obra.getQuantidade())</b>
+<i>60</i>&nbsp;        {
+<b class="nc"><i>61</i>&nbsp;            this.vanishedBooksQuantity = this.vanishedBooksQuantity + 1;</b>
+<i>62</i>&nbsp;        }
+<b class="nc"><i>63</i>&nbsp;        BindUtils.postNotifyChange(null, null, this, &quot;vanishedBooksQuantity&quot;);</b>
+<b class="nc"><i>64</i>&nbsp;    }</b>
+<i>65</i>&nbsp;
+<i>66</i>&nbsp;    @Command
+<i>67</i>&nbsp;    public void exit(@BindingParam(&quot;modal&quot;) Window modal)
+<i>68</i>&nbsp;    {
+<b class="nc"><i>69</i>&nbsp;        modal.detach();</b>
+<b class="nc"><i>70</i>&nbsp;    }</b>
+<i>71</i>&nbsp;
+<i>72</i>&nbsp;    @Command
+<i>73</i>&nbsp;    public void save(@BindingParam(&quot;modal&quot;) Window modal)
+<i>74</i>&nbsp;    {
+<i>75</i>&nbsp;        try
+<i>76</i>&nbsp;        {
+<b class="nc"><i>77</i>&nbsp;            obra.setQuantidade(this.obra.getQuantidade() - this.vanishedBooksQuantity);</b>
+<i>78</i>&nbsp;
+<b class="nc"><i>79</i>&nbsp;            Set&lt;ObraEliminadas&gt; listobraEliminadas = new HashSet&lt;&gt;();</b>
+<b class="nc"><i>80</i>&nbsp;            listobraEliminadas = obra.getObraEliminadas();</b>
+<i>81</i>&nbsp;
+<b class="nc"><i>82</i>&nbsp;            ObraEliminadas obraEliminada = new ObraEliminadas();</b>
+<b class="nc"><i>83</i>&nbsp;            ObraEliminadasPK obraEliminadaPK = new ObraEliminadasPK();</b>
+<i>84</i>&nbsp;
+<b class="nc"><i>85</i>&nbsp;            obraEliminadaPK.setObra(obra);</b>
+<b class="nc"><i>86</i>&nbsp;            obraEliminadaPK.setDataRegisto(Calendar.getInstance());</b>
+<i>87</i>&nbsp;
+<b class="nc"><i>88</i>&nbsp;            obraEliminada.setObraEliminadasPK(obraEliminadaPK);</b>
+<b class="nc"><i>89</i>&nbsp;            obraEliminada.setObra(obra);</b>
+<b class="nc"><i>90</i>&nbsp;            obraEliminada.setQuantidade(this.vanishedBooksQuantity);</b>
+<b class="nc"><i>91</i>&nbsp;            obraEliminada.setDescricao(this.description);</b>
+<b class="nc"><i>92</i>&nbsp;            obraEliminada.setUser(this.user);</b>
+<i>93</i>&nbsp;
+<b class="nc"><i>94</i>&nbsp;            listobraEliminadas.add(obraEliminada);</b>
+<i>95</i>&nbsp;
+<b class="nc"><i>96</i>&nbsp;            obra.setObraEliminadas(listobraEliminadas);</b>
+<i>97</i>&nbsp;
+<b class="nc"><i>98</i>&nbsp;            crudService.update(obra);</b>
+<b class="nc"><i>99</i>&nbsp;            modal.detach();</b>
+<b class="nc"><i>100</i>&nbsp;            Clients.showNotification(&quot;Feito&quot;);</b>
+<i>101</i>&nbsp;        }
+<b class="nc"><i>102</i>&nbsp;        catch (Exception ex)</b>
+<i>103</i>&nbsp;        {
+<b class="nc"><i>104</i>&nbsp;            ex.printStackTrace();</b>
+<b class="nc"><i>105</i>&nbsp;        }</b>
+<b class="nc"><i>106</i>&nbsp;    }</b>
+<i>107</i>&nbsp;
+<i>108</i>&nbsp;    public Obra getObra()
+<i>109</i>&nbsp;    {
+<b class="nc"><i>110</i>&nbsp;        return obra;</b>
+<i>111</i>&nbsp;    }
+<i>112</i>&nbsp;
+<i>113</i>&nbsp;    public void setObra(Obra obra)
+<i>114</i>&nbsp;    {
+<b class="nc"><i>115</i>&nbsp;        this.obra = obra;</b>
+<b class="nc"><i>116</i>&nbsp;    }</b>
+<i>117</i>&nbsp;
+<i>118</i>&nbsp;    public int getVanishedBooksQuantity()
+<i>119</i>&nbsp;    {
+<b class="nc"><i>120</i>&nbsp;        return vanishedBooksQuantity;</b>
+<i>121</i>&nbsp;    }
+<i>122</i>&nbsp;
+<i>123</i>&nbsp;    public void setVanishedBooksQuantity(int vanishedBooksQuantity)
+<i>124</i>&nbsp;    {
+<b class="nc"><i>125</i>&nbsp;        this.vanishedBooksQuantity = vanishedBooksQuantity;</b>
+<b class="nc"><i>126</i>&nbsp;    }</b>
+<i>127</i>&nbsp;
+<i>128</i>&nbsp;    public String getDescription()
+<i>129</i>&nbsp;    {
+<b class="nc"><i>130</i>&nbsp;        return description;</b>
+<i>131</i>&nbsp;    }
+<i>132</i>&nbsp;
+<i>133</i>&nbsp;    public void setDescription(String description)
+<i>134</i>&nbsp;    {
+<b class="nc"><i>135</i>&nbsp;        this.description = description;</b>
+<b class="nc"><i>136</i>&nbsp;    }</b>
+<i>137</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-07-08 13:41</div>
+</div>
+</body>
+</html>

@@ -57,18 +57,18 @@ public class LoginTest {
 
     }
 
-    @Test
-    @Transactional
-    public void getSateTest() throws Exception {
-
-        int state = login.getState("Blocked");
-
-        assertThat(state).isEqualTo(0);
-
-        state = login.getState("whatever");
-        assertThat(state).isEqualTo(1);
-
-    }
+//    @Test
+//    @Transactional
+//    public void getSateTest() throws Exception {
+//
+//        int state = login.getState("Bloqueados");
+//
+//        assertThat(state).isEqualTo(0);
+//
+//        state = login.getState("whatever");
+//        assertThat(state).isEqualTo(1);
+//
+//    }
 
 
 }

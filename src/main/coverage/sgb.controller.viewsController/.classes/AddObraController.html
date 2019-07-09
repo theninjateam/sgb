@@ -1,0 +1,583 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: AddObraController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">sgb.controller.viewsController</a> ]
+</div>
+
+<h1>Coverage Summary for Class: AddObraController (sgb.controller.viewsController)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AddObraController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 216)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;/*
+<i>2</i>&nbsp; * To change this license header, choose License Headers in Project Properties.
+<i>3</i>&nbsp; * To change this template file, choose Tools | Templates
+<i>4</i>&nbsp; * and open the template in the editor.
+<i>5</i>&nbsp; */
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;package sgb.controller.viewsController;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;import org.springframework.dao.DataIntegrityViolationException;
+<i>10</i>&nbsp;import org.springframework.security.core.context.SecurityContextHolder;
+<i>11</i>&nbsp;import org.springframework.security.core.userdetails.UserDetails;
+<i>12</i>&nbsp;import org.zkoss.lang.Strings;
+<i>13</i>&nbsp;import org.zkoss.zk.ui.Component;
+<i>14</i>&nbsp;import org.zkoss.zk.ui.Session;
+<i>15</i>&nbsp;import org.zkoss.zk.ui.Sessions;
+<i>16</i>&nbsp;import org.zkoss.zk.ui.event.ForwardEvent;
+<i>17</i>&nbsp;import org.zkoss.zk.ui.event.UploadEvent;
+<i>18</i>&nbsp;import org.zkoss.zk.ui.select.SelectorComposer;
+<i>19</i>&nbsp;import org.zkoss.zk.ui.select.annotation.Listen;
+<i>20</i>&nbsp;import org.zkoss.zk.ui.select.annotation.Wire;
+<i>21</i>&nbsp;import org.zkoss.zk.ui.util.Clients;
+<i>22</i>&nbsp;import org.zkoss.zkplus.spring.SpringUtil;
+<i>23</i>&nbsp;import org.zkoss.zul.*;
+<i>24</i>&nbsp;import org.zkoss.zul.impl.InputElement;
+<i>25</i>&nbsp;import sgb.domain.*;
+<i>26</i>&nbsp;import sgb.service.CRUDService;
+<i>27</i>&nbsp;import org.apache.commons.codec.digest.DigestUtils;
+<i>28</i>&nbsp;import org.zkoss.zk.ui.util.ForEach;
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;import java.awt.image.RenderedImage;
+<i>31</i>&nbsp;import java.io.File;
+<i>32</i>&nbsp;import org.zkoss.io.Files;
+<i>33</i>&nbsp;import org.zkoss.util.media.Media;
+<i>34</i>&nbsp;import org.zkoss.image.AImage;
+<i>35</i>&nbsp;import org.zkoss.zk.ui.Executions;
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;import java.io.IOException;
+<i>38</i>&nbsp;import java.security.MessageDigest;
+<i>39</i>&nbsp;import java.security.NoSuchAlgorithmException;
+<i>40</i>&nbsp;import java.sql.Date;
+<i>41</i>&nbsp;import java.text.DateFormat;
+<i>42</i>&nbsp;import java.text.ParseException;
+<i>43</i>&nbsp;import java.text.SimpleDateFormat;
+<i>44</i>&nbsp;import java.time.format.DateTimeFormatter;
+<i>45</i>&nbsp;import java.util.*;
+<i>46</i>&nbsp;import java.util.Calendar;
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;/**
+<i>49</i>&nbsp; * @author Fonseca, Emerson, Matimbe
+<i>50</i>&nbsp; */
+<i>51</i>&nbsp;
+<b class="nc"><i>52</i>&nbsp;public class AddObraController extends SelectorComposer&lt;Component&gt; {</b>
+<i>53</i>&nbsp;
+<b class="nc"><i>54</i>&nbsp;    private CRUDService crudService = (CRUDService) SpringUtil.getBean(&quot;CRUDService&quot;);</b>
+<b class="nc"><i>55</i>&nbsp;    private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;</b>
+<i>56</i>&nbsp;    private ListModelList&lt;TipoObra&gt; tipoObraModel;
+<i>57</i>&nbsp;    private ListModelList&lt;AreaCientifica&gt; areaCientificaModel;
+<i>58</i>&nbsp;    private ListModelList&lt;Idioma&gt; idiomaModel;
+<i>59</i>&nbsp;    private ListModelList&lt;FormaAquisicao&gt; formaAquisicaoModel;
+<i>60</i>&nbsp;
+<b class="nc"><i>61</i>&nbsp;    private Set&lt;Autor&gt; autores = new HashSet&lt;Autor&gt;();</b>
+<i>62</i>&nbsp;    private ListModelList&lt;Autor&gt; authorListModel;
+<b class="nc"><i>63</i>&nbsp;    Autor oAutor = new Autor();</b>
+<b class="nc"><i>64</i>&nbsp;    private RegistroObra registroObra = new RegistroObra();</b>
+<b class="nc"><i>65</i>&nbsp;    private String fullPathPDF = null;</b>
+<b class="nc"><i>66</i>&nbsp;    private String relativePathPDF = null;</b>
+<b class="nc"><i>67</i>&nbsp;    private String fullPathCover = null;</b>
+<b class="nc"><i>68</i>&nbsp;    private String relativePathCover = null;</b>
+<i>69</i>&nbsp;    private Media mediaCover;
+<i>70</i>&nbsp;    private Media mediaPDF;
+<i>71</i>&nbsp;    private Session session;
+<i>72</i>&nbsp;
+<i>73</i>&nbsp;    @Wire
+<i>74</i>&nbsp;    private Image capa;
+<i>75</i>&nbsp;    @Wire
+<i>76</i>&nbsp;    private Button upLoadPDF;
+<i>77</i>&nbsp;
+<i>78</i>&nbsp;    @Wire
+<i>79</i>&nbsp;    private Button upLoadCAPA;
+<i>80</i>&nbsp;
+<i>81</i>&nbsp;    @Wire
+<i>82</i>&nbsp;    private Label addedPDF;
+<i>83</i>&nbsp;
+<i>84</i>&nbsp;    @Wire
+<i>85</i>&nbsp;    private Label addedCapa; // eliminar esta label
+<i>86</i>&nbsp;
+<i>87</i>&nbsp;    @Wire
+<i>88</i>&nbsp;    private Window addObra;
+<i>89</i>&nbsp;
+<i>90</i>&nbsp;    @Wire
+<i>91</i>&nbsp;    private Listbox authorListBox;
+<i>92</i>&nbsp;
+<i>93</i>&nbsp;    @Wire
+<i>94</i>&nbsp;    private Label cota_duplicated_key;
+<i>95</i>&nbsp;
+<i>96</i>&nbsp;
+<i>97</i>&nbsp;    @Wire
+<i>98</i>&nbsp;    private Textbox cota;
+<i>99</i>&nbsp;
+<i>100</i>&nbsp;    @Wire
+<i>101</i>&nbsp;    private Intbox registo;
+<i>102</i>&nbsp;
+<i>103</i>&nbsp;    @Wire
+<i>104</i>&nbsp;    private Textbox titulo;
+<i>105</i>&nbsp;
+<i>106</i>&nbsp;    @Wire
+<i>107</i>&nbsp;    private Textbox autor;
+<i>108</i>&nbsp;
+<i>109</i>&nbsp;    @Wire
+<i>110</i>&nbsp;    private Textbox localPublicacao;
+<i>111</i>&nbsp;
+<i>112</i>&nbsp;    @Wire
+<i>113</i>&nbsp;    private Intbox anoPublicacao;
+<i>114</i>&nbsp;
+<i>115</i>&nbsp;    @Wire
+<i>116</i>&nbsp;    private Intbox quatddObra;
+<i>117</i>&nbsp;    @Wire
+<i>118</i>&nbsp;    private Textbox isbn;
+<i>119</i>&nbsp;    @Wire
+<i>120</i>&nbsp;    private Textbox editora;
+<i>121</i>&nbsp;    @Wire
+<i>122</i>&nbsp;    private Textbox codigobarra;
+<i>123</i>&nbsp;    @Wire
+<i>124</i>&nbsp;    private Intbox edicao;
+<i>125</i>&nbsp;    @Wire
+<i>126</i>&nbsp;    private Intbox volume;
+<i>127</i>&nbsp;    @Wire
+<i>128</i>&nbsp;    private Textbox observacao;
+<i>129</i>&nbsp;
+<i>130</i>&nbsp;
+<i>131</i>&nbsp;
+<i>132</i>&nbsp;
+<i>133</i>&nbsp;    @Wire
+<i>134</i>&nbsp;    private Listbox formaaquisicaoBox;
+<i>135</i>&nbsp;    @Wire
+<i>136</i>&nbsp;    private Listbox areaCientificaListBox;
+<i>137</i>&nbsp;    @Wire
+<i>138</i>&nbsp;    private Listbox idiomaListBox;
+<i>139</i>&nbsp;    @Wire
+<i>140</i>&nbsp;    private Listbox tipoObraListBox;
+<i>141</i>&nbsp;    @Wire
+<i>142</i>&nbsp;    private Label escolha;
+<i>143</i>&nbsp;
+<i>144</i>&nbsp;
+<i>145</i>&nbsp;
+<i>146</i>&nbsp;
+<i>147</i>&nbsp;
+<i>148</i>&nbsp;    @Override
+<i>149</i>&nbsp;    public void doAfterCompose(Component comp) throws Exception {
+<b class="nc"><i>150</i>&nbsp;        super.doAfterCompose(comp);</b>
+<i>151</i>&nbsp;
+<b class="nc"><i>152</i>&nbsp;        session = Sessions.getCurrent();</b>
+<i>153</i>&nbsp;
+<b class="nc"><i>154</i>&nbsp;        setAttributeSession(session);</b>
+<i>155</i>&nbsp;
+<b class="nc"><i>156</i>&nbsp;        authorListModel = new ListModelList&lt;Autor&gt;();</b>
+<b class="nc"><i>157</i>&nbsp;        authorListBox.setModel(authorListModel);</b>
+<i>158</i>&nbsp;
+<b class="nc"><i>159</i>&nbsp;        tipoObraModel = new ListModelList&lt;TipoObra&gt;(getTipoObraModel());</b>
+<b class="nc"><i>160</i>&nbsp;        tipoObraListBox.setModel(tipoObraModel);</b>
+<i>161</i>&nbsp;
+<b class="nc"><i>162</i>&nbsp;        areaCientificaModel = new ListModelList&lt;AreaCientifica&gt;(getAreaCientificaModel());</b>
+<b class="nc"><i>163</i>&nbsp;        areaCientificaListBox.setModel(areaCientificaModel);</b>
+<i>164</i>&nbsp;
+<b class="nc"><i>165</i>&nbsp;        idiomaModel = new ListModelList&lt;Idioma&gt;(getIdiomaModel());</b>
+<b class="nc"><i>166</i>&nbsp;        idiomaListBox.setModel(idiomaModel);</b>
+<i>167</i>&nbsp;
+<b class="nc"><i>168</i>&nbsp;        formaAquisicaoModel = new ListModelList&lt;FormaAquisicao&gt;(getFormaAquisicaoModel());</b>
+<b class="nc"><i>169</i>&nbsp;        formaaquisicaoBox.setModel(formaAquisicaoModel);</b>
+<i>170</i>&nbsp;
+<i>171</i>&nbsp;
+<b class="nc"><i>172</i>&nbsp;    }</b>
+<i>173</i>&nbsp;
+<i>174</i>&nbsp;    public ListModelList&lt;TipoObra&gt; getTipoObraModel() {
+<i>175</i>&nbsp;
+<b class="nc"><i>176</i>&nbsp;        List&lt;TipoObra&gt; tipoObras = crudService.getAll(TipoObra.class);</b>
+<b class="nc"><i>177</i>&nbsp;        return new ListModelList&lt;TipoObra&gt;(tipoObras);</b>
+<i>178</i>&nbsp;    }
+<i>179</i>&nbsp;
+<i>180</i>&nbsp;    public ListModelList&lt;Idioma&gt; getIdiomaModel() {
+<b class="nc"><i>181</i>&nbsp;        List&lt;Idioma&gt; idiomas = crudService.getAll(Idioma.class);</b>
+<b class="nc"><i>182</i>&nbsp;        return new ListModelList&lt;Idioma&gt;(idiomas);</b>
+<i>183</i>&nbsp;    }
+<i>184</i>&nbsp;
+<i>185</i>&nbsp;    public ListModelList&lt;AreaCientifica&gt; getAreaCientificaModel() {
+<b class="nc"><i>186</i>&nbsp;        List&lt;AreaCientifica&gt; areascientificas = crudService.getAll(AreaCientifica.class);</b>
+<b class="nc"><i>187</i>&nbsp;        return new ListModelList&lt;AreaCientifica&gt;(areascientificas);</b>
+<i>188</i>&nbsp;    }
+<i>189</i>&nbsp;
+<i>190</i>&nbsp;    public ListModelList&lt;FormaAquisicao&gt; getFormaAquisicaoModel () {
+<b class="nc"><i>191</i>&nbsp;        List&lt;FormaAquisicao&gt; formaaquisicao = crudService.getAll(FormaAquisicao.class);</b>
+<b class="nc"><i>192</i>&nbsp;        return new ListModelList&lt;FormaAquisicao&gt;(formaaquisicao);</b>
+<i>193</i>&nbsp;    }
+<i>194</i>&nbsp;
+<i>195</i>&nbsp;    @Listen(&quot;onClick = #savebtn&quot;)
+<i>196</i>&nbsp;    public void saveData() throws ParseException {
+<b class="nc"><i>197</i>&nbsp;        check(addObra);</b>
+<i>198</i>&nbsp;
+<b class="nc"><i>199</i>&nbsp;        Obra obra = new Obra();</b>
+<b class="nc"><i>200</i>&nbsp;        Livro livro = new Livro();</b>
+<b class="nc"><i>201</i>&nbsp;        Cd cd = new Cd();</b>
+<b class="nc"><i>202</i>&nbsp;        LivroCd livroCd = new LivroCd();</b>
+<b class="nc"><i>203</i>&nbsp;        Revista revista = new Revista();</b>
+<b class="nc"><i>204</i>&nbsp;        TipoObra tipoObra = tipoObraListBox.getSelectedItem().getValue();</b>
+<b class="nc"><i>205</i>&nbsp;        user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();</b>
+<i>206</i>&nbsp;
+<b class="nc"><i>207</i>&nbsp;        obra.setCota(cota.getValue());</b>
+<b class="nc"><i>208</i>&nbsp;        obra.setRegistro(registo.getValue());</b>
+<b class="nc"><i>209</i>&nbsp;        obra.setTipoobra(tipoObra);</b>
+<b class="nc"><i>210</i>&nbsp;        obra.setTitulo(titulo.getValue());</b>
+<b class="nc"><i>211</i>&nbsp;        obra.setAreacientifica(areaCientificaListBox.getSelectedItem().getValue());</b>
+<b class="nc"><i>212</i>&nbsp;        obra.setAnoPublicacao(anoPublicacao.getValue());</b>
+<b class="nc"><i>213</i>&nbsp;        obra.setLocalpublicacao(localPublicacao.getValue());</b>
+<b class="nc"><i>214</i>&nbsp;        obra.setQuantidade(quatddObra.getValue());</b>
+<b class="nc"><i>215</i>&nbsp;        obra.setPathcapa(relativePathCover);</b>
+<b class="nc"><i>216</i>&nbsp;        obra.setPathpdf(relativePathPDF);</b>
+<b class="nc"><i>217</i>&nbsp;        obra.setIdioma(idiomaListBox.getSelectedItem().getValue());</b>
+<i>218</i>&nbsp;
+<b class="nc"><i>219</i>&nbsp;        RegistroObraPK registroObraPK = new RegistroObraPK();</b>
+<i>220</i>&nbsp;
+<b class="nc"><i>221</i>&nbsp;        registroObraPK.setObra(obra);</b>
+<b class="nc"><i>222</i>&nbsp;        registroObraPK.setDataRegisto(Calendar.getInstance());</b>
+<i>223</i>&nbsp;
+<b class="nc"><i>224</i>&nbsp;        registroObra.setRegistroObraPK(registroObraPK);</b>
+<b class="nc"><i>225</i>&nbsp;        registroObra.setFormaAquisicao(formaaquisicaoBox.getSelectedItem().getValue());</b>
+<b class="nc"><i>226</i>&nbsp;        registroObra.setObra(obra);</b>
+<b class="nc"><i>227</i>&nbsp;        registroObra.setUser(user);</b>
+<b class="nc"><i>228</i>&nbsp;        registroObra.setQuantidade(quatddObra.getValue());</b>
+<b class="nc"><i>229</i>&nbsp;        registroObra.setObservacao(observacao.getValue());</b>
+<i>230</i>&nbsp;
+<b class="nc"><i>231</i>&nbsp;        if (tipoObra.getDescricao().toLowerCase().equals(&quot;livro&quot;)) {</b>
+<i>232</i>&nbsp;
+<b class="nc"><i>233</i>&nbsp;            livro.setCota(obra.getCota());</b>
+<b class="nc"><i>234</i>&nbsp;            livro.setIsbn(isbn.getValue());</b>
+<b class="nc"><i>235</i>&nbsp;            livro.setCodigobarra(codigobarra.getValue());</b>
+<b class="nc"><i>236</i>&nbsp;            livro.setEdicao(edicao.getValue());</b>
+<b class="nc"><i>237</i>&nbsp;            livro.setEditora(editora.getValue());</b>
+<b class="nc"><i>238</i>&nbsp;            livro.setVolume(volume.getValue());</b>
+<b class="nc"><i>239</i>&nbsp;            livro.setObra(obra);</b>
+<b class="nc"><i>240</i>&nbsp;            obra.setLivro(livro);</b>
+<i>241</i>&nbsp;
+<b class="nc"><i>242</i>&nbsp;        } else if (tipoObra.getDescricao().toLowerCase().equals(&quot;cd&quot;)) {</b>
+<b class="nc"><i>243</i>&nbsp;            cd.setIdcd(obra.getCota());</b>
+<b class="nc"><i>244</i>&nbsp;            cd.setDescricao(titulo.getValue());</b>
+<b class="nc"><i>245</i>&nbsp;            cd.setObra(obra);</b>
+<b class="nc"><i>246</i>&nbsp;            obra.setCd(cd);</b>
+<b class="nc"><i>247</i>&nbsp;        } else if (tipoObra.getDescricao().toLowerCase().equals(&quot;revista&quot;)) {</b>
+<i>248</i>&nbsp;
+<b class="nc"><i>249</i>&nbsp;            revista.setCota(obra.getCota());</b>
+<b class="nc"><i>250</i>&nbsp;            revista.setInstituicao(editora.getValue());</b>
+<b class="nc"><i>251</i>&nbsp;            revista.setObra(obra);</b>
+<b class="nc"><i>252</i>&nbsp;            obra.setRevista(revista);</b>
+<i>253</i>&nbsp;        }
+<i>254</i>&nbsp;
+<b class="nc"><i>255</i>&nbsp;        if(escolha.getValue().equals(&quot;Sim&quot;)){</b>
+<b class="nc"><i>256</i>&nbsp;               cd.setIdcd(obra.getCota());</b>
+<b class="nc"><i>257</i>&nbsp;               cd.setDescricao(titulo.getValue());</b>
+<b class="nc"><i>258</i>&nbsp;               cd.setObra(obra);</b>
+<b class="nc"><i>259</i>&nbsp;               obra.setCd(cd);</b>
+<i>260</i>&nbsp;        }
+<i>261</i>&nbsp;
+<i>262</i>&nbsp;        try
+<i>263</i>&nbsp;        {
+<b class="nc"><i>264</i>&nbsp;            for(Autor autor: authorListModel) // esta linha devera sair</b>
+<b class="nc"><i>265</i>&nbsp;                autores.add(autor);</b>
+<i>266</i>&nbsp;
+<b class="nc"><i>267</i>&nbsp;            Set&lt;RegistroObra&gt; registroObras = new HashSet&lt;&gt;();</b>
+<b class="nc"><i>268</i>&nbsp;            registroObras.add(registroObra);</b>
+<i>269</i>&nbsp;
+<b class="nc"><i>270</i>&nbsp;            obra.setAutores(autores);</b>
+<b class="nc"><i>271</i>&nbsp;            obra.setRegistroObras(registroObras);</b>
+<i>272</i>&nbsp;
+<b class="nc"><i>273</i>&nbsp;            crudService.Save(obra);</b>
+<i>274</i>&nbsp;
+<b class="nc"><i>275</i>&nbsp;            if(fullPathPDF != null)</b>
+<b class="nc"><i>276</i>&nbsp;                Files.copy(new File(fullPathPDF), mediaPDF.getStreamData());</b>
+<i>277</i>&nbsp;
+<b class="nc"><i>278</i>&nbsp;            if(fullPathCover != null)</b>
+<b class="nc"><i>279</i>&nbsp;                Files.copy(new File(fullPathCover), mediaCover.getStreamData());</b>
+<i>280</i>&nbsp;
+<i>281</i>&nbsp;
+<b class="nc"><i>282</i>&nbsp;            Clients.showNotification(&quot;Os dados foram guardados com sucesso!&quot;,null,null,null,5000);</b>
+<i>283</i>&nbsp;        }
+<b class="nc"><i>284</i>&nbsp;        catch (Exception e)</b>
+<i>285</i>&nbsp;        {
+<b class="nc"><i>286</i>&nbsp;            if(e instanceof DataIntegrityViolationException)</b>
+<i>287</i>&nbsp;            {
+<b class="nc"><i>288</i>&nbsp;                DataIntegrityViolationException dive = (DataIntegrityViolationException) e;</b>
+<i>289</i>&nbsp;
+<b class="nc"><i>290</i>&nbsp;                if(dive.getMostSpecificCause().toString().contains(&quot;duplicate key value&quot;))</b>
+<i>291</i>&nbsp;                {
+<b class="nc"><i>292</i>&nbsp;                    Clients.showNotification(&quot;Ops: Parece que ja existe uma ObraConcurrenceControl com numero de cota &#39;&quot;+cota.getValue()+&quot;&#39;&quot;,null,null,null,5000);</b>
+<i>293</i>&nbsp;                }
+<i>294</i>&nbsp;            }
+<b class="nc"><i>295</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>296</i>&nbsp;        }</b>
+<b class="nc"><i>297</i>&nbsp;    }</b>
+<i>298</i>&nbsp;
+<i>299</i>&nbsp;    @Listen(&quot;onUpLoadPDF = #upLoadPDF&quot;)
+<i>300</i>&nbsp;    public void loadPDF(ForwardEvent event)
+<i>301</i>&nbsp;    {
+<b class="nc"><i>302</i>&nbsp;        UploadEvent uploadEvent = (UploadEvent) event.getOrigin();</b>
+<b class="nc"><i>303</i>&nbsp;        mediaPDF = uploadEvent.getMedia();</b>
+<i>304</i>&nbsp;
+<b class="nc"><i>305</i>&nbsp;        if (!mediaPDF.getFormat().equals(&quot;pdf&quot;))</b>
+<i>306</i>&nbsp;        {
+<b class="nc"><i>307</i>&nbsp;            Clients.showNotification(&quot;Ficheiro Invalido, carrega um ficheiro pdf&quot;,null,null,null,5000);</b>
+<i>308</i>&nbsp;        }
+<i>309</i>&nbsp;        else
+<i>310</i>&nbsp;        {
+<b class="nc"><i>311</i>&nbsp;            relativePathPDF = &quot;digitalLibrary/pdf/&quot;.concat(mediaPDF.getName());</b>
+<b class="nc"><i>312</i>&nbsp;            fullPathPDF = Executions.getCurrent().getDesktop().getWebApp().getRealPath(relativePathPDF);</b>
+<b class="nc"><i>313</i>&nbsp;            addedPDF.setValue(mediaPDF.getName());</b>
+<i>314</i>&nbsp;
+<b class="nc"><i>315</i>&nbsp;            this.upLoadPDF.setLabel(&quot;Eliminar PDF adicionado&quot;);</b>
+<b class="nc"><i>316</i>&nbsp;            this.upLoadPDF.setUpload(&quot;false&quot;);</b>
+<b class="nc"><i>317</i>&nbsp;            this.upLoadPDF.setSclass(&quot;w3-btn ww3-light-grey&quot;);</b>
+<i>318</i>&nbsp;        }
+<b class="nc"><i>319</i>&nbsp;    }</b>
+<i>320</i>&nbsp;
+<i>321</i>&nbsp;    @Listen(&quot;onDeleteUpLoadedPDF = #upLoadPDF&quot;)
+<i>322</i>&nbsp;    public void deletUpLoadPDF(ForwardEvent event)
+<i>323</i>&nbsp;    {
+<b class="nc"><i>324</i>&nbsp;        if(relativePathPDF != null || fullPathPDF != null)</b>
+<i>325</i>&nbsp;        {
+<b class="nc"><i>326</i>&nbsp;            relativePathPDF = null;</b>
+<b class="nc"><i>327</i>&nbsp;            fullPathPDF = null;</b>
+<b class="nc"><i>328</i>&nbsp;            mediaPDF = null;</b>
+<i>329</i>&nbsp;
+<b class="nc"><i>330</i>&nbsp;            addedPDF.setValue(null);</b>
+<b class="nc"><i>331</i>&nbsp;            this.upLoadPDF.setUpload(&quot;true&quot;);</b>
+<b class="nc"><i>332</i>&nbsp;            this.upLoadPDF.setLabel(&quot;Adicionar PDF&quot;);</b>
+<b class="nc"><i>333</i>&nbsp;            this.upLoadPDF.setSclass(&quot;w3-btn ww3-light-grey&quot;);</b>
+<b class="nc"><i>334</i>&nbsp;            this.upLoadPDF.setMold(&quot;os&quot;);</b>
+<i>335</i>&nbsp;
+<i>336</i>&nbsp;        }
+<b class="nc"><i>337</i>&nbsp;    }</b>
+<i>338</i>&nbsp;
+<i>339</i>&nbsp;    @Listen(&quot;onUpLoadCAPA = #upLoadCAPA&quot;)
+<i>340</i>&nbsp;    public void loadCAPA(ForwardEvent event)
+<i>341</i>&nbsp;    {
+<b class="nc"><i>342</i>&nbsp;        UploadEvent uploadEvent = (UploadEvent) event.getOrigin();</b>
+<b class="nc"><i>343</i>&nbsp;        mediaCover = uploadEvent.getMedia();</b>
+<i>344</i>&nbsp;
+<b class="nc"><i>345</i>&nbsp;        if (!mediaCover.getContentType().contains(&quot;image&quot;))</b>
+<i>346</i>&nbsp;        {
+<b class="nc"><i>347</i>&nbsp;            Clients.showNotification(&quot;Ficheiro Invalido, carrega uma imagem&quot;,null,null,null,5000);</b>
+<i>348</i>&nbsp;        }
+<i>349</i>&nbsp;        else
+<i>350</i>&nbsp;        {
+<b class="nc"><i>351</i>&nbsp;            relativePathCover = &quot;digitalLibrary/cover/&quot;.concat(mediaCover.getName());</b>
+<b class="nc"><i>352</i>&nbsp;            fullPathCover = Executions.getCurrent().getDesktop().getWebApp().getRealPath(relativePathCover);</b>
+<i>353</i>&nbsp;
+<b class="nc"><i>354</i>&nbsp;            this.capa.setContent((org.zkoss.image.Image) mediaCover);</b>
+<b class="nc"><i>355</i>&nbsp;            this.upLoadCAPA.setLabel(&quot;Eliminar CAPA adicionada&quot;);</b>
+<b class="nc"><i>356</i>&nbsp;            this.upLoadCAPA.setUpload(&quot;false&quot;);</b>
+<b class="nc"><i>357</i>&nbsp;            this.upLoadCAPA.setSclass(&quot;w3-btn ww3-light-grey&quot;);</b>
+<i>358</i>&nbsp;        }
+<b class="nc"><i>359</i>&nbsp;    }</b>
+<i>360</i>&nbsp;
+<i>361</i>&nbsp;    @Listen(&quot;onDeleteUpLoadedCAPA = #upLoadCAPA&quot;)
+<i>362</i>&nbsp;    public void deletUpLoadCAPA(ForwardEvent event) throws IOException {
+<b class="nc"><i>363</i>&nbsp;        if(relativePathCover != null || fullPathCover != null)</b>
+<i>364</i>&nbsp;        {
+<i>365</i>&nbsp;
+<i>366</i>&nbsp;            //Clients.showNotification(Executions.getCurrent().getDesktop().getWebApp().getRealPath(&quot;digitalLibrary/cover/default.jpg&quot;));
+<b class="nc"><i>367</i>&nbsp;            String fullPathDefaultCover = Executions.getCurrent().getDesktop().getWebApp().getRealPath(&quot;img/capa.jpg&quot;);</b>
+<i>368</i>&nbsp;
+<b class="nc"><i>369</i>&nbsp;            Media mediaDefaultCover = new AImage(fullPathDefaultCover);</b>
+<i>370</i>&nbsp;
+<b class="nc"><i>371</i>&nbsp;            relativePathCover = null;</b>
+<b class="nc"><i>372</i>&nbsp;            fullPathCover = null;</b>
+<b class="nc"><i>373</i>&nbsp;            mediaCover = null;</b>
+<i>374</i>&nbsp;
+<b class="nc"><i>375</i>&nbsp;            this.capa.setContent((org.zkoss.image.Image) mediaDefaultCover);</b>
+<i>376</i>&nbsp;
+<b class="nc"><i>377</i>&nbsp;            this.upLoadCAPA.setUpload(&quot;true&quot;);</b>
+<b class="nc"><i>378</i>&nbsp;            this.upLoadCAPA.setLabel(&quot;Adicionar CAPA&quot;);</b>
+<b class="nc"><i>379</i>&nbsp;            this.upLoadCAPA.setSclass(&quot;w3-btn ww3-light-grey&quot;);</b>
+<b class="nc"><i>380</i>&nbsp;            this.upLoadCAPA.setMold(&quot;os&quot;);</b>
+<i>381</i>&nbsp;
+<i>382</i>&nbsp;        }
+<b class="nc"><i>383</i>&nbsp;    }</b>
+<i>384</i>&nbsp;
+<i>385</i>&nbsp;    @Listen(&quot;onClick = #addAuthor&quot;)
+<i>386</i>&nbsp;    public void addNewAuthor() throws NoSuchAlgorithmException {
+<i>387</i>&nbsp;
+<b class="nc"><i>388</i>&nbsp;        if (Strings.isBlank(autor.getValue()))</b>
+<i>389</i>&nbsp;        {
+<b class="nc"><i>390</i>&nbsp;            Clients.showNotification(&quot;Informe O Nome e o Apelido do Autor&quot;,null,null,null,5000);</b>
+<i>391</i>&nbsp;        }
+<i>392</i>&nbsp;        else
+<i>393</i>&nbsp;        {
+<b class="nc"><i>394</i>&nbsp;            Autor outroAutor = new Autor();</b>
+<b class="nc"><i>395</i>&nbsp;            String nomeC = autor.getValue().trim();</b>
+<i>396</i>&nbsp;
+<b class="nc"><i>397</i>&nbsp;            outroAutor.setHashcode(DigestUtils.md5Hex(nomeC.toLowerCase()));</b>
+<b class="nc"><i>398</i>&nbsp;            outroAutor.setNome(nomeC);</b>
+<i>399</i>&nbsp;
+<b class="nc"><i>400</i>&nbsp;            authorListModel.add(outroAutor);</b>
+<b class="nc"><i>401</i>&nbsp;            authorListModel.addToSelection(outroAutor);</b>
+<b class="nc"><i>402</i>&nbsp;            autor.setValue(null);</b>
+<i>403</i>&nbsp;        }
+<b class="nc"><i>404</i>&nbsp;    }</b>
+<i>405</i>&nbsp;
+<i>406</i>&nbsp;    @Listen(&quot;onAuthorDelete = #authorListBox&quot;)
+<i>407</i>&nbsp;    public void doAuthorDelete(ForwardEvent evt)
+<i>408</i>&nbsp;    {
+<b class="nc"><i>409</i>&nbsp;        Button btn = (Button)evt.getOrigin().getTarget();</b>
+<b class="nc"><i>410</i>&nbsp;        Listitem litem = (Listitem)btn.getParent().getParent();</b>
+<b class="nc"><i>411</i>&nbsp;        Autor autor = (Autor) litem.getValue();</b>
+<b class="nc"><i>412</i>&nbsp;        authorListModel.remove(autor);</b>
+<b class="nc"><i>413</i>&nbsp;    }</b>
+<i>414</i>&nbsp;
+<i>415</i>&nbsp;    @Listen(&quot;onAuthorEdite = #authorListBox&quot;)
+<i>416</i>&nbsp;    public void doAuthorEdit(ForwardEvent evt)
+<i>417</i>&nbsp;    {
+<b class="nc"><i>418</i>&nbsp;        Button btn = (Button)evt.getOrigin().getTarget();</b>
+<b class="nc"><i>419</i>&nbsp;        Listitem litem = (Listitem)btn.getParent().getParent();</b>
+<b class="nc"><i>420</i>&nbsp;        Autor autor = (Autor) litem.getValue();</b>
+<b class="nc"><i>421</i>&nbsp;        authorListModel.remove(autor);</b>
+<b class="nc"><i>422</i>&nbsp;        this.autor.setValue(autor.getNome());</b>
+<b class="nc"><i>423</i>&nbsp;    }</b>
+<i>424</i>&nbsp;
+<i>425</i>&nbsp;    private void check(Component component) {
+<b class="nc"><i>426</i>&nbsp;        checkIsValid(component);</b>
+<i>427</i>&nbsp;
+<b class="nc"><i>428</i>&nbsp;        if (component.isVisible() || component instanceof Tabpanel) {</b>
+<b class="nc"><i>429</i>&nbsp;            List&lt;Component&gt; children = component.getChildren();</b>
+<b class="nc"><i>430</i>&nbsp;            for (Component each : children) {</b>
+<b class="nc"><i>431</i>&nbsp;                check(each);</b>
+<b class="nc"><i>432</i>&nbsp;            }</b>
+<i>433</i>&nbsp;        }
+<b class="nc"><i>434</i>&nbsp;    }</b>
+<i>435</i>&nbsp;
+<i>436</i>&nbsp;    private void limpar(Component component) {
+<b class="nc"><i>437</i>&nbsp;        limparComp(component);</b>
+<i>438</i>&nbsp;
+<i>439</i>&nbsp;        //if (component.isVisible()) {
+<b class="nc"><i>440</i>&nbsp;        List&lt;Component&gt; children = component.getChildren();</b>
+<b class="nc"><i>441</i>&nbsp;        for (Component each : children) {</b>
+<b class="nc"><i>442</i>&nbsp;            limpar(each);</b>
+<b class="nc"><i>443</i>&nbsp;        }</b>
+<i>444</i>&nbsp;        // }
+<b class="nc"><i>445</i>&nbsp;    }</b>
+<i>446</i>&nbsp;
+<i>447</i>&nbsp;    public void limparComp(Component component) {
+<b class="nc"><i>448</i>&nbsp;        Constraint co = null;</b>
+<b class="nc"><i>449</i>&nbsp;        if (component instanceof InputElement) {</b>
+<b class="nc"><i>450</i>&nbsp;            Constraint c = ((InputElement) component).getConstraint();</b>
+<b class="nc"><i>451</i>&nbsp;            if (!(component instanceof Combobox)) {</b>
+<b class="nc"><i>452</i>&nbsp;                if (c != null) {</b>
+<b class="nc"><i>453</i>&nbsp;                    SimpleConstraint sc = (SimpleConstraint) c;</b>
+<b class="nc"><i>454</i>&nbsp;                    String s = sc.getClientConstraint();</b>
+<b class="nc"><i>455</i>&nbsp;                    ((InputElement) component).setConstraint(co);</b>
+<b class="nc"><i>456</i>&nbsp;                    ((InputElement) component).setText(&quot;&quot;);</b>
+<b class="nc"><i>457</i>&nbsp;                    ((InputElement) component).setConstraint(c);</b>
+<b class="nc"><i>458</i>&nbsp;                } else {</b>
+<b class="nc"><i>459</i>&nbsp;                    ((InputElement) component).setText(&quot;&quot;);</b>
+<i>460</i>&nbsp;                }
+<i>461</i>&nbsp;            }
+<i>462</i>&nbsp;        }
+<b class="nc"><i>463</i>&nbsp;    }</b>
+<i>464</i>&nbsp;    private void checkIsValid(Component component) {
+<b class="nc"><i>465</i>&nbsp;        if (component instanceof InputElement) {</b>
+<b class="nc"><i>466</i>&nbsp;            if ((!((InputElement) component).isValid())) {</b>
+<b class="nc"><i>467</i>&nbsp;                Clients.scrollIntoView(component);</b>
+<b class="nc"><i>468</i>&nbsp;                ((InputElement) component).getText();</b>
+<i>469</i>&nbsp;            }
+<b class="nc"><i>470</i>&nbsp;            if (((component instanceof Combobox) &amp;&amp; ((Combobox) component).getSelectedItem() == null)) {</b>
+<b class="nc"><i>471</i>&nbsp;                Clients.scrollIntoView(component);</b>
+<b class="nc"><i>472</i>&nbsp;                ((Combobox) component).setText(&quot;&quot;);</b>
+<b class="nc"><i>473</i>&nbsp;                ((Combobox) component).getValue();</b>
+<i>474</i>&nbsp;            }
+<i>475</i>&nbsp;        }
+<b class="nc"><i>476</i>&nbsp;    }</b>
+<i>477</i>&nbsp;
+<i>478</i>&nbsp;    private void setAttributeSession(Session session)
+<i>479</i>&nbsp;    {
+<b class="nc"><i>480</i>&nbsp;        if (session.getAttribute(&quot;addObraCota&quot;) == null)</b>
+<b class="nc"><i>481</i>&nbsp;            session.setAttribute(&quot;addObraCota&quot;, cota);</b>
+<i>482</i>&nbsp;        else
+<b class="nc"><i>483</i>&nbsp;            cota.setValue(((Textbox) session.getAttribute(&quot;addObraCota&quot;)).getValue());</b>
+<i>484</i>&nbsp;
+<b class="nc"><i>485</i>&nbsp;        if (session.getAttribute(&quot;addObraTitulo&quot;) == null)</b>
+<b class="nc"><i>486</i>&nbsp;            session.setAttribute(&quot;addObraTitulo&quot;, titulo);</b>
+<i>487</i>&nbsp;        else
+<b class="nc"><i>488</i>&nbsp;            titulo.setValue(((Textbox) session.getAttribute(&quot;addObraTitulo&quot;)).getValue());</b>
+<b class="nc"><i>489</i>&nbsp;    }</b>
+<i>490</i>&nbsp;
+<i>491</i>&nbsp;    private void removeAttributeSession(Session session)
+<i>492</i>&nbsp;    {
+<b class="nc"><i>493</i>&nbsp;        if (session.getAttribute (&quot;addObraCota&quot;) != null)</b>
+<b class="nc"><i>494</i>&nbsp;            session.removeAttribute(&quot;addObraCota&quot;);</b>
+<i>495</i>&nbsp;
+<b class="nc"><i>496</i>&nbsp;        if (session.getAttribute(&quot;addObraTitulo&quot;) != null)</b>
+<b class="nc"><i>497</i>&nbsp;            session.removeAttribute(&quot;addObraTitulo&quot;);</b>
+<b class="nc"><i>498</i>&nbsp;    }</b>
+<i>499</i>&nbsp;
+<i>500</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-07-08 13:41</div>
+</div>
+</body>
+</html>

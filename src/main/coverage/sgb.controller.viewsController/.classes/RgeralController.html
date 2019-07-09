@@ -1,0 +1,303 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: RgeralController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">sgb.controller.viewsController</a> ]
+</div>
+
+<h1>Coverage Summary for Class: RgeralController (sgb.controller.viewsController)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RgeralController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 69)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package sgb.controller.viewsController;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import net.sf.jasperreports.engine.JRException;
+<i>4</i>&nbsp;import org.springframework.security.core.context.SecurityContextHolder;
+<i>5</i>&nbsp;import org.springframework.security.core.userdetails.UserDetails;
+<i>6</i>&nbsp;import org.zkoss.exporter.pdf.PdfExporter;
+<i>7</i>&nbsp;import org.zkoss.zk.ui.Component;
+<i>8</i>&nbsp;import org.zkoss.zk.ui.Executions;
+<i>9</i>&nbsp;import org.zkoss.zk.ui.event.ForwardEvent;
+<i>10</i>&nbsp;import org.zkoss.zk.ui.select.SelectorComposer;
+<i>11</i>&nbsp;import org.zkoss.zk.ui.select.annotation.Listen;
+<i>12</i>&nbsp;import org.zkoss.zk.ui.select.annotation.Wire;
+<i>13</i>&nbsp;import org.zkoss.zkplus.spring.SpringUtil;
+<i>14</i>&nbsp;import org.zkoss.zul.*;
+<i>15</i>&nbsp;import sgb.controller.domainController.AreaCientificaController;
+<i>16</i>&nbsp;import sgb.controller.domainController.ObraController;
+<i>17</i>&nbsp;import sgb.controller.domainController.ObraEliminadasController;
+<i>18</i>&nbsp;import sgb.controller.domainController.RegistroObraController;
+<i>19</i>&nbsp;import sgb.domain.*;
+<i>20</i>&nbsp;import sgb.report.GerarRelatorio;
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;import java.io.ByteArrayOutputStream;
+<i>23</i>&nbsp;import java.io.IOException;
+<i>24</i>&nbsp;import java.text.ParseException;
+<i>25</i>&nbsp;import java.util.Calendar;
+<i>26</i>&nbsp;import java.util.List;
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;//import org.zkoss.zk.chart.Charts;
+<i>29</i>&nbsp;//import org.zkoss.chart.model.CategoryModel;
+<i>30</i>&nbsp;//import org.zkoss.chart.model.DefaultCategoryModel;
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;
+<b class="nc"><i>33</i>&nbsp;public class RgeralController extends SelectorComposer&lt;Component&gt; {</b>
+<b class="nc"><i>34</i>&nbsp;    private GerarRelatorio gerarRelatorio = (GerarRelatorio) SpringUtil.getBean(&quot;gerarRelatorio&quot;);;</b>
+<b class="nc"><i>35</i>&nbsp;    private ObraController obraController  = (ObraController) SpringUtil.getBean(&quot;obraController&quot;);;</b>
+<b class="nc"><i>36</i>&nbsp;    private RegistroObraController registroObraController  = (RegistroObraController) SpringUtil.getBean(&quot;registroObraController&quot;);;</b>
+<b class="nc"><i>37</i>&nbsp;    private ObraEliminadasController obraEliminadasController  = (ObraEliminadasController) SpringUtil.getBean(&quot;obraEliminadasController&quot;);;</b>
+<b class="nc"><i>38</i>&nbsp;    private AreaCientificaController areaCientificaController  = (AreaCientificaController) SpringUtil.getBean(&quot;areaCientificaController&quot;);;</b>
+<i>39</i>&nbsp;
+<b class="nc"><i>40</i>&nbsp;    private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;</b>
+<b class="nc"><i>41</i>&nbsp;    private Boolean isNormalUser = true;</b>
+<b class="nc"><i>42</i>&nbsp;    private int selected = 0;</b>
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;    @Wire
+<i>45</i>&nbsp;    private Listbox obraeliminadas;
+<i>46</i>&nbsp;    @Wire
+<i>47</i>&nbsp;    private Listbox obrasregistadas;
+<i>48</i>&nbsp;    @Wire
+<i>49</i>&nbsp;    private Listbox ObraDetalhe;
+<i>50</i>&nbsp;
+<i>51</i>&nbsp;    @Wire
+<i>52</i>&nbsp;    private Grid detalhesObra;
+<i>53</i>&nbsp;
+<i>54</i>&nbsp;    private Label qtdd;
+<b class="nc"><i>55</i>&nbsp;    Calendar dataI = Calendar.getInstance();</b>
+<b class="nc"><i>56</i>&nbsp;    Calendar dataF = Calendar.getInstance();</b>
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;    @Wire
+<i>59</i>&nbsp;    private Listbox areaCientificaListBox;
+<i>60</i>&nbsp;
+<i>61</i>&nbsp;    @Wire
+<i>62</i>&nbsp;    private Button save;
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;    @Wire
+<i>65</i>&nbsp;    private Datebox dataInicio;
+<i>66</i>&nbsp;
+<i>67</i>&nbsp;    @Wire
+<i>68</i>&nbsp;    private Datebox dataFim;
+<i>69</i>&nbsp;
+<i>70</i>&nbsp;    @Wire
+<i>71</i>&nbsp;    private Grid detalhesCategoria;
+<i>72</i>&nbsp;
+<i>73</i>&nbsp;    @Wire
+<i>74</i>&nbsp;    private Label titulodetalhesCategoria;
+<i>75</i>&nbsp;
+<i>76</i>&nbsp;    @Wire
+<i>77</i>&nbsp;    private Grid RelatorioResumo;
+<i>78</i>&nbsp;
+<i>79</i>&nbsp;    @Wire
+<i>80</i>&nbsp;    private Listbox obracategoriaDetalhes;
+<i>81</i>&nbsp;
+<i>82</i>&nbsp;    @Wire
+<i>83</i>&nbsp;    private Include idInclRelatorioObrasRegistadas;
+<i>84</i>&nbsp;
+<i>85</i>&nbsp;    @Wire
+<i>86</i>&nbsp;    private Include idInclRelatorioObrasQuantidade;
+<i>87</i>&nbsp;
+<i>88</i>&nbsp;    @Wire
+<i>89</i>&nbsp;    private Include idInclObrasEliminadas;
+<i>90</i>&nbsp;
+<i>91</i>&nbsp;    @Wire
+<i>92</i>&nbsp;    private Listbox obracategoria;
+<i>93</i>&nbsp;
+<i>94</i>&nbsp;    private ListModelList&lt;RegistroObra&gt; obrasregistadasListModel;
+<i>95</i>&nbsp;    private ListModelList&lt;ObraEliminadas&gt; obraEliminadasListModel;
+<i>96</i>&nbsp;    private ListModelList&lt;ObraCategoria&gt; obraCategoriaListModel;
+<i>97</i>&nbsp;    private ListModelList&lt;AreaCientifica&gt; areaCientificaListModel;
+<i>98</i>&nbsp;    private ListModelList&lt;Obra&gt; obraListModelList;
+<b class="nc"><i>99</i>&nbsp;    private ListModelList&lt;Obra&gt; listObra = new ListModelList&lt;Obra&gt;();</b>
+<i>100</i>&nbsp;
+<i>101</i>&nbsp;
+<i>102</i>&nbsp;
+<i>103</i>&nbsp;    @Override
+<i>104</i>&nbsp;    public void doAfterCompose(Component comp) throws Exception
+<i>105</i>&nbsp;    {
+<b class="nc"><i>106</i>&nbsp;        super.doAfterCompose(comp);</b>
+<i>107</i>&nbsp;
+<i>108</i>&nbsp;
+<b class="nc"><i>109</i>&nbsp;        AreaCientifica a = new AreaCientifica();</b>
+<b class="nc"><i>110</i>&nbsp;        a.setDescricao(&quot;Todas Areas&quot;); a.setIdarea(0);</b>
+<b class="nc"><i>111</i>&nbsp;        areaCientificaListModel = new ListModelList&lt;AreaCientifica&gt;(areaCientificaController.getAreaCientifica());</b>
+<b class="nc"><i>112</i>&nbsp;        areaCientificaListModel.add(0,a);</b>
+<b class="nc"><i>113</i>&nbsp;        areaCientificaListModel.addToSelection(a);</b>
+<b class="nc"><i>114</i>&nbsp;        areaCientificaListBox.setModel(areaCientificaListModel);</b>
+<i>115</i>&nbsp;
+<b class="nc"><i>116</i>&nbsp;        obraCategoriaListModel = new ListModelList&lt;ObraCategoria&gt;(obraController.getObrasCategorias(null));</b>
+<b class="nc"><i>117</i>&nbsp;        obracategoria.setModel(obraCategoriaListModel);</b>
+<b class="nc"><i>118</i>&nbsp;    }</b>
+<i>119</i>&nbsp;
+<i>120</i>&nbsp;
+<i>121</i>&nbsp;
+<i>122</i>&nbsp;    public int getQtddTotalObra(ListModelList&lt;ObraCategoria&gt; obraCategoriaListModel){
+<b class="nc"><i>123</i>&nbsp;        int total=0;</b>
+<i>124</i>&nbsp;
+<b class="nc"><i>125</i>&nbsp;        for (ObraCategoria obraCategoria : obraCategoriaListModel) {</b>
+<b class="nc"><i>126</i>&nbsp;            for(Obra o: obraCategoria.getObras())</b>
+<b class="nc"><i>127</i>&nbsp;                total +=o.getQuantidade();</b>
+<b class="nc"><i>128</i>&nbsp;        }</b>
+<b class="nc"><i>129</i>&nbsp;        return total;</b>
+<i>130</i>&nbsp;    }
+<i>131</i>&nbsp;
+<i>132</i>&nbsp;    public void getUpdateDate(){
+<i>133</i>&nbsp;
+<i>134</i>&nbsp;        try {
+<b class="nc"><i>135</i>&nbsp;            dataI.setTime(dataInicio.getValue());</b>
+<b class="nc"><i>136</i>&nbsp;            dataF.setTime(dataFim.getValue());</b>
+<b class="nc"><i>137</i>&nbsp;        }catch (Exception e){</b>
+<i>138</i>&nbsp;
+<b class="nc"><i>139</i>&nbsp;        };</b>
+<i>140</i>&nbsp;
+<b class="nc"><i>141</i>&nbsp;    }</b>
+<i>142</i>&nbsp;
+<i>143</i>&nbsp;
+<i>144</i>&nbsp;    @Listen(&quot;onClick = #save&quot;)
+<i>145</i>&nbsp;    public void exportar() throws Exception, JRException, IOException
+<i>146</i>&nbsp;    {
+<b class="nc"><i>147</i>&nbsp;        ByteArrayOutputStream out = new ByteArrayOutputStream();</b>
+<b class="nc"><i>148</i>&nbsp;        PdfExporter exporter = new PdfExporter();</b>
+<b class="nc"><i>149</i>&nbsp;        exporter.export(this.obracategoria, out);</b>
+<i>150</i>&nbsp;
+<b class="nc"><i>151</i>&nbsp;        Filedownload.save(out.toByteArray(), &quot;pdf&quot;, &quot;report.pdf&quot;);</b>
+<i>152</i>&nbsp;
+<i>153</i>&nbsp;//        Filedownload.save(JasperExportManager.exportReportToPdf(gerarRelatorio.createPdf(obraCategoriaListModel,
+<i>154</i>&nbsp;//                obrasregistadasListModel, obraEliminadasListModel, selected, qtdd.getValue())), &quot;pdf&quot;, &quot;report.pdf&quot;);
+<i>155</i>&nbsp;
+<b class="nc"><i>156</i>&nbsp;        out.close();</b>
+<b class="nc"><i>157</i>&nbsp;    }</b>
+<i>158</i>&nbsp;
+<i>159</i>&nbsp;    public int getQtd (List&lt;Obra&gt; obras) {
+<b class="nc"><i>160</i>&nbsp;        int qtd = 0;</b>
+<b class="nc"><i>161</i>&nbsp;        return obras.size();</b>
+<i>162</i>&nbsp;    }
+<i>163</i>&nbsp;
+<i>164</i>&nbsp;    @Listen(&quot;onDetalhes = #obracategoria&quot;)
+<i>165</i>&nbsp;    public void doDelahes(ForwardEvent event)
+<i>166</i>&nbsp;    {
+<i>167</i>&nbsp;
+<b class="nc"><i>168</i>&nbsp;        AreaCientifica areaCientifica = (AreaCientifica) event.getData();</b>
+<i>169</i>&nbsp;
+<b class="nc"><i>170</i>&nbsp;        obraListModelList = new ListModelList&lt;Obra&gt;(obraController.getObras(areaCientifica));</b>
+<b class="nc"><i>171</i>&nbsp;        titulodetalhesCategoria.setValue(&quot;Area Cientifica &quot; + areaCientifica.getDescricao());</b>
+<i>172</i>&nbsp;
+<b class="nc"><i>173</i>&nbsp;        RelatorioResumo.setVisible(false);</b>
+<b class="nc"><i>174</i>&nbsp;        detalhesCategoria.setVisible(true);</b>
+<b class="nc"><i>175</i>&nbsp;        obracategoriaDetalhes.setModel(obraListModelList);</b>
+<b class="nc"><i>176</i>&nbsp;    }</b>
+<i>177</i>&nbsp;
+<i>178</i>&nbsp;    @Listen(&quot;onDetalhes = #obracategoriaDetalhes&quot;)
+<i>179</i>&nbsp;    public void doDelahesC(ForwardEvent event)
+<i>180</i>&nbsp;    {
+<i>181</i>&nbsp;
+<b class="nc"><i>182</i>&nbsp;        Obra obra = (Obra) event.getData();</b>
+<b class="nc"><i>183</i>&nbsp;        RelatorioResumo.setVisible(false);</b>
+<b class="nc"><i>184</i>&nbsp;        detalhesCategoria.setVisible(false);</b>
+<b class="nc"><i>185</i>&nbsp;        detalhesObra.setVisible(true);</b>
+<i>186</i>&nbsp;
+<b class="nc"><i>187</i>&nbsp;        listObra.add(obra);</b>
+<b class="nc"><i>188</i>&nbsp;        ObraDetalhe.setModel(listObra);</b>
+<i>189</i>&nbsp;
+<b class="nc"><i>190</i>&nbsp;        obrasregistadasListModel = new ListModelList&lt;RegistroObra&gt;( obra.getRegistroObras());</b>
+<b class="nc"><i>191</i>&nbsp;        obraEliminadasListModel = new ListModelList&lt;ObraEliminadas&gt;(obra.getObraEliminadas());</b>
+<i>192</i>&nbsp;
+<b class="nc"><i>193</i>&nbsp;        obrasregistadas.setModel(obrasregistadasListModel);</b>
+<b class="nc"><i>194</i>&nbsp;        obraeliminadas.setModel(obraEliminadasListModel);</b>
+<b class="nc"><i>195</i>&nbsp;    }</b>
+<i>196</i>&nbsp;
+<i>197</i>&nbsp;
+<i>198</i>&nbsp;    @Listen(&quot;onClick = #buttonVoltar&quot;)
+<i>199</i>&nbsp;    public void saveData() throws ParseException {
+<b class="nc"><i>200</i>&nbsp;        RelatorioResumo.setVisible(true);</b>
+<b class="nc"><i>201</i>&nbsp;        detalhesCategoria.setVisible(false);</b>
+<b class="nc"><i>202</i>&nbsp;    }</b>
+<i>203</i>&nbsp;
+<i>204</i>&nbsp;    @Listen(&quot;onClick = #buttonVoltarCatDetalhes&quot;)
+<i>205</i>&nbsp;    public void Return() throws ParseException {
+<b class="nc"><i>206</i>&nbsp;        RelatorioResumo.setVisible(false);</b>
+<b class="nc"><i>207</i>&nbsp;        detalhesCategoria.setVisible(true);</b>
+<b class="nc"><i>208</i>&nbsp;        detalhesObra.setVisible(false);</b>
+<i>209</i>&nbsp;
+<b class="nc"><i>210</i>&nbsp;        obraCategoriaListModel = new ListModelList&lt;ObraCategoria&gt;(obraController.getObrasCategorias(null));</b>
+<b class="nc"><i>211</i>&nbsp;        obracategoria.setModel(obraCategoriaListModel);</b>
+<i>212</i>&nbsp;
+<b class="nc"><i>213</i>&nbsp;        listObra.remove(0);</b>
+<i>214</i>&nbsp;
+<b class="nc"><i>215</i>&nbsp;    }</b>
+<i>216</i>&nbsp;
+<i>217</i>&nbsp;
+<i>218</i>&nbsp;
+<i>219</i>&nbsp;
+<i>220</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-07-08 13:41</div>
+</div>
+</body>
+</html>

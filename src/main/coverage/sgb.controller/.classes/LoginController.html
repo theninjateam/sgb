@@ -61,7 +61,7 @@
     0%
   </span>
   <span class="absValue">
-    (0/ 6)
+    (0/ 7)
   </span>
 </td>
 </tr>
@@ -78,43 +78,41 @@
 <i>4</i>&nbsp; */
 <i>5</i>&nbsp;package sgb.controller;
 <i>6</i>&nbsp;
-<i>7</i>&nbsp;import org.zkoss.zk.ui.Component;
-<i>8</i>&nbsp;import org.zkoss.zk.ui.Executions;
-<i>9</i>&nbsp;import org.zkoss.zk.ui.Session;
-<i>10</i>&nbsp;import org.zkoss.zk.ui.Sessions;
-<i>11</i>&nbsp;import org.zkoss.zk.ui.select.SelectorComposer;
-<i>12</i>&nbsp;import org.zkoss.zk.ui.select.annotation.Listen;
-<i>13</i>&nbsp;import org.zkoss.zkplus.spring.SpringUtil;
-<i>14</i>&nbsp;import sgb.service.CRUDService;
-<i>15</i>&nbsp;
-<i>16</i>&nbsp;;
-<i>17</i>&nbsp;
-<i>18</i>&nbsp;/**
-<i>19</i>&nbsp; *
-<i>20</i>&nbsp; * @author user
-<i>21</i>&nbsp; */
-<b class="nc"><i>22</i>&nbsp;public class LoginController extends SelectorComposer&lt;Component&gt; {</b>
+<i>7</i>&nbsp;import org.zkoss.zk.ui.*;
+<i>8</i>&nbsp;import org.zkoss.zk.ui.select.SelectorComposer;
+<i>9</i>&nbsp;import org.zkoss.zk.ui.select.annotation.Listen;
+<i>10</i>&nbsp;import org.zkoss.zkplus.spring.SpringUtil;
+<i>11</i>&nbsp;import sgb.service.CRUDService;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;;import javax.servlet.http.HttpSession;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;/**
+<i>16</i>&nbsp; *
+<i>17</i>&nbsp; * @author user
+<i>18</i>&nbsp; */
+<b class="nc"><i>19</i>&nbsp;public class LoginController extends SelectorComposer&lt;Component&gt; {</b>
+<i>20</i>&nbsp;
+<b class="nc"><i>21</i>&nbsp;    private final CRUDService csimp = (CRUDService) SpringUtil.getBean(&quot;CRUDService&quot;);</b>
+<i>22</i>&nbsp;
 <i>23</i>&nbsp;
-<b class="nc"><i>24</i>&nbsp;    private final CRUDService csimp = (CRUDService) SpringUtil.getBean(&quot;CRUDService&quot;);</b>
-<i>25</i>&nbsp;
-<i>26</i>&nbsp;
-<i>27</i>&nbsp;    @Listen(&quot;onClick=#logout&quot;)
-<i>28</i>&nbsp;    public void doLogout() {
-<b class="nc"><i>29</i>&nbsp;        Session sess = Sessions.getCurrent();</b>
-<b class="nc"><i>30</i>&nbsp;        sess.removeAttribute(&quot;userCredential&quot;);</b>
-<b class="nc"><i>31</i>&nbsp;        Sessions.getCurrent().invalidate();</b>
-<b class="nc"><i>32</i>&nbsp;        Executions.sendRedirect(&quot;/&quot;);</b>
-<i>33</i>&nbsp;    }
+<i>24</i>&nbsp;    @Listen(&quot;onClick=#logout&quot;)
+<i>25</i>&nbsp;    public void doLogout() {
+<b class="nc"><i>26</i>&nbsp;        Session sess = Sessions.getCurrent();</b>
+<b class="nc"><i>27</i>&nbsp;        sess.removeAttribute(&quot;userCredential&quot;);</b>
+<b class="nc"><i>28</i>&nbsp;        Sessions.getCurrent().invalidate();</b>
+<b class="nc"><i>29</i>&nbsp;        Executions.sendRedirect(&quot;/&quot;);</b>
+<b class="nc"><i>30</i>&nbsp;    }</b>
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;
 <i>34</i>&nbsp;
-<i>35</i>&nbsp;
-<i>36</i>&nbsp;
-<i>37</i>&nbsp;}
+<i>35</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2019-03-29 22:00</div>
+    <div style="float:right;">generated on 2019-07-08 13:41</div>
 </div>
 </body>
 </html>

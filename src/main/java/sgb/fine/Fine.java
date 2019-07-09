@@ -143,10 +143,10 @@ public class Fine
         }
     }
 
-    public double totalDinheiro(){
+    public double totalDinheiro(List<Multa> multaList){
         double totalAmount = 0.0;
 
-        for(Multa m:mController.getMultas()){
+        for(Multa m:multaList){
             totalAmount += getAmountToPay(m.getMultaPK());
         }
 

@@ -1,0 +1,226 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: RelatorioEmprestimos</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">sgb.controller.viewsController</a> ]
+</div>
+
+<h1>Coverage Summary for Class: RelatorioEmprestimos (sgb.controller.viewsController)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RelatorioEmprestimos</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 65)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package sgb.controller.viewsController;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import net.sf.jasperreports.engine.JRException;
+<i>4</i>&nbsp;import net.sf.jasperreports.engine.JRExporterParameter;
+<i>5</i>&nbsp;import net.sf.jasperreports.engine.JasperExportManager;
+<i>6</i>&nbsp;import net.sf.jasperreports.engine.export.JRXlsExporter;
+<i>7</i>&nbsp;import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
+<i>8</i>&nbsp;import org.springframework.security.core.context.SecurityContextHolder;
+<i>9</i>&nbsp;import org.springframework.security.core.userdetails.UserDetails;
+<i>10</i>&nbsp;import org.zkoss.util.media.AMedia;
+<i>11</i>&nbsp;import org.zkoss.util.media.Media;
+<i>12</i>&nbsp;import org.zkoss.zk.ui.Component;
+<i>13</i>&nbsp;import org.zkoss.zk.ui.Executions;
+<i>14</i>&nbsp;import org.zkoss.zk.ui.Page;
+<i>15</i>&nbsp;import org.zkoss.zk.ui.event.Event;
+<i>16</i>&nbsp;import org.zkoss.zk.ui.select.SelectorComposer;
+<i>17</i>&nbsp;import org.zkoss.zk.ui.select.annotation.Listen;
+<i>18</i>&nbsp;import org.zkoss.zk.ui.select.annotation.Wire;
+<i>19</i>&nbsp;import org.zkoss.zkplus.spring.SpringUtil;
+<i>20</i>&nbsp;import org.zkoss.zul.*;
+<i>21</i>&nbsp;import sgb.controller.domainController.AreaCientificaController;
+<i>22</i>&nbsp;import sgb.controller.domainController.EmprestimoController;
+<i>23</i>&nbsp;import sgb.controller.domainController.EstadoDevolucaoControler;
+<i>24</i>&nbsp;import sgb.domain.Emprestimo;
+<i>25</i>&nbsp;import sgb.domain.EstadoDevolucao;
+<i>26</i>&nbsp;import sgb.report.GerarRelatorio;
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;import java.io.File;
+<i>29</i>&nbsp;import java.io.FileNotFoundException;
+<i>30</i>&nbsp;import java.io.IOException;
+<i>31</i>&nbsp;import java.util.List;
+<i>32</i>&nbsp;
+<b class="nc"><i>33</i>&nbsp;public class RelatorioEmprestimos extends SelectorComposer&lt;Component&gt; {</b>
+<b class="nc"><i>34</i>&nbsp;    private GerarRelatorio gerarRelatorio = (GerarRelatorio) SpringUtil.getBean(&quot;gerarRelatorio&quot;);</b>
+<b class="nc"><i>35</i>&nbsp;    private EmprestimoController emprestimoController = (EmprestimoController) SpringUtil.getBean(&quot;emprestimoController&quot;);</b>
+<b class="nc"><i>36</i>&nbsp;    private EstadoDevolucaoControler estadoDevolucaoControler = (EstadoDevolucaoControler) SpringUtil.getBean(&quot;estadoDevolucaoControler&quot;);</b>
+<i>37</i>&nbsp;    private ListModelList&lt;Emprestimo&gt; emprestimoListModel;
+<i>38</i>&nbsp;    private ListModelList&lt;EstadoDevolucao&gt; estadoDevolucaoListModelList;
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;    @Wire
+<i>41</i>&nbsp;    private Listbox emprestimoListBox;
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;    @Wire
+<i>44</i>&nbsp;    private Listbox estadoDevolucaoListBox;
+<i>45</i>&nbsp;
+<i>46</i>&nbsp;    public void doAfterCompose(Component comp) throws Exception {
+<b class="nc"><i>47</i>&nbsp;        super.doAfterCompose(comp);</b>
+<i>48</i>&nbsp;
+<b class="nc"><i>49</i>&nbsp;        emprestimoListModel = new ListModelList&lt;Emprestimo&gt;(emprestimoController.getBorrowedBooks());</b>
+<i>50</i>&nbsp;
+<b class="nc"><i>51</i>&nbsp;        EstadoDevolucao estadoDevolucao = new EstadoDevolucao();</b>
+<b class="nc"><i>52</i>&nbsp;        estadoDevolucao.setDescricao(&quot;Todos&quot;);</b>
+<b class="nc"><i>53</i>&nbsp;        estadoDevolucao.setIdestadodevolucao(0);</b>
+<b class="nc"><i>54</i>&nbsp;        estadoDevolucaoListModelList = new ListModelList&lt;EstadoDevolucao&gt;(estadoDevolucaoControler.getEstadoDevolucao());</b>
+<b class="nc"><i>55</i>&nbsp;        estadoDevolucaoListModelList.add(0,estadoDevolucao);</b>
+<b class="nc"><i>56</i>&nbsp;        estadoDevolucaoListModelList.addToSelection(estadoDevolucao);</b>
+<i>57</i>&nbsp;
+<b class="nc"><i>58</i>&nbsp;        estadoDevolucaoListBox.setModel(estadoDevolucaoListModelList);</b>
+<b class="nc"><i>59</i>&nbsp;        emprestimoListBox.setModel(emprestimoListModel);</b>
+<b class="nc"><i>60</i>&nbsp;    }</b>
+<i>61</i>&nbsp;
+<i>62</i>&nbsp;    @Listen(&quot;onSelect = #estadoDevolucaoListBox&quot;)
+<i>63</i>&nbsp;    public void change(){
+<b class="nc"><i>64</i>&nbsp;        EstadoDevolucao estadoDevolucao = estadoDevolucaoListBox.getSelectedItem().getValue();</b>
+<i>65</i>&nbsp;
+<b class="nc"><i>66</i>&nbsp;        if (estadoDevolucao.getIdestadodevolucao()!=0){</b>
+<b class="nc"><i>67</i>&nbsp;            emprestimoListModel = new ListModelList&lt;Emprestimo&gt;(emprestimoController.getBorrowedBooks(estadoDevolucao.getIdestadodevolucao()));</b>
+<i>68</i>&nbsp;        }else{
+<b class="nc"><i>69</i>&nbsp;            emprestimoListModel = new ListModelList&lt;Emprestimo&gt;(emprestimoController.getBorrowedBooks());</b>
+<i>70</i>&nbsp;        }
+<i>71</i>&nbsp;
+<b class="nc"><i>72</i>&nbsp;        emprestimoListBox.setModel(emprestimoListModel);</b>
+<b class="nc"><i>73</i>&nbsp;    }</b>
+<i>74</i>&nbsp;
+<i>75</i>&nbsp;    @Listen(&quot;onClick=#savePdf&quot;)
+<i>76</i>&nbsp;    public void show() throws JRException {
+<b class="nc"><i>77</i>&nbsp;        byte [] arr = JasperExportManager.exportReportToPdf(gerarRelatorio.createPdfEmprestimo(emprestimoListModel</b>
+<i>78</i>&nbsp;                , &quot;src/main/java/sgb/report/relatorioEmprestimo/relatorio.jrxml&quot;));
+<b class="nc"><i>79</i>&nbsp;        AMedia media = new AMedia(&quot;RelatorioEmprestimo&quot;, &quot;pdf&quot;, &quot;application/pdf&quot;, arr);</b>
+<i>80</i>&nbsp;
+<b class="nc"><i>81</i>&nbsp;        final Window window = new Window();</b>
+<b class="nc"><i>82</i>&nbsp;        window.setClosable(true);</b>
+<b class="nc"><i>83</i>&nbsp;        window.setSizable(false);</b>
+<b class="nc"><i>84</i>&nbsp;        Iframe iframe = new Iframe();</b>
+<b class="nc"><i>85</i>&nbsp;        iframe.setContent(media);</b>
+<b class="nc"><i>86</i>&nbsp;        Borderlayout borderlayout = new Borderlayout();</b>
+<b class="nc"><i>87</i>&nbsp;        North north = new North();</b>
+<b class="nc"><i>88</i>&nbsp;        Toolbar toolbar = new Toolbar();</b>
+<i>89</i>&nbsp;
+<b class="nc"><i>90</i>&nbsp;        toolbar.setWidth(&quot;100%&quot;);</b>
+<i>91</i>&nbsp;
+<i>92</i>&nbsp;
+<b class="nc"><i>93</i>&nbsp;        toolbar.setAlign(&quot;end&quot;);</b>
+<i>94</i>&nbsp;
+<i>95</i>&nbsp;
+<b class="nc"><i>96</i>&nbsp;        Toolbarbutton close = new Toolbarbutton(&quot;Exit&quot;);</b>
+<b class="nc"><i>97</i>&nbsp;        close.setMode(&quot;overlapped&quot;);</b>
+<i>98</i>&nbsp;
+<b class="nc"><i>99</i>&nbsp;        close.setTooltiptext(&quot;Sair&quot;);</b>
+<b class="nc"><i>100</i>&nbsp;        close.setClass(&quot;w3-btn w3-light-grey&quot;);</b>
+<b class="nc"><i>101</i>&nbsp;        close.addEventListener(&quot;onClick&quot;, (Event t) -&gt; {         window.onClose();     });</b>
+<i>102</i>&nbsp;
+<i>103</i>&nbsp;
+<b class="nc"><i>104</i>&nbsp;        toolbar.appendChild(close);</b>
+<b class="nc"><i>105</i>&nbsp;        north.appendChild(toolbar);</b>
+<b class="nc"><i>106</i>&nbsp;        Center cntr = new Center();</b>
+<b class="nc"><i>107</i>&nbsp;        cntr.appendChild(iframe);</b>
+<b class="nc"><i>108</i>&nbsp;        borderlayout.appendChild(cntr);</b>
+<b class="nc"><i>109</i>&nbsp;        borderlayout.resize();</b>
+<b class="nc"><i>110</i>&nbsp;        window.appendChild(toolbar);</b>
+<b class="nc"><i>111</i>&nbsp;        window.appendChild(borderlayout);</b>
+<b class="nc"><i>112</i>&nbsp;        iframe.setWidth(&quot;100%&quot;);</b>
+<b class="nc"><i>113</i>&nbsp;        iframe.setHeight(&quot;100%&quot;);</b>
+<b class="nc"><i>114</i>&nbsp;        window.setWidth(&quot;100%&quot;);</b>
+<b class="nc"><i>115</i>&nbsp;        window.setHeight(&quot;100%&quot;);</b>
+<i>116</i>&nbsp;
+<b class="nc"><i>117</i>&nbsp;        window.setPage(getPage());</b>
+<b class="nc"><i>118</i>&nbsp;        window.doModal();</b>
+<b class="nc"><i>119</i>&nbsp;    }</b>
+<i>120</i>&nbsp;
+<i>121</i>&nbsp;    @Listen(&quot;onClick=#saveExcell&quot;)
+<i>122</i>&nbsp;    public void exportToExcell() throws IOException, JRException {
+<b class="nc"><i>123</i>&nbsp;        JRXlsExporter exporter = new JRXlsExporter();</b>
+<i>124</i>&nbsp;
+<b class="nc"><i>125</i>&nbsp;        String filePath = &quot;src/main/java/sgb/report/relatorioEmprestimo/xls/RelatorioEmprestimo.xls&quot;;</b>
+<b class="nc"><i>126</i>&nbsp;        File xlsFile = new File(filePath);</b>
+<i>127</i>&nbsp;
+<i>128</i>&nbsp;
+<b class="nc"><i>129</i>&nbsp;        if(xlsFile.exists()){</b>
+<b class="nc"><i>130</i>&nbsp;            xlsFile.delete();</b>
+<i>131</i>&nbsp;        }
+<i>132</i>&nbsp;
+<b class="nc"><i>133</i>&nbsp;        exporter.setParameter(JRExporterParameter.JASPER_PRINT, gerarRelatorio.createPdfEmprestimo(emprestimoListModel</b>
+<i>134</i>&nbsp;                , &quot;src/main/java/sgb/report/relatorioEmprestimo/relatorio.jrxml&quot;));
+<b class="nc"><i>135</i>&nbsp;        exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, filePath);</b>
+<b class="nc"><i>136</i>&nbsp;        exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);</b>
+<b class="nc"><i>137</i>&nbsp;        exporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);</b>
+<i>138</i>&nbsp;
+<b class="nc"><i>139</i>&nbsp;        exporter.exportReport();</b>
+<i>140</i>&nbsp;
+<b class="nc"><i>141</i>&nbsp;        Filedownload.save(xlsFile,&quot;xls&quot;);</b>
+<b class="nc"><i>142</i>&nbsp;    }</b>
+<i>143</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-07-08 13:41</div>
+</div>
+</body>
+</html>
