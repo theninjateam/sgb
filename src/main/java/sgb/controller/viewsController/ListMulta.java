@@ -104,7 +104,7 @@ public class ListMulta extends SelectorComposer<Component> {
         StringBuilder builder = new StringBuilder();
 
 
-        dateFormatter = DateFormat.getDateInstance(DateFormat.LONG, MOZAMBIQUE);
+        dateFormatter = DateFormat.getDateInstance(DateFormat.MEDIUM, MOZAMBIQUE);
 
         builder.append(dateFormatter.format(dataa.getTime()));
         builder.append("\n");

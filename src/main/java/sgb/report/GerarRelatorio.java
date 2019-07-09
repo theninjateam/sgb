@@ -24,7 +24,8 @@ public class GerarRelatorio {
             , List<ObraEliminadas> obraEliminadasList
             , int selected
             , String value
-            , String path) throws JRException, IOException {
+            , String path
+            , String dataFiltro) throws JRException, IOException {
 
         String pathLogo = "src/main/webapp/img/logoPNG.png";
         Map parametros = new HashMap();
@@ -40,6 +41,7 @@ public class GerarRelatorio {
                 parametros.put("pathLogo", pathLogo);
                 parametros.put("pathSubreport", subreportPath);
                 parametros.put("totalObras", value);
+                parametros.put("dataFiltro", dataFiltro);
 
                 try {
                     jasperReport = JasperCompileManager.compileReport(path);
@@ -52,6 +54,7 @@ public class GerarRelatorio {
             }
             case 1:{
                 parametros.put("pathLogo", pathLogo);
+                parametros.put("dataFiltro", dataFiltro);
 
                 try {
                     jasperReport = JasperCompileManager.compileReport(path);
@@ -63,6 +66,7 @@ public class GerarRelatorio {
             }
             case 2:{
                 parametros.put("pathLogo", pathLogo);
+                parametros.put("dataFiltro", dataFiltro);
 
                 try {
                     jasperReport = JasperCompileManager.compileReport(path);
@@ -78,13 +82,14 @@ public class GerarRelatorio {
     }
 
     public JasperPrint createPdfEmprestimo(List<Emprestimo> emprestimoList
-            , String path) throws JRException {
+            , String path
+            , String dataFiltro) throws JRException {
         String pathLogo = "src/main/webapp/img/logoPNG.png";
         Map parametros = new HashMap();
         JasperPrint jasperPrint = null;
 
         parametros.put("pathLogo", pathLogo);
-        //parametros.put("datas", datas);
+        parametros.put("dataFiltro", dataFiltro);
 
         try {
             JasperReport jasperReport = JasperCompileManager.compileReport(path);
@@ -98,7 +103,8 @@ public class GerarRelatorio {
 
     public JasperPrint createPdfMulta(List<Multa> multaList
             , String path
-            , double totalValor) throws JRException{
+            , double totalValor
+            , String dataFiltro) throws JRException{
         String pathLogo = "src/main/webapp/img/logoPNG.png", s ="";
         Map parametros = new HashMap();
         JasperPrint jasperPrint = null;
@@ -106,6 +112,7 @@ public class GerarRelatorio {
         s +=totalValor;
         parametros.put("pathLogo", pathLogo);
         parametros.put("totalValor", s);
+        parametros.put("dataFiltro", dataFiltro);
 
         try {
             JasperReport jasperReport = JasperCompileManager.compileReport(path);
