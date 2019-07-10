@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static org.zkoss.zk.ui.util.Clients.alert;
+
 public class BasketViewModel
 {
     private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;
