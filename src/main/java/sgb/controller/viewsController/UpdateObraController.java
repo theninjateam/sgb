@@ -6,34 +6,21 @@
 
 package sgb.controller.viewsController;
 
-import org.apache.commons.codec.digest.DigestUtils;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.zkoss.image.AImage;
-import org.zkoss.io.Files;
-import org.zkoss.lang.Strings;
-import org.zkoss.util.media.Media;
 import org.zkoss.zk.ui.Component;
-import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
-import org.zkoss.zk.ui.event.ForwardEvent;
-import org.zkoss.zk.ui.event.UploadEvent;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.*;
-import org.zkoss.zul.impl.InputElement;
 import sgb.domain.*;
 import sgb.service.CRUDService;
 
-import java.io.File;
-import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-import java.text.ParseException;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
@@ -80,6 +67,7 @@ public class UpdateObraController extends SelectorComposer<Component> {
     }
 
 
+
     public ListModelList<FormaAquisicao> getFormaAquisicaoModel () {
         List<FormaAquisicao> formaaquisicao = crudService.getAll(FormaAquisicao.class);
         return new ListModelList<FormaAquisicao>(formaaquisicao);
@@ -92,18 +80,6 @@ public class UpdateObraController extends SelectorComposer<Component> {
 
         Set<RegistroObra> registroObras = new HashSet<>();
         Set<RegistroObra> novoRegistros = new HashSet<>();
-
-        /*
-            *Por algum motivo nao consigo manipular a lista de registos vindo da base de dados
-            * a solucao encontrada eh fazer um copia da lista para uma nova lista em seguida adcionar o
-            * novo registro
-            * a solucao pode afetar a perfomace da aplicacao futuramente (Deve-se encontar uma forma de )
-            * Emerson Cardoso
-        */
-
-        for(RegistroObra regist:registroObras){
-            novoRegistros.add(regist);
-        }
 
         registroObras = obra.getRegistroObras();
 

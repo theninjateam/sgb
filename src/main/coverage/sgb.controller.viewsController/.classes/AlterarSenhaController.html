@@ -1,0 +1,212 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: AlterarSenhaController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">sgb.controller.viewsController</a> ]
+</div>
+
+<h1>Coverage Summary for Class: AlterarSenhaController (sgb.controller.viewsController)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AlterarSenhaController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 35)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package sgb.controller.viewsController;
+<i>2</i>&nbsp;import org.springframework.security.core.context.SecurityContextHolder;
+<i>3</i>&nbsp;import org.springframework.security.core.userdetails.UserDetails;
+<i>4</i>&nbsp;import org.zkoss.zk.ui.Component;
+<i>5</i>&nbsp;import org.zkoss.zk.ui.select.SelectorComposer;
+<i>6</i>&nbsp;import org.zkoss.zk.ui.select.annotation.Listen;
+<i>7</i>&nbsp;import org.zkoss.zk.ui.select.annotation.Wire;
+<i>8</i>&nbsp;import org.zkoss.zk.ui.util.Clients;
+<i>9</i>&nbsp;import org.zkoss.zkplus.spring.SpringUtil;
+<i>10</i>&nbsp;import org.zkoss.zul.Label;
+<i>11</i>&nbsp;import org.zkoss.zul.Radiogroup;
+<i>12</i>&nbsp;import org.zkoss.zul.Textbox;
+<i>13</i>&nbsp;import org.zkoss.zul.Window;
+<i>14</i>&nbsp;import sgb.domain.*;
+<i>15</i>&nbsp;import sgb.service.CRUDService;
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;import java.util.Set;
+<i>18</i>&nbsp;
+<b class="nc"><i>19</i>&nbsp;public class AlterarSenhaController extends SelectorComposer&lt;Component&gt; {</b>
+<i>20</i>&nbsp;
+<b class="nc"><i>21</i>&nbsp;    private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;</b>
+<b class="nc"><i>22</i>&nbsp;    private sgb.controller.domainController.UserController userController = (sgb.controller.domainController.UserController) SpringUtil.getBean(&quot;userController&quot;);</b>
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    @Wire
+<i>27</i>&nbsp;    private Textbox senhaActual;
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    @Wire
+<i>30</i>&nbsp;    private Textbox novaSenha;
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;    @Wire
+<i>33</i>&nbsp;    private Textbox confirmarSenha;
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;    @Wire
+<i>36</i>&nbsp;    private Window alterarSenha;
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    @Wire
+<i>39</i>&nbsp;    private Label currentUser;
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;    @Wire
+<i>42</i>&nbsp;    private Label currentUserRole;
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;    @Wire
+<i>45</i>&nbsp;    private Label escolha;
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;    @Wire
+<i>48</i>&nbsp;    private Radiogroup opcao;
+<i>49</i>&nbsp;
+<i>50</i>&nbsp;
+<i>51</i>&nbsp;    @Override
+<i>52</i>&nbsp;    public void doAfterCompose(Component comp) throws Exception
+<i>53</i>&nbsp;    {
+<b class="nc"><i>54</i>&nbsp;        super.doAfterCompose(comp);</b>
+<i>55</i>&nbsp;
+<b class="nc"><i>56</i>&nbsp;        currentUser.setValue(user.getName() +&quot; &quot;+ user.getLastName());</b>
+<b class="nc"><i>57</i>&nbsp;        currentUserRole.setValue(&quot;(&quot;+getRole()+&quot;)&quot;);</b>
+<i>58</i>&nbsp;
+<b class="nc"><i>59</i>&nbsp;    }</b>
+<i>60</i>&nbsp;
+<i>61</i>&nbsp;    public Boolean isPasswordEqual(String actualPassword,String newPass,String confNewPass)
+<i>62</i>&nbsp;    {
+<b class="nc"><i>63</i>&nbsp;        return (user.getPassword().equals(userController.encrypt(actualPassword)) &amp;&amp; newPass.equals(confNewPass));</b>
+<i>64</i>&nbsp;
+<i>65</i>&nbsp;    }
+<i>66</i>&nbsp;
+<i>67</i>&nbsp;    public String getRole () {
+<b class="nc"><i>68</i>&nbsp;        String string= null;</b>
+<i>69</i>&nbsp;
+<b class="nc"><i>70</i>&nbsp;        Set&lt;Role&gt; userrole =user.getRoles();</b>
+<i>71</i>&nbsp;
+<b class="nc"><i>72</i>&nbsp;        for(Role rol : userrole)</b>
+<b class="nc"><i>73</i>&nbsp;            if (rol.getRole().equals(&quot;ADMIN&quot;)){</b>
+<b class="nc"><i>74</i>&nbsp;                string=&quot;ADIMIN&quot;;</b>
+<b class="nc"><i>75</i>&nbsp;            } else if (rol.getRole().equals(&quot;STUDENT&quot;)){</b>
+<b class="nc"><i>76</i>&nbsp;                string = &quot;STUDENT&quot;;</b>
+<b class="nc"><i>77</i>&nbsp;            }else if (rol.getRole().equals(&quot;TEACHER&quot;)){</b>
+<b class="nc"><i>78</i>&nbsp;                string = &quot;TEACHER&quot;;</b>
+<i>79</i>&nbsp;            }
+<b class="nc"><i>80</i>&nbsp;        return string;</b>
+<i>81</i>&nbsp;    }
+<i>82</i>&nbsp;
+<i>83</i>&nbsp;
+<i>84</i>&nbsp;
+<i>85</i>&nbsp;    @Listen(&quot;onClick = #savebtn&quot;)
+<i>86</i>&nbsp;    public void updatePassword()
+<i>87</i>&nbsp;    {
+<i>88</i>&nbsp;
+<i>89</i>&nbsp;
+<b class="nc"><i>90</i>&nbsp;        if (isPasswordEqual(senhaActual.getValue(),novaSenha.getValue(),confirmarSenha.getValue()))</b>
+<i>91</i>&nbsp;        {
+<b class="nc"><i>92</i>&nbsp;            if(escolha.getValue().equals(&quot;Sim&quot;)) {</b>
+<b class="nc"><i>93</i>&nbsp;                userController.changeUserPassword(user,userController.encrypt(novaSenha.getValue()));</b>
+<b class="nc"><i>94</i>&nbsp;                Clients.showNotification(&quot;Senha alterada com sucesso&quot;,null,null,null,5000);</b>
+<b class="nc"><i>95</i>&nbsp;                closeModal();</b>
+<b class="nc"><i>96</i>&nbsp;                return;</b>
+<i>97</i>&nbsp;            } else {
+<b class="nc"><i>98</i>&nbsp;                Clients.showNotification(&quot;Seleciona Sim&quot;,null,null,null,5000);</b>
+<i>99</i>&nbsp;
+<i>100</i>&nbsp;            }
+<i>101</i>&nbsp;
+<i>102</i>&nbsp;
+<i>103</i>&nbsp;        } else {
+<b class="nc"><i>104</i>&nbsp;            Clients.showNotification(&quot;Dados incorrectos&quot;,&quot;error&quot;,null,null,5000);</b>
+<i>105</i>&nbsp;
+<i>106</i>&nbsp;        }
+<i>107</i>&nbsp;
+<i>108</i>&nbsp;
+<i>109</i>&nbsp;
+<b class="nc"><i>110</i>&nbsp;    }</b>
+<i>111</i>&nbsp;
+<i>112</i>&nbsp;    @Listen(&quot;onClick = #cancelbtn&quot;)
+<i>113</i>&nbsp;    public void clearPassword()
+<i>114</i>&nbsp;    {
+<b class="nc"><i>115</i>&nbsp;        senhaActual.setValue(&quot;&quot;);</b>
+<b class="nc"><i>116</i>&nbsp;        novaSenha.setValue(&quot;&quot;);</b>
+<b class="nc"><i>117</i>&nbsp;        confirmarSenha.setValue(&quot;&quot;);</b>
+<b class="nc"><i>118</i>&nbsp;        escolha.setValue(&quot;&quot;);</b>
+<b class="nc"><i>119</i>&nbsp;        opcao.setSelectedItem(null);</b>
+<i>120</i>&nbsp;
+<b class="nc"><i>121</i>&nbsp;    }</b>
+<i>122</i>&nbsp;    @Listen(&quot;onClick = #fechar&quot;)
+<i>123</i>&nbsp;    public void closeModal(){
+<i>124</i>&nbsp;
+<b class="nc"><i>125</i>&nbsp;        alterarSenha.detach();</b>
+<b class="nc"><i>126</i>&nbsp;    }</b>
+<i>127</i>&nbsp;
+<i>128</i>&nbsp;
+<i>129</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-07-08 13:41</div>
+</div>
+</body>
+</html>

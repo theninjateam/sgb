@@ -28,7 +28,9 @@ import sgb.report.GerarRelatorio;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class RelatorioMultas extends SelectorComposer<Component> {
@@ -40,6 +42,19 @@ public class RelatorioMultas extends SelectorComposer<Component> {
     private ListModelList<EstadoMulta> estadoMultaListModelList;
     private ListModelList<Multa> multaListModelList;
     private List<Multa> multaList;
+    private EstadoMulta estadoMulta;
+    String dateFiltered;
+    Calendar dataI = Calendar.getInstance();
+    Calendar dataF = Calendar.getInstance();
+
+    @Wire
+    private Label totalToPay;
+
+    @Wire
+    private Datebox dataInicio;
+
+    @Wire
+    private Datebox dataFim;
 
     @Wire
     private Listbox multasListbox;
@@ -50,27 +65,24 @@ public class RelatorioMultas extends SelectorComposer<Component> {
     public void doAfterCompose(Component comp) throws Exception {
         super.doAfterCompose(comp);
 
-        multaList = multaController.getMultas();
-
-        fine.updateDelayDays(multaList);
-
-        multaListModelList = new ListModelList<>(multaList);
-
-        EstadoMulta estadoMulta = new EstadoMulta();
+        estadoMulta = new EstadoMulta();
         estadoMulta.setDescricao("Todos");
         estadoMulta.setIdestadomulta(0);
         estadoMultaListModelList = new ListModelList<EstadoMulta>(estadoMultaControler.getEstadoMultas());
         estadoMultaListModelList.add(0,estadoMulta);
         estadoMultaListModelList.addToSelection(estadoMulta);
 
-        multasListbox.setModel(multaListModelList);
         estadoMultaListbox.setModel(estadoMultaListModelList);
+        setListModelsallData();
+        setListBoxsModels();
     }
 
     @Listen("onClick=#savePdf")
     public void show() throws JRException {
-        byte [] arr = JasperExportManager.exportReportToPdf(gerarRelatorio.createPdfMulta(multaListModelList,
-                "src/main/java/sgb/report/relatorioMultas/relatorio.jrxml", fine.totalDinheiro()));
+        byte [] arr = JasperExportManager.exportReportToPdf(gerarRelatorio.createPdfMulta(multaListModelList
+                , "src/main/java/sgb/report/relatorioMultas/relatorio.jrxml"
+                , Double.parseDouble(totalToPay.getValue())
+                , dateFiltered));
         AMedia media = new AMedia("RelatorioMultas", "pdf", "application/pdf", arr);
         final Window window = new Window();
         window.setClosable(true);
@@ -109,19 +121,6 @@ public class RelatorioMultas extends SelectorComposer<Component> {
         window.doModal();
     }
 
-    @Listen("onSelect = #estadoMultaListbox")
-    public void change(){
-        EstadoMulta estadoMulta = estadoMultaListbox.getSelectedItem().getValue();
-
-        if(estadoMulta.getIdestadomulta()!=0){
-            multaListModelList = new ListModelList<Multa>(multaController.getFine(estadoMulta.getIdestadomulta()));
-        }else{
-            multaListModelList = new ListModelList<Multa>(multaController.getMultas());
-        }
-
-        multasListbox.setModel(multaListModelList);
-    }
-
     @Listen("onClick=#saveExcell")
     public void exportToExcell() throws IOException, JRException {
         JRXlsExporter exporter = new JRXlsExporter();
@@ -135,7 +134,9 @@ public class RelatorioMultas extends SelectorComposer<Component> {
 
         exporter.setParameter(JRExporterParameter.JASPER_PRINT
                 , gerarRelatorio.createPdfMulta(multaListModelList
-                , "src/main/java/sgb/report/relatorioMultas/relatorio.jrxml", fine.totalDinheiro()));
+                        , "src/main/java/sgb/report/relatorioMultas/relatorio.jrxml"
+                        , Double.parseDouble(totalToPay.getValue())
+                        , dateFiltered));
         exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, filePath);
         exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
         exporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);
@@ -143,5 +144,68 @@ public class RelatorioMultas extends SelectorComposer<Component> {
         exporter.exportReport();
 
         Filedownload.save(xlsFile,"xls");
+    }
+
+    @Listen("onChange = #dataInicio;onChange = #dataFim")
+    public void dataChange() {
+        getUpdateDate();
+
+        multaList = multaController.getMultasByDate(dataI, dataF, estadoMulta);
+
+        setListModelsallData();
+        setListBoxsModels();
+    }
+
+    public void getUpdateDate(){
+        try {
+            dataI.setTime(dataInicio.getValue());
+            dataF.setTime(dataFim.getValue());
+        }catch (Exception e){
+
+        };
+    }
+
+    public Date reduzDataActual(){
+        Calendar c = Calendar.getInstance();
+
+        c.add(Calendar.DAY_OF_MONTH, -30);
+
+        return c.getTime();
+    }
+
+    public String dataConvert (Calendar dataa) {
+
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
+        StringBuilder builder = new StringBuilder();
+
+        builder.append(dateFormatter.format(dataa.getTime()));
+
+        return builder.toString();
+    }
+
+    @Listen("onSelect = #estadoMultaListbox")
+    public void change(){
+        estadoMulta = estadoMultaListbox.getSelectedItem().getValue();
+
+        setListModelsallData();
+        setListBoxsModels();
+    }
+
+    public void setListModelsallData(){
+        getUpdateDate();
+
+        if(estadoMulta.getIdestadomulta()!=0){
+            multaList = multaController.getMultasByDate(dataI, dataF, estadoMulta);
+        }else{
+            multaList = multaController.getMultasByDate(dataI, dataF, null);
+        }
+        multaListModelList = new ListModelList<Multa>(multaList);
+        dateFiltered = "Lista de "+dataConvert(dataI)+" a "+dataConvert(dataF);
+    }
+
+    public void setListBoxsModels(){
+        multasListbox.setModel(multaListModelList);
+        totalToPay.setValue(""+fine.totalDinheiro(multaList)+"");
+        fine.updateDelayDays(multaList);
     }
 }

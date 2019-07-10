@@ -19,9 +19,13 @@ public class GerarRelatorio {
         this.crudService = crudService;
     }
 
-    public JasperPrint createPdfObras(List<ObraCategoria> obraCategoriaList,
-                                 List<RegistroObra> obrasregistadasList,
-                                 List<ObraEliminadas> obraEliminadasList, int selected, String value, String path) throws JRException, IOException {
+    public JasperPrint createPdfObras(List<ObraCategoria> obraCategoriaList
+            , List<RegistroObra> obrasregistadasList
+            , List<ObraEliminadas> obraEliminadasList
+            , int selected
+            , String value
+            , String path
+            , String dataFiltro) throws JRException, IOException {
 
         String pathLogo = "src/main/webapp/img/logoPNG.png";
         Map parametros = new HashMap();
@@ -37,6 +41,7 @@ public class GerarRelatorio {
                 parametros.put("pathLogo", pathLogo);
                 parametros.put("pathSubreport", subreportPath);
                 parametros.put("totalObras", value);
+                parametros.put("dataFiltro", dataFiltro);
 
                 try {
                     jasperReport = JasperCompileManager.compileReport(path);
@@ -49,6 +54,7 @@ public class GerarRelatorio {
             }
             case 1:{
                 parametros.put("pathLogo", pathLogo);
+                parametros.put("dataFiltro", dataFiltro);
 
                 try {
                     jasperReport = JasperCompileManager.compileReport(path);
@@ -60,6 +66,7 @@ public class GerarRelatorio {
             }
             case 2:{
                 parametros.put("pathLogo", pathLogo);
+                parametros.put("dataFiltro", dataFiltro);
 
                 try {
                     jasperReport = JasperCompileManager.compileReport(path);
@@ -74,12 +81,15 @@ public class GerarRelatorio {
         return jasperPrint;
     }
 
-    public JasperPrint createPdfEmprestimo(List<Emprestimo> emprestimoList, String path) throws JRException {
+    public JasperPrint createPdfEmprestimo(List<Emprestimo> emprestimoList
+            , String path
+            , String dataFiltro) throws JRException {
         String pathLogo = "src/main/webapp/img/logoPNG.png";
         Map parametros = new HashMap();
         JasperPrint jasperPrint = null;
 
         parametros.put("pathLogo", pathLogo);
+        parametros.put("dataFiltro", dataFiltro);
 
         try {
             JasperReport jasperReport = JasperCompileManager.compileReport(path);
@@ -91,14 +101,18 @@ public class GerarRelatorio {
         return jasperPrint;
     }
 
-    public JasperPrint createPdfMulta(List<Multa> multaList, String path, double totalDinheiro) throws JRException{
+    public JasperPrint createPdfMulta(List<Multa> multaList
+            , String path
+            , double totalValor
+            , String dataFiltro) throws JRException{
         String pathLogo = "src/main/webapp/img/logoPNG.png", s ="";
         Map parametros = new HashMap();
         JasperPrint jasperPrint = null;
 
-        s +=totalDinheiro;
+        s +=totalValor;
         parametros.put("pathLogo", pathLogo);
-        parametros.put("totalDinheiro", s);
+        parametros.put("totalValor", s);
+        parametros.put("dataFiltro", dataFiltro);
 
         try {
             JasperReport jasperReport = JasperCompileManager.compileReport(path);

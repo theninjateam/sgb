@@ -53,7 +53,7 @@
     0%
   </span>
   <span class="absValue">
-    (0/ 11)
+    (0/ 19)
   </span>
 </td>
 <td class="coverageStat">
@@ -61,7 +61,7 @@
     0%
   </span>
   <span class="absValue">
-    (0/ 17)
+    (0/ 31)
   </span>
 </td>
 </tr>
@@ -74,62 +74,107 @@
 
 <div class="sourceCode"><i>1</i>&nbsp;package sgb.domain;
 <i>2</i>&nbsp;
-<i>3</i>&nbsp;import java.util.ArrayList;
-<i>4</i>&nbsp;
-<b class="nc"><i>5</i>&nbsp;public class Item</b>
-<i>6</i>&nbsp;{
-<i>7</i>&nbsp;    private Obra obra;
-<i>8</i>&nbsp;    private int quantidade;
-<i>9</i>&nbsp;    private boolean isLineUp;
-<i>10</i>&nbsp;    private boolean isHomeRequisition;
-<b class="nc"><i>11</i>&nbsp;    private boolean canBeRequested = true;</b>
-<i>12</i>&nbsp;
-<i>13</i>&nbsp;    public Obra getObra() {
-<b class="nc"><i>14</i>&nbsp;        return this.obra;</b>
-<i>15</i>&nbsp;    }
-<i>16</i>&nbsp;
-<i>17</i>&nbsp;    public void setObra(Obra obra) {
-<b class="nc"><i>18</i>&nbsp;        this.obra = obra;</b>
-<b class="nc"><i>19</i>&nbsp;    }</b>
-<i>20</i>&nbsp;
-<i>21</i>&nbsp;    public int getQuantidade() {
-<b class="nc"><i>22</i>&nbsp;        return this.quantidade;</b>
-<i>23</i>&nbsp;    }
-<i>24</i>&nbsp;
-<i>25</i>&nbsp;    public void setQuantidade(int quantidade) {
-<b class="nc"><i>26</i>&nbsp;        this.quantidade = quantidade;</b>
-<b class="nc"><i>27</i>&nbsp;    }</b>
-<i>28</i>&nbsp;
-<i>29</i>&nbsp;    public boolean getIsLineUp() {
-<b class="nc"><i>30</i>&nbsp;        return isLineUp;</b>
-<i>31</i>&nbsp;    }
-<i>32</i>&nbsp;
-<i>33</i>&nbsp;    public void setLineUp(boolean lineUp) {
-<b class="nc"><i>34</i>&nbsp;        isLineUp = lineUp;</b>
-<b class="nc"><i>35</i>&nbsp;    }</b>
-<i>36</i>&nbsp;
-<i>37</i>&nbsp;    public boolean getIsHomeRequisition() {
-<b class="nc"><i>38</i>&nbsp;        return isHomeRequisition;</b>
-<i>39</i>&nbsp;    }
-<i>40</i>&nbsp;
-<i>41</i>&nbsp;    public void setHomeRequisition(boolean homeRequisition) {
-<b class="nc"><i>42</i>&nbsp;        isHomeRequisition = homeRequisition;</b>
-<b class="nc"><i>43</i>&nbsp;    }</b>
-<i>44</i>&nbsp;
-<i>45</i>&nbsp;    public boolean getCanBeRequested() {
-<b class="nc"><i>46</i>&nbsp;        return canBeRequested;</b>
+<b class="nc"><i>3</i>&nbsp;public class Item</b>
+<i>4</i>&nbsp;{
+<i>5</i>&nbsp;    private Obra obra;
+<i>6</i>&nbsp;    private int quantidade;
+<b class="nc"><i>7</i>&nbsp;    private boolean lineUp = false;</b>
+<i>8</i>&nbsp;    private boolean homeRequisition;
+<i>9</i>&nbsp;    private boolean canDoInternalRequisition;
+<i>10</i>&nbsp;    private boolean canDoHomeRequisition;
+<i>11</i>&nbsp;    private boolean internalRequisition;
+<b class="nc"><i>12</i>&nbsp;    public boolean delete = false;</b>
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;
+<b class="nc"><i>15</i>&nbsp;    private boolean canBeViewed = true;</b>
+<i>16</i>&nbsp;    private EstadoPedido estadoPedido;
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    public Obra getObra() {
+<b class="nc"><i>19</i>&nbsp;        return this.obra;</b>
+<i>20</i>&nbsp;    }
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;    public void setObra(Obra obra) {
+<b class="nc"><i>23</i>&nbsp;        this.obra = obra;</b>
+<b class="nc"><i>24</i>&nbsp;    }</b>
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    public int getQuantidade() {
+<b class="nc"><i>27</i>&nbsp;        return this.quantidade;</b>
+<i>28</i>&nbsp;    }
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    public void setQuantidade(int quantidade) {
+<b class="nc"><i>31</i>&nbsp;        this.quantidade = quantidade;</b>
+<b class="nc"><i>32</i>&nbsp;    }</b>
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;    public boolean isLineUp()
+<i>35</i>&nbsp;    {
+<b class="nc"><i>36</i>&nbsp;        return lineUp;</b>
+<i>37</i>&nbsp;    }
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;    public void setLineUp(boolean lineUp)
+<i>40</i>&nbsp;    {
+<b class="nc"><i>41</i>&nbsp;        this.lineUp = lineUp;</b>
+<b class="nc"><i>42</i>&nbsp;    }</b>
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;    public boolean isHomeRequisition()
+<i>45</i>&nbsp;    {
+<b class="nc"><i>46</i>&nbsp;        return homeRequisition;</b>
 <i>47</i>&nbsp;    }
 <i>48</i>&nbsp;
-<i>49</i>&nbsp;    public void setCanBeRequested(boolean canBeRequested) {
-<b class="nc"><i>50</i>&nbsp;        this.canBeRequested = canBeRequested;</b>
-<b class="nc"><i>51</i>&nbsp;    }</b>
-<i>52</i>&nbsp;}
+<i>49</i>&nbsp;    public void setHomeRequisition(boolean homeRequisition)
+<i>50</i>&nbsp;    {
+<b class="nc"><i>51</i>&nbsp;        this.homeRequisition = homeRequisition;</b>
+<b class="nc"><i>52</i>&nbsp;    }</b>
+<i>53</i>&nbsp;
+<i>54</i>&nbsp;    public boolean isInternalRequisition()
+<i>55</i>&nbsp;    {
+<b class="nc"><i>56</i>&nbsp;        return internalRequisition;</b>
+<i>57</i>&nbsp;    }
+<i>58</i>&nbsp;
+<i>59</i>&nbsp;    public void setInternalRequisition(boolean internalRequisition)
+<i>60</i>&nbsp;    {
+<b class="nc"><i>61</i>&nbsp;        this.internalRequisition = internalRequisition;</b>
+<b class="nc"><i>62</i>&nbsp;    }</b>
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;    public EstadoPedido getEstadoPedido()
+<i>65</i>&nbsp;    {
+<b class="nc"><i>66</i>&nbsp;        return estadoPedido;</b>
+<i>67</i>&nbsp;    }
+<i>68</i>&nbsp;
+<i>69</i>&nbsp;    public void setEstadoPedido(EstadoPedido estadoPedido)
+<i>70</i>&nbsp;    {
+<b class="nc"><i>71</i>&nbsp;        this.estadoPedido = estadoPedido;</b>
+<b class="nc"><i>72</i>&nbsp;    }</b>
+<i>73</i>&nbsp;
+<i>74</i>&nbsp;    public boolean isCanBeViewed() {
+<b class="nc"><i>75</i>&nbsp;        return canBeViewed;</b>
+<i>76</i>&nbsp;    }
+<i>77</i>&nbsp;
+<i>78</i>&nbsp;    public void setCanBeViewed(boolean canBeViewed) {
+<b class="nc"><i>79</i>&nbsp;        this.canBeViewed = canBeViewed;</b>
+<b class="nc"><i>80</i>&nbsp;    }</b>
+<i>81</i>&nbsp;
+<i>82</i>&nbsp;    public boolean isCanDoInternalRequisition() {
+<b class="nc"><i>83</i>&nbsp;        return canDoInternalRequisition;</b>
+<i>84</i>&nbsp;    }
+<i>85</i>&nbsp;
+<i>86</i>&nbsp;    public void setCanDoInternalRequisition(boolean canDoInternalRequisition) {
+<b class="nc"><i>87</i>&nbsp;        this.canDoInternalRequisition = canDoInternalRequisition;</b>
+<b class="nc"><i>88</i>&nbsp;    }</b>
+<i>89</i>&nbsp;
+<i>90</i>&nbsp;    public boolean isCanDoHomeRequisition() {
+<b class="nc"><i>91</i>&nbsp;        return canDoHomeRequisition;</b>
+<i>92</i>&nbsp;    }
+<i>93</i>&nbsp;
+<i>94</i>&nbsp;    public void setCanDoHomeRequisition(boolean canDoHomeRequisition) {
+<b class="nc"><i>95</i>&nbsp;        this.canDoHomeRequisition = canDoHomeRequisition;</b>
+<b class="nc"><i>96</i>&nbsp;    }</b>
+<i>97</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2019-03-29 22:00</div>
+    <div style="float:right;">generated on 2019-07-08 13:41</div>
 </div>
 </body>
 </html>

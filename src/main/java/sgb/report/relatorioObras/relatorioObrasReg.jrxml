@@ -30,6 +30,7 @@
 		</box>
 	</style>
 	<parameter name="pathLogo" class="java.lang.String"/>
+	<parameter name="dataFiltro" class="java.lang.String"/>
 	<queryString language="SQL">
 		<![CDATA[]]>
 	</queryString>
@@ -39,35 +40,78 @@
 	<field name="quantidade" class="java.lang.Integer"/>
 	<field name="formaAquisicao" class="sgb.domain.FormaAquisicao"/>
 	<title>
-		<band height="169" splitType="Stretch">
+		<band height="199" splitType="Stretch">
 			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
 			<property name="local_mesure_unitheight" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<staticText>
-				<reportElement x="0" y="90" width="555" height="29" uuid="5d7c6753-fc3c-4b3a-ad94-c60c77f38ce3"/>
+				<reportElement x="0" y="90" width="555" height="20" uuid="5d7c6753-fc3c-4b3a-ad94-c60c77f38ce3">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="16" isBold="true"/>
 				</textElement>
 				<text><![CDATA[UNIVERSIDADE LÚRIO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="120" width="555" height="29" uuid="ac236a44-27f7-43df-a2ab-bdfd37cabb12"/>
+				<reportElement x="0" y="130" width="555" height="20" uuid="ac236a44-27f7-43df-a2ab-bdfd37cabb12">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="16" isBold="true"/>
 				</textElement>
 				<text><![CDATA[RELATÓRIO DE OBRAS REGISTADAS]]></text>
 			</staticText>
 			<image hAlign="Center" vAlign="Top">
-				<reportElement x="242" y="10" width="70" height="70" uuid="aa6cb62d-70c1-4104-924b-e4ffceae5a32">
+				<reportElement x="240" y="10" width="70" height="70" uuid="aa6cb62d-70c1-4104-924b-e4ffceae5a32">
 					<property name="local_mesure_unitwidth" value="pixel"/>
 					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="local_mesure_unity" value="pixel"/>
+				</reportElement>
+				<imageExpression><![CDATA[$P{pathLogo}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="0" y="110" width="555" height="20" uuid="6f629cf2-e1cc-48de-a1da-03f038658cfa">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REPARTIÇÃO DOS SERVIÇOS BIBLIOTECÁRIOS]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="178" width="555" height="20" uuid="f3f7bab2-11f6-451b-a8f3-14cb8c998e18">
 					<property name="local_mesure_unitx" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					<property name="local_mesure_unity" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<imageExpression><![CDATA[$P{pathLogo}]]></imageExpression>
-			</image>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dataFiltro}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<columnHeader>
