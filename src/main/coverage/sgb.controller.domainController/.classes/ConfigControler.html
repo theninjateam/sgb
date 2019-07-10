@@ -61,7 +61,7 @@
     100%
   </span>
   <span class="absValue">
-    (14/ 14)
+    (16/ 16)
   </span>
 </td>
 </tr>
@@ -76,60 +76,67 @@
 <i>2</i>&nbsp;import sgb.domain.Config;
 <i>3</i>&nbsp;import sgb.service.CRUDService;
 <i>4</i>&nbsp;
-<i>5</i>&nbsp;/**
-<i>6</i>&nbsp; *@author Fonseca, bfonseca@unilurio.ac.mz
-<i>7</i>&nbsp; *@Description este singleton recupera dados da entidade Config
-<i>8</i>&nbsp; **/
-<i>9</i>&nbsp;public class ConfigControler
-<i>10</i>&nbsp;{
-<i>11</i>&nbsp;    private CRUDService CRUDService;
-<i>12</i>&nbsp;    /**
-<i>13</i>&nbsp;     * @Description
-<i>14</i>&nbsp;     *
-<i>15</i>&nbsp;     * Para cada tupla da tabela config deve existir uma contante inteira, tal que:
-<i>16</i>&nbsp;     * 1. o nome da constante de ser igual ao valor do atributo chave da tupla.
-<i>17</i>&nbsp;     * 2. o valor atribuido a constante deve ser igual ao valor do atributo &quot;valor&quot; da tupla.
-<i>18</i>&nbsp;     *
-<i>19</i>&nbsp;     *Se o programador quiser aceder o valor do atributo &quot;valor&quot; de uma das tuplas,
-<i>20</i>&nbsp;     *recomenda-se que faca o uso das constantes.
-<i>21</i>&nbsp;     * */
-<i>22</i>&nbsp;    public final int MINIMUM_NUMBER_OF_COPIES;
-<i>23</i>&nbsp;    public final int DEADLINE_REQUESTED_BOOKS;
-<i>24</i>&nbsp;    public final int ENTRY_TIME_ON_SATURDAY;
-<i>25</i>&nbsp;    public final int EXIT_TIME_ON_SATURDAY;
-<i>26</i>&nbsp;    public final int ENTRY_TIME_ON_WEEKDAYS;
-<i>27</i>&nbsp;    public final int EXIT_TIME_ON_WEEKDAYS;
-<i>28</i>&nbsp;    public final int DEADLINE_RESERVED_BOOKS;
-<i>29</i>&nbsp;    public final int DEADLINE_STUDENT_BORROWED_BOOKS;
-<i>30</i>&nbsp;    public final int DEADLINE_TEACHER_BORROWED_BOOKS;
-<i>31</i>&nbsp;    public final int DAILY_RATE_FINE;
-<i>32</i>&nbsp;
-<i>33</i>&nbsp;    public ConfigControler(CRUDService crudService)
-<b class="fc"><i>34</i>&nbsp;    {</b>
-<b class="fc"><i>35</i>&nbsp;        this.CRUDService = crudService;</b>
-<b class="fc"><i>36</i>&nbsp;        MINIMUM_NUMBER_OF_COPIES = Integer.parseInt(getConfigValue(&quot;MINIMUM_NUMBER_OF_COPIES&quot;));</b>
-<b class="fc"><i>37</i>&nbsp;        DEADLINE_REQUESTED_BOOKS = Integer.parseInt(getConfigValue(&quot;DEADLINE_REQUESTED_BOOKS&quot;));</b>
-<b class="fc"><i>38</i>&nbsp;        ENTRY_TIME_ON_SATURDAY = Integer.parseInt(getConfigValue(&quot;ENTRY_TIME_ON_SATURDAY&quot;));</b>
-<b class="fc"><i>39</i>&nbsp;        EXIT_TIME_ON_SATURDAY = Integer.parseInt(getConfigValue(&quot;EXIT_TIME_ON_SATURDAY&quot;));</b>
-<b class="fc"><i>40</i>&nbsp;        ENTRY_TIME_ON_WEEKDAYS = Integer.parseInt(getConfigValue(&quot;ENTRY_TIME_ON_WEEKDAYS&quot;));</b>
-<b class="fc"><i>41</i>&nbsp;        EXIT_TIME_ON_WEEKDAYS = Integer.parseInt(getConfigValue(&quot;EXIT_TIME_ON_WEEKDAYS&quot;));</b>
-<b class="fc"><i>42</i>&nbsp;        DEADLINE_RESERVED_BOOKS = Integer.parseInt(getConfigValue(&quot;DEADLINE_RESERVED_BOOKS&quot;));</b>
-<b class="fc"><i>43</i>&nbsp;        DEADLINE_STUDENT_BORROWED_BOOKS = Integer.parseInt(getConfigValue(&quot;DEADLINE_STUDENT_BORROWED_BOOKS&quot;));</b>
-<b class="fc"><i>44</i>&nbsp;        DEADLINE_TEACHER_BORROWED_BOOKS = Integer.parseInt(getConfigValue(&quot;DEADLINE_TEACHER_BORROWED_BOOKS&quot;));</b>
-<b class="fc"><i>45</i>&nbsp;        DAILY_RATE_FINE = Integer.parseInt(getConfigValue(&quot;DAILY_RATE_FINE&quot;));</b>
-<b class="fc"><i>46</i>&nbsp;    }</b>
-<i>47</i>&nbsp;
-<i>48</i>&nbsp;    public String getConfigValue(String id)
-<i>49</i>&nbsp;    {
-<b class="fc"><i>50</i>&nbsp;        return this.CRUDService.get(Config.class, id).getValor();</b>
-<i>51</i>&nbsp;    }
-<i>52</i>&nbsp;}
+<i>5</i>&nbsp;import javax.swing.plaf.PanelUI;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;/**
+<i>8</i>&nbsp; *@author Fonseca, bfonseca@unilurio.ac.mz
+<i>9</i>&nbsp; *@Description este singleton recupera dados da entidade Config
+<i>10</i>&nbsp; **/
+<i>11</i>&nbsp;public class ConfigControler
+<i>12</i>&nbsp;{
+<i>13</i>&nbsp;    private CRUDService CRUDService;
+<i>14</i>&nbsp;    /**
+<i>15</i>&nbsp;     * @Description
+<i>16</i>&nbsp;     *
+<i>17</i>&nbsp;     * Para cada tupla da tabela config deve existir uma contante inteira, tal que:
+<i>18</i>&nbsp;     * 1. o nome da constante de ser igual ao valor do atributo chave da tupla.
+<i>19</i>&nbsp;     * 2. o valor atribuido a constante deve ser igual ao valor do atributo &quot;valor&quot; da tupla.
+<i>20</i>&nbsp;     *
+<i>21</i>&nbsp;     *Se o programador quiser aceder o valor do atributo &quot;valor&quot; de uma das tuplas,
+<i>22</i>&nbsp;     *recomenda-se que faca o uso das constantes.
+<i>23</i>&nbsp;     * */
+<i>24</i>&nbsp;    public final int MINIMUM_NUMBER_OF_COPIES;
+<i>25</i>&nbsp;    public final int DEADLINE_REQUESTED_BOOKS;
+<i>26</i>&nbsp;    public final int ENTRY_TIME_ON_SATURDAY;
+<i>27</i>&nbsp;    public final int EXIT_TIME_ON_SATURDAY;
+<i>28</i>&nbsp;    public final int ENTRY_TIME_ON_WEEKDAYS;
+<i>29</i>&nbsp;    public final int EXIT_TIME_ON_WEEKDAYS;
+<i>30</i>&nbsp;    public final int DEADLINE_RESERVED_BOOKS;
+<i>31</i>&nbsp;    public final int DEADLINE_STUDENT_BORROWED_BOOKS;
+<i>32</i>&nbsp;    public final int DEADLINE_TEACHER_BORROWED_BOOKS;
+<i>33</i>&nbsp;    public final int DAILY_RATE_FINE;
+<i>34</i>&nbsp;    public final int MAXIMUM_NUMBER_OF_COPIES;
+<i>35</i>&nbsp;    public final int MAXIMUM_COPIES_PER_BOOK;
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;    public ConfigControler(CRUDService crudService)
+<b class="fc"><i>38</i>&nbsp;    {</b>
+<b class="fc"><i>39</i>&nbsp;        this.CRUDService = crudService;</b>
+<i>40</i>&nbsp;
+<b class="fc"><i>41</i>&nbsp;        MINIMUM_NUMBER_OF_COPIES = Integer.parseInt(getConfigValue(&quot;MINIMUM_NUMBER_OF_COPIES&quot;));</b>
+<b class="fc"><i>42</i>&nbsp;        DEADLINE_REQUESTED_BOOKS = Integer.parseInt(getConfigValue(&quot;DEADLINE_REQUESTED_BOOKS&quot;));</b>
+<b class="fc"><i>43</i>&nbsp;        ENTRY_TIME_ON_SATURDAY = Integer.parseInt(getConfigValue(&quot;ENTRY_TIME_ON_SATURDAY&quot;));</b>
+<b class="fc"><i>44</i>&nbsp;        EXIT_TIME_ON_SATURDAY = Integer.parseInt(getConfigValue(&quot;EXIT_TIME_ON_SATURDAY&quot;));</b>
+<b class="fc"><i>45</i>&nbsp;        ENTRY_TIME_ON_WEEKDAYS = Integer.parseInt(getConfigValue(&quot;ENTRY_TIME_ON_WEEKDAYS&quot;));</b>
+<b class="fc"><i>46</i>&nbsp;        EXIT_TIME_ON_WEEKDAYS = Integer.parseInt(getConfigValue(&quot;EXIT_TIME_ON_WEEKDAYS&quot;));</b>
+<b class="fc"><i>47</i>&nbsp;        DEADLINE_RESERVED_BOOKS = Integer.parseInt(getConfigValue(&quot;DEADLINE_RESERVED_BOOKS&quot;));</b>
+<b class="fc"><i>48</i>&nbsp;        DEADLINE_STUDENT_BORROWED_BOOKS = Integer.parseInt(getConfigValue(&quot;DEADLINE_STUDENT_BORROWED_BOOKS&quot;));</b>
+<b class="fc"><i>49</i>&nbsp;        DEADLINE_TEACHER_BORROWED_BOOKS = Integer.parseInt(getConfigValue(&quot;DEADLINE_TEACHER_BORROWED_BOOKS&quot;));</b>
+<b class="fc"><i>50</i>&nbsp;        DAILY_RATE_FINE = Integer.parseInt(getConfigValue(&quot;DAILY_RATE_FINE&quot;));</b>
+<b class="fc"><i>51</i>&nbsp;        MAXIMUM_NUMBER_OF_COPIES = Integer.parseInt(getConfigValue(&quot;MAXIMUM_NUMBER_OF_COPIES&quot;));</b>
+<b class="fc"><i>52</i>&nbsp;        MAXIMUM_COPIES_PER_BOOK = Integer.parseInt(getConfigValue(&quot;MAXIMUM_COPIES_PER_BOOK&quot;));</b>
+<b class="fc"><i>53</i>&nbsp;    }</b>
+<i>54</i>&nbsp;
+<i>55</i>&nbsp;    public String getConfigValue(String id)
+<i>56</i>&nbsp;    {
+<b class="fc"><i>57</i>&nbsp;        return this.CRUDService.get(Config.class, id).getValor();</b>
+<i>58</i>&nbsp;    }
+<i>59</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2019-03-29 22:00</div>
+    <div style="float:right;">generated on 2019-07-08 13:41</div>
 </div>
 </body>
 </html>

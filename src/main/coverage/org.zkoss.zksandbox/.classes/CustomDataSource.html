@@ -1,0 +1,189 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: CustomDataSource</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">org.zkoss.zksandbox</a> ]
+</div>
+
+<h1>Coverage Summary for Class: CustomDataSource (org.zkoss.zksandbox)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CustomDataSource</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 17)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package org.zkoss.zksandbox;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;
+<i>4</i>&nbsp;import net.sf.jasperreports.engine.JRDataSource;
+<i>5</i>&nbsp;import net.sf.jasperreports.engine.JRException;
+<i>6</i>&nbsp;import net.sf.jasperreports.engine.JRField;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;/**
+<i>10</i>&nbsp; * @author Teodor Danciu (teodord@users.sourceforge.net)
+<i>11</i>&nbsp; * @version $Id: CustomDataSource.java 1229 2006-04-19 10:27:35Z teodord $
+<i>12</i>&nbsp; */
+<i>13</i>&nbsp;public class CustomDataSource implements JRDataSource
+<i>14</i>&nbsp;{
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;	/**
+<i>18</i>&nbsp;	 *
+<i>19</i>&nbsp;	 */
+<b class="nc"><i>20</i>&nbsp;	private Object[][] data =</b>
+<i>21</i>&nbsp;		{
+<i>22</i>&nbsp;			{&quot;Berne&quot;, new Integer(22), &quot;Bill Ott&quot;, &quot;250 - 20th Ave.&quot;},
+<i>23</i>&nbsp;			{&quot;Berne&quot;, new Integer(9), &quot;James Schneider&quot;, &quot;277 Seventh Av.&quot;},
+<i>24</i>&nbsp;			{&quot;Boston&quot;, new Integer(32), &quot;Michael Ott&quot;, &quot;339 College Av.&quot;},
+<i>25</i>&nbsp;			{&quot;Boston&quot;, new Integer(23), &quot;Julia Heiniger&quot;, &quot;358 College Av.&quot;},
+<i>26</i>&nbsp;			{&quot;Chicago&quot;, new Integer(39), &quot;Mary Karsen&quot;, &quot;202 College Av.&quot;},
+<i>27</i>&nbsp;			{&quot;Chicago&quot;, new Integer(35), &quot;George Karsen&quot;, &quot;412 College Av.&quot;},
+<i>28</i>&nbsp;			{&quot;Chicago&quot;, new Integer(11), &quot;Julia White&quot;, &quot;412 Upland Pl.&quot;},
+<i>29</i>&nbsp;			{&quot;Dallas&quot;, new Integer(47), &quot;Janet Fuller&quot;, &quot;445 Upland Pl.&quot;},
+<i>30</i>&nbsp;			{&quot;Dallas&quot;, new Integer(43), &quot;Susanne Smith&quot;, &quot;2 Upland Pl.&quot;},
+<i>31</i>&nbsp;			{&quot;Dallas&quot;, new Integer(40), &quot;Susanne Miller&quot;, &quot;440 - 20th Ave.&quot;},
+<i>32</i>&nbsp;			{&quot;Dallas&quot;, new Integer(36), &quot;John Steel&quot;, &quot;276 Upland Pl.&quot;},
+<i>33</i>&nbsp;			{&quot;Dallas&quot;, new Integer(37), &quot;Michael Clancy&quot;, &quot;19 Seventh Av.&quot;},
+<i>34</i>&nbsp;			{&quot;Dallas&quot;, new Integer(19), &quot;Susanne Heiniger&quot;, &quot;86 - 20th Ave.&quot;},
+<i>35</i>&nbsp;			{&quot;Dallas&quot;, new Integer(10), &quot;Anne Fuller&quot;, &quot;135 Upland Pl.&quot;},
+<i>36</i>&nbsp;			{&quot;Dallas&quot;, new Integer(4), &quot;Sylvia Ringer&quot;, &quot;365 College Av.&quot;},
+<i>37</i>&nbsp;			{&quot;Dallas&quot;, new Integer(0), &quot;Laura Steel&quot;, &quot;429 Seventh Av.&quot;},
+<i>38</i>&nbsp;			{&quot;Lyon&quot;, new Integer(38), &quot;Andrew Heiniger&quot;, &quot;347 College Av.&quot;},
+<i>39</i>&nbsp;			{&quot;Lyon&quot;, new Integer(28), &quot;Susanne White&quot;, &quot;74 - 20th Ave.&quot;},
+<i>40</i>&nbsp;			{&quot;Lyon&quot;, new Integer(17), &quot;Laura Ott&quot;, &quot;443 Seventh Av.&quot;},
+<i>41</i>&nbsp;			{&quot;Lyon&quot;, new Integer(2), &quot;Anne Miller&quot;, &quot;20 Upland Pl.&quot;},
+<i>42</i>&nbsp;			{&quot;New York&quot;, new Integer(46), &quot;Andrew May&quot;, &quot;172 Seventh Av.&quot;},
+<i>43</i>&nbsp;			{&quot;New York&quot;, new Integer(44), &quot;Sylvia Ott&quot;, &quot;361 College Av.&quot;},
+<i>44</i>&nbsp;			{&quot;New York&quot;, new Integer(41), &quot;Bill King&quot;, &quot;546 College Av.&quot;},
+<i>45</i>&nbsp;			{&quot;Oslo&quot;, new Integer(45), &quot;Janet May&quot;, &quot;396 Seventh Av.&quot;},
+<i>46</i>&nbsp;			{&quot;Oslo&quot;, new Integer(42), &quot;Robert Ott&quot;, &quot;503 Seventh Av.&quot;},
+<i>47</i>&nbsp;			{&quot;Paris&quot;, new Integer(25), &quot;Sylvia Steel&quot;, &quot;269 College Av.&quot;},
+<i>48</i>&nbsp;			{&quot;Paris&quot;, new Integer(18), &quot;Sylvia Fuller&quot;, &quot;158 - 20th Ave.&quot;},
+<i>49</i>&nbsp;			{&quot;Paris&quot;, new Integer(5), &quot;Laura Miller&quot;, &quot;294 Seventh Av.&quot;},
+<i>50</i>&nbsp;			{&quot;San Francisco&quot;, new Integer(48), &quot;Robert White&quot;, &quot;549 Seventh Av.&quot;},
+<i>51</i>&nbsp;			{&quot;San Francisco&quot;, new Integer(7), &quot;James Peterson&quot;, &quot;231 Upland Pl.&quot;}
+<i>52</i>&nbsp;		};
+<i>53</i>&nbsp;
+<b class="nc"><i>54</i>&nbsp;	private int index = -1;</b>
+<i>55</i>&nbsp;	
+<i>56</i>&nbsp;
+<i>57</i>&nbsp;	/**
+<i>58</i>&nbsp;	 *
+<i>59</i>&nbsp;	 */
+<i>60</i>&nbsp;	public CustomDataSource()
+<b class="nc"><i>61</i>&nbsp;	{</b>
+<b class="nc"><i>62</i>&nbsp;	}</b>
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;
+<i>65</i>&nbsp;	/**
+<i>66</i>&nbsp;	 *
+<i>67</i>&nbsp;	 */
+<i>68</i>&nbsp;	public boolean next() throws JRException
+<i>69</i>&nbsp;	{
+<b class="nc"><i>70</i>&nbsp;		index++;</b>
+<i>71</i>&nbsp;
+<b class="nc"><i>72</i>&nbsp;		return (index &lt; data.length);</b>
+<i>73</i>&nbsp;	}
+<i>74</i>&nbsp;
+<i>75</i>&nbsp;
+<i>76</i>&nbsp;	/**
+<i>77</i>&nbsp;	 *
+<i>78</i>&nbsp;	 */
+<i>79</i>&nbsp;	public Object getFieldValue(JRField field) throws JRException
+<i>80</i>&nbsp;	{
+<b class="nc"><i>81</i>&nbsp;		Object value = null;</b>
+<i>82</i>&nbsp;		
+<b class="nc"><i>83</i>&nbsp;		String fieldName = field.getName();</b>
+<i>84</i>&nbsp;		
+<b class="nc"><i>85</i>&nbsp;		if (&quot;the_city&quot;.equals(fieldName))</b>
+<i>86</i>&nbsp;		{
+<b class="nc"><i>87</i>&nbsp;			value = data[index][0];</b>
+<i>88</i>&nbsp;		}
+<b class="nc"><i>89</i>&nbsp;		else if (&quot;id&quot;.equals(fieldName))</b>
+<i>90</i>&nbsp;		{
+<b class="nc"><i>91</i>&nbsp;			value = data[index][1];</b>
+<i>92</i>&nbsp;		}
+<b class="nc"><i>93</i>&nbsp;		else if (&quot;name&quot;.equals(fieldName))</b>
+<i>94</i>&nbsp;		{
+<b class="nc"><i>95</i>&nbsp;			value = data[index][2];</b>
+<i>96</i>&nbsp;		}
+<b class="nc"><i>97</i>&nbsp;		else if (&quot;street&quot;.equals(fieldName))</b>
+<i>98</i>&nbsp;		{
+<b class="nc"><i>99</i>&nbsp;			value = data[index][3];</b>
+<i>100</i>&nbsp;		}
+<i>101</i>&nbsp;		
+<b class="nc"><i>102</i>&nbsp;		return value;</b>
+<i>103</i>&nbsp;	}
+<i>104</i>&nbsp;
+<i>105</i>&nbsp;
+<i>106</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-07-08 13:41</div>
+</div>
+</body>
+</html>

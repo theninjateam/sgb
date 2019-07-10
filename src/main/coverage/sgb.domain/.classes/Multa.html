@@ -50,18 +50,18 @@
 </td>
 <td class="coverageStat">
   <span class="percent">
-    58.8%
+    73.7%
   </span>
   <span class="absValue">
-    (10/ 17)
+    (14/ 19)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    66.7%
+    76.9%
   </span>
   <span class="absValue">
-    (16/ 24)
+    (20/ 26)
   </span>
 </td>
 </tr>
@@ -88,91 +88,100 @@
 <i>14</i>&nbsp;    private Calendar dataemprestimo;
 <i>15</i>&nbsp;    private Calendar dataemissao;
 <i>16</i>&nbsp;    private Float taxadiaria;
-<i>17</i>&nbsp;
+<i>17</i>&nbsp;    private boolean notificacao;
 <i>18</i>&nbsp;
-<i>19</i>&nbsp;    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-<i>20</i>&nbsp;    @JoinColumn(name = &quot;idestadomulta&quot;, nullable = false)
-<i>21</i>&nbsp;    private EstadoMulta estadoMulta;
-<b class="fc"><i>22</i>&nbsp;    public EstadoMulta getEstadoMulta() { return estadoMulta; }</b>
-<b class="fc"><i>23</i>&nbsp;    public void setEstadoMulta(EstadoMulta estadoMulta) {this.estadoMulta = estadoMulta; }</b>
-<i>24</i>&nbsp;
-<i>25</i>&nbsp;    @ManyToOne(fetch = FetchType.LAZY,  cascade = CascadeType.PERSIST)
-<i>26</i>&nbsp;    @JoinColumn(name=&quot;bibliotecario&quot;, nullable = false)
-<i>27</i>&nbsp;    private Users bibliotecario;
-<i>28</i>&nbsp;
-<i>29</i>&nbsp;    public Users getBibliotecario() {
-<b class="nc"><i>30</i>&nbsp;        return bibliotecario;</b>
-<i>31</i>&nbsp;    }
-<i>32</i>&nbsp;
-<i>33</i>&nbsp;    public void setBibliotecario(Users bibliotecario) {
-<b class="nc"><i>34</i>&nbsp;        this.bibliotecario = bibliotecario;</b>
-<b class="nc"><i>35</i>&nbsp;    }</b>
-<i>36</i>&nbsp;
-<i>37</i>&nbsp;    public EmprestimoPK getMultaPK() {
-<b class="nc"><i>38</i>&nbsp;        return multaPK;</b>
-<i>39</i>&nbsp;    }
-<i>40</i>&nbsp;
-<i>41</i>&nbsp;    public void setMultaPK(EmprestimoPK multaPK) {
-<b class="fc"><i>42</i>&nbsp;        this.multaPK = multaPK;</b>
-<b class="fc"><i>43</i>&nbsp;    }</b>
-<i>44</i>&nbsp;
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+<i>21</i>&nbsp;    @JoinColumn(name = &quot;idestadomulta&quot;, nullable = false)
+<i>22</i>&nbsp;    private EstadoMulta estadoMulta;
+<b class="fc"><i>23</i>&nbsp;    public EstadoMulta getEstadoMulta() { return estadoMulta; }</b>
+<b class="fc"><i>24</i>&nbsp;    public void setEstadoMulta(EstadoMulta estadoMulta) {this.estadoMulta = estadoMulta; }</b>
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    @ManyToOne(fetch = FetchType.LAZY,  cascade = CascadeType.PERSIST)
+<i>27</i>&nbsp;    @JoinColumn(name=&quot;bibliotecario&quot;, nullable = false)
+<i>28</i>&nbsp;    private Users bibliotecario;
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    public Users getBibliotecario() {
+<b class="nc"><i>31</i>&nbsp;        return bibliotecario;</b>
+<i>32</i>&nbsp;    }
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;    public void setBibliotecario(Users bibliotecario) {
+<b class="nc"><i>35</i>&nbsp;        this.bibliotecario = bibliotecario;</b>
+<b class="nc"><i>36</i>&nbsp;    }</b>
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    public EmprestimoPK getMultaPK() {
+<b class="fc"><i>39</i>&nbsp;        return multaPK;</b>
+<i>40</i>&nbsp;    }
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;    public void setMultaPK(EmprestimoPK multaPK) {
+<b class="fc"><i>43</i>&nbsp;        this.multaPK = multaPK;</b>
+<b class="fc"><i>44</i>&nbsp;    }</b>
 <i>45</i>&nbsp;
-<i>46</i>&nbsp;    @Basic
-<i>47</i>&nbsp;    @Column(name = &quot;diasatraso&quot;)
-<i>48</i>&nbsp;    public Integer getDiasatraso() {
-<b class="nc"><i>49</i>&nbsp;        return diasatraso;</b>
-<i>50</i>&nbsp;    }
-<i>51</i>&nbsp;
-<i>52</i>&nbsp;    public void setDiasatraso(Integer diasatraso) {
-<b class="fc"><i>53</i>&nbsp;        this.diasatraso = diasatraso;</b>
-<b class="fc"><i>54</i>&nbsp;    }</b>
-<i>55</i>&nbsp;
-<i>56</i>&nbsp;    @Basic
-<i>57</i>&nbsp;    @Column(name = &quot;valorpago&quot;)
-<i>58</i>&nbsp;    public Float getValorpago() {
-<b class="fc"><i>59</i>&nbsp;        return valorpago;</b>
-<i>60</i>&nbsp;    }
-<i>61</i>&nbsp;
-<i>62</i>&nbsp;    public void setValorpago(Float valorpago) {
-<b class="fc"><i>63</i>&nbsp;        this.valorpago = valorpago;</b>
-<b class="fc"><i>64</i>&nbsp;    }</b>
-<i>65</i>&nbsp;
-<i>66</i>&nbsp;    @Basic
-<i>67</i>&nbsp;    @Column(name = &quot;dataemprestimo&quot;)
-<i>68</i>&nbsp;    public Calendar getDataemprestimo() {
-<b class="nc"><i>69</i>&nbsp;        return dataemprestimo;</b>
-<i>70</i>&nbsp;    }
-<i>71</i>&nbsp;
-<i>72</i>&nbsp;    public void setDataemprestimo(Calendar dataemprestimo) {
-<b class="fc"><i>73</i>&nbsp;        this.dataemprestimo = dataemprestimo;</b>
-<b class="fc"><i>74</i>&nbsp;    }</b>
-<i>75</i>&nbsp;
-<i>76</i>&nbsp;    @Column(name = &quot;dataemissao&quot;)
-<i>77</i>&nbsp;    public Calendar getDataemissao() {
-<b class="nc"><i>78</i>&nbsp;        return dataemissao;</b>
-<i>79</i>&nbsp;    }
-<i>80</i>&nbsp;
-<i>81</i>&nbsp;    public void setDataemissao(Calendar dataemissao) {
-<b class="fc"><i>82</i>&nbsp;        this.dataemissao = dataemissao;</b>
-<b class="fc"><i>83</i>&nbsp;    }</b>
-<i>84</i>&nbsp;
-<i>85</i>&nbsp;    @Basic
-<i>86</i>&nbsp;    @Column(name = &quot;taxadiaria&quot;)
-<i>87</i>&nbsp;
-<i>88</i>&nbsp;    public Float getTaxadiaria() {
-<b class="nc"><i>89</i>&nbsp;        return taxadiaria;</b>
-<i>90</i>&nbsp;    }
-<i>91</i>&nbsp;
-<i>92</i>&nbsp;    public void setTaxadiaria(Float taxadiaria) {
-<b class="fc"><i>93</i>&nbsp;        this.taxadiaria = taxadiaria;</b>
-<b class="fc"><i>94</i>&nbsp;    }</b>
-<i>95</i>&nbsp;}
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;    @Basic
+<i>48</i>&nbsp;    @Column(name = &quot;diasatraso&quot;)
+<i>49</i>&nbsp;    public Integer getDiasatraso() {
+<b class="fc"><i>50</i>&nbsp;        return diasatraso;</b>
+<i>51</i>&nbsp;    }
+<i>52</i>&nbsp;
+<i>53</i>&nbsp;    public void setDiasatraso(Integer diasatraso) {
+<b class="fc"><i>54</i>&nbsp;        this.diasatraso = diasatraso;</b>
+<b class="fc"><i>55</i>&nbsp;    }</b>
+<i>56</i>&nbsp;
+<i>57</i>&nbsp;    @Basic
+<i>58</i>&nbsp;    @Column(name = &quot;valorpago&quot;)
+<i>59</i>&nbsp;    public Float getValorpago() {
+<b class="fc"><i>60</i>&nbsp;        return valorpago;</b>
+<i>61</i>&nbsp;    }
+<i>62</i>&nbsp;
+<i>63</i>&nbsp;    public void setValorpago(Float valorpago) {
+<b class="fc"><i>64</i>&nbsp;        this.valorpago = valorpago;</b>
+<b class="fc"><i>65</i>&nbsp;    }</b>
+<i>66</i>&nbsp;
+<i>67</i>&nbsp;    @Basic
+<i>68</i>&nbsp;    @Column(name = &quot;dataemprestimo&quot;)
+<i>69</i>&nbsp;    public Calendar getDataemprestimo() {
+<b class="nc"><i>70</i>&nbsp;        return dataemprestimo;</b>
+<i>71</i>&nbsp;    }
+<i>72</i>&nbsp;
+<i>73</i>&nbsp;    public void setDataemprestimo(Calendar dataemprestimo) {
+<b class="fc"><i>74</i>&nbsp;        this.dataemprestimo = dataemprestimo;</b>
+<b class="fc"><i>75</i>&nbsp;    }</b>
+<i>76</i>&nbsp;
+<i>77</i>&nbsp;    @Column(name = &quot;dataemissao&quot;)
+<i>78</i>&nbsp;    public Calendar getDataemissao() {
+<b class="nc"><i>79</i>&nbsp;        return dataemissao;</b>
+<i>80</i>&nbsp;    }
+<i>81</i>&nbsp;
+<i>82</i>&nbsp;    public void setDataemissao(Calendar dataemissao) {
+<b class="fc"><i>83</i>&nbsp;        this.dataemissao = dataemissao;</b>
+<b class="fc"><i>84</i>&nbsp;    }</b>
+<i>85</i>&nbsp;
+<i>86</i>&nbsp;    @Basic
+<i>87</i>&nbsp;    @Column(name = &quot;taxadiaria&quot;)
+<i>88</i>&nbsp;
+<i>89</i>&nbsp;    public Float getTaxadiaria() {
+<b class="fc"><i>90</i>&nbsp;        return taxadiaria;</b>
+<i>91</i>&nbsp;    }
+<i>92</i>&nbsp;
+<i>93</i>&nbsp;    public void setTaxadiaria(Float taxadiaria) {
+<b class="fc"><i>94</i>&nbsp;        this.taxadiaria = taxadiaria;</b>
+<b class="fc"><i>95</i>&nbsp;    }</b>
+<i>96</i>&nbsp;
+<i>97</i>&nbsp;
+<i>98</i>&nbsp;    @Basic
+<i>99</i>&nbsp;    @Column (name = &quot;notificacao&quot;)
+<b class="nc"><i>100</i>&nbsp;    public boolean getNotificacao(){ return notificacao; }</b>
+<i>101</i>&nbsp;
+<b class="fc"><i>102</i>&nbsp;    public void setNotificacao(boolean notificacao) { this.notificacao = notificacao; }</b>
+<i>103</i>&nbsp;
+<i>104</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2019-03-29 22:00</div>
+    <div style="float:right;">generated on 2019-07-08 13:41</div>
 </div>
 </body>
 </html>

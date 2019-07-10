@@ -1,0 +1,140 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ConfigViewModel</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">sgb.configuration</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ConfigViewModel (sgb.configuration)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ConfigViewModel</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 14)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package sgb.configuration;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import org.springframework.security.core.context.SecurityContextHolder;
+<i>4</i>&nbsp;import org.springframework.security.core.userdetails.UserDetails;
+<i>5</i>&nbsp;import org.zkoss.bind.BindUtils;
+<i>6</i>&nbsp;import org.zkoss.bind.annotation.BindingParam;
+<i>7</i>&nbsp;import org.zkoss.bind.annotation.Command;
+<i>8</i>&nbsp;import org.zkoss.bind.annotation.Init;
+<i>9</i>&nbsp;import org.zkoss.bind.annotation.NotifyChange;
+<i>10</i>&nbsp;import org.zkoss.zk.ui.util.Clients;
+<i>11</i>&nbsp;import org.zkoss.zkplus.spring.SpringUtil;
+<i>12</i>&nbsp;import sgb.controller.domainController.*;
+<i>13</i>&nbsp;import sgb.domain.*;
+<i>14</i>&nbsp;import sgb.request.Request;
+<i>15</i>&nbsp;import sgb.service.CRUDService;
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;import java.util.ArrayList;
+<i>18</i>&nbsp;import java.util.List;
+<i>19</i>&nbsp;import java.util.concurrent.Semaphore;
+<i>20</i>&nbsp;
+<b class="nc"><i>21</i>&nbsp;public class ConfigViewModel</b>
+<i>22</i>&nbsp;{
+<b class="nc"><i>23</i>&nbsp;    private ConfigControler configControler = (ConfigControler) SpringUtil.getBean(&quot;configControler&quot;);</b>
+<b class="nc"><i>24</i>&nbsp;    private CRUDService crudService = (CRUDService) SpringUtil.getBean(&quot;CRUDService&quot;);</b>
+<i>25</i>&nbsp;
+<b class="nc"><i>26</i>&nbsp;    private List&lt;Config&gt; configs = new ArrayList&lt;Config&gt;();</b>
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    @Init
+<i>31</i>&nbsp;    public void init() throws Exception
+<i>32</i>&nbsp;    {
+<b class="nc"><i>33</i>&nbsp;        this.configs = this.crudService.getAll(Config.class);</b>
+<b class="nc"><i>34</i>&nbsp;    }</b>
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;    @NotifyChange(&quot;*&quot;)
+<i>37</i>&nbsp;    @Command(&quot;updateConfig&quot;)
+<i>38</i>&nbsp;    public void updateConfig()
+<i>39</i>&nbsp;    {
+<b class="nc"><i>40</i>&nbsp;            for (Config config: this.configs)</b>
+<i>41</i>&nbsp;            {
+<b class="nc"><i>42</i>&nbsp;                this.crudService.update(config);</b>
+<b class="nc"><i>43</i>&nbsp;            }</b>
+<i>44</i>&nbsp;
+<b class="nc"><i>45</i>&nbsp;            Clients.showNotification(&quot;Feito&quot;);</b>
+<b class="nc"><i>46</i>&nbsp;    }</b>
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;    public List&lt;Config&gt; getConfigs()
+<i>49</i>&nbsp;    {
+<b class="nc"><i>50</i>&nbsp;        return configs;</b>
+<i>51</i>&nbsp;    }
+<i>52</i>&nbsp;
+<i>53</i>&nbsp;    public void setConfigs(List&lt;Config&gt; configs)
+<i>54</i>&nbsp;    {
+<b class="nc"><i>55</i>&nbsp;        this.configs = configs;</b>
+<b class="nc"><i>56</i>&nbsp;    }</b>
+<i>57</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-07-08 13:41</div>
+</div>
+</body>
+</html>

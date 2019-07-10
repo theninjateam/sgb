@@ -39,6 +39,7 @@ public class ListMulta extends SelectorComposer<Component> {
     private EstadoDevolucaoControler eDController = (EstadoDevolucaoControler) SpringUtil.getBean("estadoDevolucaoControler");
     private MultaController mController = (MultaController) SpringUtil.getBean("multaController");
     private EstadoMultaControler eMController = (EstadoMultaControler) SpringUtil.getBean("estadoMultaControler");
+    private RoleController rController = (RoleController) SpringUtil.getBean("roleController");
 
     private Boolean isNormalUser = true;
     private StringBuilder query;
@@ -58,7 +59,7 @@ public class ListMulta extends SelectorComposer<Component> {
         Set<Role> userrole =user.getRoles();
 
         for(Role role : userrole) {
-            if(role.getRole().equals("ADMIN"))
+            if(role.getRoleId() == rController.ADMIN)
                 isNormalUser = false;
         }
         if (isNormalUser) {
@@ -88,10 +89,11 @@ public class ListMulta extends SelectorComposer<Component> {
             Boolean isForDetails = false;
             session.setAttribute("ForDetais", isForDetails);
             session.setAttribute("Multa", multa);
-
+            session.setAttribute("MultaListModel", multaListModel);
             Window window =(Window) Executions.createComponents("/views/multamodal.zul", null, null);
             window.setClosable(true);
             window.doModal();
+
     }
 
     public String dataConvert (Calendar dataa) {
@@ -102,7 +104,7 @@ public class ListMulta extends SelectorComposer<Component> {
         StringBuilder builder = new StringBuilder();
 
 
-        dateFormatter = DateFormat.getDateInstance(DateFormat.LONG, MOZAMBIQUE);
+        dateFormatter = DateFormat.getDateInstance(DateFormat.MEDIUM, MOZAMBIQUE);
 
         builder.append(dateFormatter.format(dataa.getTime()));
         builder.append("\n");

@@ -23,12 +23,9 @@
 <h1>Coverage Summary for Class: Obra (sgb.domain)</h1>
 
 <table class="coverageStats">
+
 <tr>
   <th class="name">Class</th>
-<th class="coverageStat 
-">
-  Class, %
-</th>
 <th class="coverageStat 
 ">
   Method, %
@@ -40,14 +37,6 @@
 </tr>
 <tr>
   <td class="name">Obra</td>
-<td class="coverageStat">
-  <span class="percent">
-    100%
-  </span>
-  <span class="absValue">
-    (1/ 1)
-  </span>
-</td>
 <td class="coverageStat">
   <span class="percent">
     100%
@@ -65,7 +54,28 @@
   </span>
 </td>
 </tr>
-
+  <tr>
+    <td class="name">Obra$getTitulo</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (37/ 37)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (58/ 58)
+  </span>
+</td>
+</tr>
 </table>
 
 <br/>
@@ -270,7 +280,7 @@
 <b class="fc"><i>196</i>&nbsp;        this.livroCd = livroCd;</b>
 <b class="fc"><i>197</i>&nbsp;    }</b>
 <i>198</i>&nbsp;
-<i>199</i>&nbsp;    @OneToMany(mappedBy = &quot;obra&quot;, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+<i>199</i>&nbsp;    @OneToMany(mappedBy = &quot;obra&quot;, fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
 <b class="fc"><i>200</i>&nbsp;    public Set&lt;RegistroObra&gt; getRegistroObras() { return registroObras; }</b>
 <i>201</i>&nbsp;
 <i>202</i>&nbsp;    public void setRegistroObras(Set&lt;RegistroObra&gt; registroObras) {
@@ -293,7 +303,7 @@
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2019-03-29 22:00</div>
+    <div style="float:right;">generated on 2019-07-08 13:41</div>
 </div>
 </body>
 </html>

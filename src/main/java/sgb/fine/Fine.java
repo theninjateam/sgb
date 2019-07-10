@@ -84,7 +84,6 @@ public class Fine
                 System.out.println("Nao foi possivel enviar o email!");
             }
 
-
         }
     }
 
@@ -138,16 +137,16 @@ public class Fine
             dias = getDelayDays(Calendar.getInstance()
                     ,eController.getRequest(m.getMultaPK()).getDatadevolucao());
 
-            if(m.getEstadoMulta().getDescricao().equals("NOT_PAID")){
+            if(m.getEstadoMulta().getIdestadomulta()==eMController.NOT_PAID){
                 m.setDiasatraso(dias);
             }
         }
     }
 
-    public double totalDinheiro(){
+    public double totalDinheiro(List<Multa> multaList){
         double totalAmount = 0.0;
 
-        for(Multa m:mController.getMultas()){
+        for(Multa m:multaList){
             totalAmount += getAmountToPay(m.getMultaPK());
         }
 

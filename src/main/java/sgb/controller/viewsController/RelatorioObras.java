@@ -35,9 +35,11 @@ import javax.management.Notification;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 //import org.zkoss.zk.chart.Charts;
@@ -51,7 +53,9 @@ public class RelatorioObras extends SelectorComposer<Component> {
     private RegistroObraController registroObraController  = (RegistroObraController) SpringUtil.getBean("registroObraController");
     private ObraEliminadasController obraEliminadasController  = (ObraEliminadasController) SpringUtil.getBean("obraEliminadasController");
     private AreaCientificaController areaCientificaController  = (AreaCientificaController) SpringUtil.getBean("areaCientificaController");
-
+    private AreaCientifica areaCientifica;
+    private List<RegistroObra> registroObras;
+    private List<ObraEliminadas> obraEliminadas;
     private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;
     private Boolean isNormalUser = true;
     private int selected = 0;
@@ -59,6 +63,7 @@ public class RelatorioObras extends SelectorComposer<Component> {
     private Listbox obrasregistadas;
     private Listbox obracategoria;
     private Label qtdd;
+    String dateFiltered;
     Calendar dataI = Calendar.getInstance();
     Calendar dataF = Calendar.getInstance();
 
@@ -102,11 +107,11 @@ public class RelatorioObras extends SelectorComposer<Component> {
         obracategoria = (Listbox)idInclRelatorioObrasQuantidade.getFellow("obracategoria");
         qtdd = (Label) idInclRelatorioObrasQuantidade.getFellow("qtdd");
 
-        AreaCientifica a = new AreaCientifica();
-        a.setDescricao("Todas Areas"); a.setIdarea(0);
+        areaCientifica = new AreaCientifica();
+        areaCientifica.setDescricao("Todas Areas"); areaCientifica.setIdarea(0);
         areaCientificaListModel = new ListModelList<AreaCientifica>(areaCientificaController.getAreaCientifica());
-        areaCientificaListModel.add(0,a);
-        areaCientificaListModel.addToSelection(a);
+        areaCientificaListModel.add(0,areaCientifica);
+        areaCientificaListModel.addToSelection(areaCientifica);
         areaCientificaListBox.setModel(areaCientificaListModel);
         setListModelsallData();
         setListBoxsModels();
@@ -114,61 +119,38 @@ public class RelatorioObras extends SelectorComposer<Component> {
 
     @Listen("onSelect = #areaCientificaListBox")
     public void change() {
+        areaCientifica = areaCientificaListBox.getSelectedItem().getValue();
 
-        List<RegistroObra> registroObras;
-        AreaCientifica areaCientifica = areaCientificaListBox.getSelectedItem().getValue();
-
-        if(areaCientifica.getIdarea()!=0){
-            if(dataInicio.getValue() ==null) {
-                obraCategoriaListModel = new ListModelList<ObraCategoria>(obraController.getObrasCategorias(areaCientifica));
-                qtdd = (Label) idInclRelatorioObrasQuantidade.getFellow("qtdd");
-            }else{
-                getUpdateDate();
-                registroObras = registroObraController.getObrasByDate(dataI,dataF,areaCientifica);
-                obraCategoriaListModel = new ListModelList<ObraCategoria>(obraController.getObrasCategorias(registroObras,areaCientifica));
-                qtdd = (Label) idInclRelatorioObrasQuantidade.getFellow("qtdd");
-            }
-        } else {
-            qtdd = (Label) idInclRelatorioObrasQuantidade.getFellow("qtdd");
-            setListModelsallData();
-        }
-
+        setListModelsallData();
         setListBoxsModels();
     }
 
     @Listen("onChange = #dataInicio;onChange = #dataFim")
     public void dataChange() {
-
         getUpdateDate();
-        AreaCientifica areaCientifica = areaCientificaListBox.getSelectedItem().getValue();
-        List<RegistroObra> registroObras = registroObraController.getObrasByDate(dataI,dataF,areaCientifica);
 
-        if(areaCientifica.getIdarea()!=0){
-            obraCategoriaListModel = new ListModelList<ObraCategoria>(obraController.getObrasCategorias(registroObras,areaCientifica));
-            obrasregistadasListModel = new ListModelList<RegistroObra>(registroObraController.getObrasRegistadas());
-            obraEliminadasListModel =new ListModelList<ObraEliminadas>(obraEliminadasController.getObrasEliminadas());
-            qtdd = (Label) idInclRelatorioObrasQuantidade.getFellow("qtdd");
-        } else {
-            qtdd = (Label) idInclRelatorioObrasQuantidade.getFellow("qtdd");
-            setListModelsallData();
-        }
-
+        setListModelsallData();
         setListBoxsModels();
     }
 
     public void setListModelsallData(){
+        getUpdateDate();
 
-        List<RegistroObra> registroObras;
+        if(areaCientifica.getIdarea()!=0){
+            obraEliminadas = obraEliminadasController.getObrasEliminadasByDate(dataI, dataF, areaCientifica);
+            registroObras = registroObraController.getObrasByDate(dataI, dataF, areaCientifica);
 
-        if(dataInicio.getValue() ==null) {
-            obraCategoriaListModel = new ListModelList<ObraCategoria>(obraController.getObrasCategorias(null));
-        }else {
-            getUpdateDate();
+            obraCategoriaListModel = new ListModelList<ObraCategoria>(obraController.getObrasCategorias(registroObras, areaCientifica));
+        }else{
+            obraEliminadas = obraEliminadasController.getObrasEliminadasByDate(dataI, dataF, null);
             registroObras = registroObraController.getObrasByDate(dataI, dataF, null);
+
             obraCategoriaListModel = new ListModelList<ObraCategoria>(obraController.getObrasCategorias(registroObras, null));
         }
-        obrasregistadasListModel = new ListModelList<RegistroObra>(registroObraController.getObrasRegistadas());
-        obraEliminadasListModel =new ListModelList<ObraEliminadas>(obraEliminadasController.getObrasEliminadas());
+        obrasregistadasListModel = new ListModelList<RegistroObra>(registroObras);
+        obraEliminadasListModel =new ListModelList<ObraEliminadas>(obraEliminadas);
+        qtdd = (Label) idInclRelatorioObrasQuantidade.getFellow("qtdd");
+        dateFiltered = "Lista de "+dataConvert(dataI)+" a "+dataConvert(dataF);
     }
 
     public void setListBoxsModels(){
@@ -197,6 +179,24 @@ public class RelatorioObras extends SelectorComposer<Component> {
         };
     }
 
+    public Date reduzDataActual(){
+        Calendar c = Calendar.getInstance();
+
+        c.add(Calendar.DAY_OF_MONTH, -30);
+
+        return c.getTime();
+    }
+
+    public String dataConvert (Calendar dataa) {
+
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
+        StringBuilder builder = new StringBuilder();
+
+        builder.append(dateFormatter.format(dataa.getTime()));
+
+        return builder.toString();
+    }
+
     @Listen("onClick=#savePdf")
     public void show() throws JRException, IOException {
         String path;
@@ -217,7 +217,7 @@ public class RelatorioObras extends SelectorComposer<Component> {
 
 
         byte [] arr = JasperExportManager.exportReportToPdf(gerarRelatorio.createPdfObras(obraCategoriaListModel,
-                obrasregistadasListModel, obraEliminadasListModel, selected, qtdd.getValue(), path));
+                obrasregistadasListModel, obraEliminadasListModel, selected, qtdd.getValue(), path, dateFiltered));
         AMedia media = new AMedia(reportName, "pdf", "application/pdf", arr);
         final Window window = new Window();
         window.setClosable(true);
@@ -286,7 +286,7 @@ public class RelatorioObras extends SelectorComposer<Component> {
         }
 
         exporter.setParameter(JRExporterParameter.JASPER_PRINT, gerarRelatorio.createPdfObras(obraCategoriaListModel,
-                obrasregistadasListModel, obraEliminadasListModel, selected, qtdd.getValue(), path));
+                obrasregistadasListModel, obraEliminadasListModel, selected, qtdd.getValue(), path, dateFiltered));
         exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, filePath);
         exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
         exporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);

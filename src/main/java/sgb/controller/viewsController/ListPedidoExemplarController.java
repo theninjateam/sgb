@@ -47,6 +47,7 @@ public class ListPedidoExemplarController extends SelectorComposer<Component>
     private MultaController mController = (MultaController) SpringUtil.getBean("multaController");
     private Deadline deadline = (Deadline) SpringUtil.getBean("deadline");
     private BorrowedBooksDeadline bBDeadline = (BorrowedBooksDeadline) SpringUtil.getBean("borrowedBooksDeadline");
+    private RoleController rController = (RoleController) SpringUtil.getBean("roleController");
     private Session session;
     private EmprestimoPK emprestimoPK;
     private Emprestimo emprestimo;
@@ -91,7 +92,7 @@ public class ListPedidoExemplarController extends SelectorComposer<Component>
         Set<Role> userrole =user.getRoles();
 
         for(Role role : userrole) {
-            if(role.getRole().equals("ADMIN"))
+            if(role.getRoleId() == rController.ADMIN)
                 a = false;
         }
         return a;

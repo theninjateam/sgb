@@ -10,6 +10,7 @@ import org.zkoss.zul.Listbox;
 import sgb.controller.domainController.EmprestimoController;
 import sgb.controller.domainController.EstadoDevolucaoControler;
 import sgb.controller.domainController.EstadoPedidoControler;
+import sgb.controller.domainController.RoleController;
 import sgb.deadline.BorrowedBooksDeadline;
 import sgb.domain.Emprestimo;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -42,6 +43,8 @@ public class ListPedido extends SelectorComposer<Component> {
     private EstadoPedidoControler ePController = (EstadoPedidoControler) SpringUtil.getBean("estadoPedidoControler");
     private EmprestimoController eController = (EmprestimoController) SpringUtil.getBean("emprestimoController");
     private EstadoDevolucaoControler eDController = (EstadoDevolucaoControler) SpringUtil.getBean("estadoDevolucaoControler");
+    private RoleController rController = (RoleController) SpringUtil.getBean("roleController");
+
 
 
 
@@ -87,7 +90,7 @@ public class ListPedido extends SelectorComposer<Component> {
         Set<Role> userrole =user.getRoles();
 
         for(Role role : userrole) {
-            if(role.getRole().equals("ADMIN"))
+            if(role.getRoleId() == rController.ADMIN)
                 a = false;
         }
         return a;
@@ -153,7 +156,7 @@ public class ListPedido extends SelectorComposer<Component> {
             Set<Role> roles = emp.getEmprestimoPK().getUtente().getRoles();
 
             for(Role role: roles) {
-                if(role.getRole().equals("student"))
+                if(role.getRoleId() == rController.STUDENT)
                     isStudent= true;
                 else
                     isStudent = false;
@@ -207,7 +210,6 @@ public class ListPedido extends SelectorComposer<Component> {
 
     public Boolean Reserved(Emprestimo emp) {
         Boolean aBoolean = false;
-
 
         if(emp.getEstadoPedido().getIdestadopedido() == ePController.PENDING_BOOKING){
             aBoolean = true;

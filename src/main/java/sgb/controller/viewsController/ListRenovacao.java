@@ -8,6 +8,7 @@ import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
+import sgb.controller.domainController.RoleController;
 import sgb.domain.Emprestimo;
 import sgb.domain.Obra;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -37,6 +38,8 @@ import java.util.List;
 public class ListRenovacao extends SelectorComposer<Component> {
     private CRUDService crudService = (CRUDService) SpringUtil.getBean("CRUDService");
     private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;
+    private RoleController rController = (RoleController) SpringUtil.getBean("roleController");
+
     private ListModelList<Emprestimo> renovacaoListModel;
     private Boolean isNormalUser = true;
     private EstadoRenovacao estadoRenovacao;
@@ -51,7 +54,7 @@ public class ListRenovacao extends SelectorComposer<Component> {
         Set<Role> userrole =user.getRoles();
 
         for(Role role : userrole) {
-            if(role.getRole().equals("ADMIN"))
+            if(role.getRoleId() == rController.ADMIN)
                 isNormalUser = false;
         }
         if (isNormalUser) {

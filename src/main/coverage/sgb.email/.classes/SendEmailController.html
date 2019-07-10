@@ -1,0 +1,147 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: SendEmailController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">sgb.email</a> ]
+</div>
+
+<h1>Coverage Summary for Class: SendEmailController (sgb.email)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SendEmailController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    57.1%
+  </span>
+  <span class="absValue">
+    (12/ 21)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package sgb.email;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import sgb.controller.domainController.MultaController;
+<i>4</i>&nbsp;import sgb.domain.Multa;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;import javax.mail.MessagingException;
+<i>7</i>&nbsp;import java.io.IOException;
+<i>8</i>&nbsp;import java.util.List;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;public class SendEmailController extends Thread {
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;    private MultaController multaController;
+<i>14</i>&nbsp;    private SendEmail sendEmail;
+<i>15</i>&nbsp;
+<b class="fc"><i>16</i>&nbsp;    public SendEmailController(MultaController multaController,SendEmail sendEmail){</b>
+<i>17</i>&nbsp;
+<b class="fc"><i>18</i>&nbsp;        this.multaController = multaController;</b>
+<b class="fc"><i>19</i>&nbsp;        this.sendEmail = sendEmail;</b>
+<i>20</i>&nbsp;
+<b class="fc"><i>21</i>&nbsp;    }</b>
+<i>22</i>&nbsp;    public void run(){
+<i>23</i>&nbsp;
+<b class="fc"><i>24</i>&nbsp;        System.out.println(&quot;SendEmailController...&quot;);</b>
+<b class="fc"><i>25</i>&nbsp;        this.process(multaController.getByNotification(false));</b>
+<b class="fc"><i>26</i>&nbsp;    }</b>
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    public boolean process(List&lt;Multa&gt; nonNotified) {
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;
+<b class="fc"><i>31</i>&nbsp;        if (nonNotified !=null){</b>
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;            String msg,subjet;
+<b class="fc"><i>34</i>&nbsp;            subjet = &quot;Notificacao de Multa&quot;;</b>
+<i>35</i>&nbsp;
+<b class="fc"><i>36</i>&nbsp;            for (Multa m: nonNotified){</b>
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;
+<b class="nc"><i>39</i>&nbsp;                msg = &quot;Caro utente &quot; + m.getMultaPK().getUtente().getName() + &quot; &quot; + m.getMultaPK().getUtente().getLastName()+ &quot;,\n&quot; +</b>
+<b class="nc"><i>40</i>&nbsp;                        &quot;o seu emprestimo da obra &quot; + m.getMultaPK().getObra().getTitulo() + &quot; feito em &quot; + m.getMultaPK().getDataentradapedido().getTime()+</b>
+<b class="nc"><i>41</i>&nbsp;                        &quot; ultrapassou o tempo limite de emprestimo, tendo uma multa de &quot; + m.getValorpago() +  &quot; MTN.\n Porfavor, Regularize a sua situacao de multa, o mais breve possivel&quot;;</b>
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;                try {
+<b class="nc"><i>44</i>&nbsp;                    sendEmail.sendEmail(subjet, msg, m.getMultaPK().getUtente().getEmail());</b>
+<i>45</i>&nbsp;
+<b class="nc"><i>46</i>&nbsp;                    this.multaController.updateNotification(m.getMultaPK(),true);</b>
+<b class="nc"><i>47</i>&nbsp;                } catch (MessagingException e) {</b>
+<b class="nc"><i>48</i>&nbsp;                    System.out.println(&quot;Nao foi possivel enviar o email!&quot;);</b>
+<b class="nc"><i>49</i>&nbsp;                }</b>
+<i>50</i>&nbsp;
+<b class="nc"><i>51</i>&nbsp;            }</b>
+<i>52</i>&nbsp;
+<b class="fc"><i>53</i>&nbsp;            return true;</b>
+<i>54</i>&nbsp;        }
+<i>55</i>&nbsp;
+<b class="fc"><i>56</i>&nbsp;        return false;</b>
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;
+<i>59</i>&nbsp;
+<i>60</i>&nbsp;    }
+<i>61</i>&nbsp;
+<i>62</i>&nbsp;
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-07-08 13:41</div>
+</div>
+</body>
+</html>

@@ -50,18 +50,18 @@
 </td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    66.7%
   </span>
   <span class="absValue">
-    (2/ 2)
+    (2/ 3)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    78.6%
   </span>
   <span class="absValue">
-    (11/ 11)
+    (11/ 14)
   </span>
 </td>
 </tr>
@@ -79,42 +79,50 @@
 <i>5</i>&nbsp;import sgb.service.CRUDService;
 <i>6</i>&nbsp;
 <i>7</i>&nbsp;import java.util.HashMap;
-<i>8</i>&nbsp;
-<i>9</i>&nbsp;public class EstadoMultaControler
-<i>10</i>&nbsp;{
-<i>11</i>&nbsp;    private CRUDService CRUDService;
-<i>12</i>&nbsp;    private HashMap&lt;String, Object&gt; parameters;
-<i>13</i>&nbsp;    private StringBuilder query;
-<i>14</i>&nbsp;
-<i>15</i>&nbsp;    public final int NOT_PAID;
-<i>16</i>&nbsp;    public final int PAID;
-<i>17</i>&nbsp;    public final int REVOKED;
-<i>18</i>&nbsp;
-<i>19</i>&nbsp;    public EstadoMultaControler(CRUDService crudService)
-<b class="fc"><i>20</i>&nbsp;    {</b>
-<b class="fc"><i>21</i>&nbsp;        this.CRUDService = crudService;</b>
-<b class="fc"><i>22</i>&nbsp;        NOT_PAID = getValue(&quot;NOT_PAID&quot;);</b>
-<b class="fc"><i>23</i>&nbsp;        PAID = getValue(&quot;PAID&quot;);</b>
-<b class="fc"><i>24</i>&nbsp;        REVOKED = getValue(&quot;REVOKED&quot;);</b>
-<b class="fc"><i>25</i>&nbsp;    }</b>
-<i>26</i>&nbsp;
-<i>27</i>&nbsp;    public int getValue(String description)
-<i>28</i>&nbsp;    {
-<b class="fc"><i>29</i>&nbsp;        parameters = new HashMap&lt;String, Object&gt;(1);</b>
-<b class="fc"><i>30</i>&nbsp;        query = new StringBuilder();</b>
-<i>31</i>&nbsp;
-<b class="fc"><i>32</i>&nbsp;        parameters.put(&quot;description&quot;, description);</b>
-<b class="fc"><i>33</i>&nbsp;        query.append(&quot;SELECT e FROM EstadoMulta e WHERE e.descricao = :description&quot;);</b>
-<i>34</i>&nbsp;
-<b class="fc"><i>35</i>&nbsp;        return  ((EstadoMulta) this.CRUDService.findEntByJPQueryT(query.toString(), parameters)).getIdestadomulta();</b>
-<i>36</i>&nbsp;    }
-<i>37</i>&nbsp;}
+<i>8</i>&nbsp;import java.util.List;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;public class EstadoMultaControler
+<i>11</i>&nbsp;{
+<i>12</i>&nbsp;    private CRUDService CRUDService;
+<i>13</i>&nbsp;    private HashMap&lt;String, Object&gt; parameters;
+<i>14</i>&nbsp;    private StringBuilder query;
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;    public final int NOT_PAID;
+<i>17</i>&nbsp;    public final int PAID;
+<i>18</i>&nbsp;    public final int REVOKED;
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    public EstadoMultaControler(CRUDService crudService)
+<b class="fc"><i>21</i>&nbsp;    {</b>
+<b class="fc"><i>22</i>&nbsp;        this.CRUDService = crudService;</b>
+<b class="fc"><i>23</i>&nbsp;        NOT_PAID = getValue(&quot;NAO_PAGA&quot;);</b>
+<b class="fc"><i>24</i>&nbsp;        PAID = getValue(&quot;PAGA&quot;);</b>
+<b class="fc"><i>25</i>&nbsp;        REVOKED = getValue(&quot;REVOGADA&quot;);</b>
+<b class="fc"><i>26</i>&nbsp;    }</b>
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    public int getValue(String description)
+<i>29</i>&nbsp;    {
+<b class="fc"><i>30</i>&nbsp;        parameters = new HashMap&lt;String, Object&gt;(1);</b>
+<b class="fc"><i>31</i>&nbsp;        query = new StringBuilder();</b>
+<i>32</i>&nbsp;
+<b class="fc"><i>33</i>&nbsp;        parameters.put(&quot;description&quot;, description);</b>
+<b class="fc"><i>34</i>&nbsp;        query.append(&quot;SELECT e FROM EstadoMulta e WHERE e.descricao = :description&quot;);</b>
+<i>35</i>&nbsp;
+<b class="fc"><i>36</i>&nbsp;        return  ((EstadoMulta) this.CRUDService.findEntByJPQueryT(query.toString(), parameters)).getIdestadomulta();</b>
+<i>37</i>&nbsp;    }
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;    public List&lt;EstadoMulta&gt; getEstadoMultas(){
+<b class="nc"><i>40</i>&nbsp;        query = new StringBuilder();</b>
+<i>41</i>&nbsp;
+<b class="nc"><i>42</i>&nbsp;        query.append(&quot;SELECT em FROM EstadoMulta em&quot;);</b>
+<b class="nc"><i>43</i>&nbsp;        return this.CRUDService.findByJPQuery(query.toString(),null);</b>
+<i>44</i>&nbsp;    }
+<i>45</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2019-03-29 22:00</div>
+    <div style="float:right;">generated on 2019-07-08 13:41</div>
 </div>
 </body>
 </html>

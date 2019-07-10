@@ -1,9 +1,6 @@
 package sgb.controller.domainController;
 
-import sgb.domain.Emprestimo;
-import sgb.domain.EmprestimoPK;
-import sgb.domain.Obra;
-import sgb.domain.Users;
+import sgb.domain.*;
 import sgb.service.CRUDService;
 
 import java.util.Calendar;
@@ -146,6 +143,29 @@ public class EmprestimoController
         query.append("e.emprestimoPK.obra.cota = :cota");
 
         return this.crudService.findByJPQuery(query.toString(), parameters);
+    }
+
+    public List<Emprestimo> getBorrowedBooksByDate(Calendar dataI, Calendar dataF, EstadoDevolucao estadoDevolucao){
+        if(estadoDevolucao!=null){
+            parameters = new HashMap<>(3);
+        }
+        else{
+            parameters = new HashMap<>(2);
+        }
+
+        parameters.put("datai", dataI);
+        parameters.put("dataf", dataF);
+
+        query = new StringBuilder();
+
+        query.append("SELECT e FROM Emprestimo e WHERE e.datadevolucao >= :datai ");
+        query.append("and e.datadevolucao <= :dataf");
+        if(estadoDevolucao!=null){
+            parameters.put("idEstado",estadoDevolucao.getIdestadodevolucao());
+            query.append(" and e.estadoDevolucao.idestadodevolucao = :idEstado");
+        }
+
+        return this.crudService.findByJPQuery(query.toString(),parameters);
     }
 
     public List<Emprestimo> getBorrowedBooks(){

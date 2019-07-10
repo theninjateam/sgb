@@ -8,8 +8,12 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.Window;
+import sgb.controller.domainController.EstadoPedidoControler;
+import sgb.controller.domainController.RoleController;
 import sgb.domain.Role;
 import sgb.domain.Users;
 
@@ -17,6 +21,8 @@ import java.util.Set;
 
 public class LogoutModalController extends SelectorComposer<Component> {
     private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;
+    private RoleController rController = (RoleController) SpringUtil.getBean("roleController");
+
     @Wire
     Window logoutModal;
 
@@ -35,6 +41,7 @@ public class LogoutModalController extends SelectorComposer<Component> {
             currentUser.setValue(user.getName() +" "+ user.getLastName());
             currentUserRole.setValue("("+getRole()+")");
 
+
         }catch (Exception e){}
 
 
@@ -45,14 +52,10 @@ public class LogoutModalController extends SelectorComposer<Component> {
 
         Set<Role> userrole =user.getRoles();
 
-        for(Role rol : userrole)
-            if (rol.getRole().equals("ADMIN")){
-                string="ADIMIN";
-            } else if (rol.getRole().equals("STUDENT")){
-                string = "STUDENT";
-            }else if (rol.getRole().equals("TEACHER")){
-                string = "TEACHER";
-            }
+        for(Role rol : userrole) {
+            string = rol.getRole();
+        }
+
         return string;
     }
 

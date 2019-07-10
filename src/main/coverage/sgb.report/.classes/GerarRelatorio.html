@@ -1,0 +1,203 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: GerarRelatorio</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">sgb.report</a> ]
+</div>
+
+<h1>Coverage Summary for Class: GerarRelatorio (sgb.report)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GerarRelatorio</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (50/ 50)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package sgb.report;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import net.sf.jasperreports.engine.*;
+<i>4</i>&nbsp;import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+<i>5</i>&nbsp;import net.sf.jasperreports.view.JasperViewer;
+<i>6</i>&nbsp;import org.zkoss.zul.ListModelList;
+<i>7</i>&nbsp;import sgb.domain.*;
+<i>8</i>&nbsp;import sgb.service.CRUDService;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;import java.io.*;
+<i>11</i>&nbsp;import java.util.HashMap;
+<i>12</i>&nbsp;import java.util.List;
+<i>13</i>&nbsp;import java.util.Map;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;public class GerarRelatorio {
+<i>16</i>&nbsp;    private CRUDService crudService;
+<i>17</i>&nbsp;
+<b class="fc"><i>18</i>&nbsp;    public GerarRelatorio(CRUDService crudService){</b>
+<b class="fc"><i>19</i>&nbsp;        this.crudService = crudService;</b>
+<b class="fc"><i>20</i>&nbsp;    }</b>
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;    public JasperPrint createPdfObras(List&lt;ObraCategoria&gt; obraCategoriaList
+<i>23</i>&nbsp;            , List&lt;RegistroObra&gt; obrasregistadasList
+<i>24</i>&nbsp;            , List&lt;ObraEliminadas&gt; obraEliminadasList
+<i>25</i>&nbsp;            , int selected
+<i>26</i>&nbsp;            , String value
+<i>27</i>&nbsp;            , String path) throws JRException, IOException {
+<i>28</i>&nbsp;
+<b class="fc"><i>29</i>&nbsp;        String pathLogo = &quot;src/main/webapp/img/logoPNG.png&quot;;</b>
+<b class="fc"><i>30</i>&nbsp;        Map parametros = new HashMap();</b>
+<b class="fc"><i>31</i>&nbsp;        JasperPrint jasperPrint = null;</b>
+<b class="fc"><i>32</i>&nbsp;        JasperReport jasperReport = null;</b>
+<i>33</i>&nbsp;
+<b class="fc"><i>34</i>&nbsp;        switch (selected) {</b>
+<i>35</i>&nbsp;            case 0:{
+<b class="fc"><i>36</i>&nbsp;                JasperCompileManager.compileReportToFile(&quot;src/main/java/sgb/report/relatorioObras/relatorio2.jrxml&quot;, &quot;src/main/java/sgb/report/relatorioObras/relatorio2.jasper&quot;);</b>
+<i>37</i>&nbsp;
+<b class="fc"><i>38</i>&nbsp;                String subreportPath = new File(&quot;src/main/java/sgb/report/relatorioObras/relatorio2.jasper&quot;).getCanonicalPath();</b>
+<i>39</i>&nbsp;
+<b class="fc"><i>40</i>&nbsp;                parametros.put(&quot;pathLogo&quot;, pathLogo);</b>
+<b class="fc"><i>41</i>&nbsp;                parametros.put(&quot;pathSubreport&quot;, subreportPath);</b>
+<b class="fc"><i>42</i>&nbsp;                parametros.put(&quot;totalObras&quot;, value);</b>
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;                try {
+<b class="fc"><i>45</i>&nbsp;                    jasperReport = JasperCompileManager.compileReport(path);</b>
+<b class="fc"><i>46</i>&nbsp;                    jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, new JRBeanCollectionDataSource(obraCategoriaList));</b>
+<b class="fc"><i>47</i>&nbsp;                }catch (Exception e){</b>
+<i>48</i>&nbsp;
+<b class="fc"><i>49</i>&nbsp;                }</b>
+<i>50</i>&nbsp;
+<b class="fc"><i>51</i>&nbsp;                break;</b>
+<i>52</i>&nbsp;            }
+<i>53</i>&nbsp;            case 1:{
+<b class="fc"><i>54</i>&nbsp;                parametros.put(&quot;pathLogo&quot;, pathLogo);</b>
+<i>55</i>&nbsp;
+<i>56</i>&nbsp;                try {
+<b class="fc"><i>57</i>&nbsp;                    jasperReport = JasperCompileManager.compileReport(path);</b>
+<b class="fc"><i>58</i>&nbsp;                    jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, new JRBeanCollectionDataSource(obrasregistadasList));</b>
+<b class="fc"><i>59</i>&nbsp;                }catch (Exception e){</b>
+<i>60</i>&nbsp;
+<b class="fc"><i>61</i>&nbsp;                }</b>
+<b class="fc"><i>62</i>&nbsp;                break;</b>
+<i>63</i>&nbsp;            }
+<i>64</i>&nbsp;            case 2:{
+<b class="fc"><i>65</i>&nbsp;                parametros.put(&quot;pathLogo&quot;, pathLogo);</b>
+<i>66</i>&nbsp;
+<i>67</i>&nbsp;                try {
+<b class="fc"><i>68</i>&nbsp;                    jasperReport = JasperCompileManager.compileReport(path);</b>
+<b class="fc"><i>69</i>&nbsp;                    jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, new JRBeanCollectionDataSource(obraEliminadasList));</b>
+<b class="fc"><i>70</i>&nbsp;                }catch (Exception e){</b>
+<i>71</i>&nbsp;
+<b class="fc"><i>72</i>&nbsp;                }</b>
+<i>73</i>&nbsp;                break;
+<i>74</i>&nbsp;            }
+<i>75</i>&nbsp;        }
+<i>76</i>&nbsp;
+<b class="fc"><i>77</i>&nbsp;        return jasperPrint;</b>
+<i>78</i>&nbsp;    }
+<i>79</i>&nbsp;
+<i>80</i>&nbsp;    public JasperPrint createPdfEmprestimo(List&lt;Emprestimo&gt; emprestimoList
+<i>81</i>&nbsp;            , String path) throws JRException {
+<b class="fc"><i>82</i>&nbsp;        String pathLogo = &quot;src/main/webapp/img/logoPNG.png&quot;;</b>
+<b class="fc"><i>83</i>&nbsp;        Map parametros = new HashMap();</b>
+<b class="fc"><i>84</i>&nbsp;        JasperPrint jasperPrint = null;</b>
+<i>85</i>&nbsp;
+<b class="fc"><i>86</i>&nbsp;        parametros.put(&quot;pathLogo&quot;, pathLogo);</b>
+<i>87</i>&nbsp;        //parametros.put(&quot;datas&quot;, datas);
+<i>88</i>&nbsp;
+<i>89</i>&nbsp;        try {
+<b class="fc"><i>90</i>&nbsp;            JasperReport jasperReport = JasperCompileManager.compileReport(path);</b>
+<b class="fc"><i>91</i>&nbsp;            jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, new JRBeanCollectionDataSource(emprestimoList));</b>
+<b class="fc"><i>92</i>&nbsp;        }catch (Exception e){</b>
+<i>93</i>&nbsp;
+<b class="fc"><i>94</i>&nbsp;        }</b>
+<i>95</i>&nbsp;
+<b class="fc"><i>96</i>&nbsp;        return jasperPrint;</b>
+<i>97</i>&nbsp;    }
+<i>98</i>&nbsp;
+<i>99</i>&nbsp;    public JasperPrint createPdfMulta(List&lt;Multa&gt; multaList
+<i>100</i>&nbsp;            , String path
+<i>101</i>&nbsp;            , double totalValor) throws JRException{
+<b class="fc"><i>102</i>&nbsp;        String pathLogo = &quot;src/main/webapp/img/logoPNG.png&quot;, s =&quot;&quot;;</b>
+<b class="fc"><i>103</i>&nbsp;        Map parametros = new HashMap();</b>
+<b class="fc"><i>104</i>&nbsp;        JasperPrint jasperPrint = null;</b>
+<i>105</i>&nbsp;
+<b class="fc"><i>106</i>&nbsp;        s +=totalValor;</b>
+<b class="fc"><i>107</i>&nbsp;        parametros.put(&quot;pathLogo&quot;, pathLogo);</b>
+<b class="fc"><i>108</i>&nbsp;        parametros.put(&quot;totalValor&quot;, s);</b>
+<i>109</i>&nbsp;
+<i>110</i>&nbsp;        try {
+<b class="fc"><i>111</i>&nbsp;            JasperReport jasperReport = JasperCompileManager.compileReport(path);</b>
+<b class="fc"><i>112</i>&nbsp;            jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, new JRBeanCollectionDataSource(multaList));</b>
+<b class="fc"><i>113</i>&nbsp;        }catch (Exception e){</b>
+<i>114</i>&nbsp;
+<b class="fc"><i>115</i>&nbsp;        }</b>
+<i>116</i>&nbsp;
+<b class="fc"><i>117</i>&nbsp;        return jasperPrint;</b>
+<i>118</i>&nbsp;    }
+<i>119</i>&nbsp;
+<i>120</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-07-08 13:41</div>
+</div>
+</body>
+</html>
