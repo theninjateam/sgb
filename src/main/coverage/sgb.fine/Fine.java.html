@@ -132,16 +132,16 @@ public class Fine
 <span class="fc" id="L132">    }</span>
 
     public void updateDelayDays(List&lt;Multa&gt; multaList){
-<span class="nc bnc" id="L135" title="All 2 branches missed.">        for(Multa m: multaList){</span>
-<span class="nc" id="L136">            int dias = 0;</span>
-<span class="nc" id="L137">            dias = getDelayDays(Calendar.getInstance()</span>
-<span class="nc" id="L138">                    ,eController.getRequest(m.getMultaPK()).getDatadevolucao());</span>
+<span class="fc bfc" id="L135" title="All 2 branches covered.">        for(Multa m: multaList){</span>
+<span class="fc" id="L136">            int dias = 0;</span>
+<span class="fc" id="L137">            dias = getDelayDays(Calendar.getInstance()</span>
+<span class="fc" id="L138">                    ,eController.getRequest(m.getMultaPK()).getDatadevolucao());</span>
 
-<span class="nc bnc" id="L140" title="All 2 branches missed.">            if(m.getEstadoMulta().getIdestadomulta()==eMController.NOT_PAID){</span>
-<span class="nc" id="L141">                m.setDiasatraso(dias);</span>
+<span class="fc bfc" id="L140" title="All 2 branches covered.">            if(m.getEstadoMulta().getIdestadomulta()==eMController.NOT_PAID){</span>
+<span class="fc" id="L141">                m.setDiasatraso(dias);</span>
             }
-<span class="nc" id="L143">        }</span>
-<span class="nc" id="L144">    }</span>
+<span class="fc" id="L143">        }</span>
+<span class="fc" id="L144">    }</span>
 
     public double totalDinheiro(List&lt;Multa&gt; multaList){
 <span class="nc" id="L147">        double totalAmount = 0.0;</span>

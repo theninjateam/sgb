@@ -177,13 +177,9 @@ public class FineTest
         now.add(Calendar.DAY_OF_MONTH, 4);
 
         fine.updateDelayDays(multas);
-        int diasEsperados = multas.get(7).getDiasatraso();
-        System.out.println(diasEsperados);
+        int diasEsperados = multas.get(7).getDiasatraso() + 4;
 
-//        System.out.println(now.getTime());
-//        assertThat(diasEsperados).isGreaterThan(diasActuais);
-
-
+        assertThat(diasEsperados).isGreaterThan(diasActuais);
     }
 //
 //    @Test

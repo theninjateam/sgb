@@ -46,7 +46,7 @@ import static org.junit.Assert.*;
 
     @Test
     @Transactional
-    public void createPdf1() throws JRException, IOException {
+    public void createPdf1Test() throws JRException, IOException {
         AreaCientifica areaCientifica;
         List&lt;ObraCategoria&gt; obraCategorias;
         List&lt;RegistroObra&gt; registroObras;
@@ -111,7 +111,7 @@ import static org.junit.Assert.*;
 
     @Test
     @Transactional
-    public void createPdf2() throws JRException {
+    public void createPdf2Test() throws JRException {
         List&lt;Emprestimo&gt; emprestimoList;
 
 <span class="fc" id="L117">        emprestimoList = emprestimoController.getBorrowedBooks();</span>
@@ -124,7 +124,7 @@ import static org.junit.Assert.*;
 
     @Test
     @Transactional
-    public void createPdf3() throws JRException {
+    public void createPdf3Test() throws JRException {
         List&lt;Multa&gt; multaList;
 
 <span class="fc" id="L130">        multaList = multaController.getMultas();</span>

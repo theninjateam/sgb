@@ -17,6 +17,7 @@ import sgb.domain.Multa;
 import sgb.service.CRUDService;
 
 import java.util.Calendar;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -27,7 +28,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Fonseca, bfonseca@unilurio.ac.mz
  */
 
-<span class="fc" id="L30">public class FineTest</span>
+<span class="fc" id="L31">public class FineTest</span>
 {
     @Autowired
     private ApplicationContext context;
@@ -42,126 +43,159 @@ import static org.assertj.core.api.Assertions.assertThat;
     @Transactional
     public void before() throws Exception
     {
-<span class="fc" id="L45">        System.out.println(&quot;Setting it up!&quot;);</span>
+<span class="fc" id="L46">        System.out.println(&quot;Setting it up!&quot;);</span>
 
-<span class="fc" id="L47">        this.fine = (Fine) context.getBean(&quot;fine&quot;);</span>
-<span class="fc" id="L48">        this.crudService = (CRUDService) context.getBean(&quot;CRUDService&quot;);</span>
-<span class="fc" id="L49">        this.multaController = (MultaController) context.getBean(&quot;multaController&quot;);</span>
-<span class="fc" id="L50">        this.configControler = (ConfigControler) context.getBean(&quot;configControler&quot;);</span>
-<span class="fc" id="L51">        this.estadoMultaControler = (EstadoMultaControler) context.getBean(&quot;estadoMultaControler&quot;);</span>
+<span class="fc" id="L48">        this.fine = (Fine) context.getBean(&quot;fine&quot;);</span>
+<span class="fc" id="L49">        this.crudService = (CRUDService) context.getBean(&quot;CRUDService&quot;);</span>
+<span class="fc" id="L50">        this.multaController = (MultaController) context.getBean(&quot;multaController&quot;);</span>
+<span class="fc" id="L51">        this.configControler = (ConfigControler) context.getBean(&quot;configControler&quot;);</span>
+<span class="fc" id="L52">        this.estadoMultaControler = (EstadoMultaControler) context.getBean(&quot;estadoMultaControler&quot;);</span>
 
-<span class="pc bpc" id="L53" title="1 of 2 branches missed.">        for (Emprestimo e : this.crudService.getAll(Emprestimo.class))</span>
+<span class="pc bpc" id="L54" title="1 of 2 branches missed.">        for (Emprestimo e : this.crudService.getAll(Emprestimo.class))</span>
         {
-<span class="pc bpc" id="L55" title="1 of 2 branches missed.">            if (e.getDatadevolucao() != null)</span>
+<span class="pc bpc" id="L56" title="1 of 2 branches missed.">            if (e.getDatadevolucao() != null)</span>
             {
-<span class="fc" id="L57">                emprestimo  = e;</span>
-<span class="fc" id="L58">                break;</span>
+<span class="fc" id="L58">                emprestimo  = e;</span>
+<span class="fc" id="L59">                break;</span>
             }
-<span class="nc" id="L60">        }</span>
+<span class="nc" id="L61">        }</span>
 
-<span class="fc" id="L62">    }</span>
+<span class="fc" id="L63">    }</span>
 
     @Test
     @Transactional
     public void getDelayDaysTest() throws Exception
     {
-<span class="fc" id="L68">        Calendar deadline = Calendar.getInstance();</span>
-<span class="fc" id="L69">        Calendar current = Calendar.getInstance();</span>
+<span class="fc" id="L69">        Calendar deadline = Calendar.getInstance();</span>
+<span class="fc" id="L70">        Calendar current = Calendar.getInstance();</span>
 
-<span class="fc" id="L71">        assertThat(this.fine.getDelayDays(current, deadline)).isEqualTo(0);</span>
+<span class="fc" id="L72">        assertThat(this.fine.getDelayDays(current, deadline)).isEqualTo(0);</span>
 
-<span class="fc" id="L73">        deadline.set(Calendar.MONTH, Calendar.JANUARY);</span>
-<span class="fc" id="L74">        deadline.set(Calendar.DATE, 1);</span>
+<span class="fc" id="L74">        deadline.set(Calendar.MONTH, Calendar.JANUARY);</span>
+<span class="fc" id="L75">        deadline.set(Calendar.DATE, 1);</span>
 
-<span class="fc" id="L76">        current.setTime(deadline.getTime());</span>
-<span class="fc" id="L77">        current.set(Calendar.DATE, 7);</span>
+<span class="fc" id="L77">        current.setTime(deadline.getTime());</span>
+<span class="fc" id="L78">        current.set(Calendar.DATE, 7);</span>
 
-<span class="fc" id="L79">        assertThat(this.fine.getDelayDays(current, deadline)).isEqualTo(6);</span>
+<span class="fc" id="L80">        assertThat(this.fine.getDelayDays(current, deadline)).isEqualTo(6);</span>
 
-<span class="fc" id="L81">        deadline.set(Calendar.MONTH, Calendar.JANUARY);</span>
-<span class="fc" id="L82">        deadline.set(Calendar.DATE, 1);</span>
+<span class="fc" id="L82">        deadline.set(Calendar.MONTH, Calendar.JANUARY);</span>
+<span class="fc" id="L83">        deadline.set(Calendar.DATE, 1);</span>
 
-<span class="fc" id="L84">        current.setTime(deadline.getTime());</span>
-<span class="fc" id="L85">        current.set(Calendar.DATE, 2);</span>
+<span class="fc" id="L85">        current.setTime(deadline.getTime());</span>
+<span class="fc" id="L86">        current.set(Calendar.DATE, 2);</span>
 
-<span class="fc" id="L87">        assertThat(this.fine.getDelayDays(current, deadline)).isEqualTo(1);</span>
+<span class="fc" id="L88">        assertThat(this.fine.getDelayDays(current, deadline)).isEqualTo(1);</span>
 
-<span class="fc" id="L89">    }</span>
+<span class="fc" id="L90">    }</span>
 
     @Test
     @Transactional
     public void fine_WasFinedBefore_pay_revokeTest() throws Exception
     {
-<span class="fc" id="L95">        Calendar deadline = emprestimo.getDatadevolucao();</span>
-<span class="fc" id="L96">        Calendar now = Calendar.getInstance();</span>
+<span class="fc" id="L96">        Calendar deadline = emprestimo.getDatadevolucao();</span>
+<span class="fc" id="L97">        Calendar now = Calendar.getInstance();</span>
 
         /***************************************************
          * WasFinedBefore method
          ********************************************* */
 
-<span class="fc" id="L102">        now.setTime(emprestimo.getDatadevolucao().getTime());</span>
-<span class="fc" id="L103">        now.set(Calendar.DATE, now.get(Calendar.DATE) + 7);</span>
+<span class="fc" id="L103">        now.setTime(emprestimo.getDatadevolucao().getTime());</span>
+<span class="fc" id="L104">        now.set(Calendar.DATE, now.get(Calendar.DATE) + 7);</span>
 
-<span class="fc" id="L105">        assertThat(this.fine.wasFinedBefore(emprestimo.getEmprestimoPK())).isFalse();</span>
+<span class="fc" id="L106">        assertThat(this.fine.wasFinedBefore(emprestimo.getEmprestimoPK())).isFalse();</span>
 
         /***************************************************
          * fine method
          ********************************************* */
 
-<span class="fc" id="L111">        Multa multa = null;</span>
+<span class="fc" id="L112">        Multa multa = null;</span>
 
-<span class="fc" id="L113">        this.fine.fine(emprestimo, now);</span>
-<span class="fc" id="L114">        multa = this.multaController.getFine(emprestimo.getEmprestimoPK());</span>
+<span class="fc" id="L114">        this.fine.fine(emprestimo, now);</span>
+<span class="fc" id="L115">        multa = this.multaController.getFine(emprestimo.getEmprestimoPK());</span>
 
-<span class="fc" id="L116">        assertThat(this.fine.wasFinedBefore(emprestimo.getEmprestimoPK())).isTrue();</span>
-<span class="fc" id="L117">        assertThat(multa).isNotEqualTo(null);</span>
-<span class="fc" id="L118">        assertThat(multa.getEstadoMulta().getIdestadomulta()).isEqualTo(this.estadoMultaControler.NOT_PAID);</span>
+<span class="fc" id="L117">        assertThat(this.fine.wasFinedBefore(emprestimo.getEmprestimoPK())).isTrue();</span>
+<span class="fc" id="L118">        assertThat(multa).isNotEqualTo(null);</span>
+<span class="fc" id="L119">        assertThat(multa.getEstadoMulta().getIdestadomulta()).isEqualTo(this.estadoMultaControler.NOT_PAID);</span>
 
-<span class="fc" id="L120">        assertThat(multa.getValorpago()).isEqualTo((float) 0.0);</span>
+<span class="fc" id="L121">        assertThat(multa.getValorpago()).isEqualTo((float) 0.0);</span>
 
         /***************************************************
          * pay method
          ********************************************* */
 
-<span class="fc" id="L126">        this.fine.pay(emprestimo.getEmprestimoPK(), now);</span>
-<span class="fc" id="L127">        float expectedAmount = this.configControler.DAILY_RATE_FINE * this.fine.getDelayDays(now, deadline);</span>
-<span class="fc" id="L128">        multa = this.multaController.getFine(emprestimo.getEmprestimoPK());</span>
+<span class="fc" id="L127">        this.fine.pay(emprestimo.getEmprestimoPK(), now);</span>
+<span class="fc" id="L128">        float expectedAmount = this.configControler.DAILY_RATE_FINE * this.fine.getDelayDays(now, deadline);</span>
+<span class="fc" id="L129">        multa = this.multaController.getFine(emprestimo.getEmprestimoPK());</span>
 
-<span class="fc" id="L130">        assertThat(multa.getValorpago()).isEqualTo(expectedAmount);</span>
-<span class="fc" id="L131">        assertThat(multa.getEstadoMulta().getIdestadomulta()).isEqualTo(this.estadoMultaControler.PAID);</span>
+<span class="fc" id="L131">        assertThat(multa.getValorpago()).isEqualTo(expectedAmount);</span>
+<span class="fc" id="L132">        assertThat(multa.getEstadoMulta().getIdestadomulta()).isEqualTo(this.estadoMultaControler.PAID);</span>
 
         /***************************************************
          * revoke method
          ********************************************* */
-<span class="fc" id="L136">        this.fine.revoke(emprestimo.getEmprestimoPK());</span>
-<span class="fc" id="L137">        multa = this.multaController.getFine(emprestimo.getEmprestimoPK());</span>
+<span class="fc" id="L137">        this.fine.revoke(emprestimo.getEmprestimoPK());</span>
+<span class="fc" id="L138">        multa = this.multaController.getFine(emprestimo.getEmprestimoPK());</span>
 
-<span class="fc" id="L139">        assertThat(multa.getEstadoMulta().getIdestadomulta()).isEqualTo(this.estadoMultaControler.REVOKED);</span>
-<span class="fc" id="L140">    }</span>
+<span class="fc" id="L140">        assertThat(multa.getEstadoMulta().getIdestadomulta()).isEqualTo(this.estadoMultaControler.REVOKED);</span>
+<span class="fc" id="L141">    }</span>
 
     @Test
     @Transactional
     public void getAmoutToPayTest() throws Exception
     {
-<span class="fc" id="L146">        Calendar deadline = emprestimo.getDatadevolucao();</span>
-<span class="fc" id="L147">        Calendar now = Calendar.getInstance();</span>
-<span class="fc" id="L148">        now.setTime(emprestimo.getDatadevolucao().getTime());</span>
+<span class="fc" id="L147">        Calendar deadline = emprestimo.getDatadevolucao();</span>
+<span class="fc" id="L148">        Calendar now = Calendar.getInstance();</span>
+<span class="fc" id="L149">        now.setTime(emprestimo.getDatadevolucao().getTime());</span>
 
-<span class="fc" id="L150">        now.set(Calendar.DATE, now.get(Calendar.DATE) + 7);</span>
+<span class="fc" id="L151">        now.set(Calendar.DATE, now.get(Calendar.DATE) + 7);</span>
 
-<span class="fc" id="L152">        float expectedAmount = this.configControler.DAILY_RATE_FINE * this.fine.getDelayDays(now, deadline);</span>
-<span class="fc" id="L153">        float actualAmount = this.fine.getAmoutToPay(emprestimo.getEmprestimoPK(), now);</span>
+<span class="fc" id="L153">        float expectedAmount = this.configControler.DAILY_RATE_FINE * this.fine.getDelayDays(now, deadline);</span>
+<span class="fc" id="L154">        float actualAmount = this.fine.getAmoutToPay(emprestimo.getEmprestimoPK(), now);</span>
 
-<span class="fc" id="L155">        assertThat(actualAmount).isEqualTo(expectedAmount);</span>
+<span class="fc" id="L156">        assertThat(actualAmount).isEqualTo(expectedAmount);</span>
 
-<span class="fc" id="L157">        now.setTime(emprestimo.getDatadevolucao().getTime());</span>
-<span class="fc" id="L158">        now.set(Calendar.DATE, now.get(Calendar.DATE) + 1);</span>
+<span class="fc" id="L158">        now.setTime(emprestimo.getDatadevolucao().getTime());</span>
+<span class="fc" id="L159">        now.set(Calendar.DATE, now.get(Calendar.DATE) + 1);</span>
 
-<span class="fc" id="L160">        expectedAmount = this.configControler.DAILY_RATE_FINE;</span>
-<span class="fc" id="L161">        actualAmount = this.fine.getAmoutToPay(emprestimo.getEmprestimoPK(), now);</span>
+<span class="fc" id="L161">        expectedAmount = this.configControler.DAILY_RATE_FINE;</span>
+<span class="fc" id="L162">        actualAmount = this.fine.getAmoutToPay(emprestimo.getEmprestimoPK(), now);</span>
 
-<span class="fc" id="L163">        assertThat(actualAmount).isEqualTo(expectedAmount);</span>
-<span class="fc" id="L164">    }</span>
+<span class="fc" id="L164">        assertThat(actualAmount).isEqualTo(expectedAmount);</span>
+<span class="fc" id="L165">    }</span>
 
+//
+    @Test
+    @Transactional
+    public void updateDelayDaysTest() {
+<span class="fc" id="L171">        List&lt;Multa&gt; multas = multaController.getMultas();</span>
+
+<span class="fc" id="L173">        int diasActuais = multas.get(7).getDiasatraso();</span>
+<span class="fc" id="L174">        Calendar now = Calendar.getInstance();</span>
+
+<span class="fc" id="L176">        System.out.println(now.getTime());</span>
+<span class="fc" id="L177">        now.add(Calendar.DAY_OF_MONTH, 4);</span>
+
+<span class="fc" id="L179">        fine.updateDelayDays(multas);</span>
+<span class="fc" id="L180">        int diasEsperados = multas.get(7).getDiasatraso() + 4;</span>
+
+<span class="fc" id="L182">        assertThat(diasEsperados).isGreaterThan(diasActuais);</span>
+<span class="fc" id="L183">    }</span>
+//
+//    @Test
+//    @Transactional
+//    public void totalDinheiroTest() {
+//        List&lt;Multa&gt; multaList;
+//        multaList = multaController.getMultas();
+//
+//        double expected = fine.totalDinheiro(multaList);
+//        double actual = 0.0;
+//
+//        for(Multa m:multaList){
+//            actual += fine.getAmountToPay(m.getMultaPK());
+//        }
+//
+//        assertThat(actual).isEqualTo(expected);
+//    }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
