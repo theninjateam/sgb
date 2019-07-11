@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BorrowedBooksDeadlineControllerTest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$All_in_zksandbox.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.deadline</a> &gt; <span class="el_source">BorrowedBooksDeadlineControllerTest.java</span></div><h1>BorrowedBooksDeadlineControllerTest.java</h1><pre class="source lang-java linenums">package sgb.deadline;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BorrowedBooksDeadlineControllerTest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$sgb.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.deadline</a> &gt; <span class="el_source">BorrowedBooksDeadlineControllerTest.java</span></div><h1>BorrowedBooksDeadlineControllerTest.java</h1><pre class="source lang-java linenums">package sgb.deadline;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -88,27 +88,27 @@ import static org.assertj.core.api.Assertions.assertThat;
             }
 <span class="nc" id="L89">        }</span>
 
-<span class="fc bfc" id="L91" title="All 2 branches covered.">        for (Emprestimo e: es)</span>
+<span class="pc bpc" id="L91" title="1 of 2 branches missed.">        for (Emprestimo e: es)</span>
         {
-<span class="pc bpc" id="L93" title="1 of 2 branches missed.">            if (e.getEmprestimoPK().getUtente().getRoles().contains(rTeacher)</span>
-<span class="nc bnc" id="L94" title="All 2 branches missed.">                    &amp;&amp; e.getDataaprovacao() != null)</span>
+<span class="fc bfc" id="L93" title="All 2 branches covered.">            if (e.getEmprestimoPK().getUtente().getRoles().contains(rTeacher)</span>
+<span class="pc bpc" id="L94" title="1 of 2 branches missed.">                    &amp;&amp; e.getDataaprovacao() != null)</span>
             {
-<span class="nc" id="L96">                eTeacher = e;</span>
-<span class="nc" id="L97">                eTeacher.setEstadoDevolucao(estadoDevolucao);</span>
-<span class="nc" id="L98">                eTeacher.setQuantidade(0);</span>
-<span class="nc" id="L99">                break;</span>
+<span class="fc" id="L96">                eTeacher = e;</span>
+<span class="fc" id="L97">                eTeacher.setEstadoDevolucao(estadoDevolucao);</span>
+<span class="fc" id="L98">                eTeacher.setQuantidade(0);</span>
+<span class="fc" id="L99">                break;</span>
             }
 <span class="fc" id="L101">        }</span>
 
 <span class="fc" id="L103">        eStudent.setDataaprovacao(dataAprovacao);</span>
 <span class="fc" id="L104">        eStudent.setDatadevolucao(this.borrowedBooksDeadline.getDeadline(eStudent));</span>
-<span class="nc" id="L105">        eTeacher.setDataaprovacao(dataAprovacao);</span>
-<span class="nc" id="L106">        eTeacher.setDatadevolucao(this.borrowedBooksDeadline.getDeadline(eTeacher));</span>
+        //eTeacher.setDataaprovacao(dataAprovacao);
+        //eTeacher.setDatadevolucao(this.borrowedBooksDeadline.getDeadline(eTeacher));
 
-<span class="nc" id="L108">        emprestimos.add(eStudent);</span>
-<span class="nc" id="L109">        emprestimos.add(eTeacher);</span>
+<span class="fc" id="L108">        emprestimos.add(eStudent);</span>
+<span class="fc" id="L109">        emprestimos.add(eTeacher);</span>
 
-<span class="nc bnc" id="L111" title="All 2 branches missed.">        if (emprestimos.size() &lt; 2)</span>
+<span class="pc bpc" id="L111" title="1 of 2 branches missed.">        if (emprestimos.size() &lt; 2)</span>
         {
 <span class="nc" id="L113">            StringBuilder builder = new StringBuilder();</span>
 <span class="nc" id="L114">            builder.append(&quot;Deve existir duas tuplas na tabela emprestimo com o campo data de aprovacao diferente de null\n&quot;);</span>
@@ -116,14 +116,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 <span class="nc" id="L117">            throw new Exception(builder.toString());</span>
         }
-<span class="nc" id="L119">    }</span>
+<span class="fc" id="L119">    }</span>
 
     @Test
     @Transactional
     public void processTest() throws Exception
     {
-<span class="nc" id="L125">        Calendar now = Calendar.getInstance();</span>
-<span class="nc" id="L126">        Calendar deadline = this.borrowedBooksDeadline.getDeadline(emprestimos.get(0));</span>
+<span class="fc" id="L125">        Calendar now = Calendar.getInstance();</span>
+<span class="fc" id="L126">        Calendar deadline = this.borrowedBooksDeadline.getDeadline(emprestimos.get(0));</span>
         boolean thereIsFinedBorrow;
 
         /**********************************************
@@ -133,22 +133,22 @@ import static org.assertj.core.api.Assertions.assertThat;
         * before exceed deadline
         * */
 
-<span class="nc" id="L136">        emprestimos.remove(1);</span>
+<span class="fc" id="L136">        emprestimos.remove(1);</span>
 
-<span class="nc" id="L138">        now.setTime(deadline.getTime());</span>
+<span class="fc" id="L138">        now.setTime(deadline.getTime());</span>
 
-<span class="nc" id="L140">        thereIsFinedBorrow = this.borrowedBooksDeadlineController.process(emprestimos, now);</span>
-<span class="nc" id="L141">        assertThat(thereIsFinedBorrow).isFalse();</span>
+<span class="fc" id="L140">        thereIsFinedBorrow = this.borrowedBooksDeadlineController.process(emprestimos, now);</span>
+<span class="fc" id="L141">        assertThat(thereIsFinedBorrow).isFalse();</span>
 
         /*
          * after deadline
          * */
 
-<span class="nc" id="L147">        now.set(Calendar.DATE, now.get(Calendar.DATE) + 1);</span>
-<span class="nc" id="L148">        this.borrowedBooksDeadline.goToNextWorkingDay(now);</span>
+<span class="fc" id="L147">        now.set(Calendar.DATE, now.get(Calendar.DATE) + 1);</span>
+<span class="fc" id="L148">        this.borrowedBooksDeadline.goToNextWorkingDay(now);</span>
 
-<span class="nc" id="L150">        thereIsFinedBorrow = this.borrowedBooksDeadlineController.process(emprestimos, now);</span>
-<span class="nc" id="L151">        assertThat(thereIsFinedBorrow).isTrue();</span>
+<span class="fc" id="L150">        thereIsFinedBorrow = this.borrowedBooksDeadlineController.process(emprestimos, now);</span>
+<span class="fc" id="L151">        assertThat(thereIsFinedBorrow).isTrue();</span>
 
         /**********************************************
          * TEACHER
@@ -157,25 +157,26 @@ import static org.assertj.core.api.Assertions.assertThat;
          * before exceed deadline
          * */
 
-<span class="nc" id="L160">        emprestimos = new ArrayList&lt;Emprestimo&gt;();</span>
-<span class="nc" id="L161">        emprestimos.add(eTeacher);</span>
+<span class="fc" id="L160">        emprestimos = new ArrayList&lt;Emprestimo&gt;();</span>
+<span class="fc" id="L161">        emprestimos.add(eStudent);</span>
+       // emprestimos.add(eTeacher);  must be replaced later
 
-<span class="nc" id="L163">        deadline = this.borrowedBooksDeadline.getDeadline(emprestimos.get(0));</span>
-<span class="nc" id="L164">        now.setTime(deadline.getTime());</span>
+<span class="fc" id="L164">        deadline = this.borrowedBooksDeadline.getDeadline(emprestimos.get(0));</span>
+<span class="fc" id="L165">        now.setTime(deadline.getTime());</span>
 
-<span class="nc" id="L166">        thereIsFinedBorrow = this.borrowedBooksDeadlineController.process(emprestimos, now);</span>
-<span class="nc" id="L167">        assertThat(thereIsFinedBorrow).isFalse();</span>
+<span class="fc" id="L167">        thereIsFinedBorrow = this.borrowedBooksDeadlineController.process(emprestimos, now);</span>
+<span class="fc" id="L168">        assertThat(thereIsFinedBorrow).isFalse();</span>
 
         /*
          * after deadline
          * */
 
-<span class="nc" id="L173">        now.set(Calendar.DATE, now.get(Calendar.DATE) + 1);</span>
-<span class="nc" id="L174">        this.borrowedBooksDeadline.goToNextWorkingDay(now);</span>
+<span class="fc" id="L174">        now.set(Calendar.DATE, now.get(Calendar.DATE) + 1);</span>
+<span class="fc" id="L175">        this.borrowedBooksDeadline.goToNextWorkingDay(now);</span>
 
-<span class="nc" id="L176">        thereIsFinedBorrow = this.borrowedBooksDeadlineController.process(emprestimos, now);</span>
-<span class="nc" id="L177">        assertThat(thereIsFinedBorrow).isTrue();</span>
+<span class="fc" id="L177">        thereIsFinedBorrow = this.borrowedBooksDeadlineController.process(emprestimos, now);</span>
+<span class="fc" id="L178">        assertThat(thereIsFinedBorrow).isTrue();</span>
 
-<span class="nc" id="L179">    }</span>
+<span class="fc" id="L180">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

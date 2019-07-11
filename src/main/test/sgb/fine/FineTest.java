@@ -17,6 +17,7 @@ import sgb.domain.Multa;
 import sgb.service.CRUDService;
 
 import java.util.Calendar;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -163,4 +164,41 @@ public class FineTest
         assertThat(actualAmount).isEqualTo(expectedAmount);
     }
 
+//
+    @Test
+    @Transactional
+    public void updateDelayDaysTest() {
+        List<Multa> multas = multaController.getMultas();
+
+        int diasActuais = multas.get(7).getDiasatraso();
+        Calendar now = Calendar.getInstance();
+
+        System.out.println(now.getTime());
+        now.add(Calendar.DAY_OF_MONTH, 4);
+
+        fine.updateDelayDays(multas);
+        int diasEsperados = multas.get(7).getDiasatraso();
+        System.out.println(diasEsperados);
+
+//        System.out.println(now.getTime());
+//        assertThat(diasEsperados).isGreaterThan(diasActuais);
+
+
+    }
+//
+//    @Test
+//    @Transactional
+//    public void totalDinheiroTest() {
+//        List<Multa> multaList;
+//        multaList = multaController.getMultas();
+//
+//        double expected = fine.totalDinheiro(multaList);
+//        double actual = 0.0;
+//
+//        for(Multa m:multaList){
+//            actual += fine.getAmountToPay(m.getMultaPK());
+//        }
+//
+//        assertThat(actual).isEqualTo(expected);
+//    }
 }

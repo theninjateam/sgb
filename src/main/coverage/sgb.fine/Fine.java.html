@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Fine.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$All_in_zksandbox.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.fine</a> &gt; <span class="el_source">Fine.java</span></div><h1>Fine.java</h1><pre class="source lang-java linenums">package sgb.fine;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Fine.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$sgb.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.fine</a> &gt; <span class="el_source">Fine.java</span></div><h1>Fine.java</h1><pre class="source lang-java linenums">package sgb.fine;
 
 import org.zkoss.zkplus.spring.SpringUtil;
 import sgb.controller.domainController.*;
@@ -84,64 +84,73 @@ public class Fine
 <span class="nc" id="L84">                System.out.println(&quot;Nao foi possivel enviar o email!&quot;);</span>
 <span class="fc" id="L85">            }</span>
 
-
         }
-<span class="fc" id="L89">    }</span>
+<span class="fc" id="L88">    }</span>
 
     public int getDelayDays(Calendar now, Calendar deadline)
     {
-<span class="fc" id="L93">        return Math.abs ((int) Duration.between(now.toInstant(), deadline.toInstant()).toDays());</span>
+<span class="fc" id="L92">        return Math.abs ((int) Duration.between(now.toInstant(), deadline.toInstant()).toDays());</span>
     }
 
     public boolean wasFinedBefore(EmprestimoPK emprestimoPK)
     {
-<span class="fc bfc" id="L98" title="All 2 branches covered.">        return  this.mController.getFine(emprestimoPK) == null? false : true;</span>
+<span class="fc bfc" id="L97" title="All 2 branches covered.">        return  this.mController.getFine(emprestimoPK) == null? false : true;</span>
     }
 
     public float getAmoutToPay(EmprestimoPK emprestimoPK, Calendar now)
     {
-<span class="fc" id="L103">        Emprestimo emprestimo = this.eController.getRequest(emprestimoPK);</span>
-<span class="fc" id="L104">        int days = getDelayDays(now, emprestimo.getDatadevolucao());</span>
+<span class="fc" id="L102">        Emprestimo emprestimo = this.eController.getRequest(emprestimoPK);</span>
+<span class="fc" id="L103">        int days = getDelayDays(now, emprestimo.getDatadevolucao());</span>
 
-<span class="fc" id="L106">        return (float) this.configControler.DAILY_RATE_FINE * days;</span>
+<span class="fc" id="L105">        return (float) this.configControler.DAILY_RATE_FINE * days;</span>
     }
 
     public float getAmountToPay(EmprestimoPK emprestimoPK)
     {
-<span class="nc" id="L111">        MultaController multaController = (MultaController) SpringUtil.getBean(&quot;multaController&quot;);</span>
-<span class="nc" id="L112">        int days = multaController.getFine(emprestimoPK).getDiasatraso();</span>
+<span class="nc" id="L110">        MultaController multaController = (MultaController) SpringUtil.getBean(&quot;multaController&quot;);</span>
+<span class="nc" id="L111">        int days = multaController.getFine(emprestimoPK).getDiasatraso();</span>
 
-<span class="nc" id="L114">        return (float) this.configControler.DAILY_RATE_FINE * days;</span>
+<span class="nc" id="L113">        return (float) this.configControler.DAILY_RATE_FINE * days;</span>
     }
 
     public void pay(EmprestimoPK emprestimoPK, Calendar now)
     {
-<span class="fc" id="L119">        EstadoMulta estadoMulta = crudService.get(EstadoMulta.class,this.eMController.PAID);</span>
-<span class="fc" id="L120">        Multa multa = this.mController.getFine(emprestimoPK);</span>
-<span class="fc" id="L121">        multa.setEstadoMulta(estadoMulta);</span>
-<span class="fc" id="L122">        multa.setValorpago(getAmoutToPay(emprestimoPK, now));</span>
-<span class="fc" id="L123">        this.crudService.update(multa);</span>
-<span class="fc" id="L124">    }</span>
+<span class="fc" id="L118">        EstadoMulta estadoMulta = crudService.get(EstadoMulta.class,this.eMController.PAID);</span>
+<span class="fc" id="L119">        Multa multa = this.mController.getFine(emprestimoPK);</span>
+<span class="fc" id="L120">        multa.setEstadoMulta(estadoMulta);</span>
+<span class="fc" id="L121">        multa.setValorpago(getAmoutToPay(emprestimoPK, now));</span>
+<span class="fc" id="L122">        this.crudService.update(multa);</span>
+<span class="fc" id="L123">    }</span>
 
     public void revoke(EmprestimoPK emprestimoPK)
     {
-<span class="nc" id="L128">        EstadoMulta estadoMulta = crudService.get(EstadoMulta.class,this.eMController.REVOKED);</span>
-<span class="nc" id="L129">        Multa multa = this.mController.getFine(emprestimoPK);</span>
-<span class="nc" id="L130">        multa.setEstadoMulta(estadoMulta);</span>
+<span class="fc" id="L127">        EstadoMulta estadoMulta = crudService.get(EstadoMulta.class,this.eMController.REVOKED);</span>
+<span class="fc" id="L128">        Multa multa = this.mController.getFine(emprestimoPK);</span>
+<span class="fc" id="L129">        multa.setEstadoMulta(estadoMulta);</span>
 
-<span class="nc" id="L132">        this.crudService.update(multa);</span>
-<span class="nc" id="L133">    }</span>
+<span class="fc" id="L131">        this.crudService.update(multa);</span>
+<span class="fc" id="L132">    }</span>
 
     public void updateDelayDays(List&lt;Multa&gt; multaList){
-<span class="nc bnc" id="L136" title="All 2 branches missed.">        for(Multa m: multaList){</span>
-<span class="nc" id="L137">            int dias = 0;</span>
-<span class="nc" id="L138">            dias = getDelayDays(Calendar.getInstance()</span>
-<span class="nc" id="L139">                    ,eController.getRequest(m.getMultaPK()).getDatadevolucao());</span>
+<span class="nc bnc" id="L135" title="All 2 branches missed.">        for(Multa m: multaList){</span>
+<span class="nc" id="L136">            int dias = 0;</span>
+<span class="nc" id="L137">            dias = getDelayDays(Calendar.getInstance()</span>
+<span class="nc" id="L138">                    ,eController.getRequest(m.getMultaPK()).getDatadevolucao());</span>
 
-<span class="nc bnc" id="L141" title="All 2 branches missed.">            if(m.getEstadoMulta().getDescricao().equals(&quot;NOT_PAID&quot;)){</span>
-<span class="nc" id="L142">                m.setDiasatraso(dias);</span>
+<span class="nc bnc" id="L140" title="All 2 branches missed.">            if(m.getEstadoMulta().getIdestadomulta()==eMController.NOT_PAID){</span>
+<span class="nc" id="L141">                m.setDiasatraso(dias);</span>
             }
-<span class="nc" id="L144">        }</span>
-<span class="nc" id="L145">    }</span>
+<span class="nc" id="L143">        }</span>
+<span class="nc" id="L144">    }</span>
+
+    public double totalDinheiro(List&lt;Multa&gt; multaList){
+<span class="nc" id="L147">        double totalAmount = 0.0;</span>
+
+<span class="nc bnc" id="L149" title="All 2 branches missed.">        for(Multa m:multaList){</span>
+<span class="nc" id="L150">            totalAmount += getAmountToPay(m.getMultaPK());</span>
+<span class="nc" id="L151">        }</span>
+
+<span class="nc" id="L153">        return totalAmount;</span>
+    }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

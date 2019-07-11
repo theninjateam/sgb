@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ListPedidoExemplarController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$All_in_zksandbox.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.controller.viewsController</a> &gt; <span class="el_source">ListPedidoExemplarController.java</span></div><h1>ListPedidoExemplarController.java</h1><pre class="source lang-java linenums">package sgb.controller.viewsController;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ListPedidoExemplarController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$sgb.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.controller.viewsController</a> &gt; <span class="el_source">ListPedidoExemplarController.java</span></div><h1>ListPedidoExemplarController.java</h1><pre class="source lang-java linenums">package sgb.controller.viewsController;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -47,6 +47,7 @@ import java.util.Set;
 <span class="nc" id="L47">    private MultaController mController = (MultaController) SpringUtil.getBean(&quot;multaController&quot;);</span>
 <span class="nc" id="L48">    private Deadline deadline = (Deadline) SpringUtil.getBean(&quot;deadline&quot;);</span>
 <span class="nc" id="L49">    private BorrowedBooksDeadline bBDeadline = (BorrowedBooksDeadline) SpringUtil.getBean(&quot;borrowedBooksDeadline&quot;);</span>
+<span class="nc" id="L50">    private RoleController rController = (RoleController) SpringUtil.getBean(&quot;roleController&quot;);</span>
     private Session session;
     private EmprestimoPK emprestimoPK;
     private Emprestimo emprestimo;
@@ -57,10 +58,10 @@ import java.util.Set;
 
 
     private Multa multa;
-<span class="nc" id="L60">    private ConfigControler configControler =(ConfigControler) SpringUtil.getBean(&quot;configControler&quot;);</span>
-<span class="nc" id="L61">    private Fine fine = (Fine) SpringUtil.getBean(&quot;fine&quot;);</span>
+<span class="nc" id="L61">    private ConfigControler configControler =(ConfigControler) SpringUtil.getBean(&quot;configControler&quot;);</span>
+<span class="nc" id="L62">    private Fine fine = (Fine) SpringUtil.getBean(&quot;fine&quot;);</span>
 
-<span class="nc" id="L63">    private Boolean isNormalUser = true;</span>
+<span class="nc" id="L64">    private Boolean isNormalUser = true;</span>
 
 
     @Wire
@@ -75,40 +76,40 @@ import java.util.Set;
     @Override
     public void doAfterCompose(Component comp) throws Exception
     {
-<span class="nc" id="L78">        super.doAfterCompose(comp);</span>
-<span class="nc" id="L79">        session = Sessions.getCurrent();</span>
-<span class="nc" id="L80">        boolean c = isNormalUser();</span>
+<span class="nc" id="L79">        super.doAfterCompose(comp);</span>
+<span class="nc" id="L80">        session = Sessions.getCurrent();</span>
+<span class="nc" id="L81">        boolean c = isNormalUser();</span>
 
-<span class="nc" id="L82">        isNormalUser = isNormalUser();</span>
+<span class="nc" id="L83">        isNormalUser = isNormalUser();</span>
 
-<span class="nc" id="L84">        emprestimos = (ListModelList&lt;Emprestimo&gt;) getEmprestimos();</span>
-<span class="nc" id="L85">        EmprestimoListBox.setModel(emprestimos);</span>
-<span class="nc" id="L86">    }</span>
+<span class="nc" id="L85">        emprestimos = (ListModelList&lt;Emprestimo&gt;) getEmprestimos();</span>
+<span class="nc" id="L86">        EmprestimoListBox.setModel(emprestimos);</span>
+<span class="nc" id="L87">    }</span>
 
     public boolean isNormalUser () {
-<span class="nc" id="L89">        Boolean a = true;</span>
+<span class="nc" id="L90">        Boolean a = true;</span>
 
-<span class="nc" id="L91">        Set&lt;Role&gt; userrole =user.getRoles();</span>
+<span class="nc" id="L92">        Set&lt;Role&gt; userrole =user.getRoles();</span>
 
-<span class="nc bnc" id="L93" title="All 2 branches missed.">        for(Role role : userrole) {</span>
-<span class="nc bnc" id="L94" title="All 2 branches missed.">            if(role.getRole().equals(&quot;ADMIN&quot;))</span>
-<span class="nc" id="L95">                a = false;</span>
-<span class="nc" id="L96">        }</span>
-<span class="nc" id="L97">        return a;</span>
+<span class="nc bnc" id="L94" title="All 2 branches missed.">        for(Role role : userrole) {</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">            if(role.getRoleId() == rController.ADMIN)</span>
+<span class="nc" id="L96">                a = false;</span>
+<span class="nc" id="L97">        }</span>
+<span class="nc" id="L98">        return a;</span>
     }
 
 
     public ListModelList&lt;Emprestimo&gt; getEmprestimos() {
         List&lt;Emprestimo&gt; listemprestimo;
-<span class="nc bnc" id="L103" title="All 2 branches missed.">        if(isNormalUser()) {</span>
-<span class="nc" id="L104">           listemprestimo = eController.getRequest(this.user,ePController.ACCEPTED, eDController.NOT_RETURNED);</span>
+<span class="nc bnc" id="L104" title="All 2 branches missed.">        if(isNormalUser()) {</span>
+<span class="nc" id="L105">           listemprestimo = eController.getRequest(this.user,ePController.ACCEPTED, eDController.NOT_RETURNED);</span>
 
-<span class="nc" id="L106">           return new ListModelList&lt;Emprestimo&gt;(listemprestimo);</span>
+<span class="nc" id="L107">           return new ListModelList&lt;Emprestimo&gt;(listemprestimo);</span>
        }else {
-<span class="nc" id="L108">           listemprestimo = eController.getRequest(ePController.ACCEPTED, eDController.NOT_RETURNED);</span>
+<span class="nc" id="L109">           listemprestimo = eController.getRequest(ePController.ACCEPTED, eDController.NOT_RETURNED);</span>
 //            emprestimos = (ListModelList&lt;Emprestimo&gt;) listemprestimo;
 //            EmprestimoListBox.setModel(emprestimos);
-<span class="nc" id="L111">           return new ListModelList&lt;Emprestimo&gt;(listemprestimo);</span>
+<span class="nc" id="L112">           return new ListModelList&lt;Emprestimo&gt;(listemprestimo);</span>
        }
     }
 
@@ -116,55 +117,55 @@ import java.util.Set;
     public void doDevolver(ForwardEvent event)
     {
 
-<span class="nc bnc" id="L119" title="All 2 branches missed.">        if(isNormalUser) {</span>
-<span class="nc" id="L120">            Clients.showNotification(&quot;Precisa ser Bibliotecario para executar essa acao &quot;, null, null, null, 5000);</span>
+<span class="nc bnc" id="L120" title="All 2 branches missed.">        if(isNormalUser) {</span>
+<span class="nc" id="L121">            Clients.showNotification(&quot;Precisa ser Bibliotecario para executar essa acao &quot;, null, null, null, 5000);</span>
         } else {
-<span class="nc" id="L122">            Emprestimo emp = (Emprestimo) event.getData();</span>
+<span class="nc" id="L123">            Emprestimo emp = (Emprestimo) event.getData();</span>
 
-<span class="nc bnc" id="L124" title="All 2 branches missed.">            if (fine.wasFinedBefore(emp.getEmprestimoPK())) {</span>
+<span class="nc bnc" id="L125" title="All 2 branches missed.">            if (fine.wasFinedBefore(emp.getEmprestimoPK())) {</span>
 
-<span class="nc" id="L126">                multa = mController.getFine(emp.getEmprestimoPK());</span>
+<span class="nc" id="L127">                multa = mController.getFine(emp.getEmprestimoPK());</span>
 
-<span class="nc" id="L128">                fine.fine(emp,Calendar.getInstance());</span>
+<span class="nc" id="L129">                fine.fine(emp,Calendar.getInstance());</span>
 
-<span class="nc" id="L130">                session.setAttribute(&quot;Multa&quot;, multa);</span>
-<span class="nc" id="L131">                Boolean isForDetails = false;</span>
-<span class="nc" id="L132">                session.setAttribute(&quot;ForDetais&quot;, isForDetails);</span>
+<span class="nc" id="L131">                session.setAttribute(&quot;Multa&quot;, multa);</span>
+<span class="nc" id="L132">                Boolean isForDetails = false;</span>
+<span class="nc" id="L133">                session.setAttribute(&quot;ForDetais&quot;, isForDetails);</span>
 
-<span class="nc" id="L134">                Window window = (Window) Executions.createComponents(&quot;/views/multamodal.zul&quot;, null, null);</span>
-<span class="nc" id="L135">                window.setClosable(true);</span>
-<span class="nc" id="L136">                window.doModal();</span>
-<span class="nc" id="L137">            } else {</span>
-<span class="nc" id="L138">                EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, eDController.RETURNED);</span>
-<span class="nc" id="L139">                emp.setEstadoDevolucao(estadoDevolucao);</span>
-<span class="nc" id="L140">                emp.setComentario(&quot;&quot;);</span>
+<span class="nc" id="L135">                Window window = (Window) Executions.createComponents(&quot;/views/multamodal.zul&quot;, null, null);</span>
+<span class="nc" id="L136">                window.setClosable(true);</span>
+<span class="nc" id="L137">                window.doModal();</span>
+<span class="nc" id="L138">            } else {</span>
+<span class="nc" id="L139">                EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, eDController.RETURNED);</span>
+<span class="nc" id="L140">                emp.setEstadoDevolucao(estadoDevolucao);</span>
+<span class="nc" id="L141">                emp.setComentario(&quot;&quot;);</span>
 //                emprestimos.remove(emp);
 
-<span class="nc" id="L143">                crudService.update(emp);</span>
+<span class="nc" id="L144">                crudService.update(emp);</span>
 
-<span class="nc" id="L145">                Clients.showNotification(&quot;Obra devolvida a tempo&quot;, null, null, null, 5000);</span>
+<span class="nc" id="L146">                Clients.showNotification(&quot;Obra devolvida a tempo&quot;, null, null, null, 5000);</span>
 
             }
         }
 
-<span class="nc" id="L150">    }</span>
+<span class="nc" id="L151">    }</span>
     @Listen(&quot;onDetalheEmprestimo = #gridListEmprestimoMobile, #gridListEmprestimoDesktop&quot;)
     public void doDetalhes(ForwardEvent event)
     {
-<span class="nc" id="L154">        Emprestimo emp = (Emprestimo) event.getData();</span>
+<span class="nc" id="L155">        Emprestimo emp = (Emprestimo) event.getData();</span>
 
-<span class="nc" id="L156">        session.setAttribute(&quot;EmprestimoMultado&quot;, emp);</span>
-<span class="nc" id="L157">        Boolean isForDetails = true;</span>
-<span class="nc" id="L158">        session.setAttribute(&quot;ForDetais&quot;, isForDetails);</span>
-<span class="nc" id="L159">        Window window =(Window) Executions.createComponents(&quot;/views/multamodal.zul&quot;, null, null);</span>
-<span class="nc" id="L160">        window.setClosable(true);</span>
-<span class="nc" id="L161">        window.doModal();</span>
+<span class="nc" id="L157">        session.setAttribute(&quot;EmprestimoMultado&quot;, emp);</span>
+<span class="nc" id="L158">        Boolean isForDetails = true;</span>
+<span class="nc" id="L159">        session.setAttribute(&quot;ForDetais&quot;, isForDetails);</span>
+<span class="nc" id="L160">        Window window =(Window) Executions.createComponents(&quot;/views/multamodal.zul&quot;, null, null);</span>
+<span class="nc" id="L161">        window.setClosable(true);</span>
+<span class="nc" id="L162">        window.doModal();</span>
 
-<span class="nc" id="L163">    }</span>
+<span class="nc" id="L164">    }</span>
     @Listen(&quot;onRenovarEmprestimo = #gridListEmprestimoMobile, #gridListEmprestimoDesktop&quot;)
     public void doRenovar(ForwardEvent event)
     {
-<span class="nc bnc" id="L167" title="All 2 branches missed.">        if(isNormalUser) {</span>
+<span class="nc bnc" id="L168" title="All 2 branches missed.">        if(isNormalUser) {</span>
             /*
              * Metodo a ser descutido
              * Ideia 1 : O usuario submete o pedido de renovacao e o sistema aprova;
@@ -172,16 +173,16 @@ import java.util.Set;
              * Necessidade de um Metodo que verifica se existe alguem a espera daquele livro para desabilitar o
              * Botao
              */
-<span class="nc" id="L175">            Emprestimo emp = (Emprestimo) event.getData();</span>
-<span class="nc" id="L176">            estadoRenovacao = crudService.get(EstadoRenovacao.class, 2);</span>
-<span class="nc" id="L177">            emp.setEstadoRenovacao(estadoRenovacao);</span>
-<span class="nc" id="L178">            crudService.update(emp);</span>
-<span class="nc" id="L179">            Clients.showNotification(&quot;Renovacao do Emprestimo&quot;, null, null, null, 5000);</span>
-<span class="nc" id="L180">        } else {</span>
-<span class="nc" id="L181">            Clients.showNotification(&quot;Precisa ser Utente para executar essa acao &quot;, null, null, null, 5000);</span>
+<span class="nc" id="L176">            Emprestimo emp = (Emprestimo) event.getData();</span>
+<span class="nc" id="L177">            estadoRenovacao = crudService.get(EstadoRenovacao.class, 2);</span>
+<span class="nc" id="L178">            emp.setEstadoRenovacao(estadoRenovacao);</span>
+<span class="nc" id="L179">            crudService.update(emp);</span>
+<span class="nc" id="L180">            Clients.showNotification(&quot;Renovacao do Emprestimo&quot;, null, null, null, 5000);</span>
+<span class="nc" id="L181">        } else {</span>
+<span class="nc" id="L182">            Clients.showNotification(&quot;Precisa ser Utente para executar essa acao &quot;, null, null, null, 5000);</span>
         }
 
-<span class="nc" id="L184">    }</span>
+<span class="nc" id="L185">    }</span>
 
 
 
@@ -190,50 +191,50 @@ import java.util.Set;
     @Listen(&quot;onShowOperacoes = #gridListEmprestimoMobile&quot;)
     public void doShowOperacoes(ForwardEvent event)
     {
-<span class="nc" id="L193">        Button btn = (Button)event.getOrigin().getTarget();</span>
-<span class="nc" id="L194">        Div div = (Div) btn.getNextSibling();</span>
+<span class="nc" id="L194">        Button btn = (Button)event.getOrigin().getTarget();</span>
+<span class="nc" id="L195">        Div div = (Div) btn.getNextSibling();</span>
 
-<span class="nc bnc" id="L196" title="All 2 branches missed.">        if (div.isVisible())</span>
+<span class="nc bnc" id="L197" title="All 2 branches missed.">        if (div.isVisible())</span>
         {
-<span class="nc" id="L198">            btn.setLabel(&quot;Outras operações&quot;);</span>
-<span class="nc" id="L199">            div.setVisible(false);</span>
+<span class="nc" id="L199">            btn.setLabel(&quot;Outras operações&quot;);</span>
+<span class="nc" id="L200">            div.setVisible(false);</span>
         }
         else
         {
-<span class="nc" id="L203">            btn.setLabel(&quot;Ocultar operações&quot;);</span>
-<span class="nc" id="L204">            div.setVisible(true);</span>
+<span class="nc" id="L204">            btn.setLabel(&quot;Ocultar operações&quot;);</span>
+<span class="nc" id="L205">            div.setVisible(true);</span>
         }
-<span class="nc" id="L206">    }</span>
+<span class="nc" id="L207">    }</span>
 
     public Boolean Expired(Emprestimo emp) {
-<span class="nc" id="L209">        Boolean aBoolean = false;</span>
+<span class="nc" id="L210">        Boolean aBoolean = false;</span>
 
-<span class="nc" id="L211">        Calendar DataLimite = bBDeadline.getDeadline(emp);</span>
-<span class="nc bnc" id="L212" title="All 2 branches missed.">       if(deadline.exceededDeadline(DataLimite,Calendar.getInstance())){</span>
-<span class="nc" id="L213">           aBoolean = true;</span>
+<span class="nc" id="L212">        Calendar DataLimite = bBDeadline.getDeadline(emp);</span>
+<span class="nc bnc" id="L213" title="All 2 branches missed.">       if(deadline.exceededDeadline(DataLimite,Calendar.getInstance())){</span>
+<span class="nc" id="L214">           aBoolean = true;</span>
        }
 
-<span class="nc" id="L216">       return aBoolean;</span>
+<span class="nc" id="L217">       return aBoolean;</span>
     }
 
 
     public String dataConvert (Calendar dataa) {
 
-<span class="nc" id="L222">        SimpleDateFormat timeFormatter = new SimpleDateFormat(&quot;'('HH:mm:s')'&quot;);</span>
-<span class="nc" id="L223">        DateFormat dateFormatter = new SimpleDateFormat();</span>
-<span class="nc" id="L224">        Locale MOZAMBIQUE = new Locale(&quot;pt&quot;,&quot;MZ&quot;);</span>
-<span class="nc" id="L225">        StringBuilder builder = new StringBuilder();</span>
+<span class="nc" id="L223">        SimpleDateFormat timeFormatter = new SimpleDateFormat(&quot;'('HH:mm:s')'&quot;);</span>
+<span class="nc" id="L224">        DateFormat dateFormatter = new SimpleDateFormat();</span>
+<span class="nc" id="L225">        Locale MOZAMBIQUE = new Locale(&quot;pt&quot;,&quot;MZ&quot;);</span>
+<span class="nc" id="L226">        StringBuilder builder = new StringBuilder();</span>
 
 
-<span class="nc" id="L228">        dateFormatter = DateFormat.getDateInstance(DateFormat.LONG, MOZAMBIQUE);</span>
+<span class="nc" id="L229">        dateFormatter = DateFormat.getDateInstance(DateFormat.LONG, MOZAMBIQUE);</span>
 
-<span class="nc" id="L230">        builder.append(dateFormatter.format(dataa.getTime()));</span>
-<span class="nc" id="L231">        builder.append(&quot;\n&quot;);</span>
-<span class="nc" id="L232">        builder.append(timeFormatter.format(dataa.getTime()));</span>
+<span class="nc" id="L231">        builder.append(dateFormatter.format(dataa.getTime()));</span>
+<span class="nc" id="L232">        builder.append(&quot;\n&quot;);</span>
+<span class="nc" id="L233">        builder.append(timeFormatter.format(dataa.getTime()));</span>
 
-<span class="nc" id="L234">        String dataEntrada = builder.toString();</span>
+<span class="nc" id="L235">        String dataEntrada = builder.toString();</span>
 
-<span class="nc" id="L236">        return dataEntrada;</span>
+<span class="nc" id="L237">        return dataEntrada;</span>
     }
 
 

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RelatorioMultas.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$All_in_zksandbox.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.controller.viewsController</a> &gt; <span class="el_source">RelatorioMultas.java</span></div><h1>RelatorioMultas.java</h1><pre class="source lang-java linenums">package sgb.controller.viewsController;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RelatorioMultas.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$sgb.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.controller.viewsController</a> &gt; <span class="el_source">RelatorioMultas.java</span></div><h1>RelatorioMultas.java</h1><pre class="source lang-java linenums">package sgb.controller.viewsController;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
@@ -28,17 +28,33 @@ import sgb.report.GerarRelatorio;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
-<span class="nc" id="L33">public class RelatorioMultas extends SelectorComposer&lt;Component&gt; {</span>
-<span class="nc" id="L34">    private EstadoMultaControler estadoMultaControler = (EstadoMultaControler) SpringUtil.getBean(&quot;estadoMultaControler&quot;);</span>
-<span class="nc" id="L35">    private EmprestimoController eController = (EmprestimoController) SpringUtil.getBean(&quot;emprestimoController&quot;);</span>
-<span class="nc" id="L36">    private MultaController multaController = (MultaController) SpringUtil.getBean(&quot;multaController&quot;);</span>
-<span class="nc" id="L37">    private GerarRelatorio gerarRelatorio = (GerarRelatorio) SpringUtil.getBean(&quot;gerarRelatorio&quot;);</span>
-<span class="nc" id="L38">    private Fine fine = (Fine) SpringUtil.getBean(&quot;fine&quot;);</span>
+<span class="nc" id="L36">public class RelatorioMultas extends SelectorComposer&lt;Component&gt; {</span>
+<span class="nc" id="L37">    private EstadoMultaControler estadoMultaControler = (EstadoMultaControler) SpringUtil.getBean(&quot;estadoMultaControler&quot;);</span>
+<span class="nc" id="L38">    private EmprestimoController eController = (EmprestimoController) SpringUtil.getBean(&quot;emprestimoController&quot;);</span>
+<span class="nc" id="L39">    private MultaController multaController = (MultaController) SpringUtil.getBean(&quot;multaController&quot;);</span>
+<span class="nc" id="L40">    private GerarRelatorio gerarRelatorio = (GerarRelatorio) SpringUtil.getBean(&quot;gerarRelatorio&quot;);</span>
+<span class="nc" id="L41">    private Fine fine = (Fine) SpringUtil.getBean(&quot;fine&quot;);</span>
     private ListModelList&lt;EstadoMulta&gt; estadoMultaListModelList;
     private ListModelList&lt;Multa&gt; multaListModelList;
     private List&lt;Multa&gt; multaList;
+    private EstadoMulta estadoMulta;
+    String dateFiltered;
+<span class="nc" id="L47">    Calendar dataI = Calendar.getInstance();</span>
+<span class="nc" id="L48">    Calendar dataF = Calendar.getInstance();</span>
+
+    @Wire
+    private Label totalToPay;
+
+    @Wire
+    private Datebox dataInicio;
+
+    @Wire
+    private Datebox dataFim;
 
     @Wire
     private Listbox multasListbox;
@@ -47,102 +63,150 @@ import java.util.List;
     private Listbox estadoMultaListbox;
 
     public void doAfterCompose(Component comp) throws Exception {
-<span class="nc" id="L50">        super.doAfterCompose(comp);</span>
+<span class="nc" id="L66">        super.doAfterCompose(comp);</span>
 
-<span class="nc" id="L52">        multaList = multaController.getMultas();</span>
+<span class="nc" id="L68">        estadoMulta = new EstadoMulta();</span>
+<span class="nc" id="L69">        estadoMulta.setDescricao(&quot;Todos&quot;);</span>
+<span class="nc" id="L70">        estadoMulta.setIdestadomulta(0);</span>
+<span class="nc" id="L71">        estadoMultaListModelList = new ListModelList&lt;EstadoMulta&gt;(estadoMultaControler.getEstadoMultas());</span>
+<span class="nc" id="L72">        estadoMultaListModelList.add(0,estadoMulta);</span>
+<span class="nc" id="L73">        estadoMultaListModelList.addToSelection(estadoMulta);</span>
 
-<span class="nc" id="L54">        fine.updateDelayDays(multaList);</span>
-
-<span class="nc" id="L56">        multaListModelList = new ListModelList&lt;&gt;(multaList);</span>
-
-<span class="nc" id="L58">        EstadoMulta estadoMulta = new EstadoMulta();</span>
-<span class="nc" id="L59">        estadoMulta.setDescricao(&quot;Todos&quot;);</span>
-<span class="nc" id="L60">        estadoMulta.setIdestadomulta(0);</span>
-<span class="nc" id="L61">        estadoMultaListModelList = new ListModelList&lt;EstadoMulta&gt;(estadoMultaControler.getEstadoMultas());</span>
-<span class="nc" id="L62">        estadoMultaListModelList.add(0,estadoMulta);</span>
-<span class="nc" id="L63">        estadoMultaListModelList.addToSelection(estadoMulta);</span>
-
-<span class="nc" id="L65">        multasListbox.setModel(multaListModelList);</span>
-<span class="nc" id="L66">        estadoMultaListbox.setModel(estadoMultaListModelList);</span>
-<span class="nc" id="L67">    }</span>
+<span class="nc" id="L75">        estadoMultaListbox.setModel(estadoMultaListModelList);</span>
+<span class="nc" id="L76">        setListModelsallData();</span>
+<span class="nc" id="L77">        setListBoxsModels();</span>
+<span class="nc" id="L78">    }</span>
 
     @Listen(&quot;onClick=#savePdf&quot;)
     public void show() throws JRException {
-<span class="nc" id="L71">        byte [] arr = JasperExportManager.exportReportToPdf(gerarRelatorio.createPdfMulta(multaListModelList,</span>
-                &quot;src/main/java/sgb/report/relatorioMultas/relatorio.jrxml&quot;));
-<span class="nc" id="L73">        AMedia media = new AMedia(&quot;RelatorioMultas&quot;, &quot;pdf&quot;, &quot;application/pdf&quot;, arr);</span>
-<span class="nc" id="L74">        final Window window = new Window();</span>
-<span class="nc" id="L75">        window.setClosable(true);</span>
-<span class="nc" id="L76">        window.setSizable(false);</span>
-<span class="nc" id="L77">        Iframe iframe = new Iframe();</span>
-<span class="nc" id="L78">        iframe.setContent(media);</span>
-<span class="nc" id="L79">        Borderlayout borderlayout = new Borderlayout();</span>
-<span class="nc" id="L80">        North north = new North();</span>
-<span class="nc" id="L81">        Toolbar toolbar = new Toolbar();</span>
+<span class="nc" id="L82">        byte [] arr = JasperExportManager.exportReportToPdf(gerarRelatorio.createPdfMulta(multaListModelList</span>
+                , &quot;src/main/java/sgb/report/relatorioMultas/relatorio.jrxml&quot;
+<span class="nc" id="L84">                , Double.parseDouble(totalToPay.getValue())</span>
+                , dateFiltered));
+<span class="nc" id="L86">        AMedia media = new AMedia(&quot;RelatorioMultas&quot;, &quot;pdf&quot;, &quot;application/pdf&quot;, arr);</span>
+<span class="nc" id="L87">        final Window window = new Window();</span>
+<span class="nc" id="L88">        window.setClosable(true);</span>
+<span class="nc" id="L89">        window.setSizable(false);</span>
+<span class="nc" id="L90">        Iframe iframe = new Iframe();</span>
+<span class="nc" id="L91">        iframe.setContent(media);</span>
+<span class="nc" id="L92">        Borderlayout borderlayout = new Borderlayout();</span>
+<span class="nc" id="L93">        North north = new North();</span>
+<span class="nc" id="L94">        Toolbar toolbar = new Toolbar();</span>
 
-<span class="nc" id="L83">        toolbar.setWidth(&quot;100%&quot;);</span>
+<span class="nc" id="L96">        toolbar.setWidth(&quot;100%&quot;);</span>
 
 
-<span class="nc" id="L86">        toolbar.setAlign(&quot;end&quot;);</span>
+<span class="nc" id="L99">        toolbar.setAlign(&quot;end&quot;);</span>
 
+<span class="nc" id="L101">        Toolbarbutton close = new Toolbarbutton(&quot;Exit&quot;);</span>
+<span class="nc" id="L102">        close.setMode(&quot;overlapped&quot;);</span>
 
-<span class="nc" id="L89">        Toolbarbutton close = new Toolbarbutton(&quot;Exit&quot;);</span>
-<span class="nc" id="L90">        close.setMode(&quot;overlapped&quot;);</span>
+<span class="nc" id="L104">        close.setTooltiptext(&quot;Sair&quot;);</span>
+<span class="nc" id="L105">        close.setClass(&quot;w3-btn w3-light-grey&quot;);</span>
+<span class="nc" id="L106">        close.addEventListener(&quot;onClick&quot;, (Event t) -&gt; {         window.onClose();     });</span>
+<span class="nc" id="L107">        toolbar.appendChild(close);</span>
+<span class="nc" id="L108">        north.appendChild(toolbar);</span>
+<span class="nc" id="L109">        Center cntr = new Center();</span>
+<span class="nc" id="L110">        cntr.appendChild(iframe);</span>
+<span class="nc" id="L111">        borderlayout.appendChild(cntr);</span>
+<span class="nc" id="L112">        borderlayout.resize();</span>
+<span class="nc" id="L113">        window.appendChild(toolbar);</span>
+<span class="nc" id="L114">        window.appendChild(borderlayout);</span>
+<span class="nc" id="L115">        iframe.setWidth(&quot;100%&quot;);</span>
+<span class="nc" id="L116">        iframe.setHeight(&quot;100%&quot;);</span>
+<span class="nc" id="L117">        window.setWidth(&quot;100%&quot;);</span>
+<span class="nc" id="L118">        window.setHeight(&quot;100%&quot;);</span>
 
-<span class="nc" id="L92">        close.setTooltiptext(&quot;Sair&quot;);</span>
-<span class="nc" id="L93">        close.setClass(&quot;w3-btn w3-light-grey&quot;);</span>
-<span class="nc" id="L94">        close.addEventListener(&quot;onClick&quot;, (Event t) -&gt; {         window.onClose();     });</span>
-<span class="nc" id="L95">        toolbar.appendChild(close);</span>
-<span class="nc" id="L96">        north.appendChild(toolbar);</span>
-<span class="nc" id="L97">        Center cntr = new Center();</span>
-<span class="nc" id="L98">        cntr.appendChild(iframe);</span>
-<span class="nc" id="L99">        borderlayout.appendChild(cntr);</span>
-<span class="nc" id="L100">        borderlayout.resize();</span>
-<span class="nc" id="L101">        window.appendChild(toolbar);</span>
-<span class="nc" id="L102">        window.appendChild(borderlayout);</span>
-<span class="nc" id="L103">        iframe.setWidth(&quot;100%&quot;);</span>
-<span class="nc" id="L104">        iframe.setHeight(&quot;100%&quot;);</span>
-<span class="nc" id="L105">        window.setWidth(&quot;100%&quot;);</span>
-<span class="nc" id="L106">        window.setHeight(&quot;100%&quot;);</span>
-
-<span class="nc" id="L108">        window.setPage(getPage());</span>
-<span class="nc" id="L109">        window.doModal();</span>
-<span class="nc" id="L110">    }</span>
-
-    @Listen(&quot;onSelect = #estadoMultaListbox&quot;)
-    public void change(){
-<span class="nc" id="L114">        EstadoMulta estadoMulta = estadoMultaListbox.getSelectedItem().getValue();</span>
-
-<span class="nc bnc" id="L116" title="All 2 branches missed.">        if(estadoMulta.getIdestadomulta()!=0){</span>
-<span class="nc" id="L117">            multaListModelList = new ListModelList&lt;Multa&gt;(multaController.getFine(estadoMulta.getIdestadomulta()));</span>
-        }else{
-<span class="nc" id="L119">            multaListModelList = new ListModelList&lt;Multa&gt;(multaController.getMultas());</span>
-        }
-
-<span class="nc" id="L122">        multasListbox.setModel(multaListModelList);</span>
-<span class="nc" id="L123">    }</span>
+<span class="nc" id="L120">        window.setPage(getPage());</span>
+<span class="nc" id="L121">        window.doModal();</span>
+<span class="nc" id="L122">    }</span>
 
     @Listen(&quot;onClick=#saveExcell&quot;)
     public void exportToExcell() throws IOException, JRException {
-<span class="nc" id="L127">        JRXlsExporter exporter = new JRXlsExporter();</span>
+<span class="nc" id="L126">        JRXlsExporter exporter = new JRXlsExporter();</span>
 
-<span class="nc" id="L129">        String filePath = &quot;src/main/java/sgb/report/relatorioMultas/xls/RelatorioMultas.xls&quot;;</span>
-<span class="nc" id="L130">        File xlsFile = new File(filePath);</span>
+<span class="nc" id="L128">        String filePath = &quot;src/main/java/sgb/report/relatorioMultas/xls/RelatorioMultas.xls&quot;;</span>
+<span class="nc" id="L129">        File xlsFile = new File(filePath);</span>
 
-<span class="nc bnc" id="L132" title="All 2 branches missed.">        if(xlsFile.exists()){</span>
-<span class="nc" id="L133">            xlsFile.delete();</span>
+<span class="nc bnc" id="L131" title="All 2 branches missed.">        if(xlsFile.exists()){</span>
+<span class="nc" id="L132">            xlsFile.delete();</span>
         }
 
-<span class="nc" id="L136">        exporter.setParameter(JRExporterParameter.JASPER_PRINT</span>
-<span class="nc" id="L137">                , gerarRelatorio.createPdfMulta(multaListModelList</span>
-                , &quot;src/main/java/sgb/report/relatorioMultas/relatorio.jrxml&quot;));
-<span class="nc" id="L139">        exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, filePath);</span>
-<span class="nc" id="L140">        exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);</span>
-<span class="nc" id="L141">        exporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);</span>
+<span class="nc" id="L135">        exporter.setParameter(JRExporterParameter.JASPER_PRINT</span>
+<span class="nc" id="L136">                , gerarRelatorio.createPdfMulta(multaListModelList</span>
+                        , &quot;src/main/java/sgb/report/relatorioMultas/relatorio.jrxml&quot;
+<span class="nc" id="L138">                        , Double.parseDouble(totalToPay.getValue())</span>
+                        , dateFiltered));
+<span class="nc" id="L140">        exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, filePath);</span>
+<span class="nc" id="L141">        exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);</span>
+<span class="nc" id="L142">        exporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);</span>
 
-<span class="nc" id="L143">        exporter.exportReport();</span>
+<span class="nc" id="L144">        exporter.exportReport();</span>
 
-<span class="nc" id="L145">        Filedownload.save(xlsFile,&quot;xls&quot;);</span>
-<span class="nc" id="L146">    }</span>
+<span class="nc" id="L146">        Filedownload.save(xlsFile,&quot;xls&quot;);</span>
+<span class="nc" id="L147">    }</span>
+
+    @Listen(&quot;onChange = #dataInicio;onChange = #dataFim&quot;)
+    public void dataChange() {
+<span class="nc" id="L151">        getUpdateDate();</span>
+
+<span class="nc" id="L153">        multaList = multaController.getMultasByDate(dataI, dataF, estadoMulta);</span>
+
+<span class="nc" id="L155">        setListModelsallData();</span>
+<span class="nc" id="L156">        setListBoxsModels();</span>
+<span class="nc" id="L157">    }</span>
+
+    public void getUpdateDate(){
+        try {
+<span class="nc" id="L161">            dataI.setTime(dataInicio.getValue());</span>
+<span class="nc" id="L162">            dataF.setTime(dataFim.getValue());</span>
+<span class="nc" id="L163">        }catch (Exception e){</span>
+
+<span class="nc" id="L165">        };</span>
+<span class="nc" id="L166">    }</span>
+
+    public Date reduzDataActual(){
+<span class="nc" id="L169">        Calendar c = Calendar.getInstance();</span>
+
+<span class="nc" id="L171">        c.add(Calendar.DAY_OF_MONTH, -30);</span>
+
+<span class="nc" id="L173">        return c.getTime();</span>
+    }
+
+    public String dataConvert (Calendar dataa) {
+
+<span class="nc" id="L178">        SimpleDateFormat dateFormatter = new SimpleDateFormat(&quot;dd/MM/yyyy&quot;);</span>
+<span class="nc" id="L179">        StringBuilder builder = new StringBuilder();</span>
+
+<span class="nc" id="L181">        builder.append(dateFormatter.format(dataa.getTime()));</span>
+
+<span class="nc" id="L183">        return builder.toString();</span>
+    }
+
+    @Listen(&quot;onSelect = #estadoMultaListbox&quot;)
+    public void change(){
+<span class="nc" id="L188">        estadoMulta = estadoMultaListbox.getSelectedItem().getValue();</span>
+
+<span class="nc" id="L190">        setListModelsallData();</span>
+<span class="nc" id="L191">        setListBoxsModels();</span>
+<span class="nc" id="L192">    }</span>
+
+    public void setListModelsallData(){
+<span class="nc" id="L195">        getUpdateDate();</span>
+
+<span class="nc bnc" id="L197" title="All 2 branches missed.">        if(estadoMulta.getIdestadomulta()!=0){</span>
+<span class="nc" id="L198">            multaList = multaController.getMultasByDate(dataI, dataF, estadoMulta);</span>
+        }else{
+<span class="nc" id="L200">            multaList = multaController.getMultasByDate(dataI, dataF, null);</span>
+        }
+<span class="nc" id="L202">        multaListModelList = new ListModelList&lt;Multa&gt;(multaList);</span>
+<span class="nc" id="L203">        dateFiltered = &quot;Lista de &quot;+dataConvert(dataI)+&quot; a &quot;+dataConvert(dataF);</span>
+<span class="nc" id="L204">    }</span>
+
+    public void setListBoxsModels(){
+<span class="nc" id="L207">        multasListbox.setModel(multaListModelList);</span>
+<span class="nc" id="L208">        totalToPay.setValue(&quot;&quot;+fine.totalDinheiro(multaList)+&quot;&quot;);</span>
+<span class="nc" id="L209">        fine.updateDelayDays(multaList);</span>
+<span class="nc" id="L210">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
