@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LogoutModalController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$All_in_zksandbox.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.controller.viewsController</a> &gt; <span class="el_source">LogoutModalController.java</span></div><h1>LogoutModalController.java</h1><pre class="source lang-java linenums">package sgb.controller.viewsController;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LogoutModalController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$sgb.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.controller.viewsController</a> &gt; <span class="el_source">LogoutModalController.java</span></div><h1>LogoutModalController.java</h1><pre class="source lang-java linenums">package sgb.controller.viewsController;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,15 +8,21 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.Window;
+import sgb.controller.domainController.EstadoPedidoControler;
+import sgb.controller.domainController.RoleController;
 import sgb.domain.Role;
 import sgb.domain.Users;
 
 import java.util.Set;
 
-<span class="nc" id="L18">public class LogoutModalController extends SelectorComposer&lt;Component&gt; {</span>
-<span class="nc" id="L19">    private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;</span>
+<span class="nc" id="L22">public class LogoutModalController extends SelectorComposer&lt;Component&gt; {</span>
+<span class="nc" id="L23">    private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;</span>
+<span class="nc" id="L24">    private RoleController rController = (RoleController) SpringUtil.getBean(&quot;roleController&quot;);</span>
+
     @Wire
     Window logoutModal;
 
@@ -30,58 +36,55 @@ import java.util.Set;
     public void doAfterCompose(Component comp) throws Exception
     {
         try{
-<span class="nc" id="L33">            super.doAfterCompose(comp);</span>
+<span class="nc" id="L39">            super.doAfterCompose(comp);</span>
 
-<span class="nc" id="L35">            currentUser.setValue(user.getName() +&quot; &quot;+ user.getLastName());</span>
-<span class="nc" id="L36">            currentUserRole.setValue(&quot;(&quot;+getRole()+&quot;)&quot;);</span>
-
-<span class="nc" id="L38">        }catch (Exception e){}</span>
+<span class="nc" id="L41">            currentUser.setValue(user.getName() +&quot; &quot;+ user.getLastName());</span>
+<span class="nc" id="L42">            currentUserRole.setValue(&quot;(&quot;+getRole()+&quot;)&quot;);</span>
 
 
-<span class="nc" id="L41">    }</span>
+<span class="nc" id="L45">        }catch (Exception e){}</span>
+
+
+<span class="nc" id="L48">    }</span>
 
     public String getRole () {
-<span class="nc" id="L44">        String string= null;</span>
+<span class="nc" id="L51">        String string= null;</span>
 
-<span class="nc" id="L46">        Set&lt;Role&gt; userrole =user.getRoles();</span>
+<span class="nc" id="L53">        Set&lt;Role&gt; userrole =user.getRoles();</span>
 
-<span class="nc bnc" id="L48" title="All 2 branches missed.">        for(Role rol : userrole)</span>
-<span class="nc bnc" id="L49" title="All 2 branches missed.">            if (rol.getRole().equals(&quot;ADMIN&quot;)){</span>
-<span class="nc" id="L50">                string=&quot;ADIMIN&quot;;</span>
-<span class="nc bnc" id="L51" title="All 2 branches missed.">            } else if (rol.getRole().equals(&quot;STUDENT&quot;)){</span>
-<span class="nc" id="L52">                string = &quot;STUDENT&quot;;</span>
-<span class="nc bnc" id="L53" title="All 2 branches missed.">            }else if (rol.getRole().equals(&quot;TEACHER&quot;)){</span>
-<span class="nc" id="L54">                string = &quot;TEACHER&quot;;</span>
-            }
-<span class="nc" id="L56">        return string;</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">        for(Role rol : userrole) {</span>
+<span class="nc" id="L56">            string = rol.getRole();</span>
+<span class="nc" id="L57">        }</span>
+
+<span class="nc" id="L59">        return string;</span>
     }
 
     @Listen(&quot;onClick = #preLogout&quot;)
     public void showModal(Event e) {
         //create a window programmatically and use it as a modal dialog.
-<span class="nc" id="L62">        Window window = (Window) Executions.createComponents(</span>
+<span class="nc" id="L65">        Window window = (Window) Executions.createComponents(</span>
                 &quot;/views/logoutmodal.zul&quot;, null, null);
-<span class="nc" id="L64">        window.doModal();</span>
-<span class="nc" id="L65">    }</span>
+<span class="nc" id="L67">        window.doModal();</span>
+<span class="nc" id="L68">    }</span>
 
 
     @Listen(&quot;onClick = #alterarSenha&quot;)
     public void redirectToChangePassword(){
 
-<span class="nc" id="L71">        closeModal();</span>
-<span class="nc" id="L72">        Window window = (Window)Executions.createComponents(</span>
+<span class="nc" id="L74">        closeModal();</span>
+<span class="nc" id="L75">        Window window = (Window)Executions.createComponents(</span>
                 &quot;/views/alterarSenha.zul&quot;, null, null);
-<span class="nc" id="L74">        window.doModal();</span>
+<span class="nc" id="L77">        window.doModal();</span>
 
         //Executions.sendRedirect(&quot;/views/alterarSenha.zul&quot;);
 
-<span class="nc" id="L78">    }</span>
+<span class="nc" id="L81">    }</span>
 
     @Listen(&quot;onClick = #fechar&quot;)
     public void closeModal(){
 
-<span class="nc" id="L83">        logoutModal.detach();</span>
+<span class="nc" id="L86">        logoutModal.detach();</span>
 
-<span class="nc" id="L85">    }</span>
+<span class="nc" id="L88">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

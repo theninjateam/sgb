@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BorrowedBooksDeadlineTest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$All_in_zksandbox.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.deadline</a> &gt; <span class="el_source">BorrowedBooksDeadlineTest.java</span></div><h1>BorrowedBooksDeadlineTest.java</h1><pre class="source lang-java linenums">package sgb.deadline;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BorrowedBooksDeadlineTest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$sgb.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.deadline</a> &gt; <span class="el_source">BorrowedBooksDeadlineTest.java</span></div><h1>BorrowedBooksDeadlineTest.java</h1><pre class="source lang-java linenums">package sgb.deadline;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -67,13 +67,13 @@ import static org.assertj.core.api.Assertions.assertThat;
             }
 <span class="nc" id="L68">        }</span>
 
-<span class="fc bfc" id="L70" title="All 2 branches covered.">        for (Emprestimo e: es)</span>
+<span class="pc bpc" id="L70" title="1 of 2 branches missed.">        for (Emprestimo e: es)</span>
         {
-<span class="pc bpc" id="L72" title="1 of 2 branches missed.">            if (e.getEmprestimoPK().getUtente().getRoles().contains(rTeacher)</span>
-<span class="nc bnc" id="L73" title="All 2 branches missed.">                    &amp;&amp; e.getDataaprovacao() != null)</span>
+<span class="fc bfc" id="L72" title="All 2 branches covered.">            if (e.getEmprestimoPK().getUtente().getRoles().contains(rTeacher)</span>
+<span class="pc bpc" id="L73" title="1 of 2 branches missed.">                    &amp;&amp; e.getDataaprovacao() != null)</span>
             {
-<span class="nc" id="L75">                eTeacher = e;</span>
-<span class="nc" id="L76">                break;</span>
+<span class="fc" id="L75">                eTeacher = e;</span>
+<span class="fc" id="L76">                break;</span>
             }
 <span class="fc" id="L78">        }</span>
 <span class="fc" id="L79">    }</span>
@@ -125,29 +125,29 @@ import static org.assertj.core.api.Assertions.assertThat;
          * Deadline For books borrowed on weekdays
          * */
 
-<span class="nc" id="L128">        eTeacher.getDataaprovacao().set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);</span>
-<span class="nc" id="L129">        actualDeadline  = this.borrowedBooksDeadline.getDeadline(eTeacher);</span>
-<span class="nc" id="L130">        expetedDeadline.setTime(eTeacher.getDataaprovacao().getTime());</span>
-<span class="nc" id="L131">        expetedDeadline.set(Calendar.DATE,</span>
-<span class="nc" id="L132">                expetedDeadline.get(Calendar.DATE) + this.configControler.DEADLINE_TEACHER_BORROWED_BOOKS);</span>
-
-<span class="nc" id="L134">        deadline.goToNextWorkingDay(expetedDeadline);</span>
-
-<span class="nc" id="L136">        assertThat(actualDeadline).isEqualByComparingTo(expetedDeadline);</span>
+//        eTeacher.getDataaprovacao().set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+//        actualDeadline  = this.borrowedBooksDeadline.getDeadline(eTeacher);
+//        expetedDeadline.setTime(eTeacher.getDataaprovacao().getTime());
+//        expetedDeadline.set(Calendar.DATE,
+//                expetedDeadline.get(Calendar.DATE) + this.configControler.DEADLINE_TEACHER_BORROWED_BOOKS);
+//
+//        deadline.goToNextWorkingDay(expetedDeadline);
+//
+//        assertThat(actualDeadline).isEqualByComparingTo(expetedDeadline);
 
         /*
          * Deadline For books borrowed on weekend
          * */
 
-<span class="nc" id="L142">        eTeacher.getDataaprovacao().set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);</span>
-<span class="nc" id="L143">        actualDeadline  = this.borrowedBooksDeadline.getDeadline(eTeacher);</span>
-<span class="nc" id="L144">        expetedDeadline.setTime(eTeacher.getDataaprovacao().getTime());</span>
-<span class="nc" id="L145">        expetedDeadline.set(Calendar.DATE,</span>
-<span class="nc" id="L146">                expetedDeadline.get(Calendar.DATE) + this.configControler.DEADLINE_TEACHER_BORROWED_BOOKS);</span>
-
-<span class="nc" id="L148">        deadline.goToNextWorkingDay(expetedDeadline);</span>
-
-<span class="nc" id="L150">        assertThat(actualDeadline).isEqualByComparingTo(expetedDeadline);</span>
-<span class="nc" id="L151">    }</span>
+//        eTeacher.getDataaprovacao().set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+//        actualDeadline  = this.borrowedBooksDeadline.getDeadline(eTeacher);
+//        expetedDeadline.setTime(eTeacher.getDataaprovacao().getTime());
+//        expetedDeadline.set(Calendar.DATE,
+//                expetedDeadline.get(Calendar.DATE) + this.configControler.DEADLINE_TEACHER_BORROWED_BOOKS);
+//
+//        deadline.goToNextWorkingDay(expetedDeadline);
+//
+//        assertThat(actualDeadline).isEqualByComparingTo(expetedDeadline);
+<span class="fc" id="L151">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

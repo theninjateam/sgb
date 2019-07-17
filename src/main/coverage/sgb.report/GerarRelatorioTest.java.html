@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GerarRelatorioTest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$All_in_zksandbox.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.report</a> &gt; <span class="el_source">GerarRelatorioTest.java</span></div><h1>GerarRelatorioTest.java</h1><pre class="source lang-java linenums">package sgb.report;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GerarRelatorioTest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$sgb.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.report</a> &gt; <span class="el_source">GerarRelatorioTest.java</span></div><h1>GerarRelatorioTest.java</h1><pre class="source lang-java linenums">package sgb.report;
 
 import net.sf.jasperreports.engine.JRException;
 import org.junit.Before;
@@ -46,7 +46,7 @@ import static org.junit.Assert.*;
 
     @Test
     @Transactional
-    public void createPdf1() throws JRException, IOException {
+    public void createPdf1Test() throws JRException, IOException {
         AreaCientifica areaCientifica;
         List&lt;ObraCategoria&gt; obraCategorias;
         List&lt;RegistroObra&gt; registroObras;
@@ -63,71 +63,77 @@ import static org.junit.Assert.*;
                 ,obraEliminadas
                 ,0
                 ,&quot;100&quot;
-                ,&quot;src/main/java/sgb/report/relatorioObras/relatorio.jrxml&quot;));
+                ,&quot;src/main/java/sgb/report/relatorioObras/relatorio.jrxml&quot;
+                , &quot;&quot;));
 
-<span class="fc" id="L68">        assertNull(gerarRelatorio.createPdfObras(obraCategorias</span>
+<span class="fc" id="L69">        assertNull(gerarRelatorio.createPdfObras(obraCategorias</span>
                 ,registroObras
                 ,obraEliminadas
                 ,0
                 ,&quot;100&quot;
-                , null));
+                , null
+                , &quot;&quot;));
 
         //For Obras Registradas
-<span class="fc" id="L76">        assertNotNull(gerarRelatorio.createPdfObras(obraCategorias</span>
+<span class="fc" id="L78">        assertNotNull(gerarRelatorio.createPdfObras(obraCategorias</span>
                 ,registroObras
                 ,obraEliminadas
                 ,1
                 ,&quot;100&quot;
-                ,&quot;src/main/java/sgb/report/relatorioObras/relatorioObrasReg.jrxml&quot;));
+                ,&quot;src/main/java/sgb/report/relatorioObras/relatorioObrasReg.jrxml&quot;
+                , &quot;&quot;));
 
-<span class="fc" id="L83">        assertNull(gerarRelatorio.createPdfObras(obraCategorias</span>
+<span class="fc" id="L86">        assertNull(gerarRelatorio.createPdfObras(obraCategorias</span>
                 ,registroObras
                 ,obraEliminadas
                 ,1
                 ,&quot;100&quot;
-                , null));
+                , null
+                , &quot;&quot;));
 
         //For Obras Eliminadas
-<span class="fc" id="L91">        assertNotNull(gerarRelatorio.createPdfObras(obraCategorias</span>
+<span class="fc" id="L95">        assertNotNull(gerarRelatorio.createPdfObras(obraCategorias</span>
                 ,registroObras
                 ,obraEliminadas
                 ,2
                 ,&quot;100&quot;
-                ,&quot;src/main/java/sgb/report/relatorioObras/relatorioObrasEli.jrxml&quot;));
+                ,&quot;src/main/java/sgb/report/relatorioObras/relatorioObrasEli.jrxml&quot;
+                , &quot;&quot;));
 
-<span class="fc" id="L98">        assertNull(gerarRelatorio.createPdfObras(obraCategorias</span>
+<span class="fc" id="L103">        assertNull(gerarRelatorio.createPdfObras(obraCategorias</span>
                 ,registroObras
                 ,obraEliminadas
                 ,2
                 ,&quot;100&quot;
-                , null));
-<span class="fc" id="L104">    }</span>
+                , null
+                ,&quot;&quot;));
+<span class="fc" id="L110">    }</span>
 
     @Test
     @Transactional
-    public void createPdf2() throws JRException {
+    public void createPdf2Test() throws JRException {
         List&lt;Emprestimo&gt; emprestimoList;
 
-<span class="fc" id="L111">        emprestimoList = emprestimoController.getBorrowedBooks();</span>
+<span class="fc" id="L117">        emprestimoList = emprestimoController.getBorrowedBooks();</span>
 
-<span class="fc" id="L113">        assertNotNull(gerarRelatorio.createPdfEmprestimo(emprestimoList</span>
-                , &quot;src/main/java/sgb/report/relatorioEmprestimo/relatorio.jrxml&quot;));
+<span class="fc" id="L119">        assertNotNull(gerarRelatorio.createPdfEmprestimo(emprestimoList</span>
+                , &quot;src/main/java/sgb/report/relatorioEmprestimo/relatorio.jrxml&quot;,&quot;&quot;));
 
-<span class="fc" id="L116">        assertNull(gerarRelatorio.createPdfEmprestimo(emprestimoList, null));</span>
-<span class="fc" id="L117">    }</span>
+<span class="fc" id="L122">        assertNull(gerarRelatorio.createPdfEmprestimo(emprestimoList, null, &quot;&quot;));</span>
+<span class="fc" id="L123">    }</span>
 
     @Test
     @Transactional
-    public void createPdf3() throws JRException {
+    public void createPdf3Test() throws JRException {
         List&lt;Multa&gt; multaList;
 
-<span class="fc" id="L124">        multaList = multaController.getMultas();</span>
+<span class="fc" id="L130">        multaList = multaController.getMultas();</span>
 
-<span class="fc" id="L126">        assertNotNull(gerarRelatorio.createPdfMulta(multaList</span>
-                ,&quot;src/main/java/sgb/report/relatorioMultas/relatorio.jrxml&quot;));
+<span class="fc" id="L132">        assertNotNull(gerarRelatorio.createPdfMulta(multaList</span>
+                ,&quot;src/main/java/sgb/report/relatorioMultas/relatorio.jrxml&quot;, 1, &quot;&quot;));
 
-<span class="fc" id="L129">        assertNull(gerarRelatorio.createPdfMulta(multaList,null));</span>
+<span class="fc" id="L135">        assertNull(gerarRelatorio.createPdfMulta(multaList,null, 1, &quot;&quot;));</span>
 
-<span class="fc" id="L131">    }</span>
+<span class="fc" id="L137">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MultaModalController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$All_in_zksandbox.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.controller.viewsController</a> &gt; <span class="el_source">MultaModalController.java</span></div><h1>MultaModalController.java</h1><pre class="source lang-java linenums">/*
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MultaModalController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$sgb.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.controller.viewsController</a> &gt; <span class="el_source">MultaModalController.java</span></div><h1>MultaModalController.java</h1><pre class="source lang-java linenums">/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -48,6 +48,8 @@ import java.util.Set;
 
 
     private  ListModelList&lt;Multa&gt; multaListModel;
+    private  ListModelList&lt;Multa&gt; LisModelFromListMulta; // List Model da view ListMulta
+
     private Session session;
 
     private Obra obra;
@@ -64,17 +66,17 @@ import java.util.Set;
 
 
 
-<span class="nc" id="L67">    private EstadoMultaControler eMController = (EstadoMultaControler) SpringUtil.getBean(&quot;estadoMultaControler&quot;);</span>
-<span class="nc" id="L68">    private EstadoDevolucaoControler eDController = (EstadoDevolucaoControler) SpringUtil.getBean(&quot;estadoDevolucaoControler&quot;);</span>
-<span class="nc" id="L69">    private Boolean isForDetails =false;</span>
+<span class="nc" id="L69">    private EstadoMultaControler eMController = (EstadoMultaControler) SpringUtil.getBean(&quot;estadoMultaControler&quot;);</span>
+<span class="nc" id="L70">    private EstadoDevolucaoControler eDController = (EstadoDevolucaoControler) SpringUtil.getBean(&quot;estadoDevolucaoControler&quot;);</span>
+<span class="nc" id="L71">    private Boolean isForDetails =false;</span>
 
-<span class="nc" id="L71">    private ConfigControler configControler = (ConfigControler) SpringUtil.getBean(&quot;configControler&quot;);</span>
-<span class="nc" id="L72">    private BorrowedBooksDeadline bBDeadline = (BorrowedBooksDeadline) SpringUtil.getBean(&quot;borrowedBooksDeadline&quot;);</span>
+<span class="nc" id="L73">    private ConfigControler configControler = (ConfigControler) SpringUtil.getBean(&quot;configControler&quot;);</span>
+<span class="nc" id="L74">    private BorrowedBooksDeadline bBDeadline = (BorrowedBooksDeadline) SpringUtil.getBean(&quot;borrowedBooksDeadline&quot;);</span>
     private boolean isStudent;
     private EmprestimoController eController;
 
-<span class="nc" id="L76">    private Boolean isNormalUser = true;</span>
-<span class="nc" id="L77">    private Emprestimo emprestimo = null;</span>
+<span class="nc" id="L78">    private Boolean isNormalUser = true;</span>
+<span class="nc" id="L79">    private Emprestimo emprestimo = null;</span>
 
 
 
@@ -82,92 +84,99 @@ import java.util.Set;
 
     @Override
     public void doAfterCompose(Component comp) throws Exception {
-<span class="nc" id="L85">        super.doAfterCompose(comp);</span>
+<span class="nc" id="L87">        super.doAfterCompose(comp);</span>
 
-<span class="nc" id="L87">        session = Sessions.getCurrent();</span>
-
-<span class="nc" id="L89">        isNormalUser = isNormalUser();</span>
-
-<span class="nc" id="L91">        isForDetails = false;</span>
+<span class="nc" id="L89">        session = Sessions.getCurrent();</span>
 
 
-<span class="nc" id="L94">        isForDetails = (Boolean) session.getAttribute(&quot;ForDetais&quot;);</span>
+<span class="nc" id="L92">        isNormalUser = isNormalUser();</span>
+
+<span class="nc" id="L94">        isForDetails = false;</span>
+
+<span class="nc" id="L96">        isForDetails = (Boolean) session.getAttribute(&quot;ForDetais&quot;);</span>
+
+<span class="nc" id="L98">        LisModelFromListMulta = (ListModelList&lt;Multa&gt;)session.getAttribute(&quot;MultaListModel&quot;);</span>
 
 
-<span class="nc bnc" id="L97" title="All 2 branches missed.">        if (isForDetails) {</span>
+<span class="nc bnc" id="L101" title="All 2 branches missed.">        if (isForDetails) {</span>
             /*
             * Elabora uma multa falsa so para apresentar como detalhes do emprestimo
             */
 
-<span class="nc" id="L102">            Emprestimo emprestimo = (Emprestimo) session.getAttribute (&quot;EmprestimoMultado&quot;);</span>
+<span class="nc" id="L106">            Emprestimo emprestimo = (Emprestimo) session.getAttribute (&quot;EmprestimoMultado&quot;);</span>
 
-<span class="nc" id="L104">            multaListModel = new ListModelList&lt;Multa&gt;();</span>
-<span class="nc" id="L105">            multaListModel.add(fakeMulta(emprestimo));</span>
-<span class="nc" id="L106">            multaListBox.setModel(multaListModel);</span>
-<span class="nc" id="L107">            multaListBox.setName(&quot;Detalhes&quot;);</span>
+<span class="nc" id="L108">            multaListModel = new ListModelList&lt;Multa&gt;();</span>
+<span class="nc" id="L109">            multaListModel.add(fakeMulta(emprestimo));</span>
+<span class="nc" id="L110">            multaListBox.setModel(multaListModel);</span>
+<span class="nc" id="L111">            multaListBox.setName(&quot;Detalhes&quot;);</span>
 
-<span class="nc" id="L109">        } else {</span>
+<span class="nc" id="L113">        } else {</span>
             /*
              * Multa ja criada pelo sistema
              */
-<span class="nc" id="L113">            multa = (Multa) session.getAttribute(&quot;Multa&quot;);</span>
-<span class="nc" id="L114">            emprestimo = crudService.get(Emprestimo.class,multa.getMultaPK());</span>
-<span class="nc" id="L115">            multa.setValorpago(fine.getAmoutToPay(emprestimo.getEmprestimoPK(), Calendar.getInstance()));</span>
+<span class="nc" id="L117">            multa = (Multa) session.getAttribute(&quot;Multa&quot;);</span>
+<span class="nc" id="L118">            emprestimo = crudService.get(Emprestimo.class,multa.getMultaPK());</span>
+<span class="nc" id="L119">            multa.setValorpago(fine.getAmoutToPay(emprestimo.getEmprestimoPK(), Calendar.getInstance()));</span>
 
-<span class="nc bnc" id="L117" title="All 2 branches missed.">            if (ObraRETURNED(emprestimo.getEmprestimoPK())) {</span>
-<span class="nc" id="L118">                Calendar dataLimite = bBDeadline.getDeadline(emprestimo);</span>
-<span class="nc" id="L119">                multa.setDiasatraso(fine.getDelayDays(emprestimo.getDatadevolucao(),dataLimite));</span>
-<span class="nc" id="L120">            } else {</span>
-<span class="nc" id="L121">                multa.setDiasatraso(fine.getDelayDays(Calendar.getInstance(), emprestimo.getDatadevolucao()));</span>
+<span class="nc bnc" id="L121" title="All 2 branches missed.">            if (ObraRETURNED(emprestimo.getEmprestimoPK())) {</span>
+<span class="nc" id="L122">                Calendar dataLimite = bBDeadline.getDeadline(emprestimo);</span>
+<span class="nc" id="L123">                multa.setDiasatraso(fine.getDelayDays(emprestimo.getDatadevolucao(),dataLimite));</span>
+<span class="nc" id="L124">            } else {</span>
+<span class="nc" id="L125">                multa.setDiasatraso(fine.getDelayDays(Calendar.getInstance(), emprestimo.getDatadevolucao()));</span>
             }
 
-<span class="nc" id="L124">            multaListModel = new ListModelList&lt;Multa&gt;();</span>
-<span class="nc" id="L125">            multaListModel.add(multa);</span>
-<span class="nc" id="L126">            multaListBox.setModel(multaListModel);</span>
+<span class="nc" id="L128">            multaListModel = new ListModelList&lt;Multa&gt;();</span>
+<span class="nc" id="L129">            multaListModel.add(multa);</span>
+<span class="nc" id="L130">            multaListBox.setModel(multaListModel);</span>
         }
 
 
-<span class="nc" id="L130">    }</span>
+<span class="nc" id="L134">    }</span>
 
     public Multa fakeMulta (Emprestimo e) {
-<span class="nc" id="L133">        Multa multa = new Multa();</span>
+<span class="nc" id="L137">        Multa multa = new Multa();</span>
 
-<span class="nc" id="L135">        Emprestimo emprestimo = e;</span>
-<span class="nc" id="L136">        int diaatraso = Math.abs (</span>
-<span class="nc" id="L137">                (int) Duration.between(Calendar.getInstance().toInstant(), emprestimo.getDatadevolucao().toInstant()).toDays());</span>
+<span class="nc" id="L139">         Calendar CurremtDate = Calendar.getInstance();</span>
 
-<span class="nc" id="L139">        emprestimo.setEstadoDevolucao(null);</span>
+<span class="nc" id="L141">        Emprestimo emprestimo = e;</span>
+<span class="nc" id="L142">        int diaatraso = 0;</span>
+<span class="nc bnc" id="L143" title="All 2 branches missed.">        if(CurremtDate.compareTo(emprestimo.getDatadevolucao())&gt;0) {</span>
+<span class="nc" id="L144">            diaatraso = Math.abs(</span>
+<span class="nc" id="L145">                    (int) Duration.between(CurremtDate.toInstant(), emprestimo.getDatadevolucao().toInstant()).toDays());</span>
+        }
 
-<span class="nc" id="L141">        multa.setMultaPK(emprestimo.getEmprestimoPK());</span>
-<span class="nc" id="L142">        multa.setDataemissao(Calendar.getInstance());</span>
-<span class="nc" id="L143">        multa.setDataemprestimo(emprestimo.getDataaprovacao());</span>
-<span class="nc" id="L144">        multa.setEstadoMulta(null);</span>
-<span class="nc" id="L145">        multa.setDiasatraso(diaatraso);</span>
+<span class="nc" id="L148">        emprestimo.setEstadoDevolucao(null);</span>
 
-<span class="nc" id="L147">        float taxaD = this.configControler.DAILY_RATE_FINE;</span>
-<span class="nc" id="L148">        multa.setTaxadiaria(taxaD);</span>
-<span class="nc" id="L149">        multa.setValorpago((diaatraso*taxaD));</span>
-<span class="nc" id="L150">        return multa;</span>
+<span class="nc" id="L150">        multa.setMultaPK(emprestimo.getEmprestimoPK());</span>
+<span class="nc" id="L151">        multa.setDataemissao(Calendar.getInstance());</span>
+<span class="nc" id="L152">        multa.setDataemprestimo(emprestimo.getDataaprovacao());</span>
+<span class="nc" id="L153">        multa.setEstadoMulta(null);</span>
+<span class="nc" id="L154">        multa.setDiasatraso(diaatraso);</span>
+
+<span class="nc" id="L156">        float taxaD = this.configControler.DAILY_RATE_FINE;</span>
+<span class="nc" id="L157">        multa.setTaxadiaria(taxaD);</span>
+<span class="nc" id="L158">        multa.setValorpago((diaatraso*taxaD));</span>
+<span class="nc" id="L159">        return multa;</span>
 
     }
     public boolean isForDetails () {
-<span class="nc" id="L154">        return this.isForDetails;</span>
+<span class="nc" id="L163">        return this.isForDetails;</span>
     }
 
     public boolean isNormalUser () {
-<span class="nc" id="L158">        Boolean a = true;</span>
+<span class="nc" id="L167">        Boolean a = true;</span>
 
-<span class="nc" id="L160">        Set&lt;Role&gt; userrole =user.getRoles();</span>
+<span class="nc" id="L169">        Set&lt;Role&gt; userrole =user.getRoles();</span>
 
-<span class="nc bnc" id="L162" title="All 2 branches missed.">        if(isForDetails){</span>
-<span class="nc" id="L163">            return a;</span>
+<span class="nc bnc" id="L171" title="All 2 branches missed.">        if(isForDetails){</span>
+<span class="nc" id="L172">            return a;</span>
         } else {
 
-<span class="nc bnc" id="L166" title="All 2 branches missed.">        for(Role role : userrole) {</span>
-<span class="nc bnc" id="L167" title="All 2 branches missed.">            if(role.getRole().equals(&quot;ADMIN&quot;))</span>
-<span class="nc" id="L168">                a = false;</span>
-<span class="nc" id="L169">        }</span>
-<span class="nc" id="L170">        return a;</span>
+<span class="nc bnc" id="L175" title="All 2 branches missed.">        for(Role role : userrole) {</span>
+<span class="nc bnc" id="L176" title="All 2 branches missed.">            if(role.getRole().equals(&quot;ADMIN&quot;))</span>
+<span class="nc" id="L177">                a = false;</span>
+<span class="nc" id="L178">        }</span>
+<span class="nc" id="L179">        return a;</span>
         }
     }
 
@@ -175,23 +184,23 @@ import java.util.Set;
     public String dataDevolucao(EmprestimoPK multapk) {
 
         Calendar dataP;
-<span class="nc" id="L178">        Emprestimo emprestimo = crudService.get(Emprestimo.class,multapk);</span>
-<span class="nc" id="L179">        dataP = emprestimo.getDatadevolucao();</span>
-<span class="nc" id="L180">        return dataConvert(dataP);</span>
+<span class="nc" id="L187">        Emprestimo emprestimo = crudService.get(Emprestimo.class,multapk);</span>
+<span class="nc" id="L188">        dataP = emprestimo.getDatadevolucao();</span>
+<span class="nc" id="L189">        return dataConvert(dataP);</span>
     }
 
     public String dataPrevistaDevolucao(EmprestimoPK multapk) {
 
         Calendar dataP;
-<span class="nc" id="L186">        Emprestimo emprestimo = crudService.get(Emprestimo.class,multapk);</span>
-<span class="nc" id="L187">        dataP = bBDeadline.getDeadline(emprestimo);</span>
-<span class="nc" id="L188">        return dataConvert(dataP);</span>
+<span class="nc" id="L195">        Emprestimo emprestimo = crudService.get(Emprestimo.class,multapk);</span>
+<span class="nc" id="L196">        dataP = bBDeadline.getDeadline(emprestimo);</span>
+<span class="nc" id="L197">        return dataConvert(dataP);</span>
     }
 
     public boolean ObraRETURNED (EmprestimoPK emprestimoPK) {
 
-<span class="nc" id="L193">        Emprestimo emprestimo = crudService.get(Emprestimo.class,emprestimoPK);</span>
-<span class="nc bnc" id="L194" title="All 2 branches missed.">        return emprestimo.getEstadoDevolucao().getDescricao().equals(&quot;RETURNED&quot;) ? true:false;</span>
+<span class="nc" id="L202">        Emprestimo emprestimo = crudService.get(Emprestimo.class,emprestimoPK);</span>
+<span class="nc bnc" id="L203" title="All 2 branches missed.">        return emprestimo.getEstadoDevolucao().getDescricao().equals(&quot;RETURNED&quot;) ? true:false;</span>
 
     }
 
@@ -199,123 +208,130 @@ import java.util.Set;
     @Listen(&quot;onExit= #multaListBox&quot;)
     public void exit ()
     {
-<span class="nc" id="L202">        session.removeAttribute(&quot;ForDetais&quot;);</span>
-<span class="nc" id="L203">        session.removeAttribute(&quot;EmprestimoMultado&quot;);</span>
-<span class="nc" id="L204">        session.removeAttribute(&quot;Multa&quot;);</span>
-<span class="nc" id="L205">        multaModal.detach();</span>
-<span class="nc" id="L206">    }</span>
+<span class="nc" id="L211">        session.removeAttribute(&quot;ForDetais&quot;);</span>
+<span class="nc" id="L212">        session.removeAttribute(&quot;EmprestimoMultado&quot;);</span>
+<span class="nc" id="L213">        session.removeAttribute(&quot;Multa&quot;);</span>
+<span class="nc" id="L214">        multaModal.detach();</span>
+<span class="nc" id="L215">    }</span>
 
     @Listen(&quot;onPagar= #multaListBox&quot;)
     public void doPagar (ForwardEvent event)
     {
-<span class="nc bnc" id="L211" title="All 2 branches missed.">        if(isNormalUser) {</span>
-<span class="nc" id="L212">            Clients.showNotification(&quot;Precisa ser Bibliotecario para executar essa acao &quot;, null, null, null, 5000);</span>
+
+<span class="nc bnc" id="L221" title="All 2 branches missed.">        if(isNormalUser) {</span>
+<span class="nc" id="L222">            Clients.showNotification(&quot;Precisa ser Bibliotecario para executar essa acao &quot;, null, null, null, 5000);</span>
         } else {
 
-<span class="nc bnc" id="L215" title="All 2 branches missed.">            if (ObraRETURNED(emprestimo.getEmprestimoPK())){</span>
-<span class="nc" id="L216">                fine.pay(multa.getMultaPK(), Calendar.getInstance());</span>
+<span class="nc bnc" id="L225" title="All 2 branches missed.">            if (ObraRETURNED(emprestimo.getEmprestimoPK())){</span>
+<span class="nc" id="L226">                fine.pay(multa.getMultaPK(), Calendar.getInstance());</span>
 
-<span class="nc" id="L218">                exit();</span>
-<span class="nc" id="L219">                Clients.showNotification(&quot;Multa paga&quot;, null, null, null, 5000);</span>
+<span class="nc" id="L228">                exit();</span>
+<span class="nc" id="L229">                Clients.showNotification(&quot;Multa paga&quot;, null, null, null, 5000);</span>
 
             }else{
-<span class="nc" id="L222">                EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, eDController.RETURNED);</span>
-<span class="nc" id="L223">                emprestimo.setEstadoDevolucao(estadoDevolucao);</span>
-<span class="nc" id="L224">                emprestimo.setComentario(&quot;Multa paga&quot;);</span>
-<span class="nc" id="L225">                crudService.update(emprestimo);</span>
+<span class="nc" id="L232">                EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, eDController.RETURNED);</span>
+<span class="nc" id="L233">                emprestimo.setEstadoDevolucao(estadoDevolucao);</span>
+<span class="nc" id="L234">                emprestimo.setComentario(&quot;Multa paga&quot;);</span>
+<span class="nc" id="L235">                crudService.update(emprestimo);</span>
 
-<span class="nc" id="L227">                fine.pay(multa.getMultaPK(), Calendar.getInstance());</span>
+<span class="nc" id="L237">                fine.pay(multa.getMultaPK(), Calendar.getInstance());</span>
 
-<span class="nc" id="L229">                exit();</span>
-<span class="nc" id="L230">                Clients.showNotification(&quot;Multa paga&quot;, null, null, null, 5000);</span>
+<span class="nc" id="L239">                exit();</span>
+<span class="nc" id="L240">                Clients.showNotification(&quot;Multa paga&quot;, null, null, null, 5000);</span>
             }
         }
+<span class="nc" id="L243">        LisModelFromListMulta.remove(multa);</span>
+<span class="nc" id="L244">        session.removeAttribute(&quot;MultaListModel&quot;);</span>
 
-<span class="nc" id="L234">    }</span>
+<span class="nc" id="L246">    }</span>
 
     @Listen(&quot;onRevogar = #multaListBox&quot;)
     public void doRevogar(ForwardEvent event)
     {
-<span class="nc bnc" id="L239" title="All 2 branches missed.">        if(isNormalUser) {</span>
-<span class="nc" id="L240">            Clients.showNotification(&quot;Precisa ser Bibliotecario para executar essa acao &quot;, null, null, null, 5000);</span>
+<span class="nc bnc" id="L251" title="All 2 branches missed.">        if(isNormalUser) {</span>
+<span class="nc" id="L252">            Clients.showNotification(&quot;Precisa ser Bibliotecario para executar essa acao &quot;, null, null, null, 5000);</span>
         } else {
 
-<span class="nc bnc" id="L243" title="All 2 branches missed.">            if (ObraRETURNED(emprestimo.getEmprestimoPK())){</span>
-<span class="nc" id="L244">                fine.revoke(multa.getMultaPK());</span>
+<span class="nc bnc" id="L255" title="All 2 branches missed.">            if (ObraRETURNED(emprestimo.getEmprestimoPK())){</span>
+<span class="nc" id="L256">                fine.revoke(multa.getMultaPK());</span>
 
-<span class="nc" id="L246">                exit();</span>
-<span class="nc" id="L247">                Clients.showNotification(&quot;Multa Revogada&quot;, null, null, null, 5000);</span>
+
+<span class="nc" id="L259">                exit();</span>
+<span class="nc" id="L260">                Clients.showNotification(&quot;Multa Revogada&quot;, null, null, null, 5000);</span>
 
             }else{
-<span class="nc" id="L250">                EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, eDController.RETURNED);</span>
-<span class="nc" id="L251">                emprestimo.setEstadoDevolucao(estadoDevolucao);</span>
-<span class="nc" id="L252">                emprestimo.setComentario(&quot;Multa Revogada&quot;);</span>
-<span class="nc" id="L253">                crudService.update(emprestimo);</span>
+<span class="nc" id="L263">                EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, eDController.RETURNED);</span>
+<span class="nc" id="L264">                emprestimo.setEstadoDevolucao(estadoDevolucao);</span>
+<span class="nc" id="L265">                emprestimo.setComentario(&quot;Multa Revogada&quot;);</span>
+<span class="nc" id="L266">                crudService.update(emprestimo);</span>
 
-<span class="nc" id="L255">                fine.revoke(multa.getMultaPK());</span>
+<span class="nc" id="L268">                fine.revoke(multa.getMultaPK());</span>
 
-<span class="nc" id="L257">                exit();</span>
-<span class="nc" id="L258">                Clients.showNotification(&quot;Multa Revogada&quot;, null, null, null, 5000);</span>
+
+
+<span class="nc" id="L272">                exit();</span>
+<span class="nc" id="L273">                Clients.showNotification(&quot;Multa Revogada&quot;, null, null, null, 5000);</span>
             }
-
         }
+<span class="nc" id="L276">        LisModelFromListMulta.remove(multa);</span>
+<span class="nc" id="L277">        session.removeAttribute(&quot;MultaListModel&quot;);</span>
 
-<span class="nc" id="L263">    }</span>
+<span class="nc" id="L279">    }</span>
     @Listen(&quot;onDevolver = #multaListBox&quot;)
     public void doDevolver(ForwardEvent event) {
-<span class="nc bnc" id="L266" title="All 2 branches missed.">        if (isNormalUser) {</span>
-<span class="nc" id="L267">            Clients.showNotification(&quot;Precisa ser Bibliotecario para executar essa acao &quot;, null, null, null, 5000);</span>
+<span class="nc bnc" id="L282" title="All 2 branches missed.">        if (isNormalUser) {</span>
+<span class="nc" id="L283">            Clients.showNotification(&quot;Precisa ser Bibliotecario para executar essa acao &quot;, null, null, null, 5000);</span>
         } else {
 
-<span class="nc" id="L270">            EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, eDController.RETURNED);</span>
-<span class="nc" id="L271">            emprestimo.setEstadoDevolucao(estadoDevolucao);</span>
-<span class="nc" id="L272">            emprestimo.setComentario(&quot;Obra devolvida e Multa nao paga&quot;);</span>
+<span class="nc" id="L286">            EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, eDController.RETURNED);</span>
+<span class="nc" id="L287">            emprestimo.setEstadoDevolucao(estadoDevolucao);</span>
+<span class="nc" id="L288">            emprestimo.setComentario(&quot;Obra devolvida e Multa nao paga&quot;);</span>
 
-<span class="nc" id="L274">            crudService.update(emprestimo);</span>
+<span class="nc" id="L290">            crudService.update(emprestimo);</span>
 
-<span class="nc" id="L276">            exit();</span>
-<span class="nc" id="L277">            Clients.showNotification(&quot;Obra devolvida e Multa nao paga&quot;, null, null, null, 5000);</span>
+<span class="nc" id="L292">            exit();</span>
+<span class="nc" id="L293">            Clients.showNotification(&quot;Obra devolvida e Multa nao paga&quot;, null, null, null, 5000);</span>
         }
-<span class="nc" id="L279">    }</span>
+<span class="nc" id="L295">    }</span>
 
     public Component getListitem (Button btn)
     {
-<span class="nc" id="L283">        Component component = btn.getParent();</span>
+<span class="nc" id="L299">        Component component = btn.getParent();</span>
 
         while(true)
         {
-<span class="nc bnc" id="L287" title="All 2 branches missed.">            if ( component instanceof  Listitem)</span>
+<span class="nc bnc" id="L303" title="All 2 branches missed.">            if ( component instanceof  Listitem)</span>
             {
-<span class="nc" id="L289">                return  component;</span>
+<span class="nc" id="L305">                return  component;</span>
             }
 
-<span class="nc bnc" id="L292" title="All 2 branches missed.">            if(component == null)</span>
-<span class="nc" id="L293">                return null;</span>
+<span class="nc bnc" id="L308" title="All 2 branches missed.">            if(component == null)</span>
+<span class="nc" id="L309">                return null;</span>
 
-<span class="nc" id="L295">            component = component.getParent();</span>
+<span class="nc" id="L311">            component = component.getParent();</span>
         }
     }
 
     public String dataConvert (Calendar dataa) {
 
 
-<span class="nc" id="L302">        SimpleDateFormat timeFormatter = new SimpleDateFormat(&quot;'('HH:mm:s')'&quot;);</span>
-<span class="nc" id="L303">        DateFormat dateFormatter = new SimpleDateFormat();</span>
-<span class="nc" id="L304">        Locale MOZAMBIQUE = new Locale(&quot;pt&quot;,&quot;MZ&quot;);</span>
-<span class="nc" id="L305">        StringBuilder builder = new StringBuilder();</span>
+<span class="nc" id="L318">        SimpleDateFormat timeFormatter = new SimpleDateFormat(&quot;&quot;);</span>
+<span class="nc" id="L319">        DateFormat dateFormatter = new SimpleDateFormat();</span>
+<span class="nc" id="L320">        Locale MOZAMBIQUE = new Locale(&quot;pt&quot;,&quot;MZ&quot;);</span>
+<span class="nc" id="L321">        StringBuilder builder = new StringBuilder();</span>
 
 
-<span class="nc" id="L308">        dateFormatter = DateFormat.getDateInstance(DateFormat.LONG, MOZAMBIQUE);</span>
+<span class="nc" id="L324">        dateFormatter = DateFormat.getDateInstance(DateFormat.MEDIUM, MOZAMBIQUE);</span>
 
-<span class="nc" id="L310">        builder.append(dateFormatter.format(dataa.getTime()));</span>
-<span class="nc" id="L311">        builder.append(&quot;\n&quot;);</span>
-<span class="nc" id="L312">        builder.append(timeFormatter.format(dataa.getTime()));</span>
+<span class="nc" id="L326">        builder.append(dateFormatter.format(dataa.getTime()));</span>
+<span class="nc" id="L327">        builder.append(&quot;\n&quot;);</span>
+<span class="nc" id="L328">        builder.append(timeFormatter.format(dataa.getTime()));</span>
 
-<span class="nc" id="L314">        String dataEntrada = builder.toString();</span>
+<span class="nc" id="L330">        String dataEntrada = builder.toString();</span>
 
 //        String[] aa = dataEntrada.split(&quot;(&quot;);
 
-<span class="nc" id="L318">        return dataEntrada;</span>
+<span class="nc" id="L334">        return dataEntrada;</span>
     }
 
 }
