@@ -328,7 +328,7 @@ public class MainLayoutComposer extends GenericForwardComposer<Borderlayout> imp
 	 * */
 	public ListModel<DemoItem> getSelectedModel() {
 		LinkedList<DemoItem> items = new LinkedList<DemoItem>();
-		Category cate = _selected == null ? getCategories()[0]:
+	Category cate = _selected == null ? getCategories()[0]:
 				getCategory(_selected.getId());
 
 
