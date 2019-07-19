@@ -15,6 +15,8 @@
  Date: 09/07/2019 10:37:35
 */
 
+DROP SCHEMA public CASCADE;
+CREATE SCHEMA public;
 
 -- ----------------------------
 -- Sequence structure for areacientifica_idarea_seq

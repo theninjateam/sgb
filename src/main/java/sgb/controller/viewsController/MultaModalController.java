@@ -19,10 +19,7 @@ import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.*;
-import sgb.controller.domainController.ConfigControler;
-import sgb.controller.domainController.EmprestimoController;
-import sgb.controller.domainController.EstadoDevolucaoControler;
-import sgb.controller.domainController.EstadoMultaControler;
+import sgb.controller.domainController.*;
 import sgb.deadline.BorrowedBooksDeadline;
 import sgb.domain.*;
 import sgb.fine.Fine;
@@ -64,16 +61,13 @@ public class MultaModalController extends SelectorComposer<Component> {
     private Listbox multaListBox;
 
 
-
-
     private EstadoMultaControler eMController = (EstadoMultaControler) SpringUtil.getBean("estadoMultaControler");
     private EstadoDevolucaoControler eDController = (EstadoDevolucaoControler) SpringUtil.getBean("estadoDevolucaoControler");
     private Boolean isForDetails =false;
 
     private ConfigControler configControler = (ConfigControler) SpringUtil.getBean("configControler");
     private BorrowedBooksDeadline bBDeadline = (BorrowedBooksDeadline) SpringUtil.getBean("borrowedBooksDeadline");
-    private boolean isStudent;
-    private EmprestimoController eController;
+    private UserController uController = (UserController) SpringUtil.getBean("userController");
 
     private Boolean isNormalUser = true;
     private Emprestimo emprestimo = null;
@@ -164,20 +158,7 @@ public class MultaModalController extends SelectorComposer<Component> {
     }
 
     public boolean isNormalUser () {
-        Boolean a = true;
-
-        Set<Role> userrole =user.getRoles();
-
-        if(isForDetails){
-            return a;
-        } else {
-
-        for(Role role : userrole) {
-            if(role.getRole().equals("ADMIN"))
-                a = false;
-        }
-        return a;
-        }
+        return uController.isNormalUser(this.user);
     }
 
 

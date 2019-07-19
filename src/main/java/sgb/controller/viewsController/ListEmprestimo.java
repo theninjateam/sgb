@@ -55,6 +55,7 @@ public class ListEmprestimo extends SelectorComposer<Component> {
     private MultaController mController = (MultaController) SpringUtil.getBean("multaController");
     private BorrowedBooksDeadline bBDeadline = (BorrowedBooksDeadline) SpringUtil.getBean("borrowedBooksDeadline");
     private Queue queue = (Queue) SpringUtil.getBean("queue");
+    private UserController uController = (UserController) SpringUtil.getBean("userController");
 
 
     private Boolean isNormalUser = true;
@@ -213,15 +214,7 @@ public class ListEmprestimo extends SelectorComposer<Component> {
     }
 
     public boolean isNormalUser () {
-        Boolean a = true;
-
-        Set<Role> userrole =user.getRoles();
-
-        for(Role role : userrole) {
-            if(role.getRoleId() == rController.ADMIN)
-                a = false;
-        }
-        return a;
+        return uController.isNormalUser(this.user);
     }
 
 

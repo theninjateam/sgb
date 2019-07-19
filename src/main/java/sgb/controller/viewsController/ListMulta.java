@@ -40,6 +40,7 @@ public class ListMulta extends SelectorComposer<Component> {
     private MultaController mController = (MultaController) SpringUtil.getBean("multaController");
     private EstadoMultaControler eMController = (EstadoMultaControler) SpringUtil.getBean("estadoMultaControler");
     private RoleController rController = (RoleController) SpringUtil.getBean("roleController");
+    private UserController uController = (UserController) SpringUtil.getBean("userController");
 
     private Boolean isNormalUser = true;
     private StringBuilder query;
@@ -56,12 +57,9 @@ public class ListMulta extends SelectorComposer<Component> {
         super.doAfterCompose(comp);
         session = Sessions.getCurrent();
 
-        Set<Role> userrole =user.getRoles();
+        isNormalUser = isNormalUser();
 
-        for(Role role : userrole) {
-            if(role.getRoleId() == rController.ADMIN)
-                isNormalUser = false;
-        }
+
         if (isNormalUser) {
             ComposeUserNormal();
         }
@@ -70,6 +68,11 @@ public class ListMulta extends SelectorComposer<Component> {
         }
 
     }
+    public boolean isNormalUser () {
+
+        return uController.isNormalUser(this.user);
+    }
+
 
     public void ComposeUserAdmin(){
         multaListModel = new ListModelList<Multa>(mController.getFine(eMController.NOT_PAID));

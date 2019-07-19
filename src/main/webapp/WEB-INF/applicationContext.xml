@@ -72,6 +72,7 @@
 
     <bean id="userController"  class="sgb.controller.domainController.UserController" >
         <constructor-arg index="0" ref="CRUDService"/>
+        <constructor-arg index="1" ref="roleController"/>
     </bean>
 
     <bean id="CRUDService" class="sgb.service.CRUDServiceImpl" />
@@ -159,6 +160,7 @@
         <constructor-arg index="5" ref="emprestimoController"/>
         <constructor-arg index="6" ref="estadoDevolucaoControler"/>
         <constructor-arg index="7" ref="tiporequisicao"/>
+        <constructor-arg index="8" ref="estadoRenovacaoControler"/>
     </bean>
 
     <bean id="queue"  class="sgb.request.Queue" >
@@ -170,6 +172,7 @@
         <constructor-arg index="0" ref="configControler"/>
         <constructor-arg index="1" ref="roleController"/>
         <constructor-arg index="2" ref="estadoRenovacaoControler"/>
+        <constructor-arg index="3" ref="tiporequisicao"/>
     </bean>
 
     <bean id="fine"  class="sgb.fine.Fine" >
@@ -181,6 +184,7 @@
         <constructor-arg index="5" ref="emprestimoController"/>
         <constructor-arg index="6" ref="borrowedBooksDeadline"/>
         <constructor-arg index="7" ref="sendEmail"/>
+        <constructor-arg index="8" ref="tiporequisicao"/>
     </bean>
 
     <bean id="borrowedBooksDeadlineController"  class="sgb.deadline.BorrowedBooksDeadlineController" >

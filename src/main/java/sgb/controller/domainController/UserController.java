@@ -17,9 +17,12 @@ public class UserController {
     private StringBuilder query;
     private HashMap<String, Object> parameters;
     private static MessageDigest m;
+    private RoleController rController;
 
-    public UserController(CRUDService crudService) {
+    public UserController(CRUDService crudService,RoleController rController)
+    {
         this.crudService = crudService;
+        this.rController = rController;
     }
 
     public void changeUserPassword(Users user, String password){
@@ -115,6 +118,20 @@ public class UserController {
             }
         }catch (Exception e){}
         return result;
+    }
+
+    public boolean isNormalUser (Users user) {
+        /*
+        *All user wich are not have admin role nether bibliotecario role
+        */
+
+        Set<Role> userrole =user.getRoles();
+
+        for(Role role : userrole) {
+            if(role.getRoleId() == rController.ADMIN )
+                return false;
+        }
+        return true;
     }
 
 

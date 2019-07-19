@@ -9,9 +9,12 @@ import sgb.service.CRUDService;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class Fine
 {
@@ -23,6 +26,7 @@ public class Fine
     private EmprestimoController eController;
     private BorrowedBooksDeadline bBDeadline;
     private SendEmail sendEmail;
+    private TipoRequisicaoControler tRControler;
 
     public Fine(ConfigControler configControler,
                 MultaController mController,
@@ -31,7 +35,8 @@ public class Fine
                 EstadoDevolucaoControler eDController,
                 EmprestimoController eController,
                 BorrowedBooksDeadline bBDeadline,
-                SendEmail sendEmail)
+                SendEmail sendEmail,
+                TipoRequisicaoControler tRControler)
     {
 
         this.configControler = configControler;
@@ -42,6 +47,7 @@ public class Fine
         this.mController = mController;
         this.bBDeadline = bBDeadline;
         this.sendEmail = sendEmail;
+        this.tRControler = tRControler;
     }
 
     public void fine(Emprestimo e, Calendar now)
@@ -70,9 +76,12 @@ public class Fine
 
             crudService.Save(multa);
             crudService.update(emprestimo);
+            Calendar today = Calendar.getInstance();
+            float valoraPagar= getAmoutToPay(emprestimo.getEmprestimoPK(),today);
+
             msg = "Caro utente " + emprestimo.getEmprestimoPK().getUtente().getName() + " " + emprestimo.getEmprestimoPK().getUtente().getLastName()+ ",\n" +
-                    "o seu emprestimo da obra " + emprestimo.getEmprestimoPK().getObra().getTitulo() + " feito em " + emprestimo.getEmprestimoPK().getDataentradapedido().getTime()+
-                    " ultrapassou o tempo limite de emprestimo, tendo uma multa de " + multa.getValorpago() +  " MTN.\n Por favor, Regularize a sua situacao de multa, o mais breve possivel";
+                    "o seu emprestimo da obra " + emprestimo.getEmprestimoPK().getObra().getTitulo() + " feito em " + dataConvert(emprestimo.getDataaprovacao()) +
+                    " ultrapassou o tempo limite de emprestimo, tendo uma multa de " + valoraPagar +  " MTN.  Por favor, Regularize a sua situacao de multa, o mais breve possivel";
             subjet = "Notificacao de Multa";
             try {
                 sendEmail.sendEmail(subjet, msg, emprestimo.getEmprestimoPK().getUtente().getEmail());
@@ -101,8 +110,12 @@ public class Fine
     {
         Emprestimo emprestimo = this.eController.getRequest(emprestimoPK);
         int days = getDelayDays(now, emprestimo.getDatadevolucao());
-
-        return (float) this.configControler.DAILY_RATE_FINE * days;
+        if(emprestimo.getTipoRequisicao().getIdTipoRequisicao()== tRControler.INTERNAL_REQUISITION) {
+            return (float) this.configControler.DAILY_RATE_FINE * days +
+                    this.configControler.RATE_FINE_INTERNAL_REQUEST;
+        }else {
+            return (float) this.configControler.DAILY_RATE_FINE * days;
+        }
     }
 
     public float getAmountToPay(EmprestimoPK emprestimoPK)
@@ -152,4 +165,24 @@ public class Fine
 
         return totalAmount;
     }
+
+    public String dataConvert (Calendar dataa) {
+
+        SimpleDateFormat timeFormatter = new SimpleDateFormat("'('HH:mm:s')'");
+        DateFormat dateFormatter = new SimpleDateFormat();
+        Locale MOZAMBIQUE = new Locale("pt","MZ");
+        StringBuilder builder = new StringBuilder();
+
+
+        dateFormatter = DateFormat.getDateInstance(DateFormat.MEDIUM, MOZAMBIQUE);
+
+        builder.append(dateFormatter.format(dataa.getTime()));
+        builder.append("\n");
+        builder.append(timeFormatter.format(dataa.getTime()));
+
+        String dataEntrada = builder.toString();
+
+        return dataEntrada;
+    }
+
 }

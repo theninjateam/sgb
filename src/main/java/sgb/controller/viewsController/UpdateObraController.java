@@ -8,6 +8,9 @@ package sgb.controller.viewsController;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.zkoss.bind.annotation.BindingParam;
+import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.Init;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
@@ -34,87 +37,101 @@ public class UpdateObraController extends SelectorComposer<Component> {
 
     private CRUDService crudService = (CRUDService) SpringUtil.getBean("CRUDService");
     private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;
-    private  ListModelList<FormaAquisicao> formaAquisicaoModel;
-
-
-    @Wire
-    private Intbox quantidade;
-
-    @Wire
-    private Textbox descricao;
-
-    @Wire
-    private Listbox formaaquisicaoBox;
-
-    @Wire
-    private Window modalUpdate;
-
-    private Session session;
-
+    private  List<FormaAquisicao> formaAquisicaoModel;
     private Obra obra;
 
+    private int quantidade;
+    private String descricao;
+    private FormaAquisicao formaAquisicao;
 
-    @Override
-    public void doAfterCompose(Component comp) throws Exception {
-        super.doAfterCompose(comp);
 
-        session = Sessions.getCurrent();
+    private Session session =Sessions.getCurrent();
 
-        formaAquisicaoModel = new ListModelList<FormaAquisicao>(getFormaAquisicaoModel());
-        formaaquisicaoBox.setModel(formaAquisicaoModel);
+    @Init
+    public void init () throws Exception {
+        this.obra = (Obra) this.session.getAttribute ("obraToEdite");
+        this.formaAquisicaoModel =  getFormaAquisicaoModel();
 
-        obra = (Obra) session.getAttribute ("obraToEdite");
     }
 
 
+    public Obra getObra() {
+        return obra;
+    }
 
-    public ListModelList<FormaAquisicao> getFormaAquisicaoModel () {
+    public void setObra(Obra obra) {
+        this.obra = obra;
+    }
+
+    public List<FormaAquisicao> getFormaAquisicaoModel () {
         List<FormaAquisicao> formaaquisicao = crudService.getAll(FormaAquisicao.class);
-        return new ListModelList<FormaAquisicao>(formaaquisicao);
+        return formaaquisicao;
     }
 
-    @Listen("onClick= #updateObra")
-    public void updateObra () throws NoSuchAlgorithmException {
+    @Command
+    public void updateObra (@BindingParam("modal") Window modal)throws NoSuchAlgorithmException {
 
         RegistroObra registroObra = new RegistroObra();
-
         Set<RegistroObra> registroObras = new HashSet<>();
-        Set<RegistroObra> novoRegistros = new HashSet<>();
+
 
         registroObras = obra.getRegistroObras();
 
-        FormaAquisicao formaaquisicao = formaaquisicaoBox.getSelectedItem().getValue();
         RegistroObraPK registroObraPK = new RegistroObraPK();
-
-
         registroObraPK.setObra(obra);
         registroObraPK.setDataRegisto(Calendar.getInstance());
 
         registroObra.setRegistroObraPK(registroObraPK);
-        registroObra.setFormaAquisicao(formaaquisicao);
+        registroObra.setFormaAquisicao(this.formaAquisicao);
         registroObra.setObra(obra);
-        registroObra.setUser(user);
-        registroObra.setObservacao(descricao.getValue());
-        registroObra.setQuantidade(quantidade.getValue());
+        registroObra.setUser(this.user);
+        registroObra.setObservacao(this.descricao);
+        registroObra.setQuantidade(this.quantidade);
 
-        novoRegistros.add(registroObra);
+        registroObras.add(registroObra);
 
-        obra.setQuantidade(obra.getQuantidade()+quantidade.getValue());
-        obra.setRegistroObras(novoRegistros);
+        obra.setQuantidade(obra.getQuantidade()+quantidade);
+        obra.setRegistroObras(registroObras);
 
 
         crudService.update(obra);
-        modalUpdate.detach(); // close modal
-        session.removeAttribute ("obraToEdite");
+        modal.detach(); // close modal
+
         Clients.showNotification("Dados da obra atualizados ",null,null,null,5000);
     }
 
 
-    @Listen("onClick= #exit")
-    public void exit ()
+    @Command
+    public void exit (@BindingParam("modal") Window modal)
     {
-        session.removeAttribute ("obraToEdite");
-        modalUpdate.detach();
+        modal.detach();
     }
 
+    public void setFormaAquisicaoModel(List<FormaAquisicao> formaAquisicaoModel) {
+        this.formaAquisicaoModel = formaAquisicaoModel;
+    }
+
+    public int getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public FormaAquisicao getFormaAquisicao() {
+        return formaAquisicao;
+    }
+
+    public void setFormaAquisicao(FormaAquisicao formaAquisicao) {
+        this.formaAquisicao = formaAquisicao;
+    }
 }
