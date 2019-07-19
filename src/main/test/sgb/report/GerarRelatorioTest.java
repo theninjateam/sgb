@@ -46,7 +46,7 @@ public class GerarRelatorioTest {
 
     @Test
     @Transactional
-    public void createPdf1() throws JRException, IOException {
+    public void createPdf1Test() throws JRException, IOException {
         AreaCientifica areaCientifica;
         List<ObraCategoria> obraCategorias;
         List<RegistroObra> registroObras;
@@ -63,14 +63,16 @@ public class GerarRelatorioTest {
                 ,obraEliminadas
                 ,0
                 ,"100"
-                ,"src/main/java/sgb/report/relatorioObras/relatorio.jrxml"));
+                ,"src/main/java/sgb/report/relatorioObras/relatorio.jrxml"
+                , ""));
 
         assertNull(gerarRelatorio.createPdfObras(obraCategorias
                 ,registroObras
                 ,obraEliminadas
                 ,0
                 ,"100"
-                , null));
+                , null
+                , ""));
 
         //For Obras Registradas
         assertNotNull(gerarRelatorio.createPdfObras(obraCategorias
@@ -78,14 +80,16 @@ public class GerarRelatorioTest {
                 ,obraEliminadas
                 ,1
                 ,"100"
-                ,"src/main/java/sgb/report/relatorioObras/relatorioObrasReg.jrxml"));
+                ,"src/main/java/sgb/report/relatorioObras/relatorioObrasReg.jrxml"
+                , ""));
 
         assertNull(gerarRelatorio.createPdfObras(obraCategorias
                 ,registroObras
                 ,obraEliminadas
                 ,1
                 ,"100"
-                , null));
+                , null
+                , ""));
 
         //For Obras Eliminadas
         assertNotNull(gerarRelatorio.createPdfObras(obraCategorias
@@ -93,40 +97,42 @@ public class GerarRelatorioTest {
                 ,obraEliminadas
                 ,2
                 ,"100"
-                ,"src/main/java/sgb/report/relatorioObras/relatorioObrasEli.jrxml"));
+                ,"src/main/java/sgb/report/relatorioObras/relatorioObrasEli.jrxml"
+                , ""));
 
         assertNull(gerarRelatorio.createPdfObras(obraCategorias
                 ,registroObras
                 ,obraEliminadas
                 ,2
                 ,"100"
-                , null));
+                , null
+                ,""));
     }
 
     @Test
     @Transactional
-    public void createPdf2() throws JRException {
+    public void createPdf2Test() throws JRException {
         List<Emprestimo> emprestimoList;
 
         emprestimoList = emprestimoController.getBorrowedBooks();
 
         assertNotNull(gerarRelatorio.createPdfEmprestimo(emprestimoList
-                , "src/main/java/sgb/report/relatorioEmprestimo/relatorio.jrxml"));
+                , "src/main/java/sgb/report/relatorioEmprestimo/relatorio.jrxml",""));
 
-        assertNull(gerarRelatorio.createPdfEmprestimo(emprestimoList, null));
+        assertNull(gerarRelatorio.createPdfEmprestimo(emprestimoList, null, ""));
     }
 
     @Test
     @Transactional
-    public void createPdf3() throws JRException {
+    public void createPdf3Test() throws JRException {
         List<Multa> multaList;
 
         multaList = multaController.getMultas();
 
         assertNotNull(gerarRelatorio.createPdfMulta(multaList
-                ,"src/main/java/sgb/report/relatorioMultas/relatorio.jrxml", 1));
+                ,"src/main/java/sgb/report/relatorioMultas/relatorio.jrxml", 1, ""));
 
-        assertNull(gerarRelatorio.createPdfMulta(multaList,null, 1));
+        assertNull(gerarRelatorio.createPdfMulta(multaList,null, 1, ""));
 
     }
 }

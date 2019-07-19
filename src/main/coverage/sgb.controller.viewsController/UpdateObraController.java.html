@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UpdateObraController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$All_in_zksandbox.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.controller.viewsController</a> &gt; <span class="el_source">UpdateObraController.java</span></div><h1>UpdateObraController.java</h1><pre class="source lang-java linenums">/*
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UpdateObraController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$sgb.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.controller.viewsController</a> &gt; <span class="el_source">UpdateObraController.java</span></div><h1>UpdateObraController.java</h1><pre class="source lang-java linenums">/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -6,34 +6,21 @@
 
 package sgb.controller.viewsController;
 
-import org.apache.commons.codec.digest.DigestUtils;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.zkoss.image.AImage;
-import org.zkoss.io.Files;
-import org.zkoss.lang.Strings;
-import org.zkoss.util.media.Media;
 import org.zkoss.zk.ui.Component;
-import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
-import org.zkoss.zk.ui.event.ForwardEvent;
-import org.zkoss.zk.ui.event.UploadEvent;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.*;
-import org.zkoss.zul.impl.InputElement;
 import sgb.domain.*;
 import sgb.service.CRUDService;
 
-import java.io.File;
-import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-import java.text.ParseException;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
@@ -43,10 +30,10 @@ import java.util.Set;
  * @author Fonseca, Emerson, Matimbe
  */
 
-<span class="nc" id="L46">public class UpdateObraController extends SelectorComposer&lt;Component&gt; {</span>
+<span class="nc" id="L33">public class UpdateObraController extends SelectorComposer&lt;Component&gt; {</span>
 
-<span class="nc" id="L48">    private CRUDService crudService = (CRUDService) SpringUtil.getBean(&quot;CRUDService&quot;);</span>
-<span class="nc" id="L49">    private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;</span>
+<span class="nc" id="L35">    private CRUDService crudService = (CRUDService) SpringUtil.getBean(&quot;CRUDService&quot;);</span>
+<span class="nc" id="L36">    private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;</span>
     private  ListModelList&lt;FormaAquisicao&gt; formaAquisicaoModel;
 
 
@@ -69,77 +56,66 @@ import java.util.Set;
 
     @Override
     public void doAfterCompose(Component comp) throws Exception {
-<span class="nc" id="L72">        super.doAfterCompose(comp);</span>
+<span class="nc" id="L59">        super.doAfterCompose(comp);</span>
 
-<span class="nc" id="L74">        session = Sessions.getCurrent();</span>
+<span class="nc" id="L61">        session = Sessions.getCurrent();</span>
 
-<span class="nc" id="L76">        formaAquisicaoModel = new ListModelList&lt;FormaAquisicao&gt;(getFormaAquisicaoModel());</span>
-<span class="nc" id="L77">        formaaquisicaoBox.setModel(formaAquisicaoModel);</span>
+<span class="nc" id="L63">        formaAquisicaoModel = new ListModelList&lt;FormaAquisicao&gt;(getFormaAquisicaoModel());</span>
+<span class="nc" id="L64">        formaaquisicaoBox.setModel(formaAquisicaoModel);</span>
 
-<span class="nc" id="L79">        obra = (Obra) session.getAttribute (&quot;obraToEdite&quot;);</span>
-<span class="nc" id="L80">    }</span>
+<span class="nc" id="L66">        obra = (Obra) session.getAttribute (&quot;obraToEdite&quot;);</span>
+<span class="nc" id="L67">    }</span>
+
 
 
     public ListModelList&lt;FormaAquisicao&gt; getFormaAquisicaoModel () {
-<span class="nc" id="L84">        List&lt;FormaAquisicao&gt; formaaquisicao = crudService.getAll(FormaAquisicao.class);</span>
-<span class="nc" id="L85">        return new ListModelList&lt;FormaAquisicao&gt;(formaaquisicao);</span>
+<span class="nc" id="L72">        List&lt;FormaAquisicao&gt; formaaquisicao = crudService.getAll(FormaAquisicao.class);</span>
+<span class="nc" id="L73">        return new ListModelList&lt;FormaAquisicao&gt;(formaaquisicao);</span>
     }
 
     @Listen(&quot;onClick= #updateObra&quot;)
     public void updateObra () throws NoSuchAlgorithmException {
 
-<span class="nc" id="L91">        RegistroObra registroObra = new RegistroObra();</span>
+<span class="nc" id="L79">        RegistroObra registroObra = new RegistroObra();</span>
 
-<span class="nc" id="L93">        Set&lt;RegistroObra&gt; registroObras = new HashSet&lt;&gt;();</span>
-<span class="nc" id="L94">        Set&lt;RegistroObra&gt; novoRegistros = new HashSet&lt;&gt;();</span>
+<span class="nc" id="L81">        Set&lt;RegistroObra&gt; registroObras = new HashSet&lt;&gt;();</span>
+<span class="nc" id="L82">        Set&lt;RegistroObra&gt; novoRegistros = new HashSet&lt;&gt;();</span>
 
-        /*
-            *Por algum motivo nao consigo manipular a lista de registos vindo da base de dados
-            * a solucao encontrada eh fazer um copia da lista para uma nova lista em seguida adcionar o
-            * novo registro
-            * a solucao pode afetar a perfomace da aplicacao futuramente (Deve-se encontar uma forma de )
-            * Emerson Cardoso
-        */
+<span class="nc" id="L84">        registroObras = obra.getRegistroObras();</span>
 
-<span class="nc bnc" id="L104" title="All 2 branches missed.">        for(RegistroObra regist:registroObras){</span>
-<span class="nc" id="L105">            novoRegistros.add(regist);</span>
-<span class="nc" id="L106">        }</span>
-
-<span class="nc" id="L108">        registroObras = obra.getRegistroObras();</span>
-
-<span class="nc" id="L110">        FormaAquisicao formaaquisicao = formaaquisicaoBox.getSelectedItem().getValue();</span>
-<span class="nc" id="L111">        RegistroObraPK registroObraPK = new RegistroObraPK();</span>
+<span class="nc" id="L86">        FormaAquisicao formaaquisicao = formaaquisicaoBox.getSelectedItem().getValue();</span>
+<span class="nc" id="L87">        RegistroObraPK registroObraPK = new RegistroObraPK();</span>
 
 
-<span class="nc" id="L114">        registroObraPK.setObra(obra);</span>
-<span class="nc" id="L115">        registroObraPK.setDataRegisto(Calendar.getInstance());</span>
+<span class="nc" id="L90">        registroObraPK.setObra(obra);</span>
+<span class="nc" id="L91">        registroObraPK.setDataRegisto(Calendar.getInstance());</span>
 
-<span class="nc" id="L117">        registroObra.setRegistroObraPK(registroObraPK);</span>
-<span class="nc" id="L118">        registroObra.setFormaAquisicao(formaaquisicao);</span>
-<span class="nc" id="L119">        registroObra.setObra(obra);</span>
-<span class="nc" id="L120">        registroObra.setUser(user);</span>
-<span class="nc" id="L121">        registroObra.setObservacao(descricao.getValue());</span>
-<span class="nc" id="L122">        registroObra.setQuantidade(quantidade.getValue());</span>
+<span class="nc" id="L93">        registroObra.setRegistroObraPK(registroObraPK);</span>
+<span class="nc" id="L94">        registroObra.setFormaAquisicao(formaaquisicao);</span>
+<span class="nc" id="L95">        registroObra.setObra(obra);</span>
+<span class="nc" id="L96">        registroObra.setUser(user);</span>
+<span class="nc" id="L97">        registroObra.setObservacao(descricao.getValue());</span>
+<span class="nc" id="L98">        registroObra.setQuantidade(quantidade.getValue());</span>
 
-<span class="nc" id="L124">        novoRegistros.add(registroObra);</span>
+<span class="nc" id="L100">        novoRegistros.add(registroObra);</span>
 
-<span class="nc" id="L126">        obra.setQuantidade(obra.getQuantidade()+quantidade.getValue());</span>
-<span class="nc" id="L127">        obra.setRegistroObras(novoRegistros);</span>
+<span class="nc" id="L102">        obra.setQuantidade(obra.getQuantidade()+quantidade.getValue());</span>
+<span class="nc" id="L103">        obra.setRegistroObras(novoRegistros);</span>
 
 
-<span class="nc" id="L130">        crudService.update(obra);</span>
-<span class="nc" id="L131">        modalUpdate.detach(); // close modal</span>
-<span class="nc" id="L132">        session.removeAttribute (&quot;obraToEdite&quot;);</span>
-<span class="nc" id="L133">        Clients.showNotification(&quot;Dados da obra atualizados &quot;,null,null,null,5000);</span>
-<span class="nc" id="L134">    }</span>
+<span class="nc" id="L106">        crudService.update(obra);</span>
+<span class="nc" id="L107">        modalUpdate.detach(); // close modal</span>
+<span class="nc" id="L108">        session.removeAttribute (&quot;obraToEdite&quot;);</span>
+<span class="nc" id="L109">        Clients.showNotification(&quot;Dados da obra atualizados &quot;,null,null,null,5000);</span>
+<span class="nc" id="L110">    }</span>
 
 
     @Listen(&quot;onClick= #exit&quot;)
     public void exit ()
     {
-<span class="nc" id="L140">        session.removeAttribute (&quot;obraToEdite&quot;);</span>
-<span class="nc" id="L141">        modalUpdate.detach();</span>
-<span class="nc" id="L142">    }</span>
+<span class="nc" id="L116">        session.removeAttribute (&quot;obraToEdite&quot;);</span>
+<span class="nc" id="L117">        modalUpdate.detach();</span>
+<span class="nc" id="L118">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

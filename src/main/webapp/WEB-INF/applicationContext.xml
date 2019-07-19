@@ -17,9 +17,42 @@
          <!--<property name="password" value="56679e6c26926f3c2424e5f2347bdd5a2a544b4cf9c0c86e66eed380196e0185" />-->
      <!--</bean>-->
 
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="org.postgresql.Driver" />
+        <property name="url" value="jdbc:postgresql://localhost:5432/sgb"/>
+        <property name="username" value="postgres" />
+        <property name="password" value="root" />
+    </bean>
+
     <!--Meneses, may 2019-->
     <bean id="sendEmail" class="sgb.email.SendEmail">
         <constructor-arg index="0" ref="passwordAuthenticator"/>
+    </bean>
+
+
+    <bean id="sessionFactory"
+          class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="packagesToScan" value="sgb.domain" />
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQL82Dialect</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.show_sql">false</prop>
+                <prop key="hibernate.format_sql">true</prop>
+                <prop key="hibernate.use_sql_comments">true</prop>
+                <prop key="hibernate.zeroDateTimeBehavior">convertToNull</prop>
+            </props>
+        </property>
+        <!-- Enable Hibernate's automatic session context management -->
+    </bean>
+
+    <tx:annotation-driven transaction-manager="transactionManager" />
+
+    <bean id="transactionManager"
+          class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
     </bean>
 
     <bean id="passwordAuthenticator" class="sgb.email.PasswordAuthenticatior">
@@ -37,39 +70,6 @@
     </bean>
 
     <!---->
-
-
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="org.postgresql.Driver" />
-        <property name="url" value="jdbc:postgresql://localhost:5432/sgb"/>
-        <property name="username" value="postgres" />
-        <property name="password" value="root" />
-    </bean>
-
-    <bean id="sessionFactory"
-          class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-        <property name="dataSource" ref="dataSource" />
-        <property name="packagesToScan" value="sgb.domain" />
-        <property name="hibernateProperties">
-            <props>
-            <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQL82Dialect</prop>
-            <prop key="hibernate.hbm2ddl.auto">update</prop>
-            <prop key="hibernate.show_sql">false</prop>
-            <prop key="hibernate.format_sql">true</prop>
-            <prop key="hibernate.use_sql_comments">true</prop>
-            <prop key="hibernate.zeroDateTimeBehavior">convertToNull</prop>
-        </props>
-        </property>
-        <!-- Enable Hibernate's automatic session context management -->
-    </bean>
-
-    <tx:annotation-driven transaction-manager="transactionManager" />
-
-    <bean id="transactionManager"
-          class="org.springframework.orm.hibernate4.HibernateTransactionManager">
-        <property name="sessionFactory" ref="sessionFactory" />
-    </bean>
-
     <bean id="userController"  class="sgb.controller.domainController.UserController" >
         <constructor-arg index="0" ref="CRUDService"/>
         <constructor-arg index="1" ref="roleController"/>

@@ -23,6 +23,9 @@ public class Role {
     @Column(name = "qtdmaxobras")
     private int qtdMaxObras;
 
+    @Column(name = "iconpath")
+    private String iconPath = null;
+
     public Role() {
     }
 
@@ -54,5 +57,23 @@ public class Role {
 
     public void setZitems(Set<Zitem> zitems) {
         this.zitems = zitems;
+    }
+
+    public String getIconPath() {
+        return iconPath;
+    }
+
+    public void setIconPath(String iconPath) {
+        this.iconPath = iconPath;
+    }
+
+    public boolean containZitem(Zitem zitem)
+    {
+        for (Zitem zi : zitems)
+        {
+            if (zi.getItem().equals(zitem.getItem()))
+                return true;
+        }
+        return false;
     }
 }

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ListMulta.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$All_in_zksandbox.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.controller.viewsController</a> &gt; <span class="el_source">ListMulta.java</span></div><h1>ListMulta.java</h1><pre class="source lang-java linenums">package sgb.controller.viewsController;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ListMulta.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$sgb.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.controller.viewsController</a> &gt; <span class="el_source">ListMulta.java</span></div><h1>ListMulta.java</h1><pre class="source lang-java linenums">package sgb.controller.viewsController;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -39,8 +39,9 @@ import java.util.Calendar;
 <span class="nc" id="L39">    private EstadoDevolucaoControler eDController = (EstadoDevolucaoControler) SpringUtil.getBean(&quot;estadoDevolucaoControler&quot;);</span>
 <span class="nc" id="L40">    private MultaController mController = (MultaController) SpringUtil.getBean(&quot;multaController&quot;);</span>
 <span class="nc" id="L41">    private EstadoMultaControler eMController = (EstadoMultaControler) SpringUtil.getBean(&quot;estadoMultaControler&quot;);</span>
+<span class="nc" id="L42">    private RoleController rController = (RoleController) SpringUtil.getBean(&quot;roleController&quot;);</span>
 
-<span class="nc" id="L43">    private Boolean isNormalUser = true;</span>
+<span class="nc" id="L44">    private Boolean isNormalUser = true;</span>
     private StringBuilder query;
     private HashMap&lt;String, Object&gt; parameters;
 
@@ -52,65 +53,66 @@ import java.util.Calendar;
     @Override
     public void doAfterCompose(Component comp) throws Exception
     {
-<span class="nc" id="L55">        super.doAfterCompose(comp);</span>
-<span class="nc" id="L56">        session = Sessions.getCurrent();</span>
+<span class="nc" id="L56">        super.doAfterCompose(comp);</span>
+<span class="nc" id="L57">        session = Sessions.getCurrent();</span>
 
-<span class="nc" id="L58">        Set&lt;Role&gt; userrole =user.getRoles();</span>
+<span class="nc" id="L59">        Set&lt;Role&gt; userrole =user.getRoles();</span>
 
-<span class="nc bnc" id="L60" title="All 2 branches missed.">        for(Role role : userrole) {</span>
-<span class="nc bnc" id="L61" title="All 2 branches missed.">            if(role.getRole().equals(&quot;ADMIN&quot;))</span>
-<span class="nc" id="L62">                isNormalUser = false;</span>
-<span class="nc" id="L63">        }</span>
-<span class="nc bnc" id="L64" title="All 2 branches missed.">        if (isNormalUser) {</span>
-<span class="nc" id="L65">            ComposeUserNormal();</span>
+<span class="nc bnc" id="L61" title="All 2 branches missed.">        for(Role role : userrole) {</span>
+<span class="nc bnc" id="L62" title="All 2 branches missed.">            if(role.getRoleId() == rController.ADMIN)</span>
+<span class="nc" id="L63">                isNormalUser = false;</span>
+<span class="nc" id="L64">        }</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">        if (isNormalUser) {</span>
+<span class="nc" id="L66">            ComposeUserNormal();</span>
         }
         else {
-<span class="nc" id="L68">            ComposeUserAdmin();</span>
+<span class="nc" id="L69">            ComposeUserAdmin();</span>
         }
 
-<span class="nc" id="L71">    }</span>
+<span class="nc" id="L72">    }</span>
 
     public void ComposeUserAdmin(){
-<span class="nc" id="L74">        multaListModel = new ListModelList&lt;Multa&gt;(mController.getFine(eMController.NOT_PAID));</span>
-<span class="nc" id="L75">        multaListBox.setModel(multaListModel);</span>
-<span class="nc" id="L76">    }</span>
+<span class="nc" id="L75">        multaListModel = new ListModelList&lt;Multa&gt;(mController.getFine(eMController.NOT_PAID));</span>
+<span class="nc" id="L76">        multaListBox.setModel(multaListModel);</span>
+<span class="nc" id="L77">    }</span>
 
     public void ComposeUserNormal() {
-<span class="nc" id="L79">        multaListModel = new ListModelList&lt;Multa&gt;(mController.getFine(user, eMController.NOT_PAID));</span>
-<span class="nc" id="L80">        multaListBox.setModel(multaListModel);</span>
-<span class="nc" id="L81">    }</span>
+<span class="nc" id="L80">        multaListModel = new ListModelList&lt;Multa&gt;(mController.getFine(user, eMController.NOT_PAID));</span>
+<span class="nc" id="L81">        multaListBox.setModel(multaListModel);</span>
+<span class="nc" id="L82">    }</span>
 
     @Listen(&quot;onDetalhesMulta = #multaListBox&quot;)
     public void doDelahes(ForwardEvent event)
     {
 
-<span class="nc" id="L87">            Multa multa = (Multa) event.getData();</span>
-<span class="nc" id="L88">            Boolean isForDetails = false;</span>
-<span class="nc" id="L89">            session.setAttribute(&quot;ForDetais&quot;, isForDetails);</span>
-<span class="nc" id="L90">            session.setAttribute(&quot;Multa&quot;, multa);</span>
+<span class="nc" id="L88">            Multa multa = (Multa) event.getData();</span>
+<span class="nc" id="L89">            Boolean isForDetails = false;</span>
+<span class="nc" id="L90">            session.setAttribute(&quot;ForDetais&quot;, isForDetails);</span>
+<span class="nc" id="L91">            session.setAttribute(&quot;Multa&quot;, multa);</span>
+<span class="nc" id="L92">            session.setAttribute(&quot;MultaListModel&quot;, multaListModel);</span>
+<span class="nc" id="L93">            Window window =(Window) Executions.createComponents(&quot;/views/multamodal.zul&quot;, null, null);</span>
+<span class="nc" id="L94">            window.setClosable(true);</span>
+<span class="nc" id="L95">            window.doModal();</span>
 
-<span class="nc" id="L92">            Window window =(Window) Executions.createComponents(&quot;/views/multamodal.zul&quot;, null, null);</span>
-<span class="nc" id="L93">            window.setClosable(true);</span>
-<span class="nc" id="L94">            window.doModal();</span>
-<span class="nc" id="L95">    }</span>
+<span class="nc" id="L97">    }</span>
 
     public String dataConvert (Calendar dataa) {
 
-<span class="nc" id="L99">        SimpleDateFormat timeFormatter = new SimpleDateFormat(&quot;'('HH:mm:s')'&quot;);</span>
-<span class="nc" id="L100">        DateFormat dateFormatter = new SimpleDateFormat();</span>
-<span class="nc" id="L101">        Locale MOZAMBIQUE = new Locale(&quot;pt&quot;,&quot;MZ&quot;);</span>
-<span class="nc" id="L102">        StringBuilder builder = new StringBuilder();</span>
+<span class="nc" id="L101">        SimpleDateFormat timeFormatter = new SimpleDateFormat(&quot;'('HH:mm:s')'&quot;);</span>
+<span class="nc" id="L102">        DateFormat dateFormatter = new SimpleDateFormat();</span>
+<span class="nc" id="L103">        Locale MOZAMBIQUE = new Locale(&quot;pt&quot;,&quot;MZ&quot;);</span>
+<span class="nc" id="L104">        StringBuilder builder = new StringBuilder();</span>
 
 
-<span class="nc" id="L105">        dateFormatter = DateFormat.getDateInstance(DateFormat.LONG, MOZAMBIQUE);</span>
+<span class="nc" id="L107">        dateFormatter = DateFormat.getDateInstance(DateFormat.MEDIUM, MOZAMBIQUE);</span>
 
-<span class="nc" id="L107">        builder.append(dateFormatter.format(dataa.getTime()));</span>
-<span class="nc" id="L108">        builder.append(&quot;\n&quot;);</span>
-<span class="nc" id="L109">        builder.append(timeFormatter.format(dataa.getTime()));</span>
+<span class="nc" id="L109">        builder.append(dateFormatter.format(dataa.getTime()));</span>
+<span class="nc" id="L110">        builder.append(&quot;\n&quot;);</span>
+<span class="nc" id="L111">        builder.append(timeFormatter.format(dataa.getTime()));</span>
 
-<span class="nc" id="L111">        String dataEntrada = builder.toString();</span>
+<span class="nc" id="L113">        String dataEntrada = builder.toString();</span>
 
-<span class="nc" id="L113">        return dataEntrada;</span>
+<span class="nc" id="L115">        return dataEntrada;</span>
     }
 
 

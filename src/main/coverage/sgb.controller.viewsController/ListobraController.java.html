@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ListobraController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$All_in_zksandbox.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.controller.viewsController</a> &gt; <span class="el_source">ListobraController.java</span></div><h1>ListobraController.java</h1><pre class="source lang-java linenums">package sgb.controller.viewsController;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ListobraController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$sgb.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.controller.viewsController</a> &gt; <span class="el_source">ListobraController.java</span></div><h1>ListobraController.java</h1><pre class="source lang-java linenums">package sgb.controller.viewsController;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -54,6 +54,7 @@ import java.util.Set;
     private EstadoRenovacao estadoRenovacao;
     private ListModelList&lt;Obra&gt; obras;
     private ListModelList&lt;Obra&gt; detalheObra;
+<span class="nc" id="L57">    private boolean isSearching  = false;</span>
 
     @Wire
     private Button buttonPesquisar;
@@ -87,21 +88,21 @@ import java.util.Set;
     @Override
     public void doAfterCompose(Component comp) throws Exception
     {
-<span class="nc" id="L90">        super.doAfterCompose(comp);</span>
-<span class="nc" id="L91">        session = Sessions.getCurrent();</span>
-<span class="nc" id="L92">        boolean c = isNormalUser();</span>
-<span class="nc" id="L93">    }</span>
+<span class="nc" id="L91">        super.doAfterCompose(comp);</span>
+<span class="nc" id="L92">        session = Sessions.getCurrent();</span>
+<span class="nc" id="L93">        boolean c = isNormalUser();</span>
+<span class="nc" id="L94">    }</span>
 
     public boolean isNormalUser () {
-<span class="nc" id="L96">        Boolean a = true;</span>
+<span class="nc" id="L97">        Boolean a = true;</span>
 
-<span class="nc" id="L98">        Set&lt;Role&gt; userrole =user.getRoles();</span>
+<span class="nc" id="L99">        Set&lt;Role&gt; userrole =user.getRoles();</span>
 
-<span class="nc bnc" id="L100" title="All 2 branches missed.">        for(Role role : userrole) {</span>
-<span class="nc bnc" id="L101" title="All 2 branches missed.">            if(role.getRole().equals(&quot;ADMIN&quot;))</span>
-<span class="nc" id="L102">                a = false;</span>
-<span class="nc" id="L103">        }</span>
-<span class="nc" id="L104">        return a;</span>
+<span class="nc bnc" id="L101" title="All 2 branches missed.">        for(Role role : userrole) {</span>
+<span class="nc bnc" id="L102" title="All 2 branches missed.">            if(role.getRole().equals(&quot;ADMIN&quot;))</span>
+<span class="nc" id="L103">                a = false;</span>
+<span class="nc" id="L104">        }</span>
+<span class="nc" id="L105">        return a;</span>
     }
 
     
@@ -109,136 +110,154 @@ import java.util.Set;
     public void doPesquisa(ForwardEvent event)
     {
 
-<span class="nc" id="L112">    }</span>
+<span class="nc" id="L113">    }</span>
 
     @Listen(&quot;onVoltar = #buttonVoltar&quot;)
     public void listarObras(ForwardEvent event)
     {
-<span class="nc" id="L117">        cesta.setVisible(false);</span>
-<span class="nc" id="L118">        detalhe.setVisible(false);</span>
-<span class="nc" id="L119">        listObras.setVisible(true);</span>
-<span class="nc" id="L120">        buttonPesquisar.setVisible(true);</span>
-<span class="nc" id="L121">        textboxPesquisar.setVisible(true);</span>
-<span class="nc" id="L122">        buttonVoltar.setVisible(false);</span>
-<span class="nc" id="L123">    }</span>
+<span class="nc" id="L118">        cesta.setVisible(false);</span>
+<span class="nc" id="L119">        detalhe.setVisible(false);</span>
+<span class="nc" id="L120">        listObras.setVisible(true);</span>
+<span class="nc" id="L121">        buttonPesquisar.setVisible(true);</span>
+<span class="nc" id="L122">        textboxPesquisar.setVisible(true);</span>
+<span class="nc" id="L123">        buttonVoltar.setVisible(false);</span>
+<span class="nc" id="L124">    }</span>
 
     @Listen(&quot;onShowCesta = #divCesta&quot;)
     public void showCestaListBox(ForwardEvent event)
     {
-<span class="nc" id="L128">        listObras.setVisible(false);</span>
-<span class="nc" id="L129">        buttonPesquisar.setVisible(false);</span>
-<span class="nc" id="L130">        textboxPesquisar.setVisible(false);</span>
-<span class="nc" id="L131">        detalhe.setVisible(false);</span>
-<span class="nc" id="L132">        cesta.setVisible(true);</span>
-<span class="nc" id="L133">        buttonVoltar.setVisible(true);</span>
-<span class="nc" id="L134">    }</span>
+<span class="nc" id="L129">        listObras.setVisible(false);</span>
+<span class="nc" id="L130">        buttonPesquisar.setVisible(false);</span>
+<span class="nc" id="L131">        textboxPesquisar.setVisible(false);</span>
+<span class="nc" id="L132">        detalhe.setVisible(false);</span>
+<span class="nc" id="L133">        cesta.setVisible(true);</span>
+<span class="nc" id="L134">        buttonVoltar.setVisible(true);</span>
+<span class="nc" id="L135">    }</span>
 
     @Listen(&quot;onShowOperacoes = #listObras&quot;)
     public void doShowOperacoes(ForwardEvent event)
     {
-<span class="nc" id="L139">        Button btn = (Button)event.getOrigin().getTarget();</span>
-<span class="nc" id="L140">        Div div = (Div) btn.getNextSibling();</span>
+<span class="nc" id="L140">        Button btn = (Button)event.getOrigin().getTarget();</span>
+<span class="nc" id="L141">        Div div = (Div) btn.getNextSibling();</span>
 
-<span class="nc bnc" id="L142" title="All 2 branches missed.">        if (div.isVisible())</span>
+<span class="nc bnc" id="L143" title="All 2 branches missed.">        if (div.isVisible())</span>
         {
-<span class="nc" id="L144">            btn.setLabel(&quot;Outras operações&quot;);</span>
-<span class="nc" id="L145">            div.setVisible(false);</span>
+<span class="nc" id="L145">            btn.setLabel(&quot;Outras operações&quot;);</span>
+<span class="nc" id="L146">            div.setVisible(false);</span>
         }
         else
         {
-<span class="nc" id="L149">            btn.setLabel(&quot;Ocultar operações&quot;);</span>
-<span class="nc" id="L150">            div.setVisible(true);</span>
+<span class="nc" id="L150">            btn.setLabel(&quot;Ocultar operações&quot;);</span>
+<span class="nc" id="L151">            div.setVisible(true);</span>
         }
-<span class="nc" id="L152">    }</span>
+<span class="nc" id="L153">    }</span>
 
     @Listen(&quot;onEliminarObra = #listObras&quot;)
     public void doEliminar(ForwardEvent event)
     {
-<span class="nc" id="L157">        String cota = (String) event.getData();</span>
-<span class="nc" id="L158">        Obra obra = this.crudService.get(Obra.class, cota);</span>
+<span class="nc" id="L158">        String cota = (String) event.getData();</span>
+<span class="nc" id="L159">        Obra obra = this.crudService.get(Obra.class, cota);</span>
 
-<span class="nc" id="L160">        session.setAttribute(&quot;obraToEdit&quot;, obra);</span>
+<span class="nc" id="L161">        session.setAttribute(&quot;obraToEdit&quot;, obra);</span>
 
-<span class="nc" id="L162">        Window window =(Window) Executions.createComponents(&quot;/views/modalEliminarExemplar.zul&quot;, null, null);</span>
-<span class="nc" id="L163">        window.doModal();</span>
-<span class="nc" id="L164">    }</span>
+<span class="nc" id="L163">        Window window =(Window) Executions.createComponents(&quot;/views/modalEliminarExemplar.zul&quot;, null, null);</span>
+<span class="nc" id="L164">        window.doModal();</span>
+<span class="nc" id="L165">    }</span>
 
     @Listen(&quot;onDetalheObra = #listObras&quot;)
     public void doDetalhe(ForwardEvent event)
     {
-<span class="nc" id="L169">        listObras.setVisible(false);</span>
-<span class="nc" id="L170">        buttonPesquisar.setVisible(false);</span>
-<span class="nc" id="L171">        textboxPesquisar.setVisible(false);</span>
-<span class="nc" id="L172">        buttonVoltar.setVisible(true);</span>
-<span class="nc" id="L173">        cesta.setVisible(false);</span>
+<span class="nc" id="L170">        listObras.setVisible(false);</span>
+<span class="nc" id="L171">        buttonPesquisar.setVisible(false);</span>
+<span class="nc" id="L172">        textboxPesquisar.setVisible(false);</span>
+<span class="nc" id="L173">        buttonVoltar.setVisible(true);</span>
+<span class="nc" id="L174">        cesta.setVisible(false);</span>
 
-<span class="nc" id="L175">        String cota = (String) event.getData();</span>
-<span class="nc" id="L176">        detalheObra = new ListModelList&lt;Obra&gt;();</span>
-<span class="nc" id="L177">        detalheObra.add(this.crudService.get(Obra.class,cota));</span>
+<span class="nc" id="L176">        String cota = (String) event.getData();</span>
+<span class="nc" id="L177">        detalheObra = new ListModelList&lt;Obra&gt;();</span>
+<span class="nc" id="L178">        detalheObra.add(this.crudService.get(Obra.class,cota));</span>
 
-<span class="nc" id="L179">        BindUtils.postNotifyChange(null, null, this, &quot;detalheObra&quot;);</span>
-<span class="nc" id="L180">        detalhe.setVisible(true);</span>
-<span class="nc" id="L181">    }</span>
+<span class="nc" id="L180">        BindUtils.postNotifyChange(null, null, this, &quot;detalheObra&quot;);</span>
+<span class="nc" id="L181">        detalhe.setVisible(true);</span>
+<span class="nc" id="L182">    }</span>
 
     @Listen(&quot;onAdicionarExemplares = #listObras&quot;)
     public void doEditar(ForwardEvent event)
     {
-<span class="nc" id="L186">        String cota = (String) event.getData();</span>
-<span class="nc" id="L187">        Obra obra = this.crudService.get(Obra.class, cota);</span>
+<span class="nc" id="L187">        String cota = (String) event.getData();</span>
+<span class="nc" id="L188">        Obra obra = this.crudService.get(Obra.class, cota);</span>
 
-<span class="nc" id="L189">        session.setAttribute(&quot;obraToEdite&quot;, obra);</span>
+<span class="nc" id="L190">        session.setAttribute(&quot;obraToEdite&quot;, obra);</span>
 
-<span class="nc" id="L191">        Window window =(Window) Executions.createComponents(&quot;/views/UpdateObra.zul&quot;, null, null);</span>
-<span class="nc" id="L192">        window.doModal();</span>
-<span class="nc" id="L193">    }</span>
+<span class="nc" id="L192">        Window window =(Window) Executions.createComponents(&quot;/views/UpdateObra.zul&quot;, null, null);</span>
+<span class="nc" id="L193">        window.doModal();</span>
+<span class="nc" id="L194">    }</span>
 
+
+
+//    @Listen(&quot;onPesquisar = #textboxPesquisar&quot;)
+//    public void doAutoPesquisar(ForwardEvent event)
+//    {
+//        pesquisar(textboxPesquisar.getValue());
+//    }
 
     @Listen(&quot;onPesquisar = #textboxPesquisar&quot;)
     public void doAutoPesquisar(ForwardEvent event)
     {
-<span class="nc" id="L199">        pesquisar(textboxPesquisar.getValue());</span>
-<span class="nc" id="L200">    }</span>
+<span class="nc" id="L207">        pesquisar(textboxPesquisar.getValue());</span>
+<span class="nc" id="L208">        BindUtils.postNotifyChange(null, null, this, &quot;*&quot;);</span>
+
+<span class="nc" id="L210">    }</span>
 
     @Listen(&quot;onPesquisar = #buttonPesquisar&quot;)
     public void doPesquisar(ForwardEvent event)
     {
-<span class="nc" id="L205">        pesquisar(textboxPesquisar.getValue());</span>
-<span class="nc" id="L206">    }</span>
+<span class="nc" id="L215">       pesquisar(textboxPesquisar.getValue());</span>
+<span class="nc" id="L216">       BindUtils.postNotifyChange(null, null, this, &quot;*&quot;);</span>
+<span class="nc" id="L217">    }</span>
 
     public void pesquisar(String keys)
     {
-<span class="nc bnc" id="L210" title="All 2 branches missed.">        if (textboxPesquisar.getValue().isEmpty())</span>
+<span class="nc" id="L221">        obras = new ListModelList&lt;Obra&gt;();</span>
+
+<span class="nc bnc" id="L223" title="All 2 branches missed.">        if (textboxPesquisar.getValue().isEmpty())</span>
         {
-<span class="nc" id="L212">            obras.removeAll(obras);</span>
-<span class="nc" id="L213">            obras.addAll(getObras());</span>
+<span class="nc" id="L225">            isSearching = false;</span>
         }
         else
         {
-<span class="nc" id="L217">            obras.removeAll(obras);</span>
+<span class="nc" id="L229">            isSearching = true;</span>
 
-<span class="nc bnc" id="L219" title="All 2 branches missed.">            for (Obra obra: getObras())</span>
+<span class="nc bnc" id="L231" title="All 2 branches missed.">            for (Obra obra: crudService.getAll(Obra.class))</span>
             {
-<span class="nc bnc" id="L221" title="All 2 branches missed.">                for ( String key: keys.split(&quot; &quot;))</span>
+<span class="nc bnc" id="L233" title="All 2 branches missed.">                for ( String key: keys.split(&quot; &quot;))</span>
                 {
-<span class="nc bnc" id="L223" title="All 2 branches missed.">                    if( obra.getTitulo().toLowerCase().contains(key.toLowerCase()))</span>
+<span class="nc bnc" id="L235" title="All 2 branches missed.">                    if( obra.getTitulo().toLowerCase().contains(key.toLowerCase()))</span>
                     {
-<span class="nc" id="L225">                        obras.add(obra);</span>
-<span class="nc" id="L226">                        break;</span>
+<span class="nc" id="L237">                        obras.add(obra);</span>
+<span class="nc" id="L238">                        break;</span>
                     }
                 }
-<span class="nc" id="L229">            }</span>
+<span class="nc" id="L241">            }</span>
         }
-<span class="nc" id="L231">    }</span>
+<span class="nc" id="L243">    }</span>
 
     public ListModelList&lt;Obra&gt; getObras()
     {
-<span class="nc" id="L235">        List&lt;Obra&gt; listaobra = crudService.getAll(Obra.class);</span>
-<span class="nc" id="L236">        return new ListModelList&lt;Obra&gt;(listaobra);</span>
+<span class="nc bnc" id="L247" title="All 2 branches missed.">        if (isSearching)</span>
+        {
+
+<span class="nc" id="L250">            isSearching = false;</span>
+<span class="nc" id="L251">            return obras;</span>
+        }
+
+<span class="nc" id="L254">        List&lt;Obra&gt; listaobra = crudService.getAll(Obra.class);</span>
+<span class="nc" id="L255">        return new ListModelList&lt;Obra&gt;(listaobra);</span>
     }
 
     public ListModelList&lt;Obra&gt; getDetalheObra()
     {
-<span class="nc" id="L241">        return detalheObra;</span>
+<span class="nc" id="L260">        return detalheObra;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

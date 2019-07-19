@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RelatorioEmprestimos.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$All_in_zksandbox.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.controller.viewsController</a> &gt; <span class="el_source">RelatorioEmprestimos.java</span></div><h1>RelatorioEmprestimos.java</h1><pre class="source lang-java linenums">package sgb.controller.viewsController;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RelatorioEmprestimos.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$sgb.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.controller.viewsController</a> &gt; <span class="el_source">RelatorioEmprestimos.java</span></div><h1>RelatorioEmprestimos.java</h1><pre class="source lang-java linenums">package sgb.controller.viewsController;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
@@ -28,14 +28,30 @@ import sgb.report.GerarRelatorio;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
-<span class="nc" id="L33">public class RelatorioEmprestimos extends SelectorComposer&lt;Component&gt; {</span>
-<span class="nc" id="L34">    private GerarRelatorio gerarRelatorio = (GerarRelatorio) SpringUtil.getBean(&quot;gerarRelatorio&quot;);</span>
-<span class="nc" id="L35">    private EmprestimoController emprestimoController = (EmprestimoController) SpringUtil.getBean(&quot;emprestimoController&quot;);</span>
-<span class="nc" id="L36">    private EstadoDevolucaoControler estadoDevolucaoControler = (EstadoDevolucaoControler) SpringUtil.getBean(&quot;estadoDevolucaoControler&quot;);</span>
+<span class="nc" id="L38">public class RelatorioEmprestimos extends SelectorComposer&lt;Component&gt; {</span>
+<span class="nc" id="L39">    private GerarRelatorio gerarRelatorio = (GerarRelatorio) SpringUtil.getBean(&quot;gerarRelatorio&quot;);</span>
+<span class="nc" id="L40">    private EmprestimoController emprestimoController = (EmprestimoController) SpringUtil.getBean(&quot;emprestimoController&quot;);</span>
+<span class="nc" id="L41">    private EstadoDevolucaoControler estadoDevolucaoControler = (EstadoDevolucaoControler) SpringUtil.getBean(&quot;estadoDevolucaoControler&quot;);</span>
     private ListModelList&lt;Emprestimo&gt; emprestimoListModel;
     private ListModelList&lt;EstadoDevolucao&gt; estadoDevolucaoListModelList;
+    private EstadoDevolucao estadoDevolucao;
+    private List&lt;Emprestimo&gt; emprestimoList;
+<span class="nc" id="L46">    Calendar dataI = Calendar.getInstance();</span>
+<span class="nc" id="L47">    Calendar dataF = Calendar.getInstance();</span>
+    String dateFiltered;
+
+    @Wire
+    private Datebox dataInicio;
+
+    @Wire
+    private Datebox dataFim;
 
     @Wire
     private Listbox emprestimoListBox;
@@ -44,101 +60,146 @@ import java.util.List;
     private Listbox estadoDevolucaoListBox;
 
     public void doAfterCompose(Component comp) throws Exception {
-<span class="nc" id="L47">        super.doAfterCompose(comp);</span>
+<span class="nc" id="L63">        super.doAfterCompose(comp);</span>
 
-<span class="nc" id="L49">        emprestimoListModel = new ListModelList&lt;Emprestimo&gt;(emprestimoController.getBorrowedBooks());</span>
+<span class="nc" id="L65">        estadoDevolucao = new EstadoDevolucao();</span>
+<span class="nc" id="L66">        estadoDevolucao.setDescricao(&quot;Todos&quot;);</span>
+<span class="nc" id="L67">        estadoDevolucao.setIdestadodevolucao(0);</span>
+<span class="nc" id="L68">        estadoDevolucaoListModelList = new ListModelList&lt;EstadoDevolucao&gt;(estadoDevolucaoControler.getEstadoDevolucao());</span>
+<span class="nc" id="L69">        estadoDevolucaoListModelList.add(0,estadoDevolucao);</span>
+<span class="nc" id="L70">        estadoDevolucaoListModelList.addToSelection(estadoDevolucao);</span>
 
-<span class="nc" id="L51">        EstadoDevolucao estadoDevolucao = new EstadoDevolucao();</span>
-<span class="nc" id="L52">        estadoDevolucao.setDescricao(&quot;Todos&quot;);</span>
-<span class="nc" id="L53">        estadoDevolucao.setIdestadodevolucao(0);</span>
-<span class="nc" id="L54">        estadoDevolucaoListModelList = new ListModelList&lt;EstadoDevolucao&gt;(estadoDevolucaoControler.getEstadoDevolucao());</span>
-<span class="nc" id="L55">        estadoDevolucaoListModelList.add(0,estadoDevolucao);</span>
-<span class="nc" id="L56">        estadoDevolucaoListModelList.addToSelection(estadoDevolucao);</span>
-
-<span class="nc" id="L58">        estadoDevolucaoListBox.setModel(estadoDevolucaoListModelList);</span>
-<span class="nc" id="L59">        emprestimoListBox.setModel(emprestimoListModel);</span>
-<span class="nc" id="L60">    }</span>
+<span class="nc" id="L72">        estadoDevolucaoListBox.setModel(estadoDevolucaoListModelList);</span>
+<span class="nc" id="L73">        setListModelsallData();</span>
+<span class="nc" id="L74">        setListBoxsModels();</span>
+<span class="nc" id="L75">    }</span>
 
     @Listen(&quot;onSelect = #estadoDevolucaoListBox&quot;)
     public void change(){
-<span class="nc" id="L64">        EstadoDevolucao estadoDevolucao = estadoDevolucaoListBox.getSelectedItem().getValue();</span>
+<span class="nc" id="L79">        estadoDevolucao = estadoDevolucaoListBox.getSelectedItem().getValue();</span>
 
-<span class="nc bnc" id="L66" title="All 2 branches missed.">        if (estadoDevolucao.getIdestadodevolucao()!=0){</span>
-<span class="nc" id="L67">            emprestimoListModel = new ListModelList&lt;Emprestimo&gt;(emprestimoController.getBorrowedBooks(estadoDevolucao.getIdestadodevolucao()));</span>
+<span class="nc" id="L81">        setListModelsallData();</span>
+<span class="nc" id="L82">        setListBoxsModels();</span>
+<span class="nc" id="L83">    }</span>
+
+    @Listen(&quot;onChange = #dataInicio;onChange = #dataFim&quot;)
+    public void dataChange() {
+<span class="nc" id="L87">        setListModelsallData();</span>
+<span class="nc" id="L88">        setListBoxsModels();</span>
+<span class="nc" id="L89">    }</span>
+
+    public void setListModelsallData(){
+<span class="nc" id="L92">        getUpdateDate();</span>
+
+<span class="nc bnc" id="L94" title="All 2 branches missed.">        if(estadoDevolucao.getIdestadodevolucao()!=0){</span>
+<span class="nc" id="L95">            emprestimoList = emprestimoController.getBorrowedBooksByDate(dataI, dataF, estadoDevolucao);</span>
         }else{
-<span class="nc" id="L69">            emprestimoListModel = new ListModelList&lt;Emprestimo&gt;(emprestimoController.getBorrowedBooks());</span>
+<span class="nc" id="L97">            emprestimoList = emprestimoController.getBorrowedBooksByDate(dataI, dataF, null);</span>
         }
+<span class="nc" id="L99">        emprestimoListModel = new ListModelList&lt;Emprestimo&gt;(emprestimoList);</span>
+<span class="nc" id="L100">        dateFiltered = &quot;Lista de &quot;+dataConvert(dataI)+&quot; a &quot;+dataConvert(dataF);</span>
+<span class="nc" id="L101">    }</span>
 
-<span class="nc" id="L72">        emprestimoListBox.setModel(emprestimoListModel);</span>
-<span class="nc" id="L73">    }</span>
+    public void setListBoxsModels(){
+<span class="nc" id="L104">        emprestimoListBox.setModel(emprestimoListModel);</span>
+<span class="nc" id="L105">    }</span>
 
     @Listen(&quot;onClick=#savePdf&quot;)
     public void show() throws JRException {
-<span class="nc" id="L77">        byte [] arr = JasperExportManager.exportReportToPdf(gerarRelatorio.createPdfEmprestimo(emprestimoListModel</span>
-                , &quot;src/main/java/sgb/report/relatorioEmprestimo/relatorio.jrxml&quot;));
-<span class="nc" id="L79">        AMedia media = new AMedia(&quot;RelatorioEmprestimo&quot;, &quot;pdf&quot;, &quot;application/pdf&quot;, arr);</span>
+<span class="nc" id="L109">        byte [] arr = JasperExportManager.exportReportToPdf(gerarRelatorio.createPdfEmprestimo(emprestimoListModel</span>
+                , &quot;src/main/java/sgb/report/relatorioEmprestimo/relatorio.jrxml&quot;
+                , dateFiltered));
+<span class="nc" id="L112">        AMedia media = new AMedia(&quot;RelatorioEmprestimo&quot;, &quot;pdf&quot;, &quot;application/pdf&quot;, arr);</span>
 
-<span class="nc" id="L81">        final Window window = new Window();</span>
-<span class="nc" id="L82">        window.setClosable(true);</span>
-<span class="nc" id="L83">        window.setSizable(false);</span>
-<span class="nc" id="L84">        Iframe iframe = new Iframe();</span>
-<span class="nc" id="L85">        iframe.setContent(media);</span>
-<span class="nc" id="L86">        Borderlayout borderlayout = new Borderlayout();</span>
-<span class="nc" id="L87">        North north = new North();</span>
-<span class="nc" id="L88">        Toolbar toolbar = new Toolbar();</span>
+<span class="nc" id="L114">        final Window window = new Window();</span>
+<span class="nc" id="L115">        window.setClosable(true);</span>
+<span class="nc" id="L116">        window.setSizable(false);</span>
+<span class="nc" id="L117">        Iframe iframe = new Iframe();</span>
+<span class="nc" id="L118">        iframe.setContent(media);</span>
+<span class="nc" id="L119">        Borderlayout borderlayout = new Borderlayout();</span>
+<span class="nc" id="L120">        North north = new North();</span>
+<span class="nc" id="L121">        Toolbar toolbar = new Toolbar();</span>
 
-<span class="nc" id="L90">        toolbar.setWidth(&quot;100%&quot;);</span>
-
-
-<span class="nc" id="L93">        toolbar.setAlign(&quot;end&quot;);</span>
+<span class="nc" id="L123">        toolbar.setWidth(&quot;100%&quot;);</span>
 
 
-<span class="nc" id="L96">        Toolbarbutton close = new Toolbarbutton(&quot;Exit&quot;);</span>
-<span class="nc" id="L97">        close.setMode(&quot;overlapped&quot;);</span>
-
-<span class="nc" id="L99">        close.setTooltiptext(&quot;Sair&quot;);</span>
-<span class="nc" id="L100">        close.setClass(&quot;w3-btn w3-light-grey&quot;);</span>
-<span class="nc" id="L101">        close.addEventListener(&quot;onClick&quot;, (Event t) -&gt; {         window.onClose();     });</span>
+<span class="nc" id="L126">        toolbar.setAlign(&quot;end&quot;);</span>
 
 
-<span class="nc" id="L104">        toolbar.appendChild(close);</span>
-<span class="nc" id="L105">        north.appendChild(toolbar);</span>
-<span class="nc" id="L106">        Center cntr = new Center();</span>
-<span class="nc" id="L107">        cntr.appendChild(iframe);</span>
-<span class="nc" id="L108">        borderlayout.appendChild(cntr);</span>
-<span class="nc" id="L109">        borderlayout.resize();</span>
-<span class="nc" id="L110">        window.appendChild(toolbar);</span>
-<span class="nc" id="L111">        window.appendChild(borderlayout);</span>
-<span class="nc" id="L112">        iframe.setWidth(&quot;100%&quot;);</span>
-<span class="nc" id="L113">        iframe.setHeight(&quot;100%&quot;);</span>
-<span class="nc" id="L114">        window.setWidth(&quot;100%&quot;);</span>
-<span class="nc" id="L115">        window.setHeight(&quot;100%&quot;);</span>
+<span class="nc" id="L129">        Toolbarbutton close = new Toolbarbutton(&quot;Exit&quot;);</span>
+<span class="nc" id="L130">        close.setMode(&quot;overlapped&quot;);</span>
 
-<span class="nc" id="L117">        window.setPage(getPage());</span>
-<span class="nc" id="L118">        window.doModal();</span>
-<span class="nc" id="L119">    }</span>
+<span class="nc" id="L132">        close.setTooltiptext(&quot;Sair&quot;);</span>
+<span class="nc" id="L133">        close.setClass(&quot;w3-btn w3-light-grey&quot;);</span>
+<span class="nc" id="L134">        close.addEventListener(&quot;onClick&quot;, (Event t) -&gt; {         window.onClose();     });</span>
+
+
+<span class="nc" id="L137">        toolbar.appendChild(close);</span>
+<span class="nc" id="L138">        north.appendChild(toolbar);</span>
+<span class="nc" id="L139">        Center cntr = new Center();</span>
+<span class="nc" id="L140">        cntr.appendChild(iframe);</span>
+<span class="nc" id="L141">        borderlayout.appendChild(cntr);</span>
+<span class="nc" id="L142">        borderlayout.resize();</span>
+<span class="nc" id="L143">        window.appendChild(toolbar);</span>
+<span class="nc" id="L144">        window.appendChild(borderlayout);</span>
+<span class="nc" id="L145">        iframe.setWidth(&quot;100%&quot;);</span>
+<span class="nc" id="L146">        iframe.setHeight(&quot;100%&quot;);</span>
+<span class="nc" id="L147">        window.setWidth(&quot;100%&quot;);</span>
+<span class="nc" id="L148">        window.setHeight(&quot;100%&quot;);</span>
+
+<span class="nc" id="L150">        window.setPage(getPage());</span>
+<span class="nc" id="L151">        window.doModal();</span>
+<span class="nc" id="L152">    }</span>
 
     @Listen(&quot;onClick=#saveExcell&quot;)
     public void exportToExcell() throws IOException, JRException {
-<span class="nc" id="L123">        JRXlsExporter exporter = new JRXlsExporter();</span>
+<span class="nc" id="L156">        JRXlsExporter exporter = new JRXlsExporter();</span>
 
-<span class="nc" id="L125">        String filePath = &quot;src/main/java/sgb/report/relatorioEmprestimo/xls/RelatorioEmprestimo.xls&quot;;</span>
-<span class="nc" id="L126">        File xlsFile = new File(filePath);</span>
+<span class="nc" id="L158">        String filePath = &quot;src/main/java/sgb/report/relatorioEmprestimo/xls/RelatorioEmprestimo.xls&quot;;</span>
+<span class="nc" id="L159">        File xlsFile = new File(filePath);</span>
 
 
-<span class="nc bnc" id="L129" title="All 2 branches missed.">        if(xlsFile.exists()){</span>
-<span class="nc" id="L130">            xlsFile.delete();</span>
+<span class="nc bnc" id="L162" title="All 2 branches missed.">        if(xlsFile.exists()){</span>
+<span class="nc" id="L163">            xlsFile.delete();</span>
         }
 
-<span class="nc" id="L133">        exporter.setParameter(JRExporterParameter.JASPER_PRINT, gerarRelatorio.createPdfEmprestimo(emprestimoListModel</span>
-                , &quot;src/main/java/sgb/report/relatorioEmprestimo/relatorio.jrxml&quot;));
-<span class="nc" id="L135">        exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, filePath);</span>
-<span class="nc" id="L136">        exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);</span>
-<span class="nc" id="L137">        exporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);</span>
+<span class="nc" id="L166">        exporter.setParameter(JRExporterParameter.JASPER_PRINT, gerarRelatorio.createPdfEmprestimo(emprestimoListModel</span>
+                , &quot;src/main/java/sgb/report/relatorioEmprestimo/relatorio.jrxml&quot;
+                , dateFiltered));
+<span class="nc" id="L169">        exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, filePath);</span>
+<span class="nc" id="L170">        exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);</span>
+<span class="nc" id="L171">        exporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);</span>
 
-<span class="nc" id="L139">        exporter.exportReport();</span>
+<span class="nc" id="L173">        exporter.exportReport();</span>
 
-<span class="nc" id="L141">        Filedownload.save(xlsFile,&quot;xls&quot;);</span>
-<span class="nc" id="L142">    }</span>
+<span class="nc" id="L175">        Filedownload.save(xlsFile,&quot;xls&quot;);</span>
+<span class="nc" id="L176">    }</span>
+
+    public String dataConvert (Calendar dataa) {
+
+<span class="nc" id="L180">        SimpleDateFormat dateFormatter = new SimpleDateFormat(&quot;dd/MM/yyyy&quot;);</span>
+<span class="nc" id="L181">        StringBuilder builder = new StringBuilder();</span>
+
+<span class="nc" id="L183">        builder.append(dateFormatter.format(dataa.getTime()));</span>
+
+<span class="nc" id="L185">        return builder.toString();</span>
+    }
+
+    public Date reduzDataActual(){
+<span class="nc" id="L189">        Calendar c = Calendar.getInstance();</span>
+
+<span class="nc" id="L191">        c.add(Calendar.DAY_OF_MONTH, -30);</span>
+
+<span class="nc" id="L193">        return c.getTime();</span>
+    }
+
+    public void getUpdateDate(){
+        try {
+<span class="nc" id="L198">            dataI.setTime(dataInicio.getValue());</span>
+<span class="nc" id="L199">            dataF.setTime(dataFim.getValue());</span>
+<span class="nc" id="L200">        }catch (Exception e){</span>
+
+<span class="nc" id="L202">        };</span>
+<span class="nc" id="L203">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

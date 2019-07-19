@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RelatorioObras.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$All_in_zksandbox.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.controller.viewsController</a> &gt; <span class="el_source">RelatorioObras.java</span></div><h1>RelatorioObras.java</h1><pre class="source lang-java linenums">package sgb.controller.viewsController;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RelatorioObras.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$sgb.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.controller.viewsController</a> &gt; <span class="el_source">RelatorioObras.java</span></div><h1>RelatorioObras.java</h1><pre class="source lang-java linenums">package sgb.controller.viewsController;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
@@ -35,9 +35,11 @@ import javax.management.Notification;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 //import org.zkoss.zk.chart.Charts;
@@ -45,22 +47,25 @@ import java.util.List;
 //import org.zkoss.chart.model.DefaultCategoryModel;
 
 
-<span class="nc" id="L48">public class RelatorioObras extends SelectorComposer&lt;Component&gt; {</span>
-<span class="nc" id="L49">    private GerarRelatorio gerarRelatorio = (GerarRelatorio) SpringUtil.getBean(&quot;gerarRelatorio&quot;);</span>
-<span class="nc" id="L50">    private ObraController obraController  = (ObraController) SpringUtil.getBean(&quot;obraController&quot;);</span>
-<span class="nc" id="L51">    private RegistroObraController registroObraController  = (RegistroObraController) SpringUtil.getBean(&quot;registroObraController&quot;);</span>
-<span class="nc" id="L52">    private ObraEliminadasController obraEliminadasController  = (ObraEliminadasController) SpringUtil.getBean(&quot;obraEliminadasController&quot;);</span>
-<span class="nc" id="L53">    private AreaCientificaController areaCientificaController  = (AreaCientificaController) SpringUtil.getBean(&quot;areaCientificaController&quot;);</span>
-
-<span class="nc" id="L55">    private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;</span>
-<span class="nc" id="L56">    private Boolean isNormalUser = true;</span>
-<span class="nc" id="L57">    private int selected = 0;</span>
+<span class="nc" id="L50">public class RelatorioObras extends SelectorComposer&lt;Component&gt; {</span>
+<span class="nc" id="L51">    private GerarRelatorio gerarRelatorio = (GerarRelatorio) SpringUtil.getBean(&quot;gerarRelatorio&quot;);</span>
+<span class="nc" id="L52">    private ObraController obraController  = (ObraController) SpringUtil.getBean(&quot;obraController&quot;);</span>
+<span class="nc" id="L53">    private RegistroObraController registroObraController  = (RegistroObraController) SpringUtil.getBean(&quot;registroObraController&quot;);</span>
+<span class="nc" id="L54">    private ObraEliminadasController obraEliminadasController  = (ObraEliminadasController) SpringUtil.getBean(&quot;obraEliminadasController&quot;);</span>
+<span class="nc" id="L55">    private AreaCientificaController areaCientificaController  = (AreaCientificaController) SpringUtil.getBean(&quot;areaCientificaController&quot;);</span>
+    private AreaCientifica areaCientifica;
+    private List&lt;RegistroObra&gt; registroObras;
+    private List&lt;ObraEliminadas&gt; obraEliminadas;
+<span class="nc" id="L59">    private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;</span>
+<span class="nc" id="L60">    private Boolean isNormalUser = true;</span>
+<span class="nc" id="L61">    private int selected = 0;</span>
     private Listbox obraeliminadas;
     private Listbox obrasregistadas;
     private Listbox obracategoria;
     private Label qtdd;
-<span class="nc" id="L62">    Calendar dataI = Calendar.getInstance();</span>
-<span class="nc" id="L63">    Calendar dataF = Calendar.getInstance();</span>
+    String dateFiltered;
+<span class="nc" id="L67">    Calendar dataI = Calendar.getInstance();</span>
+<span class="nc" id="L68">    Calendar dataF = Calendar.getInstance();</span>
 
     @Wire
     private Listbox areaCientificaListBox;
@@ -91,111 +96,106 @@ import java.util.List;
     @Override
     public void doAfterCompose(Component comp) throws Exception
     {
-<span class="nc" id="L94">        super.doAfterCompose(comp);</span>
+<span class="nc" id="L99">        super.doAfterCompose(comp);</span>
 
-<span class="nc" id="L96">        idInclRelatorioObrasQuantidade.setSrc(&quot;views/relatorioobrasquantidade.zul&quot;);</span>
-<span class="nc" id="L97">        idInclObrasEliminadas.setSrc(&quot;views/relatorioobraseliminadas.zul&quot;);</span>
-<span class="nc" id="L98">        idInclRelatorioObrasRegistadas.setSrc(&quot;views/relatorioobrasregistadas.zul&quot;);</span>
+<span class="nc" id="L101">        idInclRelatorioObrasQuantidade.setSrc(&quot;views/relatorioobrasquantidade.zul&quot;);</span>
+<span class="nc" id="L102">        idInclObrasEliminadas.setSrc(&quot;views/relatorioobraseliminadas.zul&quot;);</span>
+<span class="nc" id="L103">        idInclRelatorioObrasRegistadas.setSrc(&quot;views/relatorioobrasregistadas.zul&quot;);</span>
 
-<span class="nc" id="L100">        obrasregistadas = (Listbox)idInclRelatorioObrasRegistadas.getFellow(&quot;obrasregistadas&quot;);</span>
-<span class="nc" id="L101">        obraeliminadas = (Listbox)idInclObrasEliminadas.getFellow(&quot;obraeliminadas&quot;);</span>
-<span class="nc" id="L102">        obracategoria = (Listbox)idInclRelatorioObrasQuantidade.getFellow(&quot;obracategoria&quot;);</span>
-<span class="nc" id="L103">        qtdd = (Label) idInclRelatorioObrasQuantidade.getFellow(&quot;qtdd&quot;);</span>
+<span class="nc" id="L105">        obrasregistadas = (Listbox)idInclRelatorioObrasRegistadas.getFellow(&quot;obrasregistadas&quot;);</span>
+<span class="nc" id="L106">        obraeliminadas = (Listbox)idInclObrasEliminadas.getFellow(&quot;obraeliminadas&quot;);</span>
+<span class="nc" id="L107">        obracategoria = (Listbox)idInclRelatorioObrasQuantidade.getFellow(&quot;obracategoria&quot;);</span>
+<span class="nc" id="L108">        qtdd = (Label) idInclRelatorioObrasQuantidade.getFellow(&quot;qtdd&quot;);</span>
 
-<span class="nc" id="L105">        AreaCientifica a = new AreaCientifica();</span>
-<span class="nc" id="L106">        a.setDescricao(&quot;Todas Areas&quot;); a.setIdarea(0);</span>
-<span class="nc" id="L107">        areaCientificaListModel = new ListModelList&lt;AreaCientifica&gt;(areaCientificaController.getAreaCientifica());</span>
-<span class="nc" id="L108">        areaCientificaListModel.add(0,a);</span>
-<span class="nc" id="L109">        areaCientificaListModel.addToSelection(a);</span>
-<span class="nc" id="L110">        areaCientificaListBox.setModel(areaCientificaListModel);</span>
-<span class="nc" id="L111">        setListModelsallData();</span>
-<span class="nc" id="L112">        setListBoxsModels();</span>
-<span class="nc" id="L113">    }</span>
+<span class="nc" id="L110">        areaCientifica = new AreaCientifica();</span>
+<span class="nc" id="L111">        areaCientifica.setDescricao(&quot;Todas Areas&quot;); areaCientifica.setIdarea(0);</span>
+<span class="nc" id="L112">        areaCientificaListModel = new ListModelList&lt;AreaCientifica&gt;(areaCientificaController.getAreaCientifica());</span>
+<span class="nc" id="L113">        areaCientificaListModel.add(0,areaCientifica);</span>
+<span class="nc" id="L114">        areaCientificaListModel.addToSelection(areaCientifica);</span>
+<span class="nc" id="L115">        areaCientificaListBox.setModel(areaCientificaListModel);</span>
+<span class="nc" id="L116">        setListModelsallData();</span>
+<span class="nc" id="L117">        setListBoxsModels();</span>
+<span class="nc" id="L118">    }</span>
 
     @Listen(&quot;onSelect = #areaCientificaListBox&quot;)
     public void change() {
+<span class="nc" id="L122">        areaCientifica = areaCientificaListBox.getSelectedItem().getValue();</span>
 
-        List&lt;RegistroObra&gt; registroObras;
-<span class="nc" id="L119">        AreaCientifica areaCientifica = areaCientificaListBox.getSelectedItem().getValue();</span>
-
-<span class="nc bnc" id="L121" title="All 2 branches missed.">        if(areaCientifica.getIdarea()!=0){</span>
-<span class="nc bnc" id="L122" title="All 2 branches missed.">            if(dataInicio.getValue() ==null) {</span>
-<span class="nc" id="L123">                obraCategoriaListModel = new ListModelList&lt;ObraCategoria&gt;(obraController.getObrasCategorias(areaCientifica));</span>
-<span class="nc" id="L124">                qtdd = (Label) idInclRelatorioObrasQuantidade.getFellow(&quot;qtdd&quot;);</span>
-            }else{
-<span class="nc" id="L126">                getUpdateDate();</span>
-<span class="nc" id="L127">                registroObras = registroObraController.getObrasByDate(dataI,dataF,areaCientifica);</span>
-<span class="nc" id="L128">                obraCategoriaListModel = new ListModelList&lt;ObraCategoria&gt;(obraController.getObrasCategorias(registroObras,areaCientifica));</span>
-<span class="nc" id="L129">                qtdd = (Label) idInclRelatorioObrasQuantidade.getFellow(&quot;qtdd&quot;);</span>
-            }
-        } else {
-<span class="nc" id="L132">            qtdd = (Label) idInclRelatorioObrasQuantidade.getFellow(&quot;qtdd&quot;);</span>
-<span class="nc" id="L133">            setListModelsallData();</span>
-        }
-
-<span class="nc" id="L136">        setListBoxsModels();</span>
-<span class="nc" id="L137">    }</span>
+<span class="nc" id="L124">        setListModelsallData();</span>
+<span class="nc" id="L125">        setListBoxsModels();</span>
+<span class="nc" id="L126">    }</span>
 
     @Listen(&quot;onChange = #dataInicio;onChange = #dataFim&quot;)
     public void dataChange() {
+<span class="nc" id="L130">        getUpdateDate();</span>
 
-<span class="nc" id="L142">        getUpdateDate();</span>
-<span class="nc" id="L143">        AreaCientifica areaCientifica = areaCientificaListBox.getSelectedItem().getValue();</span>
-<span class="nc" id="L144">        List&lt;RegistroObra&gt; registroObras = registroObraController.getObrasByDate(dataI,dataF,areaCientifica);</span>
-
-<span class="nc bnc" id="L146" title="All 2 branches missed.">        if(areaCientifica.getIdarea()!=0){</span>
-<span class="nc" id="L147">            obraCategoriaListModel = new ListModelList&lt;ObraCategoria&gt;(obraController.getObrasCategorias(registroObras,areaCientifica));</span>
-<span class="nc" id="L148">            obrasregistadasListModel = new ListModelList&lt;RegistroObra&gt;(registroObraController.getObrasRegistadas());</span>
-<span class="nc" id="L149">            obraEliminadasListModel =new ListModelList&lt;ObraEliminadas&gt;(obraEliminadasController.getObrasEliminadas());</span>
-<span class="nc" id="L150">            qtdd = (Label) idInclRelatorioObrasQuantidade.getFellow(&quot;qtdd&quot;);</span>
-        } else {
-<span class="nc" id="L152">            qtdd = (Label) idInclRelatorioObrasQuantidade.getFellow(&quot;qtdd&quot;);</span>
-<span class="nc" id="L153">            setListModelsallData();</span>
-        }
-
-<span class="nc" id="L156">        setListBoxsModels();</span>
-<span class="nc" id="L157">    }</span>
+<span class="nc" id="L132">        setListModelsallData();</span>
+<span class="nc" id="L133">        setListBoxsModels();</span>
+<span class="nc" id="L134">    }</span>
 
     public void setListModelsallData(){
+<span class="nc" id="L137">        getUpdateDate();</span>
 
-        List&lt;RegistroObra&gt; registroObras;
+<span class="nc bnc" id="L139" title="All 2 branches missed.">        if(areaCientifica.getIdarea()!=0){</span>
+<span class="nc" id="L140">            obraEliminadas = obraEliminadasController.getObrasEliminadasByDate(dataI, dataF, areaCientifica);</span>
+<span class="nc" id="L141">            registroObras = registroObraController.getObrasByDate(dataI, dataF, areaCientifica);</span>
 
-<span class="nc bnc" id="L163" title="All 2 branches missed.">        if(dataInicio.getValue() ==null) {</span>
-<span class="nc" id="L164">            obraCategoriaListModel = new ListModelList&lt;ObraCategoria&gt;(obraController.getObrasCategorias(null));</span>
-        }else {
-<span class="nc" id="L166">            getUpdateDate();</span>
-<span class="nc" id="L167">            registroObras = registroObraController.getObrasByDate(dataI, dataF, null);</span>
-<span class="nc" id="L168">            obraCategoriaListModel = new ListModelList&lt;ObraCategoria&gt;(obraController.getObrasCategorias(registroObras, null));</span>
+<span class="nc" id="L143">            obraCategoriaListModel = new ListModelList&lt;ObraCategoria&gt;(obraController.getObrasCategorias(registroObras, areaCientifica));</span>
+        }else{
+<span class="nc" id="L145">            obraEliminadas = obraEliminadasController.getObrasEliminadasByDate(dataI, dataF, null);</span>
+<span class="nc" id="L146">            registroObras = registroObraController.getObrasByDate(dataI, dataF, null);</span>
+
+<span class="nc" id="L148">            obraCategoriaListModel = new ListModelList&lt;ObraCategoria&gt;(obraController.getObrasCategorias(registroObras, null));</span>
         }
-<span class="nc" id="L170">        obrasregistadasListModel = new ListModelList&lt;RegistroObra&gt;(registroObraController.getObrasRegistadas());</span>
-<span class="nc" id="L171">        obraEliminadasListModel =new ListModelList&lt;ObraEliminadas&gt;(obraEliminadasController.getObrasEliminadas());</span>
-<span class="nc" id="L172">    }</span>
+<span class="nc" id="L150">        obrasregistadasListModel = new ListModelList&lt;RegistroObra&gt;(registroObras);</span>
+<span class="nc" id="L151">        obraEliminadasListModel =new ListModelList&lt;ObraEliminadas&gt;(obraEliminadas);</span>
+<span class="nc" id="L152">        qtdd = (Label) idInclRelatorioObrasQuantidade.getFellow(&quot;qtdd&quot;);</span>
+<span class="nc" id="L153">        dateFiltered = &quot;Lista de &quot;+dataConvert(dataI)+&quot; a &quot;+dataConvert(dataF);</span>
+<span class="nc" id="L154">    }</span>
 
     public void setListBoxsModels(){
-<span class="nc" id="L175">        obracategoria.setModel(obraCategoriaListModel);</span>
-<span class="nc" id="L176">        obrasregistadas.setModel(obrasregistadasListModel);</span>
-<span class="nc" id="L177">        obraeliminadas.setModel(obraEliminadasListModel);</span>
-<span class="nc" id="L178">        qtdd.setValue(&quot;&quot;+getQtddTotalObra(obraCategoriaListModel));</span>
-<span class="nc" id="L179">    }</span>
+<span class="nc" id="L157">        obracategoria.setModel(obraCategoriaListModel);</span>
+<span class="nc" id="L158">        obrasregistadas.setModel(obrasregistadasListModel);</span>
+<span class="nc" id="L159">        obraeliminadas.setModel(obraEliminadasListModel);</span>
+<span class="nc" id="L160">        qtdd.setValue(&quot;&quot;+getQtddTotalObra(obraCategoriaListModel));</span>
+<span class="nc" id="L161">    }</span>
 
     public int getQtddTotalObra(ListModelList&lt;ObraCategoria&gt; obraCategoriaListModel){
-<span class="nc" id="L182">        int total=0;</span>
+<span class="nc" id="L164">        int total=0;</span>
 
-<span class="nc bnc" id="L184" title="All 2 branches missed.">        for (ObraCategoria obraCategoria : obraCategoriaListModel) {</span>
-<span class="nc bnc" id="L185" title="All 2 branches missed.">            for(Obra o: obraCategoria.getObras())</span>
-<span class="nc" id="L186">                total +=o.getQuantidade();</span>
-<span class="nc" id="L187">        }</span>
-<span class="nc" id="L188">        return total;</span>
+<span class="nc bnc" id="L166" title="All 2 branches missed.">        for (ObraCategoria obraCategoria : obraCategoriaListModel) {</span>
+<span class="nc bnc" id="L167" title="All 2 branches missed.">            for(Obra o: obraCategoria.getObras())</span>
+<span class="nc" id="L168">                total +=o.getQuantidade();</span>
+<span class="nc" id="L169">        }</span>
+<span class="nc" id="L170">        return total;</span>
     }
 
     public void getUpdateDate(){
         try {
-<span class="nc" id="L193">            dataI.setTime(dataInicio.getValue());</span>
-<span class="nc" id="L194">            dataF.setTime(dataFim.getValue());</span>
-<span class="nc" id="L195">        }catch (Exception e){</span>
+<span class="nc" id="L175">            dataI.setTime(dataInicio.getValue());</span>
+<span class="nc" id="L176">            dataF.setTime(dataFim.getValue());</span>
+<span class="nc" id="L177">        }catch (Exception e){</span>
 
-<span class="nc" id="L197">        };</span>
-<span class="nc" id="L198">    }</span>
+<span class="nc" id="L179">        };</span>
+<span class="nc" id="L180">    }</span>
+
+    public Date reduzDataActual(){
+<span class="nc" id="L183">        Calendar c = Calendar.getInstance();</span>
+
+<span class="nc" id="L185">        c.add(Calendar.DAY_OF_MONTH, -30);</span>
+
+<span class="nc" id="L187">        return c.getTime();</span>
+    }
+
+    public String dataConvert (Calendar dataa) {
+
+<span class="nc" id="L192">        SimpleDateFormat dateFormatter = new SimpleDateFormat(&quot;dd/MM/yyyy&quot;);</span>
+<span class="nc" id="L193">        StringBuilder builder = new StringBuilder();</span>
+
+<span class="nc" id="L195">        builder.append(dateFormatter.format(dataa.getTime()));</span>
+
+<span class="nc" id="L197">        return builder.toString();</span>
+    }
 
     @Listen(&quot;onClick=#savePdf&quot;)
     public void show() throws JRException, IOException {
@@ -217,7 +217,7 @@ import java.util.List;
 
 
 <span class="nc" id="L219">        byte [] arr = JasperExportManager.exportReportToPdf(gerarRelatorio.createPdfObras(obraCategoriaListModel,</span>
-<span class="nc" id="L220">                obrasregistadasListModel, obraEliminadasListModel, selected, qtdd.getValue(), path));</span>
+<span class="nc" id="L220">                obrasregistadasListModel, obraEliminadasListModel, selected, qtdd.getValue(), path, dateFiltered));</span>
 <span class="nc" id="L221">        AMedia media = new AMedia(reportName, &quot;pdf&quot;, &quot;application/pdf&quot;, arr);</span>
 <span class="nc" id="L222">        final Window window = new Window();</span>
 <span class="nc" id="L223">        window.setClosable(true);</span>
@@ -286,7 +286,7 @@ import java.util.List;
         }
 
 <span class="nc" id="L288">        exporter.setParameter(JRExporterParameter.JASPER_PRINT, gerarRelatorio.createPdfObras(obraCategoriaListModel,</span>
-<span class="nc" id="L289">                obrasregistadasListModel, obraEliminadasListModel, selected, qtdd.getValue(), path));</span>
+<span class="nc" id="L289">                obrasregistadasListModel, obraEliminadasListModel, selected, qtdd.getValue(), path, dateFiltered));</span>
 <span class="nc" id="L290">        exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, filePath);</span>
 <span class="nc" id="L291">        exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);</span>
 <span class="nc" id="L292">        exporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);</span>

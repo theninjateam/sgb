@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Cd.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$All_in_zksandbox.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.domain</a> &gt; <span class="el_source">Cd.java</span></div><h1>Cd.java</h1><pre class="source lang-java linenums">package sgb.domain;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Cd.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">zksandbox$sgb.exec</a> &gt; <a href="index.source.html" class="el_package">sgb.domain</a> &gt; <span class="el_source">Cd.java</span></div><h1>Cd.java</h1><pre class="source lang-java linenums">package sgb.domain;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 @Table(name = &quot;cd&quot;, schema = &quot;public&quot;)
-<span class="nc" id="L8">public class Cd {</span>
+<span class="fc" id="L8">public class Cd {</span>
     private String idcd;
     private String descricao;
     private Obra obra;
@@ -14,22 +14,22 @@ import java.util.Objects;
     @Id
     @Column(name = &quot;cota&quot;)
     public String getIdcd() {
-<span class="nc" id="L17">        return idcd;</span>
+<span class="fc" id="L17">        return idcd;</span>
     }
 
     public void setIdcd(String idcd) {
-<span class="nc" id="L21">        this.idcd = idcd;</span>
-<span class="nc" id="L22">    }</span>
+<span class="fc" id="L21">        this.idcd = idcd;</span>
+<span class="fc" id="L22">    }</span>
 
     @Basic
     @Column(name = &quot;descricao&quot;)
     public String getDescricao() {
-<span class="nc" id="L27">        return descricao;</span>
+<span class="fc" id="L27">        return descricao;</span>
     }
 
     public void setDescricao(String descricao) {
-<span class="nc" id="L31">        this.descricao = descricao;</span>
-<span class="nc" id="L32">    }</span>
+<span class="fc" id="L31">        this.descricao = descricao;</span>
+<span class="fc" id="L32">    }</span>
 
     @Override
     public boolean equals(Object o) {
@@ -49,12 +49,12 @@ import java.util.Objects;
     @JoinColumn(name = &quot;cota&quot;)
 
     public Obra getObra() {
-<span class="nc" id="L52">        return obra;</span>
+<span class="fc" id="L52">        return obra;</span>
     }
 
     public void setObra(Obra obra) {
-<span class="nc" id="L56">        this.obra = obra;</span>
-<span class="nc" id="L57">    }</span>
+<span class="fc" id="L56">        this.obra = obra;</span>
+<span class="fc" id="L57">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

@@ -25,8 +25,6 @@ public class ConfigViewModel
 
     private List<Config> configs = new ArrayList<Config>();
 
-
-
     @Init
     public void init() throws Exception
     {
