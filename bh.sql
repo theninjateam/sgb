@@ -12,14 +12,9 @@
  Target Server Version : 100005
  File Encoding         : 65001
 
- Date: 18/07/2019 13:09:26
+ Date: 20/07/2019 14:11:19
 */
 
-DROP SCHEMA public CASCADE;
-CREATE SCHEMA public;
-
-DROP SCHEMA public cascade;
-CREATE SCHEMA public;
 
 -- ----------------------------
 -- Sequence structure for areacientifica_idarea_seq
@@ -380,17 +375,18 @@ CREATE TABLE "public"."item" (
 -- ----------------------------
 -- Records of item
 -- ----------------------------
-INSERT INTO public.item (item_id, descricao, item) VALUES (4, 'Ver Obras', 'C1-F1');
-INSERT INTO public.item (item_id, descricao, item) VALUES (5, 'Adicionar Obra', 'C1-F2');
-INSERT INTO public.item (item_id, descricao, item) VALUES (7, 'Listar de Emprestimo', 'C1-F4');
-INSERT INTO public.item (item_id, descricao, item) VALUES (6, 'Ver Pedidos Pendentes', 'C1-F3');
-INSERT INTO public.item (item_id, descricao, item) VALUES (10, 'Ver Relatorio de Multas', 'C2-L3');
-INSERT INTO public.item (item_id, descricao, item) VALUES (9, 'Ver Relatorio de Emprestimos', 'C2-L2');
-INSERT INTO public.item (item_id, descricao, item) VALUES (11, 'Ver Regulamento', 'C3-G1');
-INSERT INTO public.item (item_id, descricao, item) VALUES (8, 'Ver Multas', 'C1-F7');
-INSERT INTO public.item (item_id, descricao, item) VALUES (3, 'Ver Lista de Utilizadores', 'C3-G2');
-INSERT INTO public.item (item_id, descricao, item) VALUES (1, 'Ver Relatorio de Obras', 'C2-L1');
-INSERT INTO public.item (item_id, descricao, item) VALUES (12, 'Roles', 'C3-G3');
+INSERT INTO "public"."item" VALUES (4, 'Ver Obras', 'C1-F1');
+INSERT INTO "public"."item" VALUES (5, 'Adicionar Obra', 'C1-F2');
+INSERT INTO "public"."item" VALUES (7, 'Listar de Emprestimo', 'C1-F4');
+INSERT INTO "public"."item" VALUES (6, 'Ver Pedidos Pendentes', 'C1-F3');
+INSERT INTO "public"."item" VALUES (10, 'Ver Relatorio de Multas', 'C2-L3');
+INSERT INTO "public"."item" VALUES (9, 'Ver Relatorio de Emprestimos', 'C2-L2');
+INSERT INTO "public"."item" VALUES (11, 'Ver Regulamento', 'C3-G1');
+INSERT INTO "public"."item" VALUES (8, 'Ver Multas', 'C1-F7');
+INSERT INTO "public"."item" VALUES (3, 'Ver Lista de Utilizadores', 'C3-G2');
+INSERT INTO "public"."item" VALUES (1, 'Ver Relatorio de Obras', 'C2-L1');
+INSERT INTO "public"."item" VALUES (12, 'Roles', 'C3-G3');
+
 -- ----------------------------
 -- Table structure for item_role
 -- ----------------------------
@@ -404,8 +400,9 @@ CREATE TABLE "public"."item_role" (
 -- ----------------------------
 -- Records of item_role
 -- ----------------------------
-INSERT INTO public.item_role (item_id, role_id) VALUES (12, 1);
-INSERT INTO public.item_role (item_id, role_id) VALUES (4, 1);
+INSERT INTO "public"."item_role" VALUES (12, 1);
+INSERT INTO "public"."item_role" VALUES (4, 1);
+
 -- ----------------------------
 -- Table structure for livro
 -- ----------------------------
@@ -754,12 +751,13 @@ CREATE TABLE "public"."role" (
 -- ----------------------------
 -- Records of role
 -- ----------------------------
-INSERT INTO public.role (role_id, role, qtdmaxobras, iconpath) VALUES (2, 'ESTUDANTE', 6, 'img/student.png');
-INSERT INTO public.role (role_id, role, qtdmaxobras, iconpath) VALUES (1, 'ADMIN', 0, 'img/admin.png');
-INSERT INTO public.role (role_id, role, qtdmaxobras, iconpath) VALUES (3, 'PROFESSOR', 5, 'img/teacher.jpg');
-INSERT INTO public.role (role_id, role, qtdmaxobras, iconpath) VALUES (4, 'VISITANTE', 0, 'img/guest.png');
-INSERT INTO public.role (role_id, role, qtdmaxobras, iconpath) VALUES (5, 'FUNCIONARIO', 0, 'img/employee.jpeg');
-INSERT INTO public.role (role_id, role, qtdmaxobras, iconpath) VALUES (6, 'BIBLIOTECARIO', 0, 'img/librarian.png');
+INSERT INTO "public"."role" VALUES (2, 'ESTUDANTE', 6, 'img/student.png');
+INSERT INTO "public"."role" VALUES (1, 'ADMIN', 0, 'img/admin.png');
+INSERT INTO "public"."role" VALUES (3, 'PROFESSOR', 5, 'img/teacher.jpg');
+INSERT INTO "public"."role" VALUES (4, 'VISITANTE', 0, 'img/guest.png');
+INSERT INTO "public"."role" VALUES (5, 'FUNCIONARIO', 0, 'img/employee.jpeg');
+INSERT INTO "public"."role" VALUES (6, 'BIBLIOTECARIO', 0, 'img/librarian.png');
+
 -- ----------------------------
 -- Table structure for tipoobra
 -- ----------------------------
@@ -812,9 +810,9 @@ CREATE TABLE "public"."user" (
 -- Records of user
 -- ----------------------------
 INSERT INTO "public"."user" VALUES (1, 1, 'admin@admin', 'admin', 'admin', '21232f297a57a5a743894a0e4a801fc3');
-INSERT INTO "public"."user" VALUES (3, 1, 'hemersonycardoso@gmail.com', 'student', 'student', '289ffeb2a745ccf51ca89a297f47e382');
-INSERT INTO "public"."user" VALUES (4, 1, 'hemersonycardoso@gmail.com', 'teacher', 'teacher', '289ffeb2a745ccf51ca89a297f47e382');
-INSERT INTO "public"."user" VALUES (2, 1, 'hemersonycardoso@gmail.com', 'Fonseca', 'Fonseca', 'e653d3954be6576488c5ce7a599869de');
+INSERT INTO "public"."user" VALUES (3, 1, 'student@gmail.com', 'student', 'student', '289ffeb2a745ccf51ca89a297f47e382');
+INSERT INTO "public"."user" VALUES (4, 1, 'teacher@gmail.com', 'teacher', 'teacher', '289ffeb2a745ccf51ca89a297f47e382');
+INSERT INTO "public"."user" VALUES (2, 1, 'Fonseca@Fonseca', 'Fonseca', 'Fonseca', 'e653d3954be6576488c5ce7a599869de');
 
 -- ----------------------------
 -- Table structure for user_role
@@ -839,26 +837,26 @@ INSERT INTO "public"."user_role" VALUES (3, 2);
 -- ----------------------------
 ALTER SEQUENCE "public"."areacientifica_idarea_seq"
 OWNED BY "public"."areacientifica"."idarea";
-SELECT setval('"public"."areacientifica_idarea_seq"', 3, false);
+SELECT setval('"public"."areacientifica_idarea_seq"', 4, false);
 ALTER SEQUENCE "public"."estadodevolucao_idestadodevolucao_seq"
 OWNED BY "public"."estadodevolucao"."idestadodevolucao";
-SELECT setval('"public"."estadodevolucao_idestadodevolucao_seq"', 3, false);
+SELECT setval('"public"."estadodevolucao_idestadodevolucao_seq"', 4, false);
 ALTER SEQUENCE "public"."estadopedido_idestadopedido_seq"
 OWNED BY "public"."estadopedido"."idestadopedido";
-SELECT setval('"public"."estadopedido_idestadopedido_seq"', 3, true);
+SELECT setval('"public"."estadopedido_idestadopedido_seq"', 4, true);
 ALTER SEQUENCE "public"."estadorenovacao_idestadorenovacao_seq"
 OWNED BY "public"."estadorenovacao"."idestadorenovacao";
-SELECT setval('"public"."estadorenovacao_idestadorenovacao_seq"', 3, true);
+SELECT setval('"public"."estadorenovacao_idestadorenovacao_seq"', 4, true);
 ALTER SEQUENCE "public"."formatocd_idformato_seq"
 OWNED BY "public"."formatocd"."idformato";
-SELECT setval('"public"."formatocd_idformato_seq"', 3, false);
-SELECT setval('"public"."hibernate_sequence"', 4, true);
+SELECT setval('"public"."formatocd_idformato_seq"', 4, false);
+SELECT setval('"public"."hibernate_sequence"', 5, true);
 ALTER SEQUENCE "public"."idioma_ididioma_seq"
 OWNED BY "public"."idioma"."ididioma";
-SELECT setval('"public"."idioma_ididioma_seq"', 3, false);
+SELECT setval('"public"."idioma_ididioma_seq"', 4, false);
 ALTER SEQUENCE "public"."tipoobra_idtipo_seq"
 OWNED BY "public"."tipoobra"."idtipo";
-SELECT setval('"public"."tipoobra_idtipo_seq"', 3, false);
+SELECT setval('"public"."tipoobra_idtipo_seq"', 4, false);
 
 -- ----------------------------
 -- Primary Key structure for table areacientifica
