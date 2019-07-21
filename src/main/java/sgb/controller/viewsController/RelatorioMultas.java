@@ -208,7 +208,7 @@ public class RelatorioMultas extends SelectorComposer<Component> {
 
     public void setListBoxsModels(){
         multasListbox.setModel(multaListModelList);
-        totalToPay.setValue(""+fine.totalDinheiro(multaList)+"");
+        totalToPay.setValue(fine.totalDinheiro(multaList)+"");
         fine.updateDelayDays(multaList);
     }
 }

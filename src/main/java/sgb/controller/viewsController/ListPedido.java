@@ -7,10 +7,7 @@ import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
-import sgb.controller.domainController.EmprestimoController;
-import sgb.controller.domainController.EstadoDevolucaoControler;
-import sgb.controller.domainController.EstadoPedidoControler;
-import sgb.controller.domainController.RoleController;
+import sgb.controller.domainController.*;
 import sgb.deadline.BorrowedBooksDeadline;
 import sgb.domain.Emprestimo;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -44,6 +41,7 @@ public class ListPedido extends SelectorComposer<Component> {
     private EmprestimoController eController = (EmprestimoController) SpringUtil.getBean("emprestimoController");
     private EstadoDevolucaoControler eDController = (EstadoDevolucaoControler) SpringUtil.getBean("estadoDevolucaoControler");
     private RoleController rController = (RoleController) SpringUtil.getBean("roleController");
+    private UserController uController = (UserController) SpringUtil.getBean("userController");
 
 
 
@@ -85,15 +83,8 @@ public class ListPedido extends SelectorComposer<Component> {
     }
 
     public boolean isNormalUser () {
-        Boolean a = true;
 
-        Set<Role> userrole =user.getRoles();
-
-        for(Role role : userrole) {
-            if(role.getRoleId() == rController.ADMIN)
-                a = false;
-        }
-        return a;
+        return uController.isNormalUser(this.user);
     }
 
 
@@ -110,7 +101,10 @@ public class ListPedido extends SelectorComposer<Component> {
                         public void onEvent(Event event) throws Exception {
                             if (Messagebox.ON_YES.equals(event.getName())) {
                                 pedidoListModel.remove(emp);
-                                crudService.delete(emp);
+                                emp.setComentario("Pedido Eliminado pelo Usuario em " + dataConvert(Calendar.getInstance()) );
+                                EstadoPedido estadoPedido = crudService.get(EstadoPedido.class,ePController.CANCELED);
+                                emp.setEstadoPedido(estadoPedido);
+                                crudService.update(emp);
                                 Clients.showNotification("Pedido eliminado com sucesso", null, null, null, 5000);
                             }
                         }
@@ -131,7 +125,8 @@ public class ListPedido extends SelectorComposer<Component> {
 
             EstadoPedido estadoPedido = crudService.get(EstadoPedido.class,ePController.REJECTED);
             emp.setEstadoPedido(estadoPedido);
-            emp.setDataaprovacao(Calendar.getInstance());
+            emp.setComentario("Pedido Reprovado  em " + dataConvert(Calendar.getInstance()) );
+            emp.setBibliotecario(user);
             pedidoListModel.remove(emp);
             crudService.update(emp);
             Clients.showNotification("Pedido reprovado com sucesso ", null, null, null, 5000);
@@ -150,17 +145,11 @@ public class ListPedido extends SelectorComposer<Component> {
             EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class,eDController.NOT_RETURNED);
             emp.setEstadoPedido(estadoPedido);
             emp.setDataaprovacao(Calendar.getInstance());
-            emp.setBibliotecario(user); //
+            emp.setComentario("Pedido Aprovado  em " + dataConvert(Calendar.getInstance()) );
+            emp.setBibliotecario(user);
+
             emp.setEstadoDevolucao(estadoDevolucao);
 
-            Set<Role> roles = emp.getEmprestimoPK().getUtente().getRoles();
-
-            for(Role role: roles) {
-                if(role.getRoleId() == rController.STUDENT)
-                    isStudent= true;
-                else
-                    isStudent = false;
-            }
             emp.setDatadevolucao(bBDeadline.getDeadline(emp)); // Calcula data de devolucao
             pedidoListModel.remove(emp);
             crudService.update(emp);

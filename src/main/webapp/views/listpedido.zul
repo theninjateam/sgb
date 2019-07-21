@@ -80,7 +80,7 @@
                                                                 <div sclass="w3-padding-16">
                                                                     <!--<button label="Notificar Utente" forward="onClick=pedidoListBox.onNotificarUtente"-->
                                                                     <!--mold="os" sclass="btn" style="padding: 10px 10px 10px 10px; font-size: 12px; font-weight: bold"/>-->
-                                                                    <button  label="Eliminar" forward="onClick=pedidoListBox.onEliminar(${each})"
+                                                                    <button if="${$composer.isNormalUser ()}" label="Eliminar" forward="onClick=pedidoListBox.onEliminarEmprestimo(${each})"
                                                                             mold="os" sclass="w3-btn w3-light-gray"/>
                                                                     <button if="${!$composer.isNormalUser ()}" label="Reprovar" forward="onClick=pedidoListBox.onReprovarEmprestimo(${each})"
                                                                             mold="os" sclass="w3-btn w3-light-gray"/>
@@ -120,9 +120,8 @@
                                                                 <label  if="${!$composer.Reserved(each)}" sclass="w3-medium w3-green" value="Normal"/>
                                                             </div>
 
-                                                        <button
-                                                                label="Eliminar" forward="onClick=pedidoListBox.onEliminar(${each})"
-                                                                mold="os" sclass="w3-bar-item w3-btn w3-light-gray w3-col"/>
+                                                            <button if="${$composer.isNormalUser ()}" label="Eliminar" forward="onClick=pedidoListBox.onEliminarEmprestimo(${each})"
+                                                                    mold="os" sclass="w3-btn w3-light-gray"/>
 
                                                         <button  label="Outras operações" forward="onClick=pedidoListBox.onShowOperacoes"
                                                                  mold="os" sclass="w3-bar-item w3-btn w3-light-gray w3-col"/>

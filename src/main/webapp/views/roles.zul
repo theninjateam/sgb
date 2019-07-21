@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk >
+    <style src="css/tipografia.css"/>
+    <style src="css/w3pro.css"/>
+    <style src="css/w3.css"/>
+
+    <window id="listObra" apply="org.zkoss.bind.BindComposer"
+        viewModel="@id('roles') @init('sgb.controller.viewsModel.RoleViewModel')"
+        border="none" hflex="1" vflex="1" contentStyle="overflow:auto">
+
+        <vlayout visible="@bind(roles.permissionListVisibilty)" sclass="w3-top"
+                 style="background-color: transparent; position: absolute; left:1.5em; top:0.5em;  width:100%; height: auto;">
+            <div sclass="w3-col w3-padding-8">
+
+                <button  label="voltar" onClick="@command('back')"
+                         mold="os"  sclass="w3-btn w3-light-gray" style="text-align: left; position: relative;"/>
+                <label value="Marque a caixa de seleção para conceder ou remover permissões: "/>
+
+            </div>
+        </vlayout>
+
+        <vlayout visible="@bind(roles.permissionListVisibilty)" id="listPermissions" sclass="w3-padding-32">
+            <!-- FOR DESKTOP-->
+            <grid sclass="w3-hide-small w3-hide-medium" visible="true"
+                  style="border-style: none;" model="@bind(roles.permissions)" emptyMessage="Nenhum permissao encontrada">
+                <template name="model" var="permission">
+                    <row>
+                        <div sclass="w3-col w3-padding-16 w3-white"  style="white-space: normal; line-height: 1.25;">
+                            <checkbox sclass="w3-medium" onClick="@command('updateRole', permission=permission)"
+                                      checked="@bind(permission.permission)"/>
+                            <label sclass="w3-medium" value="@bind(permission.zitem.descricao)"
+                                   style=" line-height: 1.4em;"/>
+                            <label visible="@bind(permission.permission)" sclass="w3-large w3-text-green w3-bold w3-right"
+                                   value="Permitido" style=" line-height: 1.4em;"/>
+                            <label visible="@bind(!permission.permission)" sclass="w3-large w3-text-red w3-bold w3-right"
+                                   value="Não Permitido" style=" line-height: 1.4em;"/>
+
+                        </div>
+                    </row>
+                </template>
+            </grid>
+        </vlayout>
+
+        <vlayout visible="@bind(!roles.permissionListVisibilty)" id="listRoles" sclass="w3-padding-32">
+            <!-- FOR DESKTOP-->
+            <grid sclass="w3-hide-small w3-hide-medium" visible="true"
+                  style="border-style: none;" model="@bind(roles.roles)" emptyMessage="Nenhum role encotrado">
+                <template name="model" var="role">
+                    <row>
+                        <div sclass="w3-container w3-hide-small w3-hide-medium w3-padding-16 w3-white"  style="white-space: normal; line-height: 1.25;">
+                            <div sclass="w3-container w3-white w3-left" style="width: auto; position: relative;">
+                                <image src="@bind(role.iconPath)" sclass="w3-card-4 "
+                                       style="width: 100%; height:146px; width:102px;"/>
+                            </div>
+
+                            <div sclass="w3-container w3-rest w3-display-container w3-white w3-left"
+                                 style="width: 80%; position: relative;">
+
+                                <label sclass="w3-padding-16 w3-col w3-xlarge w3-left" value="@bind(role.role)"
+                                       style=" line-height: 1.4em;"/>
+
+                                    <div sclass="w3-padding-16">
+                                        <button sclass=" w3-btn w3-light-gray"
+                                                label="permissões" onClick="@command('viewRolePermissions', role=role)"
+                                                mold="os" />
+                                    </div>
+                            </div>
+                        </div>
+                    </row>
+                </template>
+            </grid>
+        </vlayout>
+    </window>
+</zk>

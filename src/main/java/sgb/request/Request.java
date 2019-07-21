@@ -18,6 +18,7 @@ public class Request
     private EstadoDevolucaoControler estadoDevolucaoControler;
     private ObraConcurrenceControl obraConcurrenceControl;
     private TipoRequisicaoControler tipoRequisicaoControler;
+    private EstadoRenovacaoControler estadoRenovacaoControler;
     private Queue queue;
     private EmprestimoController eController;
     
@@ -28,7 +29,8 @@ public class Request
                    Queue queue,
                    EmprestimoController eController,
                    EstadoDevolucaoControler estadoDevolucaoControler,
-                   TipoRequisicaoControler tipoRequisicaoControler)
+                   TipoRequisicaoControler tipoRequisicaoControler,
+                   EstadoRenovacaoControler estadoRenovacaoControler)
     {
         this.configControler = configControler;
         this.crudService = crudService;
@@ -38,6 +40,7 @@ public class Request
         this.eController = eController;
         this.estadoDevolucaoControler = estadoDevolucaoControler;
         this.tipoRequisicaoControler = tipoRequisicaoControler;
+        this.estadoRenovacaoControler = estadoRenovacaoControler;
     }
 
     public void request(List<Item> itens, Users user)
@@ -209,7 +212,7 @@ public class Request
         EstadoPedido estadoPedido = item.getEstadoPedido();
         TipoRequisicao tipoRequisicao = null;
         EstadoDevolucao estadoDevolucao = crudService.get(EstadoDevolucao.class, estadoDevolucaoControler.UNDETERMINED);
-        EstadoRenovacao estadoRenovacao = null;
+        EstadoRenovacao estadoRenovacao = crudService.get(EstadoRenovacao.class,estadoRenovacaoControler.RENOVADO);
 
         if (item.isHomeRequisition())
         {

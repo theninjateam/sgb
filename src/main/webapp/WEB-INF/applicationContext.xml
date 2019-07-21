@@ -21,21 +21,6 @@
     <bean id="sendEmail" class="sgb.email.SendEmail">
         <constructor-arg index="0" ref="passwordAuthenticator"/>
     </bean>
-
-    <bean id="passwordAuthenticator" class="sgb.email.PasswordAuthenticatior">
-        <constructor-arg index="0" value="ninjateam@unilurio.ac.mz"/>
-        <constructor-arg index="1" value="p(x)=7*ninja" />
-    </bean>
-
-    <bean id="sendEmailController" class="sgb.email.SendEmailController">
-        <constructor-arg index="0" ref="multaController"/>
-        <constructor-arg index="1" ref="sendEmail" />
-    </bean>
-
-    <bean id="login" class="sgb.login.Login">
-        <constructor-arg index="0" ref="userController"/>
-    </bean>
-
     <!---->
 
 
@@ -52,13 +37,13 @@
         <property name="packagesToScan" value="sgb.domain" />
         <property name="hibernateProperties">
             <props>
-            <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQL82Dialect</prop>
-            <prop key="hibernate.hbm2ddl.auto">update</prop>
-            <prop key="hibernate.show_sql">false</prop>
-            <prop key="hibernate.format_sql">true</prop>
-            <prop key="hibernate.use_sql_comments">true</prop>
-            <prop key="hibernate.zeroDateTimeBehavior">convertToNull</prop>
-        </props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQL82Dialect</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.show_sql">false</prop>
+                <prop key="hibernate.format_sql">true</prop>
+                <prop key="hibernate.use_sql_comments">true</prop>
+                <prop key="hibernate.zeroDateTimeBehavior">convertToNull</prop>
+            </props>
         </property>
         <!-- Enable Hibernate's automatic session context management -->
     </bean>
@@ -70,8 +55,24 @@
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
 
+    <bean id="passwordAuthenticator" class="sgb.email.PasswordAuthenticatior">
+        <constructor-arg index="0" value="ninjateam@unilurio.ac.mz"/>
+        <constructor-arg index="1" value="p(x)=7*ninja" />
+    </bean>
+
+    <bean id="sendEmailController" class="sgb.email.SendEmailController">
+        <constructor-arg index="0" ref="multaController"/>
+        <constructor-arg index="1" ref="sendEmail" />
+    </bean>
+
+    <bean id="login" class="sgb.login.Login">
+        <constructor-arg index="0" ref="userController"/>
+    </bean>
+
+    <!---->
     <bean id="userController"  class="sgb.controller.domainController.UserController" >
         <constructor-arg index="0" ref="CRUDService"/>
+        <constructor-arg index="1" ref="roleController"/>
     </bean>
 
     <bean id="CRUDService" class="sgb.service.CRUDServiceImpl" />
@@ -159,6 +160,7 @@
         <constructor-arg index="5" ref="emprestimoController"/>
         <constructor-arg index="6" ref="estadoDevolucaoControler"/>
         <constructor-arg index="7" ref="tiporequisicao"/>
+        <constructor-arg index="8" ref="estadoRenovacaoControler"/>
     </bean>
 
     <bean id="queue"  class="sgb.request.Queue" >
@@ -170,6 +172,7 @@
         <constructor-arg index="0" ref="configControler"/>
         <constructor-arg index="1" ref="roleController"/>
         <constructor-arg index="2" ref="estadoRenovacaoControler"/>
+        <constructor-arg index="3" ref="tiporequisicao"/>
     </bean>
 
     <bean id="fine"  class="sgb.fine.Fine" >
@@ -181,6 +184,7 @@
         <constructor-arg index="5" ref="emprestimoController"/>
         <constructor-arg index="6" ref="borrowedBooksDeadline"/>
         <constructor-arg index="7" ref="sendEmail"/>
+        <constructor-arg index="8" ref="tiporequisicao"/>
     </bean>
 
     <bean id="borrowedBooksDeadlineController"  class="sgb.deadline.BorrowedBooksDeadlineController" >
