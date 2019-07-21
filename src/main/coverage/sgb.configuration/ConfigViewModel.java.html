@@ -25,34 +25,32 @@ import java.util.concurrent.Semaphore;
 
 <span class="nc" id="L26">    private List&lt;Config&gt; configs = new ArrayList&lt;Config&gt;();</span>
 
-
-
     @Init
     public void init() throws Exception
     {
-<span class="nc" id="L33">        this.configs = this.crudService.getAll(Config.class);</span>
-<span class="nc" id="L34">    }</span>
+<span class="nc" id="L31">        this.configs = this.crudService.getAll(Config.class);</span>
+<span class="nc" id="L32">    }</span>
 
     @NotifyChange(&quot;*&quot;)
     @Command(&quot;updateConfig&quot;)
     public void updateConfig()
     {
-<span class="nc bnc" id="L40" title="All 2 branches missed.">            for (Config config: this.configs)</span>
+<span class="nc bnc" id="L38" title="All 2 branches missed.">            for (Config config: this.configs)</span>
             {
-<span class="nc" id="L42">                this.crudService.update(config);</span>
-<span class="nc" id="L43">            }</span>
+<span class="nc" id="L40">                this.crudService.update(config);</span>
+<span class="nc" id="L41">            }</span>
 
-<span class="nc" id="L45">            Clients.showNotification(&quot;Feito&quot;);</span>
-<span class="nc" id="L46">    }</span>
+<span class="nc" id="L43">            Clients.showNotification(&quot;Feito&quot;);</span>
+<span class="nc" id="L44">    }</span>
 
     public List&lt;Config&gt; getConfigs()
     {
-<span class="nc" id="L50">        return configs;</span>
+<span class="nc" id="L48">        return configs;</span>
     }
 
     public void setConfigs(List&lt;Config&gt; configs)
     {
-<span class="nc" id="L55">        this.configs = configs;</span>
-<span class="nc" id="L56">    }</span>
+<span class="nc" id="L53">        this.configs = configs;</span>
+<span class="nc" id="L54">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

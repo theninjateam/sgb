@@ -547,6 +547,16 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<groupId>org.apache.maven.plugins</groupId>
 				<version>2.1.1</version>
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<goals>-->
+                            <!--<goal>war</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<classifier>web</classifier>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+                <!--</executions>-->
 			</plugin>
 
 			<!--Cobertura de testes-->
@@ -626,48 +636,48 @@
 			</plugin>
 
 
-			<plugin>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-dependency-plugin</artifactId>
-			<version>3.1.1</version>
-			<executions>
-			<execution>
-			<phase>package</phase>
-			<goals>
-			<goal>copy</goal>
-			</goals>
-			<configuration>
-			<artifactItems>
-			<artifactItem>
-			<groupId>org.mortbay.jetty</groupId>
-			<artifactId>jetty-runner</artifactId>
-			<version>7.5.4.v20111024</version>
-			<destFileName>jetty-runner.jar</destFileName>
-			</artifactItem>
-			</artifactItems>
-			</configuration>
-			</execution>
-			</executions>
-			</plugin>
+			<!--<plugin>-->
+			<!--<groupId>org.apache.maven.plugins</groupId>-->
+			<!--<artifactId>maven-dependency-plugin</artifactId>-->
+			<!--<version>3.1.1</version>-->
+			<!--<executions>-->
+			<!--<execution>-->
+			<!--<phase>package</phase>-->
+			<!--<goals>-->
+			<!--<goal>copy</goal>-->
+			<!--</goals>-->
+			<!--<configuration>-->
+			<!--<artifactItems>-->
+			<!--<artifactItem>-->
+			<!--<groupId>org.mortbay.jetty</groupId>-->
+			<!--<artifactId>jetty-runner</artifactId>-->
+			<!--<version>7.5.4.v20111024</version>-->
+			<!--<destFileName>jetty-runner.jar</destFileName>-->
+			<!--</artifactItem>-->
+			<!--</artifactItems>-->
+			<!--</configuration>-->
+			<!--</execution>-->
+			<!--</executions>-->
+			<!--</plugin>-->
 
 			<!--Run with Jetty-->
-			<!--<plugin>-->
-				<!--<groupId>org.mortbay.jetty</groupId>-->
-				<!--<artifactId>jetty-maven-plugin</artifactId>-->
-				<!--<version>7.6.8.v20121106</version>-->
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>7.6.8.v20121106</version>
 
-				<!--<executions>-->
-					<!--<execution>-->
-						<!--<configuration>-->
-							<!--<webAppConfig>-->
-								<!--<contextPath>/${project.artifactId}</contextPath>-->
-								<!--<allowDuplicateFragmentNames>true</allowDuplicateFragmentNames>-->
-							<!--</webAppConfig>-->
-							<!--<scanIntervalSeconds>5</scanIntervalSeconds>-->
-						<!--</configuration>-->
-					<!--</execution>-->
-				<!--</executions>-->
-			<!--</plugin>-->
+				<executions>
+					<execution>
+						<configuration>
+							<webAppConfig>
+								<contextPath>/${project.artifactId}</contextPath>
+								<allowDuplicateFragmentNames>true</allowDuplicateFragmentNames>
+							</webAppConfig>
+							<scanIntervalSeconds>5</scanIntervalSeconds>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 
 			<!-- Generates code coverage report. -->
 			<plugin>

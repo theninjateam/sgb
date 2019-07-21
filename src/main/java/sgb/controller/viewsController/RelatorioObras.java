@@ -3,15 +3,12 @@ package sgb.controller.viewsController;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
-import org.exolab.castor.dsml.Exporter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.zkoss.exporter.pdf.PdfExporter;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
@@ -25,26 +22,14 @@ import sgb.controller.domainController.RegistroObraController;
 import sgb.domain.*;
 import sgb.report.GerarRelatorio;
 import java.io.*;
-
 import org.zkoss.util.media.AMedia;
-import org.zkoss.zk.ui.Component;
-import org.zkoss.zk.ui.select.SelectorComposer;
-import org.zkoss.zk.ui.select.annotation.*;
 
-import javax.management.Notification;
-import java.io.ByteArrayOutputStream;
+import javax.swing.*;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
-//import org.zkoss.zk.chart.Charts;
-//import org.zkoss.chart.model.CategoryModel;
-//import org.zkoss.chart.model.DefaultCategoryModel;
 
 
 public class RelatorioObras extends SelectorComposer<Component> {
@@ -56,14 +41,14 @@ public class RelatorioObras extends SelectorComposer<Component> {
     private AreaCientifica areaCientifica;
     private List<RegistroObra> registroObras;
     private List<ObraEliminadas> obraEliminadas;
-    private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;
-    private Boolean isNormalUser = true;
     private int selected = 0;
     private Listbox obraeliminadas;
     private Listbox obrasregistadas;
     private Listbox obracategoria;
     private Label qtdd;
-    String dateFiltered;
+    private String dateFiltered;
+    private String path = Executions.getCurrent().getDesktop().getWebApp().getRealPath("jasperFiles/relatorioObras/relatorio.jrxml");
+    private String reportName = "RelatorioObrasQuantidade";
     Calendar dataI = Calendar.getInstance();
     Calendar dataF = Calendar.getInstance();
 
@@ -188,7 +173,6 @@ public class RelatorioObras extends SelectorComposer<Component> {
     }
 
     public String dataConvert (Calendar dataa) {
-
         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
         StringBuilder builder = new StringBuilder();
 
@@ -199,25 +183,14 @@ public class RelatorioObras extends SelectorComposer<Component> {
 
     @Listen("onClick=#savePdf")
     public void show() throws JRException, IOException {
-        String path;
-        String reportName = null;
+        byte [] arr = JasperExportManager.exportReportToPdf(gerarRelatorio.createPdfObras(obraCategoriaListModel
+                , obrasregistadasListModel
+                , obraEliminadasListModel
+                , selected
+                , qtdd.getValue()
+                , path
+                , dateFiltered));
 
-        if(selected == 0){
-            reportName = "RelatorioObrasQuantidade";
-            path = "src/main/java/sgb/report/relatorioObras/relatorio.jrxml";
-        }
-        else if(selected == 1){
-            reportName = "RelatorioObrasRegistadas";
-            path = "src/main/java/sgb/report/relatorioObras/relatorioObrasReg.jrxml";
-        }
-        else{
-            reportName = "RelatorioObrasEliminadas";
-            path = "src/main/java/sgb/report/relatorioObras/relatorioObrasEli.jrxml";
-        }
-
-
-        byte [] arr = JasperExportManager.exportReportToPdf(gerarRelatorio.createPdfObras(obraCategoriaListModel,
-                obrasregistadasListModel, obraEliminadasListModel, selected, qtdd.getValue(), path, dateFiltered));
         AMedia media = new AMedia(reportName, "pdf", "application/pdf", arr);
         final Window window = new Window();
         window.setClosable(true);
@@ -230,9 +203,7 @@ public class RelatorioObras extends SelectorComposer<Component> {
 
         toolbar.setWidth("100%");
 
-
         toolbar.setAlign("end");
-
 
         Toolbarbutton close = new Toolbarbutton("Exit");
         close.setMode("overlapped");
@@ -240,7 +211,6 @@ public class RelatorioObras extends SelectorComposer<Component> {
         close.setTooltiptext("Sair");
         close.setClass("w3-btn w3-light-grey");
         close.addEventListener("onClick", (Event t) -> {         window.onClose();     });
-
 
         toolbar.appendChild(close);
         north.appendChild(toolbar);
@@ -262,23 +232,8 @@ public class RelatorioObras extends SelectorComposer<Component> {
     @Listen("onClick=#saveExcell")
     public void exportToExcell() throws IOException, JRException {
         JRXlsExporter exporter = new JRXlsExporter();
-        String path;
-        String reportName = null;
 
-        if(selected == 0){
-            reportName = "RelatorioObrasQuantidade";
-            path = "src/main/java/sgb/report/relatorioObras/relatorio.jrxml";
-        }
-        else if(selected == 1){
-            reportName = "RelatorioObrasRegistadas";
-            path = "src/main/java/sgb/report/relatorioObras/relatorioObrasReg.jrxml";
-        }
-        else{
-            reportName = "RelatorioObrasEliminadas";
-            path = "src/main/java/sgb/report/relatorioObras/relatorioObrasEli.jrxml";
-        }
-
-        String filePath = "src/main/java/sgb/report/xlsFiles/"+reportName+".xls";
+        String filePath = "xlsFiles/"+reportName+".xls";
         File xlsFile = new File(filePath);
 
         if(xlsFile.exists()){
@@ -296,9 +251,21 @@ public class RelatorioObras extends SelectorComposer<Component> {
         Filedownload.save(xlsFile,"xls");
     }
 
-
     @Listen("onSelect = #obrasTabBox")
-    public void knowSelectedTab(){
+    public void knowSelectedTab() throws IOException {
         selected = obrasTabBox.getSelectedTab().getIndex();
+
+        if(selected == 0){
+            reportName = "RelatorioObrasQuantidade";
+            path = Executions.getCurrent().getDesktop().getWebApp().getRealPath("jasperFiles/relatorioObras/relatorio.jrxml");
+        }
+        else if(selected == 1){
+            reportName = "RelatorioObrasRegistadas";
+            path = Executions.getCurrent().getDesktop().getWebApp().getRealPath("jasperFiles/relatorioObras/relatorioObrasReg.jrxml");
+        }
+        else{
+            reportName = "RelatorioObrasEliminadas";
+            path = Executions.getCurrent().getDesktop().getWebApp().getRealPath("jasperFiles/relatorioObras/relatorioObrasEli.jrxml");
+        }
     }
 }

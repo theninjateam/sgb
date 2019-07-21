@@ -9,6 +9,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
+import org.zkoss.zk.ui.Executions;
 import sgb.controller.domainController.*;
 import sgb.domain.*;
 
@@ -63,7 +64,8 @@ public class GerarRelatorioTest {
                 ,obraEliminadas
                 ,0
                 ,"100"
-                ,"src/main/java/sgb/report/relatorioObras/relatorio.jrxml"
+                , Executions.getCurrent().getDesktop()
+                        .getWebApp().getRealPath("jasperFiles/relatorioObras/relatorio.jrxml")
                 , ""));
 
         assertNull(gerarRelatorio.createPdfObras(obraCategorias
@@ -80,7 +82,8 @@ public class GerarRelatorioTest {
                 ,obraEliminadas
                 ,1
                 ,"100"
-                ,"src/main/java/sgb/report/relatorioObras/relatorioObrasReg.jrxml"
+                , Executions.getCurrent().getDesktop()
+                        .getWebApp().getRealPath("jasperFiles/relatorioObras/relatorioObrasReg.jrxml")
                 , ""));
 
         assertNull(gerarRelatorio.createPdfObras(obraCategorias
@@ -97,7 +100,8 @@ public class GerarRelatorioTest {
                 ,obraEliminadas
                 ,2
                 ,"100"
-                ,"src/main/java/sgb/report/relatorioObras/relatorioObrasEli.jrxml"
+                , Executions.getCurrent().getDesktop()
+                        .getWebApp().getRealPath("jasperFiles/relatorioObras/relatorioObrasEli.jrxml")
                 , ""));
 
         assertNull(gerarRelatorio.createPdfObras(obraCategorias
@@ -117,7 +121,8 @@ public class GerarRelatorioTest {
         emprestimoList = emprestimoController.getBorrowedBooks();
 
         assertNotNull(gerarRelatorio.createPdfEmprestimo(emprestimoList
-                , "src/main/java/sgb/report/relatorioEmprestimo/relatorio.jrxml",""));
+                , Executions.getCurrent().getDesktop()
+                        .getWebApp().getRealPath("jasperFiles/relatorioEmprestimo/relatorio.jrxml"),""));
 
         assertNull(gerarRelatorio.createPdfEmprestimo(emprestimoList, null, ""));
     }
@@ -130,7 +135,8 @@ public class GerarRelatorioTest {
         multaList = multaController.getMultas();
 
         assertNotNull(gerarRelatorio.createPdfMulta(multaList
-                ,"src/main/java/sgb/report/relatorioMultas/relatorio.jrxml", 1, ""));
+                , Executions.getCurrent().getDesktop()
+                        .getWebApp().getRealPath("jasperFiles/relatorioMultas/relatorio.jrxml"), 1, ""));
 
         assertNull(gerarRelatorio.createPdfMulta(multaList,null, 1, ""));
 

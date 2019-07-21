@@ -80,7 +80,8 @@ public class RelatorioMultas extends SelectorComposer<Component> {
     @Listen("onClick=#savePdf")
     public void show() throws JRException {
         byte [] arr = JasperExportManager.exportReportToPdf(gerarRelatorio.createPdfMulta(multaListModelList
-                , "src/main/java/sgb/report/relatorioMultas/relatorio.jrxml"
+                , Executions.getCurrent().getDesktop()
+                        .getWebApp().getRealPath("jasperFiles/relatorioMultas/relatorio.jrxml")
                 , Double.parseDouble(totalToPay.getValue())
                 , dateFiltered));
         AMedia media = new AMedia("RelatorioMultas", "pdf", "application/pdf", arr);
@@ -125,7 +126,8 @@ public class RelatorioMultas extends SelectorComposer<Component> {
     public void exportToExcell() throws IOException, JRException {
         JRXlsExporter exporter = new JRXlsExporter();
 
-        String filePath = "src/main/java/sgb/report/relatorioMultas/xls/RelatorioMultas.xls";
+        String filePath = Executions.getCurrent().getDesktop()
+                .getWebApp().getRealPath("jasperFiles/relatorioMultas/xls/RelatorioMultas.xls");
         File xlsFile = new File(filePath);
 
         if(xlsFile.exists()){
@@ -134,7 +136,8 @@ public class RelatorioMultas extends SelectorComposer<Component> {
 
         exporter.setParameter(JRExporterParameter.JASPER_PRINT
                 , gerarRelatorio.createPdfMulta(multaListModelList
-                        , "src/main/java/sgb/report/relatorioMultas/relatorio.jrxml"
+                        , Executions.getCurrent().getDesktop()
+                                .getWebApp().getRealPath("jasperFiles/relatorioMultas/relatorio.jrxml")
                         , Double.parseDouble(totalToPay.getValue())
                         , dateFiltered));
         exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, filePath);
