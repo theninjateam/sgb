@@ -12,7 +12,7 @@
  Target Server Version : 100005
  File Encoding         : 65001
 
- Date: 20/07/2019 14:11:19
+ Date: 22/07/2019 17:13:51
 */
 
 
@@ -198,6 +198,7 @@ INSERT INTO "public"."config" VALUES ('MAXIMUM_COPIES_PER_BOOK', '"QUANTIDADE MA
 INSERT INTO "public"."config" VALUES ('MAXIMUM_NUMBER_OF_COPIES', '"QUANTIDADE MAXIMA DE EXEMPLARES" QUE UM UTENTE PODE REQUISITAR', '3');
 INSERT INTO "public"."config" VALUES ('EXIT_TIME_ON_WEEKDAYS', 'HORARIO FINAL DE FUNCIONAMENTO DOS SERVICOS BIBLIOTECARIO NOS DIAS DA SEMANA', '23');
 INSERT INTO "public"."config" VALUES ('DAY_OF_RENEWAL', 'Total de dias adcionais depois da renovacao do emprestimo', '2');
+INSERT INTO "public"."config" VALUES ('RATE_FINE_INTERNAL_REQUEST', 'taxa de multa para um emprestimo de leitura ', '500');
 
 -- ----------------------------
 -- Table structure for emprestimo
@@ -218,16 +219,6 @@ CREATE TABLE "public"."emprestimo" (
   "bibliotecario" int8
 )
 ;
-
--- ----------------------------
--- Records of emprestimo
--- ----------------------------
-INSERT INTO "public"."emprestimo" VALUES (3, 'AAA6', '2019-03-27 20:05:50.171', 3, '2019-01-27', '2019-01-30', 1, 'Multa paga', 2, 2, 1, 1);
-INSERT INTO "public"."emprestimo" VALUES (4, '545AA', '2019-07-06 10:53:21.09', 5, '2019-07-09', NULL, 1, 'Cancelado Pelo Sistema, excedeu o deadline', 1, 2, 2, NULL);
-INSERT INTO "public"."emprestimo" VALUES (3, 'WW2', '2019-03-27 20:05:49.94', 3, '2019-02-04', '2019-02-07', 1, 'Obra devolvida e Multa nao paga', 2, 2, 1, 1);
-INSERT INTO "public"."emprestimo" VALUES (2, 'AAA2', '2019-03-27 20:14:21.585', 5, '2018-05-14', '2018-05-17', 1, 'Multa paga', 2, 2, 1, 1);
-INSERT INTO "public"."emprestimo" VALUES (2, '544FF', '2018-12-26 12:25:14.634', 5, '2019-03-21', '2019-03-25', 1, 'Multa Revogada', 2, 2, 1, 1);
-INSERT INTO "public"."emprestimo" VALUES (3, 'WW2', '2018-12-26 12:17:46.228', 5, '2018-05-14', '2018-05-17', 1, 'Multa Revogada', 2, 2, 1, 1);
 
 -- ----------------------------
 -- Table structure for estadod
@@ -386,6 +377,7 @@ INSERT INTO "public"."item" VALUES (8, 'Ver Multas', 'C1-F7');
 INSERT INTO "public"."item" VALUES (3, 'Ver Lista de Utilizadores', 'C3-G2');
 INSERT INTO "public"."item" VALUES (1, 'Ver Relatorio de Obras', 'C2-L1');
 INSERT INTO "public"."item" VALUES (12, 'Roles', 'C3-G3');
+INSERT INTO "public"."item" VALUES (13, 'Adcionar User', 'C3-G4');
 
 -- ----------------------------
 -- Table structure for item_role
@@ -402,6 +394,35 @@ CREATE TABLE "public"."item_role" (
 -- ----------------------------
 INSERT INTO "public"."item_role" VALUES (12, 1);
 INSERT INTO "public"."item_role" VALUES (4, 1);
+INSERT INTO "public"."item_role" VALUES (5, 1);
+INSERT INTO "public"."item_role" VALUES (7, 1);
+INSERT INTO "public"."item_role" VALUES (6, 1);
+INSERT INTO "public"."item_role" VALUES (10, 1);
+INSERT INTO "public"."item_role" VALUES (9, 1);
+INSERT INTO "public"."item_role" VALUES (11, 1);
+INSERT INTO "public"."item_role" VALUES (8, 1);
+INSERT INTO "public"."item_role" VALUES (3, 1);
+INSERT INTO "public"."item_role" VALUES (1, 1);
+INSERT INTO "public"."item_role" VALUES (4, 2);
+INSERT INTO "public"."item_role" VALUES (7, 2);
+INSERT INTO "public"."item_role" VALUES (6, 2);
+INSERT INTO "public"."item_role" VALUES (8, 2);
+INSERT INTO "public"."item_role" VALUES (4, 3);
+INSERT INTO "public"."item_role" VALUES (7, 3);
+INSERT INTO "public"."item_role" VALUES (6, 3);
+INSERT INTO "public"."item_role" VALUES (8, 3);
+INSERT INTO "public"."item_role" VALUES (13, 1);
+INSERT INTO "public"."item_role" VALUES (4, 7);
+INSERT INTO "public"."item_role" VALUES (5, 7);
+INSERT INTO "public"."item_role" VALUES (7, 7);
+INSERT INTO "public"."item_role" VALUES (6, 7);
+INSERT INTO "public"."item_role" VALUES (10, 7);
+INSERT INTO "public"."item_role" VALUES (9, 7);
+INSERT INTO "public"."item_role" VALUES (11, 7);
+INSERT INTO "public"."item_role" VALUES (8, 7);
+INSERT INTO "public"."item_role" VALUES (3, 7);
+INSERT INTO "public"."item_role" VALUES (1, 7);
+INSERT INTO "public"."item_role" VALUES (13, 7);
 
 -- ----------------------------
 -- Table structure for livro
@@ -455,15 +476,6 @@ CREATE TABLE "public"."multa" (
   "notificacao" bool
 )
 ;
-
--- ----------------------------
--- Records of multa
--- ----------------------------
-INSERT INTO "public"."multa" VALUES ('2019-07-17 21:19:00', 'AAA6', 3, 0, 0, NULL, '2019-01-27 00:00:00', 1, '2019-03-27 20:05:50.171', 25, 't');
-INSERT INTO "public"."multa" VALUES ('2019-07-17 21:19:00', 'WW2', 3, 0, 0, NULL, '2019-02-04 00:00:00', 1, '2019-03-27 20:05:49.94', 25, 't');
-INSERT INTO "public"."multa" VALUES ('2019-07-17 21:19:00', 'AAA2', 2, 0, 0, NULL, '2018-05-14 00:00:00', 1, '2019-03-27 20:14:21.585', 25, 't');
-INSERT INTO "public"."multa" VALUES ('2019-07-17 21:19:00', '544FF', 2, 0, 0, NULL, '2019-03-21 00:00:00', 1, '2018-12-26 12:25:14.634', 25, 't');
-INSERT INTO "public"."multa" VALUES ('2019-07-17 21:19:00', 'WW2', 3, 0, 0, NULL, '2018-05-14 00:00:00', 1, '2018-12-26 12:17:46.228', 25, 't');
 
 -- ----------------------------
 -- Table structure for obra
@@ -752,11 +764,12 @@ CREATE TABLE "public"."role" (
 -- Records of role
 -- ----------------------------
 INSERT INTO "public"."role" VALUES (2, 'ESTUDANTE', 6, 'img/student.png');
-INSERT INTO "public"."role" VALUES (1, 'ADMIN', 0, 'img/admin.png');
 INSERT INTO "public"."role" VALUES (3, 'PROFESSOR', 5, 'img/teacher.jpg');
 INSERT INTO "public"."role" VALUES (4, 'VISITANTE', 0, 'img/guest.png');
 INSERT INTO "public"."role" VALUES (5, 'FUNCIONARIO', 0, 'img/employee.jpeg');
 INSERT INTO "public"."role" VALUES (6, 'BIBLIOTECARIO', 0, 'img/librarian.png');
+INSERT INTO "public"."role" VALUES (1, 'ADMIN', 0, 'img/admin.png');
+INSERT INTO "public"."role" VALUES (7, 'GESTOR', 0, 'img/admin.png');
 
 -- ----------------------------
 -- Table structure for tipoobra
@@ -813,6 +826,8 @@ INSERT INTO "public"."user" VALUES (1, 1, 'admin@admin', 'admin', 'admin', '2123
 INSERT INTO "public"."user" VALUES (3, 1, 'student@gmail.com', 'student', 'student', '289ffeb2a745ccf51ca89a297f47e382');
 INSERT INTO "public"."user" VALUES (4, 1, 'teacher@gmail.com', 'teacher', 'teacher', '289ffeb2a745ccf51ca89a297f47e382');
 INSERT INTO "public"."user" VALUES (2, 1, 'Fonseca@Fonseca', 'Fonseca', 'Fonseca', 'e653d3954be6576488c5ce7a599869de');
+INSERT INTO "public"."user" VALUES (5, 1, 'eee@gmaiil.com', 'Cardoso', 'Emerson', '781e5e245d69b566979b86e28d23f2c7');
+INSERT INTO "public"."user" VALUES (6, 1, 'e@un.com', 'Malhango', 'Ossifo', '781e5e245d69b566979b86e28d23f2c7');
 
 -- ----------------------------
 -- Table structure for user_role
@@ -831,6 +846,8 @@ INSERT INTO "public"."user_role" VALUES (1, 1);
 INSERT INTO "public"."user_role" VALUES (2, 2);
 INSERT INTO "public"."user_role" VALUES (4, 3);
 INSERT INTO "public"."user_role" VALUES (3, 2);
+INSERT INTO "public"."user_role" VALUES (5, 1);
+INSERT INTO "public"."user_role" VALUES (6, 7);
 
 -- ----------------------------
 -- Alter sequences owned by
@@ -850,7 +867,7 @@ SELECT setval('"public"."estadorenovacao_idestadorenovacao_seq"', 4, true);
 ALTER SEQUENCE "public"."formatocd_idformato_seq"
 OWNED BY "public"."formatocd"."idformato";
 SELECT setval('"public"."formatocd_idformato_seq"', 4, false);
-SELECT setval('"public"."hibernate_sequence"', 5, true);
+SELECT setval('"public"."hibernate_sequence"', 7, true);
 ALTER SEQUENCE "public"."idioma_ididioma_seq"
 OWNED BY "public"."idioma"."ididioma";
 SELECT setval('"public"."idioma_ididioma_seq"', 4, false);
