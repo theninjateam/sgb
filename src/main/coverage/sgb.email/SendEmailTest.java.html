@@ -78,22 +78,22 @@ import static org.assertj.core.api.Assertions.assertThat;
 <span class="fc" id="L78">            URLConnection connection = url.openConnection();</span>
 
 <span class="fc" id="L80">            HttpURLConnection urlConnection = (HttpURLConnection) connection;</span>
-<span class="fc" id="L81">            urlConnection.connect();</span>
+<span class="nc" id="L81">            urlConnection.connect();</span>
 
-<span class="fc" id="L83">            int x = urlConnection.getResponseCode();</span>
+<span class="nc" id="L83">            int x = urlConnection.getResponseCode();</span>
 
 
-<span class="pc bpc" id="L86" title="1 of 2 branches missed.">            if (x ==200){</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">            if (x ==200){</span>
 
-<span class="fc" id="L88">                ifSend= sendEmail.sendEmail(&quot;&quot;,&quot;&quot;,&quot;ninjateam@unilurio.ac.mz&quot;);</span>
-<span class="fc" id="L89">                assertThat(ifSend).isTrue();</span>
+<span class="nc" id="L88">                ifSend= sendEmail.sendEmail(&quot;&quot;,&quot;&quot;,&quot;ninjateam@unilurio.ac.mz&quot;);</span>
+<span class="nc" id="L89">                assertThat(ifSend).isTrue();</span>
             }
 
-<span class="nc" id="L92">        }catch (Exception ex){</span>
+<span class="fc" id="L92">        }catch (Exception ex){</span>
 
-<span class="nc" id="L94">            ifSend= sendEmail.sendEmail(&quot;&quot;,&quot;&quot;,&quot;ninjateam@unilurio.ac.mz&quot;);</span>
-<span class="nc" id="L95">            assertThat(ifSend).isFalse();</span>
-<span class="fc" id="L96">        }</span>
+<span class="fc" id="L94">            ifSend= sendEmail.sendEmail(&quot;&quot;,&quot;&quot;,&quot;ninjateam@unilurio.ac.mz&quot;);</span>
+<span class="fc" id="L95">            assertThat(ifSend).isFalse();</span>
+<span class="nc" id="L96">        }</span>
 
 <span class="fc" id="L98">    }</span>
 

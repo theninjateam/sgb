@@ -107,7 +107,7 @@ public class RelatorioEmprestimos extends SelectorComposer<Component> {
     @Listen("onClick=#savePdf")
     public void show() throws JRException {
         byte [] arr = JasperExportManager.exportReportToPdf(gerarRelatorio.createPdfEmprestimo(emprestimoListModel
-                , "src/main/java/sgb/report/relatorioEmprestimo/relatorio.jrxml"
+                , Executions.getCurrent().getDesktop().getWebApp().getRealPath("jasperFiles/relatorioEmprestimo/relatorio.jrxml")
                 , dateFiltered));
         AMedia media = new AMedia("RelatorioEmprestimo", "pdf", "application/pdf", arr);
 
@@ -155,7 +155,8 @@ public class RelatorioEmprestimos extends SelectorComposer<Component> {
     public void exportToExcell() throws IOException, JRException {
         JRXlsExporter exporter = new JRXlsExporter();
 
-        String filePath = "src/main/java/sgb/report/relatorioEmprestimo/xls/RelatorioEmprestimo.xls";
+        String filePath = Executions.getCurrent().getDesktop()
+                .getWebApp().getRealPath("jasperFiles/relatorioEmprestimo/xls/RelatorioEmprestimo.xls");
         File xlsFile = new File(filePath);
 
 
@@ -164,7 +165,7 @@ public class RelatorioEmprestimos extends SelectorComposer<Component> {
         }
 
         exporter.setParameter(JRExporterParameter.JASPER_PRINT, gerarRelatorio.createPdfEmprestimo(emprestimoListModel
-                , "src/main/java/sgb/report/relatorioEmprestimo/relatorio.jrxml"
+                , Executions.getCurrent().getDesktop().getWebApp().getRealPath("jasperFiles/relatorioEmprestimo/relatorio.jrxml")
                 , dateFiltered));
         exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, filePath);
         exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);

@@ -17,6 +17,12 @@
          <!--<property name="password" value="56679e6c26926f3c2424e5f2347bdd5a2a544b4cf9c0c86e66eed380196e0185" />-->
      <!--</bean>-->
 
+    <!--Meneses, may 2019-->
+    <bean id="sendEmail" class="sgb.email.SendEmail">
+        <constructor-arg index="0" ref="passwordAuthenticator"/>
+    </bean>
+    <!---->
+
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.postgresql.Driver" />
@@ -24,12 +30,6 @@
         <property name="username" value="postgres" />
         <property name="password" value="root" />
     </bean>
-
-    <!--Meneses, may 2019-->
-    <bean id="sendEmail" class="sgb.email.SendEmail">
-        <constructor-arg index="0" ref="passwordAuthenticator"/>
-    </bean>
-
 
     <bean id="sessionFactory"
           class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">

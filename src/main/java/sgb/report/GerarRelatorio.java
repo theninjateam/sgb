@@ -3,11 +3,13 @@ package sgb.report;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.view.JasperViewer;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zul.ListModelList;
 import sgb.domain.*;
 import sgb.service.CRUDService;
 
 import java.io.*;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,19 +29,17 @@ public class GerarRelatorio {
             , String path
             , String dataFiltro) throws JRException, IOException {
 
-        String pathLogo = "src/main/webapp/img/logoPNG.png";
+        String auxPath;
+        String pathLogo = Executions.getCurrent().getDesktop().getWebApp().getRealPath("img/logoPNG.png");
         Map parametros = new HashMap();
         JasperPrint jasperPrint = null;
         JasperReport jasperReport = null;
 
         switch (selected) {
             case 0:{
-                JasperCompileManager.compileReportToFile("src/main/java/sgb/report/relatorioObras/relatorio2.jrxml", "src/main/java/sgb/report/relatorioObras/relatorio2.jasper");
-
-                String subreportPath = new File("src/main/java/sgb/report/relatorioObras/relatorio2.jasper").getCanonicalPath();
-
                 parametros.put("pathLogo", pathLogo);
-                parametros.put("pathSubreport", subreportPath);
+                parametros.put("pathSubreport", Executions.getCurrent().getDesktop()
+                        .getWebApp().getRealPath("jasperFiles/relatorioObras/relatorio2.jasper"));
                 parametros.put("totalObras", value);
                 parametros.put("dataFiltro", dataFiltro);
 
@@ -84,7 +84,7 @@ public class GerarRelatorio {
     public JasperPrint createPdfEmprestimo(List<Emprestimo> emprestimoList
             , String path
             , String dataFiltro) throws JRException {
-        String pathLogo = "src/main/webapp/img/logoPNG.png";
+        String pathLogo = Executions.getCurrent().getDesktop().getWebApp().getRealPath("img/logoPNG.png");
         Map parametros = new HashMap();
         JasperPrint jasperPrint = null;
 
@@ -105,7 +105,7 @@ public class GerarRelatorio {
             , String path
             , double totalValor
             , String dataFiltro) throws JRException{
-        String pathLogo = "src/main/webapp/img/logoPNG.png", s ="";
+        String pathLogo = Executions.getCurrent().getDesktop().getWebApp().getRealPath("img/logoPNG.png"), s ="";
         Map parametros = new HashMap();
         JasperPrint jasperPrint = null;
 
