@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk>
+    <window id="addObra" apply="sgb.controller.viewsController.AddUserController"
+            border="none" hflex="1" vflex="1" contentStyle="overflow:auto">
+        <style src="css/tipografia.css"/>
+        <style src="css/w3pro.css"/>
+        <style src="css/w3.css"/>
+
+        <div style="padding:0px">
+            <tabbox>
+                <tabs>
+                    <tab label="Adcionar Usuario"></tab>
+                </tabs>
+                <tabpanels>
+                    <tabpanel>
+                        <grid>
+                            <rows>
+
+                                <row>
+                                    <div sclass="w3-container w3-hide-small w3-hide-medium w3-padding-16 w3-white"
+                                         style="white-space: normal; line-height: 1.25;">
+
+
+                                        <div>
+
+                                            <span sclass="input-group-addon">Previlegio:</span>
+                                            <listbox
+                                                    width="16%" id="roleListBox"
+                                                    emptyMessage="Nenhum Tipo de Obra Encotrado"
+                                                    model="${$composer.roleModel}"
+                                                    mold="select">
+
+                                                <listhead>
+                                                    <listheader label="tipo de obra"
+                                                                style="background-color: lightgray; border-style: none; text-align: center;"/>
+                                                </listhead>
+                                                <template name="model">
+                                                    <listitem>
+                                                        <listcell
+                                                                label="${each.role}"></listcell>
+                                                    </listitem>
+                                                </template>
+                                            </listbox>
+                                        </div>
+                                        <separator/>
+                                        <separator/>
+                                        <intbox id="userid" sclass="w3-input" width="48%" disabled="false"
+                                                 constraint=" no Empty: Insira o Nome!" placeholder="Insira  o codigo do usuario"/>
+                                        <separator/>
+                                        <separator/>
+
+                                        <textbox id="Nome" sclass="w3-input" width="48%" disabled="false"
+                                                 constraint=" no Empty: Insira o Nome!" placeholder="Insira a Nome"/>
+                                        <separator/>
+                                        <separator/>
+                                        <textbox id="Apelido" sclass="w3-input" width="48%" disabled="false"
+                                                 constraint=" no Empty: Insira o Apelido"
+                                                 placeholder="Insira o Apaleido"/>
+                                        <separator/>
+                                        <separator/>
+                                        <textbox id="email" sclass="w3-input" width="48%" disabled="false"
+                                                 constraint=" no Empty: Preenche o campo!"
+                                                 placeholder="Insira o email"/>
+                                        <separator/>
+                                        <separator/>
+                                        <separator/>
+                                        <label sclass="w3-medium" value="Password :0123456789"/>
+
+                                        <button id="savebtn" label="Guardar" mold="os"
+                                                sclass="w3-btn w3-teal w3-right"/>
+
+
+                                    </div>
+
+                                </row>
+
+                            </rows>
+                        </grid>
+                    </tabpanel>
+                </tabpanels>
+            </tabbox>
+        </div>
+    </window>
+</zk>

@@ -128,7 +128,8 @@ public class UserController {
         Set<Role> userrole =user.getRoles();
 
         for(Role role : userrole) {
-            if(role.getRoleId() == rController.ADMIN )
+            if(role.getRoleId() == rController.ADMIN || role.getRoleId() ==rController.LIBRARIAN
+                    || role.getRoleId() ==rController.GESTOR)
                 return false;
         }
         return true;

@@ -17,6 +17,7 @@ public class RoleController
     public final int GUEST;
     public final int EMPLOYEE;
     public final int LIBRARIAN;
+    public final int GESTOR;
 
 
     public RoleController(CRUDService crudService)
@@ -29,6 +30,7 @@ public class RoleController
         GUEST = getRoleId("VISITANTE");
         LIBRARIAN = getRoleId("BIBLIOTECARIO");
         EMPLOYEE = getRoleId("FUNCIONARIO");
+        GESTOR = getRoleId("GESTOR");
     }
 
     public int getRoleId(String roleName)
