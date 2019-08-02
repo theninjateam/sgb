@@ -1,0 +1,54 @@
+Aspectos importantes para correr o sistema na maquina local
+
+
+=======================================================================
+                        FERRAMENTAS NECESSARIAS
+=======================================================================
+
+1- Instalar o java jdk na maquina e configurar as variaveis do ambiente
+2- Instalar o MAVEN e configurar as variaveis de ambiente do maven
+3- Instalar o ambiente de desenvolvimente Intellij IDEA
+4- Instalar o gerenciador de base de dados Postgres
+5- Instalar o GIT
+6- Instalar o jasper Report (Apenas para gestao de relatorios)
+
+=======================================================================
+                        COMO TER ACESSO AO PROJECTO
+=======================================================================
+
+1- Fazer clone apartir do git usando o comando:
+    git clone https://github.com/theninjateam/sgb.git -b gestaoobras
+
+ ======================================================================
+                        PARA CORRER O SISTEMA
+ ======================================================================
+
+ == CONECTE-SE COM O POSTEGRES NO INTELLIJ IDE ==
+
+ 1- No canto superior directo faz um click no botao Database
+ 2- Vai ate o botao +
+ 3- Data source e procure por Postgres
+ 4- Em seguida preencha os campos da seguinte forma
+        Database: sgb;
+        User: postgres;
+        Password: "A password que inseriu no momento da instalacao do postgres"
+       pressione Ok.
+
+  5- Execute o comando "create schema public"
+  6- Execute o script bh.sql do projecto
+
+
+== CONFIGURE O MAVEN NO INTELLIJ IDE ==
+
+1- Procure o botao Add Configuration
+2- Va ate o botao +
+3- Procure por maven e preencha os campos de Parameters da seguinte forma:
+
+        Name: mvn ou maven;
+        Working directory: "O directorio do projecto";
+        Command line: jetty:run;
+     pressione Ok.
+
+4- Click no botao mvn ou maven conforme configurou
+5- Espere o processo de download terminar
+6- Va para o seu navegador escreva "localhoat:8080"

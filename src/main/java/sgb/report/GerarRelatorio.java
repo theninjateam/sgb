@@ -29,7 +29,6 @@ public class GerarRelatorio {
             , String path
             , String dataFiltro) throws JRException, IOException {
 
-        String auxPath;
         String pathLogo = Executions.getCurrent().getDesktop().getWebApp().getRealPath("img/logoPNG.png");
         Map parametros = new HashMap();
         JasperPrint jasperPrint = null;
