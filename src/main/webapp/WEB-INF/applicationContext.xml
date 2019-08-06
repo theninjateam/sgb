@@ -60,6 +60,10 @@
         <constructor-arg index="1" value="p(x)=7*ninja" />
     </bean>
 
+    <bean id="pathService" class="sgb.service.PathService">
+        <constructor-arg index="0" value="SGB_HOME"/>
+    </bean>
+
     <bean id="sendEmailController" class="sgb.email.SendEmailController">
         <constructor-arg index="0" ref="multaController"/>
         <constructor-arg index="1" ref="sendEmail" />

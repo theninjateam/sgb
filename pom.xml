@@ -701,6 +701,9 @@
 			</plugin>
 
 		</plugins>
+		<!--<defaultGoal>install</defaultGoal>-->
+		<!--&lt;!&ndash; Source directory configuration &ndash;&gt;-->
+		<!--<sourceDirectory>src</sourceDirectory>-->
 	</build>
 
 </project>

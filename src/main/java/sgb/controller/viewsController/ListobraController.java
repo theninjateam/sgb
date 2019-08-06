@@ -1,5 +1,6 @@
 package sgb.controller.viewsController;
 
+import main.java.sgb.service.PathService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -38,7 +39,6 @@ public class ListobraController extends SelectorComposer<Component>
 {
     private CRUDService crudService = (CRUDService) SpringUtil.getBean("CRUDService");
     private Request request = (Request) SpringUtil.getBean("request");
-
     private EstadoPedidoControler ePController = (EstadoPedidoControler) SpringUtil.getBean("estadoPedidoControler");
 
     private Users user = (Users)(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;
