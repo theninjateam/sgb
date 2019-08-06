@@ -3,6 +3,7 @@ package sgb.login;
 import org.zkoss.zkplus.spring.SpringUtil;
 import sgb.controller.domainController.UserController;
 import sgb.domain.Users;
+import sgb.service.PathService;
 
 public class Login {
 
@@ -15,12 +16,9 @@ public class Login {
 //    }
 
 
-    public Login(UserController userController) {
-        this.userController = userController;
-    }
+    public Login(UserController userController) { this.userController = userController; }
 
     public boolean isBlocked(Users user){
-
         return user.getActive()==0;
 
     }

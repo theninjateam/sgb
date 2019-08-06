@@ -1,4 +1,4 @@
-package main.java.sgb.service;
+package sgb.service;
 
 import java.io.File;
 
