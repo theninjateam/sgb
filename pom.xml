@@ -24,7 +24,7 @@
 		<timelinez.version>2.3.1_50</timelinez.version>
 		<timeplotz.version>1.1_50</timeplotz.version>
 		<zuljsp.version>1.4.1</zuljsp.version>
-		<spring.version>4.1.6.RELEASE</spring.version>
+		<spring.version>5.2.21.RELEASE</spring.version>
 		<spring-security.version>3.2.0.M1</spring-security.version>
 	</properties>
 
