@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.zkoss</groupId>
 	<artifactId>zksandbox</artifactId>
-	<version>6.5.0</version>
+	<version>9.6.0.2</version>
 	<packaging>war</packaging>
 
 	<properties>
